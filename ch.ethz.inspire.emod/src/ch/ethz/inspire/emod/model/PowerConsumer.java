@@ -13,16 +13,38 @@
 package ch.ethz.inspire.emod.model;
 
 /**
+ * Interface for all Components which consume 
+ * 
  * @author dhampl
  *
  */
 public interface PowerConsumer {
 
+	/**
+	 * returns the real power
+	 * 
+	 * @return real power as float
+	 */
 	public float getPReal();
 	
+	/** 
+	 * returns the power loss
+	 * 
+	 * @return power loss as float
+	 */
 	public float getPLoss();
 	
+	/**
+	 * sets the torque in N*m
+	 * 
+	 * @param torque
+	 */
 	public void setTorque(float torque);
 	
+	/**
+	 * sets the revolutions per minute 
+	 * 
+	 * @param revs
+	 */
 	public void setRevolutions(float revs);
 }
