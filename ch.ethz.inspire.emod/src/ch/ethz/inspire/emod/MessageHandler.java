@@ -16,9 +16,12 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
 
 /**
+ * Handles error, warning, info and debug messages. One or more message
+ * logger can be registered and the messages are written to the loggers.
+ * 
  * @author dhampl
  *
  */
@@ -26,13 +29,13 @@ public class MessageHandler {
 
 	private static MessageHandler handler=null; 
 	private static LogLevel logLevel=LogLevel.ALL;
-	private BufferedWriter fileWriter;
+	private List<BufferedWriter> fileWriter;
 	
 	private MessageHandler() {
+		fileWriter = new ArrayList<BufferedWriter>();
 		try {
-			fileWriter = new BufferedWriter(new FileWriter(PropertiesHandler.getProperty("app.logfile"),true));
+			fileWriter.add(new BufferedWriter(new FileWriter(PropertiesHandler.getProperty("app.logfile"),true)));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -52,12 +55,11 @@ public class MessageHandler {
 	
 	private void writeLine(String msg) {
 		try {
-			fileWriter.write(msg);
+			for(BufferedWriter bw : fileWriter)
+				bw.write(msg);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
 	
 	public static void closeLog() {
@@ -66,10 +68,14 @@ public class MessageHandler {
 	
 	private void closeFileLog() {
 		try {
-			fileWriter.close();
+			for(BufferedWriter bw : fileWriter)
+				bw.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public static void addLogger() {
+		//TODO: add logger implementieren
 	}
 }

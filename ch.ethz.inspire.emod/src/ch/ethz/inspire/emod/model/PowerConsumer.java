@@ -12,6 +12,8 @@
  ***********************************/
 package ch.ethz.inspire.emod.model;
 
+import ch.ethz.inspire.emod.model.units.*;
+
 /**
  * Interface for all Components which consume 
  * 
@@ -25,14 +27,14 @@ public interface PowerConsumer {
 	 * 
 	 * @return real power as float
 	 */
-	public float getPReal();
+	public Power getPReal();
 	
 	/** 
 	 * returns the power loss
 	 * 
 	 * @return power loss as float
 	 */
-	public float getPLoss();
+	public Power getPLoss();
 	
 	/**
 	 * sets the torque in N*m

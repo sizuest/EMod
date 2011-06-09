@@ -22,6 +22,10 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
+import ch.ethz.inspire.emod.LocalizationHandler;
+import ch.ethz.inspire.emod.LogLevel;
+import ch.ethz.inspire.emod.MessageHandler;
+
 /**
  * main gui class for emod application
  * 
@@ -37,12 +41,18 @@ public class EModGUI {
 		disp = display;
 		shell = new Shell(display);
 		
-		shell.setText("EMod");
+		shell.setText(LocalizationHandler.getItem("app.gui.title"));
 		if(display.getBounds().width >= 1024)
 			shell.setSize(1024, 768);
 		else
 			shell.setSize(display.getBounds().width, display.getBounds().height);
+		
+		//init menu bar
+		MessageHandler.logMessage(LogLevel.DEBUG, "init menu");
 		initMenu();
+		
+		//init tabs
+		MessageHandler.logMessage(LogLevel.DEBUG, "init tabs");
 		initTabs();
 		shell.open();
 		
@@ -62,15 +72,15 @@ public class EModGUI {
 		
 		//create "File" tab and items
 		MenuItem fileMenuHeader = new MenuItem(menuBar, SWT.CASCADE);
-		fileMenuHeader.setText("&File");
+		fileMenuHeader.setText(LocalizationHandler.getItem("app.gui.menu.file"));
 		Menu fileMenu = new Menu(shell, SWT.DROP_DOWN);
 		fileMenuHeader.setMenu(fileMenu);
 		MenuItem fileSaveItem = new MenuItem(fileMenu, SWT.PUSH);
-		fileSaveItem.setText("&Save");
+		fileSaveItem.setText(LocalizationHandler.getItem("app.gui.menu.save"));
 		MenuItem fileLoadItem = new MenuItem(fileMenu, SWT.PUSH);
-		fileLoadItem.setText("&Load");
+		fileLoadItem.setText(LocalizationHandler.getItem("app.gui.menu.load"));
 		MenuItem fileExitItem = new MenuItem(fileMenu, SWT.PUSH);
-		fileExitItem.setText("&Exit");
+		fileExitItem.setText(LocalizationHandler.getItem("app.gui.menu.exit"));
 		
 		//add listeners
 		fileSaveItem.addSelectionListener(new fileSaveItemListener());
@@ -94,6 +104,7 @@ public class EModGUI {
 	 */
 	class fileSaveItemListener implements SelectionListener {
 		public void widgetSelected(SelectionEvent event) {
+			MessageHandler.logMessage(LogLevel.DEBUG, "menu save item selected");
 			//TODO call control for save.
 		}
 
@@ -115,6 +126,7 @@ public class EModGUI {
 	 */
 	class fileLoadItemListener implements SelectionListener {
 		public void widgetSelected(SelectionEvent event) {
+			MessageHandler.logMessage(LogLevel.DEBUG, "menu load item selected");
 			//TODO call control for load
 		}
 
@@ -136,6 +148,7 @@ public class EModGUI {
 	 */
 	class fileExitItemListener implements SelectionListener {
 		public void widgetSelected(SelectionEvent event) {
+			MessageHandler.logMessage(LogLevel.DEBUG, "menu exit item selected");
 			shell.close();
 			disp.dispose();
 		}

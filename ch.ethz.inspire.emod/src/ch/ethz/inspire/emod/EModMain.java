@@ -26,7 +26,7 @@ public class EModMain {
 	public static void main(String[] args) {
 		Display disp = new Display();
 		
-		MessageHandler.logMessage(LogLevel.ERROR, "omg");
+		MessageHandler.logMessage(LogLevel.ERROR, "Program started");
 		//create localization handler
 		
 		

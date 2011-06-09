@@ -30,7 +30,7 @@ public class LocalizationHandler {
 	public static String getItem(String item) {
 		if(handler==null) {
 			Locale currentLocale = new Locale(PropertiesHandler.getProperty("app.language"), PropertiesHandler.getProperty("app.country"));
-			handler = ResourceBundle.getBundle("MessagesBundle", currentLocale);
+			handler = ResourceBundle.getBundle("lang/MessagesBundle", currentLocale);
 		}
 		return handler.getString(item);
 	}
