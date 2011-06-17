@@ -13,7 +13,6 @@
 package ch.ethz.inspire.emod;
 
 import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -33,11 +32,6 @@ public class MessageHandler {
 	
 	private MessageHandler() {
 		fileWriter = new ArrayList<BufferedWriter>();
-		try {
-			fileWriter.add(new BufferedWriter(new FileWriter(PropertiesHandler.getProperty("app.logfile"),true)));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	public static void setLogLevel(LogLevel level) {
@@ -55,8 +49,11 @@ public class MessageHandler {
 	
 	private void writeLine(String msg) {
 		try {
-			for(BufferedWriter bw : fileWriter)
+			for(BufferedWriter bw : fileWriter) {
 				bw.write(msg);
+				bw.newLine();
+				bw.flush();
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -75,7 +72,9 @@ public class MessageHandler {
 		}
 	}
 	
-	public static void addLogger() {
-		//TODO: add logger implementieren
+	public static void addLogger(BufferedWriter logger) {
+		if(handler == null)
+			handler = new MessageHandler();
+		handler.fileWriter.add(logger);
 	}
 }
