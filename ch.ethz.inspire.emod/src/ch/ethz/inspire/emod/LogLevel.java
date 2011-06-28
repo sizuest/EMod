@@ -12,22 +12,30 @@
  ***********************************/
 package ch.ethz.inspire.emod;
 
+import java.io.InvalidObjectException;
+import java.io.ObjectStreamException;
+import java.util.logging.Level;
+
 /**
- * Loglevel for the message handler
- * 
  * @author dhampl
  *
  */
-public enum LogLevel {
-	ALL(0), DEBUG(1), INFO(2), WARN(3), ERROR(4);
-	
-	private int code;
-	
-	private LogLevel(int c) {
-		code = c;
+public class LogLevel extends Level {
+
+	private LogLevel(String name, int value) {
+		super(name, value);
 	}
+	public static Level STDOUT = new LogLevel("STDOUT", Level.INFO.intValue()+53);
+
+	public static Level STDERR = new LogLevel("STDERR", Level.INFO.intValue()+54);
 	
-	public int getCode() {
-		return code;
-	}
+	public static Level DEBUG = new LogLevel("DEBUG", Level.CONFIG.intValue()+54);
+
+	protected Object readResolve() throws ObjectStreamException {
+		if (this.intValue() == STDOUT.intValue())
+			return STDOUT;
+		if (this.intValue() == STDERR.intValue())
+			return STDERR;
+		throw new InvalidObjectException("Unknown instance :" + this);
+	} 
 }

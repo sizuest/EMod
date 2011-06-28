@@ -12,18 +12,22 @@
  ***********************************/
 package ch.ethz.inspire.emod.model;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * General machine component
  * 
  * @author dhampl
  *
  */
+@XmlRootElement(name = "machineComponent")
 public class MachineComponent {
 
 	private int id;
 	private String name;
 	private ComponentType classType;
 	private String type;
+	private Component component;
 	
 	/**
 	 * @param id
@@ -38,6 +42,10 @@ public class MachineComponent {
 		this.name = name;
 		this.classType = classType;
 		this.type = type;
+	}
+	
+	public MachineComponent() {
+		super();
 	}
 	
 	/**
@@ -87,6 +95,20 @@ public class MachineComponent {
 	 */
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	/**
+	 * @return the component
+	 */
+	public Component getComponent() {
+		return component;
+	}
+
+	/**
+	 * @param component the component to set
+	 */
+	public void setComponent(Component component) {
+		this.component = component;
 	}
 	
 	

@@ -12,10 +12,13 @@
  ***********************************/
 package ch.ethz.inspire.emod.gui;
 
+import java.util.logging.Logger;
+
 import org.eclipse.swt.*;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
@@ -24,7 +27,7 @@ import org.eclipse.swt.widgets.TabItem;
 
 import ch.ethz.inspire.emod.LocalizationHandler;
 import ch.ethz.inspire.emod.LogLevel;
-import ch.ethz.inspire.emod.MessageHandler;
+import ch.ethz.inspire.emod.model.Machine;
 
 /**
  * main gui class for emod application
@@ -34,6 +37,7 @@ import ch.ethz.inspire.emod.MessageHandler;
  */
 public class EModGUI {
 
+	private static Logger logger = Logger.getLogger(EModGUI.class.getName());
 	protected Shell shell;
 	protected Display disp;
 	
@@ -48,11 +52,11 @@ public class EModGUI {
 			shell.setSize(display.getBounds().width, display.getBounds().height);
 		
 		//init menu bar
-		MessageHandler.logMessage(LogLevel.DEBUG, "init menu");
+		logger.log(LogLevel.DEBUG, "init menu");
 		initMenu();
 		
 		//init tabs
-		MessageHandler.logMessage(LogLevel.DEBUG, "init tabs");
+		logger.log(LogLevel.DEBUG, "init tabs");
 		initTabs();
 		shell.open();
 		
@@ -104,8 +108,15 @@ public class EModGUI {
 	 */
 	class fileSaveItemListener implements SelectionListener {
 		public void widgetSelected(SelectionEvent event) {
-			MessageHandler.logMessage(LogLevel.DEBUG, "menu save item selected");
-			//TODO call control for save.
+			logger.log(LogLevel.DEBUG, "menu save item selected");
+			FileDialog fd = new FileDialog(shell, SWT.SAVE);
+	        fd.setText("Save");
+	        fd.setFilterPath("C:/");
+	        String[] filterExt = { "*.xml", "*.*" };
+	        fd.setFilterExtensions(filterExt);
+	        String selected = fd.open();
+	        logger.log(LogLevel.DEBUG, "File to save to: "+selected);
+	        Machine.saveMachineToFile(selected);
 		}
 
 		/* (non-Javadoc)
@@ -113,7 +124,6 @@ public class EModGUI {
 		 */
 		@Override
 		public void widgetDefaultSelected(SelectionEvent event) {
-			// TODO Auto-generated method stub
 			
 		}
 	}
@@ -126,8 +136,15 @@ public class EModGUI {
 	 */
 	class fileLoadItemListener implements SelectionListener {
 		public void widgetSelected(SelectionEvent event) {
-			MessageHandler.logMessage(LogLevel.DEBUG, "menu load item selected");
-			//TODO call control for load
+			logger.log(LogLevel.DEBUG, "menu load item selected");
+			FileDialog fd = new FileDialog(shell, SWT.OPEN);
+	        fd.setText("Open");
+	        fd.setFilterPath("C:/");
+	        String[] filterExt = { "*.xml", "*.*" };
+	        fd.setFilterExtensions(filterExt);
+	        String selected = fd.open();
+	        logger.log(LogLevel.DEBUG, "Load file: "+selected);
+	        Machine.initMachineFromFile(selected);
 		}
 
 		/* (non-Javadoc)
@@ -135,7 +152,6 @@ public class EModGUI {
 		 */
 		@Override
 		public void widgetDefaultSelected(SelectionEvent event) {
-			// TODO Auto-generated method stub
 			
 		}
 	}
@@ -148,7 +164,7 @@ public class EModGUI {
 	 */
 	class fileExitItemListener implements SelectionListener {
 		public void widgetSelected(SelectionEvent event) {
-			MessageHandler.logMessage(LogLevel.DEBUG, "menu exit item selected");
+			logger.log(LogLevel.DEBUG, "menu exit item selected");
 			shell.close();
 			disp.dispose();
 		}
