@@ -13,11 +13,11 @@
 package ch.ethz.inspire.emod.model;
 
 /**
+ * interface for all component simulated return values
+ * 
  * @author dhampl
  *
  */
-public interface ThermalSource {
+public interface IComponentReturn {
 
-	public float thermalFlow();
-	
 }

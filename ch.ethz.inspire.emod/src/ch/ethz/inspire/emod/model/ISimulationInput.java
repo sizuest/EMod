@@ -13,11 +13,11 @@
 package ch.ethz.inspire.emod.model;
 
 /**
+ * Interface for all simulation input.
+ * 
  * @author dhampl
  *
  */
-public interface ThermalDrain {
+public interface ISimulationInput {
 
-	public void drainHeat(float val);
-	
 }

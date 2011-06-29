@@ -27,7 +27,7 @@ public class MachineComponent {
 	private String name;
 	private ComponentType classType;
 	private String type;
-	private Component component;
+	private APhysicalComponent component;
 	
 	/**
 	 * @param id
@@ -100,14 +100,14 @@ public class MachineComponent {
 	/**
 	 * @return the component
 	 */
-	public Component getComponent() {
+	public APhysicalComponent getComponent() {
 		return component;
 	}
 
 	/**
 	 * @param component the component to set
 	 */
-	public void setComponent(Component component) {
+	public void setComponent(APhysicalComponent component) {
 		this.component = component;
 	}
 	

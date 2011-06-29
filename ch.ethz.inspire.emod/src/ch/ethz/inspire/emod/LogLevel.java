@@ -17,6 +17,9 @@ import java.io.ObjectStreamException;
 import java.util.logging.Level;
 
 /**
+ * Extension of java.util.logging.Level for extra levels of
+ * System.err, debug and System.out output logging
+ * 
  * @author dhampl
  *
  */
@@ -36,6 +39,8 @@ public class LogLevel extends Level {
 			return STDOUT;
 		if (this.intValue() == STDERR.intValue())
 			return STDERR;
+		if (this.intValue() == DEBUG.intValue())
+			return DEBUG;
 		throw new InvalidObjectException("Unknown instance :" + this);
 	} 
 }

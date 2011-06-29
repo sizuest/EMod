@@ -12,14 +12,14 @@
  ***********************************/
 package ch.ethz.inspire.emod.model;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
 /**
+ * Thermal model interface for heat sources.
+ * 
  * @author dhampl
  *
  */
-@XmlRootElement
-public abstract class Component {
+public interface IThermalSource {
 
-	public abstract float getConsumption();
+	public float thermalFlow();
+	
 }

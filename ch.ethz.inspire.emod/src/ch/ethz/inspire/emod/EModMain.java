@@ -27,7 +27,9 @@ import ch.ethz.inspire.emod.model.ComponentType;
 import ch.ethz.inspire.emod.model.LinearMotor;
 import ch.ethz.inspire.emod.model.Machine;
 import ch.ethz.inspire.emod.model.MachineComponent;
+import ch.ethz.inspire.emod.model.MotorSimulationInput;
 import ch.ethz.inspire.emod.model.Spindle;
+import ch.ethz.inspire.emod.model.units.Torque;
 
 /**
  * @author dhampl
@@ -57,7 +59,7 @@ public class EModMain {
 		}
 		
 		//start program
-		//new EModMain();
+		new EModMain();
 		new EModGUI(disp);
 		
 		//shut down
@@ -78,7 +80,7 @@ public class EModMain {
 		l1.add(mc1);
 		Machine.getInstance().setArrayList(l1);
 		for(MachineComponent mc : Machine.getInstance().getComponentList()) {
-			System.out.println(mc.getComponent().getConsumption());
+			System.out.println(mc.getName()+" "+mc.getComponent().getSimulationValue(new MotorSimulationInput(new Torque(10), 10)).toString());
 		}
 		Machine.saveMachineToFile("testmach.xml");
 	}

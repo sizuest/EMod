@@ -27,11 +27,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
 /**
+ * Machine model base class.
+ * 
  * @author dhampl
  *
  */
 @XmlRootElement(namespace = "ch.ethz.inspire.emod.model")
-@XmlSeeAlso({Component.class, LinearMotor.class, Spindle.class})
+@XmlSeeAlso({APhysicalComponent.class, LinearMotor.class, Spindle.class})
 public class Machine {
 	
 	private static Logger logger = Logger.getLogger(Machine.class.getName());
@@ -84,4 +86,5 @@ public class Machine {
 			e.printStackTrace();
 		}
 	}
+	
 }

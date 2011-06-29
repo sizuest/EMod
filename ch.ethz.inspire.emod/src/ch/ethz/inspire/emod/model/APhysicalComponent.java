@@ -12,12 +12,16 @@
  ***********************************/
 package ch.ethz.inspire.emod.model;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
- * enum for component types. needed to check for simulation variant.
+ * Abstract machine component. 
  * 
  * @author dhampl
  *
  */
-public enum ComponentType {
-	MOTOR, RECUPERATOR;
+@XmlRootElement
+public abstract class APhysicalComponent {
+
+	public abstract IComponentReturn getSimulationValue(ISimulationInput componentInput);
 }

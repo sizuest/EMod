@@ -13,11 +13,13 @@
 package ch.ethz.inspire.emod.model;
 
 /**
- * enum for component types. needed to check for simulation variant.
+ * Thermal model interface for drains
  * 
  * @author dhampl
  *
  */
-public enum ComponentType {
-	MOTOR, RECUPERATOR;
+public interface IThermalDrain {
+
+	public void drainHeat(float val);
+	
 }
