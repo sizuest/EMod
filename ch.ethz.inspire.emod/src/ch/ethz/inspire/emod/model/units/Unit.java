@@ -10,14 +10,12 @@
  * All rights reserved
  *
  ***********************************/
-package ch.ethz.inspire.emod.model;
+package ch.ethz.inspire.emod.model.units;
 
 /**
- * Interface for all simulation input.
- * 
  * @author dhampl
  *
  */
-public interface ISimulationInput {
-
+public enum Unit {
+	WATT, KELVIN, NEWTONMETER, NONE;
 }

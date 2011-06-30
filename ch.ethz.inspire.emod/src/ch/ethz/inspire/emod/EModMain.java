@@ -23,15 +23,14 @@ import java.util.*;
 import org.eclipse.swt.widgets.*;
 
 import ch.ethz.inspire.emod.gui.EModGUI;
-import ch.ethz.inspire.emod.model.ComponentType;
 import ch.ethz.inspire.emod.model.LinearMotor;
 import ch.ethz.inspire.emod.model.Machine;
 import ch.ethz.inspire.emod.model.MachineComponent;
-import ch.ethz.inspire.emod.model.MotorSimulationInput;
-import ch.ethz.inspire.emod.model.Spindle;
-import ch.ethz.inspire.emod.model.units.Torque;
+import ch.ethz.inspire.emod.simulation.EModSimulationMain;
 
 /**
+ * energy model main class
+ * 
  * @author dhampl
  *
  */
@@ -69,19 +68,24 @@ public class EModMain {
 	public EModMain() {
 		
 		ArrayList<MachineComponent> l1 = new ArrayList<MachineComponent>();
-		MachineComponent mc1 = new MachineComponent(0, "spindel", ComponentType.MOTOR, "siemens123");
-		mc1.setComponent(new Spindle(mc1.getType()));
-		MachineComponent mc2 = new MachineComponent(0, "x", ComponentType.MOTOR, "siemens1234");
-		mc2.setComponent(new LinearMotor(mc2.getType()));
-		MachineComponent mc3 = new MachineComponent(0, "y", ComponentType.MOTOR, "siemens12345");
-		mc3.setComponent(new LinearMotor(mc3.getType()));
+		MachineComponent mc1 = new MachineComponent("spindel");
+		mc1.setComponent(new LinearMotor("siemens123"));
+		MachineComponent mc2 = new MachineComponent("x");
+		mc2.setComponent(new LinearMotor("siemens1234"));
+		MachineComponent mc3 = new MachineComponent("y");
+		mc3.setComponent(new LinearMotor("siemens12345"));
 		l1.add(mc3);
 		l1.add(mc2);
 		l1.add(mc1);
 		Machine.getInstance().setArrayList(l1);
 		for(MachineComponent mc : Machine.getInstance().getComponentList()) {
-			System.out.println(mc.getName()+" "+mc.getComponent().getSimulationValue(new MotorSimulationInput(new Torque(10), 10)).toString());
+			mc.getComponent().update();
+			System.out.println(mc.getName()+" "+mc.getComponent().getOutput(0));
 		}
+		EModSimulationMain sim = new EModSimulationMain();
+		//sim.generateSimulation(20);
+		sim.readSimulationFromFile("sim.txt");
+		sim.runSimulation();
 		Machine.saveMachineToFile("testmach.xml");
 	}
 }

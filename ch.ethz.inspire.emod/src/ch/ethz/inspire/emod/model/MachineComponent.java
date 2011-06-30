@@ -23,10 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "machineComponent")
 public class MachineComponent {
 
-	private int id;
 	private String name;
-	private ComponentType classType;
-	private String type;
 	private APhysicalComponent component;
 	
 	/**
@@ -35,31 +32,16 @@ public class MachineComponent {
 	 * @param classType
 	 * @param type
 	 */
-	public MachineComponent(int id, String name, ComponentType classType,
-			String type) {
+	public MachineComponent(String name) {
 		super();
-		this.id = id;
 		this.name = name;
-		this.classType = classType;
-		this.type = type;
 	}
 	
 	public MachineComponent() {
 		super();
 	}
 	
-	/**
-	 * @return the id
-	 */
-	public int getId() {
-		return id;
-	}
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(int id) {
-		this.id = id;
-	}
+	
 	/**
 	 * @return the name
 	 */
@@ -72,31 +54,7 @@ public class MachineComponent {
 	public void setName(String name) {
 		this.name = name;
 	}
-	/**
-	 * @return the classType
-	 */
-	public ComponentType getClassType() {
-		return classType;
-	}
-	/**
-	 * @param classType the classType to set
-	 */
-	public void setClassType(ComponentType classType) {
-		this.classType = classType;
-	}
-	/**
-	 * @return the type
-	 */
-	public String getType() {
-		return type;
-	}
-	/**
-	 * @param type the type to set
-	 */
-	public void setType(String type) {
-		this.type = type;
-	}
-
+	
 	/**
 	 * @return the component
 	 */
