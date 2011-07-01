@@ -37,12 +37,14 @@ public class EModSimulationMain {
 	private static Logger logger = Logger.getLogger(EModSimulationMain.class.getName());
 
 	private int iterationStep;
+	private double sampleperiod;
 	private List<IOConnection> connectionList;
 	private List<SimulationControl> simulators;
 	
 	public EModSimulationMain() {
 		super();
 		iterationStep=0;
+		sampleperiod = 0.2; // seconds
 		connectionList = new ArrayList<IOConnection>();
 		simulators = new ArrayList<SimulationControl>();
 	}
@@ -100,16 +102,22 @@ public class EModSimulationMain {
 	 */
 	public void runSimulation() {
 		initSimulation();
+		
 		logger.info("starting simulation");
-		while(iterationStep < 1000) {
+		logData(); // Log data at time 0.0 s
+		while (iterationStep < 10) {
+		
 			setInputs();
+			
 			for(MachineComponent mc : Machine.getInstance().getComponentList())
 				mc.getComponent().update();
-			logData();
+			
 			for(SimulationControl sc:simulators) 
 				sc.update();
 			
 			iterationStep++;
+			
+			logData();
 		}
 	}
 	
@@ -138,10 +146,18 @@ public class EModSimulationMain {
 	 * logging data for analysis
 	 */
 	private void logData() {
+		System.out.println("Iteration: " + iterationStep + "  Time: " + iterationStep*sampleperiod + " s");
 		for(MachineComponent mc : Machine.getInstance().getComponentList()) {
-			System.out.println(mc.getName());
+			System.out.println("  " + mc.getName());
+			int i=0;
+			for(IOContainer ioc : mc.getComponent().getInputs()) {
+				System.out.println("    i" + i + ": " + ioc.toString());
+				i++;
+			}
+			i=0;
 			for(IOContainer ioc : mc.getComponent().getOutputs()) {
-				System.out.println(ioc.toString());
+				System.out.println("    o" + i + ": " + ioc.toString());
+				i++;
 				logger.fine(ioc.toString());
 			}
 		}

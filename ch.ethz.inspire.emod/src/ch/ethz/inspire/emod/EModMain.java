@@ -51,9 +51,9 @@ public class EModMain {
 			fh.setFormatter(new SimpleFormatter());
 			logger.addHandler(fh);
 			logger.setLevel(LogLevel.DEBUG);
-			LoggingOutputStream los;
-			los = new LoggingOutputStream(Logger.getLogger("stderr"), LogLevel.STDERR);
-			System.setErr(new PrintStream(los,true));
+			//LoggingOutputStream los;
+			//los = new LoggingOutputStream(Logger.getLogger("stderr"), LogLevel.STDERR);
+			//System.setErr(new PrintStream(los,true));
 			FileHandler fhsim = new FileHandler("simlogdata.txt",1000000,1,true);
 			fhsim.setFormatter(new SimpleFormatter());
 			Logger.getLogger(EModSimulationMain.class.getName()).addHandler(fhsim);
@@ -72,30 +72,35 @@ public class EModMain {
 		disp.dispose();
 	}
 
+	/**
+	 * Energy Model main method.
+	 */
 	public EModMain() {
 		
-		ArrayList<MachineComponent> l1 = new ArrayList<MachineComponent>();
+		ArrayList<MachineComponent> mclist = new ArrayList<MachineComponent>();
+		
+		/* Create machine components and add to mclist */
 		MachineComponent mc1 = new MachineComponent("spindel");
 		mc1.setComponent(new LinearMotor("siemens123"));
+		mclist.add(mc1);
+		
 		MachineComponent mc2 = new MachineComponent("x");
 		mc2.setComponent(new LinearMotor("siemens1234"));
+		mclist.add(mc2);
+		
 		MachineComponent mc3 = new MachineComponent("y");
 		mc3.setComponent(new LinearMotor("siemens12345"));
-		l1.add(mc3);
-		l1.add(mc2);
-		l1.add(mc1);
-		Machine.getInstance().setArrayList(l1);
-		for(MachineComponent mc : Machine.getInstance().getComponentList()) {
-			mc.getComponent().update();
-			System.out.println(mc.getName()+" "+mc.getComponent().getOutput(0));
-		}
+		mclist.add(mc3);
+		
+		Machine.getInstance().setArrayList(mclist);
+		
 		EModSimulationMain sim = new EModSimulationMain();
 		//sim.generateSimulation(20);
-		sim.addSimulator(new SimulationControl("spindelRPM", Unit.NONE));
+		sim.addSimulator(new SimulationControl("spindelRPM", Unit.RPM));
 		sim.addSimulator(new SimulationControl("spindelTorque", Unit.NEWTONMETER));
-		sim.addSimulator(new SimulationControl("xRPM", Unit.NONE));
+		sim.addSimulator(new SimulationControl("xRPM", Unit.RPM));
 		sim.addSimulator(new SimulationControl("xTorque", Unit.NEWTONMETER));
-		sim.addSimulator(new SimulationControl("yRPM", Unit.NONE));
+		sim.addSimulator(new SimulationControl("yRPM", Unit.RPM));
 		sim.addSimulator(new SimulationControl("yTorque", Unit.NEWTONMETER));
 		sim.readSimulationFromFile("initSim.txt");
 		sim.runSimulation();

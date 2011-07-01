@@ -71,6 +71,6 @@ public class IOContainer {
 	}
 	
 	public String toString() {
-		return name+" "+value+unit;
+		return name + " " + value + " " + unit;
 	}
 }
