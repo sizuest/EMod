@@ -1,0 +1,6 @@
+spindel.rpm=spindelRPM.spindelRPM
+spindel.torque=spindelTorque.spindelTorque
+x.rpm=xRPM.xRPM
+x.torque=xTorque.xTorque
+y.rpm=yRPM.yRPM
+y.torque=yTorque.yTorque

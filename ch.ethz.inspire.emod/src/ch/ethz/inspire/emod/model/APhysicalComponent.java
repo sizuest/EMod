@@ -52,5 +52,27 @@ public abstract class APhysicalComponent {
 		return outputs;
 	}
 	
+	public IOContainer getInput(String name) {
+		IOContainer temp=null;
+		for(IOContainer ioc:inputs){
+			if(ioc.getName().equals(name)) {
+				temp=ioc;
+				break;
+			}
+		}
+		return temp;
+	}
+	
+	public IOContainer getOutput(String name) {
+		IOContainer temp=null;
+		for(IOContainer ioc:outputs){
+			if(ioc.getName().equals(name)) {
+				temp=ioc;
+				break;
+			}
+		}
+		return temp;
+	}
+	
 	public abstract void update();
 }

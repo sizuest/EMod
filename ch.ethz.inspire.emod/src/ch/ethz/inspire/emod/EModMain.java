@@ -15,6 +15,7 @@ package ch.ethz.inspire.emod;
 
 import java.io.*;
 import java.util.logging.FileHandler;
+import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -26,7 +27,9 @@ import ch.ethz.inspire.emod.gui.EModGUI;
 import ch.ethz.inspire.emod.model.LinearMotor;
 import ch.ethz.inspire.emod.model.Machine;
 import ch.ethz.inspire.emod.model.MachineComponent;
+import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.simulation.EModSimulationMain;
+import ch.ethz.inspire.emod.simulation.SimulationControl;
 
 /**
  * energy model main class
@@ -51,6 +54,10 @@ public class EModMain {
 			LoggingOutputStream los;
 			los = new LoggingOutputStream(Logger.getLogger("stderr"), LogLevel.STDERR);
 			System.setErr(new PrintStream(los,true));
+			FileHandler fhsim = new FileHandler("simlogdata.txt",1000000,1,true);
+			fhsim.setFormatter(new SimpleFormatter());
+			Logger.getLogger(EModSimulationMain.class.getName()).addHandler(fhsim);
+			Logger.getLogger(EModSimulationMain.class.getName()).setLevel(Level.FINE);
 		} catch (SecurityException e1) {
 			e1.printStackTrace();
 		} catch (IOException e1) {
@@ -84,7 +91,13 @@ public class EModMain {
 		}
 		EModSimulationMain sim = new EModSimulationMain();
 		//sim.generateSimulation(20);
-		sim.readSimulationFromFile("sim.txt");
+		sim.addSimulator(new SimulationControl("spindelRPM", Unit.NONE));
+		sim.addSimulator(new SimulationControl("spindelTorque", Unit.NEWTONMETER));
+		sim.addSimulator(new SimulationControl("xRPM", Unit.NONE));
+		sim.addSimulator(new SimulationControl("xTorque", Unit.NEWTONMETER));
+		sim.addSimulator(new SimulationControl("yRPM", Unit.NONE));
+		sim.addSimulator(new SimulationControl("yTorque", Unit.NEWTONMETER));
+		sim.readSimulationFromFile("initSim.txt");
 		sim.runSimulation();
 		Machine.saveMachineToFile("testmach.xml");
 	}

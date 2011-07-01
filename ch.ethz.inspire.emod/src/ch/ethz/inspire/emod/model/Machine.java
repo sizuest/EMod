@@ -51,6 +51,17 @@ public class Machine {
 		return componentList;
 	}
 	
+	public MachineComponent getComponent(String name) {
+		MachineComponent temp=null;
+		for(MachineComponent mc : componentList) {
+			if(mc.getName().equals(name)) {
+				temp=mc;
+				break;
+			}
+		}
+		return temp;
+	}
+	
 	public static Machine getInstance() {
 		if(machineModel==null)
 			machineModel=new Machine();
