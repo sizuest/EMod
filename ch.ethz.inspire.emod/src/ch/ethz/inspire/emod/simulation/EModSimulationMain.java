@@ -38,17 +38,17 @@ public class EModSimulationMain {
 	private int iterationStep;
 	private double sampleperiod;
 	private List<IOConnection> connectionList;
-	private List<SimulationControl> simulators;
+	private List<ASimulationControl> simulators;
 	
 	public EModSimulationMain() {
 		super();
 		iterationStep=0;
 		sampleperiod = 0.2; // seconds
 		connectionList = new ArrayList<IOConnection>();
-		simulators = new ArrayList<SimulationControl>();
+		simulators = new ArrayList<ASimulationControl>();
 	}
 	
-	public void addSimulator(SimulationControl sim) {
+	public void addSimulator(ASimulationControl sim) {
 		simulators.add(sim);
 	}
 	
@@ -75,7 +75,7 @@ public class EModSimulationMain {
 				if(Machine.getInstance().getComponent(outObj)!=null)
 					tempSource = Machine.getInstance().getComponent(outObj).getComponent().getOutput(outVar);
 				else {
-					for(SimulationControl sc : simulators) {
+					for(ASimulationControl sc : simulators) {
 						if(sc.getName().equals(outObj)) {
 							tempSource = sc.getOutput();
 						}
@@ -106,13 +106,13 @@ public class EModSimulationMain {
 		logData(); // Log data at time 0.0 s
 		while (iterationStep < 1) {
 		
+			for(ASimulationControl sc:simulators) 
+				sc.update();
+			
 			setInputs();
 			
 			for(MachineComponent mc : Machine.getInstance().getComponentList())
 				mc.getComponent().update();
-			
-			for(SimulationControl sc:simulators) 
-				sc.update();
 			
 			iterationStep++;
 			

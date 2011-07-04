@@ -29,7 +29,7 @@ import ch.ethz.inspire.emod.model.Machine;
 import ch.ethz.inspire.emod.model.MachineComponent;
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.simulation.EModSimulationMain;
-import ch.ethz.inspire.emod.simulation.SimulationControl;
+import ch.ethz.inspire.emod.simulation.RandomSimulationControl;
 
 /**
  * energy model main class
@@ -96,12 +96,12 @@ public class EModMain {
 		
 		EModSimulationMain sim = new EModSimulationMain();
 		//sim.generateSimulation(20);
-		sim.addSimulator(new SimulationControl("spindelRPM", Unit.RPM));
-		sim.addSimulator(new SimulationControl("spindelTorque", Unit.NEWTONMETER));
-		sim.addSimulator(new SimulationControl("xRPM", Unit.RPM));
-		sim.addSimulator(new SimulationControl("xTorque", Unit.NEWTONMETER));
-		sim.addSimulator(new SimulationControl("yRPM", Unit.RPM));
-		sim.addSimulator(new SimulationControl("yTorque", Unit.NEWTONMETER));
+		sim.addSimulator(new RandomSimulationControl("spindelRPM", Unit.RPM));
+		sim.addSimulator(new RandomSimulationControl("spindelTorque", Unit.NEWTONMETER));
+		sim.addSimulator(new RandomSimulationControl("xRPM", Unit.RPM));
+		sim.addSimulator(new RandomSimulationControl("xTorque", Unit.NEWTONMETER));
+		sim.addSimulator(new RandomSimulationControl("yRPM", Unit.RPM));
+		sim.addSimulator(new RandomSimulationControl("yTorque", Unit.NEWTONMETER));
 		sim.readSimulationFromFile("initSim.txt");
 		sim.runSimulation();
 		Machine.saveMachineToFile("testmach.xml");

@@ -12,31 +12,27 @@
  ***********************************/
 package ch.ethz.inspire.emod.simulation;
 
-import java.util.Random;
-
 import ch.ethz.inspire.emod.model.IOContainer;
 import ch.ethz.inspire.emod.model.units.Unit;
 
 /**
+ * generic simulation control object. 
+ * 
  * @author dhampl
  *
  */
-public class SimulationControl {
+public abstract class ASimulationControl {
 
-	private IOContainer simulationOutput;
-	private String name;
-	private MachineState state=MachineState.ON;
+	protected IOContainer simulationOutput;
+	protected String name;
+	protected MachineState state=MachineState.ON;
 	
-	public SimulationControl(String name, Unit unit) {
+	public ASimulationControl(String name, Unit unit) {
 		simulationOutput = new IOContainer(name, unit, 0);
 		this.name = name;
 	}
 	
-	public void update() {
-		// TODO dummy method
-		Random rnd = new Random();
-		simulationOutput.setValue(rnd.nextDouble()*100);
-	}
+	public abstract void update();
 	
 	public void setState(MachineState state) {
 		this.state=state;
