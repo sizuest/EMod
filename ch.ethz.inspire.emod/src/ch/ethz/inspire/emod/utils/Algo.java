@@ -1,0 +1,149 @@
+/************************************
+ * 
+ * 
+ ***********************************/
+
+package ch.ethz.inspire.emod.utils;
+
+/**
+ * Class implementing mathematical utility functions for algorithms. Must of this
+ * functions are defined static.
+ * 
+ * @author andreas
+ *
+ */
+public class Algo {
+	
+	/**
+	 * Bilinear interpolation.
+	 * A two-dimensional function z=f(x,y) is given by a set of sample values ( z_ij=f(x_i, y_j) ).
+	 * The z-value of the point (x,y) is calculated by bilinear interpolation.
+	 * 
+	 * @param x x-value
+	 * @param y y-value
+	 * @param xsamples  Samples 'x_i' of the 'zvalues'. 
+	 * @param ysamples  Samples 'y_j' of the 'zvalues'. 
+	 * @param zvalues   Set of sample values ( z_ij=f(x_i, y_j) )
+	 * @return The bilinear interpolation at the point (x,y) for the function specified by 'xsamples',
+	 *         'ysamples' and 'zvalues'.
+	 */
+	static public double bilinearInterpolation(double x, double y, double[] xsamples, double[] ysamples, double[][] zvalues)
+	{
+		// Conditions:
+		//   xsamples.length == zvalues.length
+		//   ysamples.length == zvalues[i].length
+		//   xsamples[i] < xsamples[i+1]
+		//   ysamples[i] < ysamples[i+1] 
+		
+		int xind = findInterval(x, xsamples);
+		if (xind < 0) {
+			return linearInterpolation(y, ysamples, zvalues[0]);
+		}
+		if (xind == xsamples.length-1) {
+			return linearInterpolation(y, ysamples, zvalues[xind]);
+		}
+		
+		int yind = findInterval(y, ysamples);
+		double z_xl = linearInterpolationWithIndex(y, ysamples, zvalues[xind], yind);
+		double z_xh = linearInterpolationWithIndex(y, ysamples, zvalues[xind+1], yind);
+		
+		double z = z_xl + 
+		           (x-xsamples[xind]) / (xsamples[xind+1]-xsamples[xind]) * (z_xh - z_xl);
+		
+		return z;
+	}
+	
+	/**
+	 * A function is given by a set of (x,y) points. The y-value belonging to
+	 * a given x value is determined by linear interpolation.
+	 * 
+	 * @param x     Value on the x axis to find the corresponding y value.
+	 * @param xsamples Samples on the x axis. Must be sorted (lowest value at first position).
+	 * @param yvals Samples on the y axis.
+	 * @return y-value belonging to 'x'.
+	 */
+	static public double linearInterpolation(double x, double[] xsamples, double[] yvals)
+	{
+		// Conditions:
+		//   xsamples.length == yvals.length
+		//   xsamples[i] < xsamples[i+1] 
+		
+		int index = findInterval(x, xsamples);
+		double y = linearInterpolationWithIndex(x, xsamples, yvals, index);
+		return y;
+	}
+	
+	/**
+	 * A function is given by a set of (x,y) points. The y-value belonging to
+	 * a given x value is determined by linear interpolation.
+	 * 
+	 * @param x     Value on the x axis to find the corresponding y value.
+	 * @param xsamples Samples on the x axis. Must be sorted (lowest value at first position).
+	 * @param yvals Samples on the y axis.
+	 * @param index From 'x' and 'xsamples', the index is calculated such that xsamples[index] <= x < xsamples[index+1]
+	 * @return y-value belonging to 'x'.
+	 */
+	static private double linearInterpolationWithIndex(double x, double[] xsamples, double[] yvals, int index)
+	{
+		// Conditions:
+		//   xsamples.length == yvals.length
+		//   xsamples[i] < xsamples[i+1] 
+		
+		if (index < 0) {
+			// 'x' is outside of the specified 'xsamples' periods. Return the first y value.
+			//System.out.println(x + " <= xmin(" + xsamples[0] + ") => y=" + yvals[0]);
+			return 	yvals[0];
+		}
+		if (index >= yvals.length-1) {
+			// 'x' is outside of the specified 'xsamples' periods. Return the last y value.
+			//System.out.println(x + " >= xmax(" + xsamples[index] + ") => y=" + yvals[index]);
+			return	yvals[index];
+		}
+		double y = yvals[index] + 
+		          (x-xsamples[index])/(xsamples[index+1]-xsamples[index])*(yvals[index+1]-yvals[index]);
+		//System.out.println(x + " " + "x/y_s[" + index + "]=" + xsamples[index] + "/" + yvals[index]
+		//                          + " x/y_l[" + (index+1) + "]=" + xsamples[index+1] + "/" + yvals[index+1]
+		//                          + " y=" + y);
+		return y;
+	}
+	
+	/**
+	 * Within a increasing sequence of values, find the interval where a given value lies in. 
+	 * The sequence if given as an sorted array. The function returns the lower index of the
+	 * interval where the value 'x' lies in.
+	 * The following condition is true:
+	 *    vals[index] <= x < vals[index+1]
+	 *   where index is the return value.
+	 *  
+	 * @param x     Value 
+	 * @param vals  Sorted array (The first entry is the smallest)
+	 * @return Return the index of the last value in the array 'vals' that is smaller or equal
+	 *         as the value x. If the value 'x' is smaller than the first entry, return -1.
+	 */
+	static public int findInterval(double x, double[] vals)
+	{
+		int low = 0;
+		
+		if (x < vals[0]) {
+			return 	-1; // x smaller as the first entry.
+		}
+		
+		int high = vals.length-1;
+		if (x >= vals[vals.length-1]) {	
+			return vals.length-1;  // x larger as the last entry.
+		}
+		
+		int mid = vals.length / 2;
+		while (high-low > 1) {
+			if (x >= vals[mid]) {
+				low = mid;
+			}
+			else {
+				high = mid;
+			}
+			mid = (low + high) / 2;
+		}
+		return low;
+	}
+
+}

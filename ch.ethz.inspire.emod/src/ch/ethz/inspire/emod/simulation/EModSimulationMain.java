@@ -21,7 +21,6 @@ import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import ch.ethz.inspire.emod.LogLevel;
 import ch.ethz.inspire.emod.model.IOContainer;
 import ch.ethz.inspire.emod.model.Machine;
 import ch.ethz.inspire.emod.model.MachineComponent;
@@ -105,7 +104,7 @@ public class EModSimulationMain {
 		
 		logger.info("starting simulation");
 		logData(); // Log data at time 0.0 s
-		while (iterationStep < 10) {
+		while (iterationStep < 1) {
 		
 			setInputs();
 			

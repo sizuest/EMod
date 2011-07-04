@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.lang.Math;
 
 import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.utils.Algo;
 
 /**
  * Linear motor model class. Physical and thermal simulation class.
@@ -32,6 +33,7 @@ public class LinearMotor extends APhysicalComponent{
 
 	@XmlElement
 	protected String type;
+	
 	// Input parameters:
 	private IOContainer rotspeed;
 	private IOContainer torque;
@@ -40,17 +42,22 @@ public class LinearMotor extends APhysicalComponent{
 	private IOContainer ploss;
 	private IOContainer efficiency;
 	
-	// Parameters used for the model:
+	// Parameters used by the model:
 	private double pmechnominal; // Nominal mechanical power [W]
 	private double rotspeednominal; // Nominal rotational speed [rpm]
 	private double[] pmechSamples; // Samples of normed mechanical power [W]
 	private double[] rotspeedSamples; // Samples of normed rotational speed [rpm]
-	private double[] efficiencySamples; // Sample format: efficiency [1]
+	private double[][] efficiencySamples; // Sample format: efficiency [1]
 	
 	public LinearMotor() {
 		super();
 	}
 	
+	/**
+	 * Linear Motor constructor
+	 * 
+	 * @param type
+	 */
 	public LinearMotor(String type) {
 		super();
 		
@@ -76,19 +83,27 @@ public class LinearMotor extends APhysicalComponent{
 		 * machine component data base.
 		 */
 		// Define the samples for normed mechanical power
-		double[] pmechvals = {0.0, 0.6, 1.0, 1.2};
+		double[] pmechvals = {0.6, 0.8, 1.2};
 		// Define the samples for normed rotational speed
-		double[] rsvals = {0.2, 1, 1.2};
+		double[] rsvals = {0.8, 1.2};
 		// Define the samples for efficiency
-		double[] esamples = {0.2, 0.6, 0.8, 0.7};
-		// TODO: Checks: Length >= 2, same length, all eff > 0, Sorted?
+		double[][] esamples = { {0.5, 0.6}, 
+				                {0.7, 0.8}, 
+				                {0.75, 0.7}  
+				              };
 		
 		// Configure the model:
-		this.configure(100,          // Nominal power   
-					   3000,         // Nominal rot speed
-					   pmechvals,    // Normed mech power samples
-					   rsvals,       // Normed rotational speed  
-					   esamples);    // Efficiency sample matrix
+		try {
+			this.configure(100,          // Nominal power   
+					       3000,         // Nominal rot speed
+					       pmechvals,    // Normed mech power samples
+					       rsvals,       // Normed rotational speed  
+					       esamples);    // Efficiency sample matrix
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
 	}
 	
 	/**
@@ -99,15 +114,51 @@ public class LinearMotor extends APhysicalComponent{
 	 * @param pmSamples Sample vector of mechanical power
 	 * @param rsSamples Sample vector of rotational speed
 	 * @param effSamples List with efficiency samples
+	 * @throws Exception 
 	 */
-	public void configure(double pnom, double rsnom, double[] pmSamples, double[] rsSamples, double[] effSamples)
+	public void configure(double pnom, double rsnom, 
+					      double[] pmSamples, double[] rsSamples, double[][] effSamples) throws Exception
 	{
-		// TODO: Check dimensions
+		// Set model parameters:
 		pmechnominal = pnom;
 		rotspeednominal = rsnom;
 		pmechSamples = pmSamples;
 		rotspeedSamples = rsSamples;
 		efficiencySamples = effSamples;
+		
+		// Check model parameters:
+		// Check dimensions:
+		if (pmechSamples.length != efficiencySamples.length) {
+			throw new Exception("Dimension missmatch: Vector 'pmechSamples' must have same dimension as " +
+					"'efficiencySamples' (" + pmechSamples.length + "!=" + efficiencySamples.length + ")!");
+		}
+		for (int i=0; i<pmechSamples.length; i++) {
+			if (rotspeedSamples.length != efficiencySamples[i].length) {
+				throw new Exception("Dimension missmatch: Vector 'rotspeedSamples' must have same dimension as " +
+						"'efficiencySamples["+i+"]' (" + rotspeedSamples.length + "!=" + efficiencySamples[i].length + ")!");
+			}
+		}
+		// Check if sorted:
+		for (int i=1; i<pmechSamples.length; i++) {
+			if (pmechSamples[i] <= pmechSamples[i-1]) {
+				throw new Exception("Sample vector 'pmechSamples' must be sorted!");
+			}
+		}
+		for (int i=1; i<rsSamples.length; i++) {
+			if (rsSamples[i] <= rsSamples[i-1]) {
+				throw new Exception("Sample vector 'rsSamples' must be sorted!");
+			}
+		}
+		//Check values:
+		for	(int i=0; i<pmechSamples.length; i++) {
+			for (int j=0; j<rotspeedSamples.length; j++) {
+				if ( (efficiencySamples[i][j] <= 0) || 
+					 (efficiencySamples[i][j] > 1.0) ) {
+						throw new Exception("'efficiencySamples' must be >0 and <= 1!");
+					}
+			}
+		}
+		
 	}
 	
 	public void afterUnmarshal(Unmarshaller u, Object parent) {
@@ -130,83 +181,13 @@ public class LinearMotor extends APhysicalComponent{
 		 */
 		// ptot = pmech / eff
 		// ploss = ptot - pmech = pmech / eff - pmech = pmech (1/eff -1)
-		double eff = getEfficiency(pmech.getValue() / pmechnominal, 
-				                   torque.getValue() / rotspeednominal,
-				                   pmechSamples,
-				                   rotspeedSamples,
-				                   efficiencySamples);
+		double eff = Algo.bilinearInterpolation(pmech.getValue() / pmechnominal, 
+				                           torque.getValue() / rotspeednominal,
+				                           pmechSamples,
+				                           rotspeedSamples,
+				                           efficiencySamples);
 		ploss.setValue(pmech.getValue() * (1/eff - 1));
 		efficiency.setValue(eff);
 	}
 	
-	/**
-	 * Get efficiency of motor power as function of the normed
-	 * mechanical power.
-	 * 
-	 * @param p Normed mechanical power of motor.
-	 * @param omega Normed rotational speed of motor
-	 * @param psamples Power samples for efficency calsulation
-	 * @param omegasamples Rotationsl apeed samples
-	 * @return Efficiency matrix
-	 */
-	static private double getEfficiency(double p, double omega, 
-									    double[] psamples, double[] omegasamples, double[] samples)
-	{
-		int index = binarySearch(p, psamples);
-		
-		if (index < 0) {
-			//System.out.println(p + " <= pmin(" + psamples[0] + ") => eff=" + samples[0]);
-			return 	samples[0];
-		}
-		if (index >= psamples.length-1) {
-			//System.out.println(p + " >= pmax(" + psamples[index] + ") => eff=" + samples[index]);
-			return	samples[index];
-		}
-		
-		// TODO: Bilinear interpolation for two dimensional arrays.
-		// Calculate efficiency by linear interpolation:
-		double eff = samples[index] + 
-					(p-psamples[index])/(psamples[index+1]-psamples[index])*(samples[index+1]-samples[index]);
-		
-		//System.out.println(p + " " + "p/e_s[" + index + "]=" + psamples[index] + "/" + samples[index]
-		//                          + " p/e_l[" + index+1 + "]=" + psamples[index+1] + "/" + samples[index+1]
-		//                          + " eff=" + eff);
-		
-		return eff;	
-	}
-	
-	/**
-	 * By a given value, find the value of a sorted array such that the value is 
-	 * larger than the found value. Return the index of this value.
-	 *  
-	 * @param x Value
-	 * @param vals Sorted array (First entry is the smallest)
-	 * @return Return the index of the last value in the array vals that is smaller or equal
-	 *         than the value x.
-	 */
-	static private int binarySearch(double x, double[] vals)
-	{
-		int low = 0;
-		int high = vals.length-1;
-		
-		if (x < vals[0]) {
-			return 	-1;
-		}
-		if (x >= vals[vals.length-1]) {	
-			return vals.length-1;
-		}
-		
-		int mid = vals.length / 2;
-		while (high-low > 1) {
-			if (x >= vals[mid]) {
-				low = mid;
-			}
-			else {
-				high = mid;
-			}
-			mid = (low + high) / 2;
-		}
-		return low;
-	}
-
 }
