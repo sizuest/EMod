@@ -23,6 +23,7 @@ import java.util.logging.Level;
  * @author dhampl
  *
  */
+@SuppressWarnings("serial")
 public class LogLevel extends Level {
 
 	private LogLevel(String name, int value) {

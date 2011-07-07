@@ -17,6 +17,8 @@ import java.util.Random;
 import ch.ethz.inspire.emod.model.units.Unit;
 
 /**
+ * Testclass with random input samples
+ * 
  * @author dhampl
  *
  */
@@ -28,7 +30,6 @@ public class RandomSimulationControl extends ASimulationControl {
 	 */
 	public RandomSimulationControl(String name, Unit unit) {
 		super(name, unit);
-		// TODO Auto-generated constructor stub
 	}
 
 	/* (non-Javadoc)
@@ -37,8 +38,24 @@ public class RandomSimulationControl extends ASimulationControl {
 	@Override
 	public void update() {
 		// TODO dummy method
-		Random rnd = new Random();
-		simulationOutput.setValue(rnd.nextDouble()*100);
+		if(state!=MachineState.OFF){
+			Random rnd = new Random();
+			simulationOutput.setValue(rnd.nextDouble()*100);
+		} else {
+			simulationOutput.setValue(0);
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see ch.ethz.inspire.emod.simulation.ASimulationControl#setState(ch.ethz.inspire.emod.simulation.MachineState)
+	 */
+	@Override
+	public void setState(MachineState state) {
+		if(state == MachineState.READY || state == MachineState.STANDBY)
+			this.state=MachineState.ON;
+		else
+			this.state=state;
+		
 	}
 
 }

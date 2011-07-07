@@ -12,9 +12,13 @@
  ***********************************/
 package ch.ethz.inspire.emod.simulation;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+import java.util.StringTokenizer;
 
 import ch.ethz.inspire.emod.model.units.Unit;
 
@@ -28,11 +32,12 @@ import ch.ethz.inspire.emod.model.units.Unit;
 public class StaticSimulationControl extends ASimulationControl {
 
 	protected int simulationStep;
-	protected double[] samples;
+	protected List<double[]> samples;
 	
 	/**
 	 * @param name
 	 * @param unit
+	 * @param samplesFile
 	 */
 	public StaticSimulationControl(String name, Unit unit, String samplesFile) {
 		super(name, unit);
@@ -45,28 +50,48 @@ public class StaticSimulationControl extends ASimulationControl {
 	 */
 	@Override
 	public void update() {
-		simulationOutput.setValue(samples[simulationStep]);
-		simulationStep++;
-		if(simulationStep>=samples.length)
-			simulationStep=0;
-
+		if(state==MachineState.ON) {
+			simulationOutput.setValue(samples.get(state.ordinal())[simulationStep]);
+			simulationStep++;
+			if(simulationStep>=samples.get(state.ordinal()).length)
+				simulationStep=0;
+		}
 	}
 
 	/**
 	 * reads samples from file
 	 * 
-	 * @param file format: 1. line=number of samples, one sample per line
+	 * @param file one line per state. e.g.: ON=10 20 30
 	 */
 	private void readSamplesFromFile(String file) {
+		samples = new ArrayList<double[]>();
+		
 		try {
-			BufferedReader in = new BufferedReader(new FileReader(file));
-			int samplesCount = Integer.parseInt(in.readLine());
-			samples = new double[samplesCount];
-			for(int i=0; i<samplesCount; i++) {
-				samples[i] = Double.parseDouble(in.readLine());
+			Properties p = new Properties();
+			InputStream is = new FileInputStream(file);
+			p.load(is);
+			for(MachineState ms : MachineState.values()) {
+				String line = p.getProperty(ms.name());
+				StringTokenizer st = new StringTokenizer(line);
+				double[] vals = new double[st.countTokens()];
+				int i = 0;
+				while(st.hasMoreTokens()) {
+					vals[i] = Double.parseDouble(st.nextToken());
+					i++;
+				}
+				samples.add(vals);
 			}
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/* (non-Javadoc)
+	 * @see ch.ethz.inspire.emod.simulation.ASimulationControl#setState(ch.ethz.inspire.emod.simulation.MachineState)
+	 */
+	@Override
+	public void setState(MachineState state) {
+		this.state=state;
+		simulationStep=0;
 	}
 }

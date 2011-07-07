@@ -32,12 +32,19 @@ public abstract class ASimulationControl {
 		this.name = name;
 	}
 	
+	/**
+	 * updates the simulationOutput {@link IOContainer} according to the {@link MachineState}
+	 * and simulation logic for the next simulation cycle.
+	 */
 	public abstract void update();
 	
-	public void setState(MachineState state) {
-		this.state=state;
-	}
-	
+	/**
+	 * sets the state. each implementation of {@link ASimulationControl} has to 
+	 * implement a mapping of {@link MachineState} to a valid component simulation
+	 * state.
+	 */
+	public abstract void setState(MachineState state);
+		
 	public MachineState getState() {
 		return state;
 	}

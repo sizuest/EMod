@@ -21,6 +21,7 @@ import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import ch.ethz.inspire.emod.model.APhysicalComponent;
 import ch.ethz.inspire.emod.model.IOContainer;
 import ch.ethz.inspire.emod.model.Machine;
 import ch.ethz.inspire.emod.model.MachineComponent;
@@ -37,6 +38,7 @@ public class EModSimulationMain {
 
 	private int iterationStep;
 	private double sampleperiod;
+	private List<MachineState> machineStates;
 	private List<IOConnection> connectionList;
 	private List<ASimulationControl> simulators;
 	
@@ -46,14 +48,36 @@ public class EModSimulationMain {
 		sampleperiod = 0.2; // seconds
 		connectionList = new ArrayList<IOConnection>();
 		simulators = new ArrayList<ASimulationControl>();
+		machineStates = new ArrayList<MachineState>();
 	}
 	
+	/**
+	 * @return the machineState
+	 */
+	public MachineState getMachineState() {
+		return machineStates.get(iterationStep);
+	}
+
+	/**
+	 * adds an implementation of {@link ASimulationControl} to the simulation.
+	 * 
+	 * @param sim the simulation controller to be added 
+	 */
 	public void addSimulator(ASimulationControl sim) {
 		simulators.add(sim);
 	}
 	
-	public void readSimulationFromFile(String file) {
-		logger.info("reading simulation setup from file: "+file);
+	/**
+	 * reads the connections from {@link ASimulationControl} or {@link APhysicalComponent} outputs 
+	 * to {@link APhysicalComponent} inputs from a file.
+	 * 
+	 * the file is required to adhere to the syntax 
+	 * target_component_name.input_name=source_simulation/component_name.output_name
+	 * 
+	 * @param file config file for connections.
+	 */
+	public void readInputOutputConnectionsFromFile(String file) {
+		logger.info("reading simulation connections setup from file: "+file);
 		try {
 			BufferedReader input = new BufferedReader(new FileReader(file));
 			String line = null;
@@ -97,6 +121,41 @@ public class EModSimulationMain {
 	}
 	
 	/**
+	 * reads machine states from file. 
+	 * 
+	 * syntax: time[s],{@link MachineState};time[s],{@link MachineState};...;endtime,END
+	 * 
+	 * @param file
+	 */
+	public void readSimulationStatesFromFile(String file) {
+		logger.info("reading simulation states from file: "+file);
+		try {
+			BufferedReader input = new BufferedReader(new FileReader(file));
+			String line = null;
+			
+			while((line=input.readLine())!=null) {
+				//tokenize & append
+				
+				StringTokenizer st = new StringTokenizer(line, ";");
+				
+				while(st.hasMoreTokens()) {
+					StringTokenizer str = new StringTokenizer(st.nextToken(),",");
+					int time = Integer.parseInt(str.nextToken());
+					String state = str.nextToken();
+					MachineState ms = MachineState.valueOf(state);
+					for(int i=0;i<time*(1/sampleperiod);i++) {
+						machineStates.add(ms);
+					}
+						
+				}
+			}
+			input.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+	}
+	
+	/**
 	 * starts the simulation
 	 */
 	public void runSimulation() {
@@ -104,10 +163,12 @@ public class EModSimulationMain {
 		
 		logger.info("starting simulation");
 		logData(); // Log data at time 0.0 s
-		while (iterationStep < 1) {
+		while (iterationStep < machineStates.size()) {
 		
-			for(ASimulationControl sc:simulators) 
+			for(ASimulationControl sc:simulators) {
+				sc.setState(getMachineState());
 				sc.update();
+			}
 			
 			setInputs();
 			

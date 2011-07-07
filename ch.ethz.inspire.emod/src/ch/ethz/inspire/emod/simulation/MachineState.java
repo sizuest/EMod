@@ -13,6 +13,8 @@
 package ch.ethz.inspire.emod.simulation;
 
 /**
+ * All energy related machine states. 
+ * 
  * @author dhampl
  *
  */

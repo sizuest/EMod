@@ -35,7 +35,7 @@ public class Algo {
 	 * @return The bilinear interpolation at the point (x,y) for the function specified by 'xsamples',
 	 *         'ysamples' and 'zvalues'.
 	 */
-	static public double bilinearInterpolation(double x, double y, double[] xsamples, double[] ysamples, double[][] zvalues)
+	public static double bilinearInterpolation(double x, double y, double[] xsamples, double[] ysamples, double[][] zvalues)
 	{
 		// Conditions:
 		//   xsamples.length == zvalues.length
@@ -70,7 +70,7 @@ public class Algo {
 	 * @param yvals Samples on the y axis.
 	 * @return y-value belonging to 'x'.
 	 */
-	static public double linearInterpolation(double x, double[] xsamples, double[] yvals)
+	public static double linearInterpolation(double x, double[] xsamples, double[] yvals)
 	{
 		// Conditions:
 		//   xsamples.length == yvals.length
@@ -91,7 +91,7 @@ public class Algo {
 	 * @param index From 'x' and 'xsamples', the index is calculated such that xsamples[index] <= x < xsamples[index+1]
 	 * @return y-value belonging to 'x'.
 	 */
-	static private double linearInterpolationWithIndex(double x, double[] xsamples, double[] yvals, int index)
+	private static double linearInterpolationWithIndex(double x, double[] xsamples, double[] yvals, int index)
 	{
 		// Conditions:
 		//   xsamples.length == yvals.length
@@ -128,7 +128,7 @@ public class Algo {
 	 * @return Return the index of the last value in the array 'vals' that is smaller or equal
 	 *         as the value x. If the value 'x' is smaller than the first entry, return -1.
 	 */
-	static public int findInterval(double x, double[] vals)
+	public static int findInterval(double x, double[] vals)
 	{
 		int low = 0;
 		

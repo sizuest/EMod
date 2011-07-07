@@ -30,6 +30,7 @@ import ch.ethz.inspire.emod.model.MachineComponent;
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.simulation.EModSimulationMain;
 import ch.ethz.inspire.emod.simulation.RandomSimulationControl;
+import ch.ethz.inspire.emod.simulation.StaticSimulationControl;
 
 /**
  * energy model main class
@@ -102,7 +103,9 @@ public class EModMain {
 		sim.addSimulator(new RandomSimulationControl("xTorque", Unit.NEWTONMETER));
 		sim.addSimulator(new RandomSimulationControl("yRPM", Unit.RPM));
 		sim.addSimulator(new RandomSimulationControl("yTorque", Unit.NEWTONMETER));
-		sim.readSimulationFromFile("initSim.txt");
+		sim.addSimulator(new StaticSimulationControl("test", Unit.NONE, "StaticSimulationControl_spindel1.txt"));
+		sim.readInputOutputConnectionsFromFile("initSim.txt");
+		sim.readSimulationStatesFromFile("initSimStates.txt");
 		sim.runSimulation();
 		Machine.saveMachineToFile("testmach.xml");
 	}
