@@ -172,7 +172,7 @@ public class EModSimulationMain {
 			
 			setInputs();
 			
-			for(MachineComponent mc : Machine.getInstance().getComponentList())
+			for(MachineComponent mc : Machine.getInstance().getMachineComponentList())
 				mc.getComponent().update();
 			
 			iterationStep++;
@@ -187,7 +187,7 @@ public class EModSimulationMain {
 	private void initSimulation() {
 		logger.info("init simulation");
 		Random rnd = new Random();
-		for(MachineComponent mc : Machine.getInstance().getComponentList()) {
+		for(MachineComponent mc : Machine.getInstance().getMachineComponentList()) {
 			mc.getComponent().setInput(0, rnd.nextDouble()*10);
 			mc.getComponent().setInput(1, rnd.nextDouble()*10);
 		}
@@ -208,7 +208,7 @@ public class EModSimulationMain {
 	private void logData() {
 		System.out.println("Iteration: " + iterationStep + "  Time: " + iterationStep*sampleperiod + " s");
 		logger.fine("Iteration: " + iterationStep + "  Time: " + iterationStep*sampleperiod + " s");
-		for(MachineComponent mc : Machine.getInstance().getComponentList()) {
+		for(MachineComponent mc : Machine.getInstance().getMachineComponentList()) {
 			//System.out.println("  " + mc.getName());
 			logger.fine("  " + mc.getName());
 			int i=0;

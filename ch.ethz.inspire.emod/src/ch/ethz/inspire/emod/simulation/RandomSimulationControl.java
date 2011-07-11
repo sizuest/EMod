@@ -31,13 +31,16 @@ public class RandomSimulationControl extends ASimulationControl {
 	public RandomSimulationControl(String name, Unit unit) {
 		super(name, unit);
 	}
+	
+	public RandomSimulationControl(String name, Unit unit, String configFile) {
+		super(name, unit, configFile);
+	}
 
 	/* (non-Javadoc)
 	 * @see ch.ethz.inspire.emod.simulation.SimulationControl#update()
 	 */
 	@Override
 	public void update() {
-		// TODO dummy method
 		if(state!=MachineState.OFF){
 			Random rnd = new Random();
 			simulationOutput.setValue(rnd.nextDouble()*100);
@@ -51,10 +54,15 @@ public class RandomSimulationControl extends ASimulationControl {
 	 */
 	@Override
 	public void setState(MachineState state) {
-		if(state == MachineState.READY || state == MachineState.STANDBY)
-			this.state=MachineState.ON;
-		else
-			this.state=state;
+		if(stateMap!=null) {
+			this.state = stateMap.get(state);
+		}
+		else {
+			if(state == MachineState.READY || state == MachineState.STANDBY)
+				this.state=MachineState.ON;
+			else
+				this.state=state;
+		}
 		
 	}
 

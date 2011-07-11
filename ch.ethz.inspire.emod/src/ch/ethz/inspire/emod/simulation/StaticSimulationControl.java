@@ -19,7 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
+import java.util.logging.Logger;
 
+import ch.ethz.inspire.emod.LogLevel;
 import ch.ethz.inspire.emod.model.units.Unit;
 
 /**
@@ -31,6 +33,7 @@ import ch.ethz.inspire.emod.model.units.Unit;
  */
 public class StaticSimulationControl extends ASimulationControl {
 
+	private static Logger logger = Logger.getLogger(StaticSimulationControl.class.getName());
 	protected int simulationStep;
 	protected List<double[]> samples;
 	
@@ -40,14 +43,9 @@ public class StaticSimulationControl extends ASimulationControl {
 	 * @param samplesFile
 	 */
 	public StaticSimulationControl(String name, Unit unit, String samplesFile) {
-		super(name, unit);
+		super(name, unit, samplesFile);
 		simulationStep=0;
 		readSamplesFromFile(samplesFile);
-		stateMap.put(MachineState.CYCLE, MachineState.ON);
-		stateMap.put(MachineState.OFF, MachineState.OFF);
-		stateMap.put(MachineState.ON, MachineState.ON);
-		stateMap.put(MachineState.READY, MachineState.ON);
-		stateMap.put(MachineState.STANDBY, MachineState.STANDBY);
 	}
 
 	/* (non-Javadoc)
@@ -55,12 +53,13 @@ public class StaticSimulationControl extends ASimulationControl {
 	 */
 	@Override
 	public void update() {
-		if(state==MachineState.ON) {
-			simulationOutput.setValue(samples.get(state.ordinal())[simulationStep]);
-			simulationStep++;
-			if(simulationStep>=samples.get(state.ordinal()).length)
-				simulationStep=0;
-		}
+		logger.log(LogLevel.DEBUG, "update on "+getName()+" step: "+simulationStep);
+		//as samples are in the same order as machinestates, the machinestate index (ordinal) can be used.
+		simulationOutput.setValue(samples.get(state.ordinal())[simulationStep]);
+		simulationStep++;
+		if(simulationStep>=samples.get(state.ordinal()).length)
+			simulationStep=0;
+		
 	}
 
 	/**
@@ -70,16 +69,19 @@ public class StaticSimulationControl extends ASimulationControl {
 	 */
 	private void readSamplesFromFile(String file) {
 		samples = new ArrayList<double[]>();
-		
+		logger.log(LogLevel.DEBUG, "reading samples from: "+file);
 		try {
+			//load file to properties
 			Properties p = new Properties();
 			InputStream is = new FileInputStream(file);
 			p.load(is);
+			// loop over all machine states
 			for(MachineState ms : MachineState.values()) {
 				String line = p.getProperty(ms.name());
 				StringTokenizer st = new StringTokenizer(line);
 				double[] vals = new double[st.countTokens()];
 				int i = 0;
+				//parse samples
 				while(st.hasMoreTokens()) {
 					vals[i] = Double.parseDouble(st.nextToken());
 					i++;

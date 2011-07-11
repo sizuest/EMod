@@ -43,14 +43,20 @@ public class Machine {
 	private ArrayList<MachineComponent> componentList;
 	private static Machine machineModel=null;
 	
-	public void setArrayList(ArrayList<MachineComponent> componentList) {
+	public void setComponentList(ArrayList<MachineComponent> componentList) {
 		this.componentList = componentList;
 	}
 	
-	public ArrayList<MachineComponent> getComponentList() {
+	public ArrayList<MachineComponent> getMachineComponentList() {
 		return componentList;
 	}
 	
+	/**
+	 * returns the first machine component with a specified name.
+	 * 
+	 * @param name
+	 * @return the {@link MachineComponent} with the name. null if no component is found.
+	 */
 	public MachineComponent getComponent(String name) {
 		MachineComponent temp=null;
 		for(MachineComponent mc : componentList) {
@@ -62,12 +68,22 @@ public class Machine {
 		return temp;
 	}
 	
+	/**
+	 * singleton implementation of the machine model
+	 * 
+	 * @return instance of the machine model
+	 */
 	public static Machine getInstance() {
 		if(machineModel==null)
 			machineModel=new Machine();
 		return machineModel;
 	}
 	
+	/**
+	 * reads a machine config from a specified xml file
+	 * 
+	 * @param file
+	 */
 	public static void initMachineFromFile(String file) {
 		if(machineModel==null)
 			machineModel=new Machine();
@@ -80,6 +96,11 @@ public class Machine {
 		}
 	}
 	
+	/**
+	 * saves the machine config to a xml file.
+	 * 
+	 * @param file
+	 */
 	public static void saveMachineToFile(String file) {
 		if(machineModel==null){
 			logger.warning("no model active");

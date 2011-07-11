@@ -93,7 +93,7 @@ public class EModMain {
 		mc3.setComponent(new LinearMotor("siemens12345"));
 		mclist.add(mc3);
 		
-		Machine.getInstance().setArrayList(mclist);
+		Machine.getInstance().setComponentList(mclist);
 		
 		EModSimulationMain sim = new EModSimulationMain();
 		//sim.generateSimulation(20);
