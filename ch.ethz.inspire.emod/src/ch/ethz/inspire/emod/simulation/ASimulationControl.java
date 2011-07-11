@@ -12,6 +12,9 @@
  ***********************************/
 package ch.ethz.inspire.emod.simulation;
 
+import java.util.EnumMap;
+import java.util.Map;
+
 import ch.ethz.inspire.emod.model.IOContainer;
 import ch.ethz.inspire.emod.model.units.Unit;
 
@@ -26,10 +29,12 @@ public abstract class ASimulationControl {
 	protected IOContainer simulationOutput;
 	protected String name;
 	protected MachineState state=MachineState.ON;
+	protected Map<MachineState, MachineState> stateMap;
 	
 	public ASimulationControl(String name, Unit unit) {
 		simulationOutput = new IOContainer(name, unit, 0);
 		this.name = name;
+		stateMap = new EnumMap<MachineState, MachineState>(MachineState.class);
 	}
 	
 	/**
@@ -43,7 +48,9 @@ public abstract class ASimulationControl {
 	 * implement a mapping of {@link MachineState} to a valid component simulation
 	 * state.
 	 */
-	public abstract void setState(MachineState state);
+	public void setState(MachineState state) {
+		this.state = stateMap.get(state);
+	}
 		
 	public MachineState getState() {
 		return state;

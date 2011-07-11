@@ -207,19 +207,25 @@ public class EModSimulationMain {
 	 */
 	private void logData() {
 		System.out.println("Iteration: " + iterationStep + "  Time: " + iterationStep*sampleperiod + " s");
+		logger.fine("Iteration: " + iterationStep + "  Time: " + iterationStep*sampleperiod + " s");
 		for(MachineComponent mc : Machine.getInstance().getComponentList()) {
-			System.out.println("  " + mc.getName());
+			//System.out.println("  " + mc.getName());
+			logger.fine("  " + mc.getName());
 			int i=0;
 			for(IOContainer ioc : mc.getComponent().getInputs()) {
-				System.out.println("    i" + i + ": " + ioc.toString());
+				//System.out.println("    i" + i + ": " + ioc.toString());
+				logger.fine("    i" + i + ": " + ioc.toString());
 				i++;
 			}
 			i=0;
 			for(IOContainer ioc : mc.getComponent().getOutputs()) {
-				System.out.println("    o" + i + ": " + ioc.toString());
+				//System.out.println("    o" + i + ": " + ioc.toString());
 				i++;
-				logger.fine(ioc.toString());
+				logger.fine("    o" + i + ": " + ioc.toString());
 			}
+		}
+		for(ASimulationControl sc:simulators) {
+			System.out.println(sc.getName()+ " "+sc.getState());
 		}
 	}
 	

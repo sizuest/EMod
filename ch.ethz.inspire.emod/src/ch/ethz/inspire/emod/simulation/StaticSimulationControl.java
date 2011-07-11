@@ -43,6 +43,11 @@ public class StaticSimulationControl extends ASimulationControl {
 		super(name, unit);
 		simulationStep=0;
 		readSamplesFromFile(samplesFile);
+		stateMap.put(MachineState.CYCLE, MachineState.ON);
+		stateMap.put(MachineState.OFF, MachineState.OFF);
+		stateMap.put(MachineState.ON, MachineState.ON);
+		stateMap.put(MachineState.READY, MachineState.ON);
+		stateMap.put(MachineState.STANDBY, MachineState.STANDBY);
 	}
 
 	/* (non-Javadoc)
@@ -84,14 +89,5 @@ public class StaticSimulationControl extends ASimulationControl {
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	/* (non-Javadoc)
-	 * @see ch.ethz.inspire.emod.simulation.ASimulationControl#setState(ch.ethz.inspire.emod.simulation.MachineState)
-	 */
-	@Override
-	public void setState(MachineState state) {
-		this.state=state;
-		simulationStep=0;
 	}
 }
