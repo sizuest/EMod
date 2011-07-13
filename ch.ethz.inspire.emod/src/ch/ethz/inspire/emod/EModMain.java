@@ -86,11 +86,11 @@ public class EModMain {
 		mclist.add(mc1);
 		
 		MachineComponent mc2 = new MachineComponent("x");
-		mc2.setComponent(new LinearMotor("siemens1234"));
+		mc2.setComponent(new LinearMotor("siemens123"));
 		mclist.add(mc2);
 		
 		MachineComponent mc3 = new MachineComponent("y");
-		mc3.setComponent(new LinearMotor("siemens12345"));
+		mc3.setComponent(new LinearMotor("siemens123"));
 		mclist.add(mc3);
 		
 		Machine.getInstance().setComponentList(mclist);

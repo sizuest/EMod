@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>
+    Model parameter definition
+    ==========================
+      Model : Linearmotor 
+      Type  : siemens123
+    Parameters
+    ----------
+      TorqueNominal [Nm]
+        Nominal torque of motor.
+      RotspeedNominal [rpm]
+        Nominal rotational speed of motor.
+      NormedTorqueSamples [1]
+        Normed torque samples used for linear interpolation of the efficiency.
+        The torque samples are normed by the nominal torque of the motor (TorqueNominal).
+        The NormedTorqueSamples must be sorted, smallest value first.
+      NormedRotspeedSamples [1]
+        Normed rotational speed samples used for linear interpolation of the efficiency.
+        The rotational speed samples are normed by the nominal rotational speed of the motor (RotspeedNominal).
+        The NormedRotspeedSamples must be sorted, smallest value first.
+      EfficiencyMatrix [1]
+        The matrix value at the position t,r (EfficiencyMatrix[t,r])
+        corresponds to the motor efficiency when the motor is running
+        at torque NormedTorqueSamples[t]*TorqueNominal and at rotational speed
+        NormedRotspeedSamples[r]*RotspeedNominal.
+  </comment>
+  <entry key="TorqueNominal">10.0</entry>
+  <entry key="RotspeedNominal">1000</entry>
+  <entry key="NormedTorqueSamples">0.6, 0.65, 1.2;</entry>
+  <entry key="NormedRotspeedSamples">0.8, 1.2;</entry>
+  <entry key="EfficiencyMatrix">
+   0.5,  0.6;
+   0.7,  0.8;
+   0.75, 0.7;
+  </entry>
+</properties>
