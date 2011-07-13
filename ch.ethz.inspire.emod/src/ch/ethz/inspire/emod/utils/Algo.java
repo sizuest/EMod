@@ -14,7 +14,7 @@
 package ch.ethz.inspire.emod.utils;
 
 /**
- * Class implementing mathematical utility functions for algorithms. Must of this
+ * Class implementing mathematical utility functions for algorithms. Most of this
  * functions are defined static.
  * 
  * @author andreas

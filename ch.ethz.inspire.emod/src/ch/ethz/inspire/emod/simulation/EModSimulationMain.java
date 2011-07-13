@@ -159,26 +159,44 @@ public class EModSimulationMain {
 	 * starts the simulation
 	 */
 	public void runSimulation() {
+		
+		/* Create simulation output file to store the simulation
+		 * data. 
+		 */
+		SimulationOutput simoutput = new SimulationOutput("simulation_output.dat", 
+			Machine.getInstance().getMachineComponentList(), simulators);
+		
 		initSimulation();
 		
 		logger.info("starting simulation");
-		logData(); // Log data at time 0.0 s
+		/* Time 0.0 s:
+		 * All model and simulation outputs must be initiated. */
+		// Log data at time 0.0 s
+		logData(); 
+		simoutput.logData(iterationStep * sampleperiod);
 		while (iterationStep < machineStates.size()) {
-		
+			
+			/* Set the inputs of all component models. */
+			setInputs();
+			
+			/* Iterate all models. The outputs of all component models are updated.*/
+			for(MachineComponent mc : Machine.getInstance().getMachineComponentList())
+				mc.getComponent().update();
+			
+			/* Get next value from simulation control. */
 			for(ASimulationControl sc:simulators) {
 				sc.setState(getMachineState());
 				sc.update();
 			}
 			
-			setInputs();
-			
-			for(MachineComponent mc : Machine.getInstance().getMachineComponentList())
-				mc.getComponent().update();
-			
 			iterationStep++;
 			
+			/*	Log data of the actual time sample */
+			simoutput.logData(iterationStep * sampleperiod);
 			logData();
 		}
+		/* Close simulation output */
+		simoutput.close();
 	}
 	
 	/**

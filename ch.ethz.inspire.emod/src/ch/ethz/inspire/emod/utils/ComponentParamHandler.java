@@ -93,7 +93,7 @@ public class ComponentParamHandler {
 		 */
 		xmlprop = new Properties();
 		try {
-		xmlprop.loadFromXML(paramstream);
+			xmlprop.loadFromXML(paramstream);
 		}
 		catch (Exception e) {
 			throw new Exception("File format error in '" + filename + "'\n    " 
