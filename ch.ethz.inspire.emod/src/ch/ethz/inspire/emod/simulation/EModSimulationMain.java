@@ -36,26 +36,17 @@ public class EModSimulationMain {
 	
 	private static Logger logger = Logger.getLogger(EModSimulationMain.class.getName());
 
-	private int iterationStep;
 	private double sampleperiod;
-	private List<MachineState> machineStates;
+	private MachineState machineState;
 	private List<IOConnection> connectionList;
 	private List<ASimulationControl> simulators;
 	
 	public EModSimulationMain() {
 		super();
-		iterationStep=0;
 		sampleperiod = 0.2; // seconds
 		connectionList = new ArrayList<IOConnection>();
 		simulators = new ArrayList<ASimulationControl>();
-		machineStates = new ArrayList<MachineState>();
-	}
-	
-	/**
-	 * @return the machineState
-	 */
-	public MachineState getMachineState() {
-		return machineStates.get(iterationStep);
+		machineState = new MachineState();
 	}
 
 	/**
@@ -121,44 +112,11 @@ public class EModSimulationMain {
 	}
 	
 	/**
-	 * reads machine states from file. 
-	 * 
-	 * syntax: time[s],{@link MachineState};time[s],{@link MachineState};...;endtime,END
-	 * 
-	 * @param file
-	 */
-	public void readSimulationStatesFromFile(String file) {
-		logger.info("reading simulation states from file: "+file);
-		try {
-			BufferedReader input = new BufferedReader(new FileReader(file));
-			String line = null;
-			
-			while((line=input.readLine())!=null) {
-				//tokenize & append
-				
-				StringTokenizer st = new StringTokenizer(line, ";");
-				
-				while(st.hasMoreTokens()) {
-					StringTokenizer str = new StringTokenizer(st.nextToken(),",");
-					int time = Integer.parseInt(str.nextToken());
-					String state = str.nextToken();
-					MachineState ms = MachineState.valueOf(state);
-					for(int i=0;i<time*(1/sampleperiod);i++) {
-						machineStates.add(ms);
-					}
-						
-				}
-			}
-			input.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} 
-	}
-	
-	/**
 	 * starts the simulation
 	 */
 	public void runSimulation() {
+		
+		double time; 
 		
 		/* Create simulation output file to store the simulation
 		 * data. 
@@ -166,15 +124,27 @@ public class EModSimulationMain {
 		SimulationOutput simoutput = new SimulationOutput("simulation_output.dat", 
 			Machine.getInstance().getMachineComponentList(), simulators);
 		
+		logger.info("starting simulation");
+		time = 0.0;
+		
 		initSimulation();
 		
-		logger.info("starting simulation");
+		/* Init simulation control objects. */
+		MachineState.MachineStateEnum mstate = machineState.getState(time);
+		for(ASimulationControl sc:simulators) {
+			sc.setState(mstate);
+			sc.update(); // TODO: write init method.
+		}
+		
+
 		/* Time 0.0 s:
 		 * All model and simulation outputs must be initiated. */
 		// Log data at time 0.0 s
-		logData(); 
-		simoutput.logData(iterationStep * sampleperiod);
-		while (iterationStep < machineStates.size()) {
+		simoutput.logData(time);
+		while (time < machineState.simEndTime()) {
+			
+			/* Increment actual simulation time */
+			time += sampleperiod;
 			
 			/* Set the inputs of all component models. */
 			setInputs();
@@ -184,16 +154,14 @@ public class EModSimulationMain {
 				mc.getComponent().update();
 			
 			/* Get next value from simulation control. */
+			mstate = machineState.getState(time);
 			for(ASimulationControl sc:simulators) {
-				sc.setState(getMachineState());
+				sc.setState(mstate);
 				sc.update();
 			}
 			
-			iterationStep++;
-			
 			/*	Log data of the actual time sample */
-			simoutput.logData(iterationStep * sampleperiod);
-			logData();
+			simoutput.logData(time);
 		}
 		/* Close simulation output */
 		simoutput.close();
@@ -217,33 +185,6 @@ public class EModSimulationMain {
 	private void setInputs() {
 		for(IOConnection ioc : connectionList) {
 			ioc.getTarget().setValue(ioc.getSoure().getValue());
-		}
-	}
-	
-	/**
-	 * logging data for analysis
-	 */
-	private void logData() {
-		System.out.println("Iteration: " + iterationStep + "  Time: " + iterationStep*sampleperiod + " s");
-		logger.fine("Iteration: " + iterationStep + "  Time: " + iterationStep*sampleperiod + " s");
-		for(MachineComponent mc : Machine.getInstance().getMachineComponentList()) {
-			//System.out.println("  " + mc.getName());
-			logger.fine("  " + mc.getName());
-			int i=0;
-			for(IOContainer ioc : mc.getComponent().getInputs()) {
-				//System.out.println("    i" + i + ": " + ioc.toString());
-				logger.fine("    i" + i + ": " + ioc.toString());
-				i++;
-			}
-			i=0;
-			for(IOContainer ioc : mc.getComponent().getOutputs()) {
-				//System.out.println("    o" + i + ": " + ioc.toString());
-				i++;
-				logger.fine("    o" + i + ": " + ioc.toString());
-			}
-		}
-		for(ASimulationControl sc:simulators) {
-			System.out.println(sc.getName()+ " "+sc.getState());
 		}
 	}
 	

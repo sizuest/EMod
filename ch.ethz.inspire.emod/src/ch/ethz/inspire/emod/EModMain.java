@@ -67,7 +67,7 @@ public class EModMain {
 		
 		//start program
 		new EModMain();
-		new EModGUI(disp);
+		//XXXnew EModGUI(disp);
 		
 		//shut down
 		disp.dispose();
@@ -105,7 +105,6 @@ public class EModMain {
 		sim.addSimulator(new RandomSimulationControl("yTorque", Unit.NEWTONMETER));
 		sim.addSimulator(new StaticSimulationControl("test", Unit.NONE, "StaticSimulationControl_spindel1.txt"));
 		sim.readInputOutputConnectionsFromFile("initSim.txt");
-		sim.readSimulationStatesFromFile("initSimStates.txt");
 		sim.runSimulation();
 		Machine.saveMachineToFile("testmach.xml");
 	}

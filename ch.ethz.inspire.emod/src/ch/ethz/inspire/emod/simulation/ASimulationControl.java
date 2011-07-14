@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 import ch.ethz.inspire.emod.LogLevel;
 import ch.ethz.inspire.emod.model.IOContainer;
 import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.simulation.MachineState.MachineStateEnum;
 
 /**
  * generic simulation control object. 
@@ -36,8 +37,8 @@ public abstract class ASimulationControl {
 	
 	protected IOContainer simulationOutput;
 	protected String name;
-	protected MachineState state=MachineState.ON;
-	protected Map<MachineState, MachineState> stateMap = null;
+	protected MachineStateEnum state=MachineStateEnum.ON;
+	protected Map<MachineStateEnum, MachineStateEnum> stateMap = null;
 	
 	/**
 	 * Constructor with name and unit
@@ -60,7 +61,7 @@ public abstract class ASimulationControl {
 	public ASimulationControl(String name, Unit unit, String configFile) {
 		simulationOutput = new IOContainer(name, unit, 0);
 		this.name = name;
-		stateMap = new EnumMap<MachineState, MachineState>(MachineState.class);
+		stateMap = new EnumMap<MachineStateEnum, MachineStateEnum>(MachineStateEnum.class);
 		readConfig(configFile);
 	}
 	
@@ -75,9 +76,9 @@ public abstract class ASimulationControl {
 			Properties p = new Properties();
 			InputStream is = new FileInputStream(file);
 			p.load(is);
-			for(MachineState ms : MachineState.values()) {
+			for(MachineStateEnum ms : MachineStateEnum.values()) {
 				String line = p.getProperty(ms.name()+"_state");
-				stateMap.put(ms, MachineState.valueOf(line));
+				stateMap.put(ms, MachineStateEnum.valueOf(line));
 				
 			}
 		} catch(IOException e) {
@@ -95,11 +96,11 @@ public abstract class ASimulationControl {
 	 * sets the state. the state is mapped through the stateMap to valid states for 
 	 * the simulator.
 	 */
-	public void setState(MachineState state) {
+	public void setState(MachineStateEnum state) {
 		this.state = stateMap.get(state);
 	}
 		
-	public MachineState getState() {
+	public MachineStateEnum getState() {
 		return state;
 	}
 	

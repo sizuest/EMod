@@ -1,1 +1,5 @@
-2,OFF;5,ON;10,CYCLE
+# Comment
+1 , OFF ;  
+1 , ON;
+1 , OFF;
+10, CYCLE;

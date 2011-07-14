@@ -41,7 +41,7 @@ public class SimulationOutput {
 	 * Create data logging file. Write file header.
 	 * 
 	 * @param filename Name of file to write to simulation output to.
-	 * @param list List of model compoents.
+	 * @param list List of model components.
 	 * @param slist List of simulation control objects.
 	 */
 	public SimulationOutput(String filename, ArrayList<MachineComponent> list, 
@@ -62,15 +62,15 @@ public class SimulationOutput {
 			outfile.write("Time");
 			for(MachineComponent mc : mclist) {
 				for (int i=0; i<mc.getComponent().getInputs().size(); i++) {
-					outfile.write("\t" + mc.getName() + " Input " + (i+1));
+					outfile.write("\t" + mc.getName() + "-Input-" + (i+1));
 				}
 				for (int i=0; i<mc.getComponent().getOutputs().size(); i++) {
-					outfile.write("\t" + mc.getName() + " Output " + (i+1));
+					outfile.write("\t" + mc.getName() + "-Output-" + (i+1));
 				}
 			}
 			for(ASimulationControl sc : simlist) {
-				outfile.write("\t" + sc.getName() + " Sim");
-				outfile.write("\t" + sc.getName() + " Sim");
+				outfile.write("\t" + sc.getName() + "-Sim");
+				outfile.write("\t" + sc.getName() + "-Sim");
 			}
 			outfile.write("\n");
 			/* 2nd line: Time\tMcName1.InputName1\tMcName1.InputName2\tMcName1.OutputName1\t...*/
@@ -85,7 +85,7 @@ public class SimulationOutput {
 			}
 			for(ASimulationControl sc : simlist) {
 				outfile.write("\t" + sc.getOutput().getName() + " State");
-				outfile.write("\t" + sc.getOutput().getName() + " Val");
+				outfile.write("\t" + sc.getOutput().getName() + " Value");
 			}
 			outfile.write("\n");
 			/* 3rd line: [s]\t[WATT]\t[TEMP]\t...*/
@@ -99,8 +99,8 @@ public class SimulationOutput {
 				}
 			}
 			for(ASimulationControl sc : simlist) {
-				outfile.write("\t" + "[" + sc.getOutput().getUnit() + "]");
 				outfile.write("\t" + "       ");
+				outfile.write("\t" + "[" + sc.getOutput().getUnit() + "]");
 			}
 			outfile.write("\n");
 			
@@ -132,7 +132,7 @@ public class SimulationOutput {
 			}
 			outfile.write("\n");
 						
-			// Flush file only every 32th samples.
+			// Flush file every 32th samples only.
 			if (flushcnt >= 32) { 
 				outfile.flush();
 				flushcnt = 0;
@@ -149,6 +149,7 @@ public class SimulationOutput {
 	public void close()
 	{
 		try {
+			outfile.flush();
 			outfile.close();
 		} catch (IOException e) {
 			e.printStackTrace();
