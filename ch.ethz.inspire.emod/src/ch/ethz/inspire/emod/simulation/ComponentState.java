@@ -1,10 +1,10 @@
 /***********************************
- * $$Id$$
+ * $Id$
  *
- * $$URL$$
- * $$Author$$
- * $$Date$$
- * $$Rev$$
+ * $URL$
+ * $Author$
+ * $Date$
+ * $Rev$
  *
  * Copyright (c) 2011 by Inspire AG, ETHZ
  * All rights reserved
