@@ -29,6 +29,7 @@ public class PropertiesHandler {
 		prop = new Properties();
 		InputStream is = new FileInputStream("app.config");
 		prop.load(is);
+		is.close();
 	}
 	
 	public static String getProperty(String property) {

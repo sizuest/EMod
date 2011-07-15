@@ -35,6 +35,10 @@ public class RandomSimulationControl extends ASimulationControl {
 	public RandomSimulationControl(String name, Unit unit, String configFile) {
 		super(name, unit, configFile);
 	}
+	
+	public RandomSimulationControl() {
+		
+	}
 
 	/* (non-Javadoc)
 	 * @see ch.ethz.inspire.emod.simulation.SimulationControl#update()

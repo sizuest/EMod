@@ -38,6 +38,7 @@ public class MachineTest {
 		list.add(mc1);
 		Machine.getInstance().setComponentList(list);
 		assertEquals("get component by name", mc2, Machine.getInstance().getComponent("test2"));
+		assertSame("get component by name", mc2, Machine.getInstance().getComponent("test2"));
 	}
 
 }

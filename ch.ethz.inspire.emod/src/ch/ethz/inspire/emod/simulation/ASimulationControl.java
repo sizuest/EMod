@@ -20,6 +20,9 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Logger;
 
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlElement;
+
 import ch.ethz.inspire.emod.LogLevel;
 import ch.ethz.inspire.emod.model.IOContainer;
 import ch.ethz.inspire.emod.model.units.Unit;
@@ -34,10 +37,14 @@ public abstract class ASimulationControl {
 
 	private static Logger logger = Logger.getLogger(ASimulationControl.class.getName());
 	
+	@XmlElement
 	protected IOContainer simulationOutput;
+	@XmlElement
 	protected String name;
 	protected ComponentState state=ComponentState.ON;
 	protected Map<MachineState, ComponentState> stateMap = null;
+	@XmlElement
+	protected String configFile;
 	
 	/**
 	 * Constructor with name and unit
@@ -50,6 +57,10 @@ public abstract class ASimulationControl {
 		this.name = name;
 	}
 	
+	public ASimulationControl() {
+		
+	}
+	
 	/**
 	 * Constructor with name, unit and config file
 	 * 
@@ -60,28 +71,37 @@ public abstract class ASimulationControl {
 	public ASimulationControl(String name, Unit unit, String configFile) {
 		simulationOutput = new IOContainer(name, unit, 0);
 		this.name = name;
-		stateMap = new EnumMap<MachineState, ComponentState>(MachineState.class);
+		//stateMap = new EnumMap<MachineState, ComponentState>(MachineState.class);
 		readConfig(configFile);
+		this.configFile=configFile;
 	}
 	
 	/**
 	 * reads the machine states and maps them to simulation states
 	 * 
-	 * @param file
+	 * @param file each {@link MachineState} is represented by one line MachineState_state=SimState ; e.g. READY_state=ON
 	 */
-	private void readConfig(String file) {
+	protected void readConfig(String file) {
 		logger.log(LogLevel.DEBUG, "reading state mapping from: "+file);
-		try {
-			Properties p = new Properties();
-			InputStream is = new FileInputStream(file);
-			p.load(is);
-			for(MachineState ms : MachineState.values()) {
-				String line = p.getProperty(ms.name()+"_state");
-				stateMap.put(ms, ComponentState.valueOf(line));
-				
+		
+		stateMap = new EnumMap<MachineState, ComponentState>(MachineState.class);
+		if(file!=null) {
+			try {
+				Properties p = new Properties();
+				InputStream is = new FileInputStream(file);
+				p.load(is);
+				is.close();
+				for(MachineState ms : MachineState.values()) {
+					String line = p.getProperty(ms.name()+"_state");
+					stateMap.put(ms, ComponentState.valueOf(line));
+				}
+			} catch(IOException e) {
+				e.printStackTrace();
 			}
-		} catch(IOException e) {
-			e.printStackTrace();
+		}
+		else {
+			//for(MachineState ms : MachineState.values())
+				//stateMap.put(ms, ComponentState.valueOf(ms.name()));
 		}
 	}
 	
@@ -109,5 +129,9 @@ public abstract class ASimulationControl {
 	
 	public IOContainer getOutput() {
 		return simulationOutput;
+	}
+	
+	public void afterUnmarshal(Unmarshaller u, Object parent) {
+		readConfig(configFile);
 	}
 }

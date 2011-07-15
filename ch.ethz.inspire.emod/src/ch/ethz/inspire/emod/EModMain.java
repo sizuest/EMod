@@ -66,8 +66,13 @@ public class EModMain {
 		}
 		
 		//start program
-		new EModMain();
+		//new EModMain();
 		//XXXnew EModGUI(disp);
+		
+		//test loading configs
+		Machine.initMachineFromFile("testmach.xml");
+		EModSimulationMain sim = EModSimulationMain.initSimulationFromFile("testsim.xml");
+		sim.runSimulation();
 		
 		//shut down
 		disp.dispose();
@@ -97,15 +102,16 @@ public class EModMain {
 		
 		EModSimulationMain sim = new EModSimulationMain();
 		//sim.generateSimulation(20);
-		sim.addSimulator(new RandomSimulationControl("spindelRPM", Unit.RPM));
-		sim.addSimulator(new RandomSimulationControl("spindelTorque", Unit.NEWTONMETER));
-		sim.addSimulator(new RandomSimulationControl("xRPM", Unit.RPM));
-		sim.addSimulator(new RandomSimulationControl("xTorque", Unit.NEWTONMETER));
-		sim.addSimulator(new RandomSimulationControl("yRPM", Unit.RPM));
-		sim.addSimulator(new RandomSimulationControl("yTorque", Unit.NEWTONMETER));
+		sim.addSimulator(new RandomSimulationControl("spindelRPM", Unit.RPM, "RandomSimulationControl_noname.txt"));
+		sim.addSimulator(new RandomSimulationControl("spindelTorque", Unit.NEWTONMETER, "RandomSimulationControl_noname.txt"));
+		sim.addSimulator(new RandomSimulationControl("xRPM", Unit.RPM, "RandomSimulationControl_noname.txt"));
+		sim.addSimulator(new RandomSimulationControl("xTorque", Unit.NEWTONMETER, "RandomSimulationControl_noname.txt"));
+		sim.addSimulator(new RandomSimulationControl("yRPM", Unit.RPM, "RandomSimulationControl_noname.txt"));
+		sim.addSimulator(new RandomSimulationControl("yTorque", Unit.NEWTONMETER, "RandomSimulationControl_noname.txt"));
 		sim.addSimulator(new StaticSimulationControl("test", Unit.NONE, "StaticSimulationControl_spindel1.txt"));
 		sim.readInputOutputConnectionsFromFile("initSim.txt");
 		sim.runSimulation();
+		sim.saveSimulationToFile("testsim.xml");
 		Machine.saveMachineToFile("testmach.xml");
 	}
 }

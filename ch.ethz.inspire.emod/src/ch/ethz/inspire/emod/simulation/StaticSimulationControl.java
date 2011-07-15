@@ -21,6 +21,8 @@ import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
+import javax.xml.bind.Unmarshaller;
+
 import ch.ethz.inspire.emod.LogLevel;
 import ch.ethz.inspire.emod.model.units.Unit;
 
@@ -46,6 +48,10 @@ public class StaticSimulationControl extends ASimulationControl {
 		super(name, unit, samplesFile);
 		simulationStep=0;
 		readSamplesFromFile(samplesFile);
+	}
+	
+	public StaticSimulationControl() {
+		
 	}
 
 	/* (non-Javadoc)
@@ -76,6 +82,7 @@ public class StaticSimulationControl extends ASimulationControl {
 			Properties p = new Properties();
 			InputStream is = new FileInputStream(file);
 			p.load(is);
+			is.close();
 			// loop over all machine states
 			for(MachineState ms : MachineState.values()) {
 				String line = p.getProperty(ms.name());
@@ -92,5 +99,10 @@ public class StaticSimulationControl extends ASimulationControl {
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void afterUnmarshal(Unmarshaller u, Object parent) {
+		readSamplesFromFile(configFile);
+		super.readConfig(configFile);
 	}
 }

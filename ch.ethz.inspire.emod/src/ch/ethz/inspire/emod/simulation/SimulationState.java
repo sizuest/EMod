@@ -17,6 +17,10 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * Handles the machine state of a simulation.
  * A list of times and machine states are read from a file and stored in
@@ -33,6 +37,8 @@ import java.util.StringTokenizer;
  * @author andreas
  *
  */
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class SimulationState {
 	
 	/* Variables */
@@ -154,5 +160,9 @@ class TimeStateMapper
 	 {
 		 Time = t;
 		 State = s;
+	 }
+	 
+	 public TimeStateMapper() {
+		 
 	 }
 }
