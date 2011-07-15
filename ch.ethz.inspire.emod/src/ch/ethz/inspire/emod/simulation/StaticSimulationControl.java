@@ -23,7 +23,6 @@ import java.util.logging.Logger;
 
 import ch.ethz.inspire.emod.LogLevel;
 import ch.ethz.inspire.emod.model.units.Unit;
-import ch.ethz.inspire.emod.simulation.MachineState.MachineStateEnum;
 
 /**
  * reads static simulation samples from a file and loops while active.
@@ -78,7 +77,7 @@ public class StaticSimulationControl extends ASimulationControl {
 			InputStream is = new FileInputStream(file);
 			p.load(is);
 			// loop over all machine states
-			for(MachineStateEnum ms : MachineStateEnum.values()) {
+			for(MachineState ms : MachineState.values()) {
 				String line = p.getProperty(ms.name());
 				StringTokenizer st = new StringTokenizer(line);
 				double[] vals = new double[st.countTokens()];

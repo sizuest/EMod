@@ -37,7 +37,7 @@ public class EModSimulationMain {
 	private static Logger logger = Logger.getLogger(EModSimulationMain.class.getName());
 
 	private double sampleperiod;
-	private MachineState machineState;
+	private SimulationState machineState;
 	private List<IOConnection> connectionList;
 	private List<ASimulationControl> simulators;
 	
@@ -46,7 +46,7 @@ public class EModSimulationMain {
 		sampleperiod = 0.2; // seconds
 		connectionList = new ArrayList<IOConnection>();
 		simulators = new ArrayList<ASimulationControl>();
-		machineState = new MachineState();
+		machineState = new SimulationState();
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class EModSimulationMain {
 		initSimulation();
 		
 		/* Init simulation control objects. */
-		MachineState.MachineStateEnum mstate = machineState.getState(time);
+		MachineState mstate = machineState.getState(time);
 		for(ASimulationControl sc:simulators) {
 			sc.setState(mstate);
 			sc.update(); // TODO: write init method.

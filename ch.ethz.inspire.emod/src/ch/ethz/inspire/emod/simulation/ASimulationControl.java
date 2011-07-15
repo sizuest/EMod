@@ -23,7 +23,6 @@ import java.util.logging.Logger;
 import ch.ethz.inspire.emod.LogLevel;
 import ch.ethz.inspire.emod.model.IOContainer;
 import ch.ethz.inspire.emod.model.units.Unit;
-import ch.ethz.inspire.emod.simulation.MachineState.MachineStateEnum;
 
 /**
  * generic simulation control object. 
@@ -37,8 +36,8 @@ public abstract class ASimulationControl {
 	
 	protected IOContainer simulationOutput;
 	protected String name;
-	protected MachineStateEnum state=MachineStateEnum.ON;
-	protected Map<MachineStateEnum, MachineStateEnum> stateMap = null;
+	protected ComponentState state=ComponentState.ON;
+	protected Map<MachineState, ComponentState> stateMap = null;
 	
 	/**
 	 * Constructor with name and unit
@@ -61,7 +60,7 @@ public abstract class ASimulationControl {
 	public ASimulationControl(String name, Unit unit, String configFile) {
 		simulationOutput = new IOContainer(name, unit, 0);
 		this.name = name;
-		stateMap = new EnumMap<MachineStateEnum, MachineStateEnum>(MachineStateEnum.class);
+		stateMap = new EnumMap<MachineState, ComponentState>(MachineState.class);
 		readConfig(configFile);
 	}
 	
@@ -76,9 +75,9 @@ public abstract class ASimulationControl {
 			Properties p = new Properties();
 			InputStream is = new FileInputStream(file);
 			p.load(is);
-			for(MachineStateEnum ms : MachineStateEnum.values()) {
+			for(MachineState ms : MachineState.values()) {
 				String line = p.getProperty(ms.name()+"_state");
-				stateMap.put(ms, MachineStateEnum.valueOf(line));
+				stateMap.put(ms, ComponentState.valueOf(line));
 				
 			}
 		} catch(IOException e) {
@@ -87,7 +86,7 @@ public abstract class ASimulationControl {
 	}
 	
 	/**
-	 * updates the simulationOutput {@link IOContainer} according to the {@link MachineState}
+	 * updates the simulationOutput {@link IOContainer} according to the {@link SimulationState}
 	 * and simulation logic for the next simulation cycle.
 	 */
 	public abstract void update();
@@ -96,11 +95,11 @@ public abstract class ASimulationControl {
 	 * sets the state. the state is mapped through the stateMap to valid states for 
 	 * the simulator.
 	 */
-	public void setState(MachineStateEnum state) {
+	public void setState(MachineState state) {
 		this.state = stateMap.get(state);
 	}
 		
-	public MachineStateEnum getState() {
+	public ComponentState getState() {
 		return state;
 	}
 	

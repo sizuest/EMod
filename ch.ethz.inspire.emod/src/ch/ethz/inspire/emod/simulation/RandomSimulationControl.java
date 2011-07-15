@@ -15,7 +15,6 @@ package ch.ethz.inspire.emod.simulation;
 import java.util.Random;
 
 import ch.ethz.inspire.emod.model.units.Unit;
-import ch.ethz.inspire.emod.simulation.MachineState.MachineStateEnum;
 
 /**
  * Testclass with random input samples
@@ -42,7 +41,7 @@ public class RandomSimulationControl extends ASimulationControl {
 	 */
 	@Override
 	public void update() {
-		if(state!=MachineStateEnum.OFF){
+		if(state!=ComponentState.OFF){
 			Random rnd = new Random();
 			simulationOutput.setValue(rnd.nextDouble()*100);
 		} else {
@@ -54,15 +53,15 @@ public class RandomSimulationControl extends ASimulationControl {
 	 * @see ch.ethz.inspire.emod.simulation.ASimulationControl#setState(ch.ethz.inspire.emod.simulation.MachineState)
 	 */
 	@Override
-	public void setState(MachineStateEnum state) {
+	public void setState(MachineState state) {
 		if(stateMap!=null) {
 			this.state = stateMap.get(state);
 		}
 		else {
-			if(state == MachineStateEnum.READY || state == MachineStateEnum.STANDBY)
-				this.state=MachineStateEnum.ON;
+			if(state == MachineState.READY || state == MachineState.STANDBY)
+				this.state = ComponentState.ON;
 			else
-				this.state=state;
+				this.state = ComponentState.OFF;
 		}
 		
 	}

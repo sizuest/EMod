@@ -1,5 +1,5 @@
 # Comment
-1 , OFF ;  
+1 , OFF ;  # line comment
 1 , ON;
 1 , OFF;
-10, CYCLE;
+10, PROCESS;
