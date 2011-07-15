@@ -1,17 +1,17 @@
 /***********************************
- * $$Id$$
+ * $Id$
  *
- * $$URL$$
- * $$Author$$
- * $$Date$$
- * $$Rev$$
+ * $URL$
+ * $Author$
+ * $Date$
+ * $Rev$
  *
  * Copyright (c) 2011 by Inspire AG, ETHZ
  * All rights reserved
  *
  ***********************************/
 
-package ch.ethz.inspire.emod.utils;
+package ch.ethz.inspire.emod.model;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -52,7 +52,7 @@ import ch.ethz.inspire.emod.PropertiesHandler;
  * @author andreas
  *
  */
-public class ComponentParamHandler {
+public class ComponentConfigReader {
 
 	private Properties xmlprop;
 	private String filename;
@@ -67,7 +67,7 @@ public class ComponentParamHandler {
 	 * @throws Exception if file could not be found or if an unexpected file
 	 *                  format occurs.
 	 */
-	public ComponentParamHandler(String component, String type) throws Exception
+	public ComponentConfigReader(String component, String type) throws Exception
 	{	
 		/* Build path and filename of file defining the model parameters.
 		 * The following structure is applied:

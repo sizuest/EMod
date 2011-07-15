@@ -22,7 +22,6 @@ import java.lang.Math;
 
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.utils.Algo;
-import ch.ethz.inspire.emod.utils.ComponentParamHandler;
 
 /**
  * Linear motor model class.
@@ -134,10 +133,10 @@ public class LinearMotor extends APhysicalComponent{
 		/* ************************************************************************/
 		/*         Read configuration parameters: */
 		/* ************************************************************************/
-		ComponentParamHandler params = null;
+		ComponentConfigReader params = null;
 		/* Open file containing the parameters of the model type: */
 		try {
-			params = new ComponentParamHandler("LinearMotor", type);
+			params = new ComponentConfigReader("LinearMotor", type);
 		}
 		catch (Exception e) {
 			e.printStackTrace();

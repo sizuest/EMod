@@ -1,10 +1,10 @@
 /***********************************
- * $Id: MachineState.java 25 2011-07-14 18:11:33Z leandrea $
+ * $Id$
  *
- * $URL: https://icvrdevil.ethz.ch/svn/EMod/trunk/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/simulation/MachineState.java $
- * $Author: leandrea $
- * $Date: 2011-07-14 20:11:33 +0200 (Thu, 14 Jul 2011) $
- * $Rev: 25 $
+ * $URL$
+ * $Author$
+ * $Date$
+ * $Rev$
  *
  * Copyright (c) 2011 by Inspire AG, ETHZ
  * All rights reserved
@@ -40,11 +40,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SimulationState {
+//public class SimulationState <MachineState> {
 	
 	/* Variables */
 	private double endtime = 0.0;      /* End of simulation in [s]*/
 	/* List mapping the times of a state change to the next state. */
-	private ArrayList<TimeStateMapper> timeStateMap = null;
+	private ArrayList<TimeStateMapper<MachineState>> timeStateMap = null;
 	private int actualindex;           /* Index of actual (time,state) in list */
 	private double nextStateChgTime;   /* Time, when next state change occurs. */
 	private MachineState actualstate; /* Actual state */
@@ -105,7 +106,7 @@ public class SimulationState {
 		
 		double rtime = 0.0;
 		int linenr = 0;
-		timeStateMap = new ArrayList<TimeStateMapper>();
+		timeStateMap = new ArrayList<TimeStateMapper<MachineState>>();
 		
 		try {
 			BufferedReader input = new BufferedReader(new FileReader(file));
@@ -128,7 +129,7 @@ public class SimulationState {
 					rtime += Double.parseDouble(str.nextToken().trim());
 					String state = str.nextToken().trim();
 					MachineState ms = MachineState.valueOf(state);
-					timeStateMap.add(new TimeStateMapper(rtime, ms));
+					timeStateMap.add(new TimeStateMapper<MachineState>(rtime, ms));
 				}
 			}
 			input.close();
@@ -142,7 +143,7 @@ public class SimulationState {
 			System.exit(-1);
 		} 
 	}
-	
+
 }
 
 /**
@@ -151,12 +152,12 @@ public class SimulationState {
  * @author andreas
  *
  */
-class TimeStateMapper
+class TimeStateMapper<S>
 {
 	public double Time;
-	public MachineState State;
+	public S State;
 	
-	 public TimeStateMapper(double t, MachineState s)
+	 public TimeStateMapper(double t, S s)
 	 {
 		 Time = t;
 		 State = s;
