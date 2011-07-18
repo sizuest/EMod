@@ -22,32 +22,32 @@ import ch.ethz.inspire.emod.PropertiesHandler;
 /**
  * Utility class to extract configuration parameters from a machine component 
  * configuration file.
- * 
+ * <p>
  * The constructor opens the configuration file. Then, the user can read
  * the values of the configuration parameters by calling the corresponding methods. 
  * The user must know the type (double, double array, double matrix, ...) 
  * of the chosen parameter.
- * 
+ * <p>
  * Path and filename:
  * Using the name of the machine component (this is equivalent to the
  * name of the physical model) and the type of the machine component
  * the path and filename is generated as follows:
  *   MachineComponentDB/CompenentName/CompenentName_Type.xml
- * 
- * File Format:
- * The component configuration file must be in the following format:
- * Example:
- *  <?xml version="1.0" encoding="UTF-8" standalone="no"?>
- *  <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
- *  <properties>
- *    <comment>Some comment</comment>
- *    <entry key="DoubleParamXY">123.0</entry>
- *    <entry key="DoubleArrayParamABC">12, 13, 14;</entry>
- *    <entry key="DoubleMatrixParam123">
- *      1.1, 2.3, 1.2;
- *      7.2, 5.3, 9.8;
- *   </entry>
- *  </properties> 
+ * <p>
+ * File Format:<br />
+ * The component configuration file must be in the following format:<br />
+ * Example:<br />
+ *  &lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;<br />
+ *  &lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;<br />
+ *  &lt;properties&gt;<br />
+ * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &lt;comment&gt;Some comment&lt;/comment&gt;<br />
+ * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &lt;entry key="DoubleParamXY"&gt;123.0&lt;/entry&gt;<br />
+ * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &lt;entry key="DoubleArrayParamABC"&gt;12, 13, 14;&lt;/entry&gt;<br />
+ * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &lt;entry key="DoubleMatrixParam123"&gt;<br />
+ * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.1, 2.3, 1.2;<br />
+ * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7.2, 5.3, 9.8;<br />
+ * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &lt;/entry&gt;<br />
+ *  &lt;/properties&gt;
  * 
  * @author andreas
  *
@@ -114,11 +114,11 @@ public class ComponentConfigReader {
 	/**
 	 * Get property by name. The value of the property must be
 	 * a double value.
-	 * 
-	 * Format:
-	 *   Double value.
-	 * Example:
-	 *   <entry key="PARAMNAME">1230.0</entry>
+	 * <p>
+	 * Format:<br />
+	 * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Double value.<br />
+	 * Example:<br />
+	 * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &lt;entry key="PARAMNAME"&gt;1230.0&lt;/entry&gt;
 	 * 
 	 * @param paramname Name of the property.
 	 * @return the value of the property: a double value.
@@ -144,12 +144,12 @@ public class ComponentConfigReader {
 	/**
 	 * Get property by name. The value of the property must be
 	 * a double array.
-	 * 
-	 * Format:
-	 *   The double values must be separated by ',' or ' '. After the last element 
-	 *   of the array, a ';' can terminate the array.
-	 * Example:
-	 *   <entry key="PARAMNAME">1.1, 2.3, 1.2;</entry>
+	 * <p>
+	 * Format:<br />
+	 * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  The double values must be separated by ',' or ' '. After the last element<br /> 
+	 * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  of the array, a ';' can terminate the array.<br />
+	 * Example:<br />
+	 * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &lt;entry key="PARAMNAME"&gt;1.1, 2.3, 1.2;&lt;/entry&gt;
 	 * 
 	 * @param paramname Name of the property.
 	 * @return the value of the property: a double array.
@@ -188,15 +188,15 @@ public class ComponentConfigReader {
 	/**
 	 * Get property by name. The value of the property must be
 	 * a double matrix.
-	 * 
-	 * Format:
-	 *   The values of a row must be separated by ',' or ' '. At the end
-	 *   of each row, a ';' occurs.
-	 * Example:
-	 *   <entry key="PARAMNAME">
-	 *     1.1, 2.3, 1.2;
-	 *     7.2, 5.3, 9.8;
-	 *   </entry>
+	 * <p>
+	 * Format:<br />
+	 * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  The values of a row must be separated by ',' or ' '. At the end<br />
+	 * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  of each row, a ';' occurs.<br />
+	 * Example:<br />
+	 * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &lt;entry key="PARAMNAME"&gt;<br />
+	 * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    1.1, 2.3, 1.2;<br />
+	 * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    7.2, 5.3, 9.8;<br />
+	 * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &lt;/entry&gt;
 	 * 
 	 * @param paramname Name of the property.
 	 * @return the value of the property: a matrix of doubles.

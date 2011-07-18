@@ -26,12 +26,12 @@ import javax.xml.bind.annotation.XmlRootElement;
  * A list of times and machine states are read from a file and stored in
  * a list. For a given time the corresponding machine state can be asked for.
  * And the end of the simulation is determined.
- * 
- * File format of the input list:
- *   Duration1 , State1 ;
- *   Duration2 , State2 ;
- * The duration corresponds to the duration of the state in s.
- * The sum of all durations is the length of the simulation.
+ * <p>
+ * File format of the input list:<br />
+ *   Duration1 , State1 ;<br />
+ *   Duration2 , State2 ;<br />
+ * The duration corresponds to the duration of the state in s.<br />
+ * The sum of all durations is the length of the simulation.<br />
  * A comment line begins with '#'.
  * 
  * @author andreas
@@ -95,9 +95,9 @@ public class SimulationState {
 	
 	/**
 	 * reads machine states from file. 
-	 * 
-	 * syntax: time[s],{@link SimulationState};time[s],{@link SimulationState};...;
-	 * Comment lines begin with '#'.
+	 * <p>
+	 * syntax: time[s],{@link SimulationState};time[s],{@link SimulationState};...;<br />
+	 * Comment lines begin with '#'.<br />
 	 * Spaces are allowed.
 	 * 
 	 * @param file
@@ -163,6 +163,9 @@ class TimeStateMapper<S>
 		 State = s;
 	 }
 	 
+	 /**
+	  * empty constructor for xml unmarshaller
+	  */
 	 public TimeStateMapper() {
 		 
 	 }

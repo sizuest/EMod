@@ -67,7 +67,7 @@ public class EModMain {
 		
 		//start program
 		//new EModMain();
-		//XXXnew EModGUI(disp);
+		new EModGUI(disp);
 		
 		//test loading configs
 		Machine.initMachineFromFile("testmach.xml");

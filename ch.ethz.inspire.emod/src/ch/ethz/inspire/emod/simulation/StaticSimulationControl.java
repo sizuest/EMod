@@ -42,14 +42,17 @@ public class StaticSimulationControl extends ASimulationControl {
 	/**
 	 * @param name
 	 * @param unit
-	 * @param samplesFile
+	 * @param configFile
 	 */
-	public StaticSimulationControl(String name, Unit unit, String samplesFile) {
-		super(name, unit, samplesFile);
+	public StaticSimulationControl(String name, Unit unit, String configFile) {
+		super(name, unit, configFile);
 		simulationStep=0;
-		readSamplesFromFile(samplesFile);
+		readSamplesFromFile(configFile);
 	}
 	
+	/**
+	 * JAXB constructor
+	 */
 	public StaticSimulationControl() {
 		
 	}
@@ -65,7 +68,6 @@ public class StaticSimulationControl extends ASimulationControl {
 		simulationStep++;
 		if(simulationStep>=samples.get(state.ordinal()).length)
 			simulationStep=0;
-		// TODO: BUG: simulationStep must be set to 0, if state changes!
 		
 	}
 
@@ -75,6 +77,7 @@ public class StaticSimulationControl extends ASimulationControl {
 	 * @param file one line per state. e.g.: ON=10 20 30
 	 */
 	private void readSamplesFromFile(String file) {
+		// TODO: change machine states to componentstate
 		samples = new ArrayList<double[]>();
 		logger.log(LogLevel.DEBUG, "reading samples from: "+file);
 		try {
@@ -99,6 +102,17 @@ public class StaticSimulationControl extends ASimulationControl {
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * sets and maps the {@link MachineState} to the appropriate {@link SimulationState}
+	 * 
+	 * @param state
+	 */
+	@Override 
+	public void setState(MachineState state) {
+		super.setState(state);
+		simulationStep=0;
 	}
 	
 	public void afterUnmarshal(Unmarshaller u, Object parent) {

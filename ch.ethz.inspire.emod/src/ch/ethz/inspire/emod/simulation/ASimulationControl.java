@@ -57,6 +57,9 @@ public abstract class ASimulationControl {
 		this.name = name;
 	}
 	
+	/**
+	 * empty constructor for JAXB
+	 */
 	public ASimulationControl() {
 		
 	}
