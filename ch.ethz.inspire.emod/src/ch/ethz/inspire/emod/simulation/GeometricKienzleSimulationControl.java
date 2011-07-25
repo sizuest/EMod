@@ -21,6 +21,8 @@ import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import ch.ethz.inspire.emod.LogLevel;
 import ch.ethz.inspire.emod.model.units.Unit;
 
@@ -28,12 +30,13 @@ import ch.ethz.inspire.emod.model.units.Unit;
  * @author dhampl
  *
  */
-public class GeometricSimulationControl extends ASimulationControl {
+@XmlRootElement
+public class GeometricKienzleSimulationControl extends ASimulationControl {
 
-	private static Logger logger = Logger.getLogger(GeometricSimulationControl.class.getName());
+	private static Logger logger = Logger.getLogger(GeometricKienzleSimulationControl.class.getName());
 	
 	protected List<double[]> samples; //values for every state
-	protected int simulationStep; //current sim step
+	protected int simulationStep=0; //current sim step
 	protected double kappa; //kienzle constant
 	protected double kc; //kienzle constant
 	protected double z; //kienzle constant
@@ -43,10 +46,15 @@ public class GeometricSimulationControl extends ASimulationControl {
 	 * @param name
 	 * @param configValuesFile
 	 */
-	public GeometricSimulationControl(String name, String configValuesFile) {
+	public GeometricKienzleSimulationControl(String name, String configValuesFile) {
 		super(name, Unit.NEWTONMETER, configValuesFile);
 		readConfigFromFile(configValuesFile);
-		readSamplesFromFile(configValuesFile);
+		try {
+			readSamplesFromFile(configValuesFile);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
 	}
 	
 	/**
@@ -56,20 +64,23 @@ public class GeometricSimulationControl extends ASimulationControl {
 	 * @param name name of the simulation control object
 	 * @param configFile config values like state mapping, kappa, kc, z
 	 * @param n spindle revolutions [1/s]
-	 * @param v feed [m/s]
+	 * @param f feed [m/U]
 	 * @param ap depth of cut [m]
 	 * @param d diameter [m]
+	 * @throws Exception 
 	 */
-	public GeometricSimulationControl(String name, String configFile, double[] n, double[] v, double[] ap, double[] d) {
+	public GeometricKienzleSimulationControl(String name, String configFile, double[] n, double[] f, double[] ap, double[] d) throws Exception {
 		super(name, Unit.NEWTONMETER, configFile);
+		if(n.length!=f.length || n.length!=ap.length || n.length!=d.length)
+			throw new Exception("input violation: params must have same length");
 		readConfigFromFile(configFile);
-		calculateMoments(n, v, ap, d);
+		calculateMoments(f, ap, d);
 	}
 	
 	/**
 	 * JAXB constructor
 	 */
-	public GeometricSimulationControl() {
+	public GeometricKienzleSimulationControl() {
 		
 	}
 	
@@ -78,7 +89,7 @@ public class GeometricSimulationControl extends ASimulationControl {
 	 * 
 	 * @param file
 	 */
-	private void readConfigFromFile(String file) {
+	protected void readConfigFromFile(String file) {
 		samples = new ArrayList<double[]>();
 		logger.log(LogLevel.DEBUG, "reading config from: "+file);
 		try {
@@ -100,7 +111,7 @@ public class GeometricSimulationControl extends ASimulationControl {
 				}
 				samples.add(vals);
 			}
-			kappa = Double.parseDouble(p.getProperty("kappa"));
+			kappa = Double.parseDouble(p.getProperty("kappa"))*Math.PI/180;
 			z = Double.parseDouble(p.getProperty("z"));
 			kc = Double.parseDouble(p.getProperty("kc"));
 		} catch(IOException e) {
@@ -111,11 +122,15 @@ public class GeometricSimulationControl extends ASimulationControl {
 	/**
 	 * reads sample values from file. <br />
 	 * values are: <br />
-	 * n [1/s], v [m/s], ap [m], d [m]
+	 * n [1/min], v [mm/min], ap [mm], d [mm]<br />
+	 * syntax:<br />
+	 * n=1 2 3 4 5<br />
+	 * v=12 34 56 78 90
 	 * 
-	 * @param file
+	 * @param file with samples for n, v, ap, d
+	 * @throws Exception thrown if |n| != |v| != |ap| != |d|
 	 */
-	private void readSamplesFromFile(String file) {
+	protected void readSamplesFromFile(String file) throws Exception {
 		double[] n = null, v = null, ap = null, d = null;
 		
 		logger.log(LogLevel.DEBUG, "reading samples from: "+file);
@@ -161,16 +176,24 @@ public class GeometricSimulationControl extends ASimulationControl {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		
-		calculateMoments(n, v, ap, d);
+		if(n.length!=v.length || n.length!=ap.length || n.length!=d.length)
+			throw new Exception("input violation: params must have same length");
+		for(int i=0;i<n.length;i++){
+			v[i] = v[i]/(1000*n[i]); //mm/min -> m/U
+			n[i] = n[i]/60; //1/min -> 1/s
+			ap[i] = ap[i]/1000; //mm -> m
+			d[i] = d[i]/1000; //mm -> m
+		}
+		calculateMoments(v, ap, d);
 	}
 	
-	private void calculateMoments(double[] n, double[] v, double[] ap, double[] d) {
-		double[] moments = new double[n.length];
-		for(int i=0;i<n.length;i++) {
-			//TODO: kienzle!
-			moments[i] = kc * (ap[i]/Math.sin(kappa));
+	protected void calculateMoments(double[] f, double[] ap, double[] d) {
+		double[] moments = new double[f.length];
+		for(int i=0;i<f.length;i++) {
+			//calculate moments for every time step: Fc = kc * b * h^1-z 
+			moments[i] = kc * (ap[i]*1000/Math.sin(kappa))* Math.pow(f[i]*1000 * Math.sin(kappa),1-z) * d[i]*1000/2;
 		}
+		samples.set(ComponentState.PERIODIC.ordinal(), moments);
 	}
 	
 	/* (non-Javadoc)
@@ -178,8 +201,23 @@ public class GeometricSimulationControl extends ASimulationControl {
 	 */
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
-
+		logger.log(LogLevel.DEBUG, "update on "+getName()+" step: "+simulationStep);
+		//as samples are in the same order as machinestates, the machinestate index (ordinal) can be used.
+		simulationOutput.setValue(samples.get(state.ordinal())[simulationStep]);
+		simulationStep++;
+		if(simulationStep>=samples.get(state.ordinal()).length)
+			simulationStep=0;
+	}
+	
+	/**
+	 * sets and maps the {@link MachineState} to the appropriate {@link SimulationState}
+	 * 
+	 * @param state
+	 */
+	@Override 
+	public void setState(MachineState state) {
+		super.setState(state);
+		simulationStep=0;
 	}
 
 }

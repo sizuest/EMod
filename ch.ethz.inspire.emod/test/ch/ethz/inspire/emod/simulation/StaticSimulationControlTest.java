@@ -51,15 +51,15 @@ public class StaticSimulationControlTest {
 	@Test
 	public void testSetState() {
 		tester.setState(MachineState.ON);
-		assertEquals("set state: ON", MachineState.ON, tester.getState());
+		assertEquals("set state: ON", ComponentState.ON, tester.getState());
 		tester.setState(MachineState.OFF);
-		assertEquals("set state: OFF", MachineState.OFF, tester.getState());
+		assertEquals("set state: OFF", ComponentState.OFF, tester.getState());
 		tester.setState(MachineState.STANDBY);
-		assertEquals("set state: STANDBY", MachineState.STANDBY, tester.getState());
+		assertEquals("set state: STANDBY", ComponentState.STANDBY, tester.getState());
 		tester.setState(MachineState.READY);
-		assertEquals("set state: READY", MachineState.ON, tester.getState());
+		assertEquals("set state: READY", ComponentState.ON, tester.getState());
 		tester.setState(MachineState.PROCESS);
-		assertEquals("set state: PROCESS", MachineState.ON, tester.getState());
+		assertEquals("set state: PROCESS", ComponentState.ON, tester.getState());
 	}
 
 }

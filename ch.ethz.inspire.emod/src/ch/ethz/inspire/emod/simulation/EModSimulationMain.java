@@ -43,7 +43,7 @@ import ch.ethz.inspire.emod.model.MachineComponent;
  *
  */
 @XmlRootElement(namespace = "ch.ethz.inspire.emod.simulation")
-@XmlSeeAlso({ASimulationControl.class, RandomSimulationControl.class, StaticSimulationControl.class, MachineState.class, SimulationState.class})
+@XmlSeeAlso({ASimulationControl.class, RandomSimulationControl.class, StaticSimulationControl.class, MachineState.class, SimulationState.class, GeometricKienzleSimulationControl.class})
 public class EModSimulationMain {
 	
 	private static Logger logger = Logger.getLogger(EModSimulationMain.class.getName());

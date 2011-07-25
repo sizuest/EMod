@@ -87,8 +87,8 @@ public class StaticSimulationControl extends ASimulationControl {
 			p.load(is);
 			is.close();
 			// loop over all machine states
-			for(MachineState ms : MachineState.values()) {
-				String line = p.getProperty(ms.name());
+			for(ComponentState cs : ComponentState.values()) {
+				String line = p.getProperty(cs.name());
 				StringTokenizer st = new StringTokenizer(line);
 				double[] vals = new double[st.countTokens()];
 				int i = 0;

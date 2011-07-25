@@ -29,6 +29,7 @@ import ch.ethz.inspire.emod.model.Machine;
 import ch.ethz.inspire.emod.model.MachineComponent;
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.simulation.EModSimulationMain;
+import ch.ethz.inspire.emod.simulation.GeometricKienzleSimulationControl;
 import ch.ethz.inspire.emod.simulation.RandomSimulationControl;
 import ch.ethz.inspire.emod.simulation.StaticSimulationControl;
 
@@ -66,13 +67,13 @@ public class EModMain {
 		}
 		
 		//start program
-		//new EModMain();
+		new EModMain();
 		new EModGUI(disp);
 		
 		//test loading configs
-		Machine.initMachineFromFile("testmach.xml");
-		EModSimulationMain sim = EModSimulationMain.initSimulationFromFile("testsim.xml");
-		sim.runSimulation();
+		//Machine.initMachineFromFile("testmach.xml");
+		//EModSimulationMain sim = EModSimulationMain.initSimulationFromFile("testsim.xml");
+		//sim.runSimulation();
 		
 		//shut down
 		disp.dispose();
@@ -109,6 +110,15 @@ public class EModMain {
 		sim.addSimulator(new RandomSimulationControl("yRPM", Unit.RPM, "RandomSimulationControl_noname.txt"));
 		sim.addSimulator(new RandomSimulationControl("yTorque", Unit.NEWTONMETER, "RandomSimulationControl_noname.txt"));
 		sim.addSimulator(new StaticSimulationControl("test", Unit.NONE, "StaticSimulationControl_spindel1.txt"));
+		double[] n = {2000, 2200, 2300, 3000};
+		double[] f = {0.0001, 0.00008, 0.0009, 0.001};
+		double[] ap = {0.003, 0.004, 0.009, 0.0005};
+		double[] d = {0.006, 0.02, 0.004, 0.0001};
+		try {
+			sim.addSimulator(new GeometricKienzleSimulationControl("test2", "L:/wrkspace/ch.ethz.inspire.emod/test/ch/ethz/inspire/emod/simulation/GeometricSimulationControl_tester.txt", n, f, ap, d));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		sim.readInputOutputConnectionsFromFile("initSim.txt");
 		sim.runSimulation();
 		sim.saveSimulationToFile("testsim.xml");

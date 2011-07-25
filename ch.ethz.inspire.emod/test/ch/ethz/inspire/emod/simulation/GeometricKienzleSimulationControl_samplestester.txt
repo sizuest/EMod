@@ -8,4 +8,13 @@ ON_state=ON
 OFF_state=OFF
 STANDBY_state=STANDBY
 READY_state=ON
-PROCESS_state=ON
+PROCESS_state=PERIODIC
+
+kc=1950
+kappa=90
+z=0.25
+
+n=6000
+v=900
+d=33
+ap=2
