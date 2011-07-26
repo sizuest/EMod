@@ -24,6 +24,7 @@ import java.util.*;
 import org.eclipse.swt.widgets.*;
 
 import ch.ethz.inspire.emod.gui.EModGUI;
+import ch.ethz.inspire.emod.model.ConstantComponent;
 import ch.ethz.inspire.emod.model.LinearMotor;
 import ch.ethz.inspire.emod.model.Machine;
 import ch.ethz.inspire.emod.model.MachineComponent;
@@ -99,6 +100,10 @@ public class EModMain {
 		mc3.setComponent(new LinearMotor("siemens123"));
 		mclist.add(mc3);
 		
+		MachineComponent mc4 = new MachineComponent("Fan1");
+		mc4.setComponent(new ConstantComponent("80mmFan"));
+		mclist.add(mc4);
+		
 		Machine.getInstance().setComponentList(mclist);
 		
 		EModSimulationMain sim = new EModSimulationMain();
@@ -115,10 +120,11 @@ public class EModMain {
 		double[] ap = {0.003, 0.004, 0.009, 0.0005};
 		double[] d = {0.006, 0.02, 0.004, 0.0001};
 		try {
-			sim.addSimulator(new GeometricKienzleSimulationControl("test2", "L:/wrkspace/ch.ethz.inspire.emod/test/ch/ethz/inspire/emod/simulation/GeometricSimulationControl_tester.txt", n, f, ap, d));
+			sim.addSimulator(new GeometricKienzleSimulationControl("test2", "L:/wrkspace/ch.ethz.inspire.emod/test/ch/ethz/inspire/emod/simulation/GeometricKienzleSimulationControl_tester.txt", n, f, ap, d));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		sim.addSimulator(new StaticSimulationControl("test3", Unit.NONE, "StaticSimulationControl_80mmFan.txt"));
 		sim.readInputOutputConnectionsFromFile("initSim.txt");
 		sim.runSimulation();
 		sim.saveSimulationToFile("testsim.xml");

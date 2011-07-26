@@ -77,7 +77,6 @@ public class StaticSimulationControl extends ASimulationControl {
 	 * @param file one line per state. e.g.: ON=10 20 30
 	 */
 	private void readSamplesFromFile(String file) {
-		// TODO: change machine states to componentstate
 		samples = new ArrayList<double[]>();
 		logger.log(LogLevel.DEBUG, "reading samples from: "+file);
 		try {

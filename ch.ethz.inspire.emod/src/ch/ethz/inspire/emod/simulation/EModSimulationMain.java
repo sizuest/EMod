@@ -192,8 +192,8 @@ public class EModSimulationMain {
 		logger.info("init simulation");
 		Random rnd = new Random();
 		for(MachineComponent mc : Machine.getInstance().getMachineComponentList()) {
-			mc.getComponent().setInput(0, rnd.nextDouble()*10);
-			mc.getComponent().setInput(1, rnd.nextDouble()*10);
+			for(IOContainer ioc : mc.getComponent().getInputs())
+				ioc.setValue(rnd.nextDouble());
 		}
 	}
 	
@@ -232,13 +232,13 @@ public class EModSimulationMain {
 	public void saveSimulationToFile(String file) {
 		
 		try {
-		JAXBContext context = JAXBContext.newInstance(EModSimulationMain.class);
-		Marshaller m = context.createMarshaller();
-		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+			JAXBContext context = JAXBContext.newInstance(EModSimulationMain.class);
+			Marshaller m = context.createMarshaller();
+			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 				
-		Writer w = new FileWriter(file);
-		m.marshal(this, w);
-		w.close();
+			Writer w = new FileWriter(file);
+			m.marshal(this, w);
+			w.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlSeeAlso;
  *
  */
 @XmlRootElement(namespace = "ch.ethz.inspire.emod.model")
-@XmlSeeAlso({APhysicalComponent.class, LinearMotor.class})
+@XmlSeeAlso({APhysicalComponent.class, LinearMotor.class, ConstantComponent.class})
 public class Machine {
 	
 	private static Logger logger = Logger.getLogger(Machine.class.getName());
