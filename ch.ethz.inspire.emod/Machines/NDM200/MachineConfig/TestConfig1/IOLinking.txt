@@ -1,0 +1,8 @@
+# Input - Output mapping
+spindel.RotSpeed = spindelRPM  # comment
+spindel.Torque   = spindelTorque
+x.RotSpeed       = xRPM
+x.Torque         = xTorque
+y.RotSpeed       = yRPM
+y.Torque         = yTorque
+Fan1.level       = test3

@@ -1,7 +1,0 @@
-spindel.RotSpeed=spindelRPM.spindelRPM
-spindel.Torque=spindelTorque.spindelTorque
-x.RotSpeed=xRPM.xRPM
-x.Torque=xTorque.xTorque
-y.RotSpeed=yRPM.yRPM
-y.Torque=yTorque.yTorque
-Fan1.level=test3.test3

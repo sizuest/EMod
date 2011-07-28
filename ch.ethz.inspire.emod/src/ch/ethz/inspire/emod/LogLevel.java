@@ -29,17 +29,11 @@ public class LogLevel extends Level {
 	private LogLevel(String name, int value) {
 		super(name, value);
 	}
-	public static Level STDOUT = new LogLevel("STDOUT", Level.INFO.intValue()+53);
-
-	public static Level STDERR = new LogLevel("STDERR", Level.INFO.intValue()+54);
 	
-	public static Level DEBUG = new LogLevel("DEBUG", Level.CONFIG.intValue()+54);
-
+	// DEBUG is equivalent to FINE!
+	public static Level DEBUG = new LogLevel("DEBUG", Level.FINE.intValue());
+	
 	protected Object readResolve() throws ObjectStreamException {
-		if (this.intValue() == STDOUT.intValue())
-			return STDOUT;
-		if (this.intValue() == STDERR.intValue())
-			return STDERR;
 		if (this.intValue() == DEBUG.intValue())
 			return DEBUG;
 		throw new InvalidObjectException("Unknown instance :" + this);

@@ -12,15 +12,11 @@
  ***********************************/
 package ch.ethz.inspire.emod.simulation;
 
-import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.Writer;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.StringTokenizer;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBContext;
@@ -31,7 +27,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
-import ch.ethz.inspire.emod.model.APhysicalComponent;
+import ch.ethz.inspire.emod.IOConnection;
 import ch.ethz.inspire.emod.model.IOContainer;
 import ch.ethz.inspire.emod.model.Machine;
 import ch.ethz.inspire.emod.model.MachineComponent;
@@ -55,82 +51,35 @@ public class EModSimulationMain {
 	@XmlElementWrapper(name = "simulators")
 	@XmlElement(name = "simControler")
 	private List<ASimulationControl> simulators;
-	@XmlElement
-	private String connectionsFile;
 	
-	public EModSimulationMain() {
-		super();
+	public EModSimulationMain(String machineName, String simConfigName) {
+		super(); // ?? XXX
 		sampleperiod = 0.2; // seconds
-		connectionList = new ArrayList<IOConnection>();
-		simulators = new ArrayList<ASimulationControl>();
-		machineState = new SimulationState();
+		machineState = new SimulationState(machineName, simConfigName);
 	}
 
 	/**
-	 * adds an implementation of {@link ASimulationControl} to the simulation.
+	 * Set IO connection list
 	 * 
-	 * @param sim the simulation controller to be added 
+	 * @param list
 	 */
-	public void addSimulator(ASimulationControl sim) {
-		simulators.add(sim);
+	public void setIOConnectionList(List<IOConnection> list)
+	{
+		connectionList = list;
 	}
 	
 	/**
-	 * reads the connections from {@link ASimulationControl} or {@link APhysicalComponent} outputs 
-	 * to {@link APhysicalComponent} inputs from a file.
-	 * <p>
-	 * the file is required to adhere to the syntax 
-	 * target_component_name.input_name=source_simulation/component_name.output_name
+	 * Set list with object for input parameter generation.
 	 * 
-	 * @param file config file for connections.
+	 * @param list
 	 */
-	public void readInputOutputConnectionsFromFile(String file) {
-		logger.info("reading simulation connections setup from file: "+file);
-		this.connectionsFile=file;
-		try {
-			BufferedReader input = new BufferedReader(new FileReader(file));
-			String line = null;
-			
-			while((line=input.readLine())!=null) {
-				//tokenize & append
-				
-				StringTokenizer st = new StringTokenizer(line, "=");
-				
-				StringTokenizer stin = new StringTokenizer(st.nextToken(), ".");
-				String inObj=stin.nextToken();
-				String inVar=stin.nextToken();
-				StringTokenizer stout = new StringTokenizer(st.nextToken(), ".");
-				String outObj=stout.nextToken();
-				String outVar=stout.nextToken();
-				
-				IOContainer tempTar = Machine.getInstance().getComponent(inObj).getComponent().getInput(inVar);
-				IOContainer tempSource = null;
-				if(Machine.getInstance().getComponent(outObj)!=null)
-					tempSource = Machine.getInstance().getComponent(outObj).getComponent().getOutput(outVar);
-				else {
-					for(ASimulationControl sc : simulators) {
-						if(sc.getName().equals(outObj)) {
-							tempSource = sc.getOutput();
-						}
-					}
-				}
-				try {
-					connectionList.add(new IOConnection(tempSource, tempTar));
-				} catch (Exception e) {
-					logger.log(Level.WARNING, inObj+" "+outObj);
-					e.printStackTrace();
-					System.exit(-1);
-				}
-			}
-			input.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} 
-		
+	public void setInputparamObjectList(List<ASimulationControl> list)
+	{
+		simulators = list;
 	}
 	
 	/**
-	 * starts the simulation
+	 * Do the simulation
 	 */
 	public void runSimulation() {
 		
@@ -159,6 +108,7 @@ public class EModSimulationMain {
 		 * All model and simulation outputs must be initiated. */
 		// Log data at time 0.0 s
 		simoutput.logData(time);
+		// Simulation mail loop:
 		while (time < machineState.simEndTime()) {
 			
 			/* Increment actual simulation time */
@@ -186,6 +136,15 @@ public class EModSimulationMain {
 	}
 	
 	/**
+	 * sets all inputs
+	 */
+	private void setInputs() {
+		for(IOConnection ioc : connectionList) {
+			ioc.getTarget().setValue(ioc.getSoure().getValue());
+		}
+	}
+	
+	/**
 	 * initialize the Simulation
 	 */
 	private void initSimulation() {
@@ -197,14 +156,7 @@ public class EModSimulationMain {
 		}
 	}
 	
-	/**
-	 * sets all inputs
-	 */
-	private void setInputs() {
-		for(IOConnection ioc : connectionList) {
-			ioc.getTarget().setValue(ioc.getSoure().getValue());
-		}
-	}
+
 	
 	/**
 	 * reads a simulation config from a specified xml file
@@ -220,7 +172,7 @@ public class EModSimulationMain {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		result.readInputOutputConnectionsFromFile(result.connectionsFile);
+		//result.makeInputOutputLinkList();
 		return result;
 	}
 	
@@ -243,42 +195,4 @@ public class EModSimulationMain {
 			e.printStackTrace();
 		}
 	}
-	
-	/**
-	 * contains information on simulation input sources and targets
-	 * through references to IOContainers of MachineComponents and
-	 * SimulationControls.
-	 * 
-	 * @author dhampl
-	 *
-	 */
-	protected class IOConnection {
-
-		private IOContainer source;
-		private IOContainer target;
-		
-		/**
-		 * 
-		 * @param source
-		 * @param target 
-		 * @throws Exception thrown if units don't match
-		 */
-		public IOConnection(IOContainer source, IOContainer target) throws Exception {
-			this.source = source;
-			this.target = target;
-			if(source.getUnit()!=target.getUnit())
-				throw new Exception("units do not match "+source.getName()+
-						": "+source.getUnit()+" <-> "+target.getName()+": "+
-						target.getUnit());
-		}
-		
-		public IOContainer getSoure() {
-			return source;
-		}
-		
-		public IOContainer getTarget() {
-			return target;
-		}
-	}
-	
 }

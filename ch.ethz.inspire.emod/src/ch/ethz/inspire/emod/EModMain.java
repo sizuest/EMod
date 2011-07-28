@@ -15,24 +15,16 @@ package ch.ethz.inspire.emod;
 
 import java.io.*;
 import java.util.logging.FileHandler;
-import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
-import java.util.*;
+import java.util.logging.StreamHandler;
 
 import org.eclipse.swt.widgets.*;
 
 import ch.ethz.inspire.emod.gui.EModGUI;
-import ch.ethz.inspire.emod.model.ConstantComponent;
-import ch.ethz.inspire.emod.model.LinearMotor;
-import ch.ethz.inspire.emod.model.Machine;
-import ch.ethz.inspire.emod.model.MachineComponent;
-import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.simulation.EModSimulationMain;
-import ch.ethz.inspire.emod.simulation.GeometricKienzleSimulationControl;
-import ch.ethz.inspire.emod.simulation.RandomSimulationControl;
-import ch.ethz.inspire.emod.simulation.StaticSimulationControl;
+
 
 /**
  * energy model main class
@@ -41,26 +33,35 @@ import ch.ethz.inspire.emod.simulation.StaticSimulationControl;
  *
  */
 public class EModMain {
-	private static Logger logger = Logger.getLogger("");
+	private static Logger rootlogger = Logger.getLogger("");
+	private static Logger logger = Logger.getLogger(EModMain.class.getName());
 	
 	public static void main(String[] args) {
 		Display disp = new Display();
 		
-		//init logging
+		// init logging
 		LogManager logManager = LogManager.getLogManager();
 		logManager.reset();
 		try {
+			// Let the loggers write to file:
 			FileHandler fh = new FileHandler(PropertiesHandler.getProperty("app.logfile"), 100000, 1, true);
 			fh.setFormatter(new SimpleFormatter());
-			logger.addHandler(fh);
-			logger.setLevel(LogLevel.DEBUG);
-			//LoggingOutputStream los;
-			//los = new LoggingOutputStream(Logger.getLogger("stderr"), LogLevel.STDERR);
+			rootlogger.addHandler(fh);
+			// Set log level:
+			// The following loglevel are available (from lowest to highest):
+			// OFF, FINEST, FINER, FINE=DEBUG, CONFIG, INFO, WARNING, SEVERE, ALL
+			rootlogger.setLevel(LogLevel.CONFIG);
+			
+			// Add stdout to logger: All logging output is written to stdout too.
+			SimpleFormatter fmt = new SimpleFormatter();
+			StreamHandler sh = new StreamHandler(System.out, fmt);
+			rootlogger.addHandler(sh);
+
+			// Redirect stderr to logger (and then to stdout as stdout is a handler of logger)
+			//OutputStream los;
+			//los = new LoggingOutputStream(Logger.getLogger("stderr"), LogLevel.SEVERE);
 			//System.setErr(new PrintStream(los,true));
-			FileHandler fhsim = new FileHandler("simlogdata.txt",1000000,1,true);
-			fhsim.setFormatter(new SimpleFormatter());
-			Logger.getLogger(EModSimulationMain.class.getName()).addHandler(fhsim);
-			Logger.getLogger(EModSimulationMain.class.getName()).setLevel(Level.FINE);
+			
 		} catch (SecurityException e1) {
 			e1.printStackTrace();
 		} catch (IOException e1) {
@@ -71,8 +72,6 @@ public class EModMain {
 		new EModMain();
 		new EModGUI(disp);
 		
-		//test loading configs
-		//Machine.initMachineFromFile("testmach.xml");
 		//EModSimulationMain sim = EModSimulationMain.initSimulationFromFile("testsim.xml");
 		//sim.runSimulation();
 		
@@ -85,49 +84,42 @@ public class EModMain {
 	 */
 	public EModMain() {
 		
-		ArrayList<MachineComponent> mclist = new ArrayList<MachineComponent>();
+		logger.info("Start EModMain");
 		
-		/* Create machine components and add to mclist */
-		MachineComponent mc1 = new MachineComponent("spindel");
-		mc1.setComponent(new LinearMotor("siemens123"));
-		mclist.add(mc1);
-		
-		MachineComponent mc2 = new MachineComponent("x");
-		mc2.setComponent(new LinearMotor("siemens123"));
-		mclist.add(mc2);
-		
-		MachineComponent mc3 = new MachineComponent("y");
-		mc3.setComponent(new LinearMotor("siemens123"));
-		mclist.add(mc3);
-		
-		MachineComponent mc4 = new MachineComponent("Fan1");
-		mc4.setComponent(new ConstantComponent("80mmFan"));
-		mclist.add(mc4);
-		
-		Machine.getInstance().setComponentList(mclist);
-		
-		EModSimulationMain sim = new EModSimulationMain();
-		//sim.generateSimulation(20);
-		sim.addSimulator(new RandomSimulationControl("spindelRPM", Unit.RPM, "RandomSimulationControl_noname.txt"));
-		sim.addSimulator(new RandomSimulationControl("spindelTorque", Unit.NEWTONMETER, "RandomSimulationControl_noname.txt"));
-		sim.addSimulator(new RandomSimulationControl("xRPM", Unit.RPM, "RandomSimulationControl_noname.txt"));
-		sim.addSimulator(new RandomSimulationControl("xTorque", Unit.NEWTONMETER, "RandomSimulationControl_noname.txt"));
-		sim.addSimulator(new RandomSimulationControl("yRPM", Unit.RPM, "RandomSimulationControl_noname.txt"));
-		sim.addSimulator(new RandomSimulationControl("yTorque", Unit.NEWTONMETER, "RandomSimulationControl_noname.txt"));
-		sim.addSimulator(new StaticSimulationControl("test", Unit.NONE, "StaticSimulationControl_spindel1.txt"));
-		double[] n = {2000, 2200, 2300, 3000};
-		double[] f = {0.0001, 0.00008, 0.0009, 0.001};
-		double[] ap = {0.003, 0.004, 0.009, 0.0005};
-		double[] d = {0.006, 0.02, 0.004, 0.0001};
-		try {
-			sim.addSimulator(new GeometricKienzleSimulationControl("test2", "L:/wrkspace/ch.ethz.inspire.emod/test/ch/ethz/inspire/emod/simulation/GeometricKienzleSimulationControl_tester.txt", n, f, ap, d));
-		} catch (Exception e) {
+		// Get name of machine 
+		String machineName = PropertiesHandler.getProperty("app.MachineName");
+		if (machineName == null) {
+			Exception e = new Exception("No machine name defined in the application configuration (app.config)!");
 			e.printStackTrace();
+			System.exit(-1);
 		}
-		sim.addSimulator(new StaticSimulationControl("test3", Unit.NONE, "StaticSimulationControl_80mmFan.txt"));
-		sim.readInputOutputConnectionsFromFile("initSim.txt");
+		// Get name of the machine configuration
+		String machineConfigName = PropertiesHandler.getProperty("app.MachineConfigName");
+		if (machineConfigName == null) {
+			Exception e = new Exception("No machine config name defined in the application configuration (app.config)!");
+			e.printStackTrace();
+			System.exit(-1);
+		}
+		// Get name of the simulation configuration
+		String simulationConfigName = PropertiesHandler.getProperty("app.SimulationConfigName");
+		if (simulationConfigName == null) {
+			Exception e = new Exception("No simulation config name defined in the application configuration (app.config)!");
+			e.printStackTrace();
+			System.exit(-1);
+		}
+		
+		/* Read and check machine configuration */
+		MachineConfig machineConfig = new MachineConfig(machineName, machineConfigName);
+		
+		/* Setup the simulation */
+		EModSimulationMain sim = new EModSimulationMain(machineName, simulationConfigName);
+		sim.setIOConnectionList(machineConfig.getIOLinkList());
+		sim.setInputparamObjectList(machineConfig.getInputObjectList());
+
+		/* Run the simulation */
 		sim.runSimulation();
-		sim.saveSimulationToFile("testsim.xml");
-		Machine.saveMachineToFile("testmach.xml");
+		
+		//sim.saveSimulationToFile("testsim.xml");
+		//Machine.saveMachineToFile("testmach.xml");
 	}
 }

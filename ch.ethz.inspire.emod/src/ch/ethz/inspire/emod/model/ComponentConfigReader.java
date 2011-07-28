@@ -37,16 +37,17 @@ import ch.ethz.inspire.emod.PropertiesHandler;
  * File Format:<br />
  * The component configuration file must be in the following format:<br />
  * Example:<br />
+ * 
  *  &lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;<br />
  *  &lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;<br />
  *  &lt;properties&gt;<br />
- * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &lt;comment&gt;Some comment&lt;/comment&gt;<br />
- * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &lt;entry key="DoubleParamXY"&gt;123.0&lt;/entry&gt;<br />
- * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &lt;entry key="DoubleArrayParamABC"&gt;12, 13, 14;&lt;/entry&gt;<br />
- * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &lt;entry key="DoubleMatrixParam123"&gt;<br />
- * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.1, 2.3, 1.2;<br />
- * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7.2, 5.3, 9.8;<br />
- * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &lt;/entry&gt;<br />
+ *    &lt;comment&gt;Some comment&lt;/comment&gt;<br />
+ *    &lt;entry key="DoubleParamXY"&gt;123.0&lt;/entry&gt;<br />
+ *    &lt;entry key="DoubleArrayParamABC"&gt;12, 13, 14;&lt;/entry&gt;<br />
+ *    &lt;entry key="DoubleMatrixParam123"&gt;<br />
+ *       1.1, 2.3, 1.2;<br />
+ *       7.2, 5.3, 9.8;<br />
+ *    &lt;/entry&gt;<br />
  *  &lt;/properties&gt;
  * 
  * @author andreas

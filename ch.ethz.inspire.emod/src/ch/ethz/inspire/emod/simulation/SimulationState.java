@@ -16,10 +16,13 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
+import java.util.logging.Logger;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import ch.ethz.inspire.emod.PropertiesHandler;
 
 /**
  * Handles the machine state of a simulation.
@@ -40,7 +43,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SimulationState {
-//public class SimulationState <MachineState> {
+	
+	private static Logger logger = Logger.getLogger(SimulationState.class.getName());
 	
 	/* Variables */
 	private double endtime = 0.0;      /* End of simulation in [s]*/
@@ -55,9 +59,19 @@ public class SimulationState {
 	 * variables (endtime, actualstate, nextStateChgTime).
 	 * 
 	 */
-	public SimulationState() {
-		// TODO: Get filename from simulation config file.
-		readSimulationStatesFromFile("initSimStates.txt");
+	private static final String SIMULATIONCONFIG = "SimulationConfig";
+	private static final String MACHINESTATEFNAME = "MachineStateSequence.txt";
+	public SimulationState(String machineName, String simConfigName) {
+		
+		/* Generate file name with path:
+		 * e.g. Machines/NDM200/MachineConfig/TestConfig1/IOLinking.txt */
+		String prefix = PropertiesHandler.getProperty("app.MachineDataPathPrefix");
+		String file = prefix + "/" + machineName + "/"+ SIMULATIONCONFIG +"/" + 
+		              simConfigName + "/" + MACHINESTATEFNAME;
+		
+		logger.info("Read machine state sequence from file: " + file);
+		
+		readSimulationStatesFromFile(file);
 	}
 	
 	/**
@@ -118,7 +132,7 @@ public class SimulationState {
 				
 				// A comment is identified by a leading '#'.
 				// Remove comments (regex can be use only by replaceAll())
-				String l = line.replaceAll("#.*", "").trim();
+				String l = line.replaceAll("#.*", "").replace("\t", " ").trim();
 				
 				/* (time,state)-pairs are separated by ';'.*/
 				StringTokenizer st = new StringTokenizer(l, ";");
