@@ -12,20 +12,9 @@
  ***********************************/
 package ch.ethz.inspire.emod.simulation;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.Writer;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSeeAlso;
 
 import ch.ethz.inspire.emod.IOConnection;
 import ch.ethz.inspire.emod.model.IOContainer;
@@ -38,23 +27,20 @@ import ch.ethz.inspire.emod.model.MachineComponent;
  * @author dhampl
  *
  */
-@XmlRootElement(namespace = "ch.ethz.inspire.emod.simulation")
-@XmlSeeAlso({ASimulationControl.class, RandomSimulationControl.class, StaticSimulationControl.class, MachineState.class, SimulationState.class, GeometricKienzleSimulationControl.class})
 public class EModSimulationMain {
 	
 	private static Logger logger = Logger.getLogger(EModSimulationMain.class.getName());
-
+	
 	private double sampleperiod;
-	@XmlElement
 	private SimulationState machineState;
 	private List<IOConnection> connectionList;
-	@XmlElementWrapper(name = "simulators")
-	@XmlElement(name = "simControler")
+	
 	private List<ASimulationControl> simulators;
 	
 	public EModSimulationMain(String machineName, String simConfigName) {
 		super(); // ?? XXX
 		sampleperiod = 0.2; // seconds
+		/* Read simulation states from file */
 		machineState = new SimulationState(machineName, simConfigName);
 	}
 
@@ -153,46 +139,6 @@ public class EModSimulationMain {
 		for(MachineComponent mc : Machine.getInstance().getMachineComponentList()) {
 			for(IOContainer ioc : mc.getComponent().getInputs())
 				ioc.setValue(rnd.nextDouble());
-		}
-	}
-	
-
-	
-	/**
-	 * reads a simulation config from a specified xml file
-	 * 
-	 * @param file
-	 */
-	public static EModSimulationMain initSimulationFromFile(String file) {
-		EModSimulationMain result = null;
-		try {
-			JAXBContext context = JAXBContext.newInstance(EModSimulationMain.class);
-			Unmarshaller um = context.createUnmarshaller();
-			result = (EModSimulationMain) um.unmarshal(new FileReader(file));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		//result.makeInputOutputLinkList();
-		return result;
-	}
-	
-	/**
-	 * saves the simulation config to a xml file.
-	 * 
-	 * @param file
-	 */
-	public void saveSimulationToFile(String file) {
-		
-		try {
-			JAXBContext context = JAXBContext.newInstance(EModSimulationMain.class);
-			Marshaller m = context.createMarshaller();
-			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-				
-			Writer w = new FileWriter(file);
-			m.marshal(this, w);
-			w.close();
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 }

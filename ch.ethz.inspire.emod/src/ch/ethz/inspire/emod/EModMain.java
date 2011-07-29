@@ -72,9 +72,6 @@ public class EModMain {
 		new EModMain();
 		new EModGUI(disp);
 		
-		//EModSimulationMain sim = EModSimulationMain.initSimulationFromFile("testsim.xml");
-		//sim.runSimulation();
-		
 		//shut down
 		disp.dispose();
 	}
@@ -119,7 +116,7 @@ public class EModMain {
 		/* Run the simulation */
 		sim.runSimulation();
 		
-		//sim.saveSimulationToFile("testsim.xml");
-		//Machine.saveMachineToFile("testmach.xml");
+		//Machine.getInstance().saveMachineToFile("test_machinecomponents.xml");
+		//machineConfig.saveInputSimulatorsToFile("test_inputsimulators.xml");
 	}
 }

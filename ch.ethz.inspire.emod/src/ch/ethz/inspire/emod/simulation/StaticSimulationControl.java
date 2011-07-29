@@ -54,9 +54,23 @@ public class StaticSimulationControl extends ASimulationControl {
 	 * JAXB constructor
 	 */
 	public StaticSimulationControl() {
-		
+		super();
 	}
-
+	public void afterUnmarshal(Unmarshaller u, Object parent) {
+		super.afterUnmarshal(u, parent);
+		simulationStep=0;
+	}
+	/**
+	 * Path can not be given, when creating the objects by JABX.
+	 * @param path Directory holding the configfiles.
+	 */
+	@Override
+	public void afterJABX(String path)
+	{
+		super.afterJABX(path);
+		readSamplesFromFile(path+configFile);
+	}
+	
 	/* (non-Javadoc)
 	 * @see ch.ethz.inspire.emod.simulation.ASimulationControl#update()
 	 */
@@ -112,10 +126,5 @@ public class StaticSimulationControl extends ASimulationControl {
 	public void setState(MachineState state) {
 		super.setState(state);
 		simulationStep=0;
-	}
-	
-	public void afterUnmarshal(Unmarshaller u, Object parent) {
-		readSamplesFromFile(configFile);
-		super.readConfig(configFile);
 	}
 }

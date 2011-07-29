@@ -14,6 +14,8 @@ package ch.ethz.inspire.emod.simulation;
 
 import java.util.Random;
 
+import javax.xml.bind.Unmarshaller;
+
 import ch.ethz.inspire.emod.model.units.Unit;
 
 /**
@@ -27,19 +29,31 @@ public class RandomSimulationControl extends ASimulationControl {
 	/**
 	 * @param name
 	 * @param unit
+	 * @param configFile
 	 */
-	public RandomSimulationControl(String name, Unit unit) {
-		super(name, unit);
-	}
-	
 	public RandomSimulationControl(String name, Unit unit, String configFile) {
 		super(name, unit, configFile);
 	}
 	
+	/**
+	 * Empty constructor for JABX
+	 */
 	public RandomSimulationControl() {
-		
+		super();
 	}
-
+	public void afterUnmarshal(Unmarshaller u, Object parent) {
+		super.afterUnmarshal(u, parent);
+	}
+	/**
+	 * Path can not be given, when creating the objects by JABX.
+	 * @param path Directory holding the configfiles.
+	 */
+	@Override
+	public void afterJABX(String path)
+	{
+		super.afterJABX(path);
+	}
+	
 	/* (non-Javadoc)
 	 * @see ch.ethz.inspire.emod.simulation.SimulationControl#update()
 	 */

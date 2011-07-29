@@ -37,32 +37,17 @@ public abstract class ASimulationControl {
 
 	private static Logger logger = Logger.getLogger(ASimulationControl.class.getName());
 	
-	@XmlElement
-	protected IOContainer simulationOutput;
+	/* Attributes for JABX*/
 	@XmlElement
 	protected String name;
-	protected ComponentState state=ComponentState.ON;
-	protected Map<MachineState, ComponentState> stateMap = null;
+	@XmlElement
+	protected Unit unit;
 	@XmlElement
 	protected String configFile;
 	
-	/**
-	 * Constructor with name and unit
-	 * 
-	 * @param name
-	 * @param unit
-	 */
-	public ASimulationControl(String name, Unit unit) {
-		simulationOutput = new IOContainer(name, unit, 0);
-		this.name = name;
-	}
-	
-	/**
-	 * empty constructor for JAXB
-	 */
-	public ASimulationControl() {
-		
-	}
+	protected IOContainer simulationOutput;
+	protected ComponentState state=ComponentState.ON;
+	protected Map<MachineState, ComponentState> stateMap = null;
 	
 	/**
 	 * Constructor with name, unit and config file
@@ -72,11 +57,31 @@ public abstract class ASimulationControl {
 	 * @param configFile maps machine states to simulator states.
 	 */
 	public ASimulationControl(String name, Unit unit, String configFile) {
-		simulationOutput = new IOContainer(name, unit, 0);
 		this.name = name;
-		//stateMap = new EnumMap<MachineState, ComponentState>(MachineState.class);
-		readConfig(configFile);
+		this.unit = unit;
 		this.configFile=configFile;
+		
+		simulationOutput = new IOContainer(name, unit, 0);
+		readConfig(configFile);
+	}
+	
+	/**
+	 * Constructor for JAXB
+	 *   - Constructor can not have arguments.
+	 */
+	public ASimulationControl() {
+		/* name, unit and configFile are set by JABX */
+	}
+	public void afterUnmarshal(Unmarshaller u, Object parent) {
+		simulationOutput = new IOContainer(name, unit, 0);
+	}
+	/**
+	 * Path can not be given, when creating the objects by JABX.
+	 * @param path Directory holding the configfiles.
+	 */
+	public void afterJABX(String path)
+	{
+		readConfig(path+configFile);
 	}
 	
 	/**
@@ -100,11 +105,8 @@ public abstract class ASimulationControl {
 				}
 			} catch(IOException e) {
 				e.printStackTrace();
+				System.exit(-1);
 			}
-		}
-		else {
-			//for(MachineState ms : MachineState.values())
-				//stateMap.put(ms, ComponentState.valueOf(ms.name()));
 		}
 	}
 	
@@ -132,9 +134,5 @@ public abstract class ASimulationControl {
 	
 	public IOContainer getOutput() {
 		return simulationOutput;
-	}
-	
-	public void afterUnmarshal(Unmarshaller u, Object parent) {
-		readConfig(configFile);
 	}
 }

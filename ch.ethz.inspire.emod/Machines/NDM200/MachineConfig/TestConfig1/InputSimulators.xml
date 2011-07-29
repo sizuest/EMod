@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:inputSimulators xmlns:ns2="ch.ethz.inspire.emod.simulation">
+    <simulators>
+        <simController xsi:type="randomSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>spindelRPM</name>
+            <unit>RPM</unit>
+            <configFile>RandomSimulationControl_noname.txt</configFile>
+        </simController>
+        <simController xsi:type="randomSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>spindelTorque</name>
+            <unit>NEWTONMETER</unit>
+            <configFile>RandomSimulationControl_noname.txt</configFile>
+        </simController>
+        <simController xsi:type="randomSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>xRPM</name>
+            <unit>RPM</unit>
+            <configFile>RandomSimulationControl_noname.txt</configFile>
+        </simController>
+        <simController xsi:type="randomSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>xTorque</name>
+            <unit>NEWTONMETER</unit>
+            <configFile>RandomSimulationControl_noname.txt</configFile>
+        </simController>
+        <simController xsi:type="randomSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>yRPM</name>
+            <unit>RPM</unit>
+            <configFile>RandomSimulationControl_noname.txt</configFile>
+        </simController>
+        <simController xsi:type="randomSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>yTorque</name>
+            <unit>NEWTONMETER</unit>
+            <configFile>RandomSimulationControl_noname.txt</configFile>
+        </simController>
+        <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>test</name>
+            <unit>NONE</unit>
+            <configFile>StaticSimulationControl_spindel1.txt</configFile>
+        </simController>
+        <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>test3</name>
+            <unit>NONE</unit>
+            <configFile>StaticSimulationControl_80mmFan.txt</configFile>
+        </simController>
+    </simulators>
+</ns2:inputSimulators>

@@ -27,10 +27,8 @@ public class MachineComponent {
 	private APhysicalComponent component;
 	
 	/**
-	 * @param id
+	 * 
 	 * @param name
-	 * @param classType
-	 * @param type
 	 */
 	public MachineComponent(String name) {
 		super();

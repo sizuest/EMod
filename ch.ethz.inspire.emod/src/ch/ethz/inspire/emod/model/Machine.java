@@ -43,6 +43,13 @@ public class Machine {
 	private ArrayList<MachineComponent> componentList;
 	private static Machine machineModel=null;
 	
+	/**
+	 * Private constructor for singleton implementation.
+	 */
+	private Machine()
+	{
+	}
+	
 	public void setComponentList(ArrayList<MachineComponent> componentList) {
 		this.componentList = componentList;
 	}
@@ -85,14 +92,13 @@ public class Machine {
 	 * @param file
 	 */
 	public static void initMachineFromFile(String file) {
-		if(machineModel==null)
-			machineModel=new Machine();
 		try {
 			JAXBContext context = JAXBContext.newInstance(Machine.class);
 			Unmarshaller um = context.createUnmarshaller();
 			machineModel = (Machine) um.unmarshal(new FileReader(file));
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 	

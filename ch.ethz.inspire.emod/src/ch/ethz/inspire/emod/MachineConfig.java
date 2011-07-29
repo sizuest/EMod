@@ -15,23 +15,25 @@ package ch.ethz.inspire.emod;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+
 import ch.ethz.inspire.emod.model.APhysicalComponent;
-import ch.ethz.inspire.emod.model.ConstantComponent;
 import ch.ethz.inspire.emod.model.IOContainer;
-import ch.ethz.inspire.emod.model.LinearMotor;
 import ch.ethz.inspire.emod.model.Machine;
 import ch.ethz.inspire.emod.model.MachineComponent;
-import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.simulation.ASimulationControl;
-import ch.ethz.inspire.emod.simulation.RandomSimulationControl;
-import ch.ethz.inspire.emod.simulation.StaticSimulationControl;
-import ch.ethz.inspire.emod.IOConnection;
 import ch.ethz.inspire.emod.simulation.GeometricKienzleSimulationControl;
+import ch.ethz.inspire.emod.simulation.InputSimulators;
+import ch.ethz.inspire.emod.IOConnection;
 
 /**
  * 
@@ -42,77 +44,64 @@ public class MachineConfig {
 
 	private static Logger logger = Logger.getLogger(MachineConfig.class.getName());
 	
-	/* List with all machine components */
-	private ArrayList<MachineComponent> mclist;
-	
 	/* List with component output->input connection */
 	private List<IOConnection> connectionList;
 	
 	/* List with simulation objects */
 	private List<ASimulationControl> simulators;
+	private InputSimulators inputsimulators;
+	
+	/* Path definitions */
+	private static final String MACHINECONFIGDIR = "MachineConfig";
+	private static final String COMPONENTFILENAME = "ComponentList.xml";
+	private static final String LINKFILENAME = "IOLinking.txt";
+	private static final String INPUTSIMFILENAME = "InputSimulators.xml";
 	
 	/**
+	 * Reads the machine config of the machine.
 	 * 
-	 * @param machineName
-	 * @param machineConfig
+	 * @param machineName   Name of machine
+	 * @param machineConfig Name of machine config
 	 */
 	public MachineConfig(String machineName, String machineConfig)
 	{
-		/* ****************************************************************** */
-		/* Make list with all machine components */
-		/* ****************************************************************** */
-		ArrayList<MachineComponent> mclist = new ArrayList<MachineComponent>();
 		
-		/* Create machine components and add to mclist */
-		MachineComponent mc1 = new MachineComponent("spindel");
-		mc1.setComponent(new LinearMotor("siemens123"));
-		mclist.add(mc1);
-		
-		MachineComponent mc2 = new MachineComponent("x");
-		mc2.setComponent(new LinearMotor("siemens123"));
-		mclist.add(mc2);
-		
-		MachineComponent mc3 = new MachineComponent("y");
-		mc3.setComponent(new LinearMotor("siemens123"));
-		mclist.add(mc3);
-		
-		MachineComponent mc4 = new MachineComponent("Fan1");
-		mc4.setComponent(new ConstantComponent("80mmFan"));
-		mclist.add(mc4);
-		
-		//test loading configs
-		//Machine.initMachineFromFile("testmach.xml");
-		
-		/* Set machine instance */
-		Machine.getInstance().setComponentList(mclist);
+		/* Generate path to machine config:
+		 * e.g. Machines/NDM200/MachineConfig/TestConfig1/ */
+		String prefix = PropertiesHandler.getProperty("app.MachineDataPathPrefix");
+		String path = prefix + "/" + machineName + "/"+ MACHINECONFIGDIR +"/" + 
+		              machineConfig + "/";
 		
 		/* ****************************************************************** */
-		/* Make list with all simulation objects */
+		/* Make list containing all machine components */
 		/* ****************************************************************** */
-		simulators = new ArrayList<ASimulationControl>();
-		//sim.generateSimulation(20);
-		simulators.add(new RandomSimulationControl("spindelRPM", Unit.RPM, "RandomSimulationControl_noname.txt"));
-		simulators.add(new RandomSimulationControl("spindelTorque", Unit.NEWTONMETER, "RandomSimulationControl_noname.txt"));
-		simulators.add(new RandomSimulationControl("xRPM", Unit.RPM, "RandomSimulationControl_noname.txt"));
-		simulators.add(new RandomSimulationControl("xTorque", Unit.NEWTONMETER, "RandomSimulationControl_noname.txt"));
-		simulators.add(new RandomSimulationControl("yRPM", Unit.RPM, "RandomSimulationControl_noname.txt"));
-		simulators.add(new RandomSimulationControl("yTorque", Unit.NEWTONMETER, "RandomSimulationControl_noname.txt"));
-		simulators.add(new StaticSimulationControl("test", Unit.NONE, "StaticSimulationControl_spindel1.txt"));
-		double[] n = {2000, 2200, 2300, 3000};
-		double[] f = {0.0001, 0.00008, 0.0009, 0.001};
-		double[] ap = {0.003, 0.004, 0.009, 0.0005};
-		double[] d = {0.006, 0.02, 0.004, 0.0001};
-		try {
-			simulators.add(new GeometricKienzleSimulationControl("test2", "L:/wrkspace/ch.ethz.inspire.emod/test/ch/ethz/inspire/emod/simulation/GeometricKienzleSimulationControl_tester.txt", n, f, ap, d));
-		} catch (Exception e) {
-			e.printStackTrace();
+		logger.info("Load machine components from file: " + path + COMPONENTFILENAME);
+		Machine.initMachineFromFile(path + COMPONENTFILENAME);
+		
+		/* ****************************************************************** */
+		/* Make list with all simulator objects */
+		/* ****************************************************************** */
+		logger.info("Load input simulators from file: " + path + INPUTSIMFILENAME);
+		inputsimulators = initInputSimulatorsFromFile(path + INPUTSIMFILENAME);
+		simulators = inputsimulators.getSimulatorList();
+		for (ASimulationControl sim : simulators) {
+			sim.afterJABX(path);
 		}
-		simulators.add(new StaticSimulationControl("test3", Unit.NONE, "StaticSimulationControl_80mmFan.txt"));
+		
+		//double[] n = {2000, 2200, 2300, 3000};
+		//double[] f = {0.0001, 0.00008, 0.0009, 0.001};
+		//double[] ap = {0.003, 0.004, 0.009, 0.0005};
+		//double[] d = {0.006, 0.02, 0.004, 0.0001};
+		//try {
+		//	simulators.add(new GeometricKienzleSimulationControl("test2", "L:/wrkspace/ch.ethz.inspire.emod/test/ch/ethz/inspire/emod/simulation/GeometricKienzleSimulationControl_tester.txt", n, f, ap, d));
+		//} catch (Exception e) {
+		//	e.printStackTrace();
+		//}
 		
 		/* ****************************************************************** */
 		/*   Link outputs to inputs
 		/* ****************************************************************** */
-		makeInputOutputLinkList(machineName, machineConfig);
+		makeInputOutputLinkList(path);
 		
 		/* TODO Check link list */
 	}
@@ -128,20 +117,16 @@ public class MachineConfig {
 	 * target_component_name.input_name = source_simulation
 	 * Comments have a leading '#'
 	 * Spaces and tabs are allowed.
+	 * <p>
+	 * The linklist is stored in connectionList
 	 * 
-	 * @param machineName       Name of the machine
-	 * @param machineConfigName Name of the machine configuration
+	 * @param path  Path to the linking file
 	 * 
 	 */
-	private static final String MACHINECONFIG = "MachineConfig";
-	private static final String LINKFILENAME = "IOLinking.txt";
-	public void makeInputOutputLinkList(String machineName, String machineConfigName) {
+	private void makeInputOutputLinkList(String path) {
 		
-		/* Generate file name with path:
-		 * e.g. Machines/NDM200/MachineConfig/TestConfig1/IOLinking.txt */
-		String prefix = PropertiesHandler.getProperty("app.MachineDataPathPrefix");
-		String file = prefix + "/" + machineName + "/"+ MACHINECONFIG +"/" + 
-		              machineConfigName + "/" + LINKFILENAME;
+		/* Path and filename with linking definitions. */
+		String file = path + LINKFILENAME;
 		
 		logger.info("Make input-output component link list from file: " + file);
 		
@@ -228,7 +213,7 @@ public class MachineConfig {
 							}
 						}
 						if (tempSource == null) {	
-							Exception ex = new Exception("Undefined simulation object '" + outstruct+ "' " 
+							Exception ex = new Exception("Undefined simulation object '" + outstruct 
 										+ "' in file " + file + " on line " + linenr);
 							ex.printStackTrace();
 							System.exit(-1);
@@ -254,11 +239,42 @@ public class MachineConfig {
 	}
 	
 	/**
-	 * @return Get machine component list
+	 * reads a simulation config from a specified xml file
+	 * 
+	 * @param file
 	 */
-	public ArrayList<MachineComponent> getMachineComponentList()
-	{
-		return mclist;
+	public static InputSimulators initInputSimulatorsFromFile(String file) {
+		InputSimulators is = null;
+		try {
+			JAXBContext context = JAXBContext.newInstance(InputSimulators.class);
+			Unmarshaller um = context.createUnmarshaller();
+			is = (InputSimulators) um.unmarshal(new FileReader(file));
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+		return is;
+	}
+	
+	
+	/**
+	 * saves the input simulators to a xml file.
+	 * 
+	 * @param file
+	 */
+	public void saveInputSimulatorsToFile(String file) {
+		
+		try {
+			JAXBContext context = JAXBContext.newInstance(InputSimulators.class);
+			Marshaller m = context.createMarshaller();
+			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+				
+			Writer w = new FileWriter(file);
+			m.marshal(inputsimulators, w);
+			w.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
