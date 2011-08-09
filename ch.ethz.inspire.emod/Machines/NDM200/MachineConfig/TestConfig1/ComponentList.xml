@@ -13,7 +13,7 @@
         	<!-- Comment on spindel -->
         	<name>spindel</name>
             <component xsi:type="linearMotor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>siemens123</type>
+                <type>Siemens_1FE1115-6WT11</type>
             </component>
         </machineComponent>
         

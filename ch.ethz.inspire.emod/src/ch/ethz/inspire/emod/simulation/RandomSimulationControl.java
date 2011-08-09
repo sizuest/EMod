@@ -61,7 +61,7 @@ public class RandomSimulationControl extends ASimulationControl {
 	public void update() {
 		if(state!=ComponentState.OFF){
 			Random rnd = new Random();
-			simulationOutput.setValue(rnd.nextDouble()*100);
+			simulationOutput.setValue(rnd.nextDouble()*500);
 		} else {
 			simulationOutput.setValue(0);
 		}

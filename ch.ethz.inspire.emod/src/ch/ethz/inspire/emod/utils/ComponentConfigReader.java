@@ -147,10 +147,10 @@ public class ComponentConfigReader {
 	 * a double array.
 	 * <p>
 	 * Format:<br />
-	 * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  The double values must be separated by ',' or ' '. After the last element<br /> 
-	 * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  of the array, a ';' can terminate the array.<br />
+	 *  The double values must be separated by ',' or ' '. After the last element<br /> 
+	 *  of the array, a ';' can terminate the array.<br />
 	 * Example:<br />
-	 * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &lt;entry key="PARAMNAME"&gt;1.1, 2.3, 1.2;&lt;/entry&gt;
+	 *   &lt;entry key="PARAMNAME"&gt;1.1, 2.3, 1.2;&lt;/entry&gt;
 	 * 
 	 * @param paramname Name of the property.
 	 * @return the value of the property: a double array.
@@ -185,6 +185,7 @@ public class ComponentConfigReader {
 		}
 		return retarray;
 	}
+	
 	
 	/**
 	 * Get property by name. The value of the property must be

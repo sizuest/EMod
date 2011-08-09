@@ -8,28 +8,25 @@
       Type  : siemens123
     Parameters
     ----------
-      TorqueNominal [Nm]
-        Nominal torque of motor.
+      PowerNominal [W]
+        Nominal mechanical power of motor.
       RotspeedNominal [rpm]
         Nominal rotational speed of motor.
-      NormedTorqueSamples [1]
-        Normed torque samples used for linear interpolation of the efficiency.
-        The torque samples are normed by the nominal torque of the motor (TorqueNominal).
-        The NormedTorqueSamples must be sorted, smallest value first.
-      NormedRotspeedSamples [1]
-        Normed rotational speed samples used for linear interpolation of the efficiency.
-        The rotational speed samples are normed by the nominal rotational speed of the motor (RotspeedNominal).
-        The NormedRotspeedSamples must be sorted, smallest value first.
+      PowerSamples [W]
+        Power samples used for linear interpolation of the efficiency.
+        The PowerSamples must be sorted, smallest value first.
+      RotspeedSamples [rpm]
+        Rotational speed samples used for linear interpolation of the efficiency.
+        The RotspeedSamples must be sorted, smallest value first.
       EfficiencyMatrix [1]
-        The matrix value at the position t,r (EfficiencyMatrix[t,r])
+        The matrix value at the position p,r (EfficiencyMatrix[p,r])
         corresponds to the motor efficiency when the motor is running
-        at torque NormedTorqueSamples[t]*TorqueNominal and at rotational speed
-        NormedRotspeedSamples[r]*RotspeedNominal.
+        at power PowerSamples[p] and at rotational speed RotspeedSamples[r].
   </comment>
-  <entry key="TorqueNominal">10.0</entry>
+  <entry key="PowerNominal">10.0</entry>
   <entry key="RotspeedNominal">1000</entry>
-  <entry key="NormedTorqueSamples">0.6, 0.65, 1.2;</entry>
-  <entry key="NormedRotspeedSamples">0.8, 1.2;</entry>
+  <entry key="PowerSamples">0.6, 0.65, 1.2;</entry>
+  <entry key="RotspeedSamples">0.8, 1.2;</entry>
   <entry key="EfficiencyMatrix">
    0.5,  0.6;
    0.7,  0.8;

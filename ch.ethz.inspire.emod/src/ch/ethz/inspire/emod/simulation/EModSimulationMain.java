@@ -80,8 +80,6 @@ public class EModSimulationMain {
 		logger.info("starting simulation");
 		time = 0.0;
 		
-		initSimulation();
-		
 		/* Init simulation control objects. */
 		MachineState mstate = machineState.getState(time);
 		for(ASimulationControl sc:simulators) {
@@ -127,18 +125,6 @@ public class EModSimulationMain {
 	private void setInputs() {
 		for(IOConnection ioc : connectionList) {
 			ioc.getTarget().setValue(ioc.getSoure().getValue());
-		}
-	}
-	
-	/**
-	 * initialize the Simulation
-	 */
-	private void initSimulation() {
-		logger.info("init simulation");
-		Random rnd = new Random();
-		for(MachineComponent mc : Machine.getInstance().getMachineComponentList()) {
-			for(IOContainer ioc : mc.getComponent().getInputs())
-				ioc.setValue(rnd.nextDouble());
 		}
 	}
 }

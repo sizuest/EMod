@@ -38,7 +38,7 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  * a change of the input parameters.
  * 
  * Inputlist:
- *   1: RotSpeed    : [rpm] : Actual rotational speed
+ *   1: RotSpeed    : [rps] : Actual rotational speed
  *   2: Torque      : [Nm]  : Actual torque
  * Outputlist:
  *   1: Pmech       : [W]   : Calculated mechanical power
@@ -46,11 +46,9 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  *   3: Efficiency  : [1]   : Calculated efficiency
  *   
  * Config parameters:
- *   TorqueNominal        : [Nm]  : Nominal torque of motor
- *   RotspeedNominal      : [rpm] : Nominal rotational speed of motor
- *   NormedTorqueSamples  : [1]   : Normed torque samples used for linear 
+ *   PowerSamples         : [W]   : Power samples used for linear 
  *                                  interpolation of the efficiency
- *   NormedRotspeedSamples: [1]   : Normed rotational speed samples used for linear 
+ *   RotspeedSamples      : [rpm] : Rotational speed samples used for linear 
  *                                  interpolation of the efficiency
  *   EfficiencyMatrix     : [1]   : Efficiency matrix. 
  *                                  The matrix value at the position t,r (EfficiencyMatrix[t,r])
@@ -80,9 +78,7 @@ public class LinearMotor extends APhysicalComponent{
 	double lasttorque;
 	
 	// Parameters used by the model. 
-	private double torquenominal; // Nominal torque [Nm]
-	private double rotspeednominal; // Nominal rotational speed [rpm]
-	private double[] torqueSamples; // Samples of normed torque [1]
+	private double[] powerSamples; // Samples of power [W]
 	private double[] rotspeedSamples; // Samples of normed rotational speed [1]
 	private double[][] efficiencyMatrix; // Efficiency sample matrix [1]
 	
@@ -147,10 +143,8 @@ public class LinearMotor extends APhysicalComponent{
 		
 		/* Read the config parameter: */
 		try {
-			torquenominal = params.getDoubleParam("TorqueNominal");
-			rotspeednominal = params.getDoubleParam("RotspeedNominal");
-			torqueSamples = params.getDoubleArrayParam("NormedTorqueSamples");
-			rotspeedSamples = params.getDoubleArrayParam("NormedRotspeedSamples");
+			powerSamples = params.getDoubleArrayParam("PowerSamples");
+			rotspeedSamples = params.getDoubleArrayParam("RotspeedSamples");
 			efficiencyMatrix = params.getDoubleMatrixParam("EfficiencyMatrix");
 		}
 		catch (Exception e) {
@@ -158,7 +152,7 @@ public class LinearMotor extends APhysicalComponent{
 			System.exit(-1);
 		}
 		params.Close(); /* Model configuration file not needed anymore. */
-				
+		
 		// Validate the parameters:
 		try {
 		    checkConfigParams();
@@ -178,12 +172,12 @@ public class LinearMotor extends APhysicalComponent{
 	{		
 		// Check model parameters:
 		// Check dimensions:
-		if (torqueSamples.length != efficiencyMatrix.length) {
+		if (powerSamples.length != efficiencyMatrix.length) {
 			throw new Exception("LinearMotor, type:" +type+ 
 					": Dimension missmatch: Vector 'TorqueSamples' must have same dimension as " +
-					"'EfficiencyMatrix' (" + torqueSamples.length + "!=" + efficiencyMatrix.length + ")!");
+					"'EfficiencyMatrix' (" + powerSamples.length + "!=" + efficiencyMatrix.length + ")!");
 		}
-		for (int i=0; i<torqueSamples.length; i++) {
+		for (int i=0; i<powerSamples.length; i++) {
 			if (rotspeedSamples.length != efficiencyMatrix[i].length) {
 				throw new Exception("LinearMotor, type:" +type+ 
 						": Dimension missmatch: Vector 'RotspeedSamples' must have same dimension as " +
@@ -191,8 +185,8 @@ public class LinearMotor extends APhysicalComponent{
 			}
 		}
 		// Check if sorted:
-		for (int i=1; i<torqueSamples.length; i++) {
-			if (torqueSamples[i] <= torqueSamples[i-1]) {
+		for (int i=1; i<powerSamples.length; i++) {
+			if (powerSamples[i] <= powerSamples[i-1]) {
 				throw new Exception("LinearMotor, type:" +type+ 
 						": Sample vector 'TorqueSamples' must be sorted!");
 			}
@@ -204,7 +198,7 @@ public class LinearMotor extends APhysicalComponent{
 			}
 		}
 		// Check efficiency values:
-		for	(int i=0; i<torqueSamples.length; i++) {
+		for	(int i=0; i<powerSamples.length; i++) {
 			for (int j=0; j<rotspeedSamples.length; j++) {
 				if ( (efficiencyMatrix[i][j] <= 0) || 
 					 (efficiencyMatrix[i][j] > 1.0) ) {
@@ -227,18 +221,20 @@ public class LinearMotor extends APhysicalComponent{
 			// Input values did not change, nothing to do.
 			return;
 		}
+		lasttorque = torque.getValue();
+		lastrotspeed = rotspeed.getValue();
 		
 		/* The mechanical power is equal to the product of rotational speed
 		 * and torque. */
 		// pmech = rotspeed [rot/min] / 60 [s/min] * torque [Nm] * 2 * pi 
 		pmech.setValue(rotspeed.getValue() * torque.getValue() * Math.PI/ 30.0);
-		
+
 		/*
 		 * Get efficiency from the configured sample values by bilinear interpolation.
 		 */
-		double eff = Algo.bilinearInterpolation(torque.getValue() / torquenominal, 
-				                                rotspeed.getValue() / rotspeednominal,
-				                                torqueSamples,
+		double eff = Algo.bilinearInterpolation(pmech.getValue(), 
+				                                rotspeed.getValue(),
+				                                powerSamples,
 				                                rotspeedSamples,
 				                                efficiencyMatrix);
 		

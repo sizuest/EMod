@@ -17,5 +17,9 @@ package ch.ethz.inspire.emod.model.units;
  *
  */
 public enum Unit {
-	WATT, KELVIN, NEWTONMETER, RPM, NONE;
+	WATT, 
+	KELVIN, 
+	NEWTONMETER, 
+	RPM,          // rotations per minute
+	NONE;
 }
