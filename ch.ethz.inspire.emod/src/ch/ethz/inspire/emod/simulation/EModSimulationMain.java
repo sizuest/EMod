@@ -16,9 +16,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
 
-import ch.ethz.inspire.emod.IOConnection;
-import ch.ethz.inspire.emod.model.IOContainer;
-import ch.ethz.inspire.emod.model.Machine;
+import ch.ethz.inspire.emod.utils.IOConnection;
+import ch.ethz.inspire.emod.utils.IOContainer;
+import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.model.MachineComponent;
 
 /**

@@ -27,16 +27,13 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import ch.ethz.inspire.emod.model.APhysicalComponent;
-import ch.ethz.inspire.emod.model.IOContainer;
-import ch.ethz.inspire.emod.model.Machine;
+import ch.ethz.inspire.emod.utils.IOContainer;
+import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.model.MachineComponent;
-import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.simulation.ASimulationControl;
-import ch.ethz.inspire.emod.simulation.GeometricKienzleSimulationControl;
 import ch.ethz.inspire.emod.simulation.InputSimulators;
-import ch.ethz.inspire.emod.simulation.RandomSimulationControl;
-import ch.ethz.inspire.emod.simulation.StaticSimulationControl;
-import ch.ethz.inspire.emod.IOConnection;
+import ch.ethz.inspire.emod.utils.IOConnection;
+import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 /**
  * 

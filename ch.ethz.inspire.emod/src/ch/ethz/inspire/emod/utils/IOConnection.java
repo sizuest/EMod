@@ -11,9 +11,9 @@
  *
  ***********************************/
 
-package ch.ethz.inspire.emod;
+package ch.ethz.inspire.emod.utils;
 
-import ch.ethz.inspire.emod.model.IOContainer;
+import ch.ethz.inspire.emod.utils.IOContainer;
 
 /**
  * contains information on simulation input sources and targets

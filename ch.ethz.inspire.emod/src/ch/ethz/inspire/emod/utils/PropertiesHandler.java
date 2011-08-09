@@ -10,7 +10,7 @@
  * All rights reserved
  *
  ***********************************/
-package ch.ethz.inspire.emod;
+package ch.ethz.inspire.emod.utils;
 
 import java.io.FileInputStream;
 import java.io.IOException;

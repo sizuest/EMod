@@ -24,7 +24,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 
 import ch.ethz.inspire.emod.LogLevel;
-import ch.ethz.inspire.emod.model.IOContainer;
+import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.model.units.Unit;
 
 /**

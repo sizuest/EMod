@@ -10,7 +10,7 @@
  * All rights reserved
  *
  ***********************************/
-package ch.ethz.inspire.emod.model;
+package ch.ethz.inspire.emod;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -25,6 +25,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
+
+import ch.ethz.inspire.emod.model.APhysicalComponent;
+import ch.ethz.inspire.emod.model.LinearMotor;
+import ch.ethz.inspire.emod.model.ConstantComponent;
+import ch.ethz.inspire.emod.model.MachineComponent;
 
 /**
  * Machine model base class.

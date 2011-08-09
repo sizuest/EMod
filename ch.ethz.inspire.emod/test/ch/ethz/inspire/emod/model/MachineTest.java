@@ -18,6 +18,8 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
+import ch.ethz.inspire.emod.Machine;
+
 /**
  * @author dhampl
  *

@@ -19,6 +19,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.utils.IOContainer;
+import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 
 /**
  * Physical model for constant components. 

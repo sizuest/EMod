@@ -10,10 +10,12 @@
  * All rights reserved
  *
  ***********************************/
-package ch.ethz.inspire.emod;
+package ch.ethz.inspire.emod.utils;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
+
+import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 /**
  * @author dhampl

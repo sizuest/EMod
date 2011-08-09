@@ -25,9 +25,9 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
-import ch.ethz.inspire.emod.LocalizationHandler;
+import ch.ethz.inspire.emod.utils.LocalizationHandler;
 import ch.ethz.inspire.emod.LogLevel;
-import ch.ethz.inspire.emod.model.Machine;
+import ch.ethz.inspire.emod.Machine;
 
 /**
  * main gui class for emod application

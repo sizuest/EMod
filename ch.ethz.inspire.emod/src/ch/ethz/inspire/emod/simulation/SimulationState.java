@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import ch.ethz.inspire.emod.PropertiesHandler;
+import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 /**
  * Handles the machine state of a simulation.

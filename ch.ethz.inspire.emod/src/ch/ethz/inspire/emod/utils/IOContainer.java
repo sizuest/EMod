@@ -10,7 +10,7 @@
  * All rights reserved
  *
  ***********************************/
-package ch.ethz.inspire.emod.model;
+package ch.ethz.inspire.emod.utils;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlAccessType; 

@@ -11,13 +11,13 @@
  *
  ***********************************/
 
-package ch.ethz.inspire.emod.model;
+package ch.ethz.inspire.emod.utils;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
 
-import ch.ethz.inspire.emod.PropertiesHandler;
+import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 /**
  * Utility class to extract configuration parameters from a machine component 
@@ -161,7 +161,7 @@ public class ComponentConfigReader {
 	{
 		String valstr = xmlprop.getProperty(paramname);
 		if (valstr == null) {
-			throw new Exception("No propertiy '" + paramname + "' found in '" + filename + "'!");
+			throw new Exception("No property '" + paramname + "' found in '" + filename + "'!");
 		}
 		
 		double[] retarray = null;

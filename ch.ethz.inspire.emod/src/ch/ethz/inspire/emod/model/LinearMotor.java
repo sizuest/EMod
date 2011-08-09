@@ -22,6 +22,8 @@ import java.lang.Math;
 
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.utils.Algo;
+import ch.ethz.inspire.emod.utils.IOContainer;
+import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 
 /**
  * Linear motor model class.
@@ -36,11 +38,11 @@ import ch.ethz.inspire.emod.utils.Algo;
  * a change of the input parameters.
  * 
  * Inputlist:
- *   1: RotSpeed    : [RPM] : Actual rotational speed
+ *   1: RotSpeed    : [rpm] : Actual rotational speed
  *   2: Torque      : [Nm]  : Actual torque
  * Outputlist:
  *   1: Pmech       : [W]   : Calculated mechanical power
- *   2: Ploss       : [w]   : Calculated power loss
+ *   2: Ploss       : [W]   : Calculated power loss
  *   3: Efficiency  : [1]   : Calculated efficiency
  *   
  * Config parameters:

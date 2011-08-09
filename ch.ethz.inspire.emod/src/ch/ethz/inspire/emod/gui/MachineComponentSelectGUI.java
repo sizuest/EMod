@@ -25,8 +25,8 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
-import ch.ethz.inspire.emod.model.IOContainer;
-import ch.ethz.inspire.emod.model.Machine;
+import ch.ethz.inspire.emod.utils.IOContainer;
+import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.model.MachineComponent;
 
 /**

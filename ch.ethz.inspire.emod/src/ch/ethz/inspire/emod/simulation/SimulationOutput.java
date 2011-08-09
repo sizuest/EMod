@@ -20,7 +20,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.ethz.inspire.emod.model.IOContainer;
+import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.model.MachineComponent;
 
 /**

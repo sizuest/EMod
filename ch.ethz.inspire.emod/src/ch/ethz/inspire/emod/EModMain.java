@@ -29,7 +29,7 @@ import ch.ethz.inspire.emod.gui.EModGUI;
 import ch.ethz.inspire.emod.gui.LineChartGUI;
 import ch.ethz.inspire.emod.gui.MachineComponentSelectGUI;
 import ch.ethz.inspire.emod.simulation.EModSimulationMain;
-
+import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 /**
  * energy model main class
