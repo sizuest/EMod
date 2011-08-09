@@ -85,9 +85,9 @@ public class MachineConfig {
 		/* Make list with all simulator objects */
 		/* ****************************************************************** */
 
-		simulators = new ArrayList<ASimulationControl>();
+		/*simulators = new ArrayList<ASimulationControl>();
 		//sim.generateSimulation(20);
-		simulators.add(new RandomSimulationControl("spindelRPM", Unit.RPM, "RandomSimulationControl_noname.txt"));
+		simulators.add(new RandomSimulationControl("spindelRPM", Unit.RPM, "Machines/NDM/MachineConfig/TestConfig1/RandomSimulationControl_noname.txt"));
 		simulators.add(new RandomSimulationControl("spindelTorque", Unit.NEWTONMETER, "RandomSimulationControl_noname.txt"));
 		simulators.add(new RandomSimulationControl("xRPM", Unit.RPM, "RandomSimulationControl_noname.txt"));
 		simulators.add(new RandomSimulationControl("xTorque", Unit.NEWTONMETER, "RandomSimulationControl_noname.txt"));
@@ -102,7 +102,7 @@ public class MachineConfig {
 			simulators.add(new GeometricKienzleSimulationControl("test2", "L:/wrkspace/ch.ethz.inspire.emod/test/ch/ethz/inspire/emod/simulation/GeometricKienzleSimulationControl_tester.txt", n, f, ap, d));
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 		logger.info("Load input simulators from file: " + path + INPUTSIMFILENAME);
 		inputsimulators = initInputSimulatorsFromFile(path + INPUTSIMFILENAME);
 		simulators = inputsimulators.getSimulatorList();
