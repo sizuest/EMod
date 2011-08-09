@@ -58,6 +58,7 @@ public class EModGUI {
 		//init tabs
 		logger.log(LogLevel.DEBUG, "init tabs");
 		initTabs();
+		
 		shell.open();
 		
 		while(!shell.isDisposed()) {

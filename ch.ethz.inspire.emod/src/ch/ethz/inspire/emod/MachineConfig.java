@@ -30,9 +30,12 @@ import ch.ethz.inspire.emod.model.APhysicalComponent;
 import ch.ethz.inspire.emod.model.IOContainer;
 import ch.ethz.inspire.emod.model.Machine;
 import ch.ethz.inspire.emod.model.MachineComponent;
+import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.simulation.ASimulationControl;
 import ch.ethz.inspire.emod.simulation.GeometricKienzleSimulationControl;
 import ch.ethz.inspire.emod.simulation.InputSimulators;
+import ch.ethz.inspire.emod.simulation.RandomSimulationControl;
+import ch.ethz.inspire.emod.simulation.StaticSimulationControl;
 import ch.ethz.inspire.emod.IOConnection;
 
 /**
@@ -81,6 +84,25 @@ public class MachineConfig {
 		/* ****************************************************************** */
 		/* Make list with all simulator objects */
 		/* ****************************************************************** */
+
+		simulators = new ArrayList<ASimulationControl>();
+		//sim.generateSimulation(20);
+		simulators.add(new RandomSimulationControl("spindelRPM", Unit.RPM, "RandomSimulationControl_noname.txt"));
+		simulators.add(new RandomSimulationControl("spindelTorque", Unit.NEWTONMETER, "RandomSimulationControl_noname.txt"));
+		simulators.add(new RandomSimulationControl("xRPM", Unit.RPM, "RandomSimulationControl_noname.txt"));
+		simulators.add(new RandomSimulationControl("xTorque", Unit.NEWTONMETER, "RandomSimulationControl_noname.txt"));
+		simulators.add(new RandomSimulationControl("yRPM", Unit.RPM, "RandomSimulationControl_noname.txt"));
+		simulators.add(new RandomSimulationControl("yTorque", Unit.NEWTONMETER, "RandomSimulationControl_noname.txt"));
+		simulators.add(new StaticSimulationControl("test", Unit.NONE, "StaticSimulationControl_spindel1.txt"));
+		double[] n = {2000, 2200, 2300, 3000};
+		double[] f = {0.1, 0.08, 0.9, 1};
+		double[] ap = {3, 4, 9, 0.5};
+		double[] d = {0.006, 0.02, 0.004, 0.0001};
+		try {
+			simulators.add(new GeometricKienzleSimulationControl("test2", "L:/wrkspace/ch.ethz.inspire.emod/test/ch/ethz/inspire/emod/simulation/GeometricKienzleSimulationControl_tester.txt", n, f, ap, d));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		logger.info("Load input simulators from file: " + path + INPUTSIMFILENAME);
 		inputsimulators = initInputSimulatorsFromFile(path + INPUTSIMFILENAME);
 		simulators = inputsimulators.getSimulatorList();
@@ -88,15 +110,7 @@ public class MachineConfig {
 			sim.afterJABX(path);
 		}
 		
-		//double[] n = {2000, 2200, 2300, 3000};
-		//double[] f = {0.0001, 0.00008, 0.0009, 0.001};
-		//double[] ap = {0.003, 0.004, 0.009, 0.0005};
-		//double[] d = {0.006, 0.02, 0.004, 0.0001};
-		//try {
-		//	simulators.add(new GeometricKienzleSimulationControl("test2", "L:/wrkspace/ch.ethz.inspire.emod/test/ch/ethz/inspire/emod/simulation/GeometricKienzleSimulationControl_tester.txt", n, f, ap, d));
-		//} catch (Exception e) {
-		//	e.printStackTrace();
-		//}
+		
 		
 		/* ****************************************************************** */
 		/*   Link outputs to inputs

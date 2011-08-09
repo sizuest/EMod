@@ -28,8 +28,8 @@ public class GeometricKienzleSimulationControlTest {
 	@Before
 	public void before() {
 		double[] n = {2000, 2200, 2300, 3000};
-		double[] f = {0.0001, 0.00008, 0.0009, 0.001};
-		double[] ap = {0.003, 0.004, 0.009, 0.0005};
+		double[] f = {0.1, 0.08, 0.9, 1};
+		double[] ap = {3, 4, 9, 0.5};
 		double[] d = {0.006, 0.02, 0.004, 0.0001};
 		
 		try {
@@ -107,7 +107,7 @@ public class GeometricKienzleSimulationControlTest {
 			e.printStackTrace();
 		}
 		
-		assertEquals("readsample test", 15510.18, tester.samples.get(ComponentState.PERIODIC.ordinal())[0], 10);
+		assertEquals("readsample test", 15.51018, tester.samples.get(ComponentState.PERIODIC.ordinal())[0], 10);
 	}
 
 	/**
@@ -117,13 +117,13 @@ public class GeometricKienzleSimulationControlTest {
 	public void testCalculateMoments() {
 		tester.setState(MachineState.PROCESS);
 		tester.update();
-		assertEquals("update 1",3120.88,tester.getOutput().getValue(),0.05);
+		assertEquals("update 1",3.12088,tester.getOutput().getValue(),0.05);
 		tester.update();
-		assertEquals("update 2",11733.08,tester.getOutput().getValue(),0.05);
+		assertEquals("update 2",11.73308,tester.getOutput().getValue(),0.05);
 		tester.update();
-		assertEquals("update 3",32433.14,tester.getOutput().getValue(),0.05);
+		assertEquals("update 3",32.43314,tester.getOutput().getValue(),0.05);
 		tester.update();
-		assertEquals("update 4",48.75,tester.getOutput().getValue(),0.05);
+		assertEquals("update 4",0.04875,tester.getOutput().getValue(),0.05);
 	}
 	
 }

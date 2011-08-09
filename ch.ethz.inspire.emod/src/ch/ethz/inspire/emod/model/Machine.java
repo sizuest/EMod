@@ -62,9 +62,9 @@ public class Machine {
 	 * returns the first machine component with a specified name.
 	 * 
 	 * @param name
-	 * @return the {@link MachineComponent} with the name. null if no component is found.
+	 * @return the {@link MachineComponent} with the name. 
 	 */
-	public MachineComponent getComponent(String name) {
+	public MachineComponent getComponent(String name){
 		MachineComponent temp=null;
 		for(MachineComponent mc : componentList) {
 			if(mc.getName().equals(name)) {
@@ -72,6 +72,7 @@ public class Machine {
 				break;
 			}
 		}
+		
 		return temp;
 	}
 	

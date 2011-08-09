@@ -19,10 +19,15 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import java.util.logging.StreamHandler;
+import java.util.List;
+import java.util.ArrayList;
 
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.*;
 
 import ch.ethz.inspire.emod.gui.EModGUI;
+import ch.ethz.inspire.emod.gui.LineChartGUI;
+import ch.ethz.inspire.emod.gui.MachineComponentSelectGUI;
 import ch.ethz.inspire.emod.simulation.EModSimulationMain;
 
 
@@ -70,7 +75,29 @@ public class EModMain {
 		
 		//start program
 		new EModMain();
-		new EModGUI(disp);
+		//new EModGUI(disp);
+		List<double[]> l = new ArrayList<double[]>();
+		double[] a1 = {10, 25, 36, 12};
+		l.add(a1);
+		double[] a2 = {14, 16, 9, 2};
+		l.add(a2);
+		Shell shell = new Shell(disp);
+		shell.setLayout(new FillLayout());
+		new MachineComponentSelectGUI(shell);
+		LineChartGUI.createChart(shell, l);
+		
+		shell.open();
+		
+		while(!shell.isDisposed()) {
+			if(!disp.readAndDispatch()) {
+				disp.sleep();
+			}
+		}
+		
+		//test loading configs
+		//Machine.initMachineFromFile("L:/misc_praktikum_david/xml/testmachine_new.xml");
+		//EModSimulationMain sim = EModSimulationMain.initSimulationFromFile("L:/misc_praktikum_david/xml/sim.xml");
+		//sim.runSimulation();
 		
 		//shut down
 		disp.dispose();

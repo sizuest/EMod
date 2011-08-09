@@ -21,6 +21,8 @@ import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import ch.ethz.inspire.emod.LogLevel;
@@ -37,6 +39,8 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 
 	private static Logger logger = Logger.getLogger(GeometricKienzleSimulationControl.class.getName());
 	
+	@XmlElementWrapper
+	@XmlElement
 	protected List<double[]> samples; //values for every state
 	protected int simulationStep=0; //current sim step
 	protected double kappa; //kienzle constant
@@ -182,10 +186,10 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 			throw new Exception("input violation: params must have same length");
 		
 		for(int i=0;i<n.length;i++){
-			v[i] = v[i]/(1000*n[i]); //mm/min -> m/U
+			v[i] = v[i]/(n[i]); //mm/min -> m/U
 			n[i] = n[i]/60; //1/min -> 1/s
-			ap[i] = ap[i]/1000; //mm -> m
-			d[i] = d[i]/1000; //mm -> m
+			ap[i] = ap[i]; //mm -> m
+			d[i] = d[i]; //mm -> m
 		}
 		calculateMoments(v, ap, d);
 	}
@@ -195,7 +199,7 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 		for(int i=0;i<f.length;i++) {
 			//calculate moments for every time step: Fc = kc * b * h^(1-z) 
 			//moment = Fc * d/2
-			moments[i] = kc * (ap[i]*1000/Math.sin(kappa))* Math.pow(f[i]*1000 * Math.sin(kappa),1-z) * d[i]*1000/2;
+			moments[i] = kc * (ap[i]/Math.sin(kappa))* Math.pow(f[i] * Math.sin(kappa),1-z) * d[i]/2;
 		}
 		samples.set(ComponentState.PERIODIC.ordinal(), moments);
 	}
