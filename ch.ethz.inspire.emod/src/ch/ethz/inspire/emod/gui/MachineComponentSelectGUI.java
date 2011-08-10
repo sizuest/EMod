@@ -18,29 +18,26 @@ import java.util.List;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
-import ch.ethz.inspire.emod.utils.IOContainer;
-import ch.ethz.inspire.emod.Machine;
-import ch.ethz.inspire.emod.model.MachineComponent;
+import ch.ethz.inspire.emod.gui.utils.ConsumerData;
 
 /**
  * @author dhampl
  *
  */
-public class MachineComponentSelectGUI {
+public class MachineComponentSelectGUI extends AEvaluationGUI {
 
 	private Composite parent;
-	private List<MachineComponent> mclist;
+	List<MachineComponentComposite> mcclist;
 	
 	public MachineComponentSelectGUI(Composite parent) {
+		super("simulation_output.dat");
 		this.parent = parent;
-		mclist = Machine.getInstance().getMachineComponentList();
 		init();
 	}
 	
@@ -53,9 +50,9 @@ public class MachineComponentSelectGUI {
 		gd.grabExcessVerticalSpace = true;
 		c.setLayoutData(gd);
 		int maxWidth=0;
-		List<MachineComponentComposite> mcclist = new ArrayList<MachineComponentComposite>();
-		for(MachineComponent mc : mclist) {
-			MachineComponentComposite temp = new MachineComponentComposite(c, SWT.NONE, mc);
+		mcclist = new ArrayList<MachineComponentComposite>();
+		for(ConsumerData cd : availableConsumers) {
+			MachineComponentComposite temp = new MachineComponentComposite(c, SWT.NONE, cd);
 			
 			if(temp.getSize().x>maxWidth)
 				maxWidth = temp.getSize().x;
@@ -72,8 +69,10 @@ public class MachineComponentSelectGUI {
 			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				// TODO Auto-generated method stub
-				
+				for(MachineComponentComposite mcc:mcclist) {
+					mcc.updateActive();
+				}
+				LineChartGUI.createChart(parent, getConsumerDataList());
 			}
 
 			@Override
@@ -89,17 +88,16 @@ public class MachineComponentSelectGUI {
 	
 	class MachineComponentComposite extends Composite {
 
-		MachineComponent comp;
+		ConsumerData comp;
 		Button complete;
 		List<Button> outputs;
 		/**
 		 * @param parent
 		 * @param style
 		 */
-		public MachineComponentComposite(Composite parent, int style, MachineComponent machineComponent) {
+		public MachineComponentComposite(Composite parent, int style, ConsumerData data) {
 			super(parent, SWT.BORDER);
-			// TODO Auto-generated constructor stub
-			this.comp = machineComponent;
+			this.comp = data;
 			outputs = new ArrayList<Button>();
 			init();
 		}
@@ -112,17 +110,37 @@ public class MachineComponentSelectGUI {
 			gd.grabExcessVerticalSpace = true;
 			setLayoutData(gd);
 			complete = new Button(this,SWT.CHECK);
+			complete.addSelectionListener(new SelectionListener() {
+				
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					for(Button b: outputs)
+						b.setSelection(complete.getSelection());
+				}
+				
+				@Override
+				public void widgetDefaultSelected(SelectionEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
 			Label componentLabel = new Label(this, SWT.NONE);
-			componentLabel.setText(comp.getName());
-			for(IOContainer ioc : comp.getComponent().getOutputs()) {
+			componentLabel.setText(comp.getConsumer());
+			for(int i=0;i<comp.getNames().size();i++) {
 				Button b = new Button(this,SWT.CHECK);
 				outputs.add(b);
 				Label l = new Label(this, SWT.NONE);
-				l.setText(ioc.getName()+" ["+ioc.getUnit()+"]");
+				l.setText(comp.getNames().get(i)+" ["+comp.getUnits().get(i)+"]");
 			}
 			setSize(computeSize(SWT.DEFAULT, SWT.DEFAULT));
 			layout(true);
 			//this.pack();
+		}
+		
+		public void updateActive() {
+			for(int i=0;i<outputs.size();i++) {
+				comp.setActive(i, outputs.get(i).getSelection());
+			}
 		}
 		
 	}

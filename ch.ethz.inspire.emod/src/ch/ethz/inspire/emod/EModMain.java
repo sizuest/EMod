@@ -76,15 +76,11 @@ public class EModMain {
 		//start program
 		new EModMain();
 		//new EModGUI(disp);
-		List<double[]> l = new ArrayList<double[]>();
-		double[] a1 = {10, 25, 36, 12};
-		l.add(a1);
-		double[] a2 = {14, 16, 9, 2};
-		l.add(a2);
+		
 		Shell shell = new Shell(disp);
 		shell.setLayout(new FillLayout());
 		new MachineComponentSelectGUI(shell);
-		LineChartGUI.createChart(shell, l);
+		
 		
 		shell.open();
 		

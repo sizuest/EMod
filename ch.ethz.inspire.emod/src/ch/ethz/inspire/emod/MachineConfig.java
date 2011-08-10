@@ -84,13 +84,13 @@ public class MachineConfig {
 
 		/*simulators = new ArrayList<ASimulationControl>();
 		//sim.generateSimulation(20);
-		simulators.add(new RandomSimulationControl("spindelRPM", Unit.RPM, "Machines/NDM/MachineConfig/TestConfig1/RandomSimulationControl_noname.txt"));
-		simulators.add(new RandomSimulationControl("spindelTorque", Unit.NEWTONMETER, "RandomSimulationControl_noname.txt"));
-		simulators.add(new RandomSimulationControl("xRPM", Unit.RPM, "RandomSimulationControl_noname.txt"));
-		simulators.add(new RandomSimulationControl("xTorque", Unit.NEWTONMETER, "RandomSimulationControl_noname.txt"));
-		simulators.add(new RandomSimulationControl("yRPM", Unit.RPM, "RandomSimulationControl_noname.txt"));
-		simulators.add(new RandomSimulationControl("yTorque", Unit.NEWTONMETER, "RandomSimulationControl_noname.txt"));
-		simulators.add(new StaticSimulationControl("test", Unit.NONE, "StaticSimulationControl_spindel1.txt"));
+		simulators.add(new RandomSimulationControl("spindelRPM", Unit.RPM, path+"RandomSimulationControl_noname.txt"));
+		simulators.add(new RandomSimulationControl("spindelTorque", Unit.NEWTONMETER, path+"RandomSimulationControl_noname.txt"));
+		simulators.add(new RandomSimulationControl("xRPM", Unit.RPM, path+"RandomSimulationControl_noname.txt"));
+		simulators.add(new RandomSimulationControl("xTorque", Unit.NEWTONMETER, path+"RandomSimulationControl_noname.txt"));
+		simulators.add(new RandomSimulationControl("yRPM", Unit.RPM, path+"RandomSimulationControl_noname.txt"));
+		simulators.add(new RandomSimulationControl("yTorque", Unit.NEWTONMETER, path+"RandomSimulationControl_noname.txt"));
+		simulators.add(new StaticSimulationControl("test", Unit.NONE, path+"StaticSimulationControl_tester.txt"));
 		double[] n = {2000, 2200, 2300, 3000};
 		double[] f = {0.1, 0.08, 0.9, 1};
 		double[] ap = {3, 4, 9, 0.5};
