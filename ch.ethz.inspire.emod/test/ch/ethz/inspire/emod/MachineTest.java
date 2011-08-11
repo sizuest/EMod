@@ -10,7 +10,7 @@
  * All rights reserved
  *
  ***********************************/
-package ch.ethz.inspire.emod.model;
+package ch.ethz.inspire.emod;
 
 import static org.junit.Assert.*;
 
@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 import ch.ethz.inspire.emod.Machine;
+import ch.ethz.inspire.emod.model.MachineComponent;
 
 /**
  * @author dhampl

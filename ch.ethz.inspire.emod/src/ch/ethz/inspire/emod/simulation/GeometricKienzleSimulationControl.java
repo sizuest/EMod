@@ -196,10 +196,11 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 	
 	protected void calculateMoments(double[] f, double[] ap, double[] d) {
 		double[] moments = new double[f.length];
+		double sinkappa = Math.sin(kappa);
 		for(int i=0;i<f.length;i++) {
 			//calculate moments for every time step: Fc = kc * b * h^(1-z) 
 			//moment = Fc * d/2
-			moments[i] = kc * (ap[i]/Math.sin(kappa))* Math.pow(f[i] * Math.sin(kappa),1-z) * d[i]/2;
+			moments[i] = kc * (ap[i]/sinkappa)* Math.pow(f[i] * sinkappa,1-z) * d[i]/2;
 		}
 		samples.set(ComponentState.PERIODIC.ordinal(), moments);
 	}

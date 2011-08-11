@@ -19,14 +19,10 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import java.util.logging.StreamHandler;
-import java.util.List;
-import java.util.ArrayList;
 
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.*;
 
-import ch.ethz.inspire.emod.gui.EModGUI;
-import ch.ethz.inspire.emod.gui.LineChartGUI;
 import ch.ethz.inspire.emod.gui.MachineComponentSelectGUI;
 import ch.ethz.inspire.emod.simulation.EModSimulationMain;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;

@@ -38,7 +38,7 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  * a change of the input parameters.
  * 
  * Inputlist:
- *   1: RotSpeed    : [rps] : Actual rotational speed
+ *   1: RotSpeed    : [rpm] : Actual rotational speed
  *   2: Torque      : [Nm]  : Actual torque
  * Outputlist:
  *   1: Pmech       : [W]   : Calculated mechanical power
