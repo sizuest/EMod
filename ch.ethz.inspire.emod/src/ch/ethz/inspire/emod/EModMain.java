@@ -51,7 +51,7 @@ public class EModMain {
 			// Set log level:
 			// The following loglevel are available (from lowest to highest):
 			// OFF, FINEST, FINER, FINE=DEBUG, CONFIG, INFO, WARNING, SEVERE, ALL
-			rootlogger.setLevel(LogLevel.CONFIG);
+			rootlogger.setLevel(LogLevel.FINER);
 			
 			// Add stdout to logger: All logging output is written to stdout too.
 			SimpleFormatter fmt = new SimpleFormatter();

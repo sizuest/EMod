@@ -31,8 +31,8 @@ public class RandomSimulationControl extends ASimulationControl {
 	 * @param unit
 	 * @param configFile
 	 */
-	public RandomSimulationControl(String name, Unit unit, String configFile) {
-		super(name, unit, configFile);
+	public RandomSimulationControl(String name, Unit unit) {
+		super(name, unit);
 	}
 	
 	/**
@@ -49,9 +49,9 @@ public class RandomSimulationControl extends ASimulationControl {
 	 * @param path Directory holding the configfiles.
 	 */
 	@Override
-	public void afterJABX(String path)
+	public void afterJABX()
 	{
-		super.afterJABX(path);
+		super.afterJABX();
 	}
 	
 	/* (non-Javadoc)

@@ -12,19 +12,15 @@
  ***********************************/
 package ch.ethz.inspire.emod.simulation;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
-import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
 import javax.xml.bind.Unmarshaller;
 
 import ch.ethz.inspire.emod.LogLevel;
 import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.utils.SimulationConfigReader;
 
 /**
  * reads static simulation samples from a file and loops while active.
@@ -44,10 +40,10 @@ public class StaticSimulationControl extends ASimulationControl {
 	 * @param unit
 	 * @param configFile
 	 */
-	public StaticSimulationControl(String name, Unit unit, String configFile) {
-		super(name, unit, configFile);
+	public StaticSimulationControl(String name, Unit unit) {
+		super(name, unit);
 		simulationStep=0;
-		readSamplesFromFile(configFile);
+		readSamplesFromFile();
 	}
 	
 	/**
@@ -65,10 +61,10 @@ public class StaticSimulationControl extends ASimulationControl {
 	 * @param path Directory holding the configfiles.
 	 */
 	@Override
-	public void afterJABX(String path)
+	public void afterJABX()
 	{
-		super.afterJABX(path);
-		readSamplesFromFile(path+configFile);
+		super.afterJABX();
+		readSamplesFromFile();
 	}
 	
 	/* (non-Javadoc)
@@ -90,29 +86,22 @@ public class StaticSimulationControl extends ASimulationControl {
 	 * 
 	 * @param file one line per state. e.g.: ON=10 20 30
 	 */
-	private void readSamplesFromFile(String file) {
+	private void readSamplesFromFile() {
 		samples = new ArrayList<double[]>();
-		logger.log(LogLevel.DEBUG, "reading samples from: "+file);
+		logger.log(LogLevel.DEBUG, "reading samples for: "+this.getClass().getSimpleName()+"_"+name);
+		SimulationConfigReader scr=null;
 		try {
-			//load file to properties
-			Properties p = new Properties();
-			InputStream is = new FileInputStream(file);
-			p.load(is);
-			is.close();
+			scr = new SimulationConfigReader(this.getClass().getSimpleName(), name);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
+			
 			// loop over all machine states
 			for(ComponentState cs : ComponentState.values()) {
-				String line = p.getProperty(cs.name());
-				StringTokenizer st = new StringTokenizer(line);
-				double[] vals = new double[st.countTokens()];
-				int i = 0;
-				//parse samples
-				while(st.hasMoreTokens()) {
-					vals[i] = Double.parseDouble(st.nextToken());
-					i++;
-				}
-				samples.add(vals);
+				samples.add(scr.getSamplesArray(cs.name()));
 			}
-		} catch(IOException e) {
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}

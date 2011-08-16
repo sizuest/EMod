@@ -12,13 +12,8 @@
  ***********************************/
 package ch.ethz.inspire.emod.simulation;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
-import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -27,6 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import ch.ethz.inspire.emod.LogLevel;
 import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.utils.SimulationConfigReader;
 
 /**
  * Simulation control class for moments based on the kienzle approximation. 
@@ -52,11 +48,11 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 	 * @param name
 	 * @param configValuesFile
 	 */
-	public GeometricKienzleSimulationControl(String name, String configValuesFile) {
-		super(name, Unit.NEWTONMETER, configValuesFile);
-		readConfigFromFile(configValuesFile);
+	public GeometricKienzleSimulationControl(String name) {
+		super(name, Unit.NEWTONMETER);
+		readConfigFromFile();
 		try {
-			readSamplesFromFile(configValuesFile);
+			readSamplesFromFile();
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(-1);
@@ -75,11 +71,11 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 	 * @param d diameter [m]
 	 * @throws Exception 
 	 */
-	public GeometricKienzleSimulationControl(String name, String configFile, double[] n, double[] f, double[] ap, double[] d) throws Exception {
-		super(name, Unit.NEWTONMETER, configFile);
+	public GeometricKienzleSimulationControl(String name, double[] n, double[] f, double[] ap, double[] d) throws Exception {
+		super(name, Unit.NEWTONMETER);
 		if(n.length!=f.length || n.length!=ap.length || n.length!=d.length)
 			throw new Exception("input violation: params must have same length");
-		readConfigFromFile(configFile);
+		readConfigFromFile();
 		calculateMoments(f, ap, d);
 	}
 	
@@ -95,32 +91,26 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 	 * 
 	 * @param file
 	 */
-	protected void readConfigFromFile(String file) {
+	protected void readConfigFromFile() {
 		samples = new ArrayList<double[]>();
-		logger.log(LogLevel.DEBUG, "reading config from: "+file);
+		logger.log(LogLevel.DEBUG, "reading config for: "+this.getClass().getSimpleName()+"_"+name);
+		SimulationConfigReader scr=null;
 		try {
-			//load file to properties
-			Properties p = new Properties();
-			InputStream is = new FileInputStream(file);
-			p.load(is);
-			is.close();
+			scr = new SimulationConfigReader(this.getClass().getSimpleName(), name);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
+			
 			// loop over all component states
 			for(ComponentState cs : ComponentState.values()) {
-				String line = p.getProperty(cs.name());
-				StringTokenizer st = new StringTokenizer(line);
-				double[] vals = new double[st.countTokens()];
-				int i = 0;
-				//parse samples
-				while(st.hasMoreTokens()) {
-					vals[i] = Double.parseDouble(st.nextToken());
-					i++;
-				}
-				samples.add(vals);
+				
+				samples.add(scr.getSamplesArray(cs.name()));
 			}
-			kappa = Double.parseDouble(p.getProperty("kappa"))*Math.PI/180;
-			z = Double.parseDouble(p.getProperty("z"));
-			kc = Double.parseDouble(p.getProperty("kc"));
-		} catch(IOException e) {
+			kappa = scr.getDoubleValue("kappa")*Math.PI/180;
+			z = scr.getDoubleValue("z");
+			kc = scr.getDoubleValue("kc");
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -136,49 +126,22 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 	 * @param file with samples for n, v, ap, d
 	 * @throws Exception thrown if |n| != |v| != |ap| != |d|
 	 */
-	protected void readSamplesFromFile(String file) throws Exception {
+	protected void readSamplesFromFile() throws Exception {
 		double[] n = null, v = null, ap = null, d = null;
 		
-		logger.log(LogLevel.DEBUG, "reading samples from: "+file);
+		logger.log(LogLevel.DEBUG, "reading samples for: "+this.getClass().getSimpleName()+"_"+name);
+		SimulationConfigReader scr=null;
 		try {
-			//load file to properties
-			Properties p = new Properties();
-			InputStream is = new FileInputStream(file);
-			p.load(is);
-			is.close();
-			// read all kienzle variables
-			String[] valNames = {"n", "v", "ap", "d"};
-			int valIndex=0;
-			for(String valName : valNames) {
-				String line = p.getProperty(valName);
-				StringTokenizer st = new StringTokenizer(line);
-				double[] vals = new double[st.countTokens()];
-				int i = 0;
-				//parse samples
-				while(st.hasMoreTokens()) {
-					vals[i] = Double.parseDouble(st.nextToken());
-					i++;
-				}
-				
-				switch(valIndex) {
-				case 0:
-					n=vals;
-					break;
-				case 1:
-					v=vals;
-					break;
-				case 2:
-					ap=vals;
-					break;
-				case 3:
-					d=vals;
-					break;
-				default:
-					throw new Exception("invalid line");
-				}
-				valIndex++;
-			}
-			
+			scr = new SimulationConfigReader(this.getClass().getSimpleName(), name);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			n=scr.getSamplesArray("n");
+			v=scr.getSamplesArray("v");
+			ap=scr.getSamplesArray("ap");
+			d=scr.getSamplesArray("d");
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

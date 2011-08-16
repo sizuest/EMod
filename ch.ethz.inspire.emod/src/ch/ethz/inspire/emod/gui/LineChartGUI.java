@@ -19,7 +19,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.swtchart.Chart;
 import org.swtchart.ILineSeries;
-import org.swtchart.ISeries;
 import org.swtchart.ILineSeries.PlotSymbolType;
 import org.swtchart.ISeries.SeriesType;
 
@@ -51,10 +50,10 @@ public class LineChartGUI {
 					ILineSeries lineSeries = (ILineSeries) chart.getSeriesSet().createSeries(SeriesType.LINE, cd.getConsumer()+"."+cd.getNames().get(i));
 					lineSeries.setYSeries(cd.getValues().get(i));
 					lineSeries.setSymbolType(PlotSymbolType.NONE);
-					lineSeries.enableStack(true);
+					
 					lineSeries.setLineColor(Display.getDefault().getSystemColor(color));
 					lineSeries.enableArea(true);
-					color++;
+					color++; color++; color++;
 				}
 			}
 		}

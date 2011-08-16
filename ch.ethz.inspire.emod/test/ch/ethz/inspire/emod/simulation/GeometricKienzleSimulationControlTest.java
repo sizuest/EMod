@@ -33,7 +33,7 @@ public class GeometricKienzleSimulationControlTest {
 		double[] d = {0.006, 0.02, 0.004, 0.0001};
 		
 		try {
-			tester = new GeometricKienzleSimulationControl("test", "test/ch/ethz/inspire/emod/simulation/GeometricKienzleSimulationControl_tester.txt", n, f, ap, d);
+			tester = new GeometricKienzleSimulationControl("test", n, f, ap, d);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -102,7 +102,7 @@ public class GeometricKienzleSimulationControlTest {
 	@Test
 	public void testReadSamplesFromFile() {
 		try {
-			tester.readSamplesFromFile("test/ch/ethz/inspire/emod/simulation/GeometricKienzleSimulationControl_samplestester.txt");
+			tester.readSamplesFromFile();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

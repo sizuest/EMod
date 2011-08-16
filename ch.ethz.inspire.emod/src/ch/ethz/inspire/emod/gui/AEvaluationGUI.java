@@ -80,6 +80,8 @@ public abstract class AEvaluationGUI {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		for(ConsumerData cd:availableConsumers)
+			cd.calculateEnergy();
 	}
 	
 	private boolean consumerExists(String consumer) {

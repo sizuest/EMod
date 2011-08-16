@@ -104,7 +104,7 @@ public class MachineConfig {
 		inputsimulators = initInputSimulatorsFromFile(path + INPUTSIMFILENAME);
 		simulators = inputsimulators.getSimulatorList();
 		for (ASimulationControl sim : simulators) {
-			sim.afterJABX(path);
+			sim.afterJABX();
 		}
 		
 		

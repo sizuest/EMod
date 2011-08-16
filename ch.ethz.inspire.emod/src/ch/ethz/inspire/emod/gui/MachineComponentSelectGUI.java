@@ -73,6 +73,7 @@ public class MachineComponentSelectGUI extends AEvaluationGUI {
 					mcc.updateActive();
 				}
 				LineChartGUI.createChart(parent, getConsumerDataList());
+				//BarChartGUI.createBarChart(parent, getConsumerDataList());
 			}
 
 			@Override

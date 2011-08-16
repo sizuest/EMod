@@ -1,5 +1,0 @@
-ON_state=ON
-OFF_state=OFF
-STANDBY_state=STANDBY
-READY_state=ON
-PROCESS_state=ON

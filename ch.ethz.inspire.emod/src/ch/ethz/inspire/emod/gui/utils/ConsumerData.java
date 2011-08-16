@@ -12,6 +12,7 @@
  ***********************************/
 package ch.ethz.inspire.emod.gui.utils;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class ConsumerData {
 	private List<Unit> units; 
 	private List<double[]> values; //the values
 	private List<Boolean> active; //which values are plotted
+	private List<Double> energy;
 	
 	public ConsumerData(String consumerName) {
 		consumer = consumerName;
@@ -37,7 +39,22 @@ public class ConsumerData {
 		units = new ArrayList<Unit>();
 		values = new ArrayList<double[]>();
 		active = new ArrayList<Boolean>();
+		energy = new ArrayList<Double>();
 	}
+	
+	public void calculateEnergy() {
+		for(double[] vals : values) {
+			double res=0;
+			double lastval=0;
+			for(double sample:vals) {
+				double valdiff=sample-lastval;
+				res+=0.2*(lastval+valdiff*0.5);
+				lastval=sample;
+			}
+			energy.add(res);
+		}
+	}
+	
 	/**
 	 * @return the consumer
 	 */
@@ -96,5 +113,9 @@ public class ConsumerData {
 	
 	public void setActive(int index, boolean value) {
 		active.set(index, value);
+	}
+	
+	public List<Double> getEnergy() {
+		return energy;
 	}
 }

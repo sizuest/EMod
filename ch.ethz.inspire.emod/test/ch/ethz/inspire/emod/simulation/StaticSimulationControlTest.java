@@ -26,7 +26,7 @@ public class StaticSimulationControlTest {
 	
 	@Before
 	public void init() {
-		tester = new StaticSimulationControl("test", Unit.NONE, "test/ch/ethz/inspire/emod/simulation/StaticSimulationControl_tester.txt");
+		tester = new StaticSimulationControl("test", Unit.NONE);
 	}
 	
 	@Test
