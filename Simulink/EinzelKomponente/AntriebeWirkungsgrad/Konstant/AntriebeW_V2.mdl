@@ -1596,7 +1596,7 @@ Model {
 	}
 	Block {
 	  BlockType		  Constant
-	  Name			  "Trägheitsmoment [kgm2]"
+	  Name			  "Tragheitsmoment [kgm2]"
 	  SID			  "56"
 	  Position		  [485, 400, 580, 440]
 	  Value			  "MainDrive.Theta"
@@ -1889,7 +1889,7 @@ Model {
 	  DstPort		  1
 	}
 	Line {
-	  SrcBlock		  "Trägheitsmoment [kgm2]"
+	  SrcBlock		  "Tragheitsmoment [kgm2]"
 	  SrcPort		  1
 	  DstBlock		  "Product2"
 	  DstPort		  1

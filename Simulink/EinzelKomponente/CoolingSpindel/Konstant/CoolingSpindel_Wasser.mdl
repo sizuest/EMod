@@ -1071,7 +1071,7 @@ Model {
       }
       Port {
 	PortNumber		7
-	Name			"T_Kühlwasser [K]"
+	Name			"T_Kuhlwasser [K]"
 	RTWStorageClass		"Auto"
 	DataLoggingNameMode	"SignalName"
       }
@@ -1166,7 +1166,7 @@ Model {
 	    }
 	    Block {
 	      BlockType		      Inport
-	      Name		      "T_Kühlwasser [K]"
+	      Name		      "T_Kuhlwasser [K]"
 	      SID		      "9"
 	      Position		      [50, 183, 80, 197]
 	      Port		      "2"
@@ -1791,7 +1791,7 @@ Model {
 	    }
 	    Block {
 	      BlockType		      Outport
-	      Name		      "T_Kühlwasser out [K]"
+	      Name		      "T_Kuhlwasser out [K]"
 	      SID		      "134"
 	      Position		      [1150, 103, 1180, 117]
 	      Port		      "4"
@@ -1851,7 +1851,7 @@ Model {
 	      DstPort		      1
 	    }
 	    Line {
-	      SrcBlock		      "T_Kühlwasser [K]"
+	      SrcBlock		      "T_Kuhlwasser [K]"
 	      SrcPort		      1
 	      Points		      [20, 0]
 	      Branch {
@@ -1953,7 +1953,7 @@ Model {
 	      SrcBlock		      "T.Luft"
 	      SrcPort		      1
 	      Points		      [0, 5]
-	      DstBlock		      "T_Kühlwasser out [K]"
+	      DstBlock		      "T_Kuhlwasser out [K]"
 	      DstPort		      1
 	    }
 	  }
@@ -2022,7 +2022,7 @@ Model {
 	    }
 	    Block {
 	      BlockType		      Inport
-	      Name		      "T_Kühlwasser in [K]"
+	      Name		      "T_Kuhlwasser in [K]"
 	      SID		      "130"
 	      Position		      [1105, 388, 1135, 402]
 	      Port		      "4"
@@ -2174,7 +2174,7 @@ Model {
 	    }
 	    Block {
 	      BlockType		      Gain
-	      Name		      "T_Kühlwasser"
+	      Name		      "T_Kuhlwasser"
 	      SID		      "123"
 	      Position		      [1330, 127, 1515, 193]
 	      Gain		      "1/K_W.m/K_W.cp"
@@ -2193,7 +2193,7 @@ Model {
 	    }
 	    Block {
 	      BlockType		      Gain
-	      Name		      "Wärmedurchgang"
+	      Name		      "Warmedurchgang"
 	      SID		      "124"
 	      Position		      [1105, 126, 1270, 194]
 	      Gain		      "MainDrive.R*MainDrive.A"
@@ -2203,7 +2203,7 @@ Model {
 	    }
 	    Block {
 	      BlockType		      Outport
-	      Name		      "T_Kühlwasser [K]"
+	      Name		      "T_Kuhlwasser [K]"
 	      SID		      "127"
 	      Position		      [1710, 183, 1740, 197]
 	      IconDisplay	      "Port number"
@@ -2373,15 +2373,15 @@ Model {
 	      DstPort		      1
 	    }
 	    Line {
-	      SrcBlock		      "T_Kühlwasser"
+	      SrcBlock		      "T_Kuhlwasser"
 	      SrcPort		      1
 	      DstBlock		      "T.Cabinet"
 	      DstPort		      1
 	    }
 	    Line {
-	      SrcBlock		      "Wärmedurchgang"
+	      SrcBlock		      "Warmedurchgang"
 	      SrcPort		      1
-	      DstBlock		      "T_Kühlwasser"
+	      DstBlock		      "T_Kuhlwasser"
 	      DstPort		      1
 	    }
 	    Line {
@@ -2401,7 +2401,7 @@ Model {
 	    Line {
 	      SrcBlock		      "Sum1"
 	      SrcPort		      1
-	      DstBlock		      "Wärmedurchgang"
+	      DstBlock		      "Warmedurchgang"
 	      DstPort		      1
 	    }
 	    Line {
@@ -2414,7 +2414,7 @@ Model {
 		DstPort			1
 	      }
 	      Branch {
-		DstBlock		"T_Kühlwasser [K]"
+		DstBlock		"T_Kuhlwasser [K]"
 		DstPort			1
 	      }
 	    }
@@ -2426,7 +2426,7 @@ Model {
 	      DstPort		      2
 	    }
 	    Line {
-	      SrcBlock		      "T_Kühlwasser in [K]"
+	      SrcBlock		      "T_Kuhlwasser in [K]"
 	      SrcPort		      1
 	      Points		      [140, 0; 0, -20]
 	      Branch {
@@ -2490,7 +2490,7 @@ Model {
 	}
 	Block {
 	  BlockType		  Outport
-	  Name			  "T_Kühlwasser [K]"
+	  Name			  "T_Kuhlwasser [K]"
 	  SID			  "129"
 	  Position		  [820, 48, 850, 62]
 	  Port			  "7"
@@ -2592,7 +2592,7 @@ Model {
 	  SrcPort		  1
 	  Points		  [25, 0]
 	  Branch {
-	    DstBlock		    "T_Kühlwasser [K]"
+	    DstBlock		    "T_Kuhlwasser [K]"
 	    DstPort		    1
 	  }
 	  Branch {
@@ -2718,7 +2718,7 @@ Model {
       DstPort		      6
     }
     Line {
-      Name		      "T_Kühlwasser [K]"
+      Name		      "T_Kuhlwasser [K]"
       Labels		      [0, 0]
       SrcBlock		      "Cooling System MainDrive"
       SrcPort		      7
