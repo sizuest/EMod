@@ -16,12 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import ch.ethz.inspire.emod.LogLevel;
 import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.SimulationConfigReader;
 
 /**
@@ -84,6 +86,18 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 	 */
 	public GeometricKienzleSimulationControl() {
 		
+	}
+	public void afterUnmarshal(Unmarshaller u, Object parent) {
+		simulationOutput = new IOContainer(name, unit, 0);
+		
+		if(samples==null) {
+			readConfigFromFile();
+			try {
+				readSamplesFromFile();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	/**
@@ -152,7 +166,7 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 			v[i] = v[i]/(n[i]); //mm/min -> m/U
 			n[i] = n[i]/60; //1/min -> 1/s
 			ap[i] = ap[i]; //mm -> m
-			d[i] = d[i]; //mm -> m
+			d[i] = d[i]/1000; //mm -> m
 		}
 		calculateMoments(v, ap, d);
 	}
@@ -188,8 +202,10 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 	 */
 	@Override 
 	public void setState(MachineState state) {
-		super.setState(state);
-		simulationStep=0;
+		if(this.state!=stateMap.get(state)) {
+			super.setState(state);
+			simulationStep=0;
+		}
 	}
 
 }

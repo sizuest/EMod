@@ -54,6 +54,7 @@ public class SimulationConfigReader {
 	
 	public double[] getSamplesArray(String samplesName) {
 		String dataString = props.getProperty(samplesName);
+		
 		String[] dataStringArray = dataString.split(" ");
 		double[] result = new double[dataStringArray.length];
 		for(int i=0; i<result.length;i++)

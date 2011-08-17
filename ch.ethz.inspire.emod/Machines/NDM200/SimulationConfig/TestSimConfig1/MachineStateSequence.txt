@@ -4,8 +4,8 @@
     1      , OFF ;       # line comment
     1      , ON;
     1      , OFF;
-   10      , PROCESS;
-600 , OFF;
-3600 , PROCESS;
+   50      , PROCESS;
+#600 , OFF;
+#1000 , PROCESS;
 # 36000 , OFF;
 # 57600 , PROCESS;

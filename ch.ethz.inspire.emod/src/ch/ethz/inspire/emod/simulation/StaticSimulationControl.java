@@ -113,7 +113,9 @@ public class StaticSimulationControl extends ASimulationControl {
 	 */
 	@Override 
 	public void setState(MachineState state) {
-		super.setState(state);
-		simulationStep=0;
+		if(this.state!=stateMap.get(state)) {
+			super.setState(state);
+			simulationStep=0;
+		}
 	}
 }

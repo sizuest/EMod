@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ns2:inputSimulators xmlns:ns2="ch.ethz.inspire.emod.simulation">
     <simulators>
-        <simController xsi:type="randomSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>spindelRPM</name>
             <unit>RPM</unit>
         </simController>
-        <simController xsi:type="randomSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <simController xsi:type="geometricKienzleSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>spindelTorque</name>
             <unit>NEWTONMETER</unit>
         </simController>
