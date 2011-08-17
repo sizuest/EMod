@@ -1,12 +1,12 @@
 Model {
   Name			  "NDM200"
-  Version		  7.7
+  Version		  7.6
   MdlSubVersion		  0
   GraphicalInterface {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.104"
+    ComputedModelVersion    "1.107"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -24,11 +24,11 @@ Model {
   Creator		  "simon"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "Coni"
+  LastModifiedBy	  "conid"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Jun 22 14:31:38 2011"
-  RTWModifiedTimeStamp	  230641690
-  ModelVersionFormat	  "1.%<AutoIncrement:104>"
+  LastModifiedDate	  "Wed Aug 03 11:03:05 2011"
+  RTWModifiedTimeStamp	  234198801
+  ModelVersionFormat	  "1.%<AutoIncrement:107>"
   ConfigurationManager	  "None"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -103,13 +103,13 @@ Model {
     Dimension		    1
     Simulink.ConfigSet {
       $ObjectID		      1
-      Version		      "1.11.0"
+      Version		      "1.10.0"
       Array {
 	Type			"Handle"
 	Dimension		8
 	Simulink.SolverCC {
 	  $ObjectID		  2
-	  Version		  "1.11.0"
+	  Version		  "1.10.0"
 	  StartTime		  "0.0"
 	  StopTime		  "SimulTime"
 	  AbsTol		  "auto"
@@ -143,7 +143,7 @@ Model {
 	}
 	Simulink.DataIOCC {
 	  $ObjectID		  3
-	  Version		  "1.11.0"
+	  Version		  "1.10.0"
 	  Decimation		  "1"
 	  ExternalInput		  "[t, u]"
 	  FinalStateName	  "xFinal"
@@ -155,7 +155,6 @@ Model {
 	  SaveFinalState	  off
 	  SaveCompleteFinalSimState off
 	  SaveFormat		  "Array"
-	  SignalLoggingSaveFormat "ModelDataLogs"
 	  SaveOutput		  on
 	  SaveState		  off
 	  SignalLogging		  on
@@ -175,7 +174,7 @@ Model {
 	}
 	Simulink.OptimizationCC {
 	  $ObjectID		  4
-	  Version		  "1.11.0"
+	  Version		  "1.10.0"
 	  Array {
 	    Type		    "Cell"
 	    Dimension		    8
@@ -226,11 +225,10 @@ Model {
 	  BufferReusableBoundary  on
 	  SimCompilerOptimization "Off"
 	  AccelVerboseBuild	  off
-	  AccelParallelForEachSubsystem	on
 	}
 	Simulink.DebuggingCC {
 	  $ObjectID		  5
-	  Version		  "1.11.0"
+	  Version		  "1.10.0"
 	  RTPrefix		  "error"
 	  ConsistencyChecking	  "none"
 	  ArrayBoundsChecking	  "none"
@@ -301,7 +299,6 @@ Model {
 	  ModelReferenceExtraNoncontSigs "error"
 	  StateNameClashWarn	  "warning"
 	  SimStateInterfaceChecksumMismatchMsg "warning"
-	  SimStateOlderReleaseMsg "error"
 	  InitInArrayFormatMsg	  "warning"
 	  StrictBusMsg		  "ErrorLevel1"
 	  BusNameAdapt		  "WarnAndRepair"
@@ -316,7 +313,7 @@ Model {
 	}
 	Simulink.HardwareCC {
 	  $ObjectID		  6
-	  Version		  "1.11.0"
+	  Version		  "1.10.0"
 	  ProdBitPerChar	  8
 	  ProdBitPerShort	  16
 	  ProdBitPerInt		  32
@@ -353,7 +350,7 @@ Model {
 	}
 	Simulink.ModelReferenceCC {
 	  $ObjectID		  7
-	  Version		  "1.11.0"
+	  Version		  "1.10.0"
 	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
 	  CheckModelReferenceTargetMessage "error"
 	  EnableParallelModelReferenceBuilds off
@@ -368,7 +365,7 @@ Model {
 	}
 	Simulink.SFSimCC {
 	  $ObjectID		  8
-	  Version		  "1.11.0"
+	  Version		  "1.10.0"
 	  SFSimEnableDebug	  on
 	  SFSimOverflowDetection  on
 	  SFSimEcho		  on
@@ -383,7 +380,7 @@ Model {
 	Simulink.RTWCC {
 	  $BackupClass		  "Simulink.RTWCC"
 	  $ObjectID		  9
-	  Version		  "1.11.0"
+	  Version		  "1.10.0"
 	  Array {
 	    Type		    "Cell"
 	    Dimension		    8
@@ -427,7 +424,6 @@ Model {
 	  GenerateTraceReportEml  off
 	  GenerateCodeInfo	  off
 	  GenerateSLWebview	  off
-	  GenerateCodeMetricsReport off
 	  RTWCompilerOptimization "Off"
 	  CheckMdlBeforeBuild	  "Off"
 	  CustomRebuildMode	  "OnUpdate"
@@ -436,7 +432,7 @@ Model {
 	    Dimension		    2
 	    Simulink.CodeAppCC {
 	      $ObjectID		      10
-	      Version		      "1.11.0"
+	      Version		      "1.10.0"
 	      Array {
 		Type			"Cell"
 		Dimension		21
@@ -501,7 +497,7 @@ Model {
 	    Simulink.GRTTargetCC {
 	      $BackupClass	      "Simulink.TargetCC"
 	      $ObjectID		      11
-	      Version		      "1.11.0"
+	      Version		      "1.10.0"
 	      Array {
 		Type			"Cell"
 		Dimension		16
@@ -529,8 +525,6 @@ Model {
 	      TargetFunctionLibrary   "ANSI_C"
 	      UtilityFuncGeneration   "Auto"
 	      ERTMultiwordTypeDef     "System defined"
-	      FunctionExecutionProfile off
-	      CodeExecutionProfiling  off
 	      ERTCodeCoverageTool     "None"
 	      ERTMultiwordLength      256
 	      MultiwordLength	      2048
@@ -576,7 +570,6 @@ Model {
 	      RTWCAPISignals	      off
 	      RTWCAPIParams	      off
 	      RTWCAPIStates	      off
-	      RTWCAPIRootIO	      off
 	      GenerateASAP2	      off
 	    }
 	    PropName		    "Components"
@@ -586,7 +579,7 @@ Model {
       }
       Name		      "Configuration"
       CurrentDlgPage	      "Diagnostics"
-      ConfigPrmDlgPosition     [ 197, 26, 1083, 725 ] 
+      ConfigPrmDlgPosition    " [ 197, 26, 1083, 725 ] "
     }
     PropName		    "ConfigurationSets"
   }
@@ -678,7 +671,6 @@ Model {
     Block {
       BlockType		      Inport
       Port		      "1"
-      OutputFunctionCall      off
       OutMin		      "[]"
       OutMax		      "[]"
       OutDataTypeStr	      "Inherit: auto"
@@ -709,7 +701,7 @@ Model {
       ContinuousStateAttributes	"''"
     }
     Block {
-      BlockType		      Lookup_n-D
+      BlockType		      "Lookup_n-D"
       NumberOfTableDimensions "2"
       BreakpointsForDimension1 "[10,22,31]"
       BreakpointsForDimension2 "[10,22,31]"
@@ -841,8 +833,7 @@ Model {
       IntermediateResultsDataTypeStr "Inherit: Same as output"
       InterpMethod	      "Linear"
       ExtrapMethod	      "Linear"
-      DiagnosticForOutOfRangeInput "None"
-      RemoveProtectionInput   off
+      ActionForOutOfRangeInput "None"
       UseLastTableValue	      off
       SampleTime	      "-1"
       InputSameDT	      on
@@ -974,8 +965,8 @@ Model {
   }
   System {
     Name		    "NDM200"
-    Location		    [207, 85, 1701, 982]
-    Open		    off
+    Location		    [207, 85, 1395, 982]
+    Open		    on
     ModelBrowserVisibility  on
     ModelBrowserWidth	    200
     ScreenColor		    "white"
@@ -1061,7 +1052,7 @@ Model {
 	  Ports			  [1, 1]
 	  Position		  [520, 25, 550, 55]
 	  ShowName		  off
-	  LibraryVersion	  "1.236"
+	  LibraryVersion	  "1.225"
 	  SourceBlock		  "simulink/Logic and Bit\nOperations/Compare\nTo Constant"
 	  SourceType		  "Compare To Constant"
 	  ShowPortLabels	  "FromPortIcon"
@@ -1372,7 +1363,7 @@ Model {
 	      Value		      "max(Job.time)"
 	    }
 	    Block {
-	      BlockType		      Lookup_n-D
+	      BlockType		      "Lookup_n-D"
 	      Name		      "M_dem"
 	      SID		      "88"
 	      Ports		      [1, 1]
@@ -1382,7 +1373,8 @@ Model {
 	      BreakpointsForDimension1 "Job.time"
 	      IndexSearchMethod	      "Binary search"
 	      Table		      "Job.M_dem"
-	      InterpMethod	      "Flat"
+	      InterpMethod	      "None - Flat"
+	      ExtrapMethod	      "Cubic spline"
 	      RndMeth		      "Simplest"
 	    }
 	    Block {
@@ -1402,17 +1394,18 @@ Model {
 	      Position		      [710, 76, 740, 134]
 	    }
 	    Block {
-	      BlockType		      Lookup_n-D
+	      BlockType		      "Lookup_n-D"
 	      Name		      "omega_dem"
 	      SID		      "87"
 	      Ports		      [1, 1]
-	      Position		      [935, 93, 995, 137]
+	      Position		      [940, 93, 1000, 137]
 	      ForegroundColor	      "magenta"
 	      NumberOfTableDimensions "1"
 	      BreakpointsForDimension1 "Job.time"
 	      IndexSearchMethod	      "Binary search"
 	      Table		      "Job.omega_dem"
-	      InterpMethod	      "Flat"
+	      InterpMethod	      "None - Flat"
+	      ExtrapMethod	      "Cubic spline"
 	      RndMeth		      "Simplest"
 	    }
 	    Block {
@@ -2091,8 +2084,8 @@ Model {
       ForegroundColor	      "lightBlue"
       ShowName		      off
       Floating		      off
-      Location		      [6, 71, 1298, 910]
-      Open		      on
+      Location		      [3, 71, 1398, 1016]
+      Open		      off
       NumInputPorts	      "4"
       TickLabels	      "on"
       ZoomMode		      "yonly"
@@ -2103,9 +2096,9 @@ Model {
 	axes3			"%<SignalLabel>"
 	axes4			"%<SignalLabel>"
       }
-      TimeRange		      "2000"
-      YMin		      "0~0~295~5.55112e-017"
-      YMax		      "90000~13000~355~0.9"
+      TimeRange		      "1000            "
+      YMin		      "0~-3e+008~215~-3.25e+010"
+      YMax		      "200000~1.1e+009~295~2.5e+009"
       SaveToWorkspace	      on
       SaveName		      "Scp_Main"
       DataFormat	      "StructureWithTime"

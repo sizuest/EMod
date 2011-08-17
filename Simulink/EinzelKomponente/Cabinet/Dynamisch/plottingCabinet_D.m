@@ -7,12 +7,13 @@ Time = Scp_Cabinet.time;
 
 
 %Cabinet heat flow
-Verlust = Scp_Cabinet.signals(1).values(:,1)/1000;
-T_Cabinet= Scp_Cabinet.signals(2).values(:,1);
-Convection_Cabinet= Scp_Cabinet.signals(3).values(:,1)/1000;
-Radiation_Cabinet= Scp_Cabinet.signals(4).values(:,1)/1000;
-P_ElCooling_Cabinet=Scp_Cabinet.signals(5).values(:,1)/1000;
-P_Cooling_Cabinet=Scp_Cabinet.signals(6).values(:,1)/1000;
+El_tot = Scp_Cabinet.signals(1).values(:,1)/1000;
+T_Cabinet_aussen = Scp_Cabinet.signals(2).values(:,1);
+T_Cabinet= Scp_Cabinet.signals(3).values(:,1);
+Convection_Cabinet= Scp_Cabinet.signals(4).values(:,1);
+Radiation_Cabinet= Scp_Cabinet.signals(5).values(:,1);
+P_ElCooling_Cabinet=Scp_Cabinet.signals(6).values(:,1)/1000;
+P_Cooling_Cabinet=Scp_Cabinet.signals(7).values(:,1)/1000;
 
 
 %% Evaluation
@@ -25,12 +26,12 @@ P_Cooling_Cabinet=Scp_Cabinet.signals(6).values(:,1)/1000;
 
 figure()
 line(Time,[
-        Verlust,...
+        El_tot,...
       ]);
 title('Cabinet')
 ylabel('Leistung (P) [KW]','FontSize',12) 
 xlabel('Zeit [s]','FontSize',12)
-legend('Verlust MainDrive')
+legend('P tot')
 
 figure()
 line(Time,[
@@ -45,11 +46,12 @@ legend('P ElCooling Cabinet','P Cooling Cabinet')
 
 figure()
 line(Time,[T_Cabinet,...
+           T_Cabinet_aussen,... 
       ]);
 title('Temperatur') 
 ylabel('Temperatur [K]','FontSize',12) 
 xlabel('Zeit [s]','FontSize',12)
-legend('T Cabinet')
+legend('T Cabinet', 'T Cabinet aussen')
 
 
 %Cabinet
@@ -58,7 +60,7 @@ line(Time,[Convection_Cabinet, ...
        Radiation_Cabinet, ...
       ]);
 title('Cabinet')
-ylabel('Leistung (P) [KW]','FontSize',12) 
+ylabel('Leistung (P) [W]','FontSize',12) 
 xlabel('Zeit [s]','FontSize',12)
 legend('Convection Cabinet', 'Radiation Cabinet')
 

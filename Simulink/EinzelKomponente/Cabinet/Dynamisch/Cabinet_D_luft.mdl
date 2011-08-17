@@ -1,12 +1,12 @@
 Model {
-  Name			  "CoolingSpindel"
+  Name			  "Cabinet_D_luft"
   Version		  7.6
   MdlSubVersion		  0
   GraphicalInterface {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.15"
+    ComputedModelVersion    "1.37"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -20,15 +20,15 @@ Model {
   MinMaxOverflowLogging	  "UseLocalSettings"
   MinMaxOverflowArchiveMode "Overwrite"
   MaxMDLFileLineLength	  120
-  Created		  "Tue Aug 09 08:34:02 2011"
+  Created		  "Tue Aug 09 08:26:28 2011"
   Creator		  "conid"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "conid"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Aug 16 18:11:57 2011"
-  RTWModifiedTimeStamp	  235412846
-  ModelVersionFormat	  "1.%<AutoIncrement:15>"
+  LastModifiedDate	  "Wed Aug 17 09:33:10 2011"
+  RTWModifiedTimeStamp	  235471186
+  ModelVersionFormat	  "1.%<AutoIncrement:37>"
   ConfigurationManager	  "None"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -51,7 +51,7 @@ Model {
   ToolBar		  on
   StatusBar		  on
   BrowserShowLibraryLinks off
-  BrowserLookUnderMasks	  off
+  BrowserLookUnderMasks	  on
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
   Profile		  off
@@ -111,7 +111,7 @@ Model {
 	  $ObjectID		  2
 	  Version		  "1.10.0"
 	  StartTime		  "0.0"
-	  StopTime		  "1000"
+	  StopTime		  "SimulTime"
 	  AbsTol		  "auto"
 	  FixedStep		  "auto"
 	  InitialStep		  "auto"
@@ -125,7 +125,7 @@ Model {
 	  MaxStep		  "auto"
 	  MinStep		  "auto"
 	  MaxConsecutiveMinStep	  "1"
-	  RelTol		  "1e-3"
+	  RelTol		  "1e-9"
 	  SolverMode		  "Auto"
 	  ConcurrentTasks	  off
 	  Solver		  "ode45"
@@ -619,10 +619,15 @@ Model {
   }
   BlockParameterDefaults {
     Block {
-      BlockType		      ActionPort
-      InitializeStates	      "held"
-      PropagateVarSize	      "Only when execution is resumed"
-      ActionType	      "unset"
+      BlockType		      Abs
+      ZeroCross		      on
+      SampleTime	      "-1"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: Same as input"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
     }
     Block {
       BlockType		      Constant
@@ -638,11 +643,25 @@ Model {
       PreserveConstantTs      off
     }
     Block {
+      BlockType		      Demux
+      Outputs		      "4"
+      DisplayOption	      "none"
+      BusSelectionMode	      off
+    }
+    Block {
       BlockType		      EnablePort
       StatesWhenEnabling      "held"
       PropagateVarSize	      "Only when enabling"
       ShowOutputPort	      off
       ZeroCross		      on
+    }
+    Block {
+      BlockType		      FromWorkspace
+      VariableName	      "simulink_input"
+      SampleTime	      "-1"
+      Interpolate	      on
+      ZeroCross		      off
+      OutputAfterFinalValue   "Extrapolation"
     }
     Block {
       BlockType		      Gain
@@ -657,14 +676,6 @@ Model {
       LockScale		      off
       RndMeth		      "Floor"
       SaturateOnIntegerOverflow	on
-      SampleTime	      "-1"
-    }
-    Block {
-      BlockType		      If
-      NumInputs		      "1"
-      IfExpression	      "u1 > 0"
-      ShowElse		      on
-      ZeroCross		      on
       SampleTime	      "-1"
     }
     Block {
@@ -866,6 +877,23 @@ Model {
       Iterations	      "3"
     }
     Block {
+      BlockType		      MultiPortSwitch
+      DataPortOrder	      "One-based contiguous"
+      Inputs		      "3"
+      DataPortIndices	      "{1,2,3}"
+      DataPortForDefault      "Last data port"
+      DiagnosticForDefault    "Error"
+      InputSameDT	      on
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+      AllowDiffInputSizes     off
+    }
+    Block {
       BlockType		      Outport
       Port		      "1"
       OutMin		      "[]"
@@ -881,6 +909,21 @@ Model {
       SourceOfInitialOutputValue "Dialog"
       OutputWhenDisabled      "held"
       InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      Product
+      Inputs		      "2"
+      Multiplication	      "Element-wise(.*)"
+      CollapseMode	      "All dimensions"
+      CollapseDim	      "1"
+      InputSameDT	      on
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: Same as first input"
+      LockScale		      off
+      RndMeth		      "Zero"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
     }
     Block {
       BlockType		      Relay
@@ -982,8 +1025,8 @@ Model {
     }
   }
   System {
-    Name		    "CoolingSpindel"
-    Location		    [296, 132, 1345, 953]
+    Name		    "Cabinet_D_luft"
+    Location		    [218, 80, 1394, 700]
     Open		    off
     ModelBrowserVisibility  on
     ModelBrowserWidth	    212
@@ -997,33 +1040,13 @@ Model {
     ShowPageBoundaries	    off
     ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "122"
-    Block {
-      BlockType		      Constant
-      Name		      "Constant"
-      SID		      "66"
-      Position		      [40, 165, 70, 195]
-      Value		      "4000"
-    }
-    Block {
-      BlockType		      Constant
-      Name		      "Constant1"
-      SID		      "67"
-      Position		      [40, 240, 70, 270]
-      Value		      "298"
-    }
-    Block {
-      BlockType		      Constant
-      Name		      "Constant2"
-      SID		      "68"
-      Position		      [40, 315, 70, 345]
-    }
+    SIDHighWatermark	    "140"
     Block {
       BlockType		      SubSystem
-      Name		      "Cooling System MainDrive"
+      Name		      "Cabinet"
       SID		      "1"
-      Ports		      [3, 6]
-      Position		      [240, 139, 415, 371]
+      Ports		      [2, 7]
+      Position		      [390, 116, 595, 414]
       LibraryVersion	      "1.225"
       TreatAsAtomicUnit	      on
       MinAlgLoopOccurrences   off
@@ -1035,46 +1058,52 @@ Model {
       MaskHideContents	      off
       Port {
 	PortNumber		1
-	Name			"T_MainDrive [K]"
+	Name			"El Tot"
 	RTWStorageClass		"Auto"
 	DataLoggingNameMode	"SignalName"
       }
       Port {
 	PortNumber		2
-	Name			"ConvectionnMainDrive [W]"
+	Name			"T_Cabinet aussen [K]"
 	RTWStorageClass		"Auto"
 	DataLoggingNameMode	"SignalName"
       }
       Port {
 	PortNumber		3
-	Name			"RadiationMainDrive [W]"
+	Name			"T_Cabinet "
 	RTWStorageClass		"Auto"
 	DataLoggingNameMode	"SignalName"
       }
       Port {
 	PortNumber		4
-	Name			"P_el [W]"
+	Name			"Convection Cabinet [W]"
 	RTWStorageClass		"Auto"
 	DataLoggingNameMode	"SignalName"
       }
       Port {
 	PortNumber		5
-	Name			"P_cooling"
+	Name			"Radiation Cabinet [W]"
 	RTWStorageClass		"Auto"
 	DataLoggingNameMode	"SignalName"
       }
       Port {
 	PortNumber		6
-	Name			"P_verCooling [W]"
+	Name			"P elCooling Cabinet [W]"
+	RTWStorageClass		"Auto"
+	DataLoggingNameMode	"SignalName"
+      }
+      Port {
+	PortNumber		7
+	Name			"P Cooling Cabinet [W]"
 	RTWStorageClass		"Auto"
 	DataLoggingNameMode	"SignalName"
       }
       System {
-	Name			"Cooling System MainDrive"
-	Location		[296, 132, 1345, 953]
-	Open			on
+	Name			"Cabinet"
+	Location		[205, 80, 1393, 700]
+	Open			off
 	ModelBrowserVisibility	on
-	ModelBrowserWidth	212
+	ModelBrowserWidth	200
 	ScreenColor		"white"
 	PaperOrientation	"landscape"
 	PaperPositionMode	"auto"
@@ -1086,825 +1115,35 @@ Model {
 	ZoomFactor		"100"
 	Block {
 	  BlockType		  Inport
-	  Name			  "P_ver_MainDrive [W]"
-	  SID			  "2"
-	  Position		  [70, 48, 100, 62]
+	  Name			  "ON [1/0]"
+	  SID			  "4"
+	  Position		  [85, 68, 115, 82]
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Inport
-	  Name			  "T_ambient [K]"
-	  SID			  "3"
-	  Position		  [70, 283, 100, 297]
+	  Name			  "P_el_MainDrive [W]"
+	  SID			  "2"
+	  Position		  [85, 143, 115, 157]
 	  Port			  "2"
 	  IconDisplay		  "Port number"
 	}
 	Block {
-	  BlockType		  Inport
-	  Name			  "ON [1/0]"
-	  SID			  "4"
-	  Position		  [70, 403, 100, 417]
-	  Port			  "3"
-	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  Constant
-	  Name			  "Constant"
+	  BlockType		  Sum
+	  Name			  "Add"
 	  SID			  "5"
-	  Position		  [130, 430, 160, 460]
-	  Value			  "0"
-	}
-	Block {
-	  BlockType		  Relay
-	  Name			  "Controller"
-	  SID			  "6"
-	  Position		  [145, 356, 180, 394]
-	  OnSwitchValue		  "MainDriveCooling.Tmax"
-	  OffSwitchValue	  "MainDriveCooling.Tmin"
-	}
-	Block {
-	  BlockType		  SubSystem
-	  Name			  "Cooling System"
-	  SID			  "7"
-	  Ports			  [4, 3]
-	  Position		  [395, 219, 630, 331]
-	  LibraryVersion	  "1.225"
-	  MinAlgLoopOccurrences	  off
-	  PropExecContextOutsideSubsystem off
-	  RTWSystemCode		  "Auto"
-	  FunctionWithSeparateData off
-	  Opaque		  off
-	  RequestExecContextInheritance	off
-	  MaskHideContents	  off
-	  System {
-	    Name		    "Cooling System"
-	    Location		    [205, 85, 1363, 830]
-	    Open		    off
-	    ModelBrowserVisibility  on
-	    ModelBrowserWidth	    200
-	    ScreenColor		    "white"
-	    PaperOrientation	    "landscape"
-	    PaperPositionMode	    "auto"
-	    PaperType		    "A4"
-	    PaperUnits		    "centimeters"
-	    TiledPaperMargins	    [1.270000, 1.270000, 1.270000, 1.270000]
-	    TiledPageScale	    1
-	    ShowPageBoundaries	    off
-	    ZoomFactor		    "100"
-	    Block {
-	      BlockType		      Inport
-	      Name		      "On [1/0]"
-	      SID		      "8"
-	      Position		      [50, 103, 80, 117]
-	      IconDisplay	      "Port number"
-	    }
-	    Block {
-	      BlockType		      Inport
-	      Name		      "T_MainDrive [K]"
-	      SID		      "9"
-	      Position		      [50, 183, 80, 197]
-	      Port		      "2"
-	      IconDisplay	      "Port number"
-	    }
-	    Block {
-	      BlockType		      Inport
-	      Name		      "T_ambient [K]"
-	      SID		      "10"
-	      Position		      [50, 283, 80, 297]
-	      Port		      "3"
-	      IconDisplay	      "Port number"
-	    }
-	    Block {
-	      BlockType		      Inport
-	      Name		      "ON [1/0]"
-	      SID		      "11"
-	      Position		      [50, 383, 80, 397]
-	      Port		      "4"
-	      IconDisplay	      "Port number"
-	    }
-	    Block {
-	      BlockType		      Constant
-	      Name		      "Constant"
-	      SID		      "12"
-	      Position		      [745, 335, 775, 365]
-	      Value		      "0"
-	    }
-	    Block {
-	      BlockType		      If
-	      Name		      "If"
-	      SID		      "13"
-	      Ports		      [1, 2]
-	      Position		      [165, 148, 285, 232]
-	      ShowName		      off
-	      IfExpression	      "u1 < Venti_n2"
-	    }
-	    Block {
-	      BlockType		      SubSystem
-	      Name		      "If Action\nSubsystem"
-	      SID		      "14"
-	      Ports		      [2, 1, 0, 0, 0, 0, 0, 1]
-	      Position		      [365, 224, 485, 311]
-	      LibraryVersion	      "1.225"
-	      TreatAsAtomicUnit	      on
-	      MinAlgLoopOccurrences   off
-	      PropExecContextOutsideSubsystem off
-	      RTWSystemCode	      "Auto"
-	      FunctionWithSeparateData off
-	      Opaque		      off
-	      RequestExecContextInheritance off
-	      MaskHideContents	      off
-	      System {
-		Name			"If Action\nSubsystem"
-		Location		[834, 250, 1315, 550]
-		Open			off
-		ModelBrowserVisibility	on
-		ModelBrowserWidth	200
-		ScreenColor		"white"
-		PaperOrientation	"landscape"
-		PaperPositionMode	"auto"
-		PaperType		"A4"
-		PaperUnits		"centimeters"
-		TiledPaperMargins	[1.270000, 1.270000, 1.270000, 1.270000]
-		TiledPageScale		1
-		ShowPageBoundaries	off
-		ZoomFactor		"100"
-		Block {
-		  BlockType		  Inport
-		  Name			  "T_MainDrive"
-		  SID			  "15"
-		  Position		  [140, 143, 170, 157]
-		  IconDisplay		  "Port number"
-		}
-		Block {
-		  BlockType		  Inport
-		  Name			  "T_ambient"
-		  SID			  "16"
-		  Position		  [140, 228, 170, 242]
-		  Port			  "2"
-		  IconDisplay		  "Port number"
-		}
-		Block {
-		  BlockType		  ActionPort
-		  Name			  "Action Port"
-		  SID			  "17"
-		  Position		  [50, 40, 109, 68]
-		  ActionType		  "then"
-		}
-		Block {
-		  BlockType		  "Lookup_n-D"
-		  Name			  "Lookup\nTable (n-D)"
-		  SID			  "18"
-		  Ports			  [2, 1]
-		  Position		  [205, 108, 295, 277]
-		  BreakpointsForDimension1 "MainDriveCooling.Air.T_int"
-		  BreakpointsForDimension2 "MainDriveCooling.Air.T_ext"
-		  IndexSearchMethod	  "Binary search"
-		  Table			  "MainDriveCooling.Air.P"
-		  InterpMethod		  "Cubic spline"
-		  ExtrapMethod		  "None - Clip"
-		}
-		Block {
-		  BlockType		  Outport
-		  Name			  "n"
-		  SID			  "19"
-		  Position		  [320, 188, 350, 202]
-		  IconDisplay		  "Port number"
-		}
-		Line {
-		  SrcBlock		  "T_ambient"
-		  SrcPort		  1
-		  DstBlock		  "Lookup\nTable (n-D)"
-		  DstPort		  2
-		}
-		Line {
-		  SrcBlock		  "T_MainDrive"
-		  SrcPort		  1
-		  DstBlock		  "Lookup\nTable (n-D)"
-		  DstPort		  1
-		}
-		Line {
-		  SrcBlock		  "Lookup\nTable (n-D)"
-		  SrcPort		  1
-		  DstBlock		  "n"
-		  DstPort		  1
-		}
-	      }
-	    }
-	    Block {
-	      BlockType		      Saturate
-	      Name		      "Saturation"
-	      SID		      "20"
-	      Ports		      [1, 1]
-	      Position		      [680, 194, 735, 306]
-	      InputPortMap	      "u0"
-	      UpperLimit	      "12000"
-	      LowerLimit	      "0"
-	    }
-	    Block {
-	      BlockType		      SubSystem
-	      Name		      "Subsystem1"
-	      SID		      "21"
-	      Ports		      [2, 1, 0, 0, 0, 0, 0, 1]
-	      Position		      [290, 451, 385, 524]
-	      MinAlgLoopOccurrences   off
-	      PropExecContextOutsideSubsystem off
-	      RTWSystemCode	      "Auto"
-	      FunctionWithSeparateData off
-	      Opaque		      off
-	      RequestExecContextInheritance off
-	      MaskHideContents	      off
-	      System {
-		Name			"Subsystem1"
-		Location		[314, 745, 752, 1100]
-		Open			off
-		ModelBrowserVisibility	on
-		ModelBrowserWidth	200
-		ScreenColor		"white"
-		PaperOrientation	"landscape"
-		PaperPositionMode	"auto"
-		PaperType		"A4"
-		PaperUnits		"centimeters"
-		TiledPaperMargins	[1.270000, 1.270000, 1.270000, 1.270000]
-		TiledPageScale		1
-		ShowPageBoundaries	off
-		ZoomFactor		"100"
-		Block {
-		  BlockType		  Inport
-		  Name			  "T_MainDrive"
-		  SID			  "22"
-		  Position		  [25, 63, 55, 77]
-		  IconDisplay		  "Port number"
-		}
-		Block {
-		  BlockType		  Inport
-		  Name			  "T_ambient"
-		  SID			  "23"
-		  Position		  [25, 148, 55, 162]
-		  Port			  "2"
-		  IconDisplay		  "Port number"
-		}
-		Block {
-		  BlockType		  ActionPort
-		  Name			  "Action Port"
-		  SID			  "24"
-		  Position		  [20, 15, 79, 43]
-		  ActionType		  "else"
-		}
-		Block {
-		  BlockType		  "Lookup_n-D"
-		  Name			  "Lookup\nTable (n-D)1"
-		  SID			  "25"
-		  Ports			  [2, 1]
-		  Position		  [90, 28, 180, 197]
-		  BreakpointsForDimension1 "MainDriveCooling.Air.T_int"
-		  BreakpointsForDimension2 "MainDriveCooling.Air.T_ext"
-		  IndexSearchMethod	  "Binary search"
-		  Table			  "MainDriveCooling.Air.P_n2"
-		  InterpMethod		  "Cubic spline"
-		  ExtrapMethod		  "None - Clip"
-		}
-		Block {
-		  BlockType		  Outport
-		  Name			  "n2"
-		  SID			  "26"
-		  Position		  [205, 108, 235, 122]
-		  IconDisplay		  "Port number"
-		}
-		Line {
-		  SrcBlock		  "T_ambient"
-		  SrcPort		  1
-		  DstBlock		  "Lookup\nTable (n-D)1"
-		  DstPort		  2
-		}
-		Line {
-		  SrcBlock		  "T_MainDrive"
-		  SrcPort		  1
-		  DstBlock		  "Lookup\nTable (n-D)1"
-		  DstPort		  1
-		}
-		Line {
-		  SrcBlock		  "Lookup\nTable (n-D)1"
-		  SrcPort		  1
-		  DstBlock		  "n2"
-		  DstPort		  1
-		}
-	      }
-	    }
-	    Block {
-	      BlockType		      SubSystem
-	      Name		      "Subsystem2"
-	      SID		      "105"
-	      Ports		      [1, 2, 1]
-	      Position		      [745, 424, 830, 551]
-	      MinAlgLoopOccurrences   off
-	      PropExecContextOutsideSubsystem off
-	      RTWSystemCode	      "Auto"
-	      FunctionWithSeparateData off
-	      Opaque		      off
-	      RequestExecContextInheritance off
-	      MaskHideContents	      off
-	      System {
-		Name			"Subsystem2"
-		Location		[205, 85, 1363, 830]
-		Open			off
-		ModelBrowserVisibility	on
-		ModelBrowserWidth	200
-		ScreenColor		"white"
-		PaperOrientation	"landscape"
-		PaperPositionMode	"auto"
-		PaperType		"A4"
-		PaperUnits		"centimeters"
-		TiledPaperMargins	[1.270000, 1.270000, 1.270000, 1.270000]
-		TiledPageScale		1
-		ShowPageBoundaries	off
-		ZoomFactor		"100"
-		Block {
-		  BlockType		  Inport
-		  Name			  "In1"
-		  SID			  "106"
-		  Position		  [400, 178, 430, 192]
-		  IconDisplay		  "Port number"
-		}
-		Block {
-		  BlockType		  EnablePort
-		  Name			  "Enable"
-		  SID			  "107"
-		  Ports			  []
-		  Position		  [25, 20, 45, 40]
-		}
-		Block {
-		  BlockType		  Sum
-		  Name			  "Add"
-		  SID			  "108"
-		  Ports			  [2, 1]
-		  Position		  [855, 107, 885, 138]
-		  InputSameDT		  off
-		  OutDataTypeStr	  "Inherit: Inherit via internal rule"
-		  SaturateOnIntegerOverflow off
-		}
-		Block {
-		  BlockType		  Sum
-		  Name			  "Add1"
-		  SID			  "109"
-		  Ports			  [2, 1]
-		  Position		  [215, 117, 245, 148]
-		  Inputs		  "-+"
-		  InputSameDT		  off
-		  OutDataTypeStr	  "Inherit: Inherit via internal rule"
-		  SaturateOnIntegerOverflow off
-		}
-		Block {
-		  BlockType		  Sum
-		  Name			  "Add2"
-		  SID			  "110"
-		  Ports			  [2, 1]
-		  Position		  [215, 292, 245, 323]
-		  Inputs		  "-+"
-		  InputSameDT		  off
-		  OutDataTypeStr	  "Inherit: Inherit via internal rule"
-		  SaturateOnIntegerOverflow off
-		}
-		Block {
-		  BlockType		  Sum
-		  Name			  "Add3"
-		  SID			  "111"
-		  Ports			  [2, 1]
-		  Position		  [900, 441, 930, 474]
-		  InputSameDT		  off
-		  OutDataTypeStr	  "Inherit: Inherit via internal rule"
-		  SaturateOnIntegerOverflow off
-		}
-		Block {
-		  BlockType		  Sum
-		  Name			  "Add4"
-		  SID			  "112"
-		  Ports			  [2, 1]
-		  Position		  [830, 352, 860, 383]
-		  Inputs		  "-+"
-		  InputSameDT		  off
-		  OutDataTypeStr	  "Inherit: Inherit via internal rule"
-		  SaturateOnIntegerOverflow off
-		}
-		Block {
-		  BlockType		  Gain
-		  Name			  "Gain"
-		  SID			  "113"
-		  Position		  [130, 65, 175, 95]
-		  Gain			  "1*n2"
-		  ParamDataTypeStr	  "Inherit: Inherit via internal rule"
-		  OutDataTypeStr	  "Inherit: Inherit via internal rule"
-		  SaturateOnIntegerOverflow off
-		}
-		Block {
-		  BlockType		  Gain
-		  Name			  "Gain1"
-		  SID			  "114"
-		  Position		  [125, 245, 170, 275]
-		  Gain			  "1*n1"
-		  ParamDataTypeStr	  "Inherit: Inherit via internal rule"
-		  OutDataTypeStr	  "Inherit: Inherit via internal rule"
-		  SaturateOnIntegerOverflow off
-		}
-		Block {
-		  BlockType		  Gain
-		  Name			  "Gain2"
-		  SID			  "115"
-		  Position		  [720, 245, 760, 275]
-		  Gain			  "1*n"
-		  ParamDataTypeStr	  "Inherit: Inherit via internal rule"
-		  OutDataTypeStr	  "Inherit: Inherit via internal rule"
-		  SaturateOnIntegerOverflow off
-		}
-		Block {
-		  BlockType		  Constant
-		  Name			  "Pumpe"
-		  SID			  "116"
-		  Position		  [625, 360, 655, 390]
-		  Value			  "p"
-		}
-		Block {
-		  BlockType		  Switch
-		  Name			  "Switch1"
-		  SID			  "117"
-		  Position		  [580, 62, 655, 308]
-		  Criteria		  "u2 > Threshold"
-		  InputSameDT		  off
-		  SaturateOnIntegerOverflow off
-		}
-		Block {
-		  BlockType		  Switch
-		  Name			  "Switch2"
-		  SID			  "118"
-		  Position		  [470, 293, 540, 427]
-		  Criteria		  "u2 > Threshold"
-		  InputSameDT		  off
-		  SaturateOnIntegerOverflow off
-		}
-		Block {
-		  BlockType		  Constant
-		  Name			  "Ventilator n1"
-		  SID			  "119"
-		  Position		  [40, 245, 70, 275]
-		  Value			  "p1"
-		}
-		Block {
-		  BlockType		  Constant
-		  Name			  "Ventilator n2"
-		  SID			  "120"
-		  Position		  [45, 65, 75, 95]
-		  Value			  "p2"
-		}
-		Block {
-		  BlockType		  Outport
-		  Name			  "P_el"
-		  SID			  "121"
-		  Position		  [940, 118, 970, 132]
-		  IconDisplay		  "Port number"
-		}
-		Block {
-		  BlockType		  Outport
-		  Name			  "P_verCooling"
-		  SID			  "122"
-		  Position		  [960, 453, 990, 467]
-		  Port			  "2"
-		  IconDisplay		  "Port number"
-		}
-		Line {
-		  SrcBlock		  "Switch1"
-		  SrcPort		  1
-		  Points		  [0, -70]
-		  DstBlock		  "Add"
-		  DstPort		  1
-		}
-		Line {
-		  SrcBlock		  "In1"
-		  SrcPort		  1
-		  Points		  [5, 0]
-		  Branch {
-		    DstBlock		    "Switch1"
-		    DstPort		    2
-		  }
-		  Branch {
-		    Points		    [0, 175]
-		    DstBlock		    "Switch2"
-		    DstPort		    2
-		  }
-		}
-		Line {
-		  SrcBlock		  "Add"
-		  SrcPort		  1
-		  DstBlock		  "P_el"
-		  DstPort		  1
-		}
-		Line {
-		  SrcBlock		  "Ventilator n2"
-		  SrcPort		  1
-		  Points		  [30, 0]
-		  Branch {
-		    DstBlock		    "Gain"
-		    DstPort		    1
-		  }
-		  Branch {
-		    Points		    [0, 60]
-		    DstBlock		    "Add1"
-		    DstPort		    2
-		  }
-		}
-		Line {
-		  SrcBlock		  "Gain"
-		  SrcPort		  1
-		  Points		  [5, 0]
-		  Branch {
-		    Points		    [380, 0]
-		    DstBlock		    "Switch1"
-		    DstPort		    1
-		  }
-		  Branch {
-		    Points		    [0, 45]
-		    DstBlock		    "Add1"
-		    DstPort		    1
-		  }
-		}
-		Line {
-		  SrcBlock		  "Gain1"
-		  SrcPort		  1
-		  Points		  [25, 0]
-		  Branch {
-		    Points		    [365, 0]
-		    DstBlock		    "Switch1"
-		    DstPort		    3
-		  }
-		  Branch {
-		    DstBlock		    "Add2"
-		    DstPort		    1
-		  }
-		}
-		Line {
-		  SrcBlock		  "Ventilator n1"
-		  SrcPort		  1
-		  Points		  [30, 0]
-		  Branch {
-		    DstBlock		    "Gain1"
-		    DstPort		    1
-		  }
-		  Branch {
-		    Points		    [0, 55]
-		    DstBlock		    "Add2"
-		    DstPort		    2
-		  }
-		}
-		Line {
-		  SrcBlock		  "Gain2"
-		  SrcPort		  1
-		  Points		  [0, 0]
-		  Branch {
-		    Points		    [0, -130]
-		    DstBlock		    "Add"
-		    DstPort		    2
-		  }
-		  Branch {
-		    Points		    [0, 100]
-		    DstBlock		    "Add4"
-		    DstPort		    1
-		  }
-		}
-		Line {
-		  SrcBlock		  "Pumpe"
-		  SrcPort		  1
-		  Points		  [45, 0]
-		  Branch {
-		    DstBlock		    "Gain2"
-		    DstPort		    1
-		  }
-		  Branch {
-		    DstBlock		    "Add4"
-		    DstPort		    2
-		  }
-		}
-		Line {
-		  SrcBlock		  "Add4"
-		  SrcPort		  1
-		  Points		  [20, 0]
-		  DstBlock		  "Add3"
-		  DstPort		  1
-		}
-		Line {
-		  SrcBlock		  "Add3"
-		  SrcPort		  1
-		  DstBlock		  "P_verCooling"
-		  DstPort		  1
-		}
-		Line {
-		  SrcBlock		  "Add1"
-		  SrcPort		  1
-		  Points		  [205, 0]
-		  DstBlock		  "Switch2"
-		  DstPort		  1
-		}
-		Line {
-		  SrcBlock		  "Add2"
-		  SrcPort		  1
-		  Points		  [65, 0; 0, 95]
-		  DstBlock		  "Switch2"
-		  DstPort		  3
-		}
-		Line {
-		  SrcBlock		  "Switch2"
-		  SrcPort		  1
-		  Points		  [45, 0; 0, 105]
-		  DstBlock		  "Add3"
-		  DstPort		  2
-		}
-	      }
-	    }
-	    Block {
-	      BlockType		      Switch
-	      Name		      "Switch"
-	      SID		      "36"
-	      Position		      [815, 227, 885, 373]
-	      Criteria		      "u2 > Threshold"
-	      InputSameDT	      off
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      Switch
-	      Name		      "Switch1"
-	      SID		      "37"
-	      Position		      [565, 260, 630, 360]
-	      Criteria		      "u2 > Threshold"
-	      Threshold		      "Venti_n2"
-	      InputSameDT	      off
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      Outport
-	      Name		      "P_el [W]"
-	      SID		      "38"
-	      Position		      [1020, 448, 1050, 462]
-	      IconDisplay	      "Port number"
-	    }
-	    Block {
-	      BlockType		      Outport
-	      Name		      "P_cooling [W]"
-	      SID		      "39"
-	      Position		      [1010, 293, 1040, 307]
-	      Port		      "2"
-	      IconDisplay	      "Port number"
-	    }
-	    Block {
-	      BlockType		      Outport
-	      Name		      "P_verCooling [W]"
-	      SID		      "103"
-	      Position		      [1020, 513, 1050, 527]
-	      Port		      "3"
-	      IconDisplay	      "Port number"
-	    }
-	    Line {
-	      SrcBlock		      "T_ambient [K]"
-	      SrcPort		      1
-	      Points		      [70, 0]
-	      Branch {
-		Points			[0, 215]
-		DstBlock		"Subsystem1"
-		DstPort			2
-	      }
-	      Branch {
-		DstBlock		"If Action\nSubsystem"
-		DstPort			2
-	      }
-	    }
-	    Line {
-	      SrcBlock		      "Constant"
-	      SrcPort		      1
-	      DstBlock		      "Switch"
-	      DstPort		      3
-	    }
-	    Line {
-	      SrcBlock		      "On [1/0]"
-	      SrcPort		      1
-	      Points		      [665, 0; 0, 190]
-	      DstBlock		      "Switch"
-	      DstPort		      2
-	    }
-	    Line {
-	      SrcBlock		      "Saturation"
-	      SrcPort		      1
-	      DstBlock		      "Switch"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Switch"
-	      SrcPort		      1
-	      DstBlock		      "P_cooling [W]"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Subsystem2"
-	      SrcPort		      1
-	      DstBlock		      "P_el [W]"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "T_MainDrive [K]"
-	      SrcPort		      1
-	      Points		      [55, 0; 0, 0]
-	      Branch {
-		Points			[0, 55]
-		Branch {
-		  Points		  [0, 225]
-		  DstBlock		  "Subsystem1"
-		  DstPort		  1
-		}
-		Branch {
-		  Points		  [0, 0; 45, 0]
-		  Branch {
-		    DstBlock		    "If Action\nSubsystem"
-		    DstPort		    1
-		  }
-		  Branch {
-		    Points		    [0, 90; 365, 0]
-		    DstBlock		    "Switch1"
-		    DstPort		    2
-		  }
-		}
-	      }
-	      Branch {
-		DstBlock		"If"
-		DstPort			1
-	      }
-	    }
-	    Line {
-	      SrcBlock		      "Subsystem1"
-	      SrcPort		      1
-	      Points		      [140, 0]
-	      Branch {
-		Points			[0, -215]
-		DstBlock		"Switch1"
-		DstPort			1
-	      }
-	      Branch {
-		DstBlock		"Subsystem2"
-		DstPort			1
-	      }
-	    }
-	    Line {
-	      SrcBlock		      "ON [1/0]"
-	      SrcPort		      1
-	      Points		      [700, 0]
-	      DstBlock		      "Subsystem2"
-	      DstPort		      enable
-	    }
-	    Line {
-	      SrcBlock		      "Switch1"
-	      SrcPort		      1
-	      Points		      [0, -60]
-	      DstBlock		      "Saturation"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "If"
-	      SrcPort		      1
-	      Points		      [135, 0]
-	      DstBlock		      "If Action\nSubsystem"
-	      DstPort		      ifaction
-	    }
-	    Line {
-	      SrcBlock		      "If"
-	      SrcPort		      2
-	      Points		      [45, 0]
-	      DstBlock		      "Subsystem1"
-	      DstPort		      ifaction
-	    }
-	    Line {
-	      SrcBlock		      "If Action\nSubsystem"
-	      SrcPort		      1
-	      Points		      [15, 0; 0, 75]
-	      DstBlock		      "Switch1"
-	      DstPort		      3
-	    }
-	    Line {
-	      SrcBlock		      "Subsystem2"
-	      SrcPort		      2
-	      DstBlock		      "P_verCooling [W]"
-	      DstPort		      1
-	    }
-	  }
-	}
-	Block {
-	  BlockType		  Switch
-	  Name			  "Switch"
-	  SID			  "40"
-	  Position		  [245, 360, 305, 460]
-	  Criteria		  "u2 > Threshold"
+	  Ports			  [2, 1]
+	  Position		  [845, 67, 875, 98]
 	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
 	  SaturateOnIntegerOverflow off
 	}
 	Block {
 	  BlockType		  SubSystem
-	  Name			  "Temperatur Spindel"
-	  SID			  "41"
-	  Ports			  [3, 3]
-	  Position		  [400, 35, 630, 165]
+	  Name			  "Cabinet"
+	  SID			  "6"
+	  Ports			  [3, 4]
+	  Position		  [505, 115, 735, 245]
 	  LibraryVersion	  "1.225"
 	  MinAlgLoopOccurrences	  off
 	  PropExecContextOutsideSubsystem off
@@ -1914,9 +1153,9 @@ Model {
 	  RequestExecContextInheritance	off
 	  MaskHideContents	  off
 	  System {
-	    Name		    "Temperatur Spindel"
-	    Location		    [296, 132, 1345, 936]
-	    Open		    off
+	    Name		    "Cabinet"
+	    Location		    [152, 80, 1393, 683]
+	    Open		    on
 	    ModelBrowserVisibility  on
 	    ModelBrowserWidth	    212
 	    ScreenColor		    "white"
@@ -1930,15 +1169,15 @@ Model {
 	    ZoomFactor		    "100"
 	    Block {
 	      BlockType		      Inport
-	      Name		      "P_ver [W]"
-	      SID		      "42"
+	      Name		      "P_verSimodrive [W]"
+	      SID		      "7"
 	      Position		      [95, 68, 125, 82]
 	      IconDisplay	      "Port number"
 	    }
 	    Block {
 	      BlockType		      Inport
 	      Name		      "P_cooling [W]"
-	      SID		      "43"
+	      SID		      "8"
 	      Position		      [95, 138, 125, 152]
 	      NamePlacement	      "alternate"
 	      Port		      "2"
@@ -1947,15 +1186,25 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "T_ambient [K]"
-	      SID		      "44"
+	      SID		      "9"
 	      Position		      [95, 208, 125, 222]
 	      Port		      "3"
 	      IconDisplay	      "Port number"
 	    }
 	    Block {
+	      BlockType		      Gain
+	      Name		      "1"
+	      SID		      "127"
+	      Position		      [370, 181, 535, 249]
+	      Gain		      "R*CNC.Cabinet.A"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
 	      BlockType		      Sum
 	      Name		      "Add"
-	      SID		      "45"
+	      SID		      "10"
 	      Ports		      [4, 1]
 	      Position		      [745, 44, 790, 316]
 	      Inputs		      "+---"
@@ -1966,37 +1215,30 @@ Model {
 	    Block {
 	      BlockType		      Sum
 	      Name		      "Add1"
-	      SID		      "46"
+	      SID		      "11"
 	      Ports		      [2, 1]
-	      Position		      [500, 440, 535, 535]
+	      Position		      [445, 400, 480, 495]
 	      Inputs		      "+-"
 	      InputSameDT	      off
 	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
 	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
-	      BlockType		      Constant
-	      Name		      "Constant"
-	      SID		      "47"
-	      Position		      [225, 260, 255, 290]
-	      Value		      "0"
-	    }
-	    Block {
 	      BlockType		      Gain
-	      Name		      "Gain"
-	      SID		      "48"
-	      Position		      [810, 135, 925, 225]
-	      Gain		      "1/MainDrive.m/cp"
+	      Name		      "Cabinet"
+	      SID		      "124"
+	      Position		      [1415, 137, 1600, 203]
+	      Gain		      "1/CNC.Cabinet.m/cp"
 	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
 	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
 	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
 	      BlockType		      Gain
-	      Name		      "Gain1"
-	      SID		      "49"
-	      Position		      [415, 184, 585, 246]
-	      Gain		      "MainDrive.R*MainDrive.A"
+	      Name		      "Gain"
+	      SID		      "13"
+	      Position		      [815, 116, 990, 214]
+	      Gain		      "1/CNC.Cabinet.ml.luft/cpl.luft"
 	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
 	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
 	      SaturateOnIntegerOverflow	off
@@ -2004,58 +1246,59 @@ Model {
 	    Block {
 	      BlockType		      Gain
 	      Name		      "Gain2"
-	      SID		      "50"
-	      Position		      [580, 466, 705, 514]
-	      Gain		      "e*sb*MainDrive.A"
+	      SID		      "15"
+	      Position		      [490, 423, 655, 477]
+	      Gain		      "e*sb*CNC.Cabinet.A"
 	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
 	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
 	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
-	      BlockType		      Integrator
-	      Name		      "Integrator\nLimited"
-	      SID		      "51"
-	      Ports		      [2, 1]
-	      Position		      [955, 119, 1005, 281]
-	      InitialConditionSource  "external"
-	      LimitOutput	      on
+	      BlockType		      Gain
+	      Name		      "Luft"
+	      SID		      "119"
+	      Position		      [1215, 136, 1380, 204]
+	      Gain		      "Rl.luft*CNC.Cabinet.A"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
 	      BlockType		      Math
 	      Name		      "Math\nFunction"
-	      SID		      "52"
+	      SID		      "17"
 	      Ports		      [1, 1]
-	      Position		      [195, 495, 225, 525]
+	      Position		      [170, 490, 200, 520]
 	      Operator		      "magnitude^2"
 	    }
 	    Block {
 	      BlockType		      Math
 	      Name		      "Math\nFunction1"
-	      SID		      "53"
+	      SID		      "18"
 	      Ports		      [1, 1]
-	      Position		      [265, 495, 295, 525]
+	      Position		      [240, 490, 270, 520]
 	      Operator		      "magnitude^2"
 	    }
 	    Block {
 	      BlockType		      Math
 	      Name		      "Math\nFunction2"
-	      SID		      "54"
+	      SID		      "19"
 	      Ports		      [1, 1]
-	      Position		      [365, 420, 395, 450]
+	      Position		      [240, 400, 270, 430]
 	      Operator		      "magnitude^2"
 	    }
 	    Block {
 	      BlockType		      Math
 	      Name		      "Math\nFunction3"
-	      SID		      "55"
+	      SID		      "20"
 	      Ports		      [1, 1]
-	      Position		      [415, 420, 445, 450]
+	      Position		      [325, 400, 355, 430]
 	      Operator		      "magnitude^2"
 	    }
 	    Block {
 	      BlockType		      Sum
 	      Name		      "Sum"
-	      SID		      "56"
+	      SID		      "21"
 	      Ports		      [2, 1]
 	      Position		      [195, 205, 215, 225]
 	      ShowName		      off
@@ -2066,39 +1309,69 @@ Model {
 	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
-	      BlockType		      Switch
-	      Name		      "Switch"
-	      SID		      "57"
-	      Position		      [280, 183, 330, 247]
-	      Criteria		      "u2 > Threshold"
+	      BlockType		      Sum
+	      Name		      "Sum1"
+	      SID		      "122"
+	      Ports		      [2, 1]
+	      Position		      [1150, 155, 1190, 185]
+	      ShowName		      off
+	      IconShape		      "round"
+	      Inputs		      "|-+"
 	      InputSameDT	      off
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
 	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
+	      BlockType		      Integrator
+	      Name		      "T.Cabinet"
+	      SID		      "125"
+	      Ports		      [2, 1]
+	      Position		      [1655, 120, 1690, 240]
+	      InitialConditionSource  "external"
+	      LimitOutput	      on
+	    }
+	    Block {
+	      BlockType		      Integrator
+	      Name		      "T.Luft"
+	      SID		      "16"
+	      Ports		      [2, 1]
+	      Position		      [1050, 124, 1100, 286]
+	      InitialConditionSource  "external"
+	      LimitOutput	      on
+	    }
+	    Block {
 	      BlockType		      Outport
-	      Name		      "T_MainDrive [K]"
-	      SID		      "58"
-	      Position		      [1070, 193, 1100, 207]
+	      Name		      "T_Cabinet AUSSEN [K]"
+	      SID		      "23"
+	      Position		      [1845, 173, 1875, 187]
 	      IconDisplay	      "Port number"
 	    }
 	    Block {
 	      BlockType		      Outport
-	      Name		      "Convection [W]"
-	      SID		      "59"
-	      Position		      [1070, 318, 1100, 332]
+	      Name		      "ConvectionCabinet [W]"
+	      SID		      "24"
+	      Position		      [1845, 318, 1875, 332]
 	      Port		      "2"
 	      IconDisplay	      "Port number"
 	    }
 	    Block {
 	      BlockType		      Outport
-	      Name		      "Radiation [W]"
-	      SID		      "60"
-	      Position		      [1070, 483, 1100, 497]
+	      Name		      "RadiationCabinet [W]"
+	      SID		      "25"
+	      Position		      [1845, 478, 1875, 492]
 	      Port		      "3"
 	      IconDisplay	      "Port number"
 	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "T_Cabinet [K]"
+	      SID		      "130"
+	      Position		      [1845, 263, 1875, 277]
+	      Port		      "4"
+	      IconDisplay	      "Port number"
+	    }
 	    Line {
-	      SrcBlock		      "P_ver [W]"
+	      SrcBlock		      "P_verSimodrive [W]"
 	      SrcPort		      1
 	      DstBlock		      "Add"
 	      DstPort		      1
@@ -2106,48 +1379,27 @@ Model {
 	    Line {
 	      SrcBlock		      "Gain"
 	      SrcPort		      1
-	      Points		      [10, 0]
-	      DstBlock		      "Integrator\nLimited"
+	      DstBlock		      "T.Luft"
 	      DstPort		      1
 	    }
 	    Line {
-	      SrcBlock		      "Gain1"
+	      SrcBlock		      "T.Luft"
 	      SrcPort		      1
-	      Points		      [105, 0]
+	      Points		      [65, 0]
 	      Branch {
-		Points			[0, 110]
-		DstBlock		"Convection [W]"
+		DstBlock		"Sum1"
+		DstPort			2
+	      }
+	      Branch {
+		Points			[20, 0; 0, 65]
+		DstBlock		"T_Cabinet [K]"
 		DstPort			1
-	      }
-	      Branch {
-		DstBlock		"Add"
-		DstPort			3
-	      }
-	    }
-	    Line {
-	      SrcBlock		      "Integrator\nLimited"
-	      SrcPort		      1
-	      Points		      [15, 0]
-	      Branch {
-		DstBlock		"T_MainDrive [K]"
-		DstPort			1
-	      }
-	      Branch {
-		Points			[0, 150; -820, 0]
-		Branch {
-		  DstBlock		  "Sum"
-		  DstPort		  2
-		}
-		Branch {
-		  Points		  [0, 85]
-		  DstBlock		  "Math\nFunction2"
-		  DstPort		  1
-		}
 	      }
 	    }
 	    Line {
 	      SrcBlock		      "Add"
 	      SrcPort		      1
+	      Points		      [5, 0]
 	      DstBlock		      "Gain"
 	      DstPort		      1
 	    }
@@ -2160,13 +1412,14 @@ Model {
 	    Line {
 	      SrcBlock		      "Gain2"
 	      SrcPort		      1
-	      Points		      [10, 0]
+	      Points		      [50, 0]
 	      Branch {
-		DstBlock		"Radiation [W]"
+		Points			[0, 35]
+		DstBlock		"RadiationCabinet [W]"
 		DstPort			1
 	      }
 	      Branch {
-		Points			[0, -205]
+		Points			[0, 0; 0, -165]
 		DstBlock		"Add"
 		DstPort			4
 	      }
@@ -2180,7 +1433,7 @@ Model {
 	    Line {
 	      SrcBlock		      "T_ambient [K]"
 	      SrcPort		      1
-	      Points		      [30, 0]
+	      Points		      [25, 0]
 	      Branch {
 		DstBlock		"Sum"
 		DstPort			1
@@ -2188,37 +1441,23 @@ Model {
 	      Branch {
 		Points			[0, 125]
 		Branch {
-		  Points		  [665, 0; 0, -100]
-		  DstBlock		  "Integrator\nLimited"
-		  DstPort		  2
-		}
-		Branch {
-		  Points		  [0, 170]
 		  DstBlock		  "Math\nFunction"
 		  DstPort		  1
 		}
+		Branch {
+		  Points		  [860, 0; 0, -35]
+		  Branch {
+		    Points		    [0, -60]
+		    DstBlock		    "T.Luft"
+		    DstPort		    2
+		  }
+		  Branch {
+		    Points		    [0, 0; 625, 0]
+		    DstBlock		    "T.Cabinet"
+		    DstPort		    2
+		  }
+		}
 	      }
-	    }
-	    Line {
-	      SrcBlock		      "Sum"
-	      SrcPort		      1
-	      Points		      [25, 0]
-	      Branch {
-		DstBlock		"Switch"
-		DstPort			2
-	      }
-	      Branch {
-		Points			[0, -20]
-		DstBlock		"Switch"
-		DstPort			1
-	      }
-	    }
-	    Line {
-	      SrcBlock		      "Constant"
-	      SrcPort		      1
-	      Points		      [0, -40]
-	      DstBlock		      "Switch"
-	      DstPort		      3
 	    }
 	    Line {
 	      SrcBlock		      "Math\nFunction2"
@@ -2235,15 +1474,281 @@ Model {
 	    Line {
 	      SrcBlock		      "Math\nFunction3"
 	      SrcPort		      1
-	      Points		      [15, 0; 0, 30]
+	      Points		      [70, 0]
 	      DstBlock		      "Add1"
 	      DstPort		      1
 	    }
 	    Line {
 	      SrcBlock		      "Math\nFunction1"
 	      SrcPort		      1
+	      Points		      [155, 0]
 	      DstBlock		      "Add1"
 	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Sum1"
+	      SrcPort		      1
+	      DstBlock		      "Luft"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Cabinet"
+	      SrcPort		      1
+	      Points		      [35, 0]
+	      DstBlock		      "T.Cabinet"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "T.Cabinet"
+	      SrcPort		      1
+	      Points		      [70, 0]
+	      Branch {
+		Points			[0, 0]
+		Branch {
+		  DstBlock		  "T_Cabinet AUSSEN [K]"
+		  DstPort		  1
+		}
+		Branch {
+		  Points		  [0, 175; -1560, 0]
+		  Branch {
+		    DstBlock		    "Sum"
+		    DstPort		    2
+		  }
+		  Branch {
+		    Points		    [0, 60]
+		    DstBlock		    "Math\nFunction2"
+		    DstPort		    1
+		  }
+		}
+	      }
+	      Branch {
+		Points			[0, -95; -630, 0]
+		DstBlock		"Sum1"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "1"
+	      SrcPort		      1
+	      Points		      [155, 0]
+	      Branch {
+		Points			[0, 110]
+		DstBlock		"ConvectionCabinet [W]"
+		DstPort			1
+	      }
+	      Branch {
+		DstBlock		"Add"
+		DstPort			3
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Sum"
+	      SrcPort		      1
+	      DstBlock		      "1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Luft"
+	      SrcPort		      1
+	      DstBlock		      "Cabinet"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant"
+	  SID			  "116"
+	  Position		  [75, 356, 120, 384]
+	  Value			  "T_amb "
+	}
+	Block {
+	  BlockType		  Relay
+	  Name			  "Controller"
+	  SID			  "26"
+	  Position		  [160, 436, 195, 474]
+	  OnSwitchValue		  "CNC.Cooling.Tmax"
+	  OffSwitchValue	  "CNC.Cooling.Tmin"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Cooling System Rittal"
+	  SID			  "27"
+	  Ports			  [4, 2]
+	  Position		  [500, 299, 735, 411]
+	  LibraryVersion	  "1.225"
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  Opaque		  off
+	  RequestExecContextInheritance	off
+	  MaskHideContents	  off
+	  System {
+	    Name		    "Cooling System Rittal"
+	    Location		    [205, 80, 1393, 700]
+	    Open		    off
+	    ModelBrowserVisibility  on
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    TiledPaperMargins	    [1.270000, 1.270000, 1.270000, 1.270000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "On [1/0]"
+	      SID		      "28"
+	      Position		      [50, 93, 80, 107]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "T_Cabinet [K]"
+	      SID		      "29"
+	      Position		      [50, 193, 80, 207]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "T_ambient [K]"
+	      SID		      "30"
+	      Position		      [50, 243, 80, 257]
+	      Port		      "3"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "T_max [K]"
+	      SID		      "31"
+	      Position		      [410, 293, 440, 307]
+	      Port		      "4"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Add"
+	      SID		      "32"
+	      Ports		      [2, 1]
+	      Position		      [825, 92, 855, 123]
+	      InputSameDT	      off
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant"
+	      SID		      "33"
+	      Position		      [270, 116, 320, 144]
+	      Value		      "0"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant1"
+	      SID		      "34"
+	      Position		      [470, 335, 500, 365]
+	      Value		      "0"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant2"
+	      SID		      "35"
+	      Position		      [265, 55, 320, 85]
+	      Value		      "100"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant3"
+	      SID		      "134"
+	      Position		      [575, 140, 630, 170]
+	      Value		      "1200"
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "Gain1"
+	      SID		      "132"
+	      Position		      [825, 285, 855, 315]
+	      Gain		      "1*2"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "Gain2"
+	      SID		      "133"
+	      Position		      [905, 95, 935, 125]
+	      Gain		      "1*2"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      "Lookup_n-D"
+	      Name		      "Lookup\nTable (n-D)"
+	      SID		      "37"
+	      Ports		      [2, 1]
+	      Position		      [250, 174, 340, 276]
+	      BreakpointsForDimension1 "CNC.Cooling.T_int"
+	      BreakpointsForDimension2 "CNC.Cooling.T_ext"
+	      IndexSearchMethod	      "Binary search"
+	      Table		      "CNC.Cooling.Qdot"
+	      InterpMethod	      "Cubic spline"
+	      ExtrapMethod	      "None - Clip"
+	    }
+	    Block {
+	      BlockType		      Switch
+	      Name		      "Switch"
+	      SID		      "38"
+	      Position		      [540, 227, 600, 373]
+	      Criteria		      "u2 > Threshold"
+	      InputSameDT	      off
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Switch
+	      Name		      "Switch1"
+	      SID		      "135"
+	      Position		      [690, 132, 750, 278]
+	      Criteria		      "u2 > Threshold"
+	      InputSameDT	      off
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Switch
+	      Name		      "Switch2"
+	      SID		      "39"
+	      Position		      [355, 53, 405, 147]
+	      Criteria		      "u2 > Threshold"
+	      InputSameDT	      off
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "P_elCoolingCabinet [W]"
+	      SID		      "40"
+	      Position		      [980, 103, 1010, 117]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "P_CoolingCabinet [W]"
+	      SID		      "41"
+	      Position		      [990, 293, 1020, 307]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Line {
+	      SrcBlock		      "Lookup\nTable (n-D)"
+	      SrcPort		      1
+	      Points		      [180, 0]
+	      DstBlock		      "Switch"
+	      DstPort		      1
 	    }
 	    Line {
 	      SrcBlock		      "Switch"
@@ -2251,59 +1756,890 @@ Model {
 	      DstBlock		      "Gain1"
 	      DstPort		      1
 	    }
+	    Line {
+	      SrcBlock		      "On [1/0]"
+	      SrcPort		      1
+	      DstBlock		      "Switch2"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Constant"
+	      SrcPort		      1
+	      DstBlock		      "Switch2"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Constant2"
+	      SrcPort		      1
+	      DstBlock		      "Switch2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Switch2"
+	      SrcPort		      1
+	      DstBlock		      "Add"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Constant1"
+	      SrcPort		      1
+	      Points		      [10, 0]
+	      Branch {
+		DstBlock		"Switch"
+		DstPort			3
+	      }
+	      Branch {
+		Points			[0, 75; 145, 0; 0, -170]
+		DstBlock		"Switch1"
+		DstPort			3
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "T_ambient [K]"
+	      SrcPort		      1
+	      DstBlock		      "Lookup\nTable (n-D)"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "T_Cabinet [K]"
+	      SrcPort		      1
+	      DstBlock		      "Lookup\nTable (n-D)"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "T_max [K]"
+	      SrcPort		      1
+	      Points		      [40, 0]
+	      Branch {
+		DstBlock		"Switch"
+		DstPort			2
+	      }
+	      Branch {
+		Points			[0, -95]
+		DstBlock		"Switch1"
+		DstPort			2
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Add"
+	      SrcPort		      1
+	      DstBlock		      "Gain2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Gain2"
+	      SrcPort		      1
+	      DstBlock		      "P_elCoolingCabinet [W]"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Gain1"
+	      SrcPort		      1
+	      DstBlock		      "P_CoolingCabinet [W]"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Switch1"
+	      SrcPort		      1
+	      Points		      [25, 0; 0, -90]
+	      DstBlock		      "Add"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Constant3"
+	      SrcPort		      1
+	      DstBlock		      "Switch1"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Simudrive"
+	  SID			  "42"
+	  Ports			  [2, 2]
+	  Position		  [240, 39, 435, 186]
+	  LibraryVersion	  "1.225"
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  Opaque		  off
+	  RequestExecContextInheritance	off
+	  MaskHideContents	  off
+	  System {
+	    Name		    "Simudrive"
+	    Location		    [239, 87, 1389, 542]
+	    Open		    off
+	    ModelBrowserVisibility  on
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    TiledPaperMargins	    [1.270000, 1.270000, 1.270000, 1.270000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "on [1/0]"
+	      SID		      "43"
+	      Position		      [30, 78, 60, 92]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "P_MainDrive [W]"
+	      SID		      "44"
+	      Position		      [30, 148, 60, 162]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Abs
+	      Name		      "Abs"
+	      SID		      "45"
+	      Position		      [650, 280, 680, 310]
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Add"
+	      SID		      "46"
+	      Ports		      [2, 1]
+	      Position		      [595, 267, 620, 318]
+	      Inputs		      "+-"
+	      InputSameDT	      off
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant"
+	      SID		      "47"
+	      Position		      [650, 210, 680, 240]
+	      Value		      "0"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant1"
+	      SID		      "48"
+	      Position		      [375, 211, 500, 279]
+	      Value		      "CNC.SimoDrive.PStandby "
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Divide"
+	      SID		      "49"
+	      Ports		      [2, 1]
+	      Position		      [335, 90, 365, 190]
+	      Inputs		      "*/"
+	      InputSameDT	      off
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      "Lookup_n-D"
+	      Name		      "Lookup\nTable (n-D)"
+	      SID		      "50"
+	      Ports		      [1, 1]
+	      Position		      [245, 165, 310, 205]
+	      NumberOfTableDimensions "1"
+	      BreakpointsForDimension1 "CNC.SimoDrive.OpPointsP"
+	      IndexSearchMethod	      "Binary search"
+	      Table		      "CNC.SimoDrive.OpPointsEta"
+	    }
+	    Block {
+	      BlockType		      Saturate
+	      Name		      "Saturation"
+	      SID		      "51"
+	      Ports		      [1, 1]
+	      Position		      [150, 130, 190, 180]
+	      InputPortMap	      "u0"
+	      UpperLimit	      "Inf"
+	      LowerLimit	      "-Inf"
+	    }
+	    Block {
+	      BlockType		      Switch
+	      Name		      "Switch"
+	      SID		      "52"
+	      Position		      [760, 151, 810, 239]
+	      Criteria		      "u2 > Threshold"
+	      InputSameDT	      off
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Switch
+	      Name		      "Switch1"
+	      SID		      "53"
+	      Position		      [760, 283, 810, 357]
+	      Criteria		      "u2 > Threshold"
+	      InputSameDT	      off
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Switch
+	      Name		      "Switch2"
+	      SID		      "54"
+	      Position		      [520, 127, 550, 203]
+	      Criteria		      "u2 ~= 0"
+	      InputSameDT	      off
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "P_elSimodrive [W]"
+	      SID		      "55"
+	      Position		      [890, 188, 920, 202]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "P_verSimodrive [W]"
+	      SID		      "56"
+	      Position		      [890, 313, 920, 327]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Line {
+	      SrcBlock		      "Switch1"
+	      SrcPort		      1
+	      DstBlock		      "P_verSimodrive [W]"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Switch"
+	      SrcPort		      1
+	      DstBlock		      "P_elSimodrive [W]"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Abs"
+	      SrcPort		      1
+	      DstBlock		      "Switch1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Constant"
+	      SrcPort		      1
+	      Points		      [25, 0]
+	      Branch {
+		DstBlock		"Switch"
+		DstPort			3
+	      }
+	      Branch {
+		Points			[0, 120]
+		DstBlock		"Switch1"
+		DstPort			3
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Add"
+	      SrcPort		      1
+	      DstBlock		      "Abs"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Switch2"
+	      SrcPort		      1
+	      Points		      [15, 0]
+	      Branch {
+		DstBlock		"Switch"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, 115]
+		DstBlock		"Add"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "P_MainDrive [W]"
+	      SrcPort		      1
+	      DstBlock		      "Saturation"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Lookup\nTable (n-D)"
+	      SrcPort		      1
+	      Points		      [5, 0]
+	      DstBlock		      "Divide"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Divide"
+	      SrcPort		      1
+	      DstBlock		      "Switch2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Constant1"
+	      SrcPort		      1
+	      DstBlock		      "Switch2"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Saturation"
+	      SrcPort		      1
+	      Points		      [15, 0]
+	      Branch {
+		Points			[30, 0; 0, -40]
+		DstBlock		"Divide"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, 30]
+		Branch {
+		  Points		  [0, 120; 160, 0]
+		  Branch {
+		    DstBlock		    "Add"
+		    DstPort		    2
+		  }
+		  Branch {
+		    Points		    [0, -140]
+		    DstBlock		    "Switch2"
+		    DstPort		    2
+		  }
+		}
+		Branch {
+		  DstBlock		  "Lookup\nTable (n-D)"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "on [1/0]"
+	      SrcPort		      1
+	      Points		      [645, 0; 0, 110]
+	      Branch {
+		DstBlock		"Switch"
+		DstPort			2
+	      }
+	      Branch {
+		Points			[0, 125]
+		DstBlock		"Switch1"
+		DstPort			2
+	      }
+	    }
 	  }
 	}
 	Block {
 	  BlockType		  Outport
-	  Name			  "T_MainDrive [K]"
-	  SID			  "61"
-	  Position		  [820, 48, 850, 62]
+	  Name			  "El_Tot [W]"
+	  SID			  "57"
+	  Position		  [915, 78, 945, 92]
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Outport
-	  Name			  "ConvectionMainDrive [W]"
-	  SID			  "62"
-	  Position		  [820, 93, 850, 107]
+	  Name			  "T_Cabinet aussen [K]"
+	  SID			  "58"
+	  Position		  [915, 128, 945, 142]
 	  Port			  "2"
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Outport
-	  Name			  "RadiationMainDrive [W]"
-	  SID			  "63"
-	  Position		  [820, 138, 850, 152]
+	  Name			  "T_Cabinet [K]"
+	  SID			  "131"
+	  Position		  [925, 273, 955, 287]
 	  Port			  "3"
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Outport
-	  Name			  "P_el [W]"
-	  SID			  "64"
-	  Position		  [820, 233, 850, 247]
+	  Name			  "ConvectionCabinet [W]"
+	  SID			  "59"
+	  Position		  [915, 173, 945, 187]
 	  Port			  "4"
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Outport
-	  Name			  "P_cooling [W]"
-	  SID			  "65"
-	  Position		  [820, 268, 850, 282]
+	  Name			  "RadiationCabinet [W]"
+	  SID			  "60"
+	  Position		  [915, 218, 945, 232]
 	  Port			  "5"
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Outport
-	  Name			  "P_verCooling [W]"
-	  SID			  "104"
-	  Position		  [820, 303, 850, 317]
+	  Name			  "P_elCoolingCabinet [W]"
+	  SID			  "61"
+	  Position		  [915, 323, 945, 337]
 	  Port			  "6"
 	  IconDisplay		  "Port number"
 	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "P_CoolingCabinet [W]"
+	  SID			  "62"
+	  Position		  [915, 378, 945, 392]
+	  Port			  "7"
+	  IconDisplay		  "Port number"
+	}
 	Line {
-	  SrcBlock		  "P_ver_MainDrive [W]"
+	  SrcBlock		  "Cabinet"
 	  SrcPort		  1
-	  DstBlock		  "Temperatur Spindel"
+	  DstBlock		  "T_Cabinet aussen [K]"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Constant"
+	  SrcPort		  1
+	  Points		  [5, 0]
+	  Branch {
+	    DstBlock		    "Cooling System Rittal"
+	    DstPort		    3
+	  }
+	  Branch {
+	    Points		    [0, -145]
+	    DstBlock		    "Cabinet"
+	    DstPort		    3
+	  }
+	}
+	Line {
+	  SrcBlock		  "Cooling System Rittal"
+	  SrcPort		  2
+	  Points		  [-5, 0]
+	  Branch {
+	    Points		    [15, 0; 0, -115; -275, 0; 0, -90]
+	    DstBlock		    "Cabinet"
+	    DstPort		    2
+	  }
+	  Branch {
+	    DstBlock		    "P_CoolingCabinet [W]"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Cabinet"
+	  SrcPort		  2
+	  Points		  [0, 15]
+	  DstBlock		  "ConvectionCabinet [W]"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Cabinet"
+	  SrcPort		  3
+	  Points		  [0, 15; 160, 0]
+	  DstBlock		  "RadiationCabinet [W]"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Cooling System Rittal"
+	  SrcPort		  1
+	  Points		  [90, 0]
+	  Branch {
+	    DstBlock		    "P_elCoolingCabinet [W]"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Add"
+	    DstPort		    2
+	  }
+	}
+	Line {
+	  SrcBlock		  "P_el_MainDrive [W]"
+	  SrcPort		  1
+	  DstBlock		  "Simudrive"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "ON [1/0]"
+	  SrcPort		  1
+	  Points		  [55, 0]
+	  Branch {
+	    DstBlock		    "Simudrive"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 235]
+	    DstBlock		    "Cooling System Rittal"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Simudrive"
+	  SrcPort		  2
+	  Points		  [25, 0; 0, -15]
+	  DstBlock		  "Cabinet"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Simudrive"
+	  SrcPort		  1
+	  DstBlock		  "Add"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Controller"
+	  SrcPort		  1
+	  Points		  [140, 0; 0, -55]
+	  DstBlock		  "Cooling System Rittal"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "Add"
+	  SrcPort		  1
+	  DstBlock		  "El_Tot [W]"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Cabinet"
+	  SrcPort		  4
+	  Points		  [0, 25]
+	  Branch {
+	    Points		    [0, 40; -260, 0]
+	    Branch {
+	      Points		      [0, 50]
+	      DstBlock		      "Cooling System Rittal"
+	      DstPort		      2
+	    }
+	    Branch {
+	      Points		      [-335, 0]
+	      DstBlock		      "Controller"
+	      DstPort		      1
+	    }
+	  }
+	  Branch {
+	    Points		    [0, 5; 170, 0]
+	    DstBlock		    "T_Cabinet [K]"
+	    DstPort		    1
+	  }
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Control"
+      SID		      "91"
+      Ports		      [1, 2]
+      Position		      [160, 118, 300, 402]
+      LibraryVersion	      "1.225"
+      TreatAsAtomicUnit	      on
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      MaskDescription	      "Controls the components of the machine:\n\nStatus:\n    0. Off\n    1. Standby\n    2. Wa"
+      "rmup\n    3. Setting\n    4. Machining\n\nIf the status is machining, the job defined as\n    - Job.time\n    - "
+      "Job.omega_dem\n    - Job.M_dem\nwill be runned, and repeated."
+      MaskPromptString	      "Cabinet|Job Struct"
+      MaskStyleString	      "edit,edit"
+      MaskVariables	      "Cabinet=@1;Job=@2;"
+      MaskTunableValueString  "on,on"
+      MaskCallbackString      "|"
+      MaskEnableString	      "on,on"
+      MaskVisibilityString    "on,on"
+      MaskToolTipString	      "on,on"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskPortRotate	      "default"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "[0 1 1 1 1]|Job"
+      MaskTabNameString	      "Status,Job"
+      System {
+	Name			"Control"
+	Location		[443, 80, 1365, 992]
+	Open			off
+	ModelBrowserVisibility	on
+	ModelBrowserWidth	212
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"A4"
+	PaperUnits		"centimeters"
+	TiledPaperMargins	[1.270000, 1.270000, 1.270000, 1.270000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Status"
+	  SID			  "92"
+	  Position		  [15, 73, 45, 87]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Compare\nTo Constant"
+	  SID			  "93"
+	  Ports			  [1, 1]
+	  Position		  [305, 15, 335, 45]
+	  LibraryVersion	  "1.225"
+	  SourceBlock		  "simulink/Logic and Bit\nOperations/Compare\nTo Constant"
+	  SourceType		  "Compare To Constant"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  relop			  "=="
+	  const			  "4"
+	  LogicOutDataTypeMode	  "uint8"
+	  ZeroCross		  on
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant"
+	  SID			  "94"
+	  Position		  [600, 145, 635, 165]
+	  Value			  "0"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant2"
+	  SID			  "96"
+	  Position		  [55, 233, 140, 267]
+	  Value			  "Cabinet"
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  "Demux1"
+	  SID			  "97"
+	  Ports			  [1, 5]
+	  Position		  [185, 210, 200, 290]
+	  ShowName		  off
+	  Outputs		  "5"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  MultiPortSwitch
+	  Name			  "Index\nVector1"
+	  SID			  "98"
+	  Ports			  [6, 1]
+	  Position		  [235, 194, 270, 291]
+	  ShowName		  off
+	  DataPortOrder		  "Zero-based contiguous"
+	  Inputs		  "5"
+	  zeroidx		  on
+	  InputSameDT		  off
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Process"
+	  SID			  "99"
+	  Ports			  [0, 1, 1]
+	  Position		  [475, 83, 570, 247]
+	  LibraryVersion	  "1.225"
+	  TreatAsAtomicUnit	  on
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  Opaque		  off
+	  RequestExecContextInheritance	off
+	  MaskHideContents	  off
+	  System {
+	    Name		    "Process"
+	    Location		    [239, 87, 1389, 542]
+	    Open		    off
+	    ModelBrowserVisibility  on
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    TiledPaperMargins	    [1.270000, 1.270000, 1.270000, 1.270000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      EnablePort
+	      Name		      "Enable"
+	      SID		      "100"
+	      Ports		      []
+	      Position		      [235, 20, 255, 40]
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant"
+	      SID		      "101"
+	      Position		      [45, 130, 75, 160]
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant1"
+	      SID		      "102"
+	      Position		      [95, 224, 175, 256]
+	      Value		      "max(Job.time)"
+	    }
+	    Block {
+	      BlockType		      Integrator
+	      Name		      "Integrator"
+	      SID		      "103"
+	      Ports		      [1, 1]
+	      Position		      [125, 95, 165, 195]
+	    }
+	    Block {
+	      BlockType		      "Lookup_n-D"
+	      Name		      "Lookup\nTable (n-D)"
+	      SID		      "104"
+	      Ports		      [1, 1]
+	      Position		      [325, 123, 390, 187]
+	      NumberOfTableDimensions "1"
+	      BreakpointsForDimension1 "Job.time"
+	      IndexSearchMethod	      "Binary search"
+	      Table		      "Job.P_MainDrive"
+	      InterpMethod	      "None - Flat"
+	      ExtrapMethod	      "None - Clip"
+	    }
+	    Block {
+	      BlockType		      Math
+	      Name		      "Math\nFuntion"
+	      SID		      "106"
+	      Ports		      [2, 1]
+	      Position		      [230, 137, 260, 168]
+	      Operator		      "mod"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "P_MainDrive [W]"
+	      SID		      "107"
+	      Position		      [450, 148, 480, 162]
+	      IconDisplay	      "Port number"
+	    }
+	    Line {
+	      SrcBlock		      "Constant"
+	      SrcPort		      1
+	      DstBlock		      "Integrator"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Integrator"
+	      SrcPort		      1
+	      DstBlock		      "Math\nFuntion"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Math\nFuntion"
+	      SrcPort		      1
+	      DstBlock		      "Lookup\nTable (n-D)"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Lookup\nTable (n-D)"
+	      SrcPort		      1
+	      DstBlock		      "P_MainDrive [W]"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Constant1"
+	      SrcPort		      1
+	      Points		      [15, 0; 0, -80]
+	      DstBlock		      "Math\nFuntion"
+	      DstPort		      2
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Switch
+	  Name			  "Switch"
+	  SID			  "109"
+	  Position		  [680, 120, 730, 160]
+	  Criteria		  "u2 > Threshold"
+	  InputSameDT		  off
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Cabinet[1/0]"
+	  SID			  "111"
+	  Position		  [385, 238, 415, 252]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "P_MainDrive [W]"
+	  SID			  "112"
+	  Position		  [780, 133, 810, 147]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "Status"
+	  SrcPort		  1
+	  Points		  [10, 0]
+	  Branch {
+	    Points		    [0, -50]
+	    DstBlock		    "Compare\nTo Constant"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 125]
+	    DstBlock		    "Index\nVector1"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Demux1"
+	  SrcPort		  1
+	  DstBlock		  "Index\nVector1"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Demux1"
+	  SrcPort		  2
+	  DstBlock		  "Index\nVector1"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Demux1"
+	  SrcPort		  3
+	  DstBlock		  "Index\nVector1"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "Demux1"
+	  SrcPort		  4
+	  DstBlock		  "Index\nVector1"
+	  DstPort		  5
+	}
+	Line {
+	  SrcBlock		  "Demux1"
+	  SrcPort		  5
+	  DstBlock		  "Index\nVector1"
+	  DstPort		  6
+	}
+	Line {
+	  SrcBlock		  "Index\nVector1"
+	  SrcPort		  1
+	  DstBlock		  "Cabinet[1/0]"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Compare\nTo Constant"
+	  SrcPort		  1
+	  Points		  [180, 0]
+	  Branch {
+	    DstBlock		    "Process"
+	    DstPort		    enable
+	  }
+	  Branch {
+	    Points		    [130, 0; 0, 110]
+	    DstBlock		    "Switch"
+	    DstPort		    2
+	  }
+	}
+	Line {
+	  SrcBlock		  "Process"
+	  SrcPort		  1
+	  Points		  [0, -40]
+	  DstBlock		  "Switch"
 	  DstPort		  1
 	}
 	Line {
@@ -2313,118 +2649,42 @@ Model {
 	  DstPort		  3
 	}
 	Line {
-	  SrcBlock		  "ON [1/0]"
-	  SrcPort		  1
-	  Points		  [100, 0]
-	  Branch {
-	    DstBlock		    "Switch"
-	    DstPort		    2
-	  }
-	  Branch {
-	    Points		    [0, -90]
-	    DstBlock		    "Cooling System"
-	    DstPort		    4
-	  }
-	}
-	Line {
-	  SrcBlock		  "Controller"
-	  SrcPort		  1
-	  DstBlock		  "Switch"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Temperatur Spindel"
-	  SrcPort		  1
-	  Points		  [45, 0]
-	  Branch {
-	    Points		    [0, 0; 0, 140; -320, 0]
-	    Branch {
-	      Points		      [-230, 0]
-	      DstBlock		      "Controller"
-	      DstPort		      1
-	    }
-	    Branch {
-	      Points		      [0, 65]
-	      DstBlock		      "Cooling System"
-	      DstPort		      2
-	    }
-	  }
-	  Branch {
-	    DstBlock		    "T_MainDrive [K]"
-	    DstPort		    1
-	  }
-	}
-	Line {
 	  SrcBlock		  "Switch"
 	  SrcPort		  1
-	  Points		  [25, 0; 0, -180]
-	  DstBlock		  "Cooling System"
+	  DstBlock		  "P_MainDrive [W]"
 	  DstPort		  1
 	}
 	Line {
-	  SrcBlock		  "T_ambient [K]"
+	  SrcBlock		  "Constant2"
 	  SrcPort		  1
-	  Points		  [10, 0]
-	  Branch {
-	    DstBlock		    "Cooling System"
-	    DstPort		    3
-	  }
-	  Branch {
-	    Points		    [0, -145]
-	    DstBlock		    "Temperatur Spindel"
-	    DstPort		    3
-	  }
-	}
-	Line {
-	  SrcBlock		  "Cooling System"
-	  SrcPort		  2
-	  Points		  [5, 0]
-	  Branch {
-	    Points		    [0, -85; -260, 0; 0, -90]
-	    DstBlock		    "Temperatur Spindel"
-	    DstPort		    2
-	  }
-	  Branch {
-	    DstBlock		    "P_cooling [W]"
-	    DstPort		    1
-	  }
-	}
-	Line {
-	  SrcBlock		  "Temperatur Spindel"
-	  SrcPort		  2
-	  DstBlock		  "ConvectionMainDrive [W]"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Temperatur Spindel"
-	  SrcPort		  3
-	  DstBlock		  "RadiationMainDrive [W]"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Cooling System"
-	  SrcPort		  1
-	  DstBlock		  "P_el [W]"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Cooling System"
-	  SrcPort		  3
-	  DstBlock		  "P_verCooling [W]"
+	  DstBlock		  "Demux1"
 	  DstPort		  1
 	}
       }
     }
     Block {
+      BlockType		      FromWorkspace
+      Name		      "From\nWorkspace"
+      SID		      "114"
+      Position		      [50, 248, 115, 272]
+      BackgroundColor	      "green"
+      ShowName		      off
+      VariableName	      "Schedule"
+      SampleTime	      "0"
+      Interpolate	      off
+      ZeroCross		      on
+      OutputAfterFinalValue   "Holding final value"
+    }
+    Block {
       BlockType		      Scope
       Name		      "Scope"
-      SID		      "69"
-      Ports		      [6]
-      Position		      [595, 139, 640, 371]
+      SID		      "63"
+      Ports		      [7]
+      Position		      [830, 116, 895, 414]
       Floating		      off
-      Location		      [14, 68, 530, 866]
+      Location		      [-2, 51, 1398, 1021]
       Open		      on
-      NumInputPorts	      "6"
+      NumInputPorts	      "7"
       List {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
@@ -2433,79 +2693,89 @@ Model {
 	axes4			"%<SignalLabel>"
 	axes5			"%<SignalLabel>"
 	axes6			"%<SignalLabel>"
+	axes7			"%<SignalLabel>"
       }
-      YMin		      "-5~-5~-5~-5~-5~-5"
-      YMax		      "5~5~5~5~5~5"
+      YMin		      "-5~-5~-5~-5~-5~-5~-5"
+      YMax		      "5~5~5~5~5~5~5"
       SaveToWorkspace	      on
-      SaveName		      "Scp_Cspindel"
+      SaveName		      "Scp_Cabinet"
       DataFormat	      "StructureWithTime"
       SampleTime	      "0"
     }
     Line {
-      SrcBlock		      "Constant"
-      SrcPort		      1
-      DstBlock		      "Cooling System MainDrive"
-      DstPort		      1
-    }
-    Line {
-      SrcBlock		      "Constant1"
-      SrcPort		      1
-      DstBlock		      "Cooling System MainDrive"
-      DstPort		      2
-    }
-    Line {
-      SrcBlock		      "Constant2"
-      SrcPort		      1
-      DstBlock		      "Cooling System MainDrive"
-      DstPort		      3
-    }
-    Line {
-      Name		      "T_MainDrive [K]"
+      Name		      "El Tot"
       Labels		      [0, 0]
-      SrcBlock		      "Cooling System MainDrive"
+      SrcBlock		      "Cabinet"
       SrcPort		      1
       DstBlock		      "Scope"
       DstPort		      1
     }
     Line {
-      Name		      "ConvectionnMainDrive [W]"
+      Name		      "T_Cabinet aussen [K]"
       Labels		      [0, 0]
-      SrcBlock		      "Cooling System MainDrive"
+      SrcBlock		      "Cabinet"
       SrcPort		      2
       DstBlock		      "Scope"
       DstPort		      2
     }
     Line {
-      Name		      "RadiationMainDrive [W]"
+      Name		      "Convection Cabinet [W]"
       Labels		      [0, 0]
-      SrcBlock		      "Cooling System MainDrive"
-      SrcPort		      3
-      DstBlock		      "Scope"
-      DstPort		      3
-    }
-    Line {
-      Name		      "P_el [W]"
-      Labels		      [0, 0]
-      SrcBlock		      "Cooling System MainDrive"
+      SrcBlock		      "Cabinet"
       SrcPort		      4
       DstBlock		      "Scope"
       DstPort		      4
     }
     Line {
-      Name		      "P_cooling"
+      Name		      "Radiation Cabinet [W]"
       Labels		      [0, 0]
-      SrcBlock		      "Cooling System MainDrive"
+      SrcBlock		      "Cabinet"
       SrcPort		      5
       DstBlock		      "Scope"
       DstPort		      5
     }
     Line {
-      Name		      "P_verCooling [W]"
+      Name		      "P elCooling Cabinet [W]"
       Labels		      [0, 0]
-      SrcBlock		      "Cooling System MainDrive"
+      SrcBlock		      "Cabinet"
       SrcPort		      6
       DstBlock		      "Scope"
       DstPort		      6
+    }
+    Line {
+      Name		      "P Cooling Cabinet [W]"
+      Labels		      [0, 0]
+      SrcBlock		      "Cabinet"
+      SrcPort		      7
+      DstBlock		      "Scope"
+      DstPort		      7
+    }
+    Line {
+      SrcBlock		      "From\nWorkspace"
+      SrcPort		      1
+      DstBlock		      "Control"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Control"
+      SrcPort		      1
+      DstBlock		      "Cabinet"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Control"
+      SrcPort		      2
+      Points		      [70, 0]
+      DstBlock		      "Cabinet"
+      DstPort		      2
+    }
+    Line {
+      Name		      "T_Cabinet "
+      Labels		      [0, 0; 0, 0]
+      SrcBlock		      "Cabinet"
+      SrcPort		      3
+      DstBlock		      "Scope"
+      DstPort		      3
     }
   }
 }

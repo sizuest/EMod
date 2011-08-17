@@ -7,18 +7,13 @@ SimulTime = 1000;
 T_amb     = 298;    % [K] Ambient Temperature
 
 %% Heatflow 
-cp= 460;            % [J/kg/K] Internal heat capacity IRON
+cp= 460;            % [J/kg/K] Internal heat capacity
 e=  0.5;            % emission
 sb=5.67*(10^-8);    % [W/m^2/K^4] Stefan Boltzmann constant
 
 MainDrive.m = 25;            % [kg] Mass
 MainDrive.R  = 1/25/0.05;     % [W/K/m^2] Heat transfere resistance of surface
 MainDrive.A  = 0.7;           % [m^2] surface area
-
-q= 21/(1000*60)     %Flow [m3/s]
-roh=995.64          %[kg/m3] water
-K_W.m = q/roh
-K_W.cp=4190                 %[J/kg/K] Water
 
 %% Main Drive Cooling
 p1=380;

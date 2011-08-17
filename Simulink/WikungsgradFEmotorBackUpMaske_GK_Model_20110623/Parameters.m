@@ -10,7 +10,7 @@ T_amb     = 296;    % [K] Ambient Temperature
 %Schedule.time =           [0, 25, 75, 100, 150, 175, 225, 250, 275];
 Schedule.time =           [0, 100,700,850,1000];
 %Schedule.signals.values = [2, 4,  3,  4,   3,   4,   3,   4,   3]';
-Schedule.signals.values = [0, 4,0,0,0]';
+Schedule.signals.values = [0, 4,4,0,0]';
 
 %% Job
 Job.time =       [ 0, 150,160,230,240,320,330,400,405,475,480,600];
