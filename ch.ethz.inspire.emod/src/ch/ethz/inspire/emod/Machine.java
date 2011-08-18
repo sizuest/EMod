@@ -233,7 +233,7 @@ public class Machine {
 					String inObj=stin.nextToken();
 					String inVar=stin.nextToken();
 
-					MachineComponent inmc = machinecomponents.getComponent(inObj);
+					MachineComponent inmc = getMachineComponent(inObj);
 					if (inmc == null) {
 						Exception ex = new Exception("Undefined input component '" + inObj+ "' in file " + file + " on line " + linenr);
 						ex.printStackTrace();
@@ -258,7 +258,7 @@ public class Machine {
 						/* Output object comes from a component*/
 						String outVar=stout.nextToken();
 						
-						MachineComponent outmc = machinecomponents.getComponent(outObj);
+						MachineComponent outmc = getMachineComponent(outObj);
 						if (outmc == null) {
 							Exception ex = new Exception("Undefined output component '" + outObj+ "' in file " 
 											+ file + " on line " + linenr);
@@ -316,13 +316,12 @@ public class Machine {
 	 */
 	private static void checkMachineConfig()
 	{
-		ArrayList<MachineComponent> mclist = machinecomponents.getMachineComponentList();
 		int mc_in_iolist_cnt = 0;
 		
 		/* 1. Check: Every input of all machine componenets must be set exactly once in the
 		 *           connectionlist.
 		 */
-		for (MachineComponent mc : mclist) {
+		for (MachineComponent mc : componentList) {
 			for (IOContainer mcinput : mc.getComponent().getInputs()) {
 				mc_in_iolist_cnt = 0;
 				for (IOConnection iolink : connectionList) {
@@ -386,6 +385,24 @@ public class Machine {
 	}
 	
 	/**
+	 * returns the first machine component with a specified name.
+	 * 
+	 * @param name
+	 * @return the {@link MachineComponent} with the name. 
+	 */
+	public static MachineComponent getMachineComponent(String name){
+		MachineComponent temp=null;
+		for(MachineComponent mc : componentList) {
+			if(mc.getName().equals(name)) {
+				temp=mc;
+				break;
+			}
+		}
+		
+		return temp;
+	}
+	
+	/**
 	 * 
 	 * @return list of all input-Output connections
 	 */
@@ -426,4 +443,29 @@ public class Machine {
 		return machineModel;
 	}
 
+	/**
+	 * ================================================================================
+	 * Methods for test only!
+	 * ================================================================================
+	 */
+	
+	/**
+	 * Create machine instance. 
+	 * For test purpose only!
+	 * 
+	 */
+	public static void dummyBuildMachine()
+	{
+		/* Create machine */
+		if(machineModel==null)
+			machineModel=new Machine();
+	}
+	/**
+	 * Set or overwrite componentList: Use for test purpose only!
+	 * @param list
+	 */
+	public void setMachineComponentList(ArrayList<MachineComponent> list)
+	{
+		componentList = list;
+	}
 }

@@ -18,7 +18,6 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import ch.ethz.inspire.emod.MachineComponents;
 import ch.ethz.inspire.emod.model.MachineComponent;
 
 /**
@@ -39,11 +38,11 @@ public class MachineComponentsTest {
 		list.add(mc);
 		list.add(mc2);
 		list.add(mc1);
-		MachineComponents mcomponents = new MachineComponents();
-		mcomponents.setComponentList(list);
+		Machine.dummyBuildMachine();
+		Machine.getInstance().setMachineComponentList(list);
 		try {
-			assertEquals("get component by name", mc2, mcomponents.getComponent("test2"));
-			assertSame("get component by name", mc2, mcomponents.getComponent("test2"));
+			assertEquals("get component by name", mc2, Machine.getMachineComponent("test2"));
+			assertSame("get component by name", mc2, Machine.getMachineComponent("test2"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

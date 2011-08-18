@@ -52,32 +52,5 @@ public class MachineComponents {
 	public ArrayList<MachineComponent> getMachineComponentList() {
 		return componentList;
 	}
-
-	/**
-	 * Overwrite compoentList: Use for test purpose only.
-	 * @param componentList
-	 */
-	public void setComponentList(ArrayList<MachineComponent> componentList) {
-		this.componentList = componentList;
-	}
-
-	
-	/**
-	 * returns the first machine component with a specified name.
-	 * 
-	 * @param name
-	 * @return the {@link MachineComponent} with the name. 
-	 */
-	public MachineComponent getComponent(String name){
-		MachineComponent temp=null;
-		for(MachineComponent mc : componentList) {
-			if(mc.getName().equals(name)) {
-				temp=mc;
-				break;
-			}
-		}
-		
-		return temp;
-	}
 	
 }
