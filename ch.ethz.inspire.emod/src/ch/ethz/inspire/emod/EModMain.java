@@ -124,18 +124,19 @@ public class EModMain {
 			System.exit(-1);
 		}
 		
-		/* Read and check machine configuration */
-		MachineConfig machineConfig = new MachineConfig(machineName, machineConfigName);
+		/* Build machine: Read and check machine configuration */
+		Machine.buildMachine(machineName, machineConfigName);
 		
 		/* Setup the simulation */
 		EModSimulationMain sim = new EModSimulationMain(machineName, simulationConfigName);
-		sim.setIOConnectionList(machineConfig.getIOLinkList());
-		sim.setInputparamObjectList(machineConfig.getInputObjectList());
+		sim.setMachineComponentList(Machine.getInstance().getMachineComponentList());
+		sim.setIOConnectionList(Machine.getInstance().getIOLinkList());
+		sim.setInputparamObjectList(Machine.getInstance().getInputObjectList());
 
 		/* Run the simulation */
 		sim.runSimulation();
 		
-		//Machine.getInstance().saveMachineToFile("test_machinecomponents.xml");
-		//machineConfig.saveInputSimulatorsToFile("test_inputsimulators.xml");
+		//Machine.getInstance().saveMachineComponentsToFile("test_machinecomponents.xml");
+		//Machine.getInstance().saveInputSimulatorsToFile("test_inputsimulators.xml");
 	}
 }

@@ -12,11 +12,11 @@
  ***********************************/
 package ch.ethz.inspire.emod.simulation;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 import ch.ethz.inspire.emod.utils.IOConnection;
-import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.model.MachineComponent;
 
 /**
@@ -32,6 +32,7 @@ public class EModSimulationMain {
 	private double sampleperiod;
 	private SimulationState machineState;
 	private List<IOConnection> connectionList;
+	private ArrayList<MachineComponent> machineComponentList;
 	
 	private List<ASimulationControl> simulators;
 	
@@ -42,6 +43,16 @@ public class EModSimulationMain {
 		machineState = new SimulationState(machineName, simConfigName);
 	}
 
+	/**
+	 * Set machine component list
+	 * 
+	 * @param list
+	 */
+	public void setMachineComponentList(ArrayList<MachineComponent> list)
+	{
+		machineComponentList = list;
+	}
+	
 	/**
 	 * Set IO connection list
 	 * 
@@ -73,7 +84,7 @@ public class EModSimulationMain {
 		 * data. 
 		 */
 		SimulationOutput simoutput = new SimulationOutput("simulation_output.dat", 
-			Machine.getInstance().getMachineComponentList(), simulators);
+				machineComponentList, simulators);
 		
 		logger.info("starting simulation");
 		time = 0.0;
@@ -100,7 +111,7 @@ public class EModSimulationMain {
 			setInputs();
 			
 			/* Iterate all models. The outputs of all component models are updated.*/
-			for(MachineComponent mc : Machine.getInstance().getMachineComponentList())
+			for(MachineComponent mc : machineComponentList)
 				mc.getComponent().update();
 			
 			/* Get next value from simulation control. */

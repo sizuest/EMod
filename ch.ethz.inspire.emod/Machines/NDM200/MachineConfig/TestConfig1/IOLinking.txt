@@ -6,3 +6,4 @@ x.Torque         = xTorque
 y.RotSpeed       = yRPM
 y.Torque         = yTorque
 Fan1.level       = test
+Fan2.level       = test

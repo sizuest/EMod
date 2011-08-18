@@ -7,7 +7,7 @@
 	and a <type>.
 	the machine component objects are built from this list automatically.
 -->
-<ns2:machine xmlns:ns2="ch.ethz.inspire.emod.model">
+<ns2:machineComponents xmlns:ns2="ch.ethz.inspire.emod.model">
     <machine>
         <machineComponent>
         	<!-- Comment on spindel -->
@@ -46,4 +46,4 @@
             <name>Fan2</name>
         </machineComponent>
     </machine>
-</ns2:machine>
+</ns2:machineComponents>
