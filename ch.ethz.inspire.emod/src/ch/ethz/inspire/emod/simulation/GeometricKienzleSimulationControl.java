@@ -37,8 +37,6 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 
 	private static Logger logger = Logger.getLogger(GeometricKienzleSimulationControl.class.getName());
 	
-	@XmlElementWrapper
-	@XmlElement
 	protected List<double[]> samples; //values for every state
 	protected int simulationStep=0; //current sim step
 	protected double kappa; //kienzle constant
@@ -174,6 +172,7 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 	protected void calculateMoments(double[] f, double[] ap, double[] d) {
 		double[] moments = new double[f.length];
 		double sinkappa = Math.sin(kappa);
+		
 		for(int i=0;i<f.length;i++) {
 			//calculate moments for every time step: Fc = kc * b * h^(1-z) 
 			//moment = Fc * d/2

@@ -25,13 +25,20 @@ import java.util.logging.Logger;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
 
 import ch.ethz.inspire.emod.model.APhysicalComponent;
+import ch.ethz.inspire.emod.model.ConstantComponent;
+import ch.ethz.inspire.emod.model.LinearMotor;
 import ch.ethz.inspire.emod.utils.IOContainer;
-import ch.ethz.inspire.emod.MachineComponents;
 import ch.ethz.inspire.emod.model.MachineComponent;
 import ch.ethz.inspire.emod.simulation.ASimulationControl;
-import ch.ethz.inspire.emod.simulation.InputSimulators;
+import ch.ethz.inspire.emod.simulation.GeometricKienzleSimulationControl;
+import ch.ethz.inspire.emod.simulation.RandomSimulationControl;
+import ch.ethz.inspire.emod.simulation.StaticSimulationControl;
 import ch.ethz.inspire.emod.utils.IOConnection;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
@@ -40,26 +47,29 @@ import ch.ethz.inspire.emod.utils.PropertiesHandler;
  * @author andreas
  *
  */
+@XmlRootElement(namespace = "ch.ethz.inspire.emod")
+@XmlSeeAlso({APhysicalComponent.class, LinearMotor.class, ConstantComponent.class, ASimulationControl.class, RandomSimulationControl.class, StaticSimulationControl.class, GeometricKienzleSimulationControl.class, MachineComponent.class})
 public class Machine {
 
 	private static Logger logger = Logger.getLogger(Machine.class.getName());
 	
 	/* List with machine components */
-	private static ArrayList<MachineComponent> componentList;
-	private static MachineComponents machinecomponents;
+	@XmlElementWrapper(name = "machine")
+	@XmlElement(name = "machineComponent")
+	private ArrayList<MachineComponent> componentList;
 	
 	/* List with component output->input connection */
-	private static List<IOConnection> connectionList;
+	private List<IOConnection> connectionList;
 	
 	/* List with simulation objects */
-	private static List<ASimulationControl> simulators;
-	private static InputSimulators inputsimulators;
+	@XmlElementWrapper
+	@XmlElement(name = "simController")
+	private List<ASimulationControl> simulators;
 	
 	/* Path definitions */
 	private static final String MACHINECONFIGDIR = "MachineConfig";
-	private static final String COMPONENTFILENAME = "ComponentList.xml";
+	private static final String MACHINEFILENAME = "Machine.xml";
 	private static final String LINKFILENAME = "IOLinking.txt";
-	private static final String INPUTSIMFILENAME = "InputSimulators.xml";
 	
 	/* Model reference */
 	private static Machine machineModel=null;
@@ -81,8 +91,8 @@ public class Machine {
 	public static void buildMachine(String machineName, String machineConfig)
 	{
 		/* Create machine */
-		if(machineModel==null)
-			machineModel=new Machine();
+		if(machineModel!=null)
+			logger.info("Overwrinting current machine with '"+machineName+"' - '"+machineConfig+"'");
 		
 		/* Generate path to machine config:
 		 * e.g. Machines/NDM200/MachineConfig/TestConfig1/ */
@@ -93,9 +103,8 @@ public class Machine {
 		/* ****************************************************************** */
 		/* Make list containing all machine components */
 		/* ****************************************************************** */
-		logger.info("Load machine components from file: " + path + COMPONENTFILENAME);
-		machinecomponents = initMachineComponentsFromFile(path + COMPONENTFILENAME);
-		componentList = machinecomponents.getMachineComponentList();
+		logger.info("Load machine from file: " + path + MACHINEFILENAME);
+		initMachineFromFile(path + MACHINEFILENAME);
 		
 		/* ****************************************************************** */
 		/* Make list with all simulator objects */
@@ -119,10 +128,8 @@ public class Machine {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}*/
-		logger.info("Load input simulators from file: " + path + INPUTSIMFILENAME);
-		inputsimulators = initInputSimulatorsFromFile(path + INPUTSIMFILENAME);
-		simulators = inputsimulators.getSimulatorList();
-		for (ASimulationControl sim : simulators) {
+		
+		for (ASimulationControl sim : Machine.getInstance().simulators) {
 			sim.afterJABX();
 		}
 		
@@ -137,39 +144,30 @@ public class Machine {
 		checkMachineConfig();
 		
 	}
+	
+	public static void newMachine(String machineName, String machineConfigDir) {
+		//TODO: create new machine model, prepare lists, config dirs etc
+	}
 
-	/**
-	 * reads a machine config from a specified xml file
-	 * 
-	 * @param file
-	 */
-	public static MachineComponents initMachineComponentsFromFile(String file) {
-		MachineComponents machineModel = null;
+	public static void initMachineFromFile(String file) {
 		try {
-			JAXBContext context = JAXBContext.newInstance(MachineComponents.class);
+			JAXBContext context = JAXBContext.newInstance(Machine.class);
 			Unmarshaller um = context.createUnmarshaller();
-			machineModel = (MachineComponents) um.unmarshal(new FileReader(file));
+			machineModel = (Machine) um.unmarshal(new FileReader(file));
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(-1);
 		}
-		return machineModel;
 	}
 	
-	/**
-	 * saves the machine config to a xml file.
-	 * 
-	 * @param file
-	 */
-	public void saveMachineComponentsToFile(String file) {
-
+	public static void saveMachineToFile(String file) {
 		try {
-			JAXBContext context = JAXBContext.newInstance(MachineComponents.class);
+			JAXBContext context = JAXBContext.newInstance(Machine.class);
 			Marshaller m = context.createMarshaller();
 			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-				
+			
 			Writer w = new FileWriter(file);
-			m.marshal(machinecomponents, w);
+			m.marshal(machineModel, w);
 			w.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -210,7 +208,7 @@ public class Machine {
 			System.exit(-1);
 		}
 		
-		connectionList = new ArrayList<IOConnection>();
+		Machine.getInstance().connectionList = new ArrayList<IOConnection>();
 		
 		/* Read file: line by line */
 		int linenr=0;
@@ -276,7 +274,7 @@ public class Machine {
 					}
 					else {
 						/* If no output component, it must be a simulation object*/
-						for(ASimulationControl sc : simulators) {
+						for(ASimulationControl sc : Machine.getInstance().simulators) {
 							if(sc.getName().equals(outstruct)) {
 								tempSource = sc.getOutput();
 								break;
@@ -291,7 +289,7 @@ public class Machine {
 					}
 					
 					try {
-						connectionList.add(new IOConnection(tempSource, tempTar));
+						Machine.getInstance().connectionList.add(new IOConnection(tempSource, tempTar));
 					} catch (Exception e) {
 						System.err.println("Could not add input-output mapping, file " + file + " line " + linenr);
 						e.printStackTrace();
@@ -321,10 +319,10 @@ public class Machine {
 		/* 1. Check: Every input of all machine componenets must be set exactly once in the
 		 *           connectionlist.
 		 */
-		for (MachineComponent mc : componentList) {
+		for (MachineComponent mc : Machine.getInstance().componentList) {
 			for (IOContainer mcinput : mc.getComponent().getInputs()) {
 				mc_in_iolist_cnt = 0;
-				for (IOConnection iolink : connectionList) {
+				for (IOConnection iolink : Machine.getInstance().connectionList) {
 					if (mcinput == iolink.getTarget()) {
 						mc_in_iolist_cnt++;
 					}
@@ -346,45 +344,6 @@ public class Machine {
 	}
 	
 	/**
-	 * reads a simulation config from a specified xml file
-	 * 
-	 * @param file
-	 */
-	public static InputSimulators initInputSimulatorsFromFile(String file) {
-		InputSimulators is = null;
-		try {
-			JAXBContext context = JAXBContext.newInstance(InputSimulators.class);
-			Unmarshaller um = context.createUnmarshaller();
-			is = (InputSimulators) um.unmarshal(new FileReader(file));
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.exit(-1);
-		}
-		return is;
-	}
-	
-	
-	/**
-	 * saves the input simulators to a xml file.
-	 * 
-	 * @param file
-	 */
-	public void saveInputSimulatorsToFile(String file) {
-		
-		try {
-			JAXBContext context = JAXBContext.newInstance(InputSimulators.class);
-			Marshaller m = context.createMarshaller();
-			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-				
-			Writer w = new FileWriter(file);
-			m.marshal(inputsimulators, w);
-			w.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	/**
 	 * returns the first machine component with a specified name.
 	 * 
 	 * @param name
@@ -392,7 +351,7 @@ public class Machine {
 	 */
 	public static MachineComponent getMachineComponent(String name){
 		MachineComponent temp=null;
-		for(MachineComponent mc : componentList) {
+		for(MachineComponent mc : Machine.getInstance().componentList) {
 			if(mc.getName().equals(name)) {
 				temp=mc;
 				break;

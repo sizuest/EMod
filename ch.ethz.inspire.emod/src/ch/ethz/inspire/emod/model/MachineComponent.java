@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author dhampl
  *
  */
-@XmlRootElement(name = "machineComponent")
+@XmlRootElement
 public class MachineComponent {
 
 	private String name;

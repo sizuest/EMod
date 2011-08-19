@@ -1,5 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<ns2:inputSimulators xmlns:ns2="ch.ethz.inspire.emod.simulation">
+<ns2:machine xmlns:ns2="ch.ethz.inspire.emod">
+    <machine>
+        <machineComponent>
+            <component xsi:type="linearMotor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Siemens_1FE1115-6WT11</type>
+            </component>
+            <name>spindel</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="linearMotor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>siemens123</type>
+            </component>
+            <name>x</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="linearMotor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>siemens123</type>
+            </component>
+            <name>y</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="constantComponent" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>80mmFan</type>
+            </component>
+            <name>Fan1</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="constantComponent" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>80mmFan</type>
+            </component>
+            <name>Fan2</name>
+        </machineComponent>
+    </machine>
     <simulators>
         <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>spindelRPM</name>
@@ -34,4 +66,4 @@
             <unit>NONE</unit>
         </simController>
     </simulators>
-</ns2:inputSimulators>
+</ns2:machine>

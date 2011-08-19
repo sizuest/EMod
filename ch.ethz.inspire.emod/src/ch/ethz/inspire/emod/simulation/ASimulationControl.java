@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import ch.ethz.inspire.emod.LogLevel;
 import ch.ethz.inspire.emod.utils.IOContainer;
@@ -30,6 +31,7 @@ import ch.ethz.inspire.emod.model.units.Unit;
  * @author dhampl
  *
  */
+@XmlRootElement
 public abstract class ASimulationControl {
 
 	private static Logger logger = Logger.getLogger(ASimulationControl.class.getName());

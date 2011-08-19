@@ -126,7 +126,7 @@ public class EModMain {
 		
 		/* Build machine: Read and check machine configuration */
 		Machine.buildMachine(machineName, machineConfigName);
-		
+		Machine.saveMachineToFile("machineexportallinone.xml");
 		/* Setup the simulation */
 		EModSimulationMain sim = new EModSimulationMain(machineName, simulationConfigName);
 		sim.setMachineComponentList(Machine.getInstance().getMachineComponentList());
