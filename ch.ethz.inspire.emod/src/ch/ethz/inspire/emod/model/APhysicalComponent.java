@@ -15,7 +15,6 @@ package ch.ethz.inspire.emod.model;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSeeAlso;
 
 import ch.ethz.inspire.emod.utils.IOContainer;
 
@@ -26,7 +25,6 @@ import ch.ethz.inspire.emod.utils.IOContainer;
  *
  */
 @XmlRootElement
-@XmlSeeAlso({IOContainer.class})
 public abstract class APhysicalComponent {
 
 	protected List<IOContainer> inputs;

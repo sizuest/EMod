@@ -117,7 +117,7 @@ public class EModGUI {
 	        fd.setFilterExtensions(filterExt);
 	        String selected = fd.open();
 	        logger.log(LogLevel.DEBUG, "File to save to: "+selected);
-	        Machine.getInstance().saveMachineToFile(selected);
+	        Machine.saveMachineToFile(selected);
 		}
 
 		/* (non-Javadoc)

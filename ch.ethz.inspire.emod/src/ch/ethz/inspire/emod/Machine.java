@@ -39,8 +39,10 @@ import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.model.MachineComponent;
 import ch.ethz.inspire.emod.simulation.ASimulationControl;
 import ch.ethz.inspire.emod.simulation.GeometricKienzleSimulationControl;
+import ch.ethz.inspire.emod.simulation.ProcessSimulationControl;
 import ch.ethz.inspire.emod.simulation.RandomSimulationControl;
 import ch.ethz.inspire.emod.simulation.StaticSimulationControl;
+import ch.ethz.inspire.emod.utils.Defines;
 import ch.ethz.inspire.emod.utils.IOConnection;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
@@ -50,7 +52,10 @@ import ch.ethz.inspire.emod.utils.PropertiesHandler;
  *
  */
 @XmlRootElement(namespace = "ch.ethz.inspire.emod")
-@XmlSeeAlso({APhysicalComponent.class, LinearMotor.class, ConstantComponent.class, ASimulationControl.class, RandomSimulationControl.class, StaticSimulationControl.class, GeometricKienzleSimulationControl.class, MachineComponent.class})
+@XmlSeeAlso({MachineComponent.class, APhysicalComponent.class, LinearMotor.class,
+	ConstantComponent.class, 
+	ASimulationControl.class, RandomSimulationControl.class, StaticSimulationControl.class, 
+	ProcessSimulationControl.class, GeometricKienzleSimulationControl.class})
 @XmlAccessorType(XmlAccessType.NONE)
 public class Machine {
 
@@ -60,19 +65,14 @@ public class Machine {
 	@XmlElementWrapper(name = "machine")
 	@XmlElement(name = "machineComponent")
 	private ArrayList<MachineComponent> componentList;
-	
-	/* List with component output->input connection */
-	private List<IOConnection> connectionList;
-	
+
 	/* List with simulation objects */
 	@XmlElementWrapper
 	@XmlElement(name = "simController")
 	private List<ASimulationControl> simulators;
 	
-	/* Path definitions */
-	private static final String MACHINECONFIGDIR = "MachineConfig";
-	private static final String MACHINEFILENAME = "Machine.xml";
-	private static final String LINKFILENAME = "IOLinking.txt";
+	/* List with component output->input connection */
+	private List<IOConnection> connectionList;
 	
 	/* Model reference */
 	private static Machine machineModel=null;
@@ -100,44 +100,15 @@ public class Machine {
 		/* Generate path to machine config:
 		 * e.g. Machines/NDM200/MachineConfig/TestConfig1/ */
 		String prefix = PropertiesHandler.getProperty("app.MachineDataPathPrefix");
-		String path = prefix + "/" + machineName + "/"+ MACHINECONFIGDIR +"/" + 
+		String path = prefix + "/" + machineName + "/"+ Defines.MACHINECONFIGDIR +"/" + 
 		              machineConfig + "/";
 		
 		/* ****************************************************************** */
-		/* Make list containing all machine components */
+		/* Init machine form config */
 		/* ****************************************************************** */
-		logger.info("Load machine from file: " + path + MACHINEFILENAME);
-		initMachineFromFile(path + MACHINEFILENAME);
-		
-		/* ****************************************************************** */
-		/* Make list with all simulator objects */
-		/* ****************************************************************** */
-
-		/*simulators = new ArrayList<ASimulationControl>();
-		//sim.generateSimulation(20);
-		simulators.add(new RandomSimulationControl("spindelRPM", Unit.RPM, path+"RandomSimulationControl_noname.txt"));
-		simulators.add(new RandomSimulationControl("spindelTorque", Unit.NEWTONMETER, path+"RandomSimulationControl_noname.txt"));
-		simulators.add(new RandomSimulationControl("xRPM", Unit.RPM, path+"RandomSimulationControl_noname.txt"));
-		simulators.add(new RandomSimulationControl("xTorque", Unit.NEWTONMETER, path+"RandomSimulationControl_noname.txt"));
-		simulators.add(new RandomSimulationControl("yRPM", Unit.RPM, path+"RandomSimulationControl_noname.txt"));
-		simulators.add(new RandomSimulationControl("yTorque", Unit.NEWTONMETER, path+"RandomSimulationControl_noname.txt"));
-		simulators.add(new StaticSimulationControl("test", Unit.NONE, path+"StaticSimulationControl_tester.txt"));
-		double[] n = {2000, 2200, 2300, 3000};
-		double[] f = {0.1, 0.08, 0.9, 1};
-		double[] ap = {3, 4, 9, 0.5};
-		double[] d = {0.006, 0.02, 0.004, 0.0001};
-		try {
-			simulators.add(new GeometricKienzleSimulationControl("test2", "L:/wrkspace/ch.ethz.inspire.emod/test/ch/ethz/inspire/emod/simulation/GeometricKienzleSimulationControl_tester.txt", n, f, ap, d));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}*/
-		
-		for (ASimulationControl sim : Machine.getInstance().simulators) {
-			sim.afterJABX();
-		}
-		
-		
-		
+		logger.info("Load machine from file: " + path + Defines.MACHINEFILENAME);
+		initMachineFromFile(path + Defines.MACHINEFILENAME);
+				
 		/* ****************************************************************** */
 		/*   Link outputs to inputs
 		/* ****************************************************************** */
@@ -197,7 +168,7 @@ public class Machine {
 	private static void makeInputOutputLinkList(String path) {
 		
 		/* Path and filename with linking definitions. */
-		String file = path + LINKFILENAME;
+		String file = path + Defines.LINKFILENAME;
 		
 		logger.info("Make input-output component link list from file: " + file);
 		

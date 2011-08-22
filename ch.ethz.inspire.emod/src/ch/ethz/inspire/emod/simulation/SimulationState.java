@@ -18,10 +18,7 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-
+import ch.ethz.inspire.emod.utils.Defines;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 /**
@@ -40,8 +37,6 @@ import ch.ethz.inspire.emod.utils.PropertiesHandler;
  * @author andreas
  *
  */
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class SimulationState {
 	
 	private static Logger logger = Logger.getLogger(SimulationState.class.getName());
@@ -59,15 +54,13 @@ public class SimulationState {
 	 * variables (endtime, actualstate, nextStateChgTime).
 	 * 
 	 */
-	private static final String SIMULATIONCONFIG = "SimulationConfig";
-	private static final String MACHINESTATEFNAME = "MachineStateSequence.txt";
 	public SimulationState(String machineName, String simConfigName) {
 		
 		/* Generate file name with path:
 		 * e.g. Machines/NDM200/MachineConfig/TestConfig1/IOLinking.txt */
 		String prefix = PropertiesHandler.getProperty("app.MachineDataPathPrefix");
-		String file = prefix + "/" + machineName + "/"+ SIMULATIONCONFIG +"/" + 
-		              simConfigName + "/" + MACHINESTATEFNAME;
+		String file = prefix + "/" + machineName + "/"+ Defines.SIMULATIONCONFIGDIR +"/" + 
+		              simConfigName + "/" + Defines.MACHINESTATEFNAME;
 		
 		logger.info("Read machine state sequence from file: " + file);
 		

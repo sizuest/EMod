@@ -41,7 +41,6 @@ public class StaticSimulationControl extends ASimulationControl {
 	/**
 	 * @param name
 	 * @param unit
-	 * @param configFile
 	 */
 	public StaticSimulationControl(String name, Unit unit, double simulationPeriod) {
 		super(name, unit);
@@ -59,15 +58,6 @@ public class StaticSimulationControl extends ASimulationControl {
 	public void afterUnmarshal(Unmarshaller u, Object parent) {
 		super.afterUnmarshal(u, parent);
 		simulationStep=0;
-	}
-	/**
-	 * Path can not be given, when creating the objects by JABX.
-	 * @param path Directory holding the configfiles.
-	 */
-	@Override
-	public void afterJABX()
-	{
-		super.afterJABX();
 		readSamplesFromFile();
 	}
 	
@@ -103,7 +93,7 @@ public class StaticSimulationControl extends ASimulationControl {
 			
 			// loop over all machine states
 			for(ComponentState cs : ComponentState.values()) {
-				samples.add(scr.getSamplesArray(cs.name()));
+				samples.add(scr.getDoubleArray(cs.name()));
 			}
 		} catch(Exception e) {
 			e.printStackTrace();

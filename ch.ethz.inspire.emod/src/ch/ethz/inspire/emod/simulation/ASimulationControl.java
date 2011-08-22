@@ -69,17 +69,10 @@ public abstract class ASimulationControl {
 	 *   - Constructor can not have arguments.
 	 */
 	public ASimulationControl() {
-		/* name, unit and configFile are set by JABX */
+		/* name and unit are set by JABX */
 	}
 	public void afterUnmarshal(Unmarshaller u, Object parent) {
 		simulationOutput = new IOContainer(name, unit, 0);
-	}
-	/**
-	 * Path can not be given, when creating the objects by JABX.
-	 * @param path Directory holding the configfiles.
-	 */
-	public void afterJABX()
-	{
 		readConfig();
 	}
 	

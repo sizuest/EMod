@@ -17,11 +17,9 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import ch.ethz.inspire.emod.LogLevel;
 import ch.ethz.inspire.emod.model.units.Unit;
-import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.SamplePeriodConverter;
 import ch.ethz.inspire.emod.utils.SimulationConfigReader;
 
@@ -31,7 +29,6 @@ import ch.ethz.inspire.emod.utils.SimulationConfigReader;
  * @author dhampl
  *
  */
-@XmlRootElement
 public class GeometricKienzleSimulationControl extends ASimulationControl {
 
 	private static Logger logger = Logger.getLogger(GeometricKienzleSimulationControl.class.getName());
@@ -41,6 +38,13 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 	protected double kappa; //kienzle constant
 	protected double kc; //kienzle constant
 	protected double z; //kienzle constant
+	protected double sampleperiod;
+	
+	/* Process parameter names */
+	private String n_name; 
+	private String v_name;
+	private String d_name;
+	private String ap_name;
 	
 	/**
 	 * 
@@ -51,12 +55,6 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 		super(name, Unit.NEWTONMETER);
 		this.simulationPeriod=simulationPeriod;
 		readConfigFromFile();
-		try {
-			readSamplesFromFile();
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.exit(-1);
-		}
 	}
 	
 	/**
@@ -80,21 +78,16 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 	}
 	
 	/**
-	 * JAXB constructor
+	 * JAXB constructor: Sets name and unit
 	 */
 	public GeometricKienzleSimulationControl() {
-		
+		super();
 	}
 	public void afterUnmarshal(Unmarshaller u, Object parent) {
-		simulationOutput = new IOContainer(name, unit, 0);
+		super.afterUnmarshal(u, parent);
 		
 		if(samples==null) {
 			readConfigFromFile();
-			try {
-				readSamplesFromFile();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 		}
 	}
 	
@@ -117,58 +110,73 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 			// loop over all component states
 			for(ComponentState cs : ComponentState.values()) {
 				
-				samples.add(scr.getSamplesArray(cs.name()));
+				samples.add(scr.getDoubleArray(cs.name()));
 			}
 			kappa = scr.getDoubleValue("kappa")*Math.PI/180;
 			z = scr.getDoubleValue("z");
 			kc = scr.getDoubleValue("kc");
+			sampleperiod = scr.getDoubleValue("samplePeriod");
+				
+			/* Read process parameter names */
+			n_name = scr.getString("n_name");
+			v_name = scr.getString("v_name");
+			d_name = scr.getString("d_name");
+			ap_name = scr.getString("ap_name");
+			
 		} catch(Exception e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 	
 	/**
-	 * reads sample values from file. <br />
-	 * values are: <br />
-	 * n [1/min], v [mm/min], ap [mm], d [mm]<br />
-	 * syntax:<br />
-	 * n=1 2 3 4 5<br />
-	 * v=12 34 56 78 90
+	 * Set the input parameters (n,ap,d,...) of the Kienzle simulator.
+	 * The parameter are read and processed and a time series containing the
+	 * torque is generated.
 	 * 
-	 * @param file with samples for n, v, ap, d
-	 * @throws Exception thrown if |n| != |v| != |ap| != |d|
+	 * @param process Process object containing all process parameters.
 	 */
-	protected void readSamplesFromFile() throws Exception {
-		double[] n = null, v = null, ap = null, d = null;
-		
-		logger.log(LogLevel.DEBUG, "reading samples for: "+this.getClass().getSimpleName()+"_"+name);
-		SimulationConfigReader scr=null;
-		try {
-			scr = new SimulationConfigReader(this.getClass().getSimpleName(), name);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public void installKienzleInputParameters(Process process) {
+		double[] n = null;
+		double[] v = null;
+		double[] ap = null;
+		double[] d = null;
 		
 		try {
-			n=scr.getSamplesArray("n");
-			v=scr.getSamplesArray("v");
-			ap=scr.getSamplesArray("ap");
-			d=scr.getSamplesArray("d");
-		} catch(Exception e) {
-			e.printStackTrace();
+			n = process.getDoubleArray(n_name);
+			v = process.getDoubleArray(v_name);
+			d = process.getDoubleArray(d_name);
+			ap = process.getDoubleArray(ap_name);
 		}
-		if(n.length!=v.length || n.length!=ap.length || n.length!=d.length)
-			throw new Exception("input violation: params must have same length");
+		catch (Exception e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+		/* Check length */
+		if(n.length!=v.length || n.length!=ap.length || n.length!=d.length) {
+			Exception ex = new Exception("input violation: params must have same length");
+			ex.printStackTrace();
+			System.exit(-1);
+		}
 		
-		for(int i=0;i<n.length;i++){
-			v[i] = v[i]/(n[i]); //mm/min -> m/U
-			n[i] = n[i]/60; //1/min -> 1/s
-			ap[i] = ap[i]; //mm -> m
-			d[i] = d[i]/1000; //mm -> m
+		for(int i=0; i<n.length; i++){
+			// TODO: check units
+			v[i] = v[i]/(n[i]);  // mm/min -> m/U
+			n[i] = n[i]/60;      // 1/min -> 1/s
+			ap[i] = ap[i];       // mm -> m
+			d[i] = d[i]/1000;    // mm -> m
 		}
 		calculateMoments(v, ap, d);
-		for(int i=0;i<samples.size();i++) {
-			samples.set(i, SamplePeriodConverter.convertSamples(scr.getDoubleValue("samplePeriod"), simulationPeriod, samples.get(i)));
+		
+		/* Resample the sample if the sampleperiod changed.*/
+		try {
+			for(int i=0;i<samples.size();i++) {
+				samples.set(i, SamplePeriodConverter.convertSamples(sampleperiod, simulationPeriod, samples.get(i)));
+			}
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+			System.exit(-1);
 		}
 	}
 	

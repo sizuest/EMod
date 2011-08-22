@@ -44,6 +44,7 @@ public class ConstantComponent extends APhysicalComponent {
 
 	@XmlElement
 	protected String type;
+	
 	protected double[] levels;
 	
 	//input
@@ -86,7 +87,7 @@ public class ConstantComponent extends APhysicalComponent {
 		}
 		
 		try {
-			levels = configReader.getDoubleArrayParam("levels");
+			levels = configReader.getDoubleArray("levels");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

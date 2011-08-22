@@ -143,9 +143,9 @@ public class LinearMotor extends APhysicalComponent{
 		
 		/* Read the config parameter: */
 		try {
-			powerSamples = params.getDoubleArrayParam("PowerSamples");
-			rotspeedSamples = params.getDoubleArrayParam("RotspeedSamples");
-			efficiencyMatrix = params.getDoubleMatrixParam("EfficiencyMatrix");
+			powerSamples = params.getDoubleArray("PowerSamples");
+			rotspeedSamples = params.getDoubleArray("RotspeedSamples");
+			efficiencyMatrix = params.getDoubleMatrix("EfficiencyMatrix");
 		}
 		catch (Exception e) {
 			e.printStackTrace();

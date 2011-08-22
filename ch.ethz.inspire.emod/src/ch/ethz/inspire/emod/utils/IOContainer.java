@@ -12,10 +12,6 @@
  ***********************************/
 package ch.ethz.inspire.emod.utils;
 
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType; 
-import javax.xml.bind.annotation.XmlAccessorType;  
-
 import ch.ethz.inspire.emod.model.units.Unit;
 
 /**
@@ -23,9 +19,7 @@ import ch.ethz.inspire.emod.model.units.Unit;
  * 
  * @author dhampl
  *
- */
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)  
+ */ 
 public class IOContainer {
 
 	private String name;

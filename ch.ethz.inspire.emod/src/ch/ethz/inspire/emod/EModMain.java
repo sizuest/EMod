@@ -25,6 +25,7 @@ import org.eclipse.swt.widgets.*;
 
 import ch.ethz.inspire.emod.gui.MachineComponentSelectGUI;
 import ch.ethz.inspire.emod.simulation.EModSimulationMain;
+import ch.ethz.inspire.emod.simulation.Process;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 /**
@@ -124,21 +125,29 @@ public class EModMain {
 			System.exit(-1);
 		}
 		
-		EModSimulationMain sim = new EModSimulationMain(machineName, simulationConfigName);
-		
 		/* Build machine: Read and check machine configuration */
 		Machine.buildMachine(machineName, machineConfigName);
-		Machine.saveMachineToFile("machineexportallinone.xml");
-		/* Setup the simulation */
 		
+		/* Setup the simulation: Read simulation config  */
+		EModSimulationMain sim = new EModSimulationMain(machineName, simulationConfigName);
+		
+		/* Connect simulation with machine config */
 		sim.setMachineComponentList(Machine.getInstance().getMachineComponentList());
 		sim.setIOConnectionList(Machine.getInstance().getIOLinkList());
 		sim.setInputparamObjectList(Machine.getInstance().getInputObjectList());
-
+		
+		/* Setup the process */
+		// TODO: Read process name from app.config
+		Process process = new Process("test");
+		
+		/* Set process parameters for simulation */
+		sim.setProcessParamsforSimulation(process);
+		
 		/* Run the simulation */
 		sim.runSimulation();
 		
-		//Machine.getInstance().saveMachineComponentsToFile("test_machinecomponents.xml");
-		//Machine.getInstance().saveInputSimulatorsToFile("test_inputsimulators.xml");
+		/* Write the machine configuration */
+		// XXX
+		Machine.saveMachineToFile("machineexportallinone.xml");
 	}
 }

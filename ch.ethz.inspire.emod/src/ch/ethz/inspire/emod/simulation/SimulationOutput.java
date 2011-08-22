@@ -37,6 +37,8 @@ public class SimulationOutput {
 	private int flushcnt;
 	private DecimalFormat format;
 	
+	private String separator = "\t";
+	
 	/**
 	 * Create data logging file. Write file header.
 	 * 
@@ -62,45 +64,45 @@ public class SimulationOutput {
 			outfile.write("Time");
 			for(MachineComponent mc : mclist) {
 				for (int i=0; i<mc.getComponent().getInputs().size(); i++) {
-					outfile.write("\t" + mc.getName() + "-Input-" + (i+1));
+					outfile.write(separator + mc.getName() + "-Input-" + (i+1));
 				}
 				for (int i=0; i<mc.getComponent().getOutputs().size(); i++) {
-					outfile.write("\t" + mc.getName() + "-Output-" + (i+1));
+					outfile.write(separator + mc.getName() + "-Output-" + (i+1));
 				}
 			}
 			for(ASimulationControl sc : simlist) {
-				outfile.write("\t" + sc.getName() + "-Sim");
-				outfile.write("\t" + sc.getName() + "-Sim");
+				outfile.write(separator + sc.getName() + "-Sim");
+				outfile.write(separator + sc.getName() + "-Sim");
 			}
 			outfile.write("\n");
 			/* 2nd line: Time\tMcName1.InputName1\tMcName1.InputName2\tMcName1.OutputName1\t...*/
 			outfile.write("   ");
 			for(MachineComponent mc : mclist) {
 				for (IOContainer input : mc.getComponent().getInputs()) {
-					outfile.write("\t" + mc.getName() + "." + input.getName());
+					outfile.write(separator + mc.getName() + "." + input.getName());
 				}
 				for (IOContainer output : mc.getComponent().getOutputs()) {
-					outfile.write("\t" + mc.getName() + "." + output.getName());
+					outfile.write(separator + mc.getName() + "." + output.getName());
 				}
 			}
 			for(ASimulationControl sc : simlist) {
-				outfile.write("\t" + sc.getOutput().getName() + " State");
-				outfile.write("\t" + sc.getOutput().getName() + " Value");
+				outfile.write(separator + sc.getOutput().getName() + " State");
+				outfile.write(separator + sc.getOutput().getName() + " Value");
 			}
 			outfile.write("\n");
 			/* 3rd line: [s]\t[WATT]\t[TEMP]\t...*/
 			outfile.write("[s]");
 			for(MachineComponent mc : mclist) {
 				for (IOContainer input : mc.getComponent().getInputs()) {
-					outfile.write("\t" + "[" + input.getUnit() + "]");
+					outfile.write(separator + "[" + input.getUnit() + "]");
 				}
 				for (IOContainer output : mc.getComponent().getOutputs()) {
-					outfile.write("\t" + "[" + output.getUnit() + "]");
+					outfile.write(separator + "[" + output.getUnit() + "]");
 				}
 			}
 			for(ASimulationControl sc : simlist) {
-				outfile.write("\t" + "       ");
-				outfile.write("\t" + "[" + sc.getOutput().getUnit() + "]");
+				outfile.write(separator + "       ");
+				outfile.write(separator + "[" + sc.getOutput().getUnit() + "]");
 			}
 			outfile.write("\n");
 			
@@ -122,13 +124,13 @@ public class SimulationOutput {
 			outfile.write(format.format(time));
 			for(MachineComponent mc : mclist) {
 				for (IOContainer input : mc.getComponent().getInputs())
-					outfile.write("\t" + input.getValue());
+					outfile.write(separator + input.getValue());
 				for (IOContainer output : mc.getComponent().getOutputs())
-					outfile.write("\t" + output.getValue());
+					outfile.write(separator + output.getValue());
 			}
 			for(ASimulationControl sc : simlist) {
-				outfile.write("\t" + sc.getState().toString());
-				outfile.write("\t" + sc.getOutput().getValue());
+				outfile.write(separator + sc.getState().toString());
+				outfile.write(separator + sc.getOutput().getValue());
 			}
 			outfile.write("\n");
 						

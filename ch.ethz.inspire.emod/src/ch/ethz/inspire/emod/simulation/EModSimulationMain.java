@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 
 import ch.ethz.inspire.emod.utils.IOConnection;
 import ch.ethz.inspire.emod.model.MachineComponent;
+import ch.ethz.inspire.emod.simulation.ProcessSimulationControl;
 
 /**
  * Main simulation class
@@ -33,14 +34,17 @@ public class EModSimulationMain {
 	private SimulationState machineState;
 	private List<IOConnection> connectionList;
 	private ArrayList<MachineComponent> machineComponentList;
-	
 	private List<ASimulationControl> simulators;
 	
+	
 	public EModSimulationMain(String machineName, String simConfigName) {
-		super(); // ?? XXX
-		sampleperiod = 0.2; // seconds
+		sampleperiod = 1.0; // seconds XXX
 		/* Read simulation states from file */
 		machineState = new SimulationState(machineName, simConfigName);
+		
+		machineComponentList = null;
+		connectionList = null;
+		simulators = null;
 	}
 
 	/**
@@ -74,11 +78,50 @@ public class EModSimulationMain {
 	}
 	
 	/**
+	 * Set the process parameters 8time series) to the simulation control
+	 * objects.
+	 * 
+	 * @param process Actual process
+	 */
+	public void setProcessParamsforSimulation(Process process) {
+		for (ASimulationControl sc: simulators) {
+			if (sc.getClass() == ProcessSimulationControl.class) {
+				/* Set samples for process parameters */
+				double[] samples = null;
+				try {
+					samples =	process.getDoubleArray(sc.getName());
+				}
+				catch (Exception ex) {
+					Exception e = new Exception("Error for process parameter '" + sc.getName()+ "'\n" 
+							+ ex.getMessage());
+					e.printStackTrace();
+					System.exit(-1);
+				}
+				
+				((ProcessSimulationControl) sc).setProcessSamples(samples);
+			}
+			else if (sc.getClass() == GeometricKienzleSimulationControl.class) {
+				/* Set and calculate the process moments for the Kienzle simulators */
+				((GeometricKienzleSimulationControl) sc).installKienzleInputParameters(process);
+			}
+		}
+	}
+	
+	/**
 	 * Do the simulation
 	 */
 	public void runSimulation() {
 		
 		double time; 
+		
+		/* Check if all lists are defined: */
+		if ( (simulators == null) || 
+			 (machineComponentList == null) ||
+			 (connectionList == null) ) {
+				 Exception ex = new Exception("Undefined simulation lists");
+				 ex.printStackTrace();
+				 System.exit(-1);
+		 }	
 		
 		/* Create simulation output file to store the simulation
 		 * data. 
@@ -107,19 +150,19 @@ public class EModSimulationMain {
 			/* Increment actual simulation time */
 			time += sampleperiod;
 			
-			/* Set the inputs of all component models. */
-			setInputs();
-			
-			/* Iterate all models. The outputs of all component models are updated.*/
-			for(MachineComponent mc : machineComponentList)
-				mc.getComponent().update();
-			
 			/* Get next value from simulation control. */
 			mstate = machineState.getState(time);
 			for(ASimulationControl sc:simulators) {
 				sc.setState(mstate);
 				sc.update();
 			}
+			
+			/* Set the inputs of all component models. */
+			setInputs();
+			
+			/* Iterate all models. The outputs of all component models are updated.*/
+			for(MachineComponent mc : machineComponentList)
+				mc.getComponent().update();
 			
 			/*	Log data of the actual time sample */
 			simoutput.logData(time);

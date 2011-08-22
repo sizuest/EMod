@@ -1,9 +1,8 @@
 # Input - Output mapping
-spindel.RotSpeed = spindelRPM  # comment
-spindel.Torque   = spindelTorque
-x.RotSpeed       = xRPM
-x.Torque         = xTorque
-y.RotSpeed       = yRPM
-y.Torque         = yTorque
+C1.RotSpeed      = C1_n      # Turing speed from process parameters
+C1.Torque        = C1Torque  # Torque from Kienzle
+Z.RotSpeed       = xRPM
+Z.Torque         = xTorque
+X1.RotSpeed      = yRPM
+X1.Torque        = yTorque
 Fan1.level       = test
-Fan2.level       = test

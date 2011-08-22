@@ -96,19 +96,6 @@ public class GeometricKienzleSimulationControlTest {
 		assertEquals("kc", 1950, tester.kc, 0.0001);
 	}
 
-	/**
-	 * Test method for {@link ch.ethz.inspire.emod.simulation.GeometricKienzleSimulationControl#readSamplesFromFile(java.lang.String)}.
-	 */
-	@Test
-	public void testReadSamplesFromFile() {
-		try {
-			tester.readSamplesFromFile();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		assertEquals("readsample test", 15.51018, tester.samples.get(ComponentState.PERIODIC.ordinal())[0], 10);
-	}
 
 	/**
 	 * Test method for {@link ch.ethz.inspire.emod.simulation.GeometricKienzleSimulationControl#calculateMoments(double[], double[], double[])}.

@@ -31,7 +31,6 @@ public class RandomSimulationControl extends ASimulationControl {
 	/**
 	 * @param name
 	 * @param unit
-	 * @param configFile
 	 */
 	public RandomSimulationControl(String name, Unit unit) {
 		super(name, unit);
@@ -45,15 +44,6 @@ public class RandomSimulationControl extends ASimulationControl {
 	}
 	public void afterUnmarshal(Unmarshaller u, Object parent) {
 		super.afterUnmarshal(u, parent);
-	}
-	/**
-	 * Path can not be given, when creating the objects by JABX.
-	 * @param path Directory holding the configfiles.
-	 */
-	@Override
-	public void afterJABX()
-	{
-		super.afterJABX();
 	}
 	
 	/* (non-Javadoc)

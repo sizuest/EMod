@@ -21,5 +21,7 @@ public enum Unit {
 	KELVIN, 
 	NEWTONMETER, 
 	RPM,          // rotations per minute
+	MM_MIN,       // mm/min
+	MM,
 	NONE;
 }
