@@ -136,4 +136,8 @@ public class EModSimulationMain {
 			ioc.getTarget().setValue(ioc.getSoure().getValue());
 		}
 	}
+	
+	public double getSampleperiod() {
+		return sampleperiod;
+	}
 }

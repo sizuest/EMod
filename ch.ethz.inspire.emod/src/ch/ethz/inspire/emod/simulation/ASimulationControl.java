@@ -45,6 +45,7 @@ public abstract class ASimulationControl {
 	protected IOContainer simulationOutput;
 	protected ComponentState state=ComponentState.ON;
 	protected Map<MachineState, ComponentState> stateMap = null;
+	protected double simulationPeriod;
 	
 	/**
 	 * Constructor with name, unit and config file

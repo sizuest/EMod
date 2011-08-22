@@ -24,6 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import ch.ethz.inspire.emod.LogLevel;
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.utils.IOContainer;
+import ch.ethz.inspire.emod.utils.SamplePeriodConverter;
 import ch.ethz.inspire.emod.utils.SimulationConfigReader;
 
 /**
@@ -48,8 +49,9 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 	 * @param name
 	 * @param configValuesFile
 	 */
-	public GeometricKienzleSimulationControl(String name) {
+	public GeometricKienzleSimulationControl(String name, double simulationPeriod) {
 		super(name, Unit.NEWTONMETER);
+		this.simulationPeriod=simulationPeriod;
 		readConfigFromFile();
 		try {
 			readSamplesFromFile();
@@ -167,6 +169,9 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 			d[i] = d[i]/1000; //mm -> m
 		}
 		calculateMoments(v, ap, d);
+		for(int i=0;i<samples.size();i++) {
+			samples.set(i, SamplePeriodConverter.convertSamples(scr.getDoubleValue("samplePeriod"), simulationPeriod, samples.get(i)));
+		}
 	}
 	
 	protected void calculateMoments(double[] f, double[] ap, double[] d) {

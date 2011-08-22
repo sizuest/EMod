@@ -21,6 +21,7 @@ import javax.xml.bind.Unmarshaller;
 import ch.ethz.inspire.emod.LogLevel;
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.utils.SimulationConfigReader;
+import ch.ethz.inspire.emod.utils.SamplePeriodConverter;
 
 /**
  * reads static simulation samples from a file and loops while active.
@@ -40,9 +41,10 @@ public class StaticSimulationControl extends ASimulationControl {
 	 * @param unit
 	 * @param configFile
 	 */
-	public StaticSimulationControl(String name, Unit unit) {
+	public StaticSimulationControl(String name, Unit unit, double simulationPeriod) {
 		super(name, unit);
 		simulationStep=0;
+		this.simulationPeriod=simulationPeriod;
 		readSamplesFromFile();
 	}
 	
@@ -103,6 +105,9 @@ public class StaticSimulationControl extends ASimulationControl {
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
+		}
+		for(int i=0;i<samples.size();i++) {
+			samples.set(i, SamplePeriodConverter.convertSamples(scr.getDoubleValue("samplePeriod"), simulationPeriod, samples.get(i)));
 		}
 	}
 	
