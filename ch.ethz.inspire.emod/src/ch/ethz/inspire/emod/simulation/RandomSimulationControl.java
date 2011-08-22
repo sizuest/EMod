@@ -15,6 +15,7 @@ package ch.ethz.inspire.emod.simulation;
 import java.util.Random;
 
 import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import ch.ethz.inspire.emod.model.units.Unit;
 
@@ -24,6 +25,7 @@ import ch.ethz.inspire.emod.model.units.Unit;
  * @author dhampl
  *
  */
+@XmlRootElement
 public class RandomSimulationControl extends ASimulationControl {
 
 	/**

@@ -124,11 +124,13 @@ public class EModMain {
 			System.exit(-1);
 		}
 		
+		EModSimulationMain sim = new EModSimulationMain(machineName, simulationConfigName);
+		
 		/* Build machine: Read and check machine configuration */
 		Machine.buildMachine(machineName, machineConfigName);
 		Machine.saveMachineToFile("machineexportallinone.xml");
 		/* Setup the simulation */
-		EModSimulationMain sim = new EModSimulationMain(machineName, simulationConfigName);
+		
 		sim.setMachineComponentList(Machine.getInstance().getMachineComponentList());
 		sim.setIOConnectionList(Machine.getInstance().getIOLinkList());
 		sim.setInputparamObjectList(Machine.getInstance().getInputObjectList());

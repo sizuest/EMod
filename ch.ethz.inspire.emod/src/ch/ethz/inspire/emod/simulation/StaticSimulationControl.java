@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import ch.ethz.inspire.emod.LogLevel;
 import ch.ethz.inspire.emod.model.units.Unit;
@@ -30,6 +31,7 @@ import ch.ethz.inspire.emod.utils.SamplePeriodConverter;
  * @author dhampl
  *
  */
+@XmlRootElement
 public class StaticSimulationControl extends ASimulationControl {
 
 	private static Logger logger = Logger.getLogger(StaticSimulationControl.class.getName());
@@ -107,7 +109,11 @@ public class StaticSimulationControl extends ASimulationControl {
 			e.printStackTrace();
 		}
 		for(int i=0;i<samples.size();i++) {
-			samples.set(i, SamplePeriodConverter.convertSamples(scr.getDoubleValue("samplePeriod"), simulationPeriod, samples.get(i)));
+			try {
+				samples.set(i, SamplePeriodConverter.convertSamples(scr.getDoubleValue("samplePeriod"), simulationPeriod, samples.get(i)));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	

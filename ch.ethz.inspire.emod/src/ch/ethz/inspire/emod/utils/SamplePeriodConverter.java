@@ -13,6 +13,9 @@
 package ch.ethz.inspire.emod.utils;
 
 /**
+ * convertes a double array from length a to b. if the original array
+ * is shortened, samples will be integrated, if the target array is 
+ * longer than the original, a linear interpolation is used.
  * 
  * @author david
  *
@@ -22,8 +25,21 @@ public class SamplePeriodConverter {
 	private static double[] newSamples;
 	private static double[] oldSamples;
 	private static int pos;
-	public static double[] convertSamples(double originalPeriod, double targetPeriod, double[] samples) {
+	
+	/**
+	 * convertes samples from one sample period to another.
+	 * 
+	 * @param originalPeriod sample period of the samples param double array
+	 * @param targetPeriod sample period of the returned array
+	 * @param samples double sample values
+	 * @return
+	 * @throws Exception 
+	 */
+	public static double[] convertSamples(double originalPeriod, double targetPeriod, double[] samples) throws Exception {
 		oldSamples = samples;
+		if(targetPeriod <= 0) {
+			throw new Exception("Invalid target period (<=0)");
+		}
 		double samplestime = samples.length*originalPeriod;
 		double newNumberOfSamples = samplestime/targetPeriod;
 		newSamples = new double[(int)newNumberOfSamples];
@@ -35,6 +51,11 @@ public class SamplePeriodConverter {
 		pos=0;
 		if(conversionFactor == 1) {
 			newSamples=oldSamples;
+		}
+		else if(oldSamples.length==1) {
+			for(int i=0;i<newSamples.length;i++) {
+				newSamples[i] = oldSamples[0];
+			}
 		}
 		else if(conversionFactor < 1) {
 			int min = (int) Math.floor((1/conversionFactor));

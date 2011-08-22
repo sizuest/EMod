@@ -36,10 +36,12 @@
         <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>spindelRPM</name>
             <unit>RPM</unit>
+            <simulationPeriod>0.2</simulationPeriod>
         </simController>
         <simController xsi:type="geometricKienzleSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>spindelTorque</name>
             <unit>NEWTONMETER</unit>
+            <simulationPeriod>0.2</simulationPeriod>
         </simController>
         <simController xsi:type="randomSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>xRPM</name>
@@ -60,10 +62,12 @@
         <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>test</name>
             <unit>NONE</unit>
+            <simulationPeriod>0.2</simulationPeriod>
         </simController>
         <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>80mmFan</name>
             <unit>NONE</unit>
+            <simulationPeriod>0.2</simulationPeriod>
         </simController>
     </simulators>
 </ns2:machine>

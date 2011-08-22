@@ -41,11 +41,13 @@ public abstract class ASimulationControl {
 	protected String name;
 	@XmlElement
 	protected Unit unit;
+	@XmlElement
+	protected double simulationPeriod;
 	
 	protected IOContainer simulationOutput;
 	protected ComponentState state=ComponentState.ON;
 	protected Map<MachineState, ComponentState> stateMap = null;
-	protected double simulationPeriod;
+	
 	
 	/**
 	 * Constructor with name, unit and config file
@@ -134,6 +136,10 @@ public abstract class ASimulationControl {
 	
 	public String getName() {
 		return name;
+	}
+	
+	public void setSimulationPeriod(double simulationPeriod) {
+		this.simulationPeriod=simulationPeriod;
 	}
 	
 	public IOContainer getOutput() {
