@@ -5,4 +5,4 @@ Z.RotSpeed       = xRPM
 Z.Torque         = xTorque
 X1.RotSpeed      = yRPM
 X1.Torque        = yTorque
-Fan1.level       = test
+Fan1.level       = 80mmFan

@@ -98,7 +98,7 @@
         </simController>
         
         <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>test</name>
+            <name>80mmFan</name>
             <unit>NONE</unit>
             <simulationPeriod>0.2</simulationPeriod>
         </simController>

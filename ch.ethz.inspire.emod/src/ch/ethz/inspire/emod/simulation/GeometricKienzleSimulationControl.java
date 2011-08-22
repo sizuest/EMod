@@ -161,9 +161,9 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 		
 		for(int i=0; i<n.length; i++){
 			// TODO: check units
-			v[i] = v[i]/(n[i]);  // mm/min -> m/U
+			v[i] = v[i]/(n[i]);  // mm/min -> mm/U
 			n[i] = n[i]/60;      // 1/min -> 1/s
-			ap[i] = ap[i];       // mm -> m
+			ap[i] = ap[i];       // mm -> mm
 			d[i] = d[i]/1000;    // mm -> m
 		}
 		calculateMoments(v, ap, d);
