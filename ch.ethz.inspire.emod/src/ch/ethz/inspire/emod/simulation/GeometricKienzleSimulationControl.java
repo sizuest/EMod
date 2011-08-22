@@ -17,8 +17,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import ch.ethz.inspire.emod.LogLevel;
