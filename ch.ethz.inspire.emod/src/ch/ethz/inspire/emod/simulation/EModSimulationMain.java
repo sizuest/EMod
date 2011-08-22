@@ -38,7 +38,7 @@ public class EModSimulationMain {
 	
 	
 	public EModSimulationMain(String machineName, String simConfigName) {
-		sampleperiod = 1.0; // seconds XXX
+		sampleperiod = 0.2; // seconds
 		/* Read simulation states from file */
 		machineState = new SimulationState(machineName, simConfigName);
 		

@@ -147,7 +147,6 @@ public class EModMain {
 		sim.runSimulation();
 		
 		/* Write the machine configuration */
-		// XXX
-		Machine.saveMachineToFile("machineexportallinone.xml");
+		//Machine.saveMachineToFile("machineexportallinone.xml");
 	}
 }
