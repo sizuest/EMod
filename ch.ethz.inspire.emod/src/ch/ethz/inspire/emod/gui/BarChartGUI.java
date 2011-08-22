@@ -25,6 +25,8 @@ import ch.ethz.inspire.emod.gui.utils.ConsumerData;
 import ch.ethz.inspire.emod.model.units.Unit;
 
 /**
+ * creates bar chart. the chart is a singleton implementation 
+ * 
  * @author dhampl
  *
  */
@@ -32,6 +34,14 @@ public class BarChartGUI {
 
 	private static Chart chart=null;
 	
+	/**
+	 * creates a bar chart from {@link ConsumerData} objects. only energy values are
+	 * displayed
+	 * 
+	 * @param parent
+	 * @param data
+	 * @return
+	 */
 	public static Chart createBarChart(Composite parent, List<ConsumerData> data) {
 		if(chart==null)
 			chart = new Chart(parent, SWT.NONE);

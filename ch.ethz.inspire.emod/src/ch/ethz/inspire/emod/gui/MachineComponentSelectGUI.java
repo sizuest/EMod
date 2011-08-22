@@ -27,6 +27,8 @@ import org.eclipse.swt.widgets.Label;
 import ch.ethz.inspire.emod.gui.utils.ConsumerData;
 
 /**
+ * composite to select consumer i/o elements to be drawn in a {@link LineChartGUI}
+ * 
  * @author dhampl
  *
  */
@@ -86,7 +88,12 @@ public class MachineComponentSelectGUI extends AEvaluationGUI {
 		c.layout(true, true);
 	}
 	
-	
+	/**
+	 * inner class with the actual composites
+	 * 
+	 * @author dhampl
+	 *
+	 */
 	class MachineComponentComposite extends Composite {
 
 		ConsumerData comp;

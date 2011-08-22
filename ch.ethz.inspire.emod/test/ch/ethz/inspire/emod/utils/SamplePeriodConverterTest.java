@@ -51,6 +51,17 @@ public class SamplePeriodConverterTest {
 		for(int i=0;i<samples.length;i++) {
 			assertEquals("200ms -> 1s, values", samples[i], result[i], 0.0001);
 		}
+		
+		targetPeriod = 0.3333;
+		double[] expectedresult = {1, 2.333, 3.666, 5, 4.3333, 3.6666, 3, 4.333, 5.666, 7, 7, 7};
+		try {
+			result = SamplePeriodConverter.convertSamples(originalPeriod, targetPeriod, samples);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		assertEquals("1s -> 333ms, number of samples", 12, result.length);
+		for(int i=0;i<result.length;i++) {
+			assertEquals("1s -> 333ms, values", expectedresult[i], result[i], 0.01);
+		}
 	}
-
 }

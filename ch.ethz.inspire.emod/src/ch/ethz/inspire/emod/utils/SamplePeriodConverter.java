@@ -44,8 +44,9 @@ public class SamplePeriodConverter {
 		for(int i=0;i<samples.length;i++)
 			originaltimesamples[i] = i*originalPeriod;
 		double newNumberOfSamples = samplestime/targetPeriod;
+		
 		newSamples = new double[(int)newNumberOfSamples];
-		for(int i=0;i<newNumberOfSamples;i++) {
+		for(int i=0;i<(int)newNumberOfSamples;i++) {
 			newSamples[i] = Algo.linearInterpolation(i*targetPeriod, originaltimesamples, oldSamples);
 		}
 		return newSamples;

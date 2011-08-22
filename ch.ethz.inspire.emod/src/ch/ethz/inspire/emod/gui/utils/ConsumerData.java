@@ -31,8 +31,12 @@ public class ConsumerData {
 	private List<Unit> units; 
 	private List<double[]> values; //the values
 	private List<Boolean> active; //which values are plotted
-	private List<Double> energy;
+	private List<Double> energy; //integrated energy. use only for io components with watt as unit
 	
+	/**
+	 * 
+	 * @param consumerName
+	 */
 	public ConsumerData(String consumerName) {
 		consumer = consumerName;
 		names = new ArrayList<String>();
@@ -42,6 +46,9 @@ public class ConsumerData {
 		energy = new ArrayList<Double>();
 	}
 	
+	/**
+	 * integrates the power values for every value sample set
+	 */
 	public void calculateEnergy() {
 		for(double[] vals : values) {
 			double res=0;
@@ -67,6 +74,12 @@ public class ConsumerData {
 	public List<String> getNames() {
 		return names;
 	}
+	
+	/**
+	 * appends a name to the names list and sets the new entry to inactive
+	 * 
+	 * @param name
+	 */
 	public void addName(String name) {
 		names.add(name);
 		active.add(false);
@@ -78,6 +91,12 @@ public class ConsumerData {
 	public List<Unit> getUnits() {
 		return units;
 	}
+	
+	/**
+	 * append a unit to the units list
+	 * 
+	 * @param unit
+	 */
 	public void addUnit(Unit unit) {
 		units.add(unit);
 	}
@@ -88,6 +107,12 @@ public class ConsumerData {
 	public List<double[]> getValues() {
 		return values;
 	}
+	
+	/**
+	 * append a value array to the values list
+	 * 
+	 * @param values
+	 */
 	public void addInputValues(double[] values) {
 		this.values.add(values);
 	}
@@ -107,14 +132,30 @@ public class ConsumerData {
 			}
 		}
 	}
+	
+	/**
+	 * toggles the active flag for the element at index
+	 * 
+	 * @param index
+	 */
 	public void toggleActiveElement(int index) {
 		active.set(index, !active.get(index));
 	}
 	
+	/**
+	 * sets the active flag for element at index to provided value
+	 * @param index
+	 * @param value
+	 */
 	public void setActive(int index, boolean value) {
 		active.set(index, value);
 	}
 	
+	/**
+	 * returns the energy values list
+	 * 
+	 * @return
+	 */
 	public List<Double> getEnergy() {
 		return energy;
 	}

@@ -40,6 +40,9 @@ public abstract class AEvaluationGUI {
 		readData();
 	}
 	
+	/**
+	 * reads the data from a specified datafile
+	 */
 	private void readData() {
 		logger.info("reading simulation data from file '"+dataFile+"'");
 		availableConsumers = new ArrayList<ConsumerData>();
@@ -84,6 +87,11 @@ public abstract class AEvaluationGUI {
 			cd.calculateEnergy();
 	}
 	
+	/**
+	 * check whether a given consumer already exists. 
+	 * @param consumer
+	 * @return true if consumer is already present in availableConsumers list
+	 */
 	private boolean consumerExists(String consumer) {
 		boolean result = false;
 		for(ConsumerData cd : availableConsumers) {
@@ -95,6 +103,11 @@ public abstract class AEvaluationGUI {
 		return result;
 	}
 	
+	/**
+	 * creates a new consumer with a specified name 
+	 * @param name 
+	 * @param col column in the data file
+	 */
 	private void createConsumer(String name, int col) {
 		ConsumerData data = new ConsumerData(name);
 		String ioName = lines.get(1)[col].replace(name, "");
@@ -109,6 +122,12 @@ public abstract class AEvaluationGUI {
 		availableConsumers.add(data);
 	}
 	
+	/**
+	 * adds sample values from the datafile to a consumer
+	 * 
+	 * @param consumer parent structure for the data 
+	 * @param col column in the data file
+	 */
 	private void addDataToConsumer(String consumer, int col) {
 		ConsumerData temp = null;
 		for(ConsumerData cd : availableConsumers){
@@ -128,6 +147,10 @@ public abstract class AEvaluationGUI {
 		temp.addInputValues(values);
 	}
 	
+	/**
+	 * 
+	 * @return list with {@link ConsumerData} elements
+	 */
 	public List<ConsumerData> getConsumerDataList() {
 		return availableConsumers;
 	}
