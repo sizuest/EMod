@@ -26,7 +26,7 @@ public class StaticSimulationControlTest {
 	
 	@Before
 	public void init() {
-		tester = new StaticSimulationControl("test", Unit.NONE, 0.3);
+		tester = new StaticSimulationControl("test", Unit.NONE, 0.2);
 	}
 	
 	@Test

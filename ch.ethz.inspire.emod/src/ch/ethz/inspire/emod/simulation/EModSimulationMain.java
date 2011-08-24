@@ -16,7 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import ch.ethz.inspire.emod.utils.ConfigReader;
+import ch.ethz.inspire.emod.utils.Defines;
 import ch.ethz.inspire.emod.utils.IOConnection;
+import ch.ethz.inspire.emod.utils.PropertiesHandler;
 import ch.ethz.inspire.emod.model.MachineComponent;
 import ch.ethz.inspire.emod.simulation.ProcessSimulationControl;
 
@@ -38,13 +41,31 @@ public class EModSimulationMain {
 	
 	
 	public EModSimulationMain(String machineName, String simConfigName) {
-		sampleperiod = 0.2; // seconds
+
 		/* Read simulation states from file */
 		machineState = new SimulationState(machineName, simConfigName);
 		
 		machineComponentList = null;
 		connectionList = null;
 		simulators = null;
+		
+		readConfig();
+	}
+	
+	private void readConfig() {
+		String path = PropertiesHandler.getProperty("app.MachineDataPathPrefix") + "/" +
+				PropertiesHandler.getProperty("app.MachineName") + "/" + Defines.SIMULATIONCONFIGDIR + "/" +
+				PropertiesHandler.getProperty("app.SimulationConfigName");
+		String file = path + "/" + Defines.SIMULATIONCONFIGFILE;
+		
+		ConfigReader cr = null;
+		try {
+			cr = new ConfigReader(file);
+			cr.ConfigReaderOpen();
+			sampleperiod = cr.getDoubleValue("simulationPeriod");
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -90,6 +111,7 @@ public class EModSimulationMain {
 				double[] samples = null;
 				try {
 					samples =	process.getDoubleArray(sc.getName());
+					((ProcessSimulationControl) sc).setProcessSamples(samples, process.getDoubleValue("SamplePeriod"));
 				}
 				catch (Exception ex) {
 					Exception e = new Exception("Error for process parameter '" + sc.getName()+ "'\n" 
@@ -98,7 +120,7 @@ public class EModSimulationMain {
 					System.exit(-1);
 				}
 				
-				((ProcessSimulationControl) sc).setProcessSamples(samples);
+				
 			}
 			else if (sc.getClass() == GeometricKienzleSimulationControl.class) {
 				/* Set and calculate the process moments for the Kienzle simulators */
@@ -178,6 +200,11 @@ public class EModSimulationMain {
 		for(IOConnection ioc : connectionList) {
 			ioc.getTarget().setValue(ioc.getSoure().getValue());
 		}
+	}
+	
+	public void updateSimulationPeriod() {
+		for(ASimulationControl sc: simulators) 
+			sc.setSimulationPeriod(sampleperiod);
 	}
 	
 	public double getSampleperiod() {

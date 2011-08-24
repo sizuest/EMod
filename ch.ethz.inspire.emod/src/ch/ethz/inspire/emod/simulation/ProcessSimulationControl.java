@@ -19,6 +19,7 @@ import javax.xml.bind.Unmarshaller;
 
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.utils.IOContainer;
+import ch.ethz.inspire.emod.utils.SamplePeriodConverter;
 import ch.ethz.inspire.emod.utils.SimulationConfigReader;
 
 /**
@@ -123,8 +124,27 @@ public class ProcessSimulationControl extends ASimulationControl {
 	 * Set the process samples
 	 * @param samps Process samples
 	 */
-	public void setProcessSamples(double[] samps)
+	public void setProcessSamples(double[] samps, double samplePeriod)
 	{
 		processsamples = samps;
+		simulationPeriod = samplePeriod;
+	}
+	/* (non-Javadoc)
+	 * @see ch.ethz.inspire.emod.simulation.ASimulationControl#setSimulationPeriod(double)
+	 */
+	@Override
+	public void setSimulationPeriod(double periodLength) {
+
+		/* Resample the samples if the sampleperiod changed.*/
+		if(simulationPeriod != periodLength) {
+			try {
+				processsamples = SamplePeriodConverter.convertSamples(simulationPeriod, periodLength, processsamples);
+			}
+			catch (Exception ex) {
+				ex.printStackTrace();
+				System.exit(-1);
+			}
+			simulationPeriod = periodLength;
+		}
 	}
 }

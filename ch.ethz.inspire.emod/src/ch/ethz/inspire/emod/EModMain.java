@@ -143,6 +143,9 @@ public class EModMain {
 		/* Set process parameters for simulation */
 		sim.setProcessParamsforSimulation(process);
 		
+		/* Set simulation period for all simulation objects */
+		sim.updateSimulationPeriod();
+		
 		/* Run the simulation */
 		sim.runSimulation();
 		

@@ -41,7 +41,6 @@ public abstract class ASimulationControl {
 	protected String name;
 	@XmlElement
 	protected Unit unit;
-	@XmlElement
 	protected double simulationPeriod;
 	
 	protected IOContainer simulationOutput;
@@ -116,6 +115,14 @@ public abstract class ASimulationControl {
 	public abstract void update();
 	
 	/**
+	 * sets the simulation period length in seconds. if required, samples are re-
+	 * sampled to the given rate.
+	 * 
+	 * @param periodLength
+	 */
+	public abstract void setSimulationPeriod(double periodLength);
+	
+	/**
 	 * sets the state. the state is mapped through the stateMap to valid states for 
 	 * the simulator.
 	 */
@@ -130,11 +137,7 @@ public abstract class ASimulationControl {
 	public String getName() {
 		return name;
 	}
-	
-	public void setSimulationPeriod(double simulationPeriod) {
-		this.simulationPeriod=simulationPeriod;
-	}
-	
+		
 	public IOContainer getOutput() {
 		return simulationOutput;
 	}

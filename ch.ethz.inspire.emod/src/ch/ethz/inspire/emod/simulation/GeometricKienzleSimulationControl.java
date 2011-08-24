@@ -38,8 +38,7 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 	protected double kappa; //kienzle constant
 	protected double kc; //kienzle constant
 	protected double z; //kienzle constant
-	protected double sampleperiod;
-	
+		
 	/* Process parameter names */
 	private String n_name; 
 	private String v_name;
@@ -115,8 +114,7 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 			kappa = scr.getDoubleValue("kappa")*Math.PI/180;
 			z = scr.getDoubleValue("z");
 			kc = scr.getDoubleValue("kc");
-			sampleperiod = scr.getDoubleValue("samplePeriod");
-				
+			
 			/* Read process parameter names */
 			n_name = scr.getString("n_name");
 			v_name = scr.getString("v_name");
@@ -147,6 +145,7 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 			v = process.getDoubleArray(v_name);
 			d = process.getDoubleArray(d_name);
 			ap = process.getDoubleArray(ap_name);
+			simulationPeriod = process.getDoubleValue("SamplePeriod");
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -168,16 +167,6 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 		}
 		calculateMoments(v, ap, d);
 		
-		/* Resample the sample if the sampleperiod changed.*/
-		try {
-			for(int i=0;i<samples.size();i++) {
-				samples.set(i, SamplePeriodConverter.convertSamples(sampleperiod, simulationPeriod, samples.get(i)));
-			}
-		}
-		catch (Exception ex) {
-			ex.printStackTrace();
-			System.exit(-1);
-		}
 	}
 	
 	protected void calculateMoments(double[] f, double[] ap, double[] d) {
@@ -215,6 +204,27 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 		if(this.state!=stateMap.get(state)) {
 			super.setState(state);
 			simulationStep=0;
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see ch.ethz.inspire.emod.simulation.ASimulationControl#setSimulationPeriod(double)
+	 */
+	@Override
+	public void setSimulationPeriod(double periodLength) {
+		
+		/* Resample the samples if the sampleperiod changed.*/
+		if(simulationPeriod != periodLength) {
+			try {
+				for(int i=0;i<samples.size();i++) {
+					samples.set(i, SamplePeriodConverter.convertSamples(simulationPeriod, periodLength, samples.get(i)));
+				}
+			}
+			catch (Exception ex) {
+				ex.printStackTrace();
+				System.exit(-1);
+			}
+			simulationPeriod = periodLength;
 		}
 	}
 

@@ -12,4 +12,5 @@ public class Defines {
 	public static final String SIMULATIONCONFIGDIR = "SimulationConfig";
 	public static final String MACHINESTATEFNAME = "MachineStateSequence.txt";
 	public static final String PROCESSDEFFILE_PREFIX = "process_";
+	public static final String SIMULATIONCONFIGFILE = "Simulation.xml";
 }

@@ -13,7 +13,7 @@
 package ch.ethz.inspire.emod.utils;
 
 /**
- * convertes a double array from length a to b. if the original array
+ * converts a double array from length a to b. if the original array
  * is shortened, samples will be integrated, if the target array is 
  * longer than the original, a linear interpolation is used.
  * 
@@ -26,7 +26,7 @@ public class SamplePeriodConverter {
 	private static double[] oldSamples;
 	
 	/**
-	 * convertes samples from one sample period to another.
+	 * converts samples from one sample period to another.
 	 * 
 	 * @param originalPeriod sample period of the samples param double array
 	 * @param targetPeriod sample period of the returned array

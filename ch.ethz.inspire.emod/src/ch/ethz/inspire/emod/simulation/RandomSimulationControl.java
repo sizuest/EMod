@@ -76,4 +76,12 @@ public class RandomSimulationControl extends ASimulationControl {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see ch.ethz.inspire.emod.simulation.ASimulationControl#setSimulationPeriod(double)
+	 */
+	@Override
+	public void setSimulationPeriod(double periodLength) {
+		// do nothing, no sample period needed in this class
+	}
+
 }

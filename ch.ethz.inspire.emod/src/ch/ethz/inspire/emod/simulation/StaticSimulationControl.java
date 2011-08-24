@@ -95,16 +95,11 @@ public class StaticSimulationControl extends ASimulationControl {
 			for(ComponentState cs : ComponentState.values()) {
 				samples.add(scr.getDoubleArray(cs.name()));
 			}
+			simulationPeriod = scr.getDoubleValue("samplePeriod");
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		for(int i=0;i<samples.size();i++) {
-			try {
-				samples.set(i, SamplePeriodConverter.convertSamples(scr.getDoubleValue("samplePeriod"), simulationPeriod, samples.get(i)));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+		
 	}
 	
 	/**
@@ -117,6 +112,26 @@ public class StaticSimulationControl extends ASimulationControl {
 		if(this.state!=stateMap.get(state)) {
 			super.setState(state);
 			simulationStep=0;
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see ch.ethz.inspire.emod.simulation.ASimulationControl#setSimulationPeriod(double)
+	 */
+	@Override
+	public void setSimulationPeriod(double periodLength) {
+		/* Resample the samples if the sampleperiod changed.*/
+		if(simulationPeriod != periodLength) {
+			try {
+				for(int i=0;i<samples.size();i++) {
+					samples.set(i, SamplePeriodConverter.convertSamples(simulationPeriod, simulationPeriod, samples.get(i)));
+				}
+			}
+			catch (Exception ex) {
+				ex.printStackTrace();
+				System.exit(-1);
+			}
+			simulationPeriod = periodLength;
 		}
 	}
 }
