@@ -41,8 +41,8 @@ public abstract class ASimulationControl {
 	protected String name;
 	@XmlElement
 	protected Unit unit;
-	protected double simulationPeriod;
 	
+	protected double simulationPeriod;
 	protected IOContainer simulationOutput;
 	protected ComponentState state=ComponentState.ON;
 	protected Map<MachineState, ComponentState> stateMap = null;
@@ -93,12 +93,7 @@ public abstract class ASimulationControl {
 					e.printStackTrace();
 				}
 				
-				/*Properties p = new Properties();
-				InputStream is = new FileInputStream(file);
-				p.load(is);
-				is.close();*/
 				for(MachineState ms : MachineState.values()) {
-					//String line = p.getProperty(ms.name()+"_state");
 					stateMap.put(ms, scr.getComponentState(ms.name()));
 				}
 			} catch(Exception e) {
@@ -129,7 +124,7 @@ public abstract class ASimulationControl {
 	public void setState(MachineState state) {
 		this.state = stateMap.get(state);
 	}
-		
+	
 	public ComponentState getState() {
 		return state;
 	}

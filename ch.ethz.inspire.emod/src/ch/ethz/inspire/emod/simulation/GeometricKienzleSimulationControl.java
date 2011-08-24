@@ -215,6 +215,7 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 		
 		/* Resample the samples if the sampleperiod changed.*/
 		if(simulationPeriod != periodLength) {
+			logger.log(LogLevel.DEBUG, "Resamling from"+simulationPeriod+" to "+periodLength);
 			try {
 				for(int i=0;i<samples.size();i++) {
 					samples.set(i, SamplePeriodConverter.convertSamples(simulationPeriod, periodLength, samples.get(i)));

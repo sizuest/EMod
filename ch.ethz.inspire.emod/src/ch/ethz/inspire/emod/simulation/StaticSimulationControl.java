@@ -122,6 +122,7 @@ public class StaticSimulationControl extends ASimulationControl {
 	public void setSimulationPeriod(double periodLength) {
 		/* Resample the samples if the sampleperiod changed.*/
 		if(simulationPeriod != periodLength) {
+			logger.log(LogLevel.DEBUG, "Resamling from"+simulationPeriod+" to "+periodLength);
 			try {
 				for(int i=0;i<samples.size();i++) {
 					samples.set(i, SamplePeriodConverter.convertSamples(simulationPeriod, simulationPeriod, samples.get(i)));

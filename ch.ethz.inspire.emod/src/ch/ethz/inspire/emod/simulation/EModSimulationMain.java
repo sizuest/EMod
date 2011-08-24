@@ -120,7 +120,6 @@ public class EModSimulationMain {
 					System.exit(-1);
 				}
 				
-				
 			}
 			else if (sc.getClass() == GeometricKienzleSimulationControl.class) {
 				/* Set and calculate the process moments for the Kienzle simulators */

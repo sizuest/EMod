@@ -5,7 +5,7 @@
     1      , STANDBY;
     1      , READY;
     1      , OFF;
-   250      , PROCESS;
+   233      , PROCESS;
 #600 , OFF;
 #1000 , PROCESS;
 # 36000 , OFF;

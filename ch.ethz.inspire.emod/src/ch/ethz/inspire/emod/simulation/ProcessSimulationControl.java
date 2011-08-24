@@ -14,9 +14,11 @@
 package ch.ethz.inspire.emod.simulation;
 
 import java.util.EnumMap;
+import java.util.logging.Logger;
 
 import javax.xml.bind.Unmarshaller;
 
+import ch.ethz.inspire.emod.LogLevel;
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.SamplePeriodConverter;
@@ -35,6 +37,8 @@ import ch.ethz.inspire.emod.utils.SimulationConfigReader;
  */
 public class ProcessSimulationControl extends ASimulationControl {
 
+	private static Logger logger = Logger.getLogger(ProcessSimulationControl.class.getName());
+	
 	protected double[] processsamples;
 	protected int simulationStep;
 	
@@ -137,6 +141,7 @@ public class ProcessSimulationControl extends ASimulationControl {
 
 		/* Resample the samples if the sampleperiod changed.*/
 		if(simulationPeriod != periodLength) {
+			logger.log(LogLevel.DEBUG, "Resamling from"+simulationPeriod+" to "+periodLength);
 			try {
 				processsamples = SamplePeriodConverter.convertSamples(simulationPeriod, periodLength, processsamples);
 			}
