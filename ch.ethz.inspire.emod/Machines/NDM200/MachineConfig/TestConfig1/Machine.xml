@@ -14,20 +14,20 @@
         <machineComponent>
 	        <!-- Comment on C1 -->
 	    	<name>C1</name>
-            <component xsi:type="linearMotor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <component xsi:type="motor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Siemens_1FE1115-6WT11</type>
             </component>
         </machineComponent>
 
        <machineComponent>
-            <component xsi:type="linearMotor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <component xsi:type="motor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>siemens123</type>
             </component>
             <name>Z</name>
         </machineComponent>
 
         <machineComponent>
-            <component xsi:type="linearMotor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <component xsi:type="motor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>siemens123</type>
             </component>
             <name>X1</name>

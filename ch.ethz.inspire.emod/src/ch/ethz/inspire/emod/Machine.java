@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 
 import ch.ethz.inspire.emod.model.APhysicalComponent;
 import ch.ethz.inspire.emod.model.ConstantComponent;
-import ch.ethz.inspire.emod.model.LinearMotor;
+import ch.ethz.inspire.emod.model.Motor;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.model.MachineComponent;
 import ch.ethz.inspire.emod.simulation.ASimulationControl;
@@ -52,7 +52,7 @@ import ch.ethz.inspire.emod.utils.PropertiesHandler;
  *
  */
 @XmlRootElement(namespace = "ch.ethz.inspire.emod")
-@XmlSeeAlso({MachineComponent.class, APhysicalComponent.class, LinearMotor.class,
+@XmlSeeAlso({MachineComponent.class, APhysicalComponent.class, Motor.class,
 	ConstantComponent.class, 
 	ASimulationControl.class, RandomSimulationControl.class, StaticSimulationControl.class, 
 	ProcessSimulationControl.class, GeometricKienzleSimulationControl.class})

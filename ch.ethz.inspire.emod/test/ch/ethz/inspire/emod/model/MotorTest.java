@@ -16,16 +16,16 @@ package ch.ethz.inspire.emod.model;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
-import ch.ethz.inspire.emod.model.LinearMotor;
+import ch.ethz.inspire.emod.model.Motor;
 
-public class LinearMotorTest {
+public class MotorTest {
 
 	/**
 	 * Test LinearMotor class
 	 */
 	@Test
 	public void testLinearMotor() {
-		LinearMotor lm = new LinearMotor("Siemens_1FE1115-6WT11");
+		Motor lm = new Motor("Siemens_1FE1115-6WT11");
 		
 		// Set rotational speed [rpm]
 		lm.getInput("RotSpeed").setValue(1500);

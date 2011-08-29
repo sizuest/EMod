@@ -60,7 +60,7 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  *
  */
 @XmlRootElement
-public class LinearMotor extends APhysicalComponent{
+public class Motor extends APhysicalComponent{
 
 	@XmlElement
 	protected String type;
@@ -86,7 +86,7 @@ public class LinearMotor extends APhysicalComponent{
 	 * Constructor called from XmlUnmarshaller.
 	 * Attribute 'type' is set by XmlUnmarshaller.
 	 */
-	public LinearMotor() {
+	public Motor() {
 		super();
 	}
 	
@@ -100,7 +100,7 @@ public class LinearMotor extends APhysicalComponent{
 	 * 
 	 * @param type
 	 */
-	public LinearMotor(String type) {
+	public Motor(String type) {
 		super();
 		
 		this.type=type;
@@ -134,7 +134,7 @@ public class LinearMotor extends APhysicalComponent{
 		ComponentConfigReader params = null;
 		/* Open file containing the parameters of the model type: */
 		try {
-			params = new ComponentConfigReader("LinearMotor", type);
+			params = new ComponentConfigReader("Motor", type);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
