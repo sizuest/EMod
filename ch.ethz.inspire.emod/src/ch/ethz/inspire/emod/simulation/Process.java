@@ -33,8 +33,8 @@ public class Process extends ConfigReader {
 	public Process(String name) {
 		
 		String path = PropertiesHandler.getProperty("app.MachineDataPathPrefix") + "/" +
-		PropertiesHandler.getProperty("app.MachineName") + "/" + Defines.SIMULATIONCONFIGDIR + "/" +
-		PropertiesHandler.getProperty("app.SimulationConfigName");
+		PropertiesHandler.getProperty("sim.MachineName") + "/" + Defines.SIMULATIONCONFIGDIR + "/" +
+		PropertiesHandler.getProperty("sim.SimulationConfigName");
 		fileName = path + "/" + Defines.PROCESSDEFFILE_PREFIX + name + ".xml";
 
 		try {

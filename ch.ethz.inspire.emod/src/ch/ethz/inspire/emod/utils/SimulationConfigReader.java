@@ -33,8 +33,8 @@ public class SimulationConfigReader extends ConfigReader {
 	public SimulationConfigReader(String type, String component) throws Exception {
 		
 		String path = PropertiesHandler.getProperty("app.MachineDataPathPrefix")+
-				"/"+PropertiesHandler.getProperty("app.MachineName")+"/"+Defines.MACHINECONFIGDIR+"/"+
-				PropertiesHandler.getProperty("app.MachineConfigName");
+				"/"+PropertiesHandler.getProperty("sim.MachineName")+"/"+Defines.MACHINECONFIGDIR+"/"+
+				PropertiesHandler.getProperty("sim.MachineConfigName");
 		fileName = path+"/"+type+"_"+component+".xml";
 		
 		ConfigReaderOpen();

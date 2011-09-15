@@ -57,7 +57,7 @@ public class SimulationState {
 	public SimulationState(String machineName, String simConfigName) {
 		
 		/* Generate file name with path:
-		 * e.g. Machines/NDM200/MachineConfig/TestConfig1/IOLinking.txt */
+		 * e.g. Machines/NDM200/MachineConfig/TestConfig1/MachineStateSequence.txt */
 		String prefix = PropertiesHandler.getProperty("app.MachineDataPathPrefix");
 		String file = prefix + "/" + machineName + "/"+ Defines.SIMULATIONCONFIGDIR +"/" + 
 		              simConfigName + "/" + Defines.MACHINESTATEFNAME;
@@ -168,12 +168,5 @@ class TimeStateMapper<S>
 	 {
 		 Time = t;
 		 State = s;
-	 }
-	 
-	 /**
-	  * empty constructor for xml unmarshaller
-	  */
-	 public TimeStateMapper() {
-		 
 	 }
 }

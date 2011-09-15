@@ -54,8 +54,8 @@ public class EModSimulationMain {
 	
 	private void readConfig() {
 		String path = PropertiesHandler.getProperty("app.MachineDataPathPrefix") + "/" +
-				PropertiesHandler.getProperty("app.MachineName") + "/" + Defines.SIMULATIONCONFIGDIR + "/" +
-				PropertiesHandler.getProperty("app.SimulationConfigName");
+				PropertiesHandler.getProperty("sim.MachineName") + "/" + Defines.SIMULATIONCONFIGDIR + "/" +
+				PropertiesHandler.getProperty("sim.SimulationConfigName");
 		String file = path + "/" + Defines.SIMULATIONCONFIGFILE;
 		
 		ConfigReader cr = null;

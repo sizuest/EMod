@@ -80,7 +80,6 @@ public class MachineComponentSelectGUI extends AEvaluationGUI {
 
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
-				// TODO Auto-generated method stub
 				
 			}
 		});
@@ -128,7 +127,6 @@ public class MachineComponentSelectGUI extends AEvaluationGUI {
 				
 				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
-					// TODO Auto-generated method stub
 					
 				}
 			});

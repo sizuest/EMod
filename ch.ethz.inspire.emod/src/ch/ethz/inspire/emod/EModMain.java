@@ -104,21 +104,21 @@ public class EModMain {
 		logger.info("Start EModMain");
 		
 		// Get name of machine 
-		String machineName = PropertiesHandler.getProperty("app.MachineName");
+		String machineName = PropertiesHandler.getProperty("sim.MachineName");
 		if (machineName == null) {
 			Exception e = new Exception("No machine name defined in the application configuration (app.config)!");
 			e.printStackTrace();
 			System.exit(-1);
 		}
 		// Get name of the machine configuration
-		String machineConfigName = PropertiesHandler.getProperty("app.MachineConfigName");
+		String machineConfigName = PropertiesHandler.getProperty("sim.MachineConfigName");
 		if (machineConfigName == null) {
 			Exception e = new Exception("No machine config name defined in the application configuration (app.config)!");
 			e.printStackTrace();
 			System.exit(-1);
 		}
 		// Get name of the simulation configuration
-		String simulationConfigName = PropertiesHandler.getProperty("app.SimulationConfigName");
+		String simulationConfigName = PropertiesHandler.getProperty("sim.SimulationConfigName");
 		if (simulationConfigName == null) {
 			Exception e = new Exception("No simulation config name defined in the application configuration (app.config)!");
 			e.printStackTrace();
@@ -137,8 +137,7 @@ public class EModMain {
 		sim.setInputparamObjectList(Machine.getInstance().getInputObjectList());
 		
 		/* Setup the process */
-		// TODO: Read process name from app.config
-		Process process = new Process("test");
+		Process process = new Process(PropertiesHandler.getProperty("sim.ProcessName"));
 		
 		/* Set process parameters for simulation */
 		sim.setProcessParamsforSimulation(process);

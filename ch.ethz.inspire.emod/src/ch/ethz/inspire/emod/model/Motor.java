@@ -26,7 +26,7 @@ import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 
 /**
- * Linear motor model class.
+ * General Motor model class.
  * Implements the physical model of a linear motor.
  * From the input parameters torque and rotational speed, the mechanical
  * power, the motor efficiency and the power loss are calculated.
@@ -74,8 +74,8 @@ public class Motor extends APhysicalComponent{
 	private IOContainer efficiency;
 	
 	// Save last input values
-	double lastrotspeed;
-	double lasttorque;
+	private double lastrotspeed;
+	private double lasttorque;
 	
 	// Parameters used by the model. 
 	private double[] powerSamples; // Samples of power [W]
