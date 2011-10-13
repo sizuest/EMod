@@ -15,8 +15,10 @@ package ch.ethz.inspire.emod.gui;
 import java.util.logging.Logger;
 
 import org.eclipse.swt.*;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Menu;
@@ -50,6 +52,8 @@ public class EModGUI {
 			shell.setSize(1024, 768);
 		else
 			shell.setSize(display.getBounds().width, display.getBounds().height);
+		
+		shell.setLayout(new FillLayout());
 		
 		//init menu bar
 		logger.log(LogLevel.DEBUG, "init menu");
@@ -96,9 +100,36 @@ public class EModGUI {
 	}
 	
 	private void initTabs(){
-		final TabFolder tabFolder = new TabFolder(shell, SWT.BORDER);
-		TabItem tabModelItem = new TabItem(tabFolder, SWT.NULL);
-		tabModelItem.setText("Modell");
+		//create the tab folder container
+		final TabFolder tabFolder = new TabFolder(shell, SWT.NONE);
+		
+		//tab for machine model config
+		TabItem tabModelItem = new TabItem(tabFolder, SWT.NONE);
+		tabModelItem.setText(LocalizationHandler.getItem("app.gui.tabs.mach"));
+		tabModelItem.setToolTipText(LocalizationHandler.getItem("app.gui.tabs.machtooltip"));
+		
+		//tab for simulation config
+		TabItem tabSimItem = new TabItem(tabFolder, SWT.NONE);
+		tabSimItem.setText(LocalizationHandler.getItem("app.gui.tabs.sim"));
+		tabSimItem.setToolTipText(LocalizationHandler.getItem("app.gui.tabs.simtooltip"));
+		
+		//tab for thermal model config
+		TabItem tabThermalItem = new TabItem(tabFolder, SWT.NONE);
+		tabThermalItem.setText(LocalizationHandler.getItem("app.gui.tabs.thermal"));
+		tabThermalItem.setToolTipText(LocalizationHandler.getItem("app.gui.tabs.thermaltooltip"));
+
+		//tab for analysis
+		TabItem tabAnalysisItem = new TabItem(tabFolder, SWT.NONE);
+		tabAnalysisItem.setText(LocalizationHandler.getItem("app.gui.tabs.analysis"));
+		tabAnalysisItem.setToolTipText(LocalizationHandler.getItem("app.gui.tabs.analysistooltip"));
+		
+		tabFolder.setSelection(0);
+		
+		tabFolder.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(org.eclipse.swt.events.SelectionEvent event) {
+				logger.log(LogLevel.DEBUG, "tab"+ tabFolder.getSelection()[0].getText()+" selected");
+			}
+		});
 	}
 	
 	/**

@@ -68,5 +68,7 @@ public abstract class APhysicalComponent {
 		return temp;
 	}
 	
+	public abstract String getType();
+	
 	public abstract void update();
 }

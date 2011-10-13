@@ -23,6 +23,7 @@ import java.util.logging.StreamHandler;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.*;
 
+import ch.ethz.inspire.emod.gui.EModGUI;
 import ch.ethz.inspire.emod.gui.MachineComponentSelectGUI;
 import ch.ethz.inspire.emod.simulation.EModSimulationMain;
 import ch.ethz.inspire.emod.simulation.Process;
@@ -72,7 +73,7 @@ public class EModMain {
 		
 		//start program
 		new EModMain();
-		//new EModGUI(disp);
+		new EModGUI(disp);
 		
 		Shell shell = new Shell(disp);
 		shell.setLayout(new FillLayout());

@@ -62,6 +62,36 @@ public class ConsumerData {
 		}
 	}
 	
+	public void calculate() {
+		int pmech = 0, ploss = 0;
+		double peak = 0, avg = 0;
+		for(int i=0;i<values.size();i++) {
+			if(names.get(i).equals("Pmech"))
+				pmech=i;
+			if(names.get(i).equals("Ploss"))
+				ploss=i;
+		}
+		if(pmech == ploss && ploss == 0)
+			return;
+		double[] pTotal=new double[values.get(ploss).length];
+		for(int j=0;j<values.get(ploss).length;j++) {
+			// calc the total power consumption
+			pTotal[j]=values.get(ploss)[j]+values.get(pmech)[j];
+			if(pTotal[j]>peak)
+				peak=pTotal[j];
+			avg+=pTotal[j];
+		}
+		// calc the average power consumption
+		avg = avg/pTotal.length;
+		
+		// calc the varicance (s^2=sum(x_i - avg)^2 / n-1)
+		double variance=0;
+		for(int k=0;k<pTotal.length;k++) {
+			variance += (pTotal[k]-avg)*(pTotal[k]-avg);
+		}
+		variance = variance / (pTotal.length-1);
+	}
+	
 	/**
 	 * @return the consumer
 	 */

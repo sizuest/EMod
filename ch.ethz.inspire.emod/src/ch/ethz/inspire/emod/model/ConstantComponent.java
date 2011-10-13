@@ -103,5 +103,12 @@ public class ConstantComponent extends APhysicalComponent {
 		else
 			ptotal.setValue(levels[(int)level.getValue()]);
 	}
+	/* (non-Javadoc)
+	 * @see ch.ethz.inspire.emod.model.APhysicalComponent#getType()
+	 */
+	@Override
+	public String getType() {
+		return type;
+	}
 
 }

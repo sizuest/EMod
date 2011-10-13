@@ -246,5 +246,13 @@ public class Motor extends APhysicalComponent{
 		ploss.setValue(pmech.getValue() * (1/eff - 1));
 		efficiency.setValue(eff);
 	}
+
+	/* (non-Javadoc)
+	 * @see ch.ethz.inspire.emod.model.APhysicalComponent#getType()
+	 */
+	@Override
+	public String getType() {
+		return type;
+	}
 	
 }
