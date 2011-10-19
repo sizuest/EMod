@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>
+    Model parameter definition
+    ==========================
+      Model : LinAxis 
+      Type  : Test
+    Parameters
+    ----------
+      Transmission [mm/rev]
+        Transmission between the motor (rpm) and the translation (mm/min)
+      Mass [kg]
+		Mass in kg
+      Alpha [deg]
+  		Angle between the axis and the vertical
+  </comment>
+  <entry key="Transmission">50</entry>
+  <entry key="Mass">10</entry>
+  <entry key="Alpha">45</entry>
+</properties>

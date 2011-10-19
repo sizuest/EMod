@@ -23,5 +23,6 @@ public enum Unit {
 	RPM,          // rotations per minute
 	MM_MIN,       // mm/min
 	MM,
+	NEWTON,
 	NONE;
 }
