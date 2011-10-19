@@ -1,0 +1,13 @@
+# Input - Output mapping
+C1.RotSpeed        = C1_n       # Turing speed from process parameters
+C1.Torque          = C1_Torque  # Torque from Kienzle
+R1.RotSpeed        = R1_n
+R1.Torque          = R1_Torque
+X1_ax.Speed        = X1_v
+X1_ax.ProcessForce = X1_ax_Fp
+X1.RotSpeed        = X1_ax.RotSpeed
+X1.Torque          = X1_ax.Torque
+Z1_ax.Speed        = Z1_v
+Z1_ax.ProcessForce = Z1_ax_Fp
+Z1.RotSpeed        = Z1_ax.RotSpeed
+Z1.Torque          = Z1_ax.Torque
