@@ -10,7 +10,7 @@
  * All rights reserved
  *
  ***********************************/
-package ch.ethz.inspire.emod.gui;
+package ch.ethz.inspire.emod.gui.utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +21,8 @@ import org.swtchart.Chart;
 import org.swtchart.IBarSeries;
 import org.swtchart.ISeries.SeriesType;
 
-import ch.ethz.inspire.emod.gui.utils.ConsumerData;
 import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.utils.LocalizationHandler;
 
 /**
  * creates bar chart. the chart is a singleton implementation 
@@ -30,7 +30,7 @@ import ch.ethz.inspire.emod.model.units.Unit;
  * @author dhampl
  *
  */
-public class BarChartGUI {
+public class BarChart {
 
 	private static Chart chart=null;
 	
@@ -53,7 +53,7 @@ public class BarChartGUI {
 		List<String> xs = new ArrayList<String>();
 		for(ConsumerData cd:data){
 			for(int i=0;i<cd.getActive().size();i++){
-				if(cd.getActive().get(i) && cd.getUnits().get(i)==Unit.WATT) {
+				if(/*cd.getActive().get(i) &&*/ cd.getUnits().get(i)==Unit.WATT) {
 					s.add(cd.getEnergy().get(i));
 					xs.add(cd.getConsumer()+"."+cd.getNames().get(i));
 				}
@@ -69,6 +69,9 @@ public class BarChartGUI {
 		chart.getAxisSet().getXAxis(0).setCategorySeries(xss);
 		chart.getAxisSet().getXAxis(0).enableCategory(true);
 		chart.getAxisSet().adjustRange();
+		chart.getTitle().setText(LocalizationHandler.getItem("app.gui.analysis.barchart.title"));
+		chart.getAxisSet().getXAxis(0).getTitle().setText("");
+		chart.getAxisSet().getYAxis(0).getTitle().setText(LocalizationHandler.getItem("app.gui.analysis.barchart.yaxistitle"));
 		
 		return chart;
 	}

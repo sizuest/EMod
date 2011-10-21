@@ -35,7 +35,6 @@ public class MachineComponentComposite extends Composite {
 	 */
 	public MachineComponentComposite(Composite parent, int style) {
 		super(parent, style);
-		// TODO Auto-generated constructor stub
 		nameLabel = new Label(this, SWT.NONE);
 		nameLabel.setText(component.getName());
 		componentClassLabel = new Label(this, SWT.NONE);

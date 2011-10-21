@@ -75,9 +75,9 @@ public class EModMain {
 		new EModMain();
 		new EModGUI(disp);
 		
-		Shell shell = new Shell(disp);
+/*		Shell shell = new Shell(disp);
 		shell.setLayout(new FillLayout());
-		new MachineComponentSelectGUI(shell);
+		//new MachineComponentSelectGUI(shell);
 		
 		
 		shell.open();
@@ -87,7 +87,7 @@ public class EModMain {
 				disp.sleep();
 			}
 		}
-		
+*/		
 		//test loading configs
 		//Machine.initMachineFromFile("L:/misc_praktikum_david/xml/testmachine_new.xml");
 		//EModSimulationMain sim = EModSimulationMain.initSimulationFromFile("L:/misc_praktikum_david/xml/sim.xml");

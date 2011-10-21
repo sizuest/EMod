@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Composite;
+
 import ch.ethz.inspire.emod.gui.utils.ConsumerData;
 import ch.ethz.inspire.emod.model.units.Unit;
 
@@ -28,14 +31,15 @@ import ch.ethz.inspire.emod.model.units.Unit;
  * @author dhampl
  *
  */
-public abstract class AEvaluationGUI {
+public abstract class AEvaluationGUI extends Composite {
 
 	private static Logger logger = Logger.getLogger(AEvaluationGUI.class.getName());
 	private String dataFile;
 	protected List<ConsumerData> availableConsumers;
 	private List<String[]> lines;
 	
-	public AEvaluationGUI(String dataFile) {
+	public AEvaluationGUI(Composite parent, String dataFile) {
+		super(parent, SWT.NONE);
 		this.dataFile = dataFile;
 		readData();
 	}
@@ -83,8 +87,10 @@ public abstract class AEvaluationGUI {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		for(ConsumerData cd:availableConsumers)
+		for(ConsumerData cd:availableConsumers) {
 			cd.calculateEnergy();
+			cd.calculate();
+		}
 	}
 	
 	/**

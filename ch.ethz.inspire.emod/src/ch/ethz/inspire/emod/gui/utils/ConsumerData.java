@@ -32,6 +32,10 @@ public class ConsumerData {
 	private List<double[]> values; //the values
 	private List<Boolean> active; //which values are plotted
 	private List<Double> energy; //integrated energy. use only for io components with watt as unit
+	private double averagePower;
+	private double peakPower;
+	private double variance;
+	private double[] pTotal=null;
 	
 	/**
 	 * 
@@ -63,20 +67,32 @@ public class ConsumerData {
 	}
 	
 	public void calculate() {
-		int pmech = 0, ploss = 0;
+		int pmech = 0, ploss = 0, ptotal = 0;
 		double peak = 0, avg = 0;
+		boolean calcPTotal = false;
 		for(int i=0;i<values.size();i++) {
 			if(names.get(i).equals("Pmech"))
 				pmech=i;
 			if(names.get(i).equals("Ploss"))
 				ploss=i;
+			if(names.get(i).equals("ptotal"))
+				ptotal = i;
 		}
-		if(pmech == ploss && ploss == 0)
-			return;
-		double[] pTotal=new double[values.get(ploss).length];
+		if(pmech == ploss && ploss == 0) {
+			if(ptotal!=0)
+				pTotal=values.get(ptotal);
+			else
+				return;
+		}
+		if(pTotal==null) {
+			pTotal=new double[values.get(ploss).length];
+			calcPTotal = true;
+		}
+		
 		for(int j=0;j<values.get(ploss).length;j++) {
 			// calc the total power consumption
-			pTotal[j]=values.get(ploss)[j]+values.get(pmech)[j];
+			if(calcPTotal)
+				pTotal[j]=values.get(ploss)[j]+values.get(pmech)[j];
 			if(pTotal[j]>peak)
 				peak=pTotal[j];
 			avg+=pTotal[j];
@@ -85,11 +101,13 @@ public class ConsumerData {
 		avg = avg/pTotal.length;
 		
 		// calc the varicance (s^2=sum(x_i - avg)^2 / n-1)
-		double variance=0;
+		variance=0;
 		for(int k=0;k<pTotal.length;k++) {
 			variance += (pTotal[k]-avg)*(pTotal[k]-avg);
 		}
 		variance = variance / (pTotal.length-1);
+		averagePower = avg;
+		peakPower = peak;
 	}
 	
 	/**
@@ -188,5 +206,21 @@ public class ConsumerData {
 	 */
 	public List<Double> getEnergy() {
 		return energy;
+	}
+	
+	public double getAveragePower() {
+		return averagePower;
+	}
+	
+	public double getPeakPower() {
+		return peakPower;
+	}
+	
+	public double getVariance() {
+		return variance;
+	}
+	
+	public double[] getPTotal() {
+		return pTotal;
 	}
 }

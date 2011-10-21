@@ -24,10 +24,13 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
+import ch.ethz.inspire.emod.gui.utils.BarChart;
 import ch.ethz.inspire.emod.gui.utils.ConsumerData;
+import ch.ethz.inspire.emod.gui.utils.LineChart;
+import ch.ethz.inspire.emod.gui.utils.StackedAreaChart;
 
 /**
- * composite to select consumer i/o elements to be drawn in a {@link LineChartGUI}
+ * composite to select consumer i/o elements to be drawn in a {@link LineChart}
  * 
  * @author dhampl
  *
@@ -38,7 +41,7 @@ public class MachineComponentSelectGUI extends AEvaluationGUI {
 	List<MachineComponentComposite> mcclist;
 	
 	public MachineComponentSelectGUI(Composite parent) {
-		super("simulation_output.dat");
+		super(parent, "simulation_output.dat");
 		this.parent = parent;
 		init();
 	}
@@ -74,8 +77,9 @@ public class MachineComponentSelectGUI extends AEvaluationGUI {
 				for(MachineComponentComposite mcc:mcclist) {
 					mcc.updateActive();
 				}
-				LineChartGUI.createChart(parent, getConsumerDataList());
-				//BarChartGUI.createBarChart(parent, getConsumerDataList());
+				LineChart.createChart(parent, getConsumerDataList());
+				BarChart.createBarChart(parent, getConsumerDataList());
+				StackedAreaChart.createChart(parent, getConsumerDataList());
 			}
 
 			@Override

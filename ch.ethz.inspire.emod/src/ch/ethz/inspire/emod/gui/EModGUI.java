@@ -19,6 +19,7 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Menu;
@@ -42,7 +43,8 @@ public class EModGUI {
 	private static Logger logger = Logger.getLogger(EModGUI.class.getName());
 	protected Shell shell;
 	protected Display disp;
-	
+	protected Composite analysis;
+		
 	public EModGUI(Display display) {
 		disp = display;
 		shell = new Shell(display);
@@ -122,6 +124,7 @@ public class EModGUI {
 		TabItem tabAnalysisItem = new TabItem(tabFolder, SWT.NONE);
 		tabAnalysisItem.setText(LocalizationHandler.getItem("app.gui.tabs.analysis"));
 		tabAnalysisItem.setToolTipText(LocalizationHandler.getItem("app.gui.tabs.analysistooltip"));
+		tabAnalysisItem.setControl(initAnalysis(tabFolder));
 		
 		tabFolder.setSelection(0);
 		
@@ -130,6 +133,14 @@ public class EModGUI {
 				logger.log(LogLevel.DEBUG, "tab"+ tabFolder.getSelection()[0].getText()+" selected");
 			}
 		});
+	}
+	
+	private Composite initAnalysis(TabFolder tabFolder) {
+		analysis = new AnalysisGUI("simulation_output.dat", tabFolder);
+		
+		
+		
+		return analysis;
 	}
 	
 	/**

@@ -10,7 +10,7 @@
  * All rights reserved
  *
  ***********************************/
-package ch.ethz.inspire.emod.gui;
+package ch.ethz.inspire.emod.gui.utils;
 
 import java.util.List;
 
@@ -22,7 +22,6 @@ import org.swtchart.ILineSeries;
 import org.swtchart.ILineSeries.PlotSymbolType;
 import org.swtchart.ISeries.SeriesType;
 
-import ch.ethz.inspire.emod.gui.utils.ConsumerData;
 
 /**
  * creates a chart from active ConsumerData objects. currently only one chart can be
@@ -31,13 +30,14 @@ import ch.ethz.inspire.emod.gui.utils.ConsumerData;
  * @author dhampl
  *
  */
-public class LineChartGUI {
+public class LineChart {
 
 	private static Chart chart=null;
 	
 	public static Chart createChart(Composite parent, List<ConsumerData> data) {
-		if(chart==null)
+		if(chart==null) {
 			chart = new Chart(parent, SWT.NONE);
+		}
 		else {
 			chart.dispose();
 			chart = new Chart(parent, SWT.NONE);
@@ -59,6 +59,7 @@ public class LineChartGUI {
 		}
 		
 		chart.getAxisSet().adjustRange();
+		
 		return chart;
 	}
 	
