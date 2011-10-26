@@ -1,0 +1,583 @@
+This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2011.5.12)  4 JUL 2011 13:47
+entering extended mode
+**C:/Dokumente*und*Einstellungen/conid/Eigene*Dateien/Reports/DatenModel/202706
+10_Modelll_NDM200_V1.tex
+
+("C:/Dokumente und Einstellungen/conid/Eigene Dateien/Reports/DatenModel/202706
+10_Modelll_NDM200_V1.tex"
+LaTeX2e <2009/09/24>
+Babel <v3.8l> and hyphenation patterns for english, afrikaans, ancientgreek, ar
+abic, armenian, assamese, basque, bengali, bokmal, bulgarian, catalan, coptic, 
+croatian, czech, danish, dutch, esperanto, estonian, farsi, finnish, french, ga
+lician, german, german-x-2009-06-19, greek, gujarati, hindi, hungarian, iceland
+ic, indonesian, interlingua, irish, italian, kannada, kurmanji, lao, latin, lat
+vian, lithuanian, malayalam, marathi, mongolian, mongolianlmc, monogreek, ngerm
+an, ngerman-x-2009-06-19, nynorsk, oriya, panjabi, pinyin, polish, portuguese, 
+romanian, russian, sanskrit, serbian, slovak, slovenian, spanish, swedish, swis
+sgerman, tamil, telugu, turkish, turkmen, ukenglish, ukrainian, uppersorbian, u
+senglishmax, welsh, loaded.
+("C:\Programme\MiKTeX 2.9\tex\generic\oberdiek\ifpdf.sty"
+Package: ifpdf 2010/01/28 v2.1 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in pdf mode detected.
+)
+("C:\Dokumente und Einstellungen\conid\Anwendungsdaten\MiKTeX\2.9\tex\latex\kom
+a-script\scrartcl.cls"
+Document Class: scrartcl 2011/04/02 v3.09 KOMA-Script document class (article)
+
+("C:\Dokumente und Einstellungen\conid\Anwendungsdaten\MiKTeX\2.9\tex\latex\kom
+a-script\scrkbase.sty"
+Package: scrkbase 2011/04/02 v3.09 KOMA-Script package (KOMA-Script-dependent b
+asics and keyval usage)
+
+("C:\Dokumente und Einstellungen\conid\Anwendungsdaten\MiKTeX\2.9\tex\latex\kom
+a-script\scrbase.sty"
+Package: scrbase 2011/04/02 v3.09 KOMA-Script package (KOMA-Script-independent 
+basics and keyval usage)
+ ("C:\Programme\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+("C:\Dokumente und Einstellungen\conid\Anwendungsdaten\MiKTeX\2.9\tex\latex\kom
+a-script\scrlfile.sty"
+Package: scrlfile 2011/03/09 v3.09 KOMA-Script package (loading files)
+
+Package scrlfile, 2011/03/09 v3.09 KOMA-Script package (loading files)
+                  Copyright (C) Markus Kohm
+
+)))
+("C:\Dokumente und Einstellungen\conid\Anwendungsdaten\MiKTeX\2.9\tex\latex\kom
+a-script\tocbasic.sty"
+Package: tocbasic 2011/03/23 v3.09 KOMA-Script package (handling toc-files)
+)
+Package tocbasic Info: omitting babel extension for `toc'
+(tocbasic)             because of feature `nobabel' available
+(tocbasic)             for `toc' on input line 115.
+Package tocbasic Info: omitting babel extension for `lof'
+(tocbasic)             because of feature `nobabel' available
+(tocbasic)             for `lof' on input line 116.
+Package tocbasic Info: omitting babel extension for `lot'
+(tocbasic)             because of feature `nobabel' available
+(tocbasic)             for `lot' on input line 117.
+Package scrartcl Info: You've used obsolete option `11pt'.
+(scrartcl)             \KOMAExecuteOptions{fontsize=11pt} will be
+(scrartcl)             used instead.
+(scrartcl)             You may simply replace `11pt'
+(scrartcl)             by `fontsize=11pt'.
+Class scrartcl Info: File `scrsize11pt.clo' used to setup font sizes on input l
+ine 1246.
+
+("C:\Dokumente und Einstellungen\conid\Anwendungsdaten\MiKTeX\2.9\tex\latex\kom
+a-script\scrsize11pt.clo"
+File: scrsize11pt.clo 2011/04/02 v3.09 KOMA-Script font size class option (11pt
+)
+)
+("C:\Dokumente und Einstellungen\conid\Anwendungsdaten\MiKTeX\2.9\tex\latex\kom
+a-script\typearea.sty"
+Package: typearea 2011/04/02 v3.09 KOMA-Script package (type area)
+
+Package typearea, 2011/04/02 v3.09 KOMA-Script package (type area)
+                  Copyright (C) Frank Neukam, 1992-1994
+                  Copyright (C) Markus Kohm, 1994-
+
+\ta@bcor=\skip41
+\ta@div=\count79
+Package typearea Info: You've used standard option `a4paper'.
+(typearea)             This is correct!
+(typearea)             Internally I'm using `paper=a4'.
+(typearea)             If you'd like to set the option with \KOMAoptions,
+(typearea)             you'd have to use `paper=a4' there
+(typearea)             instead of `a4paper', too.
+Package typearea Info: You've used standard option `pdftex'.
+(typearea)             This is correct!
+(typearea)             Internally I'm using `pagesize=pdftex'.
+(typearea)             If you'd like to set the option with \KOMAoptions,
+(typearea)             you'd have to use `pagesize=pdftex' there
+(typearea)             instead of `pdftex', too.
+\ta@hblk=\skip42
+\ta@vblk=\skip43
+\ta@temp=\skip44
+Package typearea Info: These are the values describing the layout:
+(typearea)             DIV  = 10
+(typearea)             BCOR = 0.0pt
+(typearea)             \paperwidth      = 597.50793pt
+(typearea)              \textwidth      = 418.25555pt
+(typearea)              DIV departure   = -6%
+(typearea)              \evensidemargin = 47.2316pt
+(typearea)              \oddsidemargin  = -12.5192pt
+(typearea)             \paperheight     = 845.04694pt
+(typearea)              \textheight     = 595.80026pt
+(typearea)              \topmargin      = -25.16531pt
+(typearea)              \headheight     = 17.0pt
+(typearea)              \headsep        = 20.40001pt
+(typearea)              \topskip        = 11.0pt
+(typearea)              \footskip       = 47.60002pt
+(typearea)              \baselineskip   = 13.6pt
+(typearea)              on input line 1138.
+)
+\c@part=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\abovecaptionskip=\skip45
+\belowcaptionskip=\skip46
+\c@pti@nb@sid@b@x=\box26
+\c@figure=\count86
+\c@table=\count87
+\bibindent=\dimen102
+) ("C:\Programme\MiKTeX 2.9\tex\latex\graphics\color.sty"
+Package: color 2005/11/14 v1.0j Standard LaTeX Color (DPC)
+
+("C:\Programme\MiKTeX 2.9\tex\latex\00miktex\color.cfg"
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package color Info: Driver file: pdftex.def on input line 130.
+
+("C:\Programme\MiKTeX 2.9\tex\latex\pdftex-def\pdftex.def"
+File: pdftex.def 2011/01/28 v0.05d Graphics/color for pdfTeX
+\Gread@gobject=\count88
+))
+("C:\Programme\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+("C:\Programme\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+("C:\Programme\MiKTeX 2.9\tex\latex\graphics\trig.sty"
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+("C:\Programme\MiKTeX 2.9\tex\latex\00miktex\graphics.cfg"
+File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
+)
+Package graphics Info: Driver file: pdftex.def on input line 91.
+)
+\Gin@req@height=\dimen103
+\Gin@req@width=\dimen104
+)
+("C:\Programme\MiKTeX 2.9\tex\generic\babel\babel.sty"
+Package: babel 2008/07/06 v3.8l The Babel package
+
+*************************************
+* Local config file bblopts.cfg used
+*
+("C:\Programme\MiKTeX 2.9\tex\latex\00miktex\bblopts.cfg"
+File: bblopts.cfg 2006/07/31 v1.0 MiKTeX 'babel' configuration
+)
+("C:\Programme\MiKTeX 2.9\tex\generic\babel\germanb.ldf"
+Language: germanb 2008/06/01 v2.6m German support from the babel system
+
+("C:\Programme\MiKTeX 2.9\tex\generic\babel\babel.def"
+File: babel.def 2008/07/06 v3.8l Babel common definitions
+\babel@savecnt=\count89
+\U@D=\dimen105
+)
+\l@austrian = a dialect from \language\l@german 
+Package babel Info: Making " an active character on input line 102.
+))
+("C:\Programme\MiKTeX 2.9\tex\latex\base\fontenc.sty"
+Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
+
+("C:\Programme\MiKTeX 2.9\tex\latex\base\t1enc.def"
+File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
+LaTeX Font Info:    Redeclaring font encoding T1 on input line 43.
+))
+("C:\Dokumente und Einstellungen\conid\Anwendungsdaten\MiKTeX\2.9\tex\latex\cap
+tion\caption.sty"
+Package: caption 2010/01/09 v3.1m Customizing captions (AR)
+
+("C:\Dokumente und Einstellungen\conid\Anwendungsdaten\MiKTeX\2.9\tex\latex\cap
+tion\caption3.sty"
+Package: caption3 2010/01/14 v3.1m caption3 kernel (AR)
+\captionmargin=\dimen106
+\captionmargin@=\dimen107
+\captionwidth=\dimen108
+\caption@indent=\dimen109
+\caption@parindent=\dimen110
+\caption@hangindent=\dimen111
+)
+Package caption Info: KOMA-Script document class.
+\c@ContinuedFloat=\count90
+) ("C:\Programme\MiKTeX 2.9\tex\latex\ltxmisc\url.sty"
+\Urlmuskip=\muskip10
+Package: url 2006/04/12  ver 3.3  Verb mode for urls, etc.
+)
+("C:\Programme\MiKTeX 2.9\tex\latex\tools\tabularx.sty"
+Package: tabularx 1999/01/07 v2.07 `tabularx' package (DPC)
+
+("C:\Programme\MiKTeX 2.9\tex\latex\tools\array.sty"
+Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
+\col@sep=\dimen112
+\extrarowheight=\dimen113
+\NC@list=\toks15
+\extratabsurround=\skip47
+\backup@length=\skip48
+)
+\TX@col@width=\dimen114
+\TX@old@table=\dimen115
+\TX@old@col=\dimen116
+\TX@target=\dimen117
+\TX@delta=\dimen118
+\TX@cols=\count91
+\TX@ftn=\toks16
+)
+("C:\Dokumente und Einstellungen\conid\Anwendungsdaten\MiKTeX\2.9\tex\latex\boo
+ktabs\booktabs.sty"
+Package: booktabs 2005/04/14 v1.61803 publication quality tables
+\heavyrulewidth=\dimen119
+\lightrulewidth=\dimen120
+\cmidrulewidth=\dimen121
+\belowrulesep=\dimen122
+\belowbottomsep=\dimen123
+\aboverulesep=\dimen124
+\abovetopsep=\dimen125
+\cmidrulesep=\dimen126
+\cmidrulekern=\dimen127
+\defaultaddspace=\dimen128
+\@cmidla=\count92
+\@cmidlb=\count93
+\@aboverulesep=\dimen129
+\@belowrulesep=\dimen130
+\@thisruleclass=\count94
+\@lastruleclass=\count95
+\@thisrulewidth=\dimen131
+) ("C:\Programme\MiKTeX 2.9\tex\latex\tools\longtable.sty"
+Package: longtable 2004/02/01 v4.11 Multi-page Table package (DPC)
+\LTleft=\skip49
+\LTright=\skip50
+\LTpre=\skip51
+\LTpost=\skip52
+\LTchunksize=\count96
+\LTcapwidth=\dimen132
+\LT@head=\box27
+\LT@firsthead=\box28
+\LT@foot=\box29
+\LT@lastfoot=\box30
+\LT@cols=\count97
+\LT@rows=\count98
+\c@LT@tables=\count99
+\c@LT@chunks=\count100
+\LT@p@ftn=\toks17
+)
+Class scrartcl Info: longtable captions redefined on input line 25.
+
+("C:\Dokumente und Einstellungen\conid\Anwendungsdaten\MiKTeX\2.9\tex\latex\xco
+lor\xcolor.sty"
+Package: xcolor 2007/01/21 v2.11 LaTeX color extensions (UK)
+ ("C:\Programme\MiKTeX 2.9\tex\latex\00miktex\color.cfg"
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package xcolor Info: Driver file: pdftex.def on input line 225.
+
+("C:\Dokumente und Einstellungen\conid\Anwendungsdaten\MiKTeX\2.9\tex\latex\col
+ortbl\colortbl.sty"
+Package: colortbl 2001/02/13 v0.1j Color table columns (DPC)
+\everycr=\toks18
+\minrowclearance=\skip53
+)
+LaTeX Info: Redefining \color on input line 702.
+\rownum=\count101
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1337.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1341.
+Package xcolor Info: Model `RGB' extended on input line 1353.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1355.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1356.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1357.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1358.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1359.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1360.
+) ("C:\Programme\MiKTeX 2.9\tex\latex\tools\xspace.sty"
+Package: xspace 2006/05/08 v1.12 Space after command names (DPC,MH)
+)
+("C:\Programme\MiKTeX 2.9\tex\latex\float\float.sty"
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count102
+\float@exts=\toks19
+\float@box=\box31
+\@float@everytoks=\toks20
+\@floatcapt=\box32
+)
+("C:\Programme\MiKTeX 2.9\tex\latex\graphics\lscape.sty"
+Package: lscape 2000/10/22 v3.01 Landscape Pages (DPC)
+)
+("C:\Programme\MiKTeX 2.9\tex\latex\geometry\geometry.sty"
+Package: geometry 2010/09/12 v5.6 Page Geometry
+
+("C:\Programme\MiKTeX 2.9\tex\generic\oberdiek\ifvtex.sty"
+Package: ifvtex 2010/03/01 v1.5 Switches for detecting VTeX and its modes (HO)
+Package ifvtex Info: VTeX not detected.
+)
+("C:\Programme\MiKTeX 2.9\tex\generic\ifxetex\ifxetex.sty"
+Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
+)
+\Gm@cnth=\count103
+\Gm@cntv=\count104
+\c@Gm@tempcnt=\count105
+\Gm@bindingoffset=\dimen133
+\Gm@wd@mp=\dimen134
+\Gm@odd@mp=\dimen135
+\Gm@even@mp=\dimen136
+\Gm@layoutwidth=\dimen137
+\Gm@layoutheight=\dimen138
+\Gm@layouthoffset=\dimen139
+\Gm@layoutvoffset=\dimen140
+\Gm@dimlist=\toks21
+
+("C:\Programme\MiKTeX 2.9\tex\latex\geometry\geometry.cfg"))
+("C:\Dokumente und Einstellungen\conid\Anwendungsdaten\MiKTeX\2.9\tex\latex\rot
+ating\rotating.sty"
+Package: rotating 2009/03/28 v2.16a rotated objects in LaTeX
+ ("C:\Programme\MiKTeX 2.9\tex\latex\base\ifthen.sty"
+Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
+)
+\c@r@tfl@t=\count106
+\rotFPtop=\skip54
+\rotFPbot=\skip55
+\rot@float@box=\box33
+\rot@mess@toks=\toks22
+)
+("C:\Dokumente und Einstellungen\conid\Eigene Dateien\Reports\DatenModel\202706
+10_Modelll_NDM200_V1.aux"
+
+LaTeX Warning: Label `tab:meas_power' multiply defined.
+
+
+LaTeX Warning: Label `fig:M03_bar' multiply defined.
+
+
+LaTeX Warning: Label `fig:M03_bar' multiply defined.
+
+
+LaTeX Warning: Label `fig:M04_area' multiply defined.
+
+
+LaTeX Warning: Label `fig:M04_area' multiply defined.
+
+)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
+
+("C:\Dokumente und Einstellungen\conid\Anwendungsdaten\MiKTeX\2.9\tex\context\b
+ase\supp-pdf.mkii"
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count107
+\scratchdimen=\dimen141
+\scratchbox=\box34
+\nofMPsegments=\count108
+\nofMParguments=\count109
+\everyMPshowfont=\toks23
+\MPscratchCnt=\count110
+\MPscratchDim=\dimen142
+\MPnumerator=\count111
+\everyMPtoPDFconversion=\toks24
+)
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: float package is loaded.
+Package caption Info: longtable package is loaded.
+
+("C:\Dokumente und Einstellungen\conid\Anwendungsdaten\MiKTeX\2.9\tex\latex\cap
+tion\ltcaption.sty"
+Package: ltcaption 2008/03/28 v1.2 longtable captions (AR)
+)
+Package caption Info: rotating package is loaded.
+Package caption Info: End \AtBeginDocument code.
+
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: a4paper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: includehead includefoot twoside 
+* h-part:(L,W,R)=(56.9055pt, 483.69687pt, 56.9055pt)
+* v-part:(T,H,B)=(28.45274pt, 788.14136pt, 28.45274pt)
+* \paperwidth=597.50787pt
+* \paperheight=845.04684pt
+* \textwidth=447.84608pt
+* \textheight=703.14133pt
+* \oddsidemargin=2.84544pt
+* \evensidemargin=2.84544pt
+* \topmargin=-43.81725pt
+* \headheight=17.0pt
+* \headsep=20.40001pt
+* \topskip=11.0pt
+* \footskip=47.60002pt
+* \marginparwidth=89.62619pt
+* \marginparsep=12.8401pt
+* \columnsep=10.0pt
+* \skip\footins=10.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidetrue
+* \@mparswitchtrue
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <10.95> on input line 96.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 96.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 96.
+<Bilder/eth_logo.jpg, id=1, 448.67625pt x 113.42375pt>
+File: Bilder/eth_logo.jpg Graphic file (type jpg)
+
+<use Bilder/eth_logo.jpg>
+<Bilder/Inspire_Logo.jpg, id=2, 157.33781pt x 70.01157pt>
+File: Bilder/Inspire_Logo.jpg Graphic file (type jpg)
+
+<use Bilder/Inspire_Logo.jpg>
+LaTeX Font Info:    Try loading font information for T1+cmss on input line 96.
+ ("C:\Programme\MiKTeX 2.9\tex\latex\base\t1cmss.fd"
+File: t1cmss.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <14.4> on input line 96.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 96.
+
+
+LaTeX Warning: No \author given.
+
+<Bilder/NDM200.jpg, id=3, 885.3075pt x 661.72218pt>
+File: Bilder/NDM200.jpg Graphic file (type jpg)
+ <use Bilder/NDM200.jpg>
+[1
+
+
+{C:/Dokumente und Einstellungen/conid/Lokale Einstellungen/Anwendungsdaten/MiKT
+eX/2.9/pdftex/config/pdftex.map} <C:/Dokumente und Einstellungen/conid/Eigene D
+ateien/Reports/DatenModel/Bilder/eth_logo.jpg> <C:/Dokumente und Einstellungen/
+conid/Eigene Dateien/Reports/DatenModel/Bilder/Inspire_Logo.jpg> <C:/Dokumente 
+und Einstellungen/conid/Eigene Dateien/Reports/DatenModel/Bilder/NDM200.jpg>]
+("C:\Dokumente und Einstellungen\conid\Eigene Dateien\Reports\DatenModel\202706
+10_Modelll_NDM200_V1.toc")
+\tf@toc=\write3
+ [2
+
+]
+
+LaTeX Warning: Reference `tab:consumers_notmeasured' on page 1 undefined on inp
+ut line 136.
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [1
+
+]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [2]
+<figures/2011-06-10_ndm200_M031_cbar.png, id=24, 740.5266pt x 370.0224pt>
+File: figures/2011-06-10_ndm200_M031_cbar.png Graphic file (type png)
+
+<use figures/2011-06-10_ndm200_M031_cbar.png>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [3 <C:/Dokumente und Einstellungen/conid/Eigene Dateien/Reports/DatenModel/fig
+ures/2011-06-10_ndm200_M031_cbar.png (PNG copy)>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [4]
+<figures/2011-06-10_ndm200_vdi_PR_K1_M031_area.png, id=31, 740.5266pt x 370.022
+4pt>
+File: figures/2011-06-10_ndm200_vdi_PR_K1_M031_area.png Graphic file (type png)
+
+ <use figures/2011-06-10_ndm200_vdi_PR_K1_M031_area.png>
+<figures/2011-06-10_ndm200_vdi_PR_K1_M031_bar.png, id=32, 740.5266pt x 370.0224
+pt>
+File: figures/2011-06-10_ndm200_vdi_PR_K1_M031_bar.png Graphic file (type png)
+ <use figures/2011-06-10_ndm200_vdi_PR_K1_M031_bar.png>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [5 <C:/Dokumente und Einstellungen/conid/Eigene Dateien/Reports/DatenModel/fig
+ures/2011-06-10_ndm200_vdi_PR_K1_M031_area.png (PNG copy)> <C:/Dokumente und Ei
+nstellungen/conid/Eigene Dateien/Reports/DatenModel/figures/2011-06-10_ndm200_v
+di_PR_K1_M031_bar.png (PNG copy)>]
+<figures/cnc/2011-06-10_ndm200_M03_cbar.png, id=37, 740.5266pt x 370.0224pt>
+File: figures/cnc/2011-06-10_ndm200_M03_cbar.png Graphic file (type png)
+
+<use figures/cnc/2011-06-10_ndm200_M03_cbar.png>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [6 <C:/Dokumente und Einstellungen/conid/Eigene Dateien/Reports/DatenModel/fig
+ures/cnc/2011-06-10_ndm200_M03_cbar.png (PNG copy)>]
+<figures/cnc/2011-06-10_ndm200_vdi_PR_K1_M03_area.png, id=41, 740.5266pt x 370.
+0224pt>
+File: figures/cnc/2011-06-10_ndm200_vdi_PR_K1_M03_area.png Graphic file (type p
+ng)
+ <use figures/cnc/2011-06-10_ndm200_vdi_PR_K1_M03_area.png>
+<figures/cnc/2011-06-10_ndm200_vdi_PR_K1_M03_bar.png, id=42, 740.5266pt x 370.0
+224pt>
+File: figures/cnc/2011-06-10_ndm200_vdi_PR_K1_M03_bar.png Graphic file (type pn
+g)
+ <use figures/cnc/2011-06-10_ndm200_vdi_PR_K1_M03_bar.png>
+<figures/cnc/2011-06-10_ndm200_vdi_PR_K1_M03_area1.png, id=43, 740.5266pt x 370
+.0224pt>
+File: figures/cnc/2011-06-10_ndm200_vdi_PR_K1_M03_area1.png Graphic file (type 
+png)
+ <use figures/cnc/2011-06-10_ndm200_vdi_PR_K1_M03_area1.png>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [7 <C:/Dokumente und Einstellungen/conid/Eigene Dateien/Reports/DatenModel/fig
+ures/cnc/2011-06-10_ndm200_vdi_PR_K1_M03_area.png (PNG copy)> <C:/Dokumente und
+ Einstellungen/conid/Eigene Dateien/Reports/DatenModel/figures/cnc/2011-06-10_n
+dm200_vdi_PR_K1_M03_bar.png (PNG copy)>]
+<figures/TemperaturNDM200.png, id=47, 1054.6903pt x 712.16063pt>
+File: figures/TemperaturNDM200.png Graphic file (type png)
+
+<use figures/TemperaturNDM200.png>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [8 <C:/Dokumente und Einstellungen/conid/Eigene Dateien/Reports/DatenModel/fig
+ures/cnc/2011-06-10_ndm200_vdi_PR_K1_M03_area1.png (PNG copy)> <C:/Dokumente un
+d Einstellungen/conid/Eigene Dateien/Reports/DatenModel/figures/TemperaturNDM20
+0.png (PNG copy)>] [9]
+("C:\Dokumente und Einstellungen\conid\Eigene Dateien\Reports\DatenModel\202706
+10_Modelll_NDM200_V1.aux")
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 5200 strings out of 494053
+ 78819 string characters out of 3150149
+ 177828 words of memory out of 3000000
+ 8404 multiletter control sequences out of 15000+200000
+ 13477 words of font info for 34 fonts, out of 3000000 for 9000
+ 715 hyphenation exceptions out of 8191
+ 45i,13n,60p,345b,359s stack positions out of 5000i,500n,10000p,200000b,50000s
+ <C:\Dokumente und Einstellungen\conid\Lokale Einstellungen\Anwendungsdaten\M
+iKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx1095.pk> <C:\Dokumente und Ein
+stellungen\conid\Lokale Einstellungen\Anwendungsdaten\MiKTeX\2.9\fonts\pk\ljfou
+r\jknappen\ec\dpi600\ecsx1200.pk> <C:\Dokumente und Einstellungen\conid\Lokale 
+Einstellungen\Anwendungsdaten\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecs
+x1095.pk> <C:\Dokumente und Einstellungen\conid\Lokale Einstellungen\Anwendungs
+daten\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecsx1440.pk> <C:\Dokumente 
+und Einstellungen\conid\Lokale Einstellungen\Anwendungsdaten\MiKTeX\2.9\fonts\p
+k\ljfour\jknappen\ec\dpi600\ecrm1095.pk> <C:\Dokumente und Einstellungen\conid\
+Lokale Einstellungen\Anwendungsdaten\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi
+600\ecrm1440.pk> <C:\Dokumente und Einstellungen\conid\Lokale Einstellungen\Anw
+endungsdaten\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecsx2074.pk>
+Output written on 20270610_Modelll_NDM200_V1.pdf (11 pages, 404072 bytes).
+PDF statistics:
+ 319 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 56 words of extra memory for PDF output out of 10000 (max. 10000000)
+

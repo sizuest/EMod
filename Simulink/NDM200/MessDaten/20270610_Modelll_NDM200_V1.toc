@@ -1,0 +1,15 @@
+\select@language {german}
+\contentsline {section}{\numberline {1}Einleitung}{1}
+\contentsline {section}{\numberline {2}Maschine}{1}
+\contentsline {subsection}{\numberline {2.1}Beschreibung}{1}
+\contentsline {subsection}{\numberline {2.2}Systemgrenzen}{1}
+\contentsline {paragraph}{Ausnahme:}{1}
+\contentsline {subsection}{\numberline {2.3}Gemessene Verbraucher}{2}
+\contentsline {section}{\numberline {3}Betriebszust\"ande und Prozesse}{2}
+\contentsline {section}{\numberline {4}Messungen}{3}
+\contentsline {subsection}{\numberline {4.1}\"Uberblick}{3}
+\contentsline {subsection}{\numberline {4.2}\"Uberblick der mittleren Leistungen}{3}
+\contentsline {subsection}{\numberline {4.3}Messung M03: PR (VDI-Teil)}{5}
+\contentsline {subsection}{\numberline {4.4}Leistung der CNC Komponenten f\"ur Messung M03}{6}
+\contentsline {subsection}{\numberline {4.5}Temperatur von NDM Komponenten f\"ur Messung M03}{8}
+\contentsline {section}{Literatur}{9}
