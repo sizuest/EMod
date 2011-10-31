@@ -37,9 +37,13 @@ import ch.ethz.inspire.emod.model.ConstantComponent;
 import ch.ethz.inspire.emod.model.Clamp;
 import ch.ethz.inspire.emod.model.LinAxis;
 import ch.ethz.inspire.emod.model.Motor;
+import ch.ethz.inspire.emod.model.ServoMotor;
+import ch.ethz.inspire.emod.model.Fan;
+import ch.ethz.inspire.emod.model.Pump;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.model.MachineComponent;
 import ch.ethz.inspire.emod.simulation.ASimulationControl;
+//import ch.ethz.inspire.emod.simulation.GeometricKienzleSimulationControl_old;
 import ch.ethz.inspire.emod.simulation.GeometricKienzleSimulationControl;
 import ch.ethz.inspire.emod.simulation.ProcessSimulationControl;
 import ch.ethz.inspire.emod.simulation.RandomSimulationControl;
@@ -55,7 +59,7 @@ import ch.ethz.inspire.emod.utils.PropertiesHandler;
  */
 @XmlRootElement(namespace = "ch.ethz.inspire.emod")
 @XmlSeeAlso({MachineComponent.class, APhysicalComponent.class, Motor.class, LinAxis.class,
-	Clamp.class, ConstantComponent.class, 
+	Clamp.class, ServoMotor.class, Fan.class, Pump.class, ConstantComponent.class, 
 	ASimulationControl.class, RandomSimulationControl.class, StaticSimulationControl.class, 
 	ProcessSimulationControl.class, GeometricKienzleSimulationControl.class})
 @XmlAccessorType(XmlAccessType.NONE)

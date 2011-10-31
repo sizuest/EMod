@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>
+    Model parameter definition
+    ==========================
+      Model : Fan 
+      Type  : Example
+    Parameters
+    ----------
+      DensityFluid [kg/m3]
+        density of the moved fluid at steady state
+      PowerRef [W]
+        Reference electrical power
+      VoluminalFlowRef [m3/s]
+        Reference voluminal flow
+        @P=PowerRef
+  </comment>
+  <entry key="DensityFluid">1.2</entry>
+  <entry key="PowerRef">1500</entry>
+  <entry key="VoluminalFlowRef">.5</entry>
+</properties>

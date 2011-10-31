@@ -71,6 +71,7 @@ public class Motor extends APhysicalComponent{
 	// Output parameters:
 	private IOContainer pmech;
 	private IOContainer ploss;
+	private IOContainer pel;
 	private IOContainer efficiency;
 	
 	// Save last input values
@@ -125,6 +126,8 @@ public class Motor extends APhysicalComponent{
 		outputs.add(pmech);
 		ploss = new IOContainer("Ploss", Unit.WATT, 0);
 		outputs.add(ploss);
+		pel = new IOContainer("Pel", Unit.WATT, 0);
+		outputs.add(pel);
 		efficiency = new IOContainer("Efficiency", Unit.NONE, 0);
 		outputs.add(efficiency);
 		
@@ -244,6 +247,8 @@ public class Motor extends APhysicalComponent{
 		// ptot = pmech / eff
 		// ploss = ptot - pmech = pmech / eff - pmech = pmech (1/eff -1)
 		ploss.setValue(pmech.getValue() * (1/eff - 1));
+		
+		pel.setValue(pmech.getValue()+ploss.getValue());
 		efficiency.setValue(eff);
 	}
 

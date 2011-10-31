@@ -24,5 +24,8 @@ public enum Unit {
 	MM_MIN,       // mm/min
 	MM,
 	NEWTON,
+	METERCUBIC_S,
+	KG_S,
+	PA,
 	NONE;
 }

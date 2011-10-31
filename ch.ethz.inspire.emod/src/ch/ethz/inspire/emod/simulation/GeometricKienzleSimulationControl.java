@@ -140,10 +140,19 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 		double[] ap = null;
 		double[] d = null;
 		
+		/* 
+		 * Look, if a rotational speed and a diameter is defined.
+		 * If not, a force is required as output
+		 */
+		
 		try {
-			n = process.getDoubleArray(n_name);
+			
+			if ( !n_name.matches("NONE")) 
+				n = process.getDoubleArray(n_name);
+			if ( !d_name.matches("NONE"))
+				d = process.getDoubleArray(d_name);
+			
 			v = process.getDoubleArray(v_name);
-			d = process.getDoubleArray(d_name);
 			ap = process.getDoubleArray(ap_name);
 			simulationPeriod = process.getDoubleValue("SamplePeriod");
 		}
@@ -152,7 +161,9 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 			System.exit(-1);
 		}
 		/* Check length */
-		if(n.length!=v.length || n.length!=ap.length || n.length!=d.length) {
+		if( (!d_name.matches("NONE") && (n.length!=v.length)) || 
+			(!n_name.matches("NONE") && (n.length!=ap.length)) || 
+			 ap.length!=v.length) {
 			Exception ex = new Exception("input violation: params must have same length");
 			ex.printStackTrace();
 			System.exit(-1);
@@ -160,12 +171,20 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 		
 		for(int i=0; i<n.length; i++){
 			// TODO: check units
-			v[i] = v[i]/(n[i]);  // mm/min -> mm/U
-			n[i] = n[i]/60;      // 1/min -> 1/s
+			if ( !n_name.matches("NONE") ) {
+				v[i] = v[i]/(n[i]);  // mm/min -> mm/U
+				n[i] = n[i]/60;      // 1/min -> 1/s
+			}
+			if ( !d_name.matches("NONE") ) 
+				d[i] = d[i]/1000;    // mm -> m
+			
 			ap[i] = ap[i];       // mm -> mm
-			d[i] = d[i]/1000;    // mm -> m
 		}
-		calculateMoments(v, ap, d);
+		
+		if ( d_name.matches("NONE") )
+			calculateForces(v, ap);
+		else
+			calculateMoments(v, ap, d);
 		
 	}
 	
@@ -179,6 +198,18 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 			moments[i] = kc * (ap[i]/sinkappa)* Math.pow(f[i] * sinkappa,1-z) * d[i]/2;
 		}
 		samples.set(ComponentState.PERIODIC.ordinal(), moments);
+	}
+	
+	protected void calculateForces(double[] f, double[] ap) {
+		double[] forces = new double[f.length];
+		double sinkappa = Math.sin(kappa);
+		
+		for(int i=0;i<f.length;i++) {
+			//calculate moments for every time step: Fc = kc * b * h^(1-z) 
+			//moment = Fc * d/2
+			forces[i] = kc * (ap[i]/sinkappa)* Math.pow(f[i] * sinkappa,1-z);
+		}
+		samples.set(ComponentState.PERIODIC.ordinal(), forces);
 	}
 	
 	/* (non-Javadoc)

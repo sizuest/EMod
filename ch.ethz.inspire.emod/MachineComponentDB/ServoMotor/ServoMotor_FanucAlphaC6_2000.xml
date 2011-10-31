@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>
+    Model parameter definition
+    ==========================
+      Model : ServoMotor 
+      Type  : FanucAlphaC6_3000
+    Parameters
+    ----------
+      StaticFriction [Nm]
+        Static friction of the motor
+      KappaA [Nm/A]
+        Torque constant of the motor
+      KappaI [V/rmp]
+        Speed constant of the motor
+      ArmatureResistance [Ohm]
+        Internal resistance of the motor
+      AMPPower [W]
+        Power consumtion of the amplifier and control if on
+      AMPLoss [W]
+      	Heat Loss of the amplifier and control if on
+      BrakeExist [1]
+        Boolean value, indicates if a brake exist
+  </comment>
+  <entry key="StaticFriction">0.3</entry>
+  <entry key="KappaA">1.68</entry>
+  <entry key="KappaI">0.168</entry>
+  <entry key="ArmatureResistance">1.52</entry>
+  <entry key="AMPPower">30.0</entry>
+  <entry key="AMPLoss">37.7</entry>
+  <entry key="BrakeExist">false</entry>
+</properties>

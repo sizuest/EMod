@@ -108,6 +108,36 @@ public class ConfigReader {
 	
 	/**
 	 * Get property by name. The value of the property must be
+	 * a bool value.
+	 * <p>
+	 * Format:<br />
+	 * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  boolean value.<br />
+	 * Example:<br />
+	 * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &lt;entry key="PARAMNAME"&gt;true&lt;/entry&gt;
+	 * 
+	 * @param paramname Name of the property.
+	 * @return the value of the property: a boolean value.
+	 * @throws Exception if the property could not be found or if the value could
+	 *         not be converted to a boolean value.
+	 */
+	public boolean getBooleanValue(String paramname) throws Exception
+	{
+		String valstr = props.getProperty(paramname);
+		if (valstr == null) {
+			throw new Exception("No propertiy '" + paramname + "' found in '" + fileName + "'!");
+		}
+	
+		try {
+			return Boolean.parseBoolean(valstr);
+		}
+		catch (NumberFormatException e) {
+			throw new NumberFormatException("Unknown format of propertiy '" + paramname 
+					+ "' in file '" + fileName + "'\n   " + e.getMessage());
+		}
+	}
+	
+	/**
+	 * Get property by name. The value of the property must be
 	 * a double array.
 	 * <p>
 	 * Format:<br />
