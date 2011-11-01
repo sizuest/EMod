@@ -265,7 +265,7 @@ public class Pump extends APhysicalComponent{
 			 (vGasInit   != 0) ) {
 			/*
 			 * Update mass in the reservoir:
-			 * m(t) = T[s] * (mdot_in(t-T) [kg/s] - mdot_out(t-T) [kg/s])
+			 * m(t) += T[s] * (mdot_in(t-T) [kg/s] - mdot_out(t-T) [kg/s])
 			 */
 			mFluid += (mdotin.getValue()-mdotout.getValue());
 			/*

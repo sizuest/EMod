@@ -61,6 +61,8 @@ public class LinAxis extends APhysicalComponent{
 	// Output parameters:
 	private IOContainer torque;
 	private IOContainer rotspeed;
+	private IOContainer pmech;
+	private IOContainer ploss;
 	
 	// Save last input values
 	private double lastspeed, 
@@ -114,6 +116,10 @@ public class LinAxis extends APhysicalComponent{
 		outputs.add(torque);
 		rotspeed = new IOContainer("RotSpeed", Unit.RPM, 0);
 		outputs.add(rotspeed);
+		pmech = new IOContainer("Pmech", Unit.WATT, 0);
+		ploss = new IOContainer("Ploss", Unit.WATT, 0);
+		outputs.add(pmech);
+		outputs.add(ploss);
 		
 		/* ************************************************************************/
 		/*         Read configuration parameters: */
@@ -198,6 +204,9 @@ public class LinAxis extends APhysicalComponent{
 		 * Remark: transmission is [mm/rev]
 		 */
 		torque.setValue(transmission/1000 * ( lastforce - mass*9.81*Math.cos(alpha*Math.PI/180) ) );
+		
+		pmech.setValue(0);
+		ploss.setValue(0);
 	}
 
 	/* (non-Javadoc)

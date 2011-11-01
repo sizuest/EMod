@@ -41,6 +41,12 @@
 				<type>siemens123</type>
 			</component>
 		</machineComponent>-->
+		<machineComponent>
+			<name>Z1_ax</name>
+			<component xsi:type="linAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>Test</type>
+			</component>
+		</machineComponent>
 		
 	</machine>
 	
@@ -87,6 +93,11 @@
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>Z1_v</name>
             <unit>MM_MIN</unit>
+        </simController>
+        
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>X1_v</name>
+            <unit>NEWTON</unit>
         </simController>
         
         <!-- Dummy values Revolver -->
