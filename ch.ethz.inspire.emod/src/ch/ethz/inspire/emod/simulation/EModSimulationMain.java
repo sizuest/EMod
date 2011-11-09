@@ -204,6 +204,9 @@ public class EModSimulationMain {
 	public void updateSimulationPeriod() {
 		for(ASimulationControl sc: simulators) 
 			sc.setSimulationPeriod(sampleperiod);
+		
+		for(MachineComponent mc : machineComponentList)
+			mc.getComponent().setSimulationPeriod(sampleperiod);
 	}
 	
 	public double getSampleperiod() {

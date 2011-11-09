@@ -29,7 +29,12 @@ public abstract class APhysicalComponent {
 
 	protected List<IOContainer> inputs;
 	protected List<IOContainer> outputs;
+	protected double SamplePeriod;
 	
+	/**
+	 * @param id
+	 * @param value
+	 */
 	public void setInput(int id, double value) {
 		inputs.get(id).setValue(value);
 	}
@@ -71,4 +76,8 @@ public abstract class APhysicalComponent {
 	public abstract String getType();
 	
 	public abstract void update();
+	
+	public void setSimulationPeriod(double SamplePeriod){
+		this.SamplePeriod = SamplePeriod;
+	}
 }

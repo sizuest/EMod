@@ -14,7 +14,7 @@
 		<machineComponent>
 			<name>C1</name>
 			<component xsi:type="motor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>Siemens_1FE1115-6WT11</type>		
+				<type>Kessler_000101561</type>		
 			</component>
 		</machineComponent>
 
@@ -58,17 +58,19 @@
 			</component>
 		</machineComponent>
 		
-		<!-- Pump Lub. -->
-		<!--<machineComponent>
-			<name>LubricantPump</name>
+		<!-- Pump cutting fluid -->
+		<machineComponent>
+			<name>CuttingFluidPump</name>
 			<component xsi:type="constantComponent" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 				<type>SpandauVogel_PV80_180</type>
 			</component>
-	</machineComponent>-->
+		</machineComponent>
+		
+		<!-- Pump Lubricant -->
 		<machineComponent>
 			<name>LubricantPump</name>
 			<component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>Example</type>
+				<type>ExampleReservoir</type>
 			</component>
 		</machineComponent>
 		
@@ -84,7 +86,7 @@
 		<machineComponent>
 			<name>ChipConveyor</name>
 			<component xsi:type="constantComponent" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>Hyfra_VWK_21_1S</type>
+				<type>Bonfigioli_BN804A</type>
 			</component> 
 		</machineComponent>
 		
@@ -113,11 +115,13 @@
             <unit>NONE</unit>
         </simController>
         
-        <!-- Lubricant Pump on/off -->
+        <!-- Cutting fluid Pump on/off -->
 		<simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>LubricantPumpCtrl</name>
+            <name>CuttingFluidPumpCtrl</name>
             <unit>NONE</unit>
         </simController>
+        
+        <!-- Lubricant mass flow -->
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 			<name>LubMassFlw</name>
 			<unit>KG_S</unit>

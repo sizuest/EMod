@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>
+    Model parameter definition
+    ==========================
+      Model : Clamp 
+      Type  : Example
+    Parameters
+    ----------
+      SpringStiffness [N/mm]
+        stiffness of the clamped part
+      WorkPiecePostion [mm]
+        position of the surface with contact to the clamp
+  </comment>
+  <entry key="SpringStiffness">1000</entry>
+  <entry key="WorkPiecePostion">300</entry>
+</properties>

@@ -33,10 +33,10 @@
   <entry key="MassFlowSamples">0 0.6 1.2 1.8 2.4 3.0 3.6 4.2 4.8</entry>
   <entry key="DensityFluid">800</entry>
   <entry key="ElectricalPower">1500</entry>
-  <entry key="GasPressureInitial">0</entry>
-  <entry key="GasVolumeInitial">0</entry>
-  <entry key="FluidVolumeInitial">0</entry>
-  <entry key="PressureMax">0</entry>
-  <entry key="PressureMin">0</entry>
+  <entry key="GasPressureInitial">1650000</entry>
+  <entry key="GasVolumeInitial">.5</entry>
+  <entry key="FluidVolumeInitial">.5</entry>
+  <entry key="PressureMax">2000000</entry>
+  <entry key="PressureMin">1500000</entry>
   <entry key="SampleTime">1</entry>
 </properties>

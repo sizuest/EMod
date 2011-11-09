@@ -43,6 +43,7 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  * Outputlist:
  *   1: Pmech       : [W]   : Calculated mechanical power
  *   2: Ploss       : [W]   : Calculated power loss
+ *   4: Ptotal      : [W]   : Calculated total energy demand
  *   3: Efficiency  : [1]   : Calculated efficiency
  *   
  * Config parameters:
@@ -126,7 +127,7 @@ public class Motor extends APhysicalComponent{
 		outputs.add(pmech);
 		ploss = new IOContainer("Ploss", Unit.WATT, 0);
 		outputs.add(ploss);
-		pel = new IOContainer("Pel", Unit.WATT, 0);
+		pel = new IOContainer("Ptotal", Unit.WATT, 0);
 		outputs.add(pel);
 		efficiency = new IOContainer("Efficiency", Unit.NONE, 0);
 		outputs.add(efficiency);

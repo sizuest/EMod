@@ -36,7 +36,7 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  *   2: Torque      : [Nm]  : Actual torque
  *   3: State		: [1]   : Subsystem state (on=1,off=0);
  * Outputlist:
- *   1: Pel         : [W]   : Calculated electrical power
+ *   1: Ptotal      : [W]   : Calculated electrical power
  *   2: Ploss       : [W]   : Calculated power loss
  *   
  * Config parameters:
@@ -120,7 +120,7 @@ public class ServoMotor extends APhysicalComponent{
 		
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		pel     = new IOContainer("Pel", Unit.WATT, 0);
+		pel     = new IOContainer("Ptotal", Unit.WATT, 0);
 		ploss   = new IOContainer("Ploss", Unit.WATT, 0);
 		outputs.add(pel);
 		outputs.add(ploss);

@@ -37,7 +37,7 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  * Inputlist:
  *   1: massFlowOut : [kg/s] : Demanded mass flow out
  * Outputlist:
- *   1: Pel         : [W]    : Demanded electrical power
+ *   1: Ptotal      : [W]    : Demanded electrical power
  *   2: massFlowIn  : [kg/s] : Current mass flow in
  *   3: pressure    : [Pa]   : Pressure in the tank
  *   
@@ -121,7 +121,7 @@ public class Pump extends APhysicalComponent{
 		
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		pel     = new IOContainer("Pel", Unit.WATT, 0);
+		pel     = new IOContainer("Ptotal", Unit.WATT, 0);
 		mdotin  = new IOContainer("massFlowIn", Unit.KG_S, 0);
 		pfluid  = new IOContainer("Pressure", Unit.PA, 0);
 		outputs.add(pel);
@@ -267,7 +267,7 @@ public class Pump extends APhysicalComponent{
 			 * Update mass in the reservoir:
 			 * m(t) += T[s] * (mdot_in(t-T) [kg/s] - mdot_out(t-T) [kg/s])
 			 */
-			mFluid += (mdotin.getValue()-mdotout.getValue());
+			mFluid += (mdotin.getValue()-mdotout.getValue()) * SamplePeriod;
 			/*
 			 * New gas volume
 			 * V_gas(t) [m3] = V_gas,0 [m3] + V_fluid,0 [m3] - m(t) [kg] / rho [kg/m3]

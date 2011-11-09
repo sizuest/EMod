@@ -39,7 +39,7 @@ import ch.ethz.inspire.emod.utils.IOContainer;
  *   
  * Config parameters:
  *   SpringStiffness  : [N/mm] : Spring constant of the material
- *   WorkPiecePostion : [m]    : Position of the working piece
+ *   WorkPiecePostion : [mm]    : Position of the working piece
  * 
  * @author simon
  *
