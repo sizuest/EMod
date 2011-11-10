@@ -6,7 +6,7 @@
     1      , READY;
     1      , OFF;
    233      , PROCESS;
-#600 , OFF;
-#1000 , PROCESS;
+600 , OFF;
+1000 , PROCESS;
 # 36000 , OFF;
 # 57600 , PROCESS;

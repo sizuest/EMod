@@ -66,6 +66,9 @@ public class ConsumerData {
 		}
 	}
 
+	/**
+	 * calculate variance, peak and average power.
+	 */
 	public void calculate() {
 		int pmech = 0, ploss = 0, ptotal = 0;
 		double peak = 0, avg = 0;

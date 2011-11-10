@@ -61,6 +61,5 @@ public class LineChart {
 		chart.getAxisSet().adjustRange();
 		
 		return chart;
-	}
-	
+	}	
 }

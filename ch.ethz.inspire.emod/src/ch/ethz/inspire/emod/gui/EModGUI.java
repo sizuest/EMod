@@ -137,9 +137,7 @@ public class EModGUI {
 	
 	private Composite initAnalysis(TabFolder tabFolder) {
 		analysis = new AnalysisGUI("simulation_output.dat", tabFolder);
-		
-		
-		
+		// TODO: input file config
 		return analysis;
 	}
 	
@@ -153,11 +151,15 @@ public class EModGUI {
 		public void widgetSelected(SelectionEvent event) {
 			logger.log(LogLevel.DEBUG, "menu save item selected");
 			FileDialog fd = new FileDialog(shell, SWT.SAVE);
-	        fd.setText("Save");
+	        fd.setText(LocalizationHandler.getItem("app.gui.save"));
 	        fd.setFilterPath("C:/");
 	        String[] filterExt = { "*.xml", "*.*" };
 	        fd.setFilterExtensions(filterExt);
 	        String selected = fd.open();
+	        if(selected == null) {
+		        logger.log(LogLevel.DEBUG, "no file specified, closed");
+	        	return;
+	        }
 	        logger.log(LogLevel.DEBUG, "File to save to: "+selected);
 	        Machine.saveMachineToFile(selected);
 		}
@@ -181,11 +183,15 @@ public class EModGUI {
 		public void widgetSelected(SelectionEvent event) {
 			logger.log(LogLevel.DEBUG, "menu load item selected");
 			FileDialog fd = new FileDialog(shell, SWT.OPEN);
-	        fd.setText("Open");
+	        fd.setText(LocalizationHandler.getItem("app.gui.open"));
 	        fd.setFilterPath("C:/");
 	        String[] filterExt = { "*.xml", "*.*" };
 	        fd.setFilterExtensions(filterExt);
 	        String selected = fd.open();
+	        if(selected == null) {
+	        	logger.log(LogLevel.DEBUG, "no file selected");
+	        	return;
+	        }
 	        logger.log(LogLevel.DEBUG, "Load file: "+selected);
 	        Machine.initMachineFromFile(selected);
 		}

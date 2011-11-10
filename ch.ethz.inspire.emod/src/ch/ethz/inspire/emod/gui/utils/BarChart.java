@@ -16,9 +16,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseMoveListener;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.swtchart.Chart;
 import org.swtchart.IBarSeries;
+import org.swtchart.ISeries;
 import org.swtchart.ISeries.SeriesType;
 
 import ch.ethz.inspire.emod.model.units.Unit;
@@ -59,6 +63,7 @@ public class BarChart {
 				}
 			}
 		}
+		
 		double[] serie = new double[s.size()];
 		for(int i=0;i<serie.length;i++)
 			serie[i] = s.get(i);
@@ -68,10 +73,35 @@ public class BarChart {
 		xs.toArray(xss);
 		chart.getAxisSet().getXAxis(0).setCategorySeries(xss);
 		chart.getAxisSet().getXAxis(0).enableCategory(true);
+		chart.getAxisSet().getXAxis(0).getTick().setTickLabelAngle(45);
 		chart.getAxisSet().adjustRange();
 		chart.getTitle().setText(LocalizationHandler.getItem("app.gui.analysis.barchart.title"));
 		chart.getAxisSet().getXAxis(0).getTitle().setText("");
 		chart.getAxisSet().getYAxis(0).getTitle().setText(LocalizationHandler.getItem("app.gui.analysis.barchart.yaxistitle"));
+		
+		chart.getPlotArea().addMouseMoveListener(new MouseMoveListener() {
+            public void mouseMove(MouseEvent e) {
+                for (ISeries series : chart.getSeriesSet().getSeries()) {
+                    Rectangle[] rs = ((IBarSeries) series).getBounds();
+                    for (int i = 0; i < rs.length; i++) {
+                        if (rs[i] != null) {
+                            if (rs[i].x < e.x && e.x < rs[i].x + rs[i].width
+                                    && rs[i].y < e.y
+                                    && e.y < rs[i].y + rs[i].height) {
+                                setToolTipText(series, i);
+                                return;
+                            }
+                        }
+                    }
+                }
+                chart.getPlotArea().setToolTipText(null);
+            }
+
+            private void setToolTipText(ISeries series, int index) {
+                chart.getPlotArea().setToolTipText(
+                        series.getYSeries()[index]/3600000 + " kWh");
+            }
+        });
 		
 		return chart;
 	}

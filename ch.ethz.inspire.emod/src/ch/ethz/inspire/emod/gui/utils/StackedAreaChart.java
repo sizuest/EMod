@@ -59,6 +59,7 @@ public class StackedAreaChart {
 		}
 		
 		chart.getAxisSet().adjustRange();
+		
 		return chart;
 	}
 	

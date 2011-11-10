@@ -17,25 +17,21 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
 import ch.ethz.inspire.emod.LogLevel;
-import ch.ethz.inspire.emod.gui.MachineComponentSelectGUI.MachineComponentComposite;
 import ch.ethz.inspire.emod.gui.utils.BarChart;
 import ch.ethz.inspire.emod.gui.utils.ConsumerData;
 import ch.ethz.inspire.emod.gui.utils.LineChart;
@@ -52,10 +48,15 @@ public class AnalysisGUI extends AEvaluationGUI {
 	
 	List<MachineComponentComposite> mcclist;
 	Composite graphComp;
+	Composite c;
+	ScrolledComposite sc;
 	final TabFolder aTabFolder = new TabFolder(this, SWT.NONE);
+	
 	int maxWidth;
+	
 	/**
 	 * @param dataFile
+	 * @param parent
 	 */
 	public AnalysisGUI(String dataFile, Composite parent) {
 		super(parent, dataFile);
@@ -88,24 +89,21 @@ public class AnalysisGUI extends AEvaluationGUI {
 	}
 	
 	private Composite createPTChart(TabFolder tabFolder) {
-		Composite c = new Composite(tabFolder, SWT.NONE);
-		//c.setLayout(new FillLayout());
+		// scrolling composite to ensure visibility 
+		sc = new ScrolledComposite(tabFolder, SWT.NONE | SWT.V_SCROLL | SWT.H_SCROLL);
+		// composite containing the elements
+		c = new Composite(sc, SWT.NONE);
+		sc.setContent(c);
+		
 		RowLayout rl = new RowLayout();
-		rl.wrap = true;
+		rl.wrap = false;
 		rl.pack = true;
 		rl.justify = false;
+		rl.pack = true;
 		c.setLayout(rl);
 		
-		/*c.setLayout(new GridLayout(2,false));
-		GridData gd = new GridData();
-		gd.horizontalAlignment = SWT.LEFT;
-		gd.grabExcessHorizontalSpace = true;
-		gd.verticalAlignment = SWT.TOP;
-		gd.grabExcessVerticalSpace = true;
-		c.setLayoutData(gd);*/
+		// composite containing the consumer checkbox groups
 		Composite chooseComp = new Composite(c, SWT.NONE);
-		//chooseComp.setLayout(new GridLayout(1, true));
-		//chooseComp.setLayout(new FillLayout(SWT.VERTICAL));
 		RowLayout rl2 = new RowLayout();
 		rl2.wrap = true;
 		rl2.pack = true;
@@ -113,6 +111,7 @@ public class AnalysisGUI extends AEvaluationGUI {
 		chooseComp.setLayout(rl2);
 		
 		maxWidth=0;
+		// create the consumer groups
 		mcclist = new ArrayList<MachineComponentComposite>();
 		for(ConsumerData cd : availableConsumers) {
 			MachineComponentComposite temp = new MachineComponentComposite(chooseComp, SWT.NONE, cd);
@@ -122,16 +121,17 @@ public class AnalysisGUI extends AEvaluationGUI {
 			mcclist.add(temp);
 		}
 		
+		// composite containing the chart
 		graphComp = new Composite(c, SWT.NONE);
 		graphComp.setLayout(new FillLayout());
-		//graphComp.setLayoutData(new RowData(800, 500));
 		
 		for(MachineComponentComposite mcc : mcclist) {
 			mcc.setLayoutData(new RowData(maxWidth, mcc.getSize().y));
 		}
 		
+		// button to draw the graph
 		Button calc = new Button(chooseComp, SWT.PUSH);
-		calc.setText("show");
+		calc.setText(LocalizationHandler.getItem("app.gui.analysis.button.show"));
 		calc.setLayoutData(new RowData(maxWidth, 30));
 		calc.addSelectionListener(new SelectionListener() {
 			
@@ -140,9 +140,10 @@ public class AnalysisGUI extends AEvaluationGUI {
 				for(MachineComponentComposite mcc:mcclist) {
 					mcc.updateActive();
 				}
-				graphComp.setLayoutData(new RowData(aTabFolder.getSize().x - maxWidth - 20, aTabFolder.getSize().y -20));
-				graphComp.setSize(aTabFolder.getSize().x - maxWidth - 20, aTabFolder.getSize().y -20);
+				graphComp.setLayoutData(new RowData(aTabFolder.getSize().x - maxWidth - 40, aTabFolder.getSize().y -50));
+				graphComp.setSize(aTabFolder.getSize().x - maxWidth - 40, aTabFolder.getSize().y -50);
 				LineChart.createChart(graphComp, getConsumerDataList());
+				sc.setMinSize(c.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 			}
 
 			@Override
@@ -150,10 +151,14 @@ public class AnalysisGUI extends AEvaluationGUI {
 				
 			}
 		});
+		// set size and scrollability of composites
 		c.setSize(c.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 		c.layout(true, true);
-		//c.pack();
-		return c;
+		sc.setExpandHorizontal(true);
+		sc.setExpandVertical(true);
+		sc.setMinSize(c.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		
+		return sc;
 	}
 	
 	/**
