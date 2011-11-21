@@ -5,7 +5,7 @@
     Model parameter definition
     ==========================
       Model : ServoMotor 
-      Type  : FanucAlphaC12_3000
+      Type  : Fanuc Alpha C12/3000
     Parameters
     ----------
       StaticFriction [Nm]
@@ -16,6 +16,8 @@
         Speed constant of the motor
       ArmatureResistance [Ohm]
         Internal resistance of the motor
+      PolePairs [-]
+        Number of pole pairs
       AMPPower [W]
         Power consumtion of the amplifier and control if on
       AMPLoss [W]
@@ -25,9 +27,10 @@
   </comment>
   <entry key="StaticFriction">0.8</entry>
   <entry key="KappaA">2.04</entry>
-  <entry key="KappaI">0.204</entry>
+  <entry key="KappaI">0.071</entry>
   <entry key="ArmatureResistance">1.10</entry>
+  <entry key="PolePairs">3</entry>
   <entry key="AMPPower">30.0</entry>
   <entry key="AMPLoss">47.3</entry>
-  <entry key="BrakeExist">false</entry>
+  <entry key="BrakeExist">true</entry>
 </properties>

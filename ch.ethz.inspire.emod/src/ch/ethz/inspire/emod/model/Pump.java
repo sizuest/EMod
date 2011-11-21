@@ -35,11 +35,13 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  * 
  * 
  * Inputlist:
- *   1: massFlowOut : [kg/s] : Demanded mass flow out
+ *   1: FlowOut     : [m3/s] : Demanded mass flow out
  * Outputlist:
- *   1: Ptotal      : [W]    : Demanded electrical power
- *   2: massFlowIn  : [kg/s] : Current mass flow in
- *   3: pressure    : [Pa]   : Pressure in the tank
+ *   1: PTotal      : [W]    : Demanded electrical power
+ *   2: PLoss       : [W]    : Thermal pump losses
+ *   3: PUse        : [W]    : Power in the pluid
+ *   4: FlowIn      : [m3/s] : Current mass flow in
+ *   5: pressure    : [Pa]   : Pressure in the tank
  *   
  * Config parameters:
  *   PressureSamples      : [Pa]    : Pressure samples for liner interpolation
@@ -61,11 +63,13 @@ public class Pump extends APhysicalComponent{
 	protected String type;
 	
 	// Input parameters:
-	private IOContainer mdotout;
+	private IOContainer volFlowOut;
 	// Output parameters:
 	private IOContainer pel;
-	private IOContainer mdotin;
-	private IOContainer pfluid;
+	private IOContainer pth;
+	private IOContainer pmech;
+	private IOContainer volFlowIn;
+	private IOContainer pFluid;
 	
 	
 	// Parameters used by the model. 
@@ -74,13 +78,13 @@ public class Pump extends APhysicalComponent{
 	private double[] pressureSamplesR, massFlowSamplesR;
 	private double rhoFluid;			// Fluid density [kg/m3]
 	private double pGasInit;			// Initial gas pressure [Pa]
-	private double vGasInit;			// Initial gas volume [m3]
-	private double vFluidInit;			// Initial fluid volume [m3]
+	private double volGasInit;			// Initial gas volume [m3]
+	private double volFluidInit;			// Initial fluid volume [m3]
 	private double hystPMax, hystPMin;  // Contoller switch off/on values
 	private double pelPump;				// Power demand of the pump if on [W]
 	
-	private double mFluid;				// Fluid mass in the reservoir
-	private double vGas;                // Gas volume
+	private double volFluid;				// Fluid mass in the reservoir
+	private double volGas;                // Gas volume
 	private double pGas;				// Gas pressure
 	private boolean pumpOn=false;		// Pump state
 	
@@ -115,18 +119,22 @@ public class Pump extends APhysicalComponent{
 	private void init()
 	{
 		/* Define Input parameters */
-		inputs  = new ArrayList<IOContainer>();
-		mdotout = new IOContainer("massFlowOut", Unit.KG_S, 0);
-		inputs.add(mdotout);
+		inputs     = new ArrayList<IOContainer>();
+		volFlowOut = new IOContainer("FlowOut", Unit.L_S, 0);
+		inputs.add(volFlowOut);
 		
 		/* Define output parameters */
-		outputs = new ArrayList<IOContainer>();
-		pel     = new IOContainer("Ptotal", Unit.WATT, 0);
-		mdotin  = new IOContainer("massFlowIn", Unit.KG_S, 0);
-		pfluid  = new IOContainer("Pressure", Unit.PA, 0);
+		outputs   = new ArrayList<IOContainer>();
+		pel       = new IOContainer("PTotal", Unit.WATT, 0);
+		pth       = new IOContainer("PLoss",  Unit.WATT, 0);
+		pmech     = new IOContainer("PUse",   Unit.WATT, 0);
+		volFlowIn = new IOContainer("FlowIn", Unit.L_S, 0);
+		pFluid    = new IOContainer("Pressure", Unit.PA, 0);
 		outputs.add(pel);
-		outputs.add(mdotin);
-		outputs.add(pfluid);
+		outputs.add(pth);
+		outputs.add(pmech);
+		outputs.add(volFlowIn);
+		outputs.add(pFluid);
 		
 		
 		/* ************************************************************************/
@@ -148,8 +156,8 @@ public class Pump extends APhysicalComponent{
 			massFlowSamples = params.getDoubleArray("MassFlowSamples");
 			rhoFluid        = params.getDoubleValue("DensityFluid");
 			pGasInit		= params.getDoubleValue("GasPressureInitial");
-			vGasInit        = params.getDoubleValue("GasVolumeInitial");
-			vFluidInit      = params.getDoubleValue("FluidVolumeInitial");
+			volGasInit        = params.getDoubleValue("GasVolumeInitial");
+			volFluidInit      = params.getDoubleValue("FluidVolumeInitial");
 			hystPMax        = params.getDoubleValue("PressureMax");
 			hystPMin		= params.getDoubleValue("PressureMin");
 			pelPump         = params.getDoubleValue("ElectricalPower");
@@ -170,7 +178,7 @@ public class Pump extends APhysicalComponent{
 			 *  calculate initial mass:
 			 *  m(0) [kg] = V(0) [m3] * rho [kg/m3]
 			 */
-			mFluid = vFluidInit * rhoFluid;
+			volFluid = volFluidInit;
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -223,11 +231,11 @@ public class Pump extends APhysicalComponent{
 			throw new Exception("Pump, type:" +type+ 
 					": Negative value: Initial pressure must be positive!");
 		}
-		if (vGasInit<0){
+		if (volGasInit<0){
 			throw new Exception("Pump, type:" +type+ 
 					": Negative value: Initial volume must be positive!");
 		}
-		if (vFluidInit<0){
+		if (volFluidInit<0){
 			throw new Exception("Pump, type:" +type+ 
 					": Negative value: Initial volume must be positive!");
 		}
@@ -244,7 +252,7 @@ public class Pump extends APhysicalComponent{
 		
 		// Check controller
 		if ( (hystPMin >= hystPMax) && 
-			 (vGasInit != 0 && vFluidInit != 0)){
+			 (volGasInit != 0 && volFluidInit != 0)){
 			throw new Exception("Pump, type:" +type+ 
 					": Controller settings: Maximum pressure must be larger than minimum pressure!");
 		}
@@ -261,24 +269,24 @@ public class Pump extends APhysicalComponent{
 		 * CHECK IF A RESERVOIR EXISTS
 		 */
 		
-		if ( (vFluidInit != 0) &&
-			 (vGasInit   != 0) ) {
+		if ( (volFluidInit != 0) &&
+			 (volGasInit   != 0) ) {
 			/*
 			 * Update mass in the reservoir:
-			 * m(t) += T[s] * (mdot_in(t-T) [kg/s] - mdot_out(t-T) [kg/s])
+			 * m(t) += T[s] * (mdot_in(t-T) [kg/s] - mdot_out(t-T) [kg/s]) | / rho [kg/m3]
 			 */
-			mFluid += (mdotin.getValue()-mdotout.getValue()) * SamplePeriod;
+			volFluid += (volFlowIn.getValue()/1000-volFlowOut.getValue()/1000) * sampleperiod;
 			/*
 			 * New gas volume
-			 * V_gas(t) [m3] = V_gas,0 [m3] + V_fluid,0 [m3] - m(t) [kg] / rho [kg/m3]
+			 * V_gas(t) [m3] = V_gas,0 [m3] + V_fluid,0 [m3] - V(t) [m3]
 			 */
-			vGas   = vGasInit + vFluidInit - mFluid/rhoFluid;
+			volGas   = volGasInit + volFluidInit - volFluid;
 			/*
 			 * New fluid pressure = gas pressure
 			 * p_gas [Pa] = p_gas,0[Pa] * V_gas,0 [m3] / V_gas [m3]
 			 */
-			pGas   = pGasInit * vGasInit / vGas;
-			pfluid.setValue(pGas);
+			pGas   = pGasInit * volGasInit / volGas;
+			pFluid.setValue(pGas);
 			/*
 			 * Calculate new inflow:
 			 * - zero if pump off
@@ -294,29 +302,38 @@ public class Pump extends APhysicalComponent{
 			if (pumpOn) {
 				pel.setValue(pelPump);
 				/*
-				 * Lookup mass flow in pump map
+				 * Lookup mass flow in pump map and dive by density
 				 */
-				mdotin.setValue(Algo.linearInterpolation(pGas, pressureSamplesR, massFlowSamplesR));
+				volFlowIn.setValue(Algo.linearInterpolation(pGas, pressureSamplesR, massFlowSamplesR) / rhoFluid * 1000);
 			}
 			else {
 				pel.setValue(0);
-				mdotin.setValue(0);
+				volFlowIn.setValue(0);
 			}
 			
 		}
 		else {
-			if (mdotout.getValue() != 0){
+			if (volFlowOut.getValue() != 0){
 				pel.setValue(pelPump);
-				mdotin.setValue(mdotout.getValue());
-				pfluid.setValue(Algo.linearInterpolation(mdotout.getValue(), massFlowSamples, pressureSamples));
+				volFlowIn.setValue(volFlowOut.getValue());
+				pFluid.setValue(Algo.linearInterpolation(volFlowOut.getValue()*rhoFluid/1000, massFlowSamples, pressureSamples));
 			}
 			else {
 				pel.setValue(0);
-				mdotin.setValue(0);
-				pfluid.setValue(0);
+				volFlowIn.setValue(0);
+				pFluid.setValue(0);
 			}
 			
 		}
+		
+		/* The mechanical power is given by the pressure and the voluminal flow:
+		 * Pmech = pFluid [Pa] * Vdot [m3/s]
+		 */
+		pmech.setValue( Math.abs(volFlowIn.getValue()*pFluid.getValue()/1000) );
+		
+		/* The Losses are the difference between electrical and mechanical power
+		 */
+		pth.setValue(pel.getValue()-pmech.getValue());
 	}
 
 	/* (non-Javadoc)

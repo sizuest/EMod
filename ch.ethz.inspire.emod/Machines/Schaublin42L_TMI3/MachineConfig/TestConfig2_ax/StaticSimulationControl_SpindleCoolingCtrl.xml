@@ -5,7 +5,7 @@
     80mm Fan Control properties
   </comment>
   <entry key="samplePeriod">0.2</entry>
-  <entry key="ON">1</entry>
+  <entry key="ON">0.2</entry>
   <entry key="OFF">0</entry>
   <entry key="STANDBY">0</entry>
   <entry key="CONTROLLED">0</entry>

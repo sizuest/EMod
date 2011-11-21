@@ -5,7 +5,7 @@
     Model parameter definition
     ==========================
       Model : ServoMotor 
-      Type  : Fanuc Alpha C6/2000
+      Type  : Fanuc Alpha M9/3000
     Parameters
     ----------
       StaticFriction [Nm]
@@ -26,11 +26,11 @@
         Boolean value, indicates if a brake exist
   </comment>
   <entry key="StaticFriction">0.3</entry>
-  <entry key="KappaA">1.68</entry>
-  <entry key="KappaI">0.059</entry>
-  <entry key="ArmatureResistance">1.52</entry>
+  <entry key="KappaA">0.86</entry>
+  <entry key="KappaI">0.030</entry>
+  <entry key="ArmatureResistance">0.181</entry>
   <entry key="PolePairs">3</entry>
-  <entry key="AMPPower">30.0</entry>
-  <entry key="AMPLoss">37.7</entry>
+  <entry key="AMPPower">0</entry>
+  <entry key="AMPLoss">0</entry>
   <entry key="BrakeExist">true</entry>
 </properties>

@@ -1,21 +1,40 @@
 # Input - Output mapping
-C1.RotSpeed        = C1_n       # Turing speed from process parameters
-C1.Torque          = C1_Torque  # Torque from Kienzle
-R1.RotSpeed        = R1_n
-R1.Torque          = R1_Torque
-X1_ax.Speed        = X1_v
-X1_ax.ProcessForce = X1_Force
-X1.State           = FanucCtrl
-X1.RotSpeed        = X1_ax.RotSpeed
-X1.Torque          = X1_ax.Torque
-Z1_ax.Speed        = Z1_v
-Z1_ax.ProcessForce = Z1_Force
-Z1.State           = FanucCtrl
-Z1.RotSpeed        = Z1_ax.RotSpeed
-Z1.Torque          = Z1_ax.Torque
-LubricantPump.massFlowOut = LubMassFlw
-CuttingFluidPump.level    = CuttingFluidPumpCtrl
-SpindleCooling.level      = SpindleCoolingCtrl
-ChipConveyor.level        = ChipConveyorCtrl
-Fan1.level                = FanCtrl
-Fan2.level                = FanCtrl
+# Spindle ---------------------------------
+C1.RotSpeed             = C1_n             # Turing speed from process parameters
+C1.Torque               = C1_Torque        # Torque from Kienzle
+# X1-Axis ---------------------------------
+X1_ax.Speed             = X1_v
+X1_ax.ProcessForce      = X1_Force
+X1.State                = FanucCtrl
+X1.RotSpeed             = X1_ax.RotSpeed
+X1.Torque               = X1_ax.Torque
+# Z1-Axis ---------------------------------
+Z1_ax.Speed             = Z1_v
+Z1_ax.ProcessForce      = Z1_Force
+Z1.State                = FanucCtrl
+Z1.RotSpeed             = Z1_ax.RotSpeed
+Z1.Torque               = Z1_ax.Torque
+# Revolver --------------------------------
+T1_pos.Tool             = Tool
+B1.State                = FanucCtrl
+B1.RotSpeed             = T1_pos.RotSpeed
+B1.Torque               = T1_pos.Torque
+# Tailstock -------------------------------
+Z3_ax.Speed             = Zero
+Z3_ax.ProcessForce      = FClamp
+Z3.State                = FanucCtrl
+Z3.RotSpeed             = Z3_ax.RotSpeed
+Z3.Torque               = Z3_ax.Torque
+# Fanuc: Sum ------------------------------
+FanucTotalPower.Plus    = C1.PTotal
+FanucTotalPower.Plus    = X1.PTotal
+FanucTotalPower.Plus    = Z1.PTotal
+FanucTotalPower.Plus    = B1.PTotal
+# Auxilary --------------------------------
+SpindleCooling.massFlow = SpindleCoolingCtrl
+SpindleCooling.PThermal = C1.PLoss
+LubricantPump.FlowOut   = LubFlow
+CuttingFluidPump.level  = CuttingFluidPumpCtrl
+ChipConveyor.level      = ChipConveyorCtrl
+Fan_in.level            = FanCtrl
+Fan_out.level           = FanCtrl

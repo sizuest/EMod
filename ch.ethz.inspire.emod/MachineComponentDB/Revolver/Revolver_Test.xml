@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>
+    Model parameter definition
+    ==========================
+      Model : Revolver 
+      Type  : Test
+    Parameters
+    ----------
+      Inertia [kg m3]
+        Inertia of the turning part
+      NumberOfTools [-]
+		Number of tool positions on the revolver
+      MaxTorque [deg]
+  		Maximum allowable/possible torque acting on the 
+  		revolver
+  </comment>
+  <entry key="Inertia">5</entry>
+  <entry key="NumberOfTools">10</entry>
+  <entry key="MaxTorque">10</entry>
+</properties>

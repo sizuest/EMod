@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>
+    Model parameter definition
+    ==========================
+      Model : LinAxis 
+      Type  : Schaublin 42L TMI3 Z1
+    Parameters
+    ----------
+      Transmission [mm/rev]
+        Transmission between the motor (rpm) and the translation (mm/min)
+      Mass [kg]
+		Mass in kg
+      Alpha [deg]
+  		Angle between the axis and the vertical
+  </comment>
+  <entry key="Transmission">15</entry>
+  <entry key="Mass">0</entry>
+  <entry key="Alpha">35</entry>
+</properties>

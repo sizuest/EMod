@@ -34,11 +34,27 @@
 			</component>
 		</machineComponent>
 		
+		<!-- Tailstock-Axis Motor -->
+		<machineComponent>
+			<name>Z3</name>
+			<component xsi:type="servoMotor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>FanucAlphaC12_2000</type>
+			</component>
+		</machineComponent>
+		
+		<!-- B-Axis Motor -->
+		<machineComponent>
+			<name>B1</name>
+			<component xsi:type="servoMotor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>FanucAlphaM9_3000</type>
+			</component>
+		</machineComponent>
+		
 		<!-- X-Axis -->
 		<machineComponent>
 			<name>X1_ax</name>
 			<component xsi:type="linAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>Test45</type>
+				<type>Schaublin42L_X1</type>
 			</component>
 		</machineComponent>
 
@@ -46,15 +62,23 @@
 		<machineComponent>
 			<name>Z1_ax</name>
 			<component xsi:type="linAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>Test</type>
+				<type>Schaublin42L_Z1</type>
+			</component>
+		</machineComponent>
+		
+		<!-- Tailstock-Axis -->
+		<machineComponent>
+			<name>Z3_ax</name>
+			<component xsi:type="linAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>Schaublin42L_Tailstock</type>
 			</component>
 		</machineComponent>
 
 		<!-- Revolver -->
 		<machineComponent>
-			<name>R1</name>
-			<component xsi:type="motor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>siemens123</type>
+			<name>T1_pos</name>
+			<component xsi:type="revolver" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>Test</type>
 			</component>
 		</machineComponent>
 		
@@ -70,14 +94,14 @@
 		<machineComponent>
 			<name>LubricantPump</name>
 			<component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>ExampleReservoir</type>
+				<type>SpandauVogel_PV80_180</type>
 			</component>
 		</machineComponent>
 		
 		<!-- Spindle cooling -->
 		<machineComponent>
 			<name>SpindleCooling</name>
-			<component xsi:type="constantComponent" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			<component xsi:type="heatExchanger" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 				<type>Hyfra_VWK_21_1S</type>
 			</component> 
 		</machineComponent>
@@ -92,18 +116,26 @@
 		
 		<!-- Fan 1 -->
 		<machineComponent>
-			<name>Fan1</name>
+			<name>Fan_in</name>
 			<component xsi:type="fan" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>Example</type>
+				<type>Pfannenberg_PF_3000</type>
 			</component> 
 		</machineComponent>
 		
 		<!-- Fan 2 -->
 		<machineComponent>
-			<name>Fan2</name>
+			<name>Fan_out</name>
 			<component xsi:type="fan" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>Example</type>
+				<type>Pfannenberg_PF_3000</type>
 			</component> 
+		</machineComponent>
+		
+		<!-- Sum of energy over Fanuc -->
+		<machineComponent>
+			<name>FanucTotalPower</name>
+			<component xsi:type="sum" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>WATT</type>
+			</component>
 		</machineComponent>
 
 	</machine>
@@ -123,14 +155,14 @@
         
         <!-- Lubricant mass flow -->
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-			<name>LubMassFlw</name>
-			<unit>KG_S</unit>
+			<name>LubFlow</name>
+			<unit>L_S</unit>
 		</simController>
         
         <!-- Spindle cooling on/off -->
 		<simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>SpindleCoolingCtrl</name>
-            <unit>NONE</unit>
+            <unit>KG_S</unit>
         </simController>
         
         <!-- Chip conveyor on/off -->
@@ -187,24 +219,30 @@
 			<name>X1_v</name>
 			<unit>MM_MIN</unit>
 		</simController>
-
+		
 		<!-- Feed on Z axis -->
 		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 			<name>Z1_v</name>
 			<unit>MM_MIN</unit>
 		</simController>
 		
-		<!-- Dummy values Revolver -->
-		<!-- Rot. Speed R1 -->
-		<simController xsi:type="randomSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-			<name>R1_n</name>
-			<unit>RPM</unit>
+		<!-- Clamping force -->
+		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			<name>FClamp</name>
+			<unit>NEWTON</unit>
 		</simController>
-
-		<!-- Torque R1 -->
-		<simController xsi:type="randomSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-			<name>R1_Torque</name>
-			<unit>NEWTONMETER</unit>
+		
+		<!-- Tool in use Z axis -->
+		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			<name>Tool</name>
+			<unit>NONE</unit>
 		</simController>
+		
+		<!-- Zero element -->
+		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			<name>Zero</name>
+			<unit>MM_MIN</unit>
+		</simController>
+		
 	</simulators>
 </ns2:machine>

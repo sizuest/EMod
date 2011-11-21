@@ -36,7 +36,9 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  * Inputlist:
  *   1: level	    : [1]    : Fan level
  * Outputlist:
- *   1: Ptotal       : [W]    : Calculated total power
+ *   1: PTotal       : [W]    : Calculated total power
+ *   2: PLoss        : [W]    : Calculated thermal loss
+ *   3: PUse         : [W]    : Calculated mechanical power
  *   2: massFlow     : [kg/s] : Calculated mass flow
  *   
  * Config parameters:
@@ -44,6 +46,8 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  *   PelRef           : [W]     : Electrical power, reference point
  *   VdotRef          : [m3/s]  : Voluminal flow, reference point,
  *   							  corresponding point for PmechRef
+ *   pRef             : [Pa]    : Pressure drop, reference point
+ *                                corresponding point for PmechRef
  * 
  * @author simon
  *
@@ -58,12 +62,15 @@ public class Fan extends APhysicalComponent{
 	private IOContainer u;
 	// Output parameters:
 	private IOContainer pel;
+	private IOContainer ploss;
+	private IOContainer pmech;
 	private IOContainer mdot;
 	
 	// Parameters used by the model. 
 	private double rhoFluid; // Fluid density [kg/m3]
 	private double pelRef;   // Electrical power reference point [W]
 	private double vdotRef;  // Voluminal flow reference point [m3/s]
+	private double pRef;     // Pressure reference point [Pa]
 	
 	/**
 	 * Constructor called from XmlUnmarshaller.
@@ -102,9 +109,13 @@ public class Fan extends APhysicalComponent{
 		
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		pel     = new IOContainer("Ptotal", Unit.WATT, 0);
+		pel     = new IOContainer("PTotal", Unit.WATT, 0);
+		ploss   = new IOContainer("PLoss",  Unit.WATT, 0);
+		pmech   = new IOContainer("PUse",   Unit.WATT, 0);
 		mdot    = new IOContainer("massFlow", Unit.KG_S, 0);
 		outputs.add(pel);
+		outputs.add(ploss);
+		outputs.add(pmech);
 		outputs.add(mdot);
 		
 		/* ************************************************************************/
@@ -125,6 +136,7 @@ public class Fan extends APhysicalComponent{
 			rhoFluid = params.getDoubleValue("DensityFluid");
 			pelRef   = params.getDoubleValue("PowerRef");
 			vdotRef  = params.getDoubleValue("VoluminalFlowRef");
+			pRef     = params.getDoubleValue("PressureRef");
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -163,7 +175,11 @@ public class Fan extends APhysicalComponent{
     	if (vdotRef <= 0){
     		throw new Exception("Fan, type:" +type+ 
 					": Negative or zero: Reference voluminal flow must be strictly positive");
-    	}		
+    	}	
+    	if (pRef <= 0){
+    		throw new Exception("Fan, type:" +type+ 
+					": Negative or zero: Reference pressure must be strictly positive");
+    	}	
 	}
 	
 
@@ -181,7 +197,18 @@ public class Fan extends APhysicalComponent{
 		/*
 		 * Pel [W] = Pel_ref [W] * u^3 [1]
 		 */
-		pel.setValue(pelRef*Math.pow(u.getValue(), 3));
+		pel.setValue( Math.abs( pelRef*Math.pow(u.getValue(), 3) ) );
+		
+		/*
+		 * Pmech[W] = mdot [kg/s] / rho [kg/m3] * p [Pa]
+		 * where p [Pa] = pRef * u^2
+		 */
+		pmech.setValue( Math.abs( mdot.getValue() / rhoFluid * pRef * Math.pow(u.getValue(), 2) ) );
+		
+		/*
+		 * The loss is the difference between electrical and mechanical power
+		 */
+		ploss.setValue(pel.getValue()-pmech.getValue());
 		
 	}
 

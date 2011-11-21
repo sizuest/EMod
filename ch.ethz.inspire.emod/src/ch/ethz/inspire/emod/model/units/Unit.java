@@ -27,5 +27,6 @@ public enum Unit {
 	METERCUBIC_S,
 	KG_S,
 	PA,
+	L_S,
 	NONE;
 }

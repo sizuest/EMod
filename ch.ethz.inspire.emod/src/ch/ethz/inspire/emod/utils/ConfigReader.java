@@ -108,6 +108,36 @@ public class ConfigReader {
 	
 	/**
 	 * Get property by name. The value of the property must be
+	 * a integer value.
+	 * <p>
+	 * Format:<br />
+	 * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Integer value.<br />
+	 * Example:<br />
+	 * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &lt;entry key="PARAMNAME"&gt;1230.0&lt;/entry&gt;
+	 * 
+	 * @param paramname Name of the property.
+	 * @return the value of the property: a integer value.
+	 * @throws Exception if the property could not be found or if the value could
+	 *         not be converted to a integer value.
+	 */
+	public int getIntValue(String paramname) throws Exception
+	{
+		String valstr = props.getProperty(paramname);
+		if (valstr == null) {
+			throw new Exception("No propertiy '" + paramname + "' found in '" + fileName + "'!");
+		}
+	
+		try {
+			return Integer.parseInt(valstr);
+		}
+		catch (NumberFormatException e) {
+			throw new NumberFormatException("Unknown format of propertiy '" + paramname 
+					+ "' in file '" + fileName + "'\n   " + e.getMessage());
+		}
+	}
+	
+	/**
+	 * Get property by name. The value of the property must be
 	 * a bool value.
 	 * <p>
 	 * Format:<br />

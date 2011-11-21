@@ -5,7 +5,7 @@
     Model parameter definition
     ==========================
       Model : Fan 
-      Type  : Example
+      Type  : Pfannenber PF 3000
     Parameters
     ----------
       DensityFluid [kg/m3]
@@ -19,7 +19,7 @@
         Reference pressure
   </comment>
   <entry key="DensityFluid">1.2</entry>
-  <entry key="PowerRef">1500</entry>
-  <entry key="VoluminalFlowRef">.5</entry>
-  <entry key="PressureRef">100</entry>
+  <entry key="PowerRef">45</entry>
+  <entry key="VoluminalFlowRef">.064</entry>
+  <entry key="PressureRef">104</entry>
 </properties>

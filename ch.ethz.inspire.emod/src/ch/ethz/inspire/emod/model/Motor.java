@@ -41,10 +41,10 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  *   1: RotSpeed    : [rpm] : Actual rotational speed
  *   2: Torque      : [Nm]  : Actual torque
  * Outputlist:
- *   1: Pmech       : [W]   : Calculated mechanical power
- *   2: Ploss       : [W]   : Calculated power loss
- *   4: Ptotal      : [W]   : Calculated total energy demand
- *   3: Efficiency  : [1]   : Calculated efficiency
+ *   1: PTotal      : [W]   : Calculated total energy demand
+ *   2: PLoss       : [W]   : Calculated power loss
+ *   3: PUse        : [W]   : Calculated mechanical power
+ *   4: Efficiency  : [1]   : Calculated efficiency
  *   
  * Config parameters:
  *   PowerSamples         : [W]   : Power samples used for linear 
@@ -123,13 +123,13 @@ public class Motor extends APhysicalComponent{
 		
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		pmech = new IOContainer("Pmech", Unit.WATT, 0);
-		outputs.add(pmech);
-		ploss = new IOContainer("Ploss", Unit.WATT, 0);
-		outputs.add(ploss);
-		pel = new IOContainer("Ptotal", Unit.WATT, 0);
-		outputs.add(pel);
+		pmech      = new IOContainer("PUse",       Unit.WATT, 0);
+		ploss      = new IOContainer("PLoss",      Unit.WATT, 0);
+		pel        = new IOContainer("PTotal",     Unit.WATT, 0);
 		efficiency = new IOContainer("Efficiency", Unit.NONE, 0);
+		outputs.add(pel);
+		outputs.add(ploss);
+		outputs.add(pmech);
 		outputs.add(efficiency);
 		
 		/* ************************************************************************/
