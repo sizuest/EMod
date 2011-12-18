@@ -172,7 +172,8 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 		for(int i=0; i<n.length; i++){
 			// TODO: check units
 			if ( !n_name.matches("NONE") ) {
-				v[i] = v[i]/(n[i]);  // mm/min -> mm/U
+				if (0==n[i]) v[i] = 0;
+				else         v[i] = v[i]/(n[i]);  // mm/min -> mm/U
 				n[i] = n[i]/60;      // 1/min -> 1/s
 			}
 			if ( !d_name.matches("NONE") ) 
@@ -205,8 +206,7 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 		double sinkappa = Math.sin(kappa);
 		
 		for(int i=0;i<f.length;i++) {
-			//calculate moments for every time step: Fc = kc * b * h^(1-z) 
-			//moment = Fc * d/2
+			//calculate forces for every time step: Fc = kc * b * h^(1-z) 
 			forces[i] = kc * (ap[i]/sinkappa)* Math.pow(f[i] * sinkappa,1-z);
 		}
 		samples.set(ComponentState.PERIODIC.ordinal(), forces);

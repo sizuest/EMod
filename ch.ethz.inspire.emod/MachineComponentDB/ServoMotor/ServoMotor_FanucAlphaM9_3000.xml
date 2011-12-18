@@ -30,7 +30,5 @@
   <entry key="KappaI">0.030</entry>
   <entry key="ArmatureResistance">0.181</entry>
   <entry key="PolePairs">3</entry>
-  <entry key="AMPPower">0</entry>
-  <entry key="AMPLoss">0</entry>
   <entry key="BrakeExist">true</entry>
 </properties>

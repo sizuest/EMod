@@ -78,21 +78,54 @@
 		<machineComponent>
 			<name>T1_pos</name>
 			<component xsi:type="revolver" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>Test</type>
+				<type>Schaublin42L</type>
 			</component>
 		</machineComponent>
+		
+		<!-- Spindle Amplifier-->
+		<machineComponent>
+			<name>C1_amp</name>
+			<component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>FanucSPM-26</type>		
+			</component>
+		</machineComponent>
+
+		<!-- X-Axis Amplifier -->
+		<machineComponent>
+			<component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>FanucSVU1-80</type>
+			</component>
+			<name>X1_amp</name>
+		</machineComponent>
+
+		<!-- Z-Axis Amplifier -->
+		<machineComponent>
+			<name>Z1_amp</name>
+			<component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>FanucSVU1-80</type>
+			</component>
+		</machineComponent>
+		
+		<!-- Tailstock Amplifier -->
+		<machineComponent>
+			<name>Z3_amp</name>
+			<component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>FanucSVU1-80</type>
+			</component>
+		</machineComponent>
+		
+		<!-- B-Axis Amplifier -->
+		<machineComponent>
+			<name>B1_amp</name>
+			<component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>FanucSVU1-80</type>
+			</component>
+		</machineComponent>
+		
 		
 		<!-- Pump cutting fluid -->
 		<machineComponent>
 			<name>CuttingFluidPump</name>
-			<component xsi:type="constantComponent" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>SpandauVogel_PV80_180</type>
-			</component>
-		</machineComponent>
-		
-		<!-- Pump Lubricant -->
-		<machineComponent>
-			<name>LubricantPump</name>
 			<component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 				<type>SpandauVogel_PV80_180</type>
 			</component>
@@ -137,6 +170,21 @@
 				<type>WATT</type>
 			</component>
 		</machineComponent>
+		
+		<machineComponent>
+			<name>FanucTotalLoss</name>
+			<component xsi:type="sum" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>WATT</type>
+			</component>
+		</machineComponent>
+		
+		<!-- Compressed air -->
+		<machineComponent>
+			<name>CompressedAir</name>
+			<component xsi:type="compressedFluid" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>Air10bar</type>
+			</component>
+		</machineComponent>
 
 	</machine>
 	<simulators>
@@ -164,11 +212,21 @@
             <name>SpindleCoolingCtrl</name>
             <unit>KG_S</unit>
         </simController>
+        <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>CompressorCtrl</name>
+            <unit>NONE</unit>
+        </simController>
         
         <!-- Chip conveyor on/off -->
-		<simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>ChipConveyorCtrl</name>
+		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>ChipConv</name>
             <unit>NONE</unit>
+        </simController>
+        
+        <!-- Sealing air demand -->
+		<simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>SealingAirDemand</name>
+            <unit>L_S</unit>
         </simController>
         
         <!-- Fan on/off -->
@@ -236,6 +294,18 @@
 		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 			<name>Tool</name>
 			<unit>NONE</unit>
+		</simController>
+		
+		<!-- Ambient Temperature -->
+		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			<name>Temperature</name>
+			<unit>KELVIN</unit>
+		</simController>
+		
+		<!-- Ambient Pressure -->
+		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			<name>Pressure</name>
+			<unit>PA</unit>
 		</simController>
 		
 		<!-- Zero element -->

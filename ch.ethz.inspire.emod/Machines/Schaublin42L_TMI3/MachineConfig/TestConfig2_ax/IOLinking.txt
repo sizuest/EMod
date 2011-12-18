@@ -2,39 +2,58 @@
 # Spindle ---------------------------------
 C1.RotSpeed             = C1_n             # Turing speed from process parameters
 C1.Torque               = C1_Torque        # Torque from Kienzle
+C1_amp.State            = FanucCtrl
+C1_amp.PDmd             = C1.PTotal
 # X1-Axis ---------------------------------
 X1_ax.Speed             = X1_v
 X1_ax.ProcessForce      = X1_Force
-X1.State                = FanucCtrl
 X1.RotSpeed             = X1_ax.RotSpeed
 X1.Torque               = X1_ax.Torque
+X1_amp.State            = FanucCtrl
+X1_amp.PDmd             = X1.PTotal
 # Z1-Axis ---------------------------------
 Z1_ax.Speed             = Z1_v
 Z1_ax.ProcessForce      = Z1_Force
-Z1.State                = FanucCtrl
 Z1.RotSpeed             = Z1_ax.RotSpeed
 Z1.Torque               = Z1_ax.Torque
+Z1_amp.State            = FanucCtrl
+Z1_amp.PDmd             = Z1.PTotal
 # Revolver --------------------------------
 T1_pos.Tool             = Tool
-B1.State                = FanucCtrl
 B1.RotSpeed             = T1_pos.RotSpeed
 B1.Torque               = T1_pos.Torque
+B1_amp.State            = FanucCtrl
+B1_amp.PDmd             = B1.PTotal
 # Tailstock -------------------------------
 Z3_ax.Speed             = Zero
 Z3_ax.ProcessForce      = FClamp
-Z3.State                = FanucCtrl
 Z3.RotSpeed             = Z3_ax.RotSpeed
 Z3.Torque               = Z3_ax.Torque
+Z3_amp.State            = FanucCtrl
+Z3_amp.PDmd             = Z3.PTotal
 # Fanuc: Sum ------------------------------
-FanucTotalPower.Plus    = C1.PTotal
-FanucTotalPower.Plus    = X1.PTotal
-FanucTotalPower.Plus    = Z1.PTotal
-FanucTotalPower.Plus    = B1.PTotal
+FanucTotalPower.Plus    = C1_amp.PTotal
+FanucTotalPower.Plus    = X1_amp.PTotal
+FanucTotalPower.Plus    = Z1_amp.PTotal
+FanucTotalPower.Plus    = B1_amp.PTotal
+FanucTotalPower.Plus    = Z3_amp.PTotal
+
+FanucTotalLoss.Plus    = C1_amp.PLoss
+FanucTotalLoss.Plus    = X1_amp.PLoss
+FanucTotalLoss.Plus    = Z1_amp.PLoss
+FanucTotalLoss.Plus    = B1_amp.PLoss
+FanucTotalLoss.Plus    = Z3_amp.PLoss
+
+# Compressed air --------------------------
+CompressedAir.Flow           = SealingAirDemand
+CompressedAir.TemperatureAmb = Temperature
+CompressedAir.PressureAmb    = Pressure
+
 # Auxilary --------------------------------
+SpindleCooling.level    = CompressorCtrl
 SpindleCooling.massFlow = SpindleCoolingCtrl
 SpindleCooling.PThermal = C1.PLoss
-LubricantPump.FlowOut   = LubFlow
-CuttingFluidPump.level  = CuttingFluidPumpCtrl
-ChipConveyor.level      = ChipConveyorCtrl
+CuttingFluidPump.FlowOut= LubFlow
+ChipConveyor.level      = ChipConv
 Fan_in.level            = FanCtrl
 Fan_out.level           = FanCtrl

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>
+	Model parameter definition
+	==========================
+	Model : Motor
+	Type  : FanucSPM-26
+
+	Generated with EfficencyMapAmp version 1
+	P_on=200W, P_off=0W
+
+	Parameters
+	----------
+	PowerSamples [W]
+	  Vector of power samples.
+	Efficiency [rpm]
+	  Vector of corresponding efficencies.
+	PowerLossStatic [W]
+	  Static power demand	.
+  </comment>
+  <entry key="PowerSamples">0, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500, 7000, 7500, 8000, 8500, 9000, 9500, 10000, 10500, 11000, 11500, 12000, 12500, 13000, 13500, 14000, 14500, 15000;  </entry>
+  <entry key="Efficiency">1, 0.71429, 0.83333, 0.88235, 0.90909, 0.92593, 0.9375, 0.94595, 0.95238, 0.95745, 0.96154, 0.96491, 0.96774, 0.97015, 0.97222, 0.97403, 0.97561, 0.97701, 0.97826, 0.97938, 0.98039, 0.98131, 0.98214, 0.98291, 0.98361, 0.98425, 0.98485, 0.9854, 0.98592, 0.98639, 0.98684  </entry>
+  <entry key="PowerLossStatic">0</entry>
+</properties>

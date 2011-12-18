@@ -33,12 +33,14 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  * transferes
  * 
  * Inputlist:
- *   1: massFlow    : [kg/s] : Demanded cooling fluid mass flow
- *   2: PThermal    : [W]    : Heat flow into the element
+ *   1: level       : [-]    : On/off for the compressor
+ *   2: massFlow    : [kg/s] : Demanded cooling fluid mass flow
+ *   3: PThermal    : [W]    : Heat flow into the element
  * Outputlist:
  * 	 1: PTotal      : [W]	 : Electric power demand
  *   2: PPump       : [W]    : Pump energy demand
- *   3: PLoss       : [W]    : Heat flow out
+ *   3: PCompressor : [W]    : Compressor energy demand
+ *   4: PLoss       : [W]    : Heat flow out
  *   
  * Config parameters:
  *   DensityCf        : [kg/m3] : Density of the cooling fluid
@@ -59,11 +61,13 @@ public class HeatExchanger extends APhysicalComponent{
 	protected String type;
 	
 	// Input parameters:
+	private IOContainer level;
 	private IOContainer massflow;
 	private IOContainer pth_in;
 	// Output parameters:
 	private IOContainer ptotal;
 	private IOContainer ppump;
+	private IOContainer pcomp;
 	private IOContainer pth_out;
 	
 	// Parameters used by the model. 
@@ -104,8 +108,10 @@ public class HeatExchanger extends APhysicalComponent{
 	{
 		/* Define Input parameters */
 		inputs   = new ArrayList<IOContainer>();
-		massflow = new IOContainer("massFlow",    Unit.KG_S, 0);
-		pth_in      = new IOContainer("PThermal", Unit.WATT, 0);
+		level    = new IOContainer("level",    Unit.NONE, 0);
+		massflow = new IOContainer("massFlow", Unit.KG_S, 0);
+		pth_in   = new IOContainer("PThermal", Unit.WATT, 0);
+		inputs.add(level);
 		inputs.add(massflow);
 		inputs.add(pth_in);
 		
@@ -113,9 +119,11 @@ public class HeatExchanger extends APhysicalComponent{
 		outputs = new ArrayList<IOContainer>();
 		ptotal  = new IOContainer("PTotal", Unit.WATT, 0);
 		ppump   = new IOContainer("PPump",  Unit.WATT, 0);
+		pcomp   = new IOContainer("PCompressor", Unit.WATT, 0);
 		pth_out = new IOContainer("PLoss",  Unit.WATT, 0);
 		outputs.add(ptotal);
 		outputs.add(ppump);
+		outputs.add(pcomp);
 		outputs.add(pth_out);
 		
 		/* ************************************************************************/
@@ -202,7 +210,7 @@ public class HeatExchanger extends APhysicalComponent{
 	public void update() {
 		
 		// Element i off, if no mass flow is demanded
-		if ( 0==massflow.getValue() ){
+		if ( 0==massflow.getValue() && 0==level.getValue()){
 			ptotal.setValue(0);
 			ppump.setValue(0);
 			pth_out.setValue(0);
@@ -223,7 +231,15 @@ public class HeatExchanger extends APhysicalComponent{
 		 * into the element plus pump losses:
 		 * Qdot_out [W] = Qdot_in [W] + (1-eta)/eta [-] * P_mech,pump [W]
 		 */
-		pth_out.setValue(pth_in.getValue() + (1-eta)*ppump.getValue());
+		if (0==level.getValue()){
+			pth_out.setValue(0);
+			pcomp.setValue(0);
+		}
+		else {
+			pth_out.setValue(pth_in.getValue() + (1-eta)*ppump.getValue());
+			pcomp.setValue(pth_out.getValue()/epsilon);
+		}
+		
 		
 		/*
 		 * Power demand is the sum over all components
