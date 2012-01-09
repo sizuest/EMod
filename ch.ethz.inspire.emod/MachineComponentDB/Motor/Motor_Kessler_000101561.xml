@@ -7,6 +7,15 @@
 	Model : Motor
 	Type  : Kessler_000101561
 
+	Generated with EfficencyMapSpindel version 1
+	R_r =	 1.29
+	R_s =	 0.85
+	L_r =	 4.92
+	L_s =	 1.63
+	L_m =	 2.83
+	a   =	 0.000000e+00
+
+
 	Parameters
 	----------
 	PowerNominal [W]

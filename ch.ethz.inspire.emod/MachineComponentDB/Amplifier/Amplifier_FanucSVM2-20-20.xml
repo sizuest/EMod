@@ -5,10 +5,10 @@
 	Model parameter definition
 	==========================
 	Model : Motor
-	Type  : FanucSVU1-80
+	Type  : FanucSVM2-20-20
 
-	Generated with EfficencyMapAmp version 2
-	P_dmd=[1400  2800] W, P_loss=[73  106] W, P_ctrl=30
+	Generated with EfficencyMapAmp version 2.1
+	P_dmd=[1400  2800] W, P_loss=[73  106] W, P_ctrl=29.9
 
 	Parameters
 	----------
@@ -17,9 +17,9 @@
 	Efficiency [rpm]
 	  Vector of corresponding efficencies.
 	PowerCtrl [W]
-	  Static control power demand	.
+	  Static control power	.
   </comment>
   <entry key="PowerSamples">0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2100, 2200, 2300, 2400, 2500, 2600, 2700, 2800, 2900, 3000, 3100, 3200, 3300, 3400, 3500, 3600, 3700, 3800, 3900, 4000, 4100, 4200, 4300, 4400, 4500, 4600, 4700, 4800, 4900, 5000;  </entry>
   <entry key="Efficiency">0.93736, 0.93829, 0.93923, 0.94016, 0.9411, 0.94203, 0.94297, 0.9439, 0.94483, 0.94577, 0.9467, 0.94764, 0.94857, 0.94951, 0.95044, 0.95138, 0.95231, 0.95324, 0.95418, 0.95511, 0.95605, 0.95698, 0.95792, 0.95885, 0.95979, 0.96072, 0.96165, 0.96259, 0.96352, 0.96446, 0.96539, 0.96633, 0.96726, 0.9682, 0.96913, 0.97006, 0.971, 0.97193, 0.97287, 0.9738, 0.97474, 0.97567, 0.97661, 0.97754, 0.97848, 0.97941, 0.98034, 0.98128, 0.98221, 0.98315, 0.98408  </entry>
-  <entry key="PowerCtrl">30</entry>
+  <entry key="PowerCtrl">29.9</entry>
 </properties>

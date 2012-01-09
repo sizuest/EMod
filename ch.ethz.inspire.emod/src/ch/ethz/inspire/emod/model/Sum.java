@@ -129,12 +129,12 @@ public class Sum extends APhysicalComponent{
 		 * If the initialization has not been done, create a output with same unit as input
 		 */
 		if(name.matches("Plus")) {
-			temp = new IOContainer("+"+(plus.size()+1), unit, 0);
+			temp = new IOContainer("Add"+(plus.size()+1), unit, 0);
 			inputs.add(temp);
 			plus.add(temp);
 		}
 		else if(name.matches("Minus")) {
-			temp = new IOContainer("-"+(minus.size()+1), unit, 0);
+			temp = new IOContainer("Subtr"+(minus.size()+1), unit, 0);
 			inputs.add(temp);
 			minus.add(temp);
 		}

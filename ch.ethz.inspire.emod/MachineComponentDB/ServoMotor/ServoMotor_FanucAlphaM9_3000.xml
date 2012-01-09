@@ -22,13 +22,13 @@
         Power consumtion of the amplifier and control if on
       AMPLoss [W]
       	Heat Loss of the amplifier and control if on
-      BrakeExist [1]
-        Boolean value, indicates if a brake exist
+      BrakePower [W]
+        Power demand to release the brake, zero if no brake is installed
   </comment>
   <entry key="StaticFriction">0.3</entry>
   <entry key="KappaA">0.86</entry>
   <entry key="KappaI">0.030</entry>
   <entry key="ArmatureResistance">0.181</entry>
   <entry key="PolePairs">3</entry>
-  <entry key="BrakeExist">true</entry>
+  <entry key="BrakePower">36</entry>
 </properties>

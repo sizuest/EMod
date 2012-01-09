@@ -1,0 +1,10 @@
+# Definition of sequence and duration of simulation.
+# Duration , Machine state
+#  [s]
+    0      , OFF;         # line comment
+    1414   , PROCESS;
+    40     , READY
+#600 , OFF;
+#1000 , PROCESS;
+#36000 , OFF;
+#57600 , PROCESS;

@@ -33,16 +33,18 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  * 
  * Inputlist:
  *   1: Level       : [-] : On/Off
- *   2: PDmd        : [W] : Actual electrical powerdemand
+ *   2: PDmd        : [W] : Actual electrical power demand
  * Outputlist:
  *   1: PTotal      : [W]   : Calculated total energy demand
  *   2: PLoss       : [W]   : Calculated power loss
+ *   3: PAmp        : [W]   : Calculated amplifier power
+ *   4: PCtrl       : [W]   : Calculated controller power
  *   
  * Config parameters:
- *   PowerSamples         : [W]   : Power samples used for linear 
- *                                  interpolation of the efficiency
- *   Efficiency           : [1]   : Efficiency vector. 
- *   PowerLossStatic      : [W]   : Static powerloss if on
+ *   PowerSamples   : [W]   : Power samples used for linear 
+ *                            interpolation of the efficiency
+ *   Efficiency     : [1]   : Efficiency vector. 
+ *   PowerCtrl      : [W]   : Static control power
  * 
  * @author andreas
  *
@@ -59,11 +61,13 @@ public class Amplifier extends APhysicalComponent{
 	// Output parameters:
 	private IOContainer ploss;
 	private IOContainer pel;
+	private IOContainer pamp;
+	private IOContainer pctrl;
 	private IOContainer efficiency;
 	
 	// Parameters used by the model. 
 	private double[] powerSamples; // Samples of power [W]
-	private double   powerStatic; // Samples of normed rotational speed [1]
+	private double   powerCtrl; // Samples of normed rotational speed [1]
 	private double[] efficiencyVector; // Efficiency sample matrix [1]
 	
 	/**
@@ -105,11 +109,15 @@ public class Amplifier extends APhysicalComponent{
 		
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		ploss      = new IOContainer("PLoss",      Unit.WATT, 0);
 		pel        = new IOContainer("PTotal",     Unit.WATT, 0);
+		ploss      = new IOContainer("PLoss",      Unit.WATT, 0);
+		pamp       = new IOContainer("PAmp",       Unit.WATT, 0);
+		pctrl      = new IOContainer("PCtrl",      Unit.WATT, 0);
 		efficiency = new IOContainer("Efficiency", Unit.NONE, 0);
 		outputs.add(pel);
 		outputs.add(ploss);
+		outputs.add(pamp);
+		outputs.add(pctrl);
 		outputs.add(efficiency);
 		
 		/* ************************************************************************/
@@ -129,7 +137,7 @@ public class Amplifier extends APhysicalComponent{
 		try {
 			powerSamples     = params.getDoubleArray("PowerSamples");
 			efficiencyVector = params.getDoubleArray("Efficiency");
-			powerStatic      = params.getDoubleValue("PowerLossStatic");
+			powerCtrl      = params.getDoubleValue("PowerCtrl");
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -185,24 +193,27 @@ public class Amplifier extends APhysicalComponent{
 	@Override
 	public void update() {
 		
+		
 		if (0!=level.getValue()){
-
+			pctrl.setValue(powerCtrl);
 			/*
 			 * Get efficiency from the configured sample values by linear interpolation.
 			 */
 			double eff = Algo.linearInterpolation(pdmd.getValue(), powerSamples, efficiencyVector);
 			
-			/* The power loss depends on the efficiency of the motor for the actual
+			/* The power loss depends on the efficiency of the amp for the actual
 			 * working point (actual rotational speed and torque).
 			 */
-			// ptot = pmech / eff + pStatic
-			// ploss = ptot - pmech = pmech / eff - pmech  + pStatic = pmech (1/eff -1)  + pStatic
-			ploss.setValue(pel.getValue() * (1/eff - 1) + powerStatic);
-			
-			pel.setValue(pdmd.getValue()+ploss.getValue());
+			// ptot = pdmd / eff + pStatic
+			// ploss = ptot - pdmd = pdmd / eff - pdmd  + pStatic = pdmd (1/eff -1)  + pStatic
+			pamp.setValue(pdmd.getValue() / eff);
+			pel.setValue(pamp.getValue()+pctrl.getValue());
+			ploss.setValue(pamp.getValue() * (1/eff - 1) + pctrl.getValue());
 			efficiency.setValue(eff);
 		}
 		else {
+			pctrl.setValue(0);
+			pamp.setValue(0);
 			pel.setValue(0);
 			efficiency.setValue(0);
 			ploss.setValue(0);

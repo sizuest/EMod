@@ -9,40 +9,50 @@ X1_ax.Speed             = X1_v
 X1_ax.ProcessForce      = X1_Force
 X1.RotSpeed             = X1_ax.RotSpeed
 X1.Torque               = X1_ax.Torque
-X1_amp.State            = FanucCtrl
-X1_amp.PDmd             = X1.PTotal
+AxPower.Plus            = X1.PServo
 # Z1-Axis ---------------------------------
 Z1_ax.Speed             = Z1_v
 Z1_ax.ProcessForce      = Z1_Force
 Z1.RotSpeed             = Z1_ax.RotSpeed
 Z1.Torque               = Z1_ax.Torque
-Z1_amp.State            = FanucCtrl
-Z1_amp.PDmd             = Z1.PTotal
+AxPower.Plus            = Z1.PServo
+Ax_amp.State            = FanucCtrl
+Ax_amp.PDmd             = AxPower.Sum
 # Revolver --------------------------------
 T1_pos.Tool             = Tool
 B1.RotSpeed             = T1_pos.RotSpeed
 B1.Torque               = T1_pos.Torque
 B1_amp.State            = FanucCtrl
-B1_amp.PDmd             = B1.PTotal
+B1_amp.PDmd             = B1.PServo
 # Tailstock -------------------------------
 Z3_ax.Speed             = Zero
 Z3_ax.ProcessForce      = FClamp
 Z3.RotSpeed             = Z3_ax.RotSpeed
 Z3.Torque               = Z3_ax.Torque
 Z3_amp.State            = FanucCtrl
-Z3_amp.PDmd             = Z3.PTotal
+Z3_amp.PDmd             = Z3.PServo
 # Fanuc: Sum ------------------------------
-FanucTotalPower.Plus    = C1_amp.PTotal
-FanucTotalPower.Plus    = X1_amp.PTotal
-FanucTotalPower.Plus    = Z1_amp.PTotal
-FanucTotalPower.Plus    = B1_amp.PTotal
-FanucTotalPower.Plus    = Z3_amp.PTotal
+FanucTotalPower.Plus    = C1_amp.PAmp
+FanucTotalPower.Plus    = Ax_amp.PAmp
+FanucTotalPower.Plus    = B1_amp.PAmp
+FanucTotalPower.Plus    = Z3_amp.PAmp
 
 FanucTotalLoss.Plus    = C1_amp.PLoss
-FanucTotalLoss.Plus    = X1_amp.PLoss
-FanucTotalLoss.Plus    = Z1_amp.PLoss
+FanucTotalLoss.Plus    = Ax_amp.PLoss
 FanucTotalLoss.Plus    = B1_amp.PLoss
 FanucTotalLoss.Plus    = Z3_amp.PLoss
+
+# Control Power ---------------------------
+ControlPowerTransformer.Plus = Fan_in.PTotal
+ControlPowerTransformer.Plus = Fan_out.PTotal
+ControlPowerTransformer.Plus = X1.PBrake
+ControlPowerTransformer.Plus = Z1.PBrake
+ControlPowerTransformer.Plus = Z3.PBrake
+ControlPowerTransformer.Plus = B1.PBrake
+ControlPowerTransformer.Plus = C1_amp.PCtrl
+ControlPowerTransformer.Plus = Ax_amp.PCtrl
+ControlPowerTransformer.Plus = B1_amp.PCtrl
+ControlPowerTransformer.Plus = Z3_amp.PCtrl
 
 # Compressed air --------------------------
 CompressedAir.Flow           = SealingAirDemand
@@ -57,3 +67,10 @@ CuttingFluidPump.FlowOut= LubFlow
 ChipConveyor.level      = ChipConv
 Fan_in.level            = FanCtrl
 Fan_out.level           = FanCtrl
+
+# TOTAL -----------------------------------
+TotalPower.Plus     = FanucTotalPower.Sum
+TotalPower.Plus     = SpindleCooling.PTotal
+TotalPower.Plus     = CuttingFluidPump.PTotal
+TotalPower.Plus     = ChipConveyor.ptotal
+TotalPower.Plus     = ControlPowerTransformer.Sum

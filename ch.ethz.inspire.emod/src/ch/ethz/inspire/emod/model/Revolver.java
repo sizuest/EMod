@@ -110,7 +110,7 @@ public class Revolver extends APhysicalComponent{
 		outputs  = new ArrayList<IOContainer>();
 		torque   = new IOContainer("Torque", Unit.NEWTONMETER, 0);
 		rotspeed = new IOContainer("RotSpeed", Unit.RPM, 0);
-		nReal    = new IOContainer("ToolReal", Unit.NONE, 0);
+		nReal    = new IOContainer("ToolReal", Unit.NONE, 1);
 		outputs.add(torque);
 		outputs.add(rotspeed);
 		outputs.add(nReal);

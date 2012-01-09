@@ -38,6 +38,8 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  *   1: PTotal      : [W]   : Calculated electrical power
  *   2: PLoss       : [W]   : Calculated power loss
  *   3: PUse        : [W]   : Calculated mech. power
+ *   4: PServo      : [W]   : Calculated electrical servo power
+ *   5: PBreak      : [W]   : Calculated electrical break power
  *   
  * Config parameters:
  *   StaticFriction       : [Nm]   : Static friction of the motor
@@ -45,8 +47,7 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  *   KappaI               : [V/rmp]: Motor speed constant. 
  *   ArmatureResistance   : [Ohm]  : Internal resistance of the motor
  *   PolePairs            : [-]    : Number of pole pairs
- *   Break				  : [1]    : Indicates if the servo has got a break (true)
- *   								 or not (false)
+ *   BrakePower			  : [W]    : Electrical power needed to release the brake, 0 if no break is avaiable
  * 
  * @author simon
  *
@@ -63,6 +64,8 @@ public class ServoMotor extends APhysicalComponent{
 	private IOContainer pel;
 	private IOContainer ploss;
 	private IOContainer pmech;
+	private IOContainer pservo;
+	private IOContainer pbrake;
 	
 	// Save last input values
 	private double lastrotspeed;
@@ -74,7 +77,7 @@ public class ServoMotor extends APhysicalComponent{
 	private double kappa_i;
 	private double armatureResistance;
 	private int    p;
-	private boolean brake;
+	private double brakePower;
 	
 	/**
 	 * Constructor called from XmlUnmarshaller.
@@ -118,9 +121,13 @@ public class ServoMotor extends APhysicalComponent{
 		pel     = new IOContainer("PTotal", Unit.WATT, 0);
 		ploss   = new IOContainer("PLoss",  Unit.WATT, 0);
 		pmech   = new IOContainer("PUse",   Unit.WATT, 0);
+		pservo  = new IOContainer("PServo", Unit.WATT, 0);
+		pbrake  = new IOContainer("PBrake", Unit.WATT, 0);
 		outputs.add(pel);
 		outputs.add(ploss);
 		outputs.add(pmech);
+		outputs.add(pservo);
+		outputs.add(pbrake);
 		
 		
 		/* ************************************************************************/
@@ -143,7 +150,7 @@ public class ServoMotor extends APhysicalComponent{
 			kappa_i            = params.getDoubleValue("KappaI");
 			armatureResistance = params.getDoubleValue("ArmatureResistance");
 			p                  = params.getIntValue("PolePairs");
-			brake              = params.getBooleanValue("BrakeExist");
+			brakePower         = params.getDoubleValue("BrakePower");
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -182,6 +189,10 @@ public class ServoMotor extends APhysicalComponent{
 			throw new Exception("ServoMotor, type:" +type+ 
 					": Negative Value: ResistanceI must be non negative");
 		}
+		if (brakePower< 0) {
+			throw new Exception("ServoMotor, type:" +type+ 
+					": Negative Value: BreakPower must be non negative");
+		}
 		// Strictly positive values
 		if (kappa_a <= 0) {
 			throw new Exception("ServoMotor, type:" +type+ 
@@ -191,6 +202,7 @@ public class ServoMotor extends APhysicalComponent{
 			throw new Exception("ServoMotor, type:" +type+ 
 					": Non-positive Value: PolePairs must be non negative and non zero");
 		}
+		
 		
 	}
 	
@@ -216,13 +228,17 @@ public class ServoMotor extends APhysicalComponent{
 			pel.setValue(0);
 			ploss.setValue(0);
 			pmech.setValue(0);
+			pservo.setValue(0);
+			pbrake.setValue(0);
 			return;
 		}
 		/* Check, if a rotational speed is required, and if a brake exist */
-		if( brake && (lastrotspeed==0) ) {
-			pel.setValue(0);
+		if( (0!=brakePower) && (0==lastrotspeed) ) {
+			pel.setValue(brakePower);
 			ploss.setValue(0);
 			pmech.setValue(0);
+			pservo.setValue(0);
+			pbrake.setValue(0);
 			return;
 		}
 		
@@ -230,10 +246,12 @@ public class ServoMotor extends APhysicalComponent{
 		 * the amplifier power
 		 * pel = (T_m [Nm] + T_f [Nm])/kappa_a [Nm/A] *
 		 *	     (kappa_i [V/rmp] * omega [rpm] + (T_m [Nm] + T_f [Nm])/kappa_a [Nm/A] * R_a [Ohm])
-		 *		 +P_el_amp [W] 
+		 *		 +P_el_amp [W] + P_brake [W]
 		 */
-		pel.setValue( p*(lasttorque+frictionTorque)/kappa_a * 
+		pservo.setValue( p*(lasttorque+frictionTorque)/kappa_a * 
 					  ( kappa_i*lastrotspeed + (lasttorque+frictionTorque)*armatureResistance / kappa_a  ) );
+		pel.setValue( pservo.getValue() + brakePower);
+		pbrake.setValue(brakePower);
 		
 		/* The heat loss is equal to the power by the resistor power plus 
 		 * the amplifier loss 
@@ -245,6 +263,8 @@ public class ServoMotor extends APhysicalComponent{
 		 * pmech = T_m [Nm] * omega [rpm] * pi/30 [rad/rpm]
 		 */
 		pmech.setValue( lasttorque * lastrotspeed * Math.PI/30 );
+		
+		
 	}
 
 	/* (non-Javadoc)

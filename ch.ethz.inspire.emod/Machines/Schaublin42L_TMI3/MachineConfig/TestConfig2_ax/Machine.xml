@@ -90,20 +90,19 @@
 			</component>
 		</machineComponent>
 
-		<!-- X-Axis Amplifier -->
+		<!-- X and Z-Axis Amplifier -->
 		<machineComponent>
-			<component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>FanucSVU1-80</type>
+			<name>AxPower</name>
+			<component xsi:type="sum" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>WATT</type>
 			</component>
-			<name>X1_amp</name>
 		</machineComponent>
-
-		<!-- Z-Axis Amplifier -->
+		
 		<machineComponent>
-			<name>Z1_amp</name>
 			<component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>FanucSVU1-80</type>
+				<type>FanucSVM2-20-20</type>
 			</component>
+			<name>Ax_amp</name>
 		</machineComponent>
 		
 		<!-- Tailstock Amplifier -->
@@ -118,7 +117,7 @@
 		<machineComponent>
 			<name>B1_amp</name>
 			<component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>FanucSVU1-80</type>
+				<type>FanucSVM1-80</type>
 			</component>
 		</machineComponent>
 		
@@ -183,6 +182,22 @@
 			<name>CompressedAir</name>
 			<component xsi:type="compressedFluid" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 				<type>Air10bar</type>
+			</component>
+		</machineComponent>
+		
+		<!-- Total electrical power -->
+		<machineComponent>
+			<name>TotalPower</name>
+			<component xsi:type="sum" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>WATT</type>
+			</component>
+		</machineComponent>
+		
+		<!-- 2400kVA Transformer -->
+		<machineComponent>
+			<name>ControlPowerTransformer</name>
+			<component xsi:type="sum" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>WATT</type>
 			</component>
 		</machineComponent>
 
