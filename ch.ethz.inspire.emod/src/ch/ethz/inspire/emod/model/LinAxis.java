@@ -69,9 +69,9 @@ public class LinAxis extends APhysicalComponent{
 				   lastforce;
 	
 	// Parameters used by the model. 
-	private double transmission;
-	private double mass;
-	private double alpha; 
+	private double transmission;	// [mm/rev] Transmission ratio
+	private double mass;            // [kg]     Moved mass
+	private double alpha;           // [deg]    Angle
 	
 	/**
 	 * Constructor called from XmlUnmarshaller.

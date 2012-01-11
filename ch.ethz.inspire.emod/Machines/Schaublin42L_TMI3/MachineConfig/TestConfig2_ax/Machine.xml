@@ -94,7 +94,7 @@
 		<machineComponent>
 			<name>AxPower</name>
 			<component xsi:type="sum" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>WATT</type>
+				<unit>WATT</unit>
 			</component>
 		</machineComponent>
 		
@@ -132,10 +132,25 @@
 		
 		<!-- Spindle cooling -->
 		<machineComponent>
-			<name>SpindleCooling</name>
+			<name>SpindleCoolingCompressor</name>
 			<component xsi:type="heatExchanger" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 				<type>Hyfra_VWK_21_1S</type>
 			</component> 
+		</machineComponent>
+		
+		<machineComponent>
+			<name>SpindleCoolingPump</name>
+			<component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>Hyfra_VWK_21_1S</type>
+			</component> 
+		</machineComponent>
+		
+		<!-- Compressor Control -->
+		<machineComponent>
+			<name>SpindleCoolingController</name>
+			<component xsi:type="hysteresisControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>SpindleCoolingCompressor</type>
+			</component>
 		</machineComponent>
 		
 		<!-- Chip conv. -->
@@ -166,14 +181,7 @@
 		<machineComponent>
 			<name>FanucTotalPower</name>
 			<component xsi:type="sum" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>WATT</type>
-			</component>
-		</machineComponent>
-		
-		<machineComponent>
-			<name>FanucTotalLoss</name>
-			<component xsi:type="sum" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>WATT</type>
+				<unit>WATT</unit>
 			</component>
 		</machineComponent>
 		
@@ -181,7 +189,7 @@
 		<machineComponent>
 			<name>CompressedAir</name>
 			<component xsi:type="compressedFluid" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>Air10bar</type>
+				<type>Air8bar</type>
 			</component>
 		</machineComponent>
 		
@@ -189,7 +197,7 @@
 		<machineComponent>
 			<name>TotalPower</name>
 			<component xsi:type="sum" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>WATT</type>
+				<unit>WATT</unit>
 			</component>
 		</machineComponent>
 		
@@ -197,9 +205,84 @@
 		<machineComponent>
 			<name>ControlPowerTransformer</name>
 			<component xsi:type="sum" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>WATT</type>
+				<unit>WATT</unit>
 			</component>
 		</machineComponent>
+		
+		<!-- TERMAL ELEMENTS -->
+		<!-- Spindle -->
+		<machineComponent>
+			<name>Thermal_Spindle</name>
+			<component xsi:type="homogStorage" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>Kessler_000101561</type>
+				<parentType>Motor</parentType>
+			</component>
+		</machineComponent>
+		
+		<!-- Heat Exchanger Spindle-CF -->
+		<machineComponent>
+			<name>Thermal_SpindleHeatExchanger</name>
+			<component xsi:type="layerStorage" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>SpindleHeatExchanger</type>
+				<parentType></parentType>
+			</component>
+		</machineComponent>
+		
+		<!-- Spindle Cooler -->
+		<machineComponent>
+			<name>Thermal_SpindleCooling</name>
+			<component xsi:type="homogStorage" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>Hyfra_VWK_21_1S</type>
+				<parentType>HeatExchanger</parentType>
+			</component>
+		</machineComponent>
+				
+		<!-- Backflow CF to Tank -->
+		<machineComponent>
+			<name>Thermal_CoolingFluidFlow</name>
+			<component xsi:type="forcedHeatTransfere" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>CoolingFluidSpindle</type>
+				<parentType></parentType>
+			</component>
+		</machineComponent>
+		
+		<!-- CF tank free thermal flow -->
+		<machineComponent>
+			<name>Thermal_SpindleCoolingFreeFlow</name>
+			<component xsi:type="freeHeatTransfere" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>Hyfra_VWK_21_1S</type>
+				<parentType>HeatExchanger</parentType>
+			</component>
+		</machineComponent>
+		
+		<!-- Cabinett -->
+		<machineComponent>
+			<name>Thermal_Cabinett</name>
+			<component xsi:type="homogStorage" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>Cabinett</type>
+				<parentType></parentType>
+			</component>
+		</machineComponent>
+		
+		<!-- Air out of cabinett -->
+		<machineComponent>
+			<name>Thermal_CabinettAirFlow</name>
+			<component xsi:type="forcedHeatTransfere" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>Air</type>
+				<parentType></parentType>
+			</component>
+		</machineComponent>
+		
+		<!-- cabinett free thermal flow -->
+		<machineComponent>
+			<name>Thermal_CabinettFreeFlow</name>
+			<component xsi:type="freeHeatTransfere" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>CabinettWall</type>
+				<parentType></parentType>
+			</component>
+		</machineComponent>
+		
+
 
 	</machine>
 	<simulators>
@@ -207,6 +290,12 @@
 		<!-- Fanuc on/off -->
 		<simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>FanucCtrl</name>
+            <unit>NONE</unit>
+        </simController>
+        
+        <!-- Axis conrol on/off -->
+		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>AxisBrakeCtrl</name>
             <unit>NONE</unit>
         </simController>
         
@@ -219,7 +308,7 @@
         <!-- Lubricant mass flow -->
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 			<name>LubFlow</name>
-			<unit>L_S</unit>
+			<unit>KG_S</unit>
 		</simController>
         
         <!-- Spindle cooling on/off -->
@@ -312,14 +401,14 @@
 		</simController>
 		
 		<!-- Ambient Temperature -->
-		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-			<name>Temperature</name>
+		<simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			<name>AmbTemperature</name>
 			<unit>KELVIN</unit>
 		</simController>
 		
 		<!-- Ambient Pressure -->
-		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-			<name>Pressure</name>
+		<simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			<name>AmbPressure</name>
 			<unit>PA</unit>
 		</simController>
 		

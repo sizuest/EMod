@@ -35,12 +35,12 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  * 
  * 
  * Inputlist:
- *   1: FlowOut     : [m3/s] : Demanded mass flow out
+ *   1: MassFlowOut : [kg/s] : Demanded mass flow out
  * Outputlist:
  *   1: PTotal      : [W]    : Demanded electrical power
  *   2: PLoss       : [W]    : Thermal pump losses
  *   3: PUse        : [W]    : Power in the pluid
- *   4: FlowIn      : [m3/s] : Current mass flow in
+ *   4: MassFlowIn  : [m3/s] : Current mass flow in
  *   5: pressure    : [Pa]   : Pressure in the tank
  *   
  * Config parameters:
@@ -63,12 +63,12 @@ public class Pump extends APhysicalComponent{
 	protected String type;
 	
 	// Input parameters:
-	private IOContainer volFlowOut;
+	private IOContainer massFlowOut;
 	// Output parameters:
 	private IOContainer pel;
 	private IOContainer pth;
 	private IOContainer pmech;
-	private IOContainer volFlowIn;
+	private IOContainer massFlowIn;
 	private IOContainer pFluid;
 	
 	
@@ -79,12 +79,12 @@ public class Pump extends APhysicalComponent{
 	private double rhoFluid;			// Fluid density [kg/m3]
 	private double pGasInit;			// Initial gas pressure [Pa]
 	private double volGasInit;			// Initial gas volume [m3]
-	private double volFluidInit;			// Initial fluid volume [m3]
+	private double volFluidInit;		// Initial fluid volume [m3]
 	private double hystPMax, hystPMin;  // Contoller switch off/on values
 	private double pelPump;				// Power demand of the pump if on [W]
 	
-	private double volFluid;				// Fluid mass in the reservoir
-	private double volGas;                // Gas volume
+	private double volFluid;		    // Fluid mass in the reservoir
+	private double volGas;              // Gas volume
 	private double pGas;				// Gas pressure
 	private boolean pumpOn=false;		// Pump state
 	
@@ -102,7 +102,7 @@ public class Pump extends APhysicalComponent{
 	}
 	
 	/**
-	 * Linear Motor constructor
+	 * Pump constructor
 	 * 
 	 * @param type
 	 */
@@ -120,20 +120,20 @@ public class Pump extends APhysicalComponent{
 	{
 		/* Define Input parameters */
 		inputs     = new ArrayList<IOContainer>();
-		volFlowOut = new IOContainer("FlowOut", Unit.L_S, 0);
-		inputs.add(volFlowOut);
+		massFlowOut = new IOContainer("MassFlowOut", Unit.KG_S, 0);
+		inputs.add(massFlowOut);
 		
 		/* Define output parameters */
-		outputs   = new ArrayList<IOContainer>();
-		pel       = new IOContainer("PTotal", Unit.WATT, 0);
-		pth       = new IOContainer("PLoss",  Unit.WATT, 0);
-		pmech     = new IOContainer("PUse",   Unit.WATT, 0);
-		volFlowIn = new IOContainer("FlowIn", Unit.L_S, 0);
-		pFluid    = new IOContainer("Pressure", Unit.PA, 0);
+		outputs    = new ArrayList<IOContainer>();
+		pel        = new IOContainer("PTotal", Unit.WATT, 0);
+		pth        = new IOContainer("PLoss",  Unit.WATT, 0);
+		pmech      = new IOContainer("PUse",   Unit.WATT, 0);
+		massFlowIn = new IOContainer("MassFlowIn", Unit.KG_S, 0);
+		pFluid     = new IOContainer("Pressure", Unit.PA, 0);
 		outputs.add(pel);
 		outputs.add(pth);
 		outputs.add(pmech);
-		outputs.add(volFlowIn);
+		outputs.add(massFlowIn);
 		outputs.add(pFluid);
 		
 		
@@ -275,7 +275,7 @@ public class Pump extends APhysicalComponent{
 			 * Update mass in the reservoir:
 			 * m(t) += T[s] * (mdot_in(t-T) [kg/s] - mdot_out(t-T) [kg/s]) | / rho [kg/m3]
 			 */
-			volFluid += (volFlowIn.getValue()/1000-volFlowOut.getValue()/1000) * sampleperiod;
+			volFluid += (massFlowIn.getValue()-massFlowOut.getValue()) / rhoFluid * sampleperiod;
 			/*
 			 * New gas volume
 			 * V_gas(t) [m3] = V_gas,0 [m3] + V_fluid,0 [m3] - V(t) [m3]
@@ -304,23 +304,23 @@ public class Pump extends APhysicalComponent{
 				/*
 				 * Lookup mass flow in pump map and dive by density
 				 */
-				volFlowIn.setValue(Algo.linearInterpolation(pGas, pressureSamplesR, massFlowSamplesR) / rhoFluid * 1000);
+				massFlowIn.setValue(Algo.linearInterpolation(pGas, pressureSamplesR, massFlowSamplesR) );
 			}
 			else {
 				pel.setValue(0);
-				volFlowIn.setValue(0);
+				massFlowIn.setValue(0);
 			}
 			
 		}
 		else {
-			if (volFlowOut.getValue() != 0){
+			if (massFlowOut.getValue() != 0){
 				pel.setValue(pelPump);
-				volFlowIn.setValue(volFlowOut.getValue());
-				pFluid.setValue(Algo.linearInterpolation(volFlowOut.getValue()*rhoFluid/1000, massFlowSamples, pressureSamples));
+				massFlowIn.setValue(massFlowOut.getValue());
+				pFluid.setValue(Algo.linearInterpolation(massFlowOut.getValue(), massFlowSamples, pressureSamples));
 			}
 			else {
 				pel.setValue(0);
-				volFlowIn.setValue(0);
+				massFlowIn.setValue(0);
 				pFluid.setValue(0);
 			}
 			
@@ -329,7 +329,7 @@ public class Pump extends APhysicalComponent{
 		/* The mechanical power is given by the pressure and the voluminal flow:
 		 * Pmech = pFluid [Pa] * Vdot [m3/s]
 		 */
-		pmech.setValue( Math.abs(volFlowIn.getValue()*pFluid.getValue()/1000) );
+		pmech.setValue( Math.abs(massFlowIn.getValue()*pFluid.getValue()/rhoFluid) );
 		
 		/* The Losses are the difference between electrical and mechanical power
 		 */

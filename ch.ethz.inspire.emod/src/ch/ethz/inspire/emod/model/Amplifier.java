@@ -29,10 +29,20 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  * Implements the physical model of a Amplifier
  * 
  * Assumptions:
+ * * Amplifier can be modeled by the Approach
+ *    P_tot = P_dmd/eta + P_ctrl
+ *  
+ *   Where P_dmd is the demanded power, and P_ctrl the power for the
+ *   controller. Eta is the transmission efficency, and 
+ *   P_amp = P_dmd/eta
+ *   
+ * * The efficency can be modeled as a function of P_dmd
+ *  
+ * 
  * 
  * 
  * Inputlist:
- *   1: Level       : [-] : On/Off
+ *   1: State       : [-] : On/Off
  *   2: PDmd        : [W] : Actual electrical power demand
  * Outputlist:
  *   1: PTotal      : [W]   : Calculated total energy demand
@@ -66,8 +76,8 @@ public class Amplifier extends APhysicalComponent{
 	private IOContainer efficiency;
 	
 	// Parameters used by the model. 
-	private double[] powerSamples; // Samples of power [W]
-	private double   powerCtrl; // Samples of normed rotational speed [1]
+	private double[] powerSamples;     // Samples of power [W]
+	private double   powerCtrl;        // Samples of normed rotational speed [1]
 	private double[] efficiencyVector; // Efficiency sample matrix [1]
 	
 	/**
@@ -137,7 +147,7 @@ public class Amplifier extends APhysicalComponent{
 		try {
 			powerSamples     = params.getDoubleArray("PowerSamples");
 			efficiencyVector = params.getDoubleArray("Efficiency");
-			powerCtrl      = params.getDoubleValue("PowerCtrl");
+			powerCtrl        = params.getDoubleValue("PowerCtrl");
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -203,9 +213,9 @@ public class Amplifier extends APhysicalComponent{
 			
 			/* The power loss depends on the efficiency of the amp for the actual
 			 * working point (actual rotational speed and torque).
+			 * 	P_tot  = P_dmd / eff + P_Ctrl
+			 *  P_loss = P_tot - P_dmd = P_dmd / eff - P_dmd  + P_ctrl = P_dmd (1/eff -1)  + P_ctrl
 			 */
-			// ptot = pdmd / eff + pStatic
-			// ploss = ptot - pdmd = pdmd / eff - pdmd  + pStatic = pdmd (1/eff -1)  + pStatic
 			pamp.setValue(pdmd.getValue() / eff);
 			pel.setValue(pamp.getValue()+pctrl.getValue());
 			ploss.setValue(pamp.getValue() * (1/eff - 1) + pctrl.getValue());

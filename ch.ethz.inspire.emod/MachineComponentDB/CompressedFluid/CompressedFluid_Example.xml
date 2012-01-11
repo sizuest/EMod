@@ -8,7 +8,7 @@
       Type  : Example
     Parameters
     ----------
-      DensityFluid [kg/m3]
+      Density [kg/m3]
         density of the fluid under ambient conditions
       HeatCapacity [J/kg/K]
         internal heat capacity of the fluid
@@ -17,7 +17,7 @@
       SupplyPressure [Pa]
         pressure of the fluid in the supply
   </comment>
-  <entry key="DensityFluid">1.2</entry>
+  <entry key="Density">1.2</entry>
   <entry key="HeatCapacity">1005</entry>
   <entry key="IsentropicCoefficient">1.4</entry>
   <entry key="SupplyPressure">1000000</entry>

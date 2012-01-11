@@ -74,5 +74,23 @@ public class ComponentConfigReader extends ConfigReader {
 		
 		ConfigReaderOpen();
 	}
+	
+	/**
+	 * Constructor opens the parameter definition file and reads the
+	 * properties. The file must satisfy the XML format and the DTD 
+	 * specification.
+	 * 
+	 * @param  path		Full path of the config file
+	 * @throws Exception if file could not be found or if an unexpected file
+	 *                  format occurs.
+	 */
+	public ComponentConfigReader(String path) throws Exception
+	{	
+		/* Build path and filename of file defining the model parameters.
+		 */
+		fileName = path;
+		
+		ConfigReaderOpen();
+	}
 
 }

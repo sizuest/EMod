@@ -60,7 +60,10 @@ public class CompressedFluid extends APhysicalComponent{
 	private IOContainer ptotal;
 	
 	// Parameters used by the model. 
-	private double rho, cp, gamma, psupply;
+	private double rho, 	// [kg/m3]  Fluid density under normal conditions
+	               cp,      // [J/K/kg] Heat capacity
+	               gamma,   // [-]      Isentropic exponent
+	               psupply; // [Pa]     Supply pressure
 	
 	/**
 	 * Constructor called from XmlUnmarshaller.
@@ -76,7 +79,7 @@ public class CompressedFluid extends APhysicalComponent{
 	}
 	
 	/**
-	 * Clamp constructor
+	 * Compressed fluid constructor
 	 * 
 	 * @param type
 	 */

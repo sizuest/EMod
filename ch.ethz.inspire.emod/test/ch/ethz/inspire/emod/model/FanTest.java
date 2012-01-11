@@ -34,7 +34,7 @@ public class FanTest {
 		assertEquals("Fan power", 0, fan.getOutput("PTotal").getValue(),   0);
 		assertEquals("Fan loss",  0, fan.getOutput("PLoss").getValue(),    0);
 		assertEquals("Fan mech.", 0, fan.getOutput("PUse").getValue(),     0);
-		assertEquals("Mass flow", 0, fan.getOutput("massFlow").getValue(), 0);
+		assertEquals("Mass flow", 0, fan.getOutput("MassFlow").getValue(), 0);
 	}
 	
 	@Test
@@ -48,7 +48,7 @@ public class FanTest {
 		assertEquals("Fan power", 1500, fan.getOutput("PTotal").getValue(), 0);
 		assertEquals("Fan loss",  1450, fan.getOutput("PLoss").getValue(),  0);
 		assertEquals("Fan mech.", 50,   fan.getOutput("PUse").getValue(),   0);
-		assertEquals("Mass flow", 0.5*1.2 , fan.getOutput("massFlow").getValue(), 0);
+		assertEquals("Mass flow", 0.5*1.2 , fan.getOutput("MassFlow").getValue(), 0);
 	}
 	
 	@Test
@@ -62,7 +62,7 @@ public class FanTest {
 		assertEquals("Fan power", 1500*.5*.5*.5, fan.getOutput("PTotal").getValue(),  0);
 		assertEquals("Fan loss",  181.25,        fan.getOutput("PLoss").getValue(),   0.1);
 		assertEquals("Fan mech.", 6.25,          fan.getOutput("PUse").getValue(),    0);
-		assertEquals("Mass flow", 0.5*0.5*1.2 ,  fan.getOutput("massFlow").getValue(), 0);
+		assertEquals("Mass flow", 0.5*0.5*1.2 ,  fan.getOutput("MassFlow").getValue(), 0);
 	}
 	
 }

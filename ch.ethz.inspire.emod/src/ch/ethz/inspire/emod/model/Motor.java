@@ -56,6 +56,7 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  *                                  corresponds to the motor efficiency when the motor is running
  *                                  at torque TorqueSamples[t] and at rotational speed
  *                                  RotspeedSamples[r].
+ *   FrictionTorque       : [Nm]  : Friction torque during idle (load free) operation
  * 
  * @author andreas
  *
@@ -83,6 +84,7 @@ public class Motor extends APhysicalComponent{
 	private double[] powerSamples; // Samples of power [W]
 	private double[] rotspeedSamples; // Samples of normed rotational speed [1]
 	private double[][] efficiencyMatrix; // Efficiency sample matrix [1]
+	private double  frictionTorque;
 	
 	/**
 	 * Constructor called from XmlUnmarshaller.
@@ -147,9 +149,10 @@ public class Motor extends APhysicalComponent{
 		
 		/* Read the config parameter: */
 		try {
-			powerSamples = params.getDoubleArray("PowerSamples");
-			rotspeedSamples = params.getDoubleArray("RotspeedSamples");
+			powerSamples     = params.getDoubleArray("PowerSamples");
+			rotspeedSamples  = params.getDoubleArray("RotspeedSamples");
 			efficiencyMatrix = params.getDoubleMatrix("EfficiencyMatrix");
+			frictionTorque   = params.getDoubleValue("FrictionTorque");
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -231,12 +234,19 @@ public class Motor extends APhysicalComponent{
 		/* The mechanical power is equal to the product of rotational speed
 		 * and torque. */
 		// pmech = rotspeed [rot/min] / 60 [s/min] * torque [Nm] * 2 * pi 
-		pmech.setValue(rotspeed.getValue() * torque.getValue() * Math.PI/ 30.0);
+		if ( 0==torque.getValue() ){
+			pmech.setValue(0);
+			pel.setValue(rotspeed.getValue() * frictionTorque * Math.PI/ 30.0);
+			ploss.setValue(pel.getValue());
+			efficiency.setValue(0);
+		}
+		else{
+			pmech.setValue(rotspeed.getValue() * torque.getValue() * Math.PI/ 30.0);
 
 		/*
 		 * Get efficiency from the configured sample values by bilinear interpolation.
 		 */
-		double eff = Algo.bilinearInterpolation(pmech.getValue(), 
+			double eff = Algo.bilinearInterpolation(pmech.getValue(), 
 				                                rotspeed.getValue(),
 				                                powerSamples,
 				                                rotspeedSamples,
@@ -247,10 +257,11 @@ public class Motor extends APhysicalComponent{
 		 */
 		// ptot = pmech / eff
 		// ploss = ptot - pmech = pmech / eff - pmech = pmech (1/eff -1)
-		ploss.setValue(pmech.getValue() * (1/eff - 1));
+			ploss.setValue(pmech.getValue() * (1/eff - 1));
 		
-		pel.setValue(pmech.getValue()+ploss.getValue());
-		efficiency.setValue(eff);
+			pel.setValue(pmech.getValue()+ploss.getValue());
+			efficiency.setValue(eff);
+		}
 	}
 
 	/* (non-Javadoc)

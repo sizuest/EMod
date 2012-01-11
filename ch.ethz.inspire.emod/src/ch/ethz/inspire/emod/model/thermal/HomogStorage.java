@@ -21,13 +21,17 @@ import javax.xml.bind.annotation.XmlElement;
 
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
+import ch.ethz.inspire.emod.utils.Defines;
 import ch.ethz.inspire.emod.utils.IOContainer;
+import ch.ethz.inspire.emod.utils.PropertiesHandler;
 import ch.ethz.inspire.emod.model.APhysicalComponent;
 
 /**
  * General homogenous thermal storage class
  * 
  * Assumptions:
+ *  Homegenous temperature distribuntion. Internal heat capacity
+ *  constant c_p does not depend on temperature
  * 
  * 
  * Inputlist:
@@ -48,6 +52,8 @@ import ch.ethz.inspire.emod.model.APhysicalComponent;
 public class HomogStorage extends APhysicalComponent{
 	@XmlElement
 	protected String type;
+	@XmlElement
+	protected String parentType;
 	
 	// Input Lists
 	private ArrayList<IOContainer> thIn;
@@ -81,11 +87,13 @@ public class HomogStorage extends APhysicalComponent{
 	 * Homog. Storage constructor
 	 * 
 	 * @param type
+	 * @param parentType
 	 */
-	public HomogStorage(String type) {
+	public HomogStorage(String type, String parentType) {
 		super();
 		
-		this.type=type;
+		this.type       = type;
+		this.parentType = parentType;
 		
 		init();
 	}
@@ -109,20 +117,39 @@ public class HomogStorage extends APhysicalComponent{
 		/*         Read configuration parameters: */
 		/* ************************************************************************/
 		ComponentConfigReader params = null;
-		/* Open file containing the parameters of the model type: */
-		try {
-			params = new ComponentConfigReader("HomogStorage", type);
+		/* If no parent model file is configured, the local configuration file
+		 * will be opened. Otherwise the cfg file of the parent will be opened
+		 */		
+		if (parentType.isEmpty()) {
+			String path = PropertiesHandler.getProperty("app.MachineDataPathPrefix")+
+							"/"+PropertiesHandler.getProperty("sim.MachineName")+"/"+Defines.MACHINECONFIGDIR+"/"+
+							PropertiesHandler.getProperty("sim.MachineConfigName")+
+							"/"+this.getClass().getSimpleName()+"_"+type+".xml";
+			try {
+				params = new ComponentConfigReader(path);
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				System.exit(-1);
+			}
 		}
-		catch (Exception e) {
-			e.printStackTrace();
-			System.exit(-1);
+		else {
+		
+			/* Open file containing the parameters of the parent model type */
+			try {
+				params = new ComponentConfigReader(parentType, type);
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				System.exit(-1);
+			}
 		}
 		
 		/* Read the config parameter: */
 		try {
-			m               = params.getDoubleValue("Mass");
-			cp              = params.getDoubleValue("HeatCapacity");
-			temperatureInit = params.getDoubleValue("InitialTemperature");
+			m               = params.getDoubleValue("thermal.Mass");
+			cp              = params.getDoubleValue("thermal.HeatCapacity");
+			temperatureInit = params.getDoubleValue("thermal.InitialTemperature");
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -167,6 +194,17 @@ public class HomogStorage extends APhysicalComponent{
     	}
 	}
     
+    /**
+     * Returns the desired IOContainer
+     * 
+     * If the desired input name matches In or Out, a new input
+     * is created and added to the set of avaiable inputs
+     * 
+     * @param  name	Name of the desired input
+     * @return temp IOContainer matched the desired name
+     * 
+     * @author simon
+     */
     @Override
     public IOContainer getInput(String name) {
 		IOContainer temp=null;
@@ -175,12 +213,12 @@ public class HomogStorage extends APhysicalComponent{
 		 * If the initialization has not been done, create a output with same unit as input
 		 */
 		if(name.matches("In")) {
-			temp = new IOContainer("+"+(thIn.size()+1), Unit.WATT, 0);
+			temp = new IOContainer("In"+(thIn.size()+1), Unit.WATT, 0);
 			inputs.add(temp);
 			thIn.add(temp);
 		}
 		else if(name.matches("Out")) {
-			temp = new IOContainer("-"+(thOut.size()+1), Unit.WATT, 0);
+			temp = new IOContainer("Out"+(thOut.size()+1), Unit.WATT, 0);
 			inputs.add(temp);
 			thOut.add(temp);
 		}
@@ -215,6 +253,9 @@ public class HomogStorage extends APhysicalComponent{
 		 * T(k+1) [K] = T(k) [K]+ SampleTime[s]*(P_in [W] - P_out [W]) / cp [J/kg/K] / m [kg] 
 		 */	
 		curTemperature += sampleperiod * tmpSum / cp / m; 
+		
+		if (0>curTemperature)
+			curTemperature = 0;
 		
 		// Set output
 		temperature.setValue(curTemperature);

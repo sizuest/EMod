@@ -39,7 +39,7 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  *   1: PTotal       : [W]    : Calculated total power
  *   2: PLoss        : [W]    : Calculated thermal loss
  *   3: PUse         : [W]    : Calculated mechanical power
- *   2: massFlow     : [kg/s] : Calculated mass flow
+ *   2: MassFlow     : [kg/s] : Calculated mass flow
  *   
  * Config parameters:
  *   RhoFluid         : [kg/m3] : Desity of the moved fluid
@@ -86,7 +86,7 @@ public class Fan extends APhysicalComponent{
 	}
 	
 	/**
-	 * Linear Motor constructor
+	 * Fan constructor
 	 * 
 	 * @param type
 	 */
@@ -112,7 +112,7 @@ public class Fan extends APhysicalComponent{
 		pel     = new IOContainer("PTotal", Unit.WATT, 0);
 		ploss   = new IOContainer("PLoss",  Unit.WATT, 0);
 		pmech   = new IOContainer("PUse",   Unit.WATT, 0);
-		mdot    = new IOContainer("massFlow", Unit.KG_S, 0);
+		mdot    = new IOContainer("MassFlow", Unit.KG_S, 0);
 		outputs.add(pel);
 		outputs.add(ploss);
 		outputs.add(pmech);

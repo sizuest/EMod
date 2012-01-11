@@ -21,13 +21,18 @@ import javax.xml.bind.annotation.XmlElement;
 
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
+import ch.ethz.inspire.emod.utils.Defines;
 import ch.ethz.inspire.emod.utils.IOContainer;
+import ch.ethz.inspire.emod.utils.PropertiesHandler;
 import ch.ethz.inspire.emod.model.APhysicalComponent;
 
 /**
  * General layer thermal storage class
  * 
  * Assumptions:
+ *   Specific heat constant does not depend on temperature.
+ *   Convection and conduction losses trough the wall are
+ *   dominat compared to radiation
  * 
  * 
  * Inputlist:
@@ -57,6 +62,8 @@ import ch.ethz.inspire.emod.model.APhysicalComponent;
 public class LayerStorage extends APhysicalComponent{
 	@XmlElement
 	protected String type;
+	@XmlElement
+	protected String parentType;
 	
 	// Input Lists
 	private IOContainer tempIn;
@@ -97,14 +104,16 @@ public class LayerStorage extends APhysicalComponent{
 	}
 	
 	/**
-	 * Homog. Storage constructor
+	 * Layer Storage constructor
 	 * 
 	 * @param type
+	 * @param parentType
 	 */
-	public LayerStorage(String type) {
+	public LayerStorage(String type, String parentType) {
 		super();
 		
-		this.type=type;
+		this.type       = type;
+		this.parentType = parentType;
 		
 		init();
 	}
@@ -118,7 +127,7 @@ public class LayerStorage extends APhysicalComponent{
 		inputs   = new ArrayList<IOContainer>();
 		tempIn   = new IOContainer("TemperatureIn",  Unit.KELVIN, 0);
 		tempAmb  = new IOContainer("TemperatureAmb", Unit.KELVIN, 0);
-		mDotIn   = new IOContainer("MassFlow",       Unit.KELVIN, 0);
+		mDotIn   = new IOContainer("MassFlow",       Unit.KG_S, 0);
 		inputs.add(tempIn);
 		inputs.add(tempAmb);
 		inputs.add(mDotIn);
@@ -134,25 +143,44 @@ public class LayerStorage extends APhysicalComponent{
 		/*         Read configuration parameters: */
 		/* ************************************************************************/
 		ComponentConfigReader params = null;
-		/* Open file containing the parameters of the model type: */
-		try {
-			params = new ComponentConfigReader("LayerStorage", type);
+		/* If no parent model file is configured, the local configuration file
+		 * will be opened. Otherwise the cfg file of the parent will be opened
+		 */		
+		if (parentType.isEmpty()) {
+			String path = PropertiesHandler.getProperty("app.MachineDataPathPrefix")+
+							"/"+PropertiesHandler.getProperty("sim.MachineName")+"/"+Defines.MACHINECONFIGDIR+"/"+
+							PropertiesHandler.getProperty("sim.MachineConfigName")+
+							"/"+this.getClass().getSimpleName()+"_"+type+".xml";
+			try {
+				params = new ComponentConfigReader(path);
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				System.exit(-1);
+			}
 		}
-		catch (Exception e) {
-			e.printStackTrace();
-			System.exit(-1);
+		else {
+		
+			/* Open file containing the parameters of the parent model type */
+			try {
+				params = new ComponentConfigReader(parentType, type);
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				System.exit(-1);
+			}
 		}
 		
 		/* Read the config parameter: */
 		try {
-			m               = params.getDoubleValue("Mass");
-			cp              = params.getDoubleValue("HeatCapacity");
-			surf            = params.getDoubleValue("Surface");
-			alpha           = params.getDoubleValue("ConvectionConstant");
-			lambda          = params.getDoubleValue("ConductionConstant");
-			dWall           = params.getDoubleValue("WallThickness");
-			nElements       = params.getIntValue("NumberOfElements");
-			temperatureInit = params.getDoubleValue("InitialTemperature");
+			m               = params.getDoubleValue("thermal.Mass");
+			cp              = params.getDoubleValue("thermal.HeatCapacity");
+			surf            = params.getDoubleValue("thermal.Surface");
+			alpha           = params.getDoubleValue("thermal.ConvectionConstant");
+			lambda          = params.getDoubleValue("thermal.ConductionConstant");
+			dWall           = params.getDoubleValue("thermal.WallThickness");
+			nElements       = params.getIntValue("thermal.NumberOfElements");
+			temperatureInit = params.getDoubleValue("thermal.InitialTemperature");
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -255,6 +283,10 @@ public class LayerStorage extends APhysicalComponent{
 	public void update() {
 		
 		double tempAvg = 0;
+		for (int i=0; i<nElements; i++)
+			tempAvg += temperaturesCur[i];
+		
+		tempAvg = tempAvg/nElements;
 		
 		/* For each element the change in temperature is
 		 * Tdot_i [K/s] = N [-] /m [kg] * mDot [kg/s] *(T_i-1 - T_i) [K] - S [m2]/m [kg] /cp [J/kg/K] * k [W/m2/K] * (T_i-T_amb) [K]
@@ -278,11 +310,6 @@ public class LayerStorage extends APhysicalComponent{
 		 * S [m²] * (1/alpha + d/lambda)^-1 [W/K*m²] * (Temp_Avg - Temp_amb) [K]
 		 * wher Temp_Avg is equal to the average element temperature
 		 */
-		
-		for (int i=0; i<nElements; i++)
-			tempAvg += temperaturesCur[i];
-		
-		tempAvg = tempAvg/nElements;
 		
 		ploss.setValue( surf * thRessistance * (tempAvg-tempAmb.getValue()));
 	}

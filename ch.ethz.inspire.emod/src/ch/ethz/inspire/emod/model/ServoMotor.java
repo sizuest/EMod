@@ -29,11 +29,13 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  * Implements the physical model of a servo motor with amplifier.
  * 
  * Assumptions:
- * 
+ * Motor law, constant friction forces
+ * Brake is closed, if brake input is high
  * 
  * Inputlist:
  *   1: RotSpeed    : [rpm] : Actual rotational speed
  *   2: Torque      : [Nm]  : Actual torque
+ *   3: BrakeOn     : [-]   : Operational level brake 1/0
  * Outputlist:
  *   1: PTotal      : [W]   : Calculated electrical power
  *   2: PLoss       : [W]   : Calculated power loss
@@ -58,6 +60,7 @@ public class ServoMotor extends APhysicalComponent{
 	protected String type;
 	
 	// Input parameters:
+	private IOContainer brake;
 	private IOContainer rotspeed;
 	private IOContainer torque;
 	// Output parameters:
@@ -70,6 +73,7 @@ public class ServoMotor extends APhysicalComponent{
 	// Save last input values
 	private double lastrotspeed;
 	private double lasttorque;
+	private double lastbrake;
 	
 	// Parameters used by the model. 
 	private double frictionTorque;
@@ -93,7 +97,7 @@ public class ServoMotor extends APhysicalComponent{
 	}
 	
 	/**
-	 * Linear Motor constructor
+	 * Servo Motor constructor
 	 * 
 	 * @param type
 	 */
@@ -111,8 +115,10 @@ public class ServoMotor extends APhysicalComponent{
 	{
 		/* Define Input parameters */
 		inputs   = new ArrayList<IOContainer>();
+		brake    = new IOContainer("BrakeOn", Unit.NONE, 0);
 		rotspeed = new IOContainer("RotSpeed", Unit.RPM, 0);
 		torque   = new IOContainer("Torque",   Unit.NEWTONMETER, 0);
+		//inputs.add(brake);
 		inputs.add(rotspeed);
 		inputs.add(torque);
 		
@@ -205,6 +211,40 @@ public class ServoMotor extends APhysicalComponent{
 		
 		
 	}
+    
+    /**
+     * Returns the desired IOContainer
+     * 
+     * If the desired input name matches BrakeOn, the input
+     * added to the set of avaiable inputs
+     * 
+     * @param  name	Name of the desired input
+     * @return temp IOContainer matched the desired name
+     * 
+     * @author simon
+     */
+    @Override
+    public IOContainer getInput(String name) {
+		IOContainer temp=null;
+		
+		/* 
+		 * If the initialization has not been done, create a output with same unit as input
+		 */
+		if(name.matches("BrakeOn")) {
+			temp = brake;
+			inputs.add(brake);
+		}
+		else {
+			for(IOContainer ioc:inputs){
+				if(ioc.getName().equals(name)) {
+					temp=ioc;
+					break;
+				}
+			}
+		}
+			
+		return temp;
+	}
 	
 
 	/* (non-Javadoc)
@@ -214,27 +254,29 @@ public class ServoMotor extends APhysicalComponent{
 	public void update() {
 		
 		if ( (lasttorque   == Math.abs(torque.getValue()) ) &&
-			 (lastrotspeed == Math.abs(rotspeed.getValue()) ) ) {
+			 (lastrotspeed == Math.abs(rotspeed.getValue()) ) &&
+			 (lastbrake    == brake.getValue() )) {
 			// Input values did not change, nothing to do.
 			return;
 		}
 		lasttorque   = Math.abs(torque.getValue());
 		lastrotspeed = Math.abs(rotspeed.getValue());
+		lastbrake    = brake.getValue();
 		
 		/* Check if component is running. If not, set 
 		 * all to 0 and exit.
 		 */
-		if( ( (lasttorque==0) && (lastrotspeed==0)) ) {
+		/*if( ( (lasttorque==0) && (lastrotspeed==0)) ) {
 			pel.setValue(0);
 			ploss.setValue(0);
 			pmech.setValue(0);
 			pservo.setValue(0);
 			pbrake.setValue(0);
 			return;
-		}
-		/* Check, if a rotational speed is required, and if a brake exist */
-		if( (0!=brakePower) && (0==lastrotspeed) ) {
-			pel.setValue(brakePower);
+		}*/
+		/* Check, if brake is required, and if a brake exist */
+		if( (0!=brakePower) && (1==brake.getValue()) ) {
+			pel.setValue(0);
 			ploss.setValue(0);
 			pmech.setValue(0);
 			pservo.setValue(0);
@@ -246,7 +288,7 @@ public class ServoMotor extends APhysicalComponent{
 		 * the amplifier power
 		 * pel = (T_m [Nm] + T_f [Nm])/kappa_a [Nm/A] *
 		 *	     (kappa_i [V/rmp] * omega [rpm] + (T_m [Nm] + T_f [Nm])/kappa_a [Nm/A] * R_a [Ohm])
-		 *		 +P_el_amp [W] + P_brake [W]
+		 *		  + P_brake [W]
 		 */
 		pservo.setValue( p*(lasttorque+frictionTorque)/kappa_a * 
 					  ( kappa_i*lastrotspeed + (lasttorque+frictionTorque)*armatureResistance / kappa_a  ) );

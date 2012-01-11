@@ -30,6 +30,8 @@ import ch.ethz.inspire.emod.utils.IOContainer;
  * the requested motor torque is calculated and speed
  * 
  * Assumptions:
+ * Intertia forces are dominant. Simple bang-bang controller
+ * for position changes. 
  * 
  * 
  * Inputlist:
@@ -63,7 +65,7 @@ public class Revolver extends APhysicalComponent{
 	private int nDem;
 	
 	// Parameters used by the model. 
-	private double theta;
+	private double theta;			// [kgm3] Intertia
 	private int nTotal, nCurr;
 	private double rotPosCurr, 
 				   rotPosRel,
@@ -85,7 +87,7 @@ public class Revolver extends APhysicalComponent{
 	}
 	
 	/**
-	 * Linear Axis constructor
+	 * Revolver constructor
 	 * 
 	 * @param type
 	 */
@@ -206,7 +208,7 @@ public class Revolver extends APhysicalComponent{
 		
 		/* Determine rotational direction */
 		rotPosRel  = ((nDem-1)*anglePerPos-rotPosCurr);
-		/* Select optimal direction of rotation */
+		/* Select optimal (shortest) direction of rotation */
 		if(Math.PI<Math.abs(rotPosRel)) rotPosRel = -Math.signum(rotPosRel)*(2*Math.PI-Math.abs(rotPosRel));
 		
 		/* Determine requested torque */
@@ -216,6 +218,9 @@ public class Revolver extends APhysicalComponent{
 		if(-torqueMax>torqueCurr) torqueCurr=-torqueMax;
 		
 		/* Tustin emulation */
+		/*
+		 * Remark: System becomes unstable with Euler fwd. emulation
+		 */
 		rotPosCurr += sampleperiod/2*(rotVelCurr+sampleperiod*torqueCurr/theta);
 		rotVelCurr += sampleperiod*torqueCurr/theta;
 		
@@ -229,6 +234,7 @@ public class Revolver extends APhysicalComponent{
 		else if (1>nCurr) nCurr+=nTotal;
 		nReal.setValue(nCurr);
 		
+		/* Set new torque/speed */
 		torque.setValue(torqueCurr);
 		rotspeed.setValue(rotVelCurr*30/Math.PI);
 		

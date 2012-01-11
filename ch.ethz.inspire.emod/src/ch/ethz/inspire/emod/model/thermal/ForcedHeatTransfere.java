@@ -21,13 +21,18 @@ import javax.xml.bind.annotation.XmlElement;
 
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
+import ch.ethz.inspire.emod.utils.Defines;
 import ch.ethz.inspire.emod.utils.IOContainer;
+import ch.ethz.inspire.emod.utils.PropertiesHandler;
 import ch.ethz.inspire.emod.model.APhysicalComponent;
 
 /**
  * General forced heat transfere class
  * 
  * Assumptions:
+ * 	Total heat transfere takes place with internal energy of
+ *  a moved fluid. The internal heat capacity is assumed
+ *  as constant
  * 
  * 
  * Inputlist:
@@ -37,7 +42,7 @@ import ch.ethz.inspire.emod.model.APhysicalComponent;
  *   
  * Outputlist:
  *   1: PThermal12        : [K]    : Thermal heat flow from 1 to 2
- *   2: PThermal32        : [K]    : Thermal heat flow from 2 to 1
+ *   2: PThermal21        : [K]    : Thermal heat flow from 2 to 1
  *   
  * Config parameters:
  *   HeatCapacity         : [J/kg/K] : Heat capacity of the fluid
@@ -50,6 +55,8 @@ import ch.ethz.inspire.emod.model.APhysicalComponent;
 public class ForcedHeatTransfere extends APhysicalComponent{
 	@XmlElement
 	protected String type;
+	@XmlElement
+	protected String parentType;
 	
 	// Input Lists
 	private IOContainer temp1;
@@ -79,11 +86,13 @@ public class ForcedHeatTransfere extends APhysicalComponent{
 	 * Homog. Storage constructor
 	 * 
 	 * @param type
+	 * @param parentType
 	 */
-	public ForcedHeatTransfere(String type) {
+	public ForcedHeatTransfere(String type, String parentType) {
 		super();
 		
-		this.type=type;
+		this.type       = type;
+		this.parentType = parentType;
 		
 		init();
 	}
@@ -95,16 +104,17 @@ public class ForcedHeatTransfere extends APhysicalComponent{
 	{		
 		/* Define Input parameters */
 		inputs   = new ArrayList<IOContainer>();
-		temp1    = new IOContainer("Temperature1", Unit.KELVIN, 0);
-		temp2    = new IOContainer("Temperature2", Unit.KELVIN, 0);
+		temp1    = new IOContainer("Temperature1", Unit.KELVIN, 273);
+		temp2    = new IOContainer("Temperature2", Unit.KELVIN, 273);
 		massFlow = new IOContainer("MassFlow",     Unit.KG_S, 0);
 		inputs.add(temp1);
 		inputs.add(temp2);
+		inputs.add(massFlow);
 		
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
 		pth12   = new IOContainer("PThermal12", Unit.WATT, 0);
-		pth21   = new IOContainer("PThermal12", Unit.WATT,   0);
+		pth21   = new IOContainer("PThermal21", Unit.WATT, 0);
 		outputs.add(pth12);
 		outputs.add(pth21);
 		
@@ -112,18 +122,38 @@ public class ForcedHeatTransfere extends APhysicalComponent{
 		/*         Read configuration parameters: */
 		/* ************************************************************************/
 		ComponentConfigReader params = null;
-		/* Open file containing the parameters of the model type: */
-		try {
-			params = new ComponentConfigReader("ForcedHeatTransfere", type);
+		/* If no parent model file is configured, the local configuration file
+		 * will be opened. Otherwise the cfg file of the parent will be opened
+		 */		
+		if (parentType.isEmpty()) {
+			
+			String path = PropertiesHandler.getProperty("app.MachineDataPathPrefix")+
+							"/"+PropertiesHandler.getProperty("sim.MachineName")+"/"+Defines.MACHINECONFIGDIR+"/"+
+							PropertiesHandler.getProperty("sim.MachineConfigName")+
+							"/"+this.getClass().getSimpleName()+"_"+type+".xml";
+			try {
+				params = new ComponentConfigReader(path);
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				System.exit(-1);
+			}
 		}
-		catch (Exception e) {
-			e.printStackTrace();
-			System.exit(-1);
+		else {
+		
+			/* Open file containing the parameters of the parent model type */
+			try {
+				params = new ComponentConfigReader(parentType, type);
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				System.exit(-1);
+			}
 		}
 		
 		/* Read the config parameter: */
 		try {
-			cp            = params.getDoubleValue("HeatCapacity");
+			cp = params.getDoubleValue("thermal.HeatCapacity");
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -165,10 +195,10 @@ public class ForcedHeatTransfere extends APhysicalComponent{
 	public void update() {
 		
 		/* The heat transfere from 1 to 2 is
-		 * Qdot12 [W] = cp [J/K/kg] * mDot [kg/s] * (T_2 - T_1) [K]
+		 * Qdot12 [W] = cp [J/K/kg] * mDot [kg/s] * (T_1 - T_2) [K]
 		 */
 		
-		pth12.setValue( cp * massFlow.getValue() * (temp2.getValue()-temp1.getValue()));
+		pth12.setValue( cp * massFlow.getValue() * (temp1.getValue()-temp2.getValue()));
 		pth21.setValue(-pth12.getValue());
 	}
 

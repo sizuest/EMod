@@ -17,5 +17,5 @@
   </comment>
   <entry key="PowerSamples">1 10000</entry>
   <entry key="Efficiency">0.95 1</entry>
-  <entry key="PowerLossStatic">0</entry>
+  <entry key="PowerCtrl">10</entry>
 </properties>

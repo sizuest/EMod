@@ -32,6 +32,8 @@
 	  The matrix value at the position p,r (EfficiencyMatrix[p,r])
 	  corresponds to the motor efficiency when the motor is running
 	  at power PowerSamples[p] and at rotational speed RotspeedSamples[r].
+	FrictionTorque [Nm]
+	  Friction torque during idle operation where no load is applied
   </comment>  <entry key="PowerNominal">㩊</entry>
   <entry key="RotspeedNominal">ל</entry>
   <entry key="PowerSamples">200, 400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2200, 2400, 2600, 2800, 3000, 3200, 3400, 3600, 3800, 4000, 4200, 4400, 4600, 4800, 5000, 5200, 5400, 5600, 5800, 6000, 6200, 6400, 6600, 6800, 7000, 7200, 7400, 7600, 7800, 8000, 8200, 8400, 8600, 8800, 9000, 9200, 9400, 9600, 9800, 10000, 10200, 10400, 10600, 10800, 11000, 11200, 11400, 11600, 11800, 12000, 12200, 12400, 12600, 12800, 13000, 13200, 13400, 13600, 13800, 14000, 14200, 14400, 14600, 14800, 15000;
@@ -112,4 +114,8 @@
 0.51011, 0.6476, 0.71152, 0.74846, 0.77252, 0.78944, 0.80199, 0.81166, 0.81935, 0.8256, 0.83079, 0.83517, 0.83891, 0.84214, 0.84496, 0.84744, 0.84964, 0.85161, 0.85338, 0.85498, 0.85643, 0.85775, 0.85896, 0.86008, 0.8611, 0.86205, 0.86294, 0.86376, 0.86651, 0.87104;
 0.51011, 0.6476, 0.71152, 0.74846, 0.77252, 0.78944, 0.80199, 0.81166, 0.81935, 0.8256, 0.83079, 0.83517, 0.83891, 0.84214, 0.84496, 0.84744, 0.84964, 0.85161, 0.85338, 0.85498, 0.85643, 0.85775, 0.85896, 0.86008, 0.8611, 0.86205, 0.86294, 0.86376, 0.86651, 0.87104;
   </entry>
+  <entry key="FrictionTorque">1</entry>
+  <entry key="thermal.Mass">30</entry>
+  <entry key="thermal.HeatCapacity">400</entry>
+  <entry key="thermal.InitialTemperature">293</entry>
 </properties>

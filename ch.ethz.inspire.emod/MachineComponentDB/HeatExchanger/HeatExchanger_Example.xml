@@ -8,22 +8,12 @@
       Type  : Example
     Parameters
     ----------
-      DensityCf [kg/m3]
-        density of the moved cooling fluid
-      EffPump [-]
-        Efficency of the cooling fluid pump
+      CompressorPower [W]
+        installed electrical compressor power
 	  EERCooling [-]
 	    Energy efficency ratio of the cooling circle
-	  MassFlowSamples [kg/s]
-	    Pump mass flow samples from the characteristic map
-	  PressureSamples [Pa]
-	    Pressure drops over the pump corresponding to the flow
-	    samples
 	    
   </comment>
-  <entry key="DensityCf">1000</entry>
-  <entry key="EffPump">0.7</entry>
+  <entry key="CompressorPower">500</entry>
   <entry key="EERCooling">2</entry>
-  <entry key="MassFlowSamples">0 10</entry>
-  <entry key="PressureSamples">10000 0</entry>
 </properties>

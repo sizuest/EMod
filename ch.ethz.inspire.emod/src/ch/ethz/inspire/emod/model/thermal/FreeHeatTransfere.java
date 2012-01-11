@@ -21,14 +21,22 @@ import javax.xml.bind.annotation.XmlElement;
 
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
+import ch.ethz.inspire.emod.utils.Defines;
 import ch.ethz.inspire.emod.utils.IOContainer;
+import ch.ethz.inspire.emod.utils.PropertiesHandler;
 import ch.ethz.inspire.emod.model.APhysicalComponent;
 
 /**
  * General free heat transfere class
  * 
- * Assumptions:
+ * Calculates the heat flow trough a wall with different layers
+ * and convection on both sides. The temperature gradient is
+ * given by the inputs
  * 
+ * Assumptions:
+ *   Conduction and convection are dominant, where radiation
+ *   is negligible. The convection/conduction constants are
+ *   no dependent on temperature
  * 
  * Inputlist:
  *   1: Temperature1      : [K]    : Temperature level 1
@@ -52,6 +60,8 @@ import ch.ethz.inspire.emod.model.APhysicalComponent;
 public class FreeHeatTransfere extends APhysicalComponent{
 	@XmlElement
 	protected String type;
+	@XmlElement
+	protected String parentType;
 	
 	// Input Lists
 	private IOContainer temp1;
@@ -83,14 +93,16 @@ public class FreeHeatTransfere extends APhysicalComponent{
 	}
 	
 	/**
-	 * Homog. Storage constructor
+	 * Free heat transfere constructor
 	 * 
 	 * @param type
+	 * @param parentType
 	 */
-	public FreeHeatTransfere(String type) {
+	public FreeHeatTransfere(String type, String parentType) {
 		super();
 		
-		this.type=type;
+		this.type       = type;
+		this.parentType = parentType;
 		
 		init();
 	}
@@ -102,15 +114,15 @@ public class FreeHeatTransfere extends APhysicalComponent{
 	{		
 		/* Define Input parameters */
 		inputs   = new ArrayList<IOContainer>();
-		temp1   = new IOContainer("Temperature1", Unit.KELVIN, 0);
-		temp2  = new IOContainer("Temperature2", Unit.KELVIN, 0);
+		temp1    = new IOContainer("Temperature1", Unit.KELVIN, 273);
+		temp2    = new IOContainer("Temperature2", Unit.KELVIN, 273);
 		inputs.add(temp1);
 		inputs.add(temp2);
 		
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
 		pth12   = new IOContainer("PThermal12", Unit.WATT, 0);
-		pth21   = new IOContainer("PThermal12", Unit.WATT,   0);
+		pth21   = new IOContainer("PThermal21", Unit.WATT, 0);
 		outputs.add(pth12);
 		outputs.add(pth21);
 		
@@ -118,21 +130,40 @@ public class FreeHeatTransfere extends APhysicalComponent{
 		/*         Read configuration parameters: */
 		/* ************************************************************************/
 		ComponentConfigReader params = null;
-		/* Open file containing the parameters of the model type: */
-		try {
-			params = new ComponentConfigReader("FreeHeatTransfere", type);
+		/* If no parent model file is configured, the local configuration file
+		 * will be opened. Otherwise the cfg file of the parent will be opened
+		 */		
+		if (parentType.isEmpty()) {
+			String path = PropertiesHandler.getProperty("app.MachineDataPathPrefix")+
+							"/"+PropertiesHandler.getProperty("sim.MachineName")+"/"+Defines.MACHINECONFIGDIR+"/"+
+							PropertiesHandler.getProperty("sim.MachineConfigName")+
+							"/"+this.getClass().getSimpleName()+"_"+type+".xml";
+			try {
+				params = new ComponentConfigReader(path);
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				System.exit(-1);
+			}
 		}
-		catch (Exception e) {
-			e.printStackTrace();
-			System.exit(-1);
+		else {
+		
+			/* Open file containing the parameters of the parent model type */
+			try {
+				params = new ComponentConfigReader(parentType, type);
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				System.exit(-1);
+			}
 		}
 		
 		/* Read the config parameter: */
 		try {
-			surf            = params.getDoubleValue("Surface");
-			alpha           = params.getDoubleArray("ConvectionConstants");
-			lambda          = params.getDoubleArray("ConductionConstants");
-			dWall           = params.getDoubleArray("WallThicknesses");
+			surf            = params.getDoubleValue("thermal.Surface");
+			alpha           = params.getDoubleArray("thermal.ConvectionConstants");
+			lambda          = params.getDoubleArray("thermal.ConductionConstants");
+			dWall           = params.getDoubleArray("thermal.WallThicknesses");
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -221,7 +252,7 @@ public class FreeHeatTransfere extends APhysicalComponent{
 		 * Qdot12 [W] = k [W/m²] * A [m²] * (T_2 - T_1)
 		 */
 		
-		pth12.setValue( thRessistance * surf * (temp2.getValue()-temp1.getValue()));
+		pth12.setValue( thRessistance * surf * (temp1.getValue()-temp2.getValue()));
 		pth21.setValue(-pth12.getValue());
 	}
 

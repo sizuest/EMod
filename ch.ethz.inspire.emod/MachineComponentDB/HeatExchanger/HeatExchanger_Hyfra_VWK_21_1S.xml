@@ -8,22 +8,19 @@
       Type  : Hyfra VWK 21/1S
     Parameters
     ----------
-      DensityCf [kg/m3]
-        density of the moved cooling fluid
-      EffPump [-]
-        Efficency of the cooling fluid pump
+      CompressorPower [W]
+        installed electrical compressor power
 	  EERCooling [-]
 	    Energy efficency ratio of the cooling circle
-	  MassFlowSamples [kg/s]
-	    Pump mass flow samples from the characteristic map
-	  PressureSamples [Pa]
-	    Pressure drops over the pump corresponding to the flow
-	    samples
 	    
   </comment>
-  <entry key="DensityCf">1000</entry>
-  <entry key="EffPump">0.13</entry>
+  <entry key="CompressorPower">740</entry>
   <entry key="EERCooling">3.14</entry>
-  <entry key="MassFlowSamples">0 0.000233</entry>
-  <entry key="PressureSamples">367975 68670</entry>
+  <entry key="thermal.Mass">13</entry>
+  <entry key="thermal.HeatCapacity">4180</entry>
+  <entry key="thermal.InitialTemperature">293</entry>
+  <entry key="thermal.Surface">1</entry>
+  <entry key="thermal.ConvectionConstants">2 50</entry>
+  <entry key="thermal.ConductionConstants">30 0.02 0.2</entry>
+  <entry key="thermal.WallThicknesses">0.001 0.01 0.001</entry>
 </properties>
