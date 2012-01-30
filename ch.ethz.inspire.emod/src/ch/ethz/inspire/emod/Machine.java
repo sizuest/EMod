@@ -44,7 +44,7 @@ import ch.ethz.inspire.emod.model.Pump;
 import ch.ethz.inspire.emod.model.HeatExchanger;
 import ch.ethz.inspire.emod.model.CompressedFluid;
 import ch.ethz.inspire.emod.model.Amplifier;
-import ch.ethz.inspire.emod.model.math.Sum;
+import ch.ethz.inspire.emod.model.math.*;
 import ch.ethz.inspire.emod.model.thermal.*;
 import ch.ethz.inspire.emod.model.control.*;
 import ch.ethz.inspire.emod.utils.IOContainer;
@@ -67,8 +67,8 @@ import ch.ethz.inspire.emod.utils.PropertiesHandler;
 @XmlRootElement(namespace = "ch.ethz.inspire.emod")
 @XmlSeeAlso({MachineComponent.class, APhysicalComponent.class, Motor.class, LinAxis.class,
 	ClampTest.class, ServoMotor.class, Revolver.class, Fan.class, Pump.class, HeatExchanger.class, 
-	CompressedFluid.class, Amplifier.class, Sum.class, ConstantComponent.class, 
-	HysteresisControl.class, 
+	CompressedFluid.class, Amplifier.class, ConstantComponent.class, 
+	HysteresisControl.class, Sum.class, Gain.class,
 	HomogStorage.class, LayerStorage.class, ForcedHeatTransfere.class, FreeHeatTransfere.class,
 	ASimulationControl.class, RandomSimulationControl.class, StaticSimulationControl.class, 
 	ProcessSimulationControl.class, GeometricKienzleSimulationControl.class})

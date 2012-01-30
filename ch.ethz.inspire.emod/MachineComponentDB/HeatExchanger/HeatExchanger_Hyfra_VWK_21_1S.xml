@@ -18,9 +18,8 @@
   <entry key="EERCooling">3.14</entry>
   <entry key="thermal.Mass">13</entry>
   <entry key="thermal.HeatCapacity">4180</entry>
-  <entry key="thermal.InitialTemperature">293</entry>
   <entry key="thermal.Surface">1</entry>
   <entry key="thermal.ConvectionConstants">2 50</entry>
-  <entry key="thermal.ConductionConstants">30 0.02 0.2</entry>
-  <entry key="thermal.WallThicknesses">0.001 0.01 0.001</entry>
+  <entry key="thermal.ConductionConstants">30 0.2</entry>
+  <entry key="thermal.WallThicknesses">0.002 0.001</entry>
 </properties>

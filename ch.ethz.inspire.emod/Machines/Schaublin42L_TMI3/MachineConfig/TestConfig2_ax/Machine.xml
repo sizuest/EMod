@@ -212,10 +212,19 @@
 		<!-- TERMAL ELEMENTS -->
 		<!-- Spindle -->
 		<machineComponent>
-			<name>Thermal_Spindle</name>
+			<name>Thermal_SpindleTemperature</name>
 			<component xsi:type="homogStorage" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 				<type>Kessler_000101561</type>
 				<parentType>Motor</parentType>
+			</component>
+		</machineComponent>
+		
+		<!-- Spindle -->
+		<machineComponent>
+			<name>Thermal_SpindleFreeFlow</name>
+			<component xsi:type="freeHeatTransfere" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>Spindle</type>
+				<parentType></parentType>
 			</component>
 		</machineComponent>
 		
@@ -228,36 +237,63 @@
 			</component>
 		</machineComponent>
 		
-		<!-- Spindle Cooler -->
+		<!-- Backflow to Tank -->
 		<machineComponent>
-			<name>Thermal_SpindleCooling</name>
-			<component xsi:type="homogStorage" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>Hyfra_VWK_21_1S</type>
-				<parentType>HeatExchanger</parentType>
-			</component>
-		</machineComponent>
-				
-		<!-- Backflow CF to Tank -->
-		<machineComponent>
-			<name>Thermal_CoolingFluidFlow</name>
+			<name>Thermal_CoolerBackflow</name>
 			<component xsi:type="forcedHeatTransfere" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 				<type>CoolingFluidSpindle</type>
 				<parentType></parentType>
 			</component>
 		</machineComponent>
 		
+		<!-- Spindle Cooler Tank -->
+		<machineComponent>
+			<name>Thermal_CoolerTemperature</name>
+			<component xsi:type="homogStorage" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		 		<type>Hyfra_VWK_21_1S</type>
+				<parentType>HeatExchanger</parentType>
+			</component>
+		</machineComponent>
+		
+		<machineComponent>
+			<name>Thermal_PumpLossToFluid</name>
+			<component xsi:type="gain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<unit>WATT</unit>
+				<gain>0.5</gain>
+			</component>
+		</machineComponent>
+		
+		
 		<!-- CF tank free thermal flow -->
 		<machineComponent>
-			<name>Thermal_SpindleCoolingFreeFlow</name>
+			<name>Thermal_CoolerFreeFlow</name>
 			<component xsi:type="freeHeatTransfere" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 				<type>Hyfra_VWK_21_1S</type>
 				<parentType>HeatExchanger</parentType>
 			</component>
 		</machineComponent>
 		
+		<!-- FanucRack -->
+		<machineComponent>
+			<name>Thermal_FanucTemperature</name>
+			<component xsi:type="homogStorage" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>Fanuc</type>
+				<parentType></parentType>
+			</component>
+		</machineComponent>
+		
+		<!-- Fanuc free thermal flow -->
+		<machineComponent>
+			<name>Thermal_FanucFreeFlow</name>
+			<component xsi:type="freeHeatTransfere" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>Fanuc</type>
+				<parentType></parentType>
+			</component>
+		</machineComponent>
+		
 		<!-- Cabinett -->
 		<machineComponent>
-			<name>Thermal_Cabinett</name>
+			<name>Thermal_CabinettTemperature</name>
 			<component xsi:type="homogStorage" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 				<type>Cabinett</type>
 				<parentType></parentType>
@@ -281,8 +317,6 @@
 				<parentType></parentType>
 			</component>
 		</machineComponent>
-		
-
 
 	</machine>
 	<simulators>

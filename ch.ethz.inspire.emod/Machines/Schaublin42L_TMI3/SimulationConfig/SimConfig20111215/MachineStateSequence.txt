@@ -2,8 +2,10 @@
 # Duration , Machine state
 #  [s]
     0      , OFF;         # line comment
-    1480   , PROCESS;
-    40     , READY
+    3600   , READY;
+    7897   , PROCESS;
+# 60690     , READY;
+# 23400     , OFF;
 #600 , OFF;
 #1000 , PROCESS;
 #36000 , OFF;

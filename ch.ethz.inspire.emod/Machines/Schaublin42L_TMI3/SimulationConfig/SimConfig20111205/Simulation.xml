@@ -4,5 +4,10 @@
 	<comment>
 		General simulation config file.
 	</comment>
-	<entry key="simulationPeriod">0.2</entry>
+	<entry key="simulationPeriod">1</entry>
+	<entry key="initialTemperature.HomogStorage_Cabinett">298</entry>
+	<entry key="initialTemperature.HomogStorage_Fanuc">298</entry>
+	<entry key="initialTemperature.LayerStorage_SpindleHeatExchanger">300</entry>
+	<entry key="initialTemperature.HomogStorage_Kessler_000101561">300</entry>
+	<entry key="initialTemperature.HomogStorage_Hyfra_VWK_21_1S">300</entry>
 </properties>

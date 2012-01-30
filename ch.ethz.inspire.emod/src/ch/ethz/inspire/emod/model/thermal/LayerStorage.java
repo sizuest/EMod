@@ -143,14 +143,16 @@ public class LayerStorage extends APhysicalComponent{
 		/*         Read configuration parameters: */
 		/* ************************************************************************/
 		ComponentConfigReader params = null;
+		ComponentConfigReader initCond = null;
+		String path;
 		/* If no parent model file is configured, the local configuration file
 		 * will be opened. Otherwise the cfg file of the parent will be opened
 		 */		
 		if (parentType.isEmpty()) {
-			String path = PropertiesHandler.getProperty("app.MachineDataPathPrefix")+
-							"/"+PropertiesHandler.getProperty("sim.MachineName")+"/"+Defines.MACHINECONFIGDIR+"/"+
-							PropertiesHandler.getProperty("sim.MachineConfigName")+
-							"/"+this.getClass().getSimpleName()+"_"+type+".xml";
+			path = PropertiesHandler.getProperty("app.MachineDataPathPrefix")+
+					"/"+PropertiesHandler.getProperty("sim.MachineName")+"/"+Defines.MACHINECONFIGDIR+"/"+
+					PropertiesHandler.getProperty("sim.MachineConfigName")+
+					"/"+this.getClass().getSimpleName()+"_"+type+".xml";
 			try {
 				params = new ComponentConfigReader(path);
 			}
@@ -171,6 +173,19 @@ public class LayerStorage extends APhysicalComponent{
 			}
 		}
 		
+		/* Load initial condition
+		 */
+		path = PropertiesHandler.getProperty("app.MachineDataPathPrefix")+
+				"/"+PropertiesHandler.getProperty("sim.MachineName")+"/"+Defines.SIMULATIONCONFIGDIR+"/"+
+				PropertiesHandler.getProperty("sim.SimulationConfigName")+"/"+Defines.SIMULATIONCONFIGFILE;
+		try {
+			initCond = new ComponentConfigReader(path);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+		
 		/* Read the config parameter: */
 		try {
 			m               = params.getDoubleValue("thermal.Mass");
@@ -180,7 +195,7 @@ public class LayerStorage extends APhysicalComponent{
 			lambda          = params.getDoubleValue("thermal.ConductionConstant");
 			dWall           = params.getDoubleValue("thermal.WallThickness");
 			nElements       = params.getIntValue("thermal.NumberOfElements");
-			temperatureInit = params.getDoubleValue("thermal.InitialTemperature");
+			temperatureInit = initCond.getDoubleValue("initialTemperature."+this.getClass().getSimpleName()+"_"+type);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -283,8 +298,12 @@ public class LayerStorage extends APhysicalComponent{
 	public void update() {
 		
 		double tempAvg = 0;
-		for (int i=0; i<nElements; i++)
+		double[] flowDirection = new double[nElements];
+		
+		for (int i=0; i<nElements; i++) {
 			tempAvg += temperaturesCur[i];
+			flowDirection[i] = Math.signum(temperaturesCur[i]-tempAmb.getValue());
+		}
 		
 		tempAvg = tempAvg/nElements;
 		
@@ -296,16 +315,23 @@ public class LayerStorage extends APhysicalComponent{
 		
 		for (int i=nElements-1; i>0; i--) {
 			temperaturesCur[i] += sampleperiod * ( nElements / m * mDotIn.getValue() * (temperaturesCur[i-1]-temperaturesCur[i]) -
-					                               surf / m / cp * thRessistance * (temperaturesCur[i]-tempAmb.getValue()));
+					                           		surf / m / cp * thRessistance * (temperaturesCur[i]-tempAmb.getValue()));
 		}
 		temperaturesCur[0] += sampleperiod * ( nElements / m * mDotIn.getValue() * (tempIn.getValue()-temperaturesCur[0]) -
                 							   surf / m / cp * thRessistance * (temperaturesCur[0]-tempAmb.getValue()));
 		
+		/* Zero crossing detection:
+		 * Change in temperature gradient can not cross zero 
+		 */
+		/*for (int i=0; i<nElements; i++){
+			if ( (flowDirection[i]>0 && temperaturesCur[i]<tempAmb.getValue()) ||
+				 (flowDirection[i]<0 && temperaturesCur[i]>tempAmb.getValue()) )
+				temperaturesCur[i] = tempAmb.getValue();
+		}*/
+		
 		/* The outflow thermal energy is given by the massflow and temperature of the last element: */
 		tempOut.setValue(temperaturesCur[nElements-1]);
-		
-		
-		
+				
 		/* The total heat loss is equal to:
 		 * S [m²] * (1/alpha + d/lambda)^-1 [W/K*m²] * (Temp_Avg - Temp_amb) [K]
 		 * wher Temp_Avg is equal to the average element temperature

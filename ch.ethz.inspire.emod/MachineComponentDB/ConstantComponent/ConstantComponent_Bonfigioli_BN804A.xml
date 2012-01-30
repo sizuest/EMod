@@ -10,5 +10,5 @@
     ----------
       power levels per component state
   </comment>
-  <entry key="levels">0.0 550;</entry>
+  <entry key="levels">0.0 250;</entry>
 </properties>

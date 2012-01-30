@@ -180,6 +180,7 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 				d[i] = d[i]/1000;    // mm -> m
 			
 			ap[i] = ap[i];       // mm -> mm
+			v[i]  = Math.abs(v[i]);
 		}
 		
 		if ( d_name.matches("NONE") )

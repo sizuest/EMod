@@ -77,8 +77,8 @@ public class Motor extends APhysicalComponent{
 	private IOContainer efficiency;
 	
 	// Save last input values
-	private double lastrotspeed;
-	private double lasttorque;
+	private double lastrotspeed = 0;
+	private double lasttorque = 0;
 	
 	// Parameters used by the model. 
 	private double[] powerSamples; // Samples of power [W]
@@ -222,32 +222,33 @@ public class Motor extends APhysicalComponent{
 	 */
 	@Override
 	public void update() {
-		
+				
 		if ( (lasttorque == torque.getValue() ) &&
-			 (lastrotspeed == rotspeed.getValue()) ) {
+			 (lastrotspeed == rotspeed.getValue() ) ) {
 			// Input values did not change, nothing to do.
 			return;
 		}
-		lasttorque = torque.getValue();
-		lastrotspeed = rotspeed.getValue();
 		
+		lasttorque   = torque.getValue();
+		lastrotspeed = rotspeed.getValue();
+				
 		/* The mechanical power is equal to the product of rotational speed
 		 * and torque. */
 		// pmech = rotspeed [rot/min] / 60 [s/min] * torque [Nm] * 2 * pi 
-		if ( 0==torque.getValue() ){
+		if ( lasttorque == 0 ){
 			pmech.setValue(0);
-			pel.setValue(rotspeed.getValue() * frictionTorque * Math.PI/ 30.0);
+			pel.setValue(lastrotspeed * frictionTorque * Math.PI/ 30.0);
 			ploss.setValue(pel.getValue());
 			efficiency.setValue(0);
 		}
 		else{
-			pmech.setValue(rotspeed.getValue() * torque.getValue() * Math.PI/ 30.0);
+			pmech.setValue(lastrotspeed * lasttorque * Math.PI/ 30.0);
 
 		/*
 		 * Get efficiency from the configured sample values by bilinear interpolation.
 		 */
 			double eff = Algo.bilinearInterpolation(pmech.getValue(), 
-				                                rotspeed.getValue(),
+												lastrotspeed,
 				                                powerSamples,
 				                                rotspeedSamples,
 				                                efficiencyMatrix);

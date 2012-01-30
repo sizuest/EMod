@@ -117,14 +117,16 @@ public class HomogStorage extends APhysicalComponent{
 		/*         Read configuration parameters: */
 		/* ************************************************************************/
 		ComponentConfigReader params = null;
+		ComponentConfigReader initCond = null;
+		String path;
 		/* If no parent model file is configured, the local configuration file
 		 * will be opened. Otherwise the cfg file of the parent will be opened
 		 */		
 		if (parentType.isEmpty()) {
-			String path = PropertiesHandler.getProperty("app.MachineDataPathPrefix")+
-							"/"+PropertiesHandler.getProperty("sim.MachineName")+"/"+Defines.MACHINECONFIGDIR+"/"+
-							PropertiesHandler.getProperty("sim.MachineConfigName")+
-							"/"+this.getClass().getSimpleName()+"_"+type+".xml";
+			path = PropertiesHandler.getProperty("app.MachineDataPathPrefix")+
+					"/"+PropertiesHandler.getProperty("sim.MachineName")+"/"+Defines.MACHINECONFIGDIR+"/"+
+					PropertiesHandler.getProperty("sim.MachineConfigName")+
+					"/"+this.getClass().getSimpleName()+"_"+type+".xml";
 			try {
 				params = new ComponentConfigReader(path);
 			}
@@ -145,11 +147,26 @@ public class HomogStorage extends APhysicalComponent{
 			}
 		}
 		
+		/* Load initial condition
+		 */
+		path = PropertiesHandler.getProperty("app.MachineDataPathPrefix")+
+				"/"+PropertiesHandler.getProperty("sim.MachineName")+"/"+Defines.SIMULATIONCONFIGDIR+"/"+
+				PropertiesHandler.getProperty("sim.SimulationConfigName")+"/"+Defines.SIMULATIONCONFIGFILE;
+		try {
+			initCond = new ComponentConfigReader(path);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+		
+		
 		/* Read the config parameter: */
 		try {
 			m               = params.getDoubleValue("thermal.Mass");
 			cp              = params.getDoubleValue("thermal.HeatCapacity");
-			temperatureInit = params.getDoubleValue("thermal.InitialTemperature");
+			//temperatureInit = params.getDoubleValue("thermal.InitialTemperature");
+			temperatureInit = initCond.getDoubleValue("initialTemperature."+this.getClass().getSimpleName()+"_"+type);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -244,18 +261,20 @@ public class HomogStorage extends APhysicalComponent{
 		
 		// Sum up inputs
 		for( IOContainer in : thIn)
-			tmpSum += in.getValue();
+			if (!Double.isNaN(in.getValue()))
+				tmpSum += in.getValue();
 		
 		for( IOContainer in : thOut)
-			tmpSum -= in.getValue();
+			if (!Double.isNaN(in.getValue()))
+				tmpSum -= in.getValue();
 		
 		/* Integration step:
 		 * T(k+1) [K] = T(k) [K]+ SampleTime[s]*(P_in [W] - P_out [W]) / cp [J/kg/K] / m [kg] 
 		 */	
 		curTemperature += sampleperiod * tmpSum / cp / m; 
 		
-		if (0>curTemperature)
-			curTemperature = 0;
+		//if (0>curTemperature)
+		//	curTemperature = 0;
 		
 		// Set output
 		temperature.setValue(curTemperature);

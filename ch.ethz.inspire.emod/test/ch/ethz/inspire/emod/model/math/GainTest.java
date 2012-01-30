@@ -22,7 +22,7 @@ import ch.ethz.inspire.emod.model.units.Unit;
 public class GainTest {
 	
 	@Test
-	public void testServoMotor(){
+	public void testGain(){
 		Gain g = new Gain(Unit.WATT, 3);
 		
 		// Set input to 5

@@ -32,7 +32,7 @@
   <entry key="PressureSamples">827370 779108 723950 655002 565370 475738 358527 241317</entry>
   <entry key="MassFlowSamples">0 0.166 0.333 0.5 0.666 0.833 1 1.166</entry>
   <entry key="DensityFluid">883</entry>
-  <entry key="ElectricalPower">1750</entry>
+  <entry key="ElectricalPower">1925</entry>
   <entry key="GasPressureInitial">0</entry>
   <entry key="GasVolumeInitial">0</entry>
   <entry key="FluidVolumeInitial">0</entry>

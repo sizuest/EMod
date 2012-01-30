@@ -115,7 +115,7 @@ public class ServoMotor extends APhysicalComponent{
 	{
 		/* Define Input parameters */
 		inputs   = new ArrayList<IOContainer>();
-		brake    = new IOContainer("BrakeOn", Unit.NONE, 0);
+		brake    = new IOContainer("BrakeOn",  Unit.NONE, 1);
 		rotspeed = new IOContainer("RotSpeed", Unit.RPM, 0);
 		torque   = new IOContainer("Torque",   Unit.NEWTONMETER, 0);
 		//inputs.add(brake);
