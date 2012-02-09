@@ -17,10 +17,15 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.custom.CTabFolder2Adapter;
+import org.eclipse.swt.custom.CTabFolderEvent;
+import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowData;
@@ -50,7 +55,7 @@ public class AnalysisGUI extends AEvaluationGUI {
 	Composite graphComp;
 	Composite c;
 	ScrolledComposite sc;
-	final TabFolder aTabFolder = new TabFolder(this, SWT.NONE);
+	private CTabFolder aTabFolder;
 	
 	int maxWidth;
 	
@@ -65,17 +70,31 @@ public class AnalysisGUI extends AEvaluationGUI {
 	}
 
 	public void init() {
+		aTabFolder = new CTabFolder(this, SWT.NONE);
+		aTabFolder.setBorderVisible(true);
+		aTabFolder.addCTabFolder2Listener(new CTabFolder2Adapter() {
+			public void itemClosed(CTabFolderEvent event) {}
+		});
+		aTabFolder.setSelectionBackground(new Color[] {
+				getDisplay().getSystemColor(SWT.COLOR_WIDGET_DARK_SHADOW),
+		        getDisplay().getSystemColor(SWT.COLOR_WIDGET_NORMAL_SHADOW),
+		        getDisplay().getSystemColor(SWT.COLOR_WIDGET_LIGHT_SHADOW)}, new int[] { 50,
+		        100});
+		aTabFolder.setUnselectedCloseVisible(false);
+		aTabFolder.setSimple(false);
 		
-		
-		TabItem ptChartItem = new TabItem(aTabFolder, SWT.NONE);
+		CTabItem ptChartItem = new CTabItem(aTabFolder, SWT.NONE);
+		ptChartItem.setShowClose(true);
 		ptChartItem.setText(LocalizationHandler.getItem("app.gui.analysis.ptchart"));
 		ptChartItem.setControl(createPTChart(aTabFolder));
 		
-		TabItem varChartItem = new TabItem(aTabFolder, SWT.NONE);
+		CTabItem varChartItem = new CTabItem(aTabFolder, SWT.NONE);
+		varChartItem.setShowClose(true);
 		varChartItem.setText(LocalizationHandler.getItem("app.gui.analysis.variancechart"));
 		varChartItem.setControl(StackedAreaChart.createChart(aTabFolder, getConsumerDataList()));
 		
-		TabItem energyChartItem = new TabItem(aTabFolder, SWT.NONE);
+		CTabItem energyChartItem = new CTabItem(aTabFolder, SWT.NONE);
+		energyChartItem.setShowClose(true);
 		energyChartItem.setText(LocalizationHandler.getItem("app.gui.analysis.energychart"));
 		energyChartItem.setControl(BarChart.createBarChart(aTabFolder, getConsumerDataList()));
 		
@@ -83,14 +102,14 @@ public class AnalysisGUI extends AEvaluationGUI {
 		
 		aTabFolder.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent event) {
-				logger.log(LogLevel.DEBUG, "atab"+aTabFolder.getSelection()[0].getText());
+				logger.log(LogLevel.DEBUG, "atab"+aTabFolder.getSelection().getText());
 			}
 		});
 	}
 	
-	private Composite createPTChart(TabFolder tabFolder) {
+	private Composite createPTChart(CTabFolder aTabFolder2) {
 		// scrolling composite to ensure visibility 
-		sc = new ScrolledComposite(tabFolder, SWT.NONE | SWT.V_SCROLL | SWT.H_SCROLL);
+		sc = new ScrolledComposite(aTabFolder2, SWT.NONE | SWT.V_SCROLL | SWT.H_SCROLL);
 		// composite containing the elements
 		c = new Composite(sc, SWT.NONE);
 		sc.setContent(c);
