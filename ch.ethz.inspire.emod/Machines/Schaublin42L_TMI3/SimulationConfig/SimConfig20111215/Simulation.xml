@@ -5,9 +5,9 @@
 		General simulation config file.
 	</comment>
 	<entry key="simulationPeriod">1</entry>
-	<entry key="initialTemperature.HomogStorage_Cabinett">298.8</entry>
-	<entry key="initialTemperature.HomogStorage_Fanuc">298.8</entry>
-	<entry key="initialTemperature.LayerStorage_SpindleHeatExchanger">300</entry>
-	<entry key="initialTemperature.HomogStorage_Kessler_000101561">300</entry>
-	<entry key="initialTemperature.HomogStorage_Hyfra_VWK_21_1S">300</entry>
+	<entry key="initialTemperature.HomogStorage_Cabinett">299.9</entry>
+	<entry key="initialTemperature.HomogStorage_Fanuc">299.9</entry>
+	<entry key="initialTemperature.LayerStorage_SpindleHeatExchanger">303</entry>
+	<entry key="initialTemperature.HomogStorage_Kessler_000101561">303</entry>
+	<entry key="initialTemperature.HomogStorage_Hyfra_VWK_21_1S">302.2</entry>
 </properties>

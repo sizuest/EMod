@@ -4,8 +4,8 @@
   <comment>
 	    
   </comment>
-  <entry key="thermal.Surface">0.37</entry>
-  <entry key="thermal.ConvectionConstants">5</entry>
+  <entry key="thermal.Surface">0.5</entry>
+  <entry key="thermal.ConvectionConstants">100</entry>
   <entry key="thermal.ConductionConstants">0</entry>
   <entry key="thermal.WallThicknesses">0</entry>
 </properties>

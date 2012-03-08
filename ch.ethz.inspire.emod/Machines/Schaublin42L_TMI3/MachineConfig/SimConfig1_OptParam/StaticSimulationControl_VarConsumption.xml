@@ -2,14 +2,14 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
   <comment>
-    Sealing air flow [l/s]
+    80mm Fan Control properties
   </comment>
   <entry key="samplePeriod">0.2</entry>
-  <entry key="ON">0.77</entry>
+  <entry key="ON">320</entry>
   <entry key="OFF">0</entry>
-  <entry key="STANDBY">0.75</entry>
-  <entry key="CONTROLLED">0.75</entry>
-  <entry key="PERIODIC">0.75</entry>
+  <entry key="STANDBY">0</entry>
+  <entry key="CONTROLLED">0</entry>
+  <entry key="PERIODIC">0</entry>
   <entry key="ON_state">ON</entry>
   <entry key="OFF_state">OFF</entry>
   <entry key="STANDBY_state">ON</entry>

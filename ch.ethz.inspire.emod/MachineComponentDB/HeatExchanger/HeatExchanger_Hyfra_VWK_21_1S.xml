@@ -14,12 +14,12 @@
 	    Energy efficency ratio of the cooling circle
 	    
   </comment>
-  <entry key="CompressorPower">740</entry>
+  <entry key="CompressorPower">1000</entry>
   <entry key="EERCooling">3.14</entry>
   <entry key="thermal.Mass">13</entry>
   <entry key="thermal.HeatCapacity">4180</entry>
-  <entry key="thermal.Surface">1</entry>
-  <entry key="thermal.ConvectionConstants">2 50</entry>
-  <entry key="thermal.ConductionConstants">30 0.2</entry>
-  <entry key="thermal.WallThicknesses">0.002 0.001</entry>
+  <entry key="thermal.Surface">.25</entry>
+  <entry key="thermal.ConvectionConstants">6</entry>
+  <entry key="thermal.ConductionConstants">30</entry>
+  <entry key="thermal.WallThicknesses">0.002</entry>
 </properties>

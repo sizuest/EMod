@@ -118,6 +118,10 @@
   </entry>
   <entry key="FrictionTorque">1</entry>
   <entry key="Inertia">0.25</entry>
-  <entry key="thermal.Mass">15</entry>
+  <entry key="thermal.Mass">60</entry>
   <entry key="thermal.HeatCapacity">480</entry>
+  <entry key="thermal.Surface">0.37</entry>
+  <entry key="thermal.ConvectionConstants">5</entry>
+  <entry key="thermal.ConductionConstants">0</entry>
+  <entry key="thermal.WallThicknesses">0</entry>
 </properties>

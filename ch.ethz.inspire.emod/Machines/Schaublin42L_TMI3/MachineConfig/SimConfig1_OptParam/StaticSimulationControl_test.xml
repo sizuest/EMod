@@ -2,17 +2,17 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
   <comment>
-    Sealing air flow [l/s]
+    Static Simulation Control for JUnit test case
   </comment>
   <entry key="samplePeriod">0.2</entry>
-  <entry key="ON">0.77</entry>
+  <entry key="ON">20</entry>
   <entry key="OFF">0</entry>
-  <entry key="STANDBY">0.75</entry>
-  <entry key="CONTROLLED">0.75</entry>
-  <entry key="PERIODIC">0.75</entry>
+  <entry key="STANDBY">30</entry>
+  <entry key="CONTROLLED">40</entry>
+  <entry key="PERIODIC">50</entry>
   <entry key="ON_state">ON</entry>
   <entry key="OFF_state">OFF</entry>
-  <entry key="STANDBY_state">ON</entry>
+  <entry key="STANDBY_state">STANDBY</entry>
   <entry key="READY_state">ON</entry>
   <entry key="PROCESS_state">ON</entry>
 </properties>

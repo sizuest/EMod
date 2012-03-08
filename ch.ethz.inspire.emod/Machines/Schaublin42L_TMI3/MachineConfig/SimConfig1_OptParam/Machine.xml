@@ -371,6 +371,16 @@
 			</component>
 		</machineComponent>-->
 
+<!-- OPTIMISATION -->
+		<!-- Spindle efficiency correction -->
+		<machineComponent>
+			<name>CorrSpindleEfficiency</name>
+			<component xsi:type="gain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<unit>WATT</unit>
+				<gain>1.058</gain>
+			</component>
+		</machineComponent>
+
 	</machine>
 	<simulators>
 	
@@ -494,6 +504,18 @@
 			<name>Zero</name>
 			<unit>MM_MIN</unit>
 		</simController>
-		
+
+		<!-- OPTIMISATION -->
+		<!-- DC consumption -->
+		<simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>DCConsumption</name>
+            <unit>WATT</unit>
+        </simController>
+        
+        <!-- Varconsumption -->
+		<simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>VarConsumption</name>
+            <unit>WATT</unit>
+        </simController>		
 	</simulators>
 </ns2:machine>

@@ -11,4 +11,5 @@
   <entry key="thermal.ConductionConstant">400</entry>
   <entry key="thermal.WallThickness">0.001</entry>
   <entry key="thermal.NumberOfElements">2</entry>
+  <entry key="thermal.InitialTemperature">300</entry>
 </properties>

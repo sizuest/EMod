@@ -5,4 +5,6 @@
 		General simulation config file.
 	</comment>
 	<entry key="simulationPeriod">0.2</entry>
+	<entry key="initialTemperature.HomogStorage_Example">293</entry>
+	<entry key="initialTemperature.LayerStorage_Example">293</entry>
 </properties>
