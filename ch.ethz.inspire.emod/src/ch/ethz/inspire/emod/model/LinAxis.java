@@ -40,7 +40,7 @@ import ch.ethz.inspire.emod.utils.IOContainer;
  *   2: RotSpeed	: [rpm]  : Requested rotational speed
  *   
  * Config parameters:
- *   Transmission         : [mm]   : Transmission between the motor (rpm) 
+ *   Transmission         : [mm/rev]   : Transmission between the motor (rpm) 
  *   								 and the translation (mm_min)
  *   Mass				  : [kg]   : Mass of the moving part
  *   Alpha				  : [deg]  : Angle between the axis and the vertical 

@@ -44,7 +44,7 @@ import ch.ethz.inspire.emod.model.APhysicalComponent;
  *   
  * Outputlist:
  *   1: PThermal12        : [K]    : Thermal heat flow from 1 to 2
- *   2: PThermal32        : [K]    : Thermal heat flow from 2 to 1
+ *   2: PThermal21        : [K]    : Thermal heat flow from 2 to 1
  *   
  * Config parameters:
  *   Surface             : [m^2]     : Surface between level 1 and 2

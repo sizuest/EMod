@@ -37,6 +37,7 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  * Outputlist:
  *   1: RotSpeed	    : [rpm]     : Resulting rotational speed
  *   2: Torque			: [Nm]		: Resulting torque
+ *   3: PLoss			: [W]		: Heat loss
  *   
  * Config parameters:
  *   TransmissionRatio    : [-] : Ratio between the demaned and the resulting speed
@@ -46,7 +47,7 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  *
  */
 @XmlRootElement
-public class Transmission extends APhysicalComponent{
+public class LinTransmission extends APhysicalComponent{
 
 	@XmlElement
 	protected String type;
@@ -57,7 +58,7 @@ public class Transmission extends APhysicalComponent{
 	// Output parameters:
 	private IOContainer rotSpeedOut;
 	private IOContainer torqueOut;
-	private IOContainer ploss;
+	private IOContainer pLoss;
 	
 	// Parameters used by the model. 
 	private double k; // Fluid density [kg/m3]
@@ -67,7 +68,7 @@ public class Transmission extends APhysicalComponent{
 	 * Constructor called from XmlUnmarshaller.
 	 * Attribute 'type' is set by XmlUnmarshaller.
 	 */
-	public Transmission() {
+	public LinTransmission() {
 		super();
 	}
 	
@@ -81,7 +82,7 @@ public class Transmission extends APhysicalComponent{
 	 * 
 	 * @param type
 	 */
-	public Transmission(String type) {
+	public LinTransmission(String type) {
 		super();
 		
 		this.type=type;
@@ -104,10 +105,10 @@ public class Transmission extends APhysicalComponent{
 		outputs     = new ArrayList<IOContainer>();
 		rotSpeedOut = new IOContainer("RotSpeed", Unit.RPM, 0);
 		torqueOut   = new IOContainer("Torque", Unit.NEWTONMETER, 0);
-		ploss       = new IOContainer("PLoss",  Unit.WATT, 0);
+		pLoss       = new IOContainer("PLoss",  Unit.WATT, 0);
 		outputs.add(rotSpeedOut);
 		outputs.add(torqueOut);
-		outputs.add(ploss);
+		outputs.add(pLoss);
 		
 		/* ************************************************************************/
 		/*         Read configuration parameters: */
@@ -177,7 +178,7 @@ public class Transmission extends APhysicalComponent{
 		rotSpeedOut.setValue(rotSpeedIn.getValue()/k);
 		torqueOut.setValue(torqueIn.getValue()*k/eta);
 		
-		ploss.setValue( rotSpeedIn.getValue()*Math.PI/30*torqueIn.getValue() * (1-eta)/eta );
+		pLoss.setValue( rotSpeedIn.getValue()*Math.PI/30*torqueIn.getValue() * (1-eta)/eta );
 		
 	}
 

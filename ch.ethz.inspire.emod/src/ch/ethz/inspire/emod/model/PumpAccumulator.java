@@ -1,10 +1,10 @@
 /***********************************
- * $Id$
+ * $Id: Pump.java 88 2012-01-11 15:43:10Z sizuest $
  *
- * $URL$
- * $Author$
- * $Date$
- * $Rev$
+ * $URL: https://icvrdevil.ethz.ch/svn/EMod/trunk/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/model/Pump.java $
+ * $Author: sizuest $
+ * $Date: 2012-01-11 16:43:10 +0100 (Mit, 11. Jan 2012) $
+ * $Rev: 88 $
  *
  * Copyright (c) 2011 by Inspire AG, ETHZ
  * All rights reserved
@@ -47,13 +47,18 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  *   PressureSamples      : [Pa]    : Pressure samples for liner interpolation
  *   MassFlowSamples      : [kg/s]  : Mass flow samples for liner interpolation
  *   DensityFluid         : [kg/m3] : Working fluid density
+ *   GasPressureInitial   : [Pa]    : Initial gas pressure in the fluid
+ *   GasVolumeInitial     : [m3]    : Initial volume of the gas in the reservoir
+ *   FluidValumeInitial   : [m3]    : Initial volume of the fluid in the reservoir
+ *   PressureMax          : [Pa]    : Hysteresis controller max. reservoir pressure
+ *   PressureMin          : [Pa]    : Hysteresis controller min. reservoir pressure
  *   ElectricalPower	  : [W]     : Nominal power if operating
  * 
  * @author simon
  *
  */
 @XmlRootElement
-public class Pump extends APhysicalComponent{
+public class PumpAccumulator extends APhysicalComponent{
 
 	@XmlElement
 	protected String type;
@@ -73,13 +78,22 @@ public class Pump extends APhysicalComponent{
 	private double[] massFlowSamples;  	// Samples of mass flow [kg/s]
 	private double[] pressureSamplesR, massFlowSamplesR;
 	private double rhoFluid;			// Fluid density [kg/m3]
+	private double pGasInit;			// Initial gas pressure [Pa]
+	private double volGasInit;			// Initial gas volume [m3]
+	private double volFluidInit;		// Initial fluid volume [m3]
+	private double hystPMax, hystPMin;  // Contoller switch off/on values
 	private double pelPump;				// Power demand of the pump if on [W]
+	
+	private double volFluid;		    // Fluid mass in the reservoir
+	private double volGas;              // Gas volume
+	private double pGas;				// Gas pressure
+	private boolean pumpOn=false;		// Pump state
 	
 	/**
 	 * Constructor called from XmlUnmarshaller.
 	 * Attribute 'type' is set by XmlUnmarshaller.
 	 */
-	public Pump() {
+	public PumpAccumulator() {
 		super();
 	}
 	
@@ -93,7 +107,7 @@ public class Pump extends APhysicalComponent{
 	 * 
 	 * @param type
 	 */
-	public Pump(String type) {
+	public PumpAccumulator(String type) {
 		super();
 		
 		this.type=type;
@@ -130,7 +144,7 @@ public class Pump extends APhysicalComponent{
 		ComponentConfigReader params = null;
 		/* Open file containing the parameters of the model type: */
 		try {
-			params = new ComponentConfigReader("Pump", type);
+			params = new ComponentConfigReader("PumpAccumulator", type);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -142,6 +156,11 @@ public class Pump extends APhysicalComponent{
 			pressureSamples = params.getDoubleArray("PressureSamples");
 			massFlowSamples = params.getDoubleArray("MassFlowSamples");
 			rhoFluid        = params.getDoubleValue("DensityFluid");
+			pGasInit		= params.getDoubleValue("GasPressureInitial");
+			volGasInit        = params.getDoubleValue("GasVolumeInitial");
+			volFluidInit      = params.getDoubleValue("FluidVolumeInitial");
+			hystPMax        = params.getDoubleValue("PressureMax");
+			hystPMin		= params.getDoubleValue("PressureMin");
 			pelPump         = params.getDoubleValue("ElectricalPower");
 			
 			/*
@@ -155,6 +174,12 @@ public class Pump extends APhysicalComponent{
 			for (int i=0; i<massFlowSamples.length; i++) {
 				massFlowSamplesR[i] = massFlowSamples[massFlowSamples.length-1-i];
 			}
+			
+			/*
+			 *  calculate initial mass:
+			 *  m(0) [kg] = V(0) [m3] * rho [kg/m3]
+			 */
+			volFluid = volFluidInit;
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -201,8 +226,21 @@ public class Pump extends APhysicalComponent{
 						": Sample vector 'massFlowSamples' must be sorted!");
 			}
 		}
-				
+		
 		// Strictly positive
+		if (pGasInit<=0){
+			throw new Exception("Pump, type:" +type+ 
+					": Negative value: Initial pressure must be positive!");
+		}
+		if (volGasInit<=0){
+			throw new Exception("Pump, type:" +type+ 
+					": Negative value: Initial volume must be positive!");
+		}
+		if (volFluidInit<=0){
+			throw new Exception("Pump, type:" +type+ 
+					": Negative value: Initial volume must be positive!");
+		}
+		
 		if (rhoFluid<=0){
 			throw new Exception("Pump, type:" +type+ 
 					": Negative or zero value: Density must be strictly positive!");
@@ -210,6 +248,13 @@ public class Pump extends APhysicalComponent{
 		if (pelPump<=0){
 			throw new Exception("Pump, type:" +type+ 
 					": Negative or zero value: Pump power must be strictly positive!");
+		}
+		
+		// Check controller
+		if ( (hystPMin >= hystPMax) && 
+			 (volGasInit != 0 && volFluidInit != 0)){
+			throw new Exception("Pump, type:" +type+ 
+					": Controller settings: Maximum pressure must be larger than minimum pressure!");
 		}
 	}
 	
@@ -220,16 +265,44 @@ public class Pump extends APhysicalComponent{
 	@Override
 	public void update() {
 		
+		/*
+		 * Update mass in the reservoir:
+		 * m(t) += T[s] * (mdot_in(t-T) [kg/s] - mdot_out(t-T) [kg/s]) | / rho [kg/m3]
+		 */
+		volFluid += (massFlowIn.getValue()-massFlowOut.getValue()) / rhoFluid * sampleperiod;
+		/*
+		 * New gas volume
+		 * V_gas(t) [m3] = V_gas,0 [m3] + V_fluid,0 [m3] - V(t) [m3]
+		 */
+		volGas   = volGasInit + volFluidInit - volFluid;
+		/*
+		 * New fluid pressure = gas pressure
+		 * p_gas [Pa] = p_gas,0[Pa] * V_gas,0 [m3] / V_gas [m3]
+		 */
+		pGas   = pGasInit * volGasInit / volGas;
+		pFluid.setValue(pGas);
+		/*
+		 * Calculate new inflow:
+		 * - zero if pump off
+		 * - from map if pump on
+		 */
+		/*
+		 * Hysteresis controller for the pump
+		 */
+		if      ( pumpOn && pGas>hystPMax) pumpOn = false;
+		else if (!pumpOn && pGas<hystPMin) pumpOn = true;
 		
-		if (massFlowOut.getValue() != 0){
+		
+		if (pumpOn) {
 			pel.setValue(pelPump);
-			massFlowIn.setValue(massFlowOut.getValue());
-			pFluid.setValue(Algo.linearInterpolation(massFlowOut.getValue(), massFlowSamples, pressureSamples));
+			/*
+			 * Lookup mass flow in pump map and dive by density
+			 */
+			massFlowIn.setValue(Algo.linearInterpolation(pGas, pressureSamplesR, massFlowSamplesR) );
 		}
 		else {
 			pel.setValue(0);
 			massFlowIn.setValue(0);
-			pFluid.setValue(0);
 		}
 			
 		

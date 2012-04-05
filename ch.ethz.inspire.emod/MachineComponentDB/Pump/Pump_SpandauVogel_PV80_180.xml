@@ -17,25 +17,10 @@
         desity of the pumped fluid
       ElectricalPower [W]
       	Electrical power of the pump if running
-      GasPressureInitial [Pa] (opt.)
-      	Initial pressure of the gas, if a reservoir is used
-      GasVolumeInitial [m3] (opt.)
-      	Initial volume of the gas, if a reservoir is used
-      FluidVolumeInitial [m3] (opt.)
-        Initial volume of the fluid, if a reservoir is used
-      PressureMax [Pa] (opt.)
-      	Pump turn off value, if a reservoir is used
-      PressureMin [Pa] (opt.)
-        Pump turn on value, if a reservoir is used
       
   </comment>
   <entry key="PressureSamples">827370 779108 723950 655002 565370 475738 358527 241317</entry>
   <entry key="MassFlowSamples">0 0.166 0.333 0.5 0.666 0.833 1 1.166</entry>
   <entry key="DensityFluid">883</entry>
   <entry key="ElectricalPower">1925</entry>
-  <entry key="GasPressureInitial">0</entry>
-  <entry key="GasVolumeInitial">0</entry>
-  <entry key="FluidVolumeInitial">0</entry>
-  <entry key="PressureMax">0</entry>
-  <entry key="PressureMin">0</entry>
 </properties>

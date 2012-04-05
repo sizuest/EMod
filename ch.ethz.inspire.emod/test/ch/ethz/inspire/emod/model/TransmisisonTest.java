@@ -16,7 +16,7 @@ package ch.ethz.inspire.emod.model;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
-import ch.ethz.inspire.emod.model.Transmission;
+import ch.ethz.inspire.emod.model.LinTransmission;
 
 public class TransmisisonTest {
 	
@@ -25,7 +25,7 @@ public class TransmisisonTest {
 	 */
 	@Test
 	public void testTransmisison(){
-		Transmission transm = new Transmission("Example");
+		LinTransmission transm = new LinTransmission("Example");
 		
 		// Set fan to "off"
 		transm.getInput("RotSpeed").setValue(0);
