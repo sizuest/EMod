@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>
+    PCU50 Control properties
+  </comment>
+  <entry key="samplePeriod">0.2</entry>
+  <entry key="ON">1</entry>
+  <entry key="OFF">0</entry>
+  <entry key="STANDBY">0</entry>
+  <entry key="CONTROLLED">0</entry>
+  <entry key="PERIODIC">0</entry>
+  <entry key="ON_state">ON</entry>
+  <entry key="OFF_state">ON</entry>
+  <entry key="STANDBY_state">ON</entry>
+  <entry key="READY_state">ON</entry>
+  <entry key="PROCESS_state">ON</entry>
+</properties>

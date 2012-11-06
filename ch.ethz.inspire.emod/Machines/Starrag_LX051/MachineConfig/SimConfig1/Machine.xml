@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+	Machine definition file
+
+	The <machine> contains a list of <machineComponent>s. Each
+	<machineComponent> is specified by a <name>, a <component xsi:type> (e.g. linearMotor)
+	and a <type>. The machine component objects are built from this list automatically.
+
+	The <simulators> contains a list of simulators used for process and state simulation.
+-->
+<ns2:machine xmlns:ns2="ch.ethz.inspire.emod">
+	<machine>
+		<!-- Spindle -->
+		<machineComponent>
+			<name>C1</name>
+			<component xsi:type="motor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>Siemens_0650019700_AC200_240_4</type>		
+			</component>
+		</machineComponent>
+	
+	    <!-- X-Axis Motor -->
+		<machineComponent>
+			<component xsi:type="servoMotor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>Siemens1FK7103_5AF71</type>
+			</component>
+			<name>X1</name>
+		</machineComponent>
+		
+		<!-- Y-Axis Motor -->
+		<machineComponent>
+			<component xsi:type="servoMotor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>Siemens1FK7103_5AF71</type>
+			</component>
+			<name>Y1</name>
+		</machineComponent>
+		
+		<!-- Z-Axis Motor -->
+		<machineComponent>
+			<component xsi:type="servoMotor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>Siemens1FK7100_5AF71</type>
+			</component>
+			<name>Z1</name>
+		</machineComponent>
+		
+		<!-- A-Axis Motor -->
+		<machineComponent>
+			<component xsi:type="servoMotor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>KesslerDTE632_059</type>
+			</component>
+			<name>A1</name>
+		</machineComponent>
+		
+		<!-- B-Axis Motor -->
+		<machineComponent>
+			<component xsi:type="servoMotor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>KesslerDTE632_060</type>
+			</component>
+			<name>B1</name>
+		</machineComponent>
+	
+	
+		<!-- Spindle Amplifier-->
+		<machineComponent>
+			<name>C1_amp</name>
+			<component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>Siemens_6SN1123_1AA00_0JA1</type>		
+			</component>
+		</machineComponent>
+
+	    <!-- X-Axis Amplifier -->
+		<machineComponent>
+			<name>X1_amp</name>
+			<component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>Siemens_6SN1123_1AA00_0DA1</type>
+			</component>
+		</machineComponent>
+	
+	    <!-- Y-Axis Amplifier -->
+		<machineComponent>
+			<name>Y1_amp</name>
+			<component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>Siemens_6SN1123_1AA00_0CA1</type>
+			</component>
+		</machineComponent>
+		
+		<!-- Z-Axis Amplifier -->
+		<machineComponent>
+			<name>Z1_amp</name>
+			<component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>Siemens_6SN1123_1AA00_0CA1</type>
+			</component>
+		</machineComponent>
+		
+		<!-- A-Axis Amplifier -->
+		<machineComponent>
+			<name>A1_amp</name>
+			<component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>Siemens_6SN1123_1AA00_0CA1</type>
+			</component>
+		</machineComponent>
+		
+		<!-- B-Axis Amplifier -->
+		<machineComponent>
+			<name>B1_amp</name>
+			<component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>Siemens_6SN1123_1AA00_0EA1</type>
+			</component>
+		</machineComponent>
+		
+		<!-- Pump cutting fluid high pressure-->
+		<machineComponent>
+			<name>CuttingFluidPumpHighPressure</name>
+			<component xsi:type="pumpPower" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>HD_Knoll_KTS_25_38_T</type>
+			</component>
+		</machineComponent>
+		
+		<!-- Pump cutting fluid low pressure-->
+		<machineComponent>
+			<name>CuttingFluidPumpLowPressure</name>
+			<component xsi:type="pumpPower" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>ND_Knoll_TG_40_55_22</type>
+			</component>
+		</machineComponent>
+		
+		<!-- Pump cutting fluid back to tank-->
+		<machineComponent>
+			<name>CuttingFluidPumpBack</name>
+			<component xsi:type="pumpPower" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>Hebepumpe_Knoll_Etaprime_40_140</type>
+			</component>
+		</machineComponent>
+		
+		<!-- Pump Water for cooling spindle-->
+		<machineComponent>
+			<name>SpindleCoolingPump</name>
+			<component xsi:type="constantComponent" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>Hyfra_VWK_21_1S</type>
+			</component> 
+		</machineComponent>
+		
+		<machineComponent>
+			<name>CoolingKompr</name>
+			<component xsi:type="constantComponent" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>LX051_Schimpke</type>
+			</component> 
+		</machineComponent>
+		
+		<!-- Chip conv. -->
+		<machineComponent>
+			<name>ChipConveyor</name>
+			<component xsi:type="constantComponent" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>LX051_ChipConveyor</type>
+			</component> 
+		</machineComponent>
+		
+		<!-- Mist conv. -->
+		<machineComponent>
+			<name>MistConveyor</name>
+			<component xsi:type="constantComponent" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>AFS600_MistConveyor</type>
+			</component> 
+		</machineComponent>
+		
+		<!-- PCU50, MSTT, FAN, Screen -->
+		<machineComponent>
+			<name>PCU50</name>
+			<component xsi:type="constantComponent" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>Siemens_PCU50</type>
+			</component> 
+		</machineComponent>
+		
+		<!-- Siemens DIDO -->
+		<machineComponent>
+			<name>DIDO</name>
+			<component xsi:type="constantComponent" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>Siemens_LX051_DIDO</type>
+			</component> 
+		</machineComponent>
+		
+		<!-- Cabinet Light -->
+		<machineComponent>
+			<name>Light</name>
+			<component xsi:type="constantComponent" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>LX051_CabinetLight</type>
+			</component> 
+		</machineComponent>
+		
+		<!-- Cabinet Cooling Fan 1 -->
+		<machineComponent>
+			<name>Pfannenberg_Fan1</name>
+			<component xsi:type="constantComponent" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>Pfannenberg_PWS_7332L</type>
+			</component> 
+		</machineComponent>
+		
+		<!-- Cabinet Cooling Fan 2 -->
+		<machineComponent>
+			<name>Pfannenberg_Fan2</name>
+			<component xsi:type="constantComponent" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>Pfannenberg_PWS_7332L</type>
+			</component> 
+		</machineComponent>
+		
+		<!-- Hydraulic Pump -->
+		<machineComponent>
+			<name>Hydraulic</name>
+			<component xsi:type="constantComponent" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>LX051_Hydraulic</type>
+			</component> 
+		</machineComponent>
+		
+	    <!-- Siemens Fan  -->
+		<machineComponent>
+			<name>Fan</name>
+			<component xsi:type="constantComponent" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>Fan_6SN1162_0BA02_0AA1</type>
+			</component> 
+		</machineComponent>
+		
+		<!-- Sum of energy over Siemens -->
+		<machineComponent>
+			<name>SiemensTotalPower</name>
+			<component xsi:type="sum" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<unit>WATT</unit>
+			</component>
+		</machineComponent>
+		
+		<machineComponent>
+			<name>SiemensTotalHeatLoss</name> 
+			<component xsi:type="sum" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<unit>WATT</unit>
+			</component>
+		</machineComponent>
+		
+		<!-- Gain for high pressure lub pump -->
+		<machineComponent>
+			<name>HighPressLubGain</name>
+			<component xsi:type="gain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<unit>KG_S</unit>
+				<gain>0.31</gain>
+			</component>
+		</machineComponent>
+		
+		<!-- Gain for low pressure lub pump -->
+		<machineComponent>
+			<name>LowPressLubGain</name>
+			<component xsi:type="gain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<unit>KG_S</unit>
+				<gain>2</gain>
+			</component>
+		</machineComponent>
+		
+		<!-- Gain for back lub pump -->
+		<machineComponent>
+			<name>BackLubGain</name>
+			<component xsi:type="gain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<unit>KG_S</unit>
+				<gain>3.66</gain>
+			</component>
+		</machineComponent>
+		
+		<!-- Compressed air -->
+		<machineComponent>
+			<name>CompressedAir</name>
+			<component xsi:type="compressedFluid" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>Air6bar</type>
+			</component>
+		</machineComponent>
+		
+		<!-- 24V Transformer -->
+		<machineComponent>
+			<name>ControlPower24V</name>
+			<component xsi:type="sum" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<unit>WATT</unit>
+			</component>
+		</machineComponent>
+		
+		<!-- 220V Transformer -->
+		<machineComponent>
+			<name>ControlPower220V</name>
+			<component xsi:type="sum" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<unit>WATT</unit>
+			</component>
+		</machineComponent>
+		
+		<!-- Total electrical power -->
+		<machineComponent>
+			<name>TotalPower</name>
+			<component xsi:type="sum" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<unit>WATT</unit>
+			</component>
+		</machineComponent>
+		
+		<!-- Total heat loss -->
+		<machineComponent>
+			<name>TotalHeatLoss</name>
+			<component xsi:type="sum" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<unit>WATT</unit>
+			</component>
+		</machineComponent>
+
+		
+
+	</machine>
+	<simulators>
+	
+		<!-- Siemens on/off -->
+		<simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>SiemensCtrl</name>
+            <unit>NONE</unit>
+        </simController>
+                       
+        <!-- Cutting Fluid high pressure pump on/off -->
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			<name>HighPressLubCtrl</name>
+			<unit>KG_S</unit>
+		</simController>
+		
+		<!-- Cutting Fluid low pressure pump on/off -->
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			<name>LowPressLubCtrl</name>
+			<unit>KG_S</unit>
+		</simController>
+		
+		<!-- Cutting Fluid back to tankpump on/off -->
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			<name>BackLubCtrl</name>
+			<unit>KG_S</unit>
+		</simController>
+        
+        <!-- Spindle cooling on/off -->
+		<simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>SpindleCoolingCtrl</name>
+            <unit>NONE</unit>
+        </simController>
+        
+         <!-- Spindle cooling Kompressor on/off -->
+		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>CoolingKomprCtrl</name>
+            <unit>NONE</unit>
+        </simController>
+        
+        <!-- Chip conveyor on/off -->
+		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>ChipConveyorCtrl</name>
+            <unit>NONE</unit>
+        </simController>
+        
+        <!-- Mist conveyor on/off -->
+		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>MistConveyorCtrl</name>
+            <unit>NONE</unit>
+        </simController>
+        
+        <!-- PCU50, MSTT, FAN, Screen -->
+		<simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>PCU50Ctrl</name>
+            <unit>NONE</unit>
+        </simController>
+        
+        <!-- Siemens DIDO -->
+		<simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>DIDOCtrl</name>
+            <unit>NONE</unit>
+        </simController>
+        
+        <!-- Hydraulic Pump -->
+		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>HydraulicCtrl</name>
+            <unit>NONE</unit>
+        </simController>
+        
+        <!-- Sealing air demand -->
+		<simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>SealingAirDemand</name>
+            <unit>L_S</unit>
+        </simController>
+        
+         <!-- Fan on/off -->
+		<simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>FanCtrl</name>
+            <unit>NONE</unit>
+        </simController>
+        
+        <!-- Cabinet light on/off -->
+		<simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>LightCtrl</name>
+            <unit>NONE</unit>
+        </simController>
+        
+        <!-- Cabinet Cooling Fan on/off -->
+		<simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>PfannenbergCtrl</name>
+            <unit>NONE</unit>
+        </simController>
+        		 
+		<!-- Rot. Speed C axis -->
+		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			<name>C1_n</name>
+			<unit>RPM</unit>
+		</simController>
+
+		<!-- Torque C axis -->
+		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			<name>C1_Torque</name>
+			<unit>NEWTONMETER</unit>
+		</simController>
+		
+		<!-- Rot. Speed X axis -->
+		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			<name>X1_n</name>
+			<unit>RPM</unit>
+		</simController>
+
+		<!-- Torque X axis -->
+		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			<name>X1_Torque</name>
+			<unit>NEWTONMETER</unit>
+		</simController>
+		
+		<!-- Rot. Speed Y axis -->
+		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			<name>Y1_n</name>
+			<unit>RPM</unit>
+		</simController>
+
+		<!-- Torque Y axis -->
+		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			<name>Y1_Torque</name>
+			<unit>NEWTONMETER</unit>
+		</simController>
+		
+		<!-- Rot. Speed Z axis -->
+		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			<name>Z1_n</name>
+			<unit>RPM</unit>
+		</simController>
+
+		<!-- Torque Z axis -->
+		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			<name>Z1_Torque</name>
+			<unit>NEWTONMETER</unit>
+		</simController>
+		
+		<!-- Rot. Speed A axis -->
+		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			<name>A1_n</name>
+			<unit>RPM</unit>
+		</simController>
+
+		<!-- Torque A axis -->
+		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			<name>A1_Torque</name>
+			<unit>NEWTONMETER</unit>
+		</simController>
+		
+		<!-- Rot. Speed B axis -->
+		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			<name>B1_n</name>
+			<unit>RPM</unit>
+		</simController>
+
+		<!-- Torque B axis -->
+		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			<name>B1_Torque</name>
+			<unit>NEWTONMETER</unit>
+		</simController>
+	
+		
+		<!-- Ambient Temperature -->
+		<simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			<name>AmbTemperature</name>
+			<unit>KELVIN</unit>
+		</simController>
+		
+		<!-- Ambient Pressure -->
+		<simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			<name>AmbPressure</name>
+			<unit>PA</unit>
+		</simController>
+		
+		
+	</simulators>
+</ns2:machine>

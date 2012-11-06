@@ -43,6 +43,7 @@ import ch.ethz.inspire.emod.model.Revolver;
 import ch.ethz.inspire.emod.model.Fan;
 import ch.ethz.inspire.emod.model.Pump;
 import ch.ethz.inspire.emod.model.PumpAccumulator;
+import ch.ethz.inspire.emod.model.PumpPower;
 import ch.ethz.inspire.emod.model.HeatExchanger;
 import ch.ethz.inspire.emod.model.CompressedFluid;
 import ch.ethz.inspire.emod.model.Amplifier;
@@ -69,7 +70,7 @@ import ch.ethz.inspire.emod.utils.PropertiesHandler;
 @XmlRootElement(namespace = "ch.ethz.inspire.emod")
 @XmlSeeAlso({MachineComponent.class, APhysicalComponent.class, Motor.class, LinAxis.class,
 	ClampTest.class, ServoMotor.class, Revolver.class, Fan.class, Pump.class, PumpAccumulator.class, HeatExchanger.class, 
-	LinTransmission.class, CompressedFluid.class, Amplifier.class, ConstantComponent.class, 
+	PumpPower.class, LinTransmission.class, CompressedFluid.class, Amplifier.class, ConstantComponent.class, 
 	HysteresisControl.class, SwitchControl.class, Sum.class, Gain.class,
 	HomogStorage.class, LayerStorage.class, ForcedHeatTransfere.class, FreeHeatTransfere.class,
 	ASimulationControl.class, RandomSimulationControl.class, StaticSimulationControl.class, 

@@ -1,0 +1,126 @@
+# Input - Output mapping
+# EL. MECH ===============================================================================================================
+# Spindle ---------------------------------
+C1.RotSpeed             = C1_n             
+C1.Torque               = C1_Torque        
+C1_amp.State            = SiemensCtrl
+C1_amp.PDmd             = C1.PTotal
+
+# X_Axis ---------------------------------
+X1.RotSpeed             = X1_n             
+X1.Torque               = X1_Torque        
+X1_amp.State            = SiemensCtrl
+X1_amp.PDmd             = X1.PTotal
+
+# Y_Axis ---------------------------------
+Y1.RotSpeed             = Y1_n             
+Y1.Torque               = Y1_Torque        
+Y1_amp.State            = SiemensCtrl
+Y1_amp.PDmd             = Y1.PTotal
+
+# Z_Axis ---------------------------------
+Z1.RotSpeed             = Z1_n             
+Z1.Torque               = Z1_Torque        
+Z1_amp.State            = SiemensCtrl
+Z1_amp.PDmd             = Z1.PTotal
+
+# A_Axis ---------------------------------
+A1.RotSpeed             = A1_n             
+A1.Torque               = A1_Torque        
+A1_amp.State            = SiemensCtrl
+A1_amp.PDmd             = A1.PTotal
+
+# B_Axis ---------------------------------
+B1.RotSpeed             = B1_n             
+B1.Torque               = B1_Torque        
+B1_amp.State            = SiemensCtrl
+B1_amp.PDmd             = B1.PTotal
+
+# Siemens: Sum ------------------------------
+SiemensTotalPower.Plus    = C1_amp.PAmp
+SiemensTotalPower.Plus    = X1_amp.PAmp
+SiemensTotalPower.Plus    = Y1_amp.PAmp
+SiemensTotalPower.Plus    = Z1_amp.PAmp
+SiemensTotalPower.Plus    = A1_amp.PAmp
+SiemensTotalPower.Plus    = B1_amp.PAmp
+SiemensTotalPower.Plus 	  = C1_amp.PCtrl
+SiemensTotalPower.Plus 	  = X1_amp.PCtrl
+SiemensTotalPower.Plus 	  = Y1_amp.PCtrl
+SiemensTotalPower.Plus 	  = Z1_amp.PCtrl
+SiemensTotalPower.Plus 	  = A1_amp.PCtrl
+SiemensTotalPower.Plus 	  = B1_amp.PCtrl
+
+SiemensTotalHeatLoss.Plus = C1_amp.PLoss
+SiemensTotalHeatLoss.Plus = X1_amp.PLoss
+SiemensTotalHeatLoss.Plus = Y1_amp.PLoss
+SiemensTotalHeatLoss.Plus = Z1_amp.PLoss
+SiemensTotalHeatLoss.Plus = A1_amp.PLoss
+SiemensTotalHeatLoss.Plus = B1_amp.PLoss
+
+# 24V Control Power ---------------------------
+ControlPower24V.Plus = PCU50.ptotal
+ControlPower24V.Plus = DIDO.ptotal
+
+# 220V Power ---------------------------
+ControlPower220V.Plus = Light.ptotal
+ControlPower220V.Plus = Pfannenberg_Fan1.ptotal
+ControlPower220V.Plus = Pfannenberg_Fan2.ptotal
+
+
+# Compressed air --------------------------
+CompressedAir.Flow           = SealingAirDemand
+CompressedAir.TemperatureAmb = AmbTemperature
+CompressedAir.PressureAmb    = AmbPressure
+
+# Auxilary --------------------------------
+SpindleCoolingPump.level    = SpindleCoolingCtrl
+CoolingKompr.level    		= CoolingKomprCtrl
+PCU50.level			 		= PCU50Ctrl
+Fan.level            		= FanCtrl
+DIDO.level           		= DIDOCtrl
+Light.level          		= LightCtrl
+Pfannenberg_Fan1.level     	= PfannenbergCtrl
+Pfannenberg_Fan2.level     	= PfannenbergCtrl
+
+
+# Pump: Gain ------------------------------
+LowPressLubGain.Input		= LowPressLubCtrl
+HighPressLubGain.Input		= HighPressLubCtrl
+BackLubGain.Input			= BackLubCtrl
+
+CuttingFluidPumpHighPressure.MassFlowOut     = HighPressLubGain.Output
+CuttingFluidPumpLowPressure.MassFlowOut      = LowPressLubGain.Output
+CuttingFluidPumpBack.MassFlowOut      		 = BackLubGain.Output
+
+ChipConveyor.level                			 = ChipConveyorCtrl
+MistConveyor.level                			 = MistConveyorCtrl
+Hydraulic.level                			     = HydraulicCtrl
+
+# TOTAL -----------------------------------
+TotalPower.Plus     = SiemensTotalPower.Sum
+TotalPower.Plus     = SpindleCoolingPump.ptotal
+TotalPower.Plus     = CoolingKompr.ptotal
+TotalPower.Plus     = CuttingFluidPumpHighPressure.PTotal
+TotalPower.Plus     = CuttingFluidPumpLowPressure.PTotal
+TotalPower.Plus     = CuttingFluidPumpBack.PTotal
+TotalPower.Plus     = ChipConveyor.ptotal
+TotalPower.Plus     = ControlPower24V.Sum
+TotalPower.Plus     = ControlPower220V.Sum
+TotalPower.Plus     = Fan.ptotal
+TotalPower.Plus     = MistConveyor.ptotal
+TotalPower.Plus     = Hydraulic.ptotal
+
+# TOTAL HEAT LOSS -------------------------
+TotalHeatLoss.Plus  = SiemensTotalHeatLoss.Sum
+TotalHeatLoss.Plus  = CuttingFluidPumpHighPressure.PLoss
+TotalHeatLoss.Plus  = CuttingFluidPumpLowPressure.PLoss
+TotalHeatLoss.Plus  = CuttingFluidPumpBack.PLoss
+TotalHeatLoss.Plus  = X1.PLoss
+TotalHeatLoss.Plus  = Y1.PLoss
+TotalHeatLoss.Plus  = Z1.PLoss
+TotalHeatLoss.Plus  = A1.PLoss
+TotalHeatLoss.Plus  = B1.PLoss
+TotalHeatLoss.Plus  = C1.PLoss
+
+
+

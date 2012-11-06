@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>
+    Model parameter definition
+    ==========================
+      Model : Constant Component 
+      Type  : Siemens PCU50, MSTT, Fan, Screen
+    Parameters
+    ----------
+      power levels per component state
+  </comment>
+  <entry key="levels">0.0 38;</entry>
+</properties>

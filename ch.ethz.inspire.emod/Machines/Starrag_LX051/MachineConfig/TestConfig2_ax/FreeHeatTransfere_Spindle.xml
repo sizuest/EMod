@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>
+	    
+  </comment>
+  <entry key="thermal.Surface">0.25</entry>
+  <entry key="thermal.ConvectionConstants">2</entry>
+  <entry key="thermal.ConductionConstants">30</entry>
+  <entry key="thermal.WallThicknesses">0.05</entry>
+</properties>

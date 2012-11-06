@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>
+    Model parameter definition
+    ==========================
+      Model : Amplifier 
+      Type  : Siemens_6SN1123_1AA00_0CA1
+    Parameters
+    ----------
+      PowerSamples [W]
+        Vector of power samples
+      Efficency [-]
+        Vector of corresponding efficencies
+      PowerLossStatic [W]
+	    Static power demand if no electrical power is consumed
+  </comment>
+  <entry key="PowerSamples">1 8000</entry>
+  <entry key="Efficiency">0.98 0.98</entry>
+  <entry key="PowerCtrl">65</entry>
+</properties>

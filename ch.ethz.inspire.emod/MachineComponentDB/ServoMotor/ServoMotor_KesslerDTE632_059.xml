@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>
+    Model parameter definition
+    ==========================
+      Model : ServoMotor 
+      Type  : DTE632.059 A-Achse LX051
+    Parameters
+    ----------
+      StaticFriction [Nm]
+        Static friction of the motor
+      KappaA [Nm/A]
+        Torque constant of the motor
+      KappaI [V/rmp]
+        Speed constant of the motor
+      ArmatureResistance [Ohm]
+        Internal resistance of the motor
+      PolePairs [-]
+        Number of pole pairs
+      AMPPower [W]
+        Power consumtion of the amplifier and control if on
+      AMPLoss [W]
+      	Heat Loss of the amplifier and control if on
+      BrakePower [W]
+        Power demand to release the brake, zero if no brake is installed
+  </comment>
+  <entry key="StaticFriction">1</entry>
+  <entry key="KappaA">8.13</entry>
+  <entry key="KappaI">0.572</entry>
+  <entry key="ArmatureResistance">1.85</entry>
+  <entry key="PolePairs">21</entry>
+  <entry key="BrakePower">0</entry>
+</properties>
