@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>
+    Model parameter definition
+    ==========================
+      Model : PumpPower 
+      Type  : Hebepumpe_Knoll_Etaprime_40_140
+    Parameters
+    ----------
+      PressureSamples [Pa]
+        Array of operation points for the pump
+      MassFlowSamples [kg/s]
+        Array of corresponding mass floes to the given pressure
+        samples
+        MassFlow in Liter/min * 0.001/60 * DensityFluid
+      DensityFluid [kg/m3]
+        desity of the pumped fluid
+      ElectricalPowerSamples [W]
+      	Array of Electrical power to given mass flow
+      
+  </comment>
+  <entry key="PressureSamples">262000 250000 230000 200000 180000 164000 130000 100000</entry>
+  <entry key="MassFlowSamples">1.226 2.208 3.287 4.513 5.151 5.641 6.5 7.236</entry>
+  <entry key="ElectricalPowerSamples">1510 1700 1900 2090 2150 2200 2270 2330</entry>
+  <entry key="DensityFluid">883</entry>
+</properties>
