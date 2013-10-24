@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>
+    Model parameter definition
+    ==========================
+      Model : Cylinder 
+      Type  : Example
+    Parameters
+    ----------
+      PistonThickness [m]
+        TODO
+      PistonDiameter [m]
+        TODO
+  </comment>
+  <entry key="PistonDiameter">0.05</entry>
+  <entry key="PistonThickness">0.01</entry>
+</properties>
