@@ -23,8 +23,10 @@ public enum Unit {
 	RPM,          // rotations per minute
 	MM_MIN,       // mm/min
 	MM,
+	MMSQUARE_S,
 	NEWTON,
 	METERCUBIC_S,
+	KG_MCUBIC,
 	KG_S,
 	PA,
 	L_S,

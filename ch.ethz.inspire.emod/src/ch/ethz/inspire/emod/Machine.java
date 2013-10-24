@@ -32,21 +32,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
-import ch.ethz.inspire.emod.model.APhysicalComponent;
-import ch.ethz.inspire.emod.model.ConstantComponent;
-import ch.ethz.inspire.emod.model.ClampTest;
-import ch.ethz.inspire.emod.model.LinAxis;
-import ch.ethz.inspire.emod.model.Motor;
-import ch.ethz.inspire.emod.model.ServoMotor;
-import ch.ethz.inspire.emod.model.LinTransmission;
-import ch.ethz.inspire.emod.model.Revolver;
-import ch.ethz.inspire.emod.model.Fan;
-import ch.ethz.inspire.emod.model.Pump;
-import ch.ethz.inspire.emod.model.PumpAccumulator;
-import ch.ethz.inspire.emod.model.PumpPower;
-import ch.ethz.inspire.emod.model.HeatExchanger;
-import ch.ethz.inspire.emod.model.CompressedFluid;
-import ch.ethz.inspire.emod.model.Amplifier;
+import ch.ethz.inspire.emod.model.*;
 import ch.ethz.inspire.emod.model.math.*;
 import ch.ethz.inspire.emod.model.thermal.*;
 import ch.ethz.inspire.emod.model.control.*;
@@ -71,6 +57,7 @@ import ch.ethz.inspire.emod.utils.PropertiesHandler;
 @XmlSeeAlso({MachineComponent.class, APhysicalComponent.class, Motor.class, LinAxis.class,
 	ClampTest.class, ServoMotor.class, Revolver.class, Fan.class, Pump.class, PumpAccumulator.class, HeatExchanger.class, 
 	PumpPower.class, LinTransmission.class, CompressedFluid.class, Amplifier.class, ConstantComponent.class, 
+	Cylinder.class, 
 	HysteresisControl.class, SwitchControl.class, Sum.class, Gain.class,
 	HomogStorage.class, LayerStorage.class, ForcedHeatTransfere.class, FreeHeatTransfere.class,
 	ASimulationControl.class, RandomSimulationControl.class, StaticSimulationControl.class, 
