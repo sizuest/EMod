@@ -1,0 +1,4 @@
+# Input - Output mapping
+# C1.RotSpeed      = C1_n      # Turing speed from process parameters
+DiffCylinder.Force = Force
+DiffCylinder.Speed = Velocity

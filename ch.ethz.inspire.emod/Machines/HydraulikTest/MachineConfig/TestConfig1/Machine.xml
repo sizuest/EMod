@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+	Machine definition file
+	
+	The <machine> contains a list of <machineComponent>s. Each
+	<machineComponent> is specified by a <name>, a <component xsi:type> (e.g. linearMotor)
+	and a <type>. The machine component objects are built from this list automatically.
+
+	The <simulators> contains a list of simulators used for process and state simulation.
+-->
+<ns2:machine xmlns:ns2="ch.ethz.inspire.emod">
+    <machine>
+        <machineComponent>
+	        <!-- Zylinder -->
+	    	<name>DiffCylinder</name>
+            <component xsi:type="cylinder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+        </machineComponent>
+        
+    </machine>
+
+    <simulators>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Force</name>
+            <unit>NEWTON</unit>
+        </simController>
+        
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Velocity</name>
+            <unit>MM_MIN</unit>
+        </simController>
+        
+        <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>SystemCtrl</name>
+            <unit>NONE</unit>
+        </simController>
+        
+    </simulators>
+</ns2:machine>
