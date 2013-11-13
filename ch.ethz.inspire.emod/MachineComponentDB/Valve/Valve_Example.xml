@@ -4,21 +4,18 @@
   <comment>
     Model parameter definition
     ==========================
-      Model : Cylinder 
+      Model : Valve 
       Type  : Example
     Parameters
     ----------
-      PistonThickness [m]
+      ElectricPower [W]
         TODO
-      PistonDiameter [m]
+      MassflowSamples [kg/s]
         TODO
-      CylinderStroke [m]
+      PressureSamples [Pa]
         TODO
-      Hydraulic-mechanic efficiency
-      	TODO
   </comment>
-  <entry key="PistonDiameter">0.05</entry>
-  <entry key="PistonThickness">0.01</entry>
-  <entry key="CylinderStroke">5</entry>
-  <entry key="Efficiency">0.95</entry>
+  <entry key="ElectricPower">18</entry>
+  <entry key="VolFlowSamples">0; 5; 10; 15; 20</entry>
+  <entry key="PressureSamples">0; 180000; 500000; 820000; 1100000</entry>
 </properties>
