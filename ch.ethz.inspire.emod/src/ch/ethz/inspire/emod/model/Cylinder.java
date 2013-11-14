@@ -73,8 +73,9 @@ public class Cylinder extends APhysicalComponent{
 	private double lastviscosity = 20;
 	private double lastforce     = 0;
 	private double lastvelocity  = 0;
+	private double lastposition;
 	
-	//TODO Viskosität und Dichte je nach Öl und Temperatur variabel
+	//TODO Viskositï¿½t und Dichte je nach ï¿½l und Temperatur variabel
 	
 	// Output parameters:
 	private IOContainer pressure;
@@ -146,6 +147,9 @@ public class Cylinder extends APhysicalComponent{
 		outputs.add(pmech);
 		outputs.add(ploss);
 		outputs.add(phydr);
+		
+		/* Define initial state */
+		lastposition = 0;
 
 			
 		/* ************************************************************************/
@@ -207,72 +211,83 @@ public class Cylinder extends APhysicalComponent{
 	public void update() {
 		
 		if ( (lastvelocity == velocity.getValue() ) &&
-				 (lastforce == force.getValue() ) ) 
-			{
-				// Input values did not change, nothing to do.
-				return;
-			}
+				 (lastforce == force.getValue() ) ) {
+			// Input values did not change, nothing to do.
+			return;
+		}
 		
-		lastvelocity  = velocity.getValue();
+		lastvelocity  = velocity.getValue() * 60/1000;	// mm/min -> m/s
 		lastforce     = force.getValue();
 		//lastdensity   = density.getValue();
 		//lastviscosity = viscosity.getValue();
 		
+		
 		//Choosing of the fitting according to the piston diameter
 		if(pistonDiameter > 0.03 && pistonDiameter <= 0.05)
-			{
-				H_8 = 39/2*Math.pow(10,-6);
-				f_7 = 37.5*Math.pow(10,-6);
-			}
+		{
+			H_8 = 39/2*Math.pow(10,-6);
+			f_7 = 37.5*Math.pow(10,-6);
+		}
 		
 		else if(pistonDiameter > 0.05 && pistonDiameter <= 0.065)
-			{
-				H_8 = 23*Math.pow(10,-6);
-				f_7 = 45*Math.pow(10,-6);
-			}
+		{
+			H_8 = 23*Math.pow(10,-6);
+			f_7 = 45*Math.pow(10,-6);
+		}
 		
 		//State 1: Cylinder idle
 		if(lastvelocity == 0 && lastforce == 0)
-			{
-			
+		{
+		
 			pressure.setValue(0);
 			leakFlow.setValue(0);
 			massFlow.setValue(0);
 			pmech.setValue(0);
 			ploss.setValue(0);
-			
-			}
+		
+		}
 		
 		//State 2: Cylinder extended & hold
 		else if(lastvelocity == 0 && lastforce != 0)
-			{
+		{
 
 			pressure.setValue(lastforce/(Math.PI/4*Math.pow(pistonDiameter,2)));
 			leakFlow.setValue(pressure.getValue()*(pistonDiameter+H_8-f_7)*Math.pow(H_8+f_7,3)/(12*lastviscosity*Math.pow(10,-6)*lastdensity*pistonThickness));
 			massFlow.setValue(leakFlow.getValue());
 			pmech.setValue(0);
 			ploss.setValue(pressure.getValue()*leakFlow.getValue());
-			
-			}
+		
+		}
 		
 		//State 3: Piston moving
 		else if(lastvelocity != 0 && lastforce != 0)
-			{
+		{
+			// Check if movement is possible & take measures
+			if (lastposition >= stroke) {
+				lastposition = stroke;
+				
+				if (lastvelocity > 0) lastvelocity = 0;
+			}
+			else if (lastposition <= 0) {
+				lastposition = 0;
+				
+				if (lastvelocity < 0) lastvelocity = 0;
+			}
+			
 			
 			//Mechanical power exists
-			for(int t=0; t<stroke/lastvelocity; t++)
-				{
+			pressure.setValue(lastforce/(Math.PI/4*Math.pow(pistonDiameter,2)));
+			leakFlow.setValue(pressure.getValue()*(pistonDiameter+H_8-f_7)*Math.pow(H_8+f_7,3)/(12*lastviscosity*Math.pow(10,-6)*lastdensity*pistonThickness));
+			massFlow.setValue(lastdensity*(lastvelocity*Math.PI/4*Math.pow(pistonDiameter,2)+leakFlow.getValue()));
+			pmech.setValue(lastforce*lastvelocity);
+			ploss.setValue(pressure.getValue()*leakFlow.getValue()/lastdensity);
+			phydr.setValue(pmech.getValue()+ploss.getValue());
 				
-				pressure.setValue(lastforce/(Math.PI/4*Math.pow(pistonDiameter,2)));
-				leakFlow.setValue(pressure.getValue()*(pistonDiameter+H_8-f_7)*Math.pow(H_8+f_7,3)/(12*lastviscosity*Math.pow(10,-6)*lastdensity*pistonThickness));
-				massFlow.setValue(880*(lastvelocity*Math.PI/4*Math.pow(pistonDiameter,2)-leakFlow.getValue()));
-				pmech.setValue(lastforce*lastvelocity);
-				ploss.setValue(pressure.getValue()*leakFlow.getValue());
-				phydr.setValue(pmech.getValue()+ploss.getValue());
-				
-				}
+			
+			// Get new position
+			lastposition += sampleperiod * lastvelocity;
 					
-			}
+		}
 		
 	phydr.setValue(pmech.getValue()+ploss.getValue());
 	
