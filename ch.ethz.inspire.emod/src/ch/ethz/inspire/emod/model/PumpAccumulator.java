@@ -35,7 +35,8 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  * 
  * 
  * Inputlist:
- *   1: MassFlowOut : [kg/s] : Demanded mass flow out
+ *   1: Level:		: [-]    : Idicator for pump on
+ *   2: MassFlowOut : [kg/s] : Demanded mass flow out
  * Outputlist:
  *   1: PTotal      : [W]    : Demanded electrical power
  *   2: PLoss       : [W]    : Thermal pump losses
@@ -65,6 +66,7 @@ public class PumpAccumulator extends APhysicalComponent{
 	
 	// Input parameters:
 	private IOContainer massFlowOut;
+	private IOContainer level;
 	// Output parameters:
 	private IOContainer pel;
 	private IOContainer pth;
@@ -120,9 +122,11 @@ public class PumpAccumulator extends APhysicalComponent{
 	private void init()
 	{
 		/* Define Input parameters */
-		inputs     = new ArrayList<IOContainer>();
+		inputs      = new ArrayList<IOContainer>();
 		massFlowOut = new IOContainer("MassFlowOut", Unit.KG_S, 0);
+		level       = new IOContainer("Level", Unit.NONE, 1);
 		inputs.add(massFlowOut);
+		inputs.add(level);
 		
 		/* Define output parameters */
 		outputs    = new ArrayList<IOContainer>();
@@ -289,8 +293,11 @@ public class PumpAccumulator extends APhysicalComponent{
 		/*
 		 * Hysteresis controller for the pump
 		 */
-		if      ( pumpOn && pGas>hystPMax) pumpOn = false;
-		else if (!pumpOn && pGas<hystPMin) pumpOn = true;
+		if (level.getValue() < 1) pumpOn = false;
+		else {
+			if      ( pumpOn && pGas>hystPMax) pumpOn = false;
+			else if (!pumpOn && pGas<hystPMin) pumpOn = true;
+		}
 		
 		
 		if (pumpOn) {

@@ -39,7 +39,7 @@ public class CylinderTest {
 		cyl.getInput("Speed").setValue(0);
 		cyl.update();
 		
-		assertEquals("Clamping", 509392, cyl.getOutput("Pressure").getValue(), 0.5);
+		assertEquals("Clamping", 509392, cyl.getOutput("Pressure").getValue(), 100);
 		
 	}
 
