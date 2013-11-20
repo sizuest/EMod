@@ -124,7 +124,7 @@ public class PumpAccumulator extends APhysicalComponent{
 		/* Define Input parameters */
 		inputs      = new ArrayList<IOContainer>();
 		massFlowOut = new IOContainer("MassFlowOut", Unit.KG_S, 0);
-		level       = new IOContainer("Level", Unit.NONE, 1);
+		level       = new IOContainer("Level", Unit.NONE, 0);
 		inputs.add(massFlowOut);
 		inputs.add(level);
 		
