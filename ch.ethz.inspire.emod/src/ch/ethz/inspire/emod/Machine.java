@@ -57,7 +57,7 @@ import ch.ethz.inspire.emod.utils.PropertiesHandler;
 @XmlSeeAlso({MachineComponent.class, APhysicalComponent.class, Motor.class, LinAxis.class,
 	ClampTest.class, ServoMotor.class, Revolver.class, Fan.class, Pump.class, PumpAccumulator.class, HeatExchanger.class, 
 	PumpPower.class, LinTransmission.class, CompressedFluid.class, Amplifier.class, ConstantComponent.class, 
-	Cylinder.class, 
+	Cylinder.class, Valve.class, Pipe.class, HydraulicOil.class, ConstantPump.class,
 	HysteresisControl.class, SwitchControl.class, Sum.class, Gain.class,
 	HomogStorage.class, LayerStorage.class, ForcedHeatTransfere.class, FreeHeatTransfere.class,
 	ASimulationControl.class, RandomSimulationControl.class, StaticSimulationControl.class, 

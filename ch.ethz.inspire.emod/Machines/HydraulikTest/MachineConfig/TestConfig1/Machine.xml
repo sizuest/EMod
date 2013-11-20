@@ -13,10 +13,70 @@
         <machineComponent>
 	        <!-- Zylinder -->
 	    	<name>DiffCylinder</name>
-            <component xsi:type="cylinder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <component xsi:type="cylinder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"> #Type muss immer klein geschrieben werden
                 <type>Example</type>
             </component>
         </machineComponent>
+        
+        <machineComponent>
+	        <!-- Hydrauliköl -->
+	    	<name>HLP46</name>
+            <component xsi:type="hydraulicOil" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+        </machineComponent>
+        
+        <machineComponent>
+	        <!-- Rohr -->
+	    	<name>Pipe</name>
+            <component xsi:type="pipe" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+        </machineComponent>
+        
+        <machineComponent>
+	        <!-- Ventil -->
+	    	<name>Valve</name>
+            <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+        </machineComponent>
+        
+        <machineComponent>
+	        <!-- KonstantPumpe -->
+	    	<name>ConstantPump</name>
+            <component xsi:type="constantPump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+        </machineComponent>
+        
+        <!-- Total heat loss -->
+		<machineComponent>
+			<name>TotalHeatLoss</name>
+			<component xsi:type="sum" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<unit>WATT</unit>
+			</component>
+		</machineComponent>
+        
+#THERMAL ELEMENTS
+
+
+ 		<machineComponent>
+			<name>Thermal_HLP46</name>
+			<component xsi:type="homogStorage" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>Example</type>
+				<parentType>HydraulicOil</parentType>
+			</component>
+		</machineComponent>
+		
+		<machineComponent>
+			<name>Thermal_FreeFlow</name>
+			<component xsi:type="freeHeatTransfere" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<type>Example</type>
+				<parentType>HydraulicOil</parentType>
+			</component>
+		</machineComponent>
+       
         
     </machine>
 
@@ -29,6 +89,16 @@
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>Velocity</name>
             <unit>MM_MIN</unit>
+        </simController>
+                
+         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>AmbTemperature</name>
+            <unit>KELVIN</unit>
+        </simController>
+        
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>PumpCtrl</name>
+            <unit>NONE</unit>
         </simController>
         
         <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">

@@ -1,10 +1,10 @@
 /***********************************
- * $Id: PumpTest.java 88 2012-01-11 15:43:10Z sizuest $
+ * $Id$
  *
- * $URL: https://icvrdevil.ethz.ch/svn/EMod/trunk/ch.ethz.inspire.emod/test/ch/ethz/inspire/emod/model/PumpTest.java $
- * $Author: sizuest $
- * $Date: 2012-01-11 16:43:10 +0100 (Mit, 11. Jan 2012) $
- * $Rev: 88 $
+ * $URL$
+ * $Author$
+ * $Date$
+ * $Rev$
  *
  * Copyright (c) 2011 by Inspire AG, ETHZ
  * All rights reserved

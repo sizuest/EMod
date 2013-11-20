@@ -61,8 +61,8 @@ public class HydraulicOil extends APhysicalComponent{
 	private IOContainer pressure;
 	
 	//Saving last input values
-	private double lasttemperature=0;
-	private double lastpressure=0;
+	//private double lasttemperature=293;
+	//private double lastpressure=100000;
 
 	
 	// Output parameters:
@@ -109,7 +109,7 @@ public class HydraulicOil extends APhysicalComponent{
 		/* Define input parameters */
 		inputs   = new ArrayList<IOContainer>();
 		temperature  = new IOContainer("Temperature", Unit.KELVIN, 0);
-		pressure  = new IOContainer("Pressure", Unit.KG_MCUBIC, 0);
+		pressure  = new IOContainer("Pressure", Unit.PA, 0);
 		inputs.add(temperature);
 		inputs.add(pressure);
 		
@@ -223,13 +223,12 @@ public class HydraulicOil extends APhysicalComponent{
 	@Override
 	public void update() {
 		
-		lasttemperature=temperature.getValue();
-		lastpressure=pressure.getValue();
+		//lasttemperature=temperature.getValue();
+		//lastpressure=pressure.getValue();
 		
-		viscosity.setValue(Algo.linearInterpolation(lasttemperature, temperatureSamples, viscositySamples));
+		viscosity.setValue(Algo.linearInterpolation(temperature.getValue(), temperatureSamples, viscositySamples));
 		
-		density.setValue(Algo.bilinearInterpolation(lasttemperature, lastpressure, temperatureSamples, pressureSamples, densityMatrix));
-	
+		density.setValue(Algo.bilinearInterpolation(temperature.getValue(), pressure.getValue(), temperatureSamples, pressureSamples, densityMatrix));
 	
 	}
 

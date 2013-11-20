@@ -36,7 +36,7 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  * Inputlist:
  *   1: PressureOut : [Pa]   : Pressure at the end
  *   2: MassflowOut : [kg/s] : Massflow in the pipe
- *   3: Viscosity  	: [m2/s] : Hydraulic oil`s kinematic viscosity
+ *   3: Viscosity  	: [mm2/s] : Hydraulic oil`s kinematic viscosity
  *   4: Density     : [kg/m3] : Hydraulic oil`s density
  * Outputlist:
  *   1: PressureIn  : [Pa]   : Pressure in the cylinder chamber
@@ -65,8 +65,6 @@ public class Pipe extends APhysicalComponent{
 	
 	//Saving last input values:
 	
-	private double lastdensity   = 880;
-	private double lastviscosity = 20*Math.pow(10,-6);
 	private double lastpressure  = 0;
 	private double lastmassflow  = 0;
 	private double Reynolds		 = 0;
@@ -204,10 +202,8 @@ public class Pipe extends APhysicalComponent{
 		
 		lastpressure    = pressureOut.getValue();
 		lastmassflow    = massflowOut.getValue();
-		//lastdensity   = density.getValue();
-		//lastviscosity = viscosity.getValue();
 		
-		Reynolds = pipeDiameter*lastmassflow/(lastdensity*lastviscosity*Math.PI/4*Math.pow(pipeDiameter, 2));
+		Reynolds = pipeDiameter*lastmassflow/(density.getValue()*viscosity.getValue()*Math.pow(10,-6)*Math.PI/4*Math.pow(pipeDiameter, 2));
 		
 		if (Reynolds < 2300)
 			{
@@ -218,11 +214,19 @@ public class Pipe extends APhysicalComponent{
 			{
 				lambda = 0.3164/Math.pow(Reynolds, 0.25);			
 			}
+		if(lastmassflow!=0){
+			pressureloss.setValue(lambda*pipeLength*Math.pow(lastmassflow, 2)/(pipeDiameter*2*density.getValue()*Math.pow(Math.PI/4*Math.pow(pipeDiameter, 2), 2)));
+			massflowIn.setValue(massflowOut.getValue());
+			ploss.setValue(pressureloss.getValue()*massflowOut.getValue()/density.getValue());			
+			pressureIn.setValue(pressureOut.getValue()+pressureloss.getValue());
+		}
 		
-		pressureloss.setValue(lambda*pipeLength*Math.pow(lastmassflow, 2)/(pipeDiameter*2*lastdensity*Math.pow(Math.PI/4*Math.pow(pipeDiameter, 2), 2)));
-		massflowIn.setValue(massflowOut.getValue());
-		ploss.setValue(pressureloss.getValue()*massflowOut.getValue()/lastdensity);			
-		pressureIn.setValue(pressureOut.getValue()+pressureloss.getValue());
+		else{
+			pressureloss.setValue(0);
+			massflowIn.setValue(0);
+			ploss.setValue(0);
+			pressureIn.setValue(0);
+		}
 	
 	}
 

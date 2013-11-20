@@ -1,4 +1,47 @@
 # Input - Output mapping
-# C1.RotSpeed      = C1_n      # Turing speed from process parameters
-DiffCylinder.Force = Force
-DiffCylinder.Speed = Velocity
+
+
+#Cylinder
+DiffCylinder.Force 	    = Force
+DiffCylinder.Speed 	  	= Velocity
+DiffCylinder.Viscosity	= HLP46.Viscosity
+DiffCylinder.Density	= HLP46.Density
+
+#Rohr
+Pipe.PressureOut		= DiffCylinder.PressureIn
+Pipe.MassFlowOut		= DiffCylinder.MassFlowIn
+Pipe.Viscosity			= HLP46.Viscosity
+Pipe.Density			= HLP46.Density
+
+#Ventil
+Valve.PressureOut		= Pipe.PressureIn
+Valve.MassFlowOut	 	= Pipe.MassFlowIn
+Valve.Density			= HLP46.Density
+
+#KonstantPumpe
+ConstantPump.PressureOut = Valve.PressureIn
+ConstantPump.MassFlowOut = Valve.MassFlowIn
+ConstantPump.Density	 = HLP46.Density
+ConstantPump.PumpCtrl	 = PumpCtrl
+
+#Hydrauliköl
+HLP46.Temperature		= Thermal_HLP46.Temperature
+HLP46.Pressure			= DiffCylinder.PressureIn
+
+#Thermik
+TotalHeatLoss.Plus		= DiffCylinder.PLoss
+TotalHeatLoss.Plus		= Pipe.PLoss
+TotalHeatLoss.Plus		= Valve.PLoss
+TotalHeatLoss.Plus		= ConstantPump.PLoss
+
+Thermal_HLP46.In		= DiffCylinder.PLoss
+Thermal_HLP46.In		= Pipe.PLoss
+Thermal_HLP46.In		= Valve.PLoss
+Thermal_HLP46.In		= ConstantPump.PLoss
+
+Thermal_FreeFlow.Temperature1  = Thermal_HLP46.Temperature
+Thermal_FreeFlow.Temperature2  = AmbTemperature
+
+
+
+

@@ -36,13 +36,14 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  * Inputlist:
  *   1: Pressure    : [Pa]  
  *   2: Massflow    : [kg/s] : Oil flow through the valve
- *   3: Viscosity   : [m2/s] : Hydraulic oil`s kinematic viscosity
+ *   3: Viscosity   : [mm2/s] : Hydraulic oil`s kinematic viscosity
  *   4: Density     : [kg/m3] : Hydraulic oil`s density
  * Outputlist:
  *   1: Pressure    : [Pa]   : Pressure in the cylinder chamber
  *   2: MassFlow    : [kg/s] : Massflow into the cylinder chamber
  *   3: Ploss		: [W]	 : Power loss
  *   4: Pressureloss: [Pa]	 : Pressuredifference over the valve
+ *   5: Pel			: [W]	 : Needed electrical power to open and hold the valve
  *   
  * Config parameters:
  *   ElectricPower  : [W] 
@@ -61,20 +62,21 @@ public class Valve extends APhysicalComponent{
 	// Input parameters:
 	private IOContainer pressureOut;
 	private IOContainer massflowOut;
+	private IOContainer density;
 	
 	//Saving last input values:
 	
-	private double lastdensity   = 880;
 	private double lastpressure  = 0;
 	private double lastmassflow  = 0;
 	
-	//TODO Viskosität und Dichte je nach Öl und Temperatur variabel
+
 	
 	// Output parameters:
 	private IOContainer pressureIn;
 	private IOContainer massflowIn;
 	private IOContainer ploss;
 	private IOContainer pressureloss;
+	private IOContainer pel;
 	
 	// Parameters used by the model. 
 	private double electricPower;
@@ -115,8 +117,10 @@ public class Valve extends APhysicalComponent{
 		inputs       = new ArrayList<IOContainer>();
 		pressureOut  = new IOContainer("PressureOut", Unit.PA, 0);
 		massflowOut  = new IOContainer("MassFlowOut", Unit.KG_S, 0);
+		density		 = new IOContainer("Density", Unit.KG_MCUBIC, 0);
 		inputs.add(pressureOut);
 		inputs.add(massflowOut);
+		inputs.add(density);
 		
 		/* Define output parameters */
 		outputs   = new ArrayList<IOContainer>();
@@ -124,10 +128,12 @@ public class Valve extends APhysicalComponent{
 		massflowIn  = new IOContainer("MassFlowIn", Unit.KG_S, 0);
 		ploss       = new IOContainer("PLoss"   , Unit.WATT, 0);
 		pressureloss= new IOContainer("PressureLoss"   , Unit.PA, 0);
+		pel			= new IOContainer("PEl",	  Unit.WATT, 0);
 		outputs.add(pressureIn);
 		outputs.add(massflowIn);
 		outputs.add(ploss);
 		outputs.add(pressureloss);
+		outputs.add(pel);
 
 			
 		/* ************************************************************************/
@@ -218,24 +224,32 @@ public class Valve extends APhysicalComponent{
 	@Override
 	public void update() {
 		
-		if ( (lastpressure == pressureOut.getValue() ) &&
-				 (lastmassflow == massflowOut.getValue() ) ) 
-			{
+		if ( (lastpressure == pressureOut.getValue() ) ||
+				 (lastmassflow == massflowOut.getValue() ) ) {
 				// Input values did not change, nothing to do.
 				return;
-			}
+		}
 		
 		lastpressure  = pressureOut.getValue();
 		lastmassflow  = massflowOut.getValue();
-		//lastdensity   = density.getValue();
-		//lastviscosity = viscosity.getValue();
 		
-		//Interpolation to get the pressureloss
-		pressureloss.setValue(Algo.linearInterpolation(lastmassflow/lastdensity*60*1000, volflowSamples, pressureSamples));
-		ploss.setValue(lastmassflow/lastdensity*pressureloss.getValue()+electricPower);
-		massflowIn.setValue(lastmassflow);
-		pressureIn.setValue(lastpressure+pressureloss.getValue());	
-	
+		if(lastmassflow!=0){
+			//Interpolation to get the pressureloss
+			pressureloss.setValue(Algo.linearInterpolation(lastmassflow/density.getValue()*60*1000, volflowSamples, pressureSamples));
+			pel.setValue(electricPower);
+			ploss.setValue(lastmassflow/density.getValue()*pressureloss.getValue()+pel.getValue());
+			massflowIn.setValue(lastmassflow);
+			pressureIn.setValue(lastpressure+pressureloss.getValue());	
+		}
+		
+		else{
+			pressureOut.setValue(0);
+			pressureloss.setValue(0);
+			pel.setValue(0);
+			massflowIn.setValue(0);
+			pressureIn.setValue(0);
+			ploss.setValue(0);
+		}
 	}
 
 	/* (non-Javadoc)

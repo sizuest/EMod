@@ -25,6 +25,13 @@
   							 888, 884.6, 881.3, 878, 874,6;
   							 892, 888.6, 885.3, 882, 878.6;
   							 897, 893.6, 890.3, 887, 884.6;
-  							 901, 897.6, 894.3, 891, 887.6;
-  </entry>
+  							 901, 897.6, 894.3, 891, 887.6;</entry>
+
+<entry key="thermal.Mass">20</entry>
+<entry key="thermal.HeatCapacity">1885</entry>
+<entry key="thermal.Surface">0.16</entry>
+<entry key="thermal.ConvectionConstants">5</entry>
+<entry key="thermal.ConductionConstants">0</entry>
+<entry key="thermal.WallThicknesses">0</entry>
+
 </properties>

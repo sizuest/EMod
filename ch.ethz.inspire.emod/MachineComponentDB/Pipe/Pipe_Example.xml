@@ -15,4 +15,6 @@
   </comment>
   <entry key="PipeDiameter">0.01</entry>
   <entry key="PipeLength">5</entry>
+  <entry key="thermal.Mass">5</entry>
+  <entry key="thermal.HeatCapacity">480</entry>
 </properties>

@@ -1,6 +1,6 @@
 function [] = ProcessFileGenerator( name, inp_fields, description, minSampleTi )
 % PROCESSFILEGENERATOR( name, inp_fields, description, minSampleTi )
-% â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+% â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?
 % Generates a process file with the name NAME, each
 % signal is given as a field in inp_fied. The signals name is equal to the
 % field name. Each signal field contains a time [mat], a values [mat], a
@@ -10,14 +10,14 @@ function [] = ProcessFileGenerator( name, inp_fields, description, minSampleTi )
 % Author:  sizuest                   Copyright (c) 2012 by Inspire AG, ETHZ
 % Date:    15.03.2012                All rights reserved
 % Version: 1.0
-% â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+% â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?
 %
 % Example:
 % inpfields.C1_n.unit        = 'rpm'
 %               .description = 'Rotational speed of the spindle (C1)'
 %               .time        = [0 2 3 6]
 %               .values      = [0 1000 1500 1000]
-%               .init        = 1
+%               .        = 1
 
 if nargin<3
     description='@TODO';

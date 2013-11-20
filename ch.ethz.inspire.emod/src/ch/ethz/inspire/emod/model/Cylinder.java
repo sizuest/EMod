@@ -29,14 +29,14 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  * 
  * Assumptions:
  * -3 States (idle, moving, extended&hold)
- * -Friction is not taken into account.
  * -Leakage only occurs internally and is treated as annular passage flow.
  * -Fitting between cylinder and piston is assumed as H8/f7.
+ * -Friction is taken into account by hydraulic-mechanic efficiency
  * 
  * 
  * Inputlist:
  *   1: Force       : [N]   : Required force
- *   2: Speed       : [m/s] : Required displacement velocity
+ *   2: Speed       : [mm/min] : Required displacement velocity
  *   3: Viscosity   : [mm2/s] : Hydraulic oil`s viscosity
  *   4: Density     : [kg/m3] : Hydraulic oil`s density
  * Outputlist:
@@ -51,6 +51,7 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  *   PistonDiameter : [m] 
  *   PistonThickness: [m]
  *   Stroke			: [m]
+ *   Efficiency		: [] 	 : Hydraulic-mechanic
  * 
  * @author kraandre
  *
@@ -69,17 +70,13 @@ public class Cylinder extends APhysicalComponent{
 	
 	//Saving last input values:
 	
-	private double lastdensity   = 880;
-	private double lastviscosity = 20;
 	private double lastforce     = 0;
 	private double lastvelocity  = 0;
 	private double lastposition;
 	
-	//TODO Viskosit�t und Dichte je nach �l und Temperatur variabel
-	
 	// Output parameters:
-	private IOContainer pressure;
-	private IOContainer massFlow;
+	private IOContainer pressureIn;
+	private IOContainer massFlowIn;
 	private IOContainer leakFlow;
 	private IOContainer pmech;
 	private IOContainer ploss;
@@ -91,6 +88,7 @@ public class Cylinder extends APhysicalComponent{
 	private double stroke;
 	private double H_8;
 	private double f_7;
+	private double efficiency;
 	
 	/**
 	 * Constructor called from XmlUnmarshaller.
@@ -135,14 +133,14 @@ public class Cylinder extends APhysicalComponent{
 		
 		/* Define output parameters */
 		outputs   = new ArrayList<IOContainer>();
-		pressure  = new IOContainer("Pressure", Unit.PA, 0);
-		massFlow  = new IOContainer("MassFlow", Unit.KG_S, 0);
+		pressureIn  = new IOContainer("PressureIn", Unit.PA, 0);
+		massFlowIn  = new IOContainer("MassFlowIn", Unit.KG_S, 0);
 		leakFlow  = new IOContainer("LeakFlow", Unit.KG_S, 0);
 		pmech     = new IOContainer("PMech"   , Unit.WATT, 0);
 		ploss     = new IOContainer("PLoss"   , Unit.WATT, 0);
 		phydr     = new IOContainer("PHydr"   , Unit.WATT, 0);
-		outputs.add(pressure);
-		outputs.add(massFlow);
+		outputs.add(pressureIn);
+		outputs.add(massFlowIn);
 		outputs.add(leakFlow);
 		outputs.add(pmech);
 		outputs.add(ploss);
@@ -170,6 +168,7 @@ public class Cylinder extends APhysicalComponent{
 			pistonDiameter  = params.getDoubleValue("PistonDiameter");
 			pistonThickness = params.getDoubleValue("PistonThickness");
 			stroke			= params.getDoubleValue("CylinderStroke");
+			efficiency		= params.getDoubleValue("Efficiency");
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -194,13 +193,21 @@ public class Cylinder extends APhysicalComponent{
 	 */
     private void checkConfigParams() throws Exception
 	{		
-		if(0>pistonDiameter)
+		if(0>pistonDiameter){
 			throw new Exception("Cylinder, type:" +type+ 
 					": Non physical value: Variable 'pistonDiameter' must be bigger than zero!");
+		}
 		
-		if(0>pistonThickness)
+		if(0>pistonThickness){
 			throw new Exception("Cylinder, type:" +type+
 					": Non physical value: Variable 'pistonThickness' must be bigger than zero!");
+		}
+		
+		if(0>efficiency || efficiency>1){
+			throw new Exception("Cylinder, type:" +type+
+					": Non physical value: Variable 'efficiency' must reach from bigger than zero to 1!");
+		}
+		
 	}
 	
 
@@ -216,7 +223,7 @@ public class Cylinder extends APhysicalComponent{
 			return;
 		}
 		
-		lastvelocity  = velocity.getValue() * 60/1000;	// mm/min -> m/s
+		lastvelocity  = velocity.getValue() /60/1000;	// mm/min -> m/s
 		lastforce     = force.getValue();
 		//lastdensity   = density.getValue();
 		//lastviscosity = viscosity.getValue();
@@ -239,11 +246,12 @@ public class Cylinder extends APhysicalComponent{
 		if(lastvelocity == 0 && lastforce == 0)
 		{
 		
-			pressure.setValue(0);
+			pressureIn.setValue(0);
 			leakFlow.setValue(0);
-			massFlow.setValue(0);
+			massFlowIn.setValue(0);
 			pmech.setValue(0);
 			ploss.setValue(0);
+			phydr.setValue(0);
 		
 		}
 		
@@ -251,37 +259,43 @@ public class Cylinder extends APhysicalComponent{
 		else if(lastvelocity == 0 && lastforce != 0)
 		{
 
-			pressure.setValue(lastforce/(Math.PI/4*Math.pow(pistonDiameter,2)));
-			leakFlow.setValue(pressure.getValue()*(pistonDiameter+H_8-f_7)*Math.pow(H_8+f_7,3)/(12*lastviscosity*Math.pow(10,-6)*lastdensity*pistonThickness));
-			massFlow.setValue(leakFlow.getValue());
+			pressureIn.setValue(lastforce/(Math.PI/4*Math.pow(pistonDiameter,2)));
+			leakFlow.setValue(Math.PI*pressureIn.getValue()*Math.pow(pistonDiameter/2+H_8-(pistonDiameter/2-f_7), 3)*(pistonDiameter/2+H_8+pistonDiameter/2-f_7)/(12*viscosity.getValue()*Math.pow(10,-6)*pistonThickness));
+			massFlowIn.setValue(leakFlow.getValue());
 			pmech.setValue(0);
-			ploss.setValue(pressure.getValue()*leakFlow.getValue());
+			phydr.setValue(pressureIn.getValue()*massFlowIn.getValue()/density.getValue());
+			ploss.setValue(phydr.getValue());
 		
 		}
 		
 		//State 3: Piston moving
-		else if(lastvelocity != 0 && lastforce != 0)
+		else if(lastvelocity != 0)
 		{
 			// Check if movement is possible & take measures
 			if (lastposition >= stroke) {
 				lastposition = stroke;
 				
-				if (lastvelocity > 0) lastvelocity = 0;
+				if (lastvelocity > 0){
+					lastvelocity = -lastvelocity;
+				}
 			}
+			
 			else if (lastposition <= 0) {
 				lastposition = 0;
 				
-				if (lastvelocity < 0) lastvelocity = 0;
+				if (lastvelocity < 0){ 
+					lastvelocity = 0;
+				}
 			}
 			
 			
 			//Mechanical power exists
-			pressure.setValue(lastforce/(Math.PI/4*Math.pow(pistonDiameter,2)));
-			leakFlow.setValue(pressure.getValue()*(pistonDiameter+H_8-f_7)*Math.pow(H_8+f_7,3)/(12*lastviscosity*Math.pow(10,-6)*lastdensity*pistonThickness));
-			massFlow.setValue(lastdensity*(lastvelocity*Math.PI/4*Math.pow(pistonDiameter,2)+leakFlow.getValue()));
-			pmech.setValue(lastforce*lastvelocity);
-			ploss.setValue(pressure.getValue()*leakFlow.getValue()/lastdensity);
-			phydr.setValue(pmech.getValue()+ploss.getValue());
+			pressureIn.setValue(lastforce/(efficiency*Math.PI/4*Math.pow(pistonDiameter,2)));
+			leakFlow.setValue(Math.PI*pressureIn.getValue()*Math.pow(pistonDiameter/2+H_8-(pistonDiameter/2-f_7), 3)*(pistonDiameter/2+H_8+pistonDiameter/2-f_7)/(12*46*Math.pow(10,-6)*pistonThickness));
+			massFlowIn.setValue(density.getValue()*(Math.abs(lastvelocity)*Math.PI/4*Math.pow(pistonDiameter,2))+leakFlow.getValue());
+			pmech.setValue(lastforce*Math.abs(lastvelocity));
+			phydr.setValue(pressureIn.getValue()*massFlowIn.getValue()/density.getValue());
+			ploss.setValue(phydr.getValue()-pmech.getValue());
 				
 			
 			// Get new position
@@ -289,7 +303,7 @@ public class Cylinder extends APhysicalComponent{
 					
 		}
 		
-	phydr.setValue(pmech.getValue()+ploss.getValue());
+	//phydr.setValue(pmech.getValue()-ploss.getValue());
 	
 	}
 
