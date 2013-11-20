@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>
+    Model parameter definition
+    ==========================
+      Model : ConstantPump 
+      Type  : Example
+    Parameters
+    ----------
+      constantFlow [l/min]
+		TODO
+      ElectricalPower [W]
+      	Electrical power of the pump if running
+      
+  </comment>
+  <entry key="ConstantFlow">10</entry>
+  <entry key="ElectricalPower">1500</entry>
+  <entry key="thermal.Mass">10</entry>
+  <entry key="thermal.HeatCapacity">480</entry>
+</properties>
