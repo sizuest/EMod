@@ -13,7 +13,7 @@
         <machineComponent>
 	        <!-- Zylinder -->
 	    	<name>DiffCylinder</name>
-            <component xsi:type="cylinder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"> #Type muss immer klein geschrieben werden
+            <component xsi:type="cylinder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
         </machineComponent>

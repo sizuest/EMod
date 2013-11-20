@@ -24,7 +24,7 @@ ConstantPump.MassFlowOut = Valve.MassFlowIn
 ConstantPump.Density	 = HLP46.Density
 ConstantPump.PumpCtrl	 = PumpCtrl
 
-#Hydrauliköl
+#Hydraulikï¿½l
 HLP46.Temperature		= Thermal_HLP46.Temperature
 HLP46.Pressure			= DiffCylinder.PressureIn
 
@@ -38,6 +38,7 @@ Thermal_HLP46.In		= DiffCylinder.PLoss
 Thermal_HLP46.In		= Pipe.PLoss
 Thermal_HLP46.In		= Valve.PLoss
 Thermal_HLP46.In		= ConstantPump.PLoss
+Thermal_HLP46.In		= Thermal_FreeFlow.PThermal21
 
 Thermal_FreeFlow.Temperature1  = Thermal_HLP46.Temperature
 Thermal_FreeFlow.Temperature2  = AmbTemperature
