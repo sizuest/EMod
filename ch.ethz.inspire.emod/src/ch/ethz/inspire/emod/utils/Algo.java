@@ -23,6 +23,27 @@ package ch.ethz.inspire.emod.utils;
 public class Algo {
 	
 	/**
+	 * Logarithmic interpolation
+	 * A function is given by a set of (x,y) points. The y-value belonging to
+	 * a given x value is determined by logarithmic interpolation.
+	 * 
+	 * @param x     Value on the x axis to find the corresponding y value.
+	 * @param xsamples Samples on the x axis. Must be sorted (lowest value at first position).
+	 * @param yvals Samples on the y axis.
+	 * @return y-value belonging to 'x'.
+	 */
+	public static double logInterpolation(double x, double[] xsamples, double[] yvals)
+	{
+		// Conditions:
+		//   xsamples.length == yvals.length
+		//   xsamples[i] < xsamples[i+1] 
+		
+		int index = findInterval(x, xsamples);
+		double y = logInterpolationWithIndex(x, xsamples, yvals, index);
+		return y;
+	}
+	
+	/**
 	 * Bilinear interpolation.
 	 * A two-dimensional function z=f(x,y) is given by a set of sample values ( z_ij=f(x_i, y_j) ).
 	 * The z-value of the point (x,y) is calculated by bilinear interpolation.
@@ -112,6 +133,30 @@ public class Algo {
 		//System.out.println(x + " " + "x/y_s[" + index + "]=" + xsamples[index] + "/" + yvals[index]
 		//                          + " x/y_l[" + (index+1) + "]=" + xsamples[index+1] + "/" + yvals[index+1]
 		//                          + " y=" + y);
+		return y;
+	}
+	
+	/**
+	 * A function is given by a set of (x,y) points. The y-value belonging to
+	 * a given x value is determined by logarithmic interpolation.
+	 * 
+	 * @param x     Value on the x axis to find the corresponding y value.
+	 * @param xsamples Samples on the x axis. Must be sorted (lowest value at first position).
+	 * @param yvals Samples on the y axis.
+	 * @param index From 'x' and 'xsamples', the index is calculated such that xsamples[index] <= x < xsamples[index+1]
+	 * @return y-value belonging to 'x'.
+	 */
+	private static double logInterpolationWithIndex(double x, double[] xsamples, double[] yvals, int index)
+	{
+		// Conditions:
+		//   xsamples.length == yvals.length
+		//   xsamples[i] < xsamples[i+1] 
+		
+		if (index < 0)               return yvals[0];
+		if (index >= yvals.length-1) return	yvals[index];
+		
+		double y = yvals[index] * Math.exp( (x-xsamples[index])/(xsamples[index+1]-xsamples[index])*(Math.log(yvals[index+1])-Math.log(yvals[index])) ); 
+		          
 		return y;
 	}
 	

@@ -47,6 +47,20 @@ public class AlgoTest {
 		assertEquals("interpolation", 6.2725, Algo.linearInterpolation(x, xsamples, yvals),0.0001);
 		// TODO: randbedingungen testen
 	}
+	
+	/**
+	 * Test method for {@link ch.ethz.inspire.emod.utils.Algo#logInterpolation(double, double[], double[])}.
+	 */
+	@Test
+	public void testLogInterpolation() {
+		double x=5.33;
+		double[] xsamples = {1,2,3,4,5,6,7,8,9,10};
+		double[] yvals = {2.718282,7.389056,20.085537,54.598150,148.413159,403.428793,1096.633158,2980.957987,8103.083928,22026.465795};
+		
+		assertEquals("interpolation", 2.718282,     Algo.logInterpolation( 0, xsamples, yvals), 0.0001);
+		assertEquals("interpolation", 22026.465795, Algo.logInterpolation(11, xsamples, yvals), 0.0001);
+		assertEquals("interpolation", 206.4380,     Algo.logInterpolation( x, xsamples, yvals), 0.0001);
+	}
 
 	/**
 	 * Test method for {@link ch.ethz.inspire.emod.utils.Algo#findInterval(double, double[])}.
