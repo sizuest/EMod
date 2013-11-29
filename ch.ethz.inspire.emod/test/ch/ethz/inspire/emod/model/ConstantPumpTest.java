@@ -27,13 +27,12 @@ public class ConstantPumpTest {
 		
 		// Set Mass flow to 0.2 kg/s
 		cpump.getInput("MassFlowOut").setValue(0.2);
-		cpump.getInput("PressureOut").setValue(100000);
 		cpump.getInput("PumpCtrl").setValue(1);
 		cpump.update();
 		
-		assertEquals("Pump losses through bypass ",   10.6, cpump.getOutput("PBypass").getValue(),      0.1);
-		assertEquals("Hydraulic power",           22.7, cpump.getOutput("PHydr").getValue(),  0.1);
-		assertEquals("Electric power consumption",   1500, cpump.getOutput("PEl").getValue(),    0);
+		assertEquals("Pump losses through bypass ",   0, cpump.getOutput("PBypass").getValue(),      0.1);
+		assertEquals("Hydraulic power",           286, cpump.getOutput("PHydr").getValue(),  1);
+		assertEquals("Electric power consumption",   942, cpump.getOutput("PEl").getValue(),    1);
 		assertEquals("Thermal power losses",   1477, cpump.getOutput("PTh").getValue(),    1);
 	}
 }

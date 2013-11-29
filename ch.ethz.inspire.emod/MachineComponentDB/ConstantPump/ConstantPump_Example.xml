@@ -14,10 +14,14 @@
       	Electrical power of the pump if running
       
   </comment>
-  <entry key="ConstantFlow">20</entry>
+  <entry key="MaxFlow">20</entry>
   <entry key="ElectricalPower">1500</entry>
   <entry key="P_DBV">2500000</entry>
-  <entry key="FlowDBV">10</entry>
+  <entry key="VolFlowSamples">0; 5.5; 10.4; 18.8; 30; 33.6; 34; 34.2</entry>
+  <entry key="PressureSamples">1500000; 1400000; 1300000; 1200000; 1100000; 1000000; 900000; 800000</entry>
+  <entry key="PumpPowerSamples">1050; 1005; 960; 915; 865; 820; 780; 740</entry>
   <entry key="thermal.Mass">10</entry>
   <entry key="thermal.HeatCapacity">480</entry>
 </properties>
+
+

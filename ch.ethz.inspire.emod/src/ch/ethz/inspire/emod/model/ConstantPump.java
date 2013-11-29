@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.utils.Algo;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 
@@ -30,7 +31,7 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  * Assumptions:
  * -No leakage
  * -Losses caused by thermal effects in the motor and by flow through blow off valve
- * -Flow is always constant
+ * -Blow off valve (DBV) included. Opens at certain pressure defined by the user
  * -Pressure is delivered according to the resistance given by the following components (e.g cylinder, valve)
  * 
  * 
@@ -47,10 +48,11 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  *   5: PLoss		: [W]	 : Total power loss => PTh + PBypass
  *   
  * Config parameters:
- *   ElectricalPower	  : [W]     : Nominal power if operating
- *   ConstantFlow		  : [l/min] : 
+ *   electricalPower	  : [W]     : Nominal power if operating
+ *   maxFlow			  : [l/min] : 
  *   p_DBV				  : [Pa]	: Pressure at which the blow off valve (DBV) opens
- *   flowDBV			  : [l/min] : Flow through the DBV at p_DBV
+ *   VolFlowSamples		  :	[kg/s]	:
+ *   pressureSamples	  : [Pa]	:
  * 
  * @author simon
  *
@@ -63,11 +65,11 @@ public class ConstantPump extends APhysicalComponent{
 	
 	// Input parameters:
 	private IOContainer massFlowOut;
-	private IOContainer pressureOut;
 	private IOContainer density;
 	private IOContainer	pumpCtrl;
 
 	// Output parameters:
+	private IOContainer pressureOut;
 	private IOContainer pel;
 	private IOContainer pbypass;
 	private IOContainer phydr;
@@ -78,12 +80,15 @@ public class ConstantPump extends APhysicalComponent{
 	
 	// Parameters used by the model. 
 	private double pelPump;				// Power demand of the pump if on [W]
-	private double constantFlow;		// ConstantFlow delivered by the pump [l/min]
-	private double constantMassFlow;	// ConstantMassFlow delivered by the pump [kg/s]
+	private double maxFlow;				// ConstantFlow delivered by the pump [l/min]
+	private double maxMassFlow;			// ConstantMassFlow delivered by the pump [kg/s]
 	private double lastpressure;
 	private double lastmassflow;
 	private double lastpumpCtrl;
 	private double pDBV;
+	private double[] volFlowSamples;
+	private double[] pressureSamples;
+	private double[] pumpPowerSamples;
 
 
 	/**
@@ -119,22 +124,22 @@ public class ConstantPump extends APhysicalComponent{
 		/* Define Input parameters */
 		inputs     = new ArrayList<IOContainer>();
 		massFlowOut = new IOContainer("MassFlowOut", Unit.KG_S, 0);
-		pressureOut = new IOContainer("PressureOut", Unit.PA, 0);
 		density	= new IOContainer("Density", Unit.KG_MCUBIC, 0);
 		pumpCtrl= new IOContainer("PumpCtrl", Unit.NONE, 0);
 		inputs.add(massFlowOut);
-		inputs.add(pressureOut);
 		inputs.add(density);
 		inputs.add(pumpCtrl);
 		
 		/* Define output parameters */
 		outputs    = new ArrayList<IOContainer>();
+		pressureOut = new IOContainer("PressureOut", Unit.PA, 0);
 		pel        = new IOContainer("PEl", Unit.WATT, 0);
 		pbypass    = new IOContainer("PBypass",  Unit.WATT, 0);
 		phydr      = new IOContainer("PHydr", Unit.WATT, 0);
 		pth		   = new IOContainer("PTh",   Unit.WATT, 0);
 		ploss	   = new IOContainer("PLoss", Unit.WATT, 0);
 		massFlowBypass = new IOContainer("MassFlowBypass", Unit.KG_S,0);
+		inputs.add(pressureOut);
 		outputs.add(pel);
 		outputs.add(pbypass);
 		outputs.add(phydr);
@@ -158,9 +163,12 @@ public class ConstantPump extends APhysicalComponent{
 		
 		/* Read the config parameter: */
 		try {
-			pelPump         = params.getDoubleValue("ElectricalPower");
-			constantFlow    = params.getDoubleValue("ConstantFlow");
-			pDBV			= params.getDoubleValue("P_DBV");
+			pelPump        	 = params.getDoubleValue("ElectricalPower");
+			maxFlow		     = params.getDoubleValue("MaxFlow");
+			pDBV			 = params.getDoubleValue("P_DBV");
+			volFlowSamples   = params.getDoubleArray("VolFlowSamples");
+			pressureSamples  = params.getDoubleArray("PressureSamples");
+			pumpPowerSamples = params.getDoubleArray("PumpPowerSamples");
 			
 		}
 		catch (Exception e) {
@@ -188,7 +196,7 @@ public class ConstantPump extends APhysicalComponent{
 	{		
 					
 		// Strictly positive
-		if (constantFlow<=0){
+		if (maxFlow<=0){
 			throw new Exception("ConstantPump, type:" +type+ 
 					": Negative or zero value: ConstantFlow must be strictly positive!");
 		}
@@ -199,6 +207,54 @@ public class ConstantPump extends APhysicalComponent{
 		if (pDBV<=0){
 			throw new Exception("ConstantPump, type:" +type+ 
 					": Negative or zero value: P_DBV must be strictly positive!");
+		}
+		for (int i=1; i<pressureSamples.length; i++){
+			if(pressureSamples[i]<0){
+				throw new Exception("ConstantPump, type:" +type+ 
+						": Negative or zero value: PressureSamples must be strictly positive!");
+			}
+		}
+		for (int i=1; i<volFlowSamples.length; i++){
+			if(volFlowSamples[i]<0){
+				throw new Exception("ConstantPump, type:" +type+ 
+						": Negative or zero value: MassFlowSamples must be strictly positive!");
+			}
+		}
+		for (int i=1; i<pumpPowerSamples.length; i++){
+			if(pumpPowerSamples[i]<0){
+				throw new Exception("ConstantPump, type:" +type+ 
+						": Negative or zero value: PumpPowerSamples must be strictly positive!");
+			}
+		}
+		//Check dimensions:
+		if (pressureSamples.length != volFlowSamples.length) {
+			throw new Exception("Pump, type:" +type+ 
+					": Dimension missmatch: Vector 'PressureSamples' must have same dimension as " +
+					"'MassFlowSamples' (" + pressureSamples.length + "!=" + volFlowSamples.length + ")!");
+		}
+		if (pumpPowerSamples.length != volFlowSamples.length) {
+			throw new Exception("Pump, type:" +type+ 
+					": Dimension missmatch: Vector 'PumpPowerSamples' must have same dimension as " +
+					"'MassFlowSamples' (" + pressureSamples.length + "!=" + volFlowSamples.length + ")!");
+		}
+		// Check if sorted:
+		for (int i=1; i<pressureSamples.length; i++) {
+			if (pressureSamples[i] >= pressureSamples[i-1]) {
+				throw new Exception("Pump, type:" +type+ 
+						": Sample vector 'pressureSamples' must be sorted!");
+			}
+		}
+		for (int i=1; i<volFlowSamples.length; i++) {
+			if (volFlowSamples[i] <= volFlowSamples[i-1]) {
+				throw new Exception("Pump, type:" +type+ 
+						": Sample vector 'massFlowSamples' must be sorted!");
+			}
+		}
+		for (int i=1; i<pumpPowerSamples.length; i++) {
+			if (pumpPowerSamples[i] >= pumpPowerSamples[i-1]) {
+				throw new Exception("Pump, type:" +type+ 
+						": Sample vector 'PumpPowerSamples' must be sorted!");
+			}
 		}
 
 	}
@@ -211,21 +267,49 @@ public class ConstantPump extends APhysicalComponent{
 	@Override
 	public void update() {
 				
-	    if(lastpressure==pressureOut.getValue() && lastmassflow==massFlowOut.getValue() && lastpumpCtrl == pumpCtrl.getValue()){
+	    if(lastpressure == pressureOut.getValue() && lastmassflow==massFlowOut.getValue() && lastpumpCtrl == pumpCtrl.getValue()){
 	    	    	// Input values did not change, nothing to do.
 			return;
 	    }
 	    
 	    lastpressure = pressureOut.getValue();
 		lastmassflow = massFlowOut.getValue();
-		constantMassFlow = constantFlow*density.getValue()/(1000*60);	//Change [l/min] in [kg/s]
+		maxMassFlow  = maxFlow*880/(1000*60);	//Change [l/min] in [kg/s]
 		lastpumpCtrl = pumpCtrl.getValue();
 	
 		//Pump ON
 		if(lastpumpCtrl == 1){
 			
+			if(lastmassflow>maxMassFlow){
+				//Fehlerausgabe: Verlangter Massenstrom zu gross für Pumpe
+			}
+			
+			else{ 
+				if(lastpressure<pDBV){
+					pressureOut.setValue(Algo.linearInterpolation(lastmassflow/880*(60*1000), volFlowSamples, pressureSamples));
+					massFlowBypass.setValue(0);
+					phydr.setValue(pressureOut.getValue()*lastmassflow/880);
+					pel.setValue(Algo.linearInterpolation(lastmassflow/880*(60*1000), volFlowSamples, pumpPowerSamples));
+					pth.setValue(pel.getValue()-phydr.getValue());
+					pbypass.setValue(0);
+					ploss.setValue(pth.getValue()+pbypass.getValue());
+				}
+				
+				else{
+					pressureOut.setValue(pDBV);
+					massFlowBypass.setValue(maxMassFlow-lastmassflow);
+					phydr.setValue(pressureOut.getValue()*lastmassflow/880);
+					pel.setValue(Algo.linearInterpolation(maxMassFlow/880*(60*1000), volFlowSamples, pumpPowerSamples));
+					pth.setValue(pel.getValue()-phydr.getValue());
+					pbypass.setValue(pressureOut.getValue()*massFlowBypass.getValue()/880);
+					ploss.setValue(pth.getValue()+pbypass.getValue());
+				}
+			}		
+		}
+			
+			//}
 			//Case 1: Pump delivers more flow than the system requires
-			if(lastmassflow<constantMassFlow){
+			/*if(lastmassflow<constantMassFlow){
 				massFlowBypass.setValue(constantMassFlow-lastmassflow); //TODO massFlowBypass hat erst ab 10 sekunden einen Wert obwohl die Pumpe schon ab Anfang läuft und sämtlicher constantMassFlow durch den Bypass gehen müsste.
 				phydr.setValue(pDBV*constantMassFlow/density.getValue()); //TODO Hydr. Leistung macht einen komischen Peak am Anfang
 				pbypass.setValue(pDBV*massFlowBypass.getValue()/density.getValue());
@@ -253,12 +337,11 @@ public class ConstantPump extends APhysicalComponent{
 					ploss.setValue(pel.getValue()-phydr.getValue()+pbypass.getValue());
 				}
 		
-			}
-		
-		}
-		
+			}*/
+
 		//Pump OFF
 		else{
+			pressureOut.setValue(0);
 			massFlowBypass.setValue(0);
 			pbypass.setValue(0);
 			phydr.setValue(0);
@@ -266,8 +349,6 @@ public class ConstantPump extends APhysicalComponent{
 			pth.setValue(0);
 			ploss.setValue(0);
 		}	
-	
-	
 	}
 
 	/* (non-Javadoc)
