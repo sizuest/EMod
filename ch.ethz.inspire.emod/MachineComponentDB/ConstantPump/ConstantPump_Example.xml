@@ -14,8 +14,10 @@
       	Electrical power of the pump if running
       
   </comment>
-  <entry key="ConstantFlow">10</entry>
+  <entry key="ConstantFlow">20</entry>
   <entry key="ElectricalPower">1500</entry>
+  <entry key="P_DBV">2500000</entry>
+  <entry key="FlowDBV">10</entry>
   <entry key="thermal.Mass">10</entry>
   <entry key="thermal.HeatCapacity">480</entry>
 </properties>

@@ -6,6 +6,7 @@ DiffCylinder.Force 	    = Force
 DiffCylinder.Speed 	  	= Velocity
 DiffCylinder.Viscosity	= HLP46.Viscosity
 DiffCylinder.Density	= HLP46.Density
+DiffCylinder.ConnectionDiameter = Pipe.ConnectionDiameter
 
 #Rohr
 Pipe.PressureOut		= DiffCylinder.PressureIn
@@ -17,6 +18,7 @@ Pipe.Density			= HLP46.Density
 Valve.PressureOut		= Pipe.PressureIn
 Valve.MassFlowOut	 	= Pipe.MassFlowIn
 Valve.Density			= HLP46.Density
+#Valve.ValveCtrl			= ValveCtrl
 
 #KonstantPumpe
 ConstantPump.PressureOut = Valve.PressureIn
@@ -24,7 +26,7 @@ ConstantPump.MassFlowOut = Valve.MassFlowIn
 ConstantPump.Density	 = HLP46.Density
 ConstantPump.PumpCtrl	 = PumpCtrl
 
-#Hydraulikï¿½l
+#Hydrauliköl
 HLP46.Temperature		= Thermal_HLP46.Temperature
 HLP46.Pressure			= DiffCylinder.PressureIn
 

@@ -40,7 +40,7 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  *   3: Density		: [kg/m^3]
  *   4: State		: 		 : ON/OFF position of the pump. 1 means ON, 0 means OFF
  * Outputlist:
- *   1: PEl	        : [W]    : Demanded electrical power
+ *   1: PTotal      : [W]    : Demanded electrical power
  *   2: PBypass     : [W]    : Power loss created by bypass flow through blow off valve
  *   3: PHydr       : [W]    : Power in the fluid
  *   4: PTh			: [W]	 : Thermal power loss
@@ -48,6 +48,9 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  *   
  * Config parameters:
  *   ElectricalPower	  : [W]     : Nominal power if operating
+ *   ConstantFlow		  : [l/min] : 
+ *   p_DBV				  : [Pa]	: Pressure at which the blow off valve (DBV) opens
+ *   flowDBV			  : [l/min] : Flow through the DBV at p_DBV
  * 
  * @author simon
  *
@@ -80,6 +83,8 @@ public class ConstantPump extends APhysicalComponent{
 	private double lastpressure;
 	private double lastmassflow;
 	private double lastpumpCtrl;
+	private double pDBV;
+
 
 	/**
 	 * Constructor called from XmlUnmarshaller.
@@ -155,6 +160,7 @@ public class ConstantPump extends APhysicalComponent{
 		try {
 			pelPump         = params.getDoubleValue("ElectricalPower");
 			constantFlow    = params.getDoubleValue("ConstantFlow");
+			pDBV			= params.getDoubleValue("P_DBV");
 			
 		}
 		catch (Exception e) {
@@ -190,6 +196,11 @@ public class ConstantPump extends APhysicalComponent{
 			throw new Exception("ConstantPump, type:" +type+ 
 					": Negative or zero value: Pump power must be strictly positive!");
 		}
+		if (pDBV<=0){
+			throw new Exception("ConstantPump, type:" +type+ 
+					": Negative or zero value: P_DBV must be strictly positive!");
+		}
+
 	}
 	
     
@@ -200,56 +211,62 @@ public class ConstantPump extends APhysicalComponent{
 	@Override
 	public void update() {
 				
-    if(lastpressure==pressureOut.getValue() && lastmassflow==massFlowOut.getValue() && lastpumpCtrl == pumpCtrl.getValue()){
-    	    	// Input values did not change, nothing to do.
-		return;
-    }
-    
-    lastpressure = pressureOut.getValue();
-	lastmassflow = massFlowOut.getValue();
-	constantMassFlow = constantFlow*density.getValue()/(1000*60);	//Change [l/min] in [kg/s]
-	lastpumpCtrl = pumpCtrl.getValue();
-
+	    if(lastpressure==pressureOut.getValue() && lastmassflow==massFlowOut.getValue() && lastpumpCtrl == pumpCtrl.getValue()){
+	    	    	// Input values did not change, nothing to do.
+			return;
+	    }
+	    
+	    lastpressure = pressureOut.getValue();
+		lastmassflow = massFlowOut.getValue();
+		constantMassFlow = constantFlow*density.getValue()/(1000*60);	//Change [l/min] in [kg/s]
+		lastpumpCtrl = pumpCtrl.getValue();
 	
-	if(lastpumpCtrl == 1){
-		
-		if(constantMassFlow>lastmassflow && lastmassflow>0){
-			massFlowBypass.setValue(constantMassFlow-massFlowOut.getValue());
-			phydr.setValue(lastpressure*constantMassFlow/density.getValue());
-			pbypass.setValue(lastpressure*massFlowBypass.getValue()/density.getValue());
-			pel.setValue(pelPump);
-			pth.setValue(pel.getValue()-phydr.getValue());
-			ploss.setValue(pth.getValue()+pbypass.getValue());
-		}
+		//Pump ON
+		if(lastpumpCtrl == 1){
+			
+			//Case 1: Pump delivers more flow than the system requires
+			if(lastmassflow<constantMassFlow){
+				massFlowBypass.setValue(constantMassFlow-lastmassflow); //TODO massFlowBypass hat erst ab 10 sekunden einen Wert obwohl die Pumpe schon ab Anfang läuft und sämtlicher constantMassFlow durch den Bypass gehen müsste.
+				phydr.setValue(pDBV*constantMassFlow/density.getValue()); //TODO Hydr. Leistung macht einen komischen Peak am Anfang
+				pbypass.setValue(pDBV*massFlowBypass.getValue()/density.getValue());
+				pel.setValue(pelPump);
+				ploss.setValue(pel.getValue()-phydr.getValue()+pbypass.getValue());
+			}
+					
+			//Case 2: Pump is not able to deliver the required flow
+			else if(lastmassflow>=constantMassFlow){
 				
-		else if(constantMassFlow<=lastmassflow){
+				//Case 2.1: Blow off valve does not open
+				if(pDBV>lastpressure){
+					massFlowBypass.setValue(0);
+					pbypass.setValue(0);
+					phydr.setValue(lastpressure*constantMassFlow/density.getValue());
+					pel.setValue(pelPump);
+					ploss.setValue(pel.getValue()-phydr.getValue()+pbypass.getValue());
+				}
+				//Case 2.2: Blow off valve opens
+				else{
+					massFlowBypass.setValue(constantMassFlow-lastmassflow);
+					pbypass.setValue(pDBV*massFlowBypass.getValue());
+					phydr.setValue(pDBV*constantMassFlow/density.getValue());
+					pel.setValue(pelPump);
+					ploss.setValue(pel.getValue()-phydr.getValue()+pbypass.getValue());
+				}
+		
+			}
+		
+		}
+		
+		//Pump OFF
+		else{
 			massFlowBypass.setValue(0);
 			pbypass.setValue(0);
-			phydr.setValue(lastpressure*constantMassFlow/density.getValue());
-			pel.setValue(pelPump);
-			pth.setValue(pel.getValue()-phydr.getValue());
-			ploss.setValue(pth.getValue()+pbypass.getValue());
+			phydr.setValue(0);
+			pel.setValue(0);
+			pth.setValue(0);
+			ploss.setValue(0);
+		}	
 	
-		}
-		
-	}
-	
-	else{
-		massFlowBypass.setValue(0);
-		pbypass.setValue(0);
-		phydr.setValue(0);
-		pel.setValue(0);
-		pth.setValue(0);
-		ploss.setValue(0);
-	}	
-	/*else if(lastmassflow==0){
-		pbypass.setValue(0);
-		phydr.setValue(0);
-		pel.setValue(0);
-		pth.setValue(0);
-		ploss.setValue(0);
-
-	}*/
 	
 	}
 

@@ -77,6 +77,7 @@ public class Pipe extends APhysicalComponent{
 	private IOContainer massflowIn;
 	private IOContainer ploss;
 	private IOContainer pressureloss;
+	private IOContainer connectionDiameter;
 	
 	// Parameters used by the model. 
 	private double pipeDiameter;
@@ -129,10 +130,12 @@ public class Pipe extends APhysicalComponent{
 		massflowIn  = new IOContainer("MassFlowIn", Unit.KG_S, 0);
 		ploss     = new IOContainer("PLoss", Unit.WATT, 0);
 		pressureloss = new IOContainer("PressureLoss", Unit.PA, 0);
+		connectionDiameter = new IOContainer("ConnectionDiameter", Unit.MM, 0);
 		outputs.add(pressureIn);
 		outputs.add(massflowIn);
 		outputs.add(ploss);
 		outputs.add(pressureloss);
+		outputs.add(connectionDiameter);
 			
 		/* ************************************************************************/
 		/*         Read configuration parameters: */
@@ -167,6 +170,8 @@ public class Pipe extends APhysicalComponent{
 		    e.printStackTrace();
 		    System.exit(-1);
 		}
+	
+	connectionDiameter.setValue(pipeDiameter);
 	}
 	
 	/**
@@ -192,7 +197,7 @@ public class Pipe extends APhysicalComponent{
 	 */
 	@Override
 	public void update() {
-		
+				
 		if ( (lastpressure == pressureOut.getValue() ) &&
 				 (lastmassflow == massflowOut.getValue() ) ) 
 			{

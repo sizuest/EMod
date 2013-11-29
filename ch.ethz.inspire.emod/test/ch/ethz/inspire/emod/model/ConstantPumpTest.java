@@ -28,6 +28,7 @@ public class ConstantPumpTest {
 		// Set Mass flow to 0.2 kg/s
 		cpump.getInput("MassFlowOut").setValue(0.2);
 		cpump.getInput("PressureOut").setValue(100000);
+		cpump.getInput("PumpCtrl").setValue(1);
 		cpump.update();
 		
 		assertEquals("Pump losses through bypass ",   10.6, cpump.getOutput("PBypass").getValue(),      0.1);

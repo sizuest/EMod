@@ -21,6 +21,7 @@
   <entry key="PistonThickness">0.01</entry>
   <entry key="CylinderStroke">0.5</entry>
   <entry key="Efficiency">0.95</entry>
+  <entry key="PistonRodDiameter">0.02</entry>
   <entry key="thermal.Mass">10</entry>
   <entry key="thermal.HeatCapacity">480</entry>
 </properties>

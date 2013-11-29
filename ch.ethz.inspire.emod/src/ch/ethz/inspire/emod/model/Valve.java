@@ -35,9 +35,9 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  * 
  * Inputlist:
  *   1: Pressure    : [Pa]  
- *   2: Massflow    : [kg/s] : Oil flow through the valve
- *   3: Viscosity   : [mm2/s] : Hydraulic oil`s kinematic viscosity
- *   4: Density     : [kg/m3] : Hydraulic oil`s density
+ *   2: Massflow    : [kg/s]  : Oil flow through the valve
+ *   3: Density     : [kg/m3] : Hydraulic oil`s density
+ *   4: State		:			ON/OFF position of the valve. 1 means ON, 0 means OFF
  * Outputlist:
  *   1: Pressure    : [Pa]   : Pressure in the cylinder chamber
  *   2: MassFlow    : [kg/s] : Massflow into the cylinder chamber
@@ -63,11 +63,13 @@ public class Valve extends APhysicalComponent{
 	private IOContainer pressureOut;
 	private IOContainer massflowOut;
 	private IOContainer density;
+	private IOContainer valveCtrl;
 	
 	//Saving last input values:
 	
 	private double lastpressure  = 0;
 	private double lastmassflow  = 0;
+	private double lastvalveCtrl;
 	
 
 	
@@ -118,9 +120,11 @@ public class Valve extends APhysicalComponent{
 		pressureOut  = new IOContainer("PressureOut", Unit.PA, 0);
 		massflowOut  = new IOContainer("MassFlowOut", Unit.KG_S, 0);
 		density		 = new IOContainer("Density", Unit.KG_MCUBIC, 0);
+		valveCtrl	 = new IOContainer("ValveCtrl", Unit.NONE, 1);
 		inputs.add(pressureOut);
 		inputs.add(massflowOut);
 		inputs.add(density);
+		inputs.add(valveCtrl);
 		
 		/* Define output parameters */
 		outputs   = new ArrayList<IOContainer>();
@@ -224,22 +228,34 @@ public class Valve extends APhysicalComponent{
 	@Override
 	public void update() {
 		
-		if ( (lastpressure == pressureOut.getValue() ) ||
-				 (lastmassflow == massflowOut.getValue() ) ) {
+		if (lastpressure == pressureOut.getValue()  && lastmassflow == massflowOut.getValue() && lastvalveCtrl == valveCtrl.getValue() ) {
 				// Input values did not change, nothing to do.
 				return;
 		}
 		
 		lastpressure  = pressureOut.getValue();
 		lastmassflow  = massflowOut.getValue();
+		lastvalveCtrl = valveCtrl.getValue();
 		
-		if(lastmassflow!=0){
-			//Interpolation to get the pressureloss
-			pressureloss.setValue(Algo.linearInterpolation(lastmassflow/density.getValue()*60*1000, volflowSamples, pressureSamples));
-			pel.setValue(electricPower);
-			ploss.setValue(lastmassflow/density.getValue()*pressureloss.getValue()+pel.getValue());
-			massflowIn.setValue(lastmassflow);
-			pressureIn.setValue(lastpressure+pressureloss.getValue());	
+		if(lastvalveCtrl == 1){
+		
+			if(lastmassflow!=0){
+				//Interpolation to get the pressureloss
+				pressureloss.setValue(Algo.linearInterpolation(lastmassflow/density.getValue()*60*1000, volflowSamples, pressureSamples));
+				pel.setValue(electricPower);
+				ploss.setValue(lastmassflow/density.getValue()*pressureloss.getValue()+pel.getValue());
+				massflowIn.setValue(lastmassflow);
+				pressureIn.setValue(lastpressure+pressureloss.getValue());	
+			}
+		
+			else{
+				pressureOut.setValue(0);
+				pressureloss.setValue(0);
+				pel.getValue();
+				massflowIn.setValue(0);
+				pressureIn.setValue(0);
+				ploss.setValue(pel.getValue());
+			}
 		}
 		
 		else{
