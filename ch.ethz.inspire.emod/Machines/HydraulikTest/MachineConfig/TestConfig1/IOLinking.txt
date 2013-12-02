@@ -21,7 +21,7 @@ Valve.Density			= HLP46.Density
 #Valve.ValveCtrl			= ValveCtrl
 
 #KonstantPumpe
-ConstantPump.PressureOut = Valve.PressureIn
+#ConstantPump.PressureOut = Valve.PressureIn
 ConstantPump.MassFlowOut = Valve.MassFlowIn
 ConstantPump.Density	 = HLP46.Density
 ConstantPump.PumpCtrl	 = PumpCtrl
