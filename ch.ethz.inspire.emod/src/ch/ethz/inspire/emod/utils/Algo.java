@@ -13,6 +13,10 @@
 
 package ch.ethz.inspire.emod.utils;
 
+import java.util.Arrays;
+
+import ch.ethz.inspire.emod.utils.ArrayIndexComparator;
+
 /**
  * Class implementing mathematical utility functions for algorithms. Most of this
  * functions are defined static.
@@ -21,6 +25,50 @@ package ch.ethz.inspire.emod.utils;
  *
  */
 public class Algo {
+	
+	/**
+	 * Double linear interpolation.
+	 * Given two vectors xsamples={xi|i=1,2...n} and ysamples={yj|j=1,2...m}, as well as a 
+	 * matrix zvalues={zij|i=1,2,...n , j=1,2,...m}, the value x is estimated based 
+	 * on y and z by double linear interpolation:
+	 * - zvec = {zvecj|j=1,2,...,m} is estimated by a linear interpolation for each
+	 *   column of z at the value x
+	 * - x is estimated by a linear interpolation on zvec at z
+	 * 
+	 * @param y y-value
+	 * @param z z-value
+	 * @param xsamples  Samples 'x_i' of the 'zvalues'. 
+	 * @param ysamples  Samples 'y_j' of the 'zvalues'. 
+	 * @param zvalues   Set of sample values ( z_ij=f(x_i, y_j) )
+	 * @return x, estimated by double linear interpolation
+	 */
+	public static double doubleLinearInterpolation(double y, double z, double[] xsamples, double[] ysamples, double[][] zvalues)
+	{
+		// Conditions:
+		//   xsamples.length == zvalues.length
+		//   ysamples.length == zvalues[i].length
+		//   xsamples[i] < xsamples[i+1]
+		//   ysamples[i] < ysamples[i+1] 
+		
+		double[] zvector = new double[xsamples.length];
+		double[] xvector = new double[xsamples.length];
+		
+		int yind = findInterval(y, ysamples);
+		if (yind < 0)                  for(int i=0; i<ysamples.length; i++) zvector[i] = zvalues[i][0];
+		if (yind == xsamples.length-1) for(int i=0; i<ysamples.length; i++) zvector[i] = zvalues[i][yind];
+		else
+			for(int i=0; i<ysamples.length; i++)
+				zvector[i] = linearInterpolationWithIndex(y, ysamples, zvalues[i], yind);
+		
+		ArrayIndexComparator comparator = new ArrayIndexComparator(zvector);
+		Integer[] indexes = comparator.createIndexArray();
+		Arrays.sort(indexes, comparator);
+		Arrays.sort(zvector);
+		
+		for(int i=0; i<xsamples.length; i++) xvector[indexes[i].intValue()] = xsamples[i];
+		
+		return linearInterpolation(z, zvector, xvector);
+	}
 	
 	/**
 	 * Logarithmic interpolation

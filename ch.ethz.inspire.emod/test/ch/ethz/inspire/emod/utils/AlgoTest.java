@@ -35,6 +35,21 @@ public class AlgoTest {
 		assertEquals("bilinear interpol", 78.6255, Algo.bilinearInterpolation(x, y, xsamples, ysamples, zvalues),0.0001);
 		// TODO: randbedingungen testen
 	}
+	
+	/**
+	 * Test method for {@link ch.ethz.inspire.emod.utils.Algo#doubleLinearInterpolation(double, double, double[], double[], double[][])}.
+	 */
+	@Test
+	public void testDoubleLinearInterpolation() {
+		double x = 3.1261;
+		double y = 2.1356;
+		double z = 78.6255;
+		double[] xsamples = {1,2,3,4};
+		double[] ysamples = {1,2,3,4};
+		double[][] zvalues = {{13,42,53,64},{11,22,63,14},{21,92,23,74},{81,52,43,24}};
+		assertEquals("double linear interpol", x, Algo.doubleLinearInterpolation(y, z, xsamples, ysamples, zvalues),0.0001);
+		// TODO: randbedingungen testen
+	}
 
 	/**
 	 * Test method for {@link ch.ethz.inspire.emod.utils.Algo#linearInterpolation(double, double[], double[])}.
