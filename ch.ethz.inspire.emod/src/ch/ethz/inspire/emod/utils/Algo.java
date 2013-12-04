@@ -29,11 +29,11 @@ public class Algo {
 	/**
 	 * Double linear interpolation.
 	 * Given two vectors xsamples={xi|i=1,2...n} and ysamples={yj|j=1,2...m}, as well as a 
-	 * matrix zvalues={zij|i=1,2,...n , j=1,2,...m}, the value x is estimated based 
-	 * on y and z by double linear interpolation:
+	 * matrix zvalues={zij|i=1,2,...n , j=1,2,...m}, the value y is estimated based 
+	 * on x and z by double linear interpolation:
 	 * - zvec = {zvecj|j=1,2,...,m} is estimated by a linear interpolation for each
 	 *   column of z at the value x
-	 * - x is estimated by a linear interpolation on zvec at z
+	 * - y is estimated by a linear interpolation on zvec at z
 	 * 
 	 * @param y y-value
 	 * @param z z-value
@@ -42,7 +42,7 @@ public class Algo {
 	 * @param zvalues   Set of sample values ( z_ij=f(x_i, y_j) )
 	 * @return x, estimated by double linear interpolation
 	 */
-	public static double doubleLinearInterpolation(double y, double z, double[] xsamples, double[] ysamples, double[][] zvalues)
+	public static double doubleLinearInterpolation(double x, double z, double[] xsamples, double[] ysamples, double[][] zvalues)
 	{
 		// Conditions:
 		//   xsamples.length == zvalues.length
@@ -50,24 +50,27 @@ public class Algo {
 		//   xsamples[i] < xsamples[i+1]
 		//   ysamples[i] < ysamples[i+1] 
 		
-		double[] zvector = new double[xsamples.length];
-		double[] xvector = new double[xsamples.length];
+		double[] zvector = new double[ysamples.length];
+		double[] yvector = new double[ysamples.length];
+		double[] ztmp    = new double[xsamples.length];
 		
-		int yind = findInterval(y, ysamples);
-		if (yind < 0)                  for(int i=0; i<ysamples.length; i++) zvector[i] = zvalues[i][0];
-		if (yind == xsamples.length-1) for(int i=0; i<ysamples.length; i++) zvector[i] = zvalues[i][yind];
+		int xind = findInterval(x, xsamples);
+		if (xind < 0)                  for(int i=0; i<xsamples.length; i++) zvector[i] = zvalues[0][i];
+		if (xind == xsamples.length-1) for(int i=0; i<xsamples.length; i++) zvector[i] = zvalues[xind][i];
 		else
-			for(int i=0; i<ysamples.length; i++)
-				zvector[i] = linearInterpolationWithIndex(y, ysamples, zvalues[i], yind);
+			for(int i=0; i<ysamples.length; i++) {
+				for(int j=0; j<xsamples.length; j++) ztmp[j] = zvalues[j][i];
+				zvector[i] = linearInterpolationWithIndex(x, xsamples, ztmp, xind);
+			}
 		
 		ArrayIndexComparator comparator = new ArrayIndexComparator(zvector);
 		Integer[] indexes = comparator.createIndexArray();
 		Arrays.sort(indexes, comparator);
 		Arrays.sort(zvector);
 		
-		for(int i=0; i<xsamples.length; i++) xvector[indexes[i].intValue()] = xsamples[i];
+		for(int i=0; i<ysamples.length; i++) yvector[indexes[i].intValue()] = ysamples[i];
 		
-		return linearInterpolation(z, zvector, xvector);
+		return linearInterpolation(z, zvector, yvector);
 	}
 	
 	/**
