@@ -44,10 +44,10 @@ public class AlgoTest {
 		double x = 3.1261;
 		double y = 2.1356;
 		double z = 78.6255;
-		double[] xsamples = {1,2,3,4};
+		double[] xsamples = {1,2,3,4,5};
 		double[] ysamples = {1,2,3,4};
-		double[][] zvalues = {{13,42,53,64},{11,22,63,14},{21,92,23,74},{81,52,43,24}};
-		assertEquals("double linear interpol", x, Algo.doubleLinearInterpolation(y, z, xsamples, ysamples, zvalues),0.0001);
+		double[][] zvalues = {{13,42,53,64},{11,22,63,14},{21,92,23,74},{81,52,43,24},{0,0,0,0}};
+		assertEquals("double linear interpol", y, Algo.doubleLinearInterpolation(x, z, xsamples, ysamples, zvalues),0.001);
 		// TODO: randbedingungen testen
 	}
 
