@@ -91,7 +91,7 @@ public class PumpAccumulator extends APhysicalComponent{
 	private double volFluid;		    // Fluid mass in the reservoir
 	private double volGas;              // Gas volume
 	private double pGas;				// Gas pressure
-	private boolean pumpOn=false;		// Pump state
+	private boolean pumpOn;				// Pump state
 	
 	/**
 	 * Constructor called from XmlUnmarshaller.
@@ -189,6 +189,12 @@ public class PumpAccumulator extends APhysicalComponent{
 			 *  m(0) [kg] = V(0) [m3] * rho [kg/m3]
 			 */
 			volFluid = volFluidInit;
+			
+			/*
+			 * initial pump state
+			 */
+			if (pGasInit<hystPMin) pumpOn = true;
+			else                   pumpOn = false;
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -267,7 +273,7 @@ public class PumpAccumulator extends APhysicalComponent{
 		 * Update mass in the reservoir:
 		 * m(t) += T[s] * (mdot_in(t-T) [kg/s] - mdot_out(t-T) [kg/s]) | / rho [kg/m3]
 		 */
-		volFluid += (massFlowIn.getValue()-massFlowOut.getValue())/ 880 * sampleperiod; //TODO Density muss hier konstant sein, andernfalls ist der Druck NaN
+		volFluid += (massFlowIn.getValue()-massFlowOut.getValue()) / density.getValue() * sampleperiod;
 		/*
 		 * New gas volume
 		 * V_gas(t) [m3] = V_gas,0 [m3] + V_fluid,0 [m3] - V(t) [m3]
@@ -278,23 +284,29 @@ public class PumpAccumulator extends APhysicalComponent{
 		 * p_gas [Pa] = p_gas,0[Pa] * V_gas,0 [m3] / V_gas [m3]
 		 */
 		pGas   = pGasInit * volGasInit / volGas;
-		pFluid.setValue(pGas);
+		
 		/*
-		 * Calculate new inflow:
-		 * - zero if pump off
-		 * - from map if pump on
+		 * Pressure Limitations
 		 */
+		if (pGas>hystPMax)		pGas = hystPMax;
+		else if (pGas<hystPMin)	pGas = hystPMin;
+		pFluid.setValue(pGas);
+		
 		/*
 		 * Hysteresis controller for the pump
 		 */
 		
 		if (level.getValue() < 1) pumpOn = false;
 		else {
-			if      ( pumpOn && pGas>hystPMax) pumpOn = false;
-			else if (!pumpOn && pGas<hystPMin) pumpOn = true;
+			if      ( pumpOn && pGas==hystPMax) pumpOn = false;
+			else if (!pumpOn && pGas==hystPMin) pumpOn = true;
 		}
 		
-		//TODO Pumpe schaltet nicht ein, obwohl Level immer 1 und pGas<hystPMin ist
+		/*
+		 * Calculate new inflow:
+		 * - zero if pump off
+		 * - from map if pump on
+		 */
 		if (pumpOn) {
 			/*
 			 * Lookup mass flow in pump map and dive by density
