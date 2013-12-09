@@ -4,15 +4,15 @@
 %% Force
 inpfields.Force.unit = 'NEWTON'
 inpfields.Force.description = 'Force acting on the piston'
-inpfields.Force.time   = [0 1 10    20     25   35    40 50 60 65]
-inpfields.Force.values = [0 0 0 10000 10000 10000 50000  0 0  0]
+inpfields.Force.time   = [0 1 30    120    125   200    250    290 300]
+inpfields.Force.values = [0 0 15000 0      20000 0      25000  0   0]
 inpfields.Force.init = 0
 
 %% Control
 inpfields.PumpCtrl.unit = 'NONE'
 inpfields.PumpCtrl.description = 'Pump ON/OFF'
-inpfields.PumpCtrl.time   = [0 60    180   240  300  360  420   480  540  660  720  780  840  900  960  1200]
-inpfields.PumpCtrl.values = [1 1     1     1    1    1    1     1    1    1    1    1    1    1    1    0]
+inpfields.PumpCtrl.time   = [0 300]
+inpfields.PumpCtrl.values = [1 0]
 inpfields.PumpCtrl.init = 0
 
 %% AmbienteTemperature
@@ -25,8 +25,8 @@ inpfields.AmbTemperature.init = 293
 %% Velocity
 inpfields.Velocity.unit = 'MM_MIN'
 inpfields.Velocity.description = 'Piston movement speed'
-inpfields.Velocity.time   = [0 10    20     25   35    40 50    60 65]
-inpfields.Velocity.values = [0 0     6000   0    6000  0  6000  0  0]
+inpfields.Velocity.time   = [0 10    30     31   120   121 125   126  200  201 250  251 290  291 300]
+inpfields.Velocity.values = [0 0     6000   0    6000  0   6000  0    6000 0   6000 0   6000 0   0]
 inpfields.Velocity.init = 0
 %% MassFlowOut
 inpfields.MassFlowOut.unit = 'KG_S'
@@ -41,7 +41,21 @@ inpfields.RotSpeed.time   = [0 60    180   240  300  360  420   480  540  660  7
 inpfields.RotSpeed.values = [0 2000  3000  2000 2000 2000 2000  2000 2000 2000 2000 2000 2000 2000 2000 0                                ]
 inpfields.RotSpeed.init = 0
 
+%% PressureOut
+inpfields.PressureOut.unit = 'PA'
+inpfields.PressureOut.description = 'Pressure in the tank'
+inpfields.PressureOut.time   = [0 60     180   240  300  360  420   480  540  660  720  780  840  900  960  1200]
+inpfields.PressureOut.values = [100000 100000 100000  100000 100000 100000 100000  100000 100000 100000 100000 100000 100000 100000 100000 100000]
+inpfields.PressureOut.init = 0
+
+%% ValveCtrl
+inpfields.ValveCtrl.unit = 'NONE'
+inpfields.ValveCtrl.description = 'Pressure in the tank'
+inpfields.ValveCtrl.time   = [0 300]
+inpfields.ValveCtrl.values = [1 0]
+inpfields.ValveCtrl.init = 0
+
 %% Create file
 cd('..');
-ProcessFileGenerator('TemperaturevalidationConstantPump', inpfields, ...
+ProcessFileGenerator('ValidationNDM200', inpfields, ...
                      'TODO');

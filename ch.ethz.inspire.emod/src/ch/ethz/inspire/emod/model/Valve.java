@@ -26,7 +26,8 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 
 /**
  * General Valve model class.
- * Implements the physical model of a valve
+ * Implements the physical model of a valve. Can be used for check valves, (magnetic) way valves,
+ * pressure reducing valves.
  * 
  * Assumptions:
  * -2 States (idle, open)
@@ -34,21 +35,23 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  * 
  * 
  * Inputlist:
- *   1: Pressure    : [Pa]  
+ *   1: PressureOut : [Pa]  
  *   2: Massflow    : [kg/s]  : Oil flow through the valve
  *   3: Density     : [kg/m3] : Hydraulic oil`s density
- *   4: State		:			ON/OFF position of the valve. 1 means ON, 0 means OFF
+ *   4: State		:			ON/OFF position of the valve. 1 means ON, 0 means OFF. Only needed for magnetic valves
+ *   5: PumpPressure: [Pa]	  : Pressure provided by the pump
  * Outputlist:
- *   1: Pressure    : [Pa]   : Pressure in the cylinder chamber
+ *   1: PressureIn  : [Pa]   : Pressure in the cylinder chamber
  *   2: MassFlow    : [kg/s] : Massflow into the cylinder chamber
  *   3: Ploss		: [W]	 : Power loss
  *   4: Pressureloss: [Pa]	 : Pressuredifference over the valve
- *   5: Pel			: [W]	 : Needed electrical power to open and hold the valve
+ *   5: PElectric	: [W]	 : Needed electrical power to open and hold the valve
  *   
  * Config parameters:
- *   ElectricPower  : [W] 
- *   PressureSamples: [Pa]
- *   VolflowSamples : [l/min]: Unit [l/min] is chosen because of easier handling for the user. Manufacturer data always given in [l/min]. From [kg/s] to [l/min], the factor 60*1000/density must be taken.
+ *   ElectricPower    : [W] 
+ *   PressureSamples  : [Pa]
+ *   VolflowSamples   : [l/min]: Unit [l/min] is chosen because of easier handling for the user. Manufacturer data always given in [l/min]. From [kg/s] to [l/min], the factor 60*1000/density must be taken.
+ *   AdjustedPressure : [Pa]   : This value is only needed for a pressure reducing valve.
  * 
  * @author kraandre
  *
@@ -64,12 +67,14 @@ public class Valve extends APhysicalComponent{
 	private IOContainer massflowOut;
 	private IOContainer density;
 	private IOContainer valveCtrl;
+	private IOContainer pumpPressure;
 	
 	//Saving last input values:
 	
 	private double lastpressure  = 0;
 	private double lastmassflow  = 0;
 	private double lastvalveCtrl;
+	private double lastpumppressure;
 	
 
 	
@@ -82,8 +87,10 @@ public class Valve extends APhysicalComponent{
 	
 	// Parameters used by the model. 
 	private double electricPower;
+	private double adjustedPressure = 0;
 	private double[] pressureSamples;
 	private double[] volflowSamples;
+	
 	
 	/**
 	 * Constructor called from XmlUnmarshaller.
@@ -121,10 +128,12 @@ public class Valve extends APhysicalComponent{
 		massflowOut  = new IOContainer("MassFlowOut", Unit.KG_S, 0);
 		density		 = new IOContainer("Density", Unit.KG_MCUBIC, 0);
 		valveCtrl	 = new IOContainer("ValveCtrl", Unit.NONE, 1);
+		pumpPressure = new IOContainer("PumpPressure", Unit.PA, 0);
 		inputs.add(pressureOut);
 		inputs.add(massflowOut);
 		inputs.add(density);
 		inputs.add(valveCtrl);
+		inputs.add(pumpPressure);
 		
 		/* Define output parameters */
 		outputs   = new ArrayList<IOContainer>();
@@ -155,9 +164,10 @@ public class Valve extends APhysicalComponent{
 		
 		/* Read the config parameter: */
 		try {
-			electricPower   = params.getDoubleValue("ElectricPower");
-			pressureSamples = params.getDoubleArray("PressureSamples");
-			volflowSamples	= params.getDoubleArray("VolFlowSamples");
+			electricPower    = params.getDoubleValue("ElectricPower");
+			pressureSamples  = params.getDoubleArray("PressureSamples");
+			volflowSamples	 = params.getDoubleArray("VolFlowSamples");
+			adjustedPressure = params.getDoubleValue("AdjustedPressure");
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -210,7 +220,12 @@ public class Valve extends APhysicalComponent{
 		}
 		if(0>electricPower){
 			throw new Exception("Valve, type:" +type+ 
-					": Non physical value: Variable 'electricPower' must be bigger than zero!");
+					": Non physical value: Variable 'ElectricPower' must be bigger than zero!");
+		}
+		
+		if(0>adjustedPressure){
+			throw new Exception("Valve, type:" +type+ 
+					": Non physical value: Variable 'AdjustedPressure' must be bigger than zero!");
 		}
 		
 		for(int i=0; i<volflowSamples.length; i++) {
@@ -228,34 +243,31 @@ public class Valve extends APhysicalComponent{
 	@Override
 	public void update() {
 		
-		if (lastpressure == pressureOut.getValue()  && lastmassflow == massflowOut.getValue() && lastvalveCtrl == valveCtrl.getValue() ) {
+		if (lastpressure == pressureOut.getValue()  && lastmassflow == massflowOut.getValue() && lastvalveCtrl == valveCtrl.getValue() && lastpumppressure == pumpPressure.getValue()) {
 				// Input values did not change, nothing to do.
 				return;
 		}
 		
-		lastpressure  = pressureOut.getValue();
-		lastmassflow  = massflowOut.getValue();
-		lastvalveCtrl = valveCtrl.getValue();
+		lastpressure 	 = pressureOut.getValue();
+		lastmassflow 	 = massflowOut.getValue();
+		lastvalveCtrl	 = valveCtrl.getValue();
+		lastpumppressure = pumpPressure.getValue();
 		
 		if(lastvalveCtrl == 1){
+			
+			massflowIn.setValue(lastmassflow);
 		
-			if(lastmassflow!=0){
-				//Interpolation to get the pressureloss
+			//if(adjustedPressure == 0){					
 				pressureloss.setValue(Algo.linearInterpolation(lastmassflow/density.getValue()*60*1000, volflowSamples, pressureSamples));
-				pel.setValue(electricPower);
-				ploss.setValue(lastmassflow/density.getValue()*pressureloss.getValue()+pel.getValue());
-				massflowIn.setValue(lastmassflow);
-				pressureIn.setValue(lastpressure+pressureloss.getValue());	
-			}
-		
-			else{
-				pressureOut.setValue(0);
-				pressureloss.setValue(0);
-				pel.getValue();
-				massflowIn.setValue(0);
-				pressureIn.setValue(0);
-				ploss.setValue(pel.getValue());
-			}
+				pressureIn.setValue(lastpressure+pressureloss.getValue());
+			//}
+			
+			/*else{
+				pressureloss.setValue((pumpPressure.getValue()-adjustedPressure)*lastmassflow*60*1000/density.getValue());
+			}*/
+			
+			pel.setValue(electricPower);
+			ploss.setValue(lastmassflow/density.getValue()*pressureloss.getValue()+pel.getValue());
 		}
 		
 		else{

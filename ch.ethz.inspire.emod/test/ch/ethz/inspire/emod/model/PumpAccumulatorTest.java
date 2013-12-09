@@ -23,7 +23,7 @@ public class PumpAccumulatorTest {
 		
 	@Test
 	public void testPumpAccumulator(){
-		PumpAccumulator pump = new PumpAccumulator("Example");
+		PumpAccumulator pump = new PumpAccumulator("NDM200");
 		
 		// Set Mass flow to zero
 		pump.getInput("MassFlowOut").setValue(0);

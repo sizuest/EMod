@@ -320,13 +320,13 @@ public class ConstantPump extends APhysicalComponent{
 				
 				else{
 					pressureOut.setValue(pDBV);
-					pumpmassflow=33.8*density.getValue()/60000;
+					pumpmassflow=Algo.doubleLinearInterpolation(lastrotspeed, pDBV, rotSpeedSamples, volFlowSamples, pressureMatrix)*density.getValue()/60000;
 				}
 					massFlowBypass.setValue(pumpmassflow-lastmassflow);
 					phydr.setValue(pressureOut.getValue()*lastmassflow/density.getValue());
 					pel.setValue(Algo.linearInterpolation(pumpmassflow/density.getValue()*60000, volFlowSamples, pumpPowerSamples));
 					pbypass.setValue(pressureOut.getValue()*massFlowBypass.getValue()/density.getValue());
-					pth.setValue(-pbypass.getValue()+pel.getValue()-phydr.getValue());
+					pth.setValue(pel.getValue()-phydr.getValue()-pbypass.getValue());
 					ploss.setValue(pth.getValue()+pbypass.getValue());
 				
 			//}

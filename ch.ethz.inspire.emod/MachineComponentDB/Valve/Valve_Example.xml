@@ -15,9 +15,10 @@
       PressureSamples [Pa]
         TODO
   </comment>
-  <entry key="ElectricPower">18</entry>
-  <entry key="VolFlowSamples">0; 5; 10; 15; 20</entry>
-  <entry key="PressureSamples">0; 180000; 500000; 820000; 1100000</entry>
+  <entry key="ElectricPower">0</entry>
+  <entry key="AdjustedPressure">0</entry>
+  <entry key="VolFlowSamples">0; 10; 20; 30</entry>
+  <entry key="PressureSamples">0; 100000; 600000; 1250000</entry>
   <entry key="thermal.Mass">1</entry>
   <entry key="thermal.HeatCapacity">480</entry>
 </properties>

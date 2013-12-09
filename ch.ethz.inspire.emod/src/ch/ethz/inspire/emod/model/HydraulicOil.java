@@ -26,7 +26,7 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 
 /**
  * General Hydraulic Oil model class.
- * Implements the physical model of a Hydraulic Oil
+ * Implements the physical model of the Hydraulic Oil HLP 46
  * 
  * Assumptions:
  * -Newtonian fluid

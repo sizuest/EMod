@@ -130,7 +130,7 @@ public class Pipe extends APhysicalComponent{
 		massflowIn  = new IOContainer("MassFlowIn", Unit.KG_S, 0);
 		ploss     = new IOContainer("PLoss", Unit.WATT, 0);
 		pressureloss = new IOContainer("PressureLoss", Unit.PA, 0);
-		connectionDiameter = new IOContainer("ConnectionDiameter", Unit.MM, 0);
+		connectionDiameter = new IOContainer("ConnectionDiameter", Unit.M, 0);
 		outputs.add(pressureIn);
 		outputs.add(massflowIn);
 		outputs.add(ploss);
