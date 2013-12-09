@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>
+    Model parameter definition
+    ==========================
+      Model : Pipe 
+      Type  : Example
+    Parameters
+    ----------
+      PipeDiameter [m]
+        TODO
+      PipeLength [m]
+        TODO
+  </comment>
+  <entry key="PipeDiameter">0.01</entry>
+  <entry key="PipeLength">0.7</entry>
+  <entry key="thermal.Mass">5</entry>
+  <entry key="thermal.HeatCapacity">480</entry>
+</properties>

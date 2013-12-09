@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>
+    Model parameter definition
+    ==========================
+      Model : Pump 
+      Type  : NDM200
+    Parameters
+    ----------
+      PressureSamples [Pa]
+        Array of operation points for the pump
+      MassFlowSamples [l/min]
+        Array of corresponding mass floes to the given pressure
+        samples
+      GasPressureInitial [Pa] 
+      	Initial pressure of the gas
+      GasVolumeInitial [m3] 
+      	Initial volume of the gas
+      FluidVolumeInitial [m3] 
+        Initial volume of the fluid
+      PressureMax [Pa] 
+      	Pump turn off value
+      PressureMin [Pa] 
+        Pump turn on value
+      
+  </comment>
+  <entry key="PressureSamples">16000000 15500000 14000000 1000000 </entry>
+  <entry key="VolFlowSamples"> 0        19.8     20       21		 </entry>
+  <entry key="PowerSamples">   0		6100	 6200	  6300  </entry>
+  <entry key="GasPressureInitial">1500000</entry> 
+  <entry key="GasVolumeInitial">0.00195</entry>
+  <entry key="FluidVolumeInitial">0.0001</entry>
+  <entry key="PressureMax">10000000</entry>
+  <entry key="PressureMin">2500000</entry>
+</properties>
