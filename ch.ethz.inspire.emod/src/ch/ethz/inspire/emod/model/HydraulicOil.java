@@ -108,15 +108,15 @@ public class HydraulicOil extends APhysicalComponent{
 		
 		/* Define input parameters */
 		inputs   = new ArrayList<IOContainer>();
-		temperature  = new IOContainer("Temperature", Unit.KELVIN, 0);
+		temperature  = new IOContainer("Temperature", Unit.KELVIN, 0273.15);
 		pressure  = new IOContainer("Pressure", Unit.PA, 0);
 		inputs.add(temperature);
 		inputs.add(pressure);
 		
 		/* Define output parameters */
 		outputs   = new ArrayList<IOContainer>();
-		viscosity  = new IOContainer("Viscosity", Unit.MMSQUARE_S, 0);
-		density  = new IOContainer("Density", Unit.KG_MCUBIC, 0);
+		viscosity  = new IOContainer("Viscosity", Unit.MMSQUARE_S, 45);
+		density  = new IOContainer("Density", Unit.KG_MCUBIC, 800);
 		outputs.add(viscosity);
 		outputs.add(density);
 
