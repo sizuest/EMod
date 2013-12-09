@@ -220,23 +220,16 @@ public class PumpAccumulator extends APhysicalComponent{
 					": Dimension missmatch: Vector 'pressureSamples' must have same dimension as " +
 					"'massFlowSamples' (" + pressureSamples.length + "!=" + volFlowSamples.length + ")!");
 		}
-		// Check if sorted:
-		for (int i=1; i<powerSamples.length; i++) {
-			if (powerSamples[i-1] >= powerSamples[i]) {
-				throw new Exception("Pump, type:" +type+ 
-						": Sample vector 'PowerSamples' must be sorted!");
-			}
-		}
-		
-		for (int i=1; i<volFlowSamples.length; i++) {
-			if (volFlowSamples[i] <= volFlowSamples[i-1]) {
-				throw new Exception("Pump, type:" +type+ 
-						": Sample vector 'massFlowSamples' must be sorted!");
-			}
+		// Check model parameters:
+		// Check dimensions:
+		if (pressureSamples.length != powerSamples.length) {
+			throw new Exception("Pump, type:" +type+ 
+					": Dimension missmatch: Vector 'pressureSamples' must have same dimension as " +
+					"'PowerSamples' (" + pressureSamples.length + "!=" + powerSamples.length + ")!");
 		}
 		
 		for (int i=1; i<pressureSamples.length; i++) {
-			if (pressureSamples[i] >= pressureSamples[i-1]) {
+			if (pressureSamples[i] < pressureSamples[i-1]) {
 				throw new Exception("PumpAccumulator, type:" +type+ 
 						": Sample vector 'pressureSamples' must be sorted!");
 			}
