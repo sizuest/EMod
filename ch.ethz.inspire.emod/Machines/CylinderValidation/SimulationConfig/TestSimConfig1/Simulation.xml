@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<comment>
+		General simulation config file.
+	</comment>
+	<entry key="simulationPeriod">1</entry>
+	<entry key="initialTemperature.HomogStorage_Example">301</entry>
+	<entry key="initialPressure.HomogStorage_Example">100000</entry>
+</properties>

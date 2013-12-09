@@ -1,0 +1,49 @@
+# Input - Output mapping
+
+
+#Spannzylinder
+Cylinder.Force 	    		= Force
+Cylinder.Velocity  			= Velocity
+Cylinder.Viscosity			= HLP46.Viscosity
+Cylinder.Density			= HLP46.Density
+Cylinder.ConnectionDiameter = Pipe.ConnectionDiameter
+
+#Rohr
+Pipe.PressureOut		= Cylinder.PressureIn
+Pipe.MassFlowOut		= Cylinder.MassFlowIn
+Pipe.Viscosity			= HLP46.Viscosity
+Pipe.Density			= HLP46.Density
+
+#4/3 Wegeventil
+Valve.PressureOut		= Pipe.PressureIn
+Valve.MassFlowOut	 	= Pipe.MassFlowIn
+Valve.Density			= HLP46.Density
+Valve.ValveCtrl			= ValveCtrl
+
+#Flügelzellenpumpe
+PumpAccumulator.MassFlowOut = Valve.MassFlowIn
+PumpAccumulator.Density	 	= HLP46.Density
+PumpAccumulator.Level	 	= Level
+
+#Hydrauliköl
+HLP46.Temperature		= Thermal_HLP46.Temperature
+HLP46.Pressure			= Cylinder.PressureIn
+
+#Thermik
+TotalHeatLoss.Plus		= Cylinder.PLoss
+TotalHeatLoss.Plus		= Pipe.PLoss
+TotalHeatLoss.Plus		= Valve.PLoss
+TotalHeatLoss.Plus		= PumpAccumulator.PLoss
+
+Thermal_HLP46.In		= Cylinder.PLoss
+Thermal_HLP46.In		= Pipe.PLoss
+Thermal_HLP46.In		= Valve.PLoss
+Thermal_HLP46.In		= PumpAccumulator.PLoss
+Thermal_HLP46.In		= Thermal_FreeFlow.PThermal21
+
+Thermal_FreeFlow.Temperature1  = Thermal_HLP46.Temperature
+Thermal_FreeFlow.Temperature2  = AmbTemperature
+
+
+
+

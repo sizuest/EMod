@@ -1,0 +1,20 @@
+# Input - Output mapping
+
+#Zylinder
+Cylinder.Force			= Force
+Cylinder.Velocity		= Velocity
+
+#Hydrauliköl
+HLP46.Temperature		= Thermal_HLP46.Temperature
+HLP46.Pressure			= ConstantPump.PressureOut
+
+#Thermik
+
+Thermal_HLP46.In		= Thermal_FreeFlow.PThermal21
+
+Thermal_FreeFlow.Temperature1  = Thermal_HLP46.Temperature
+Thermal_FreeFlow.Temperature2  = AmbTemperature
+
+
+
+

@@ -1,0 +1,46 @@
+# Input - Output mapping
+
+
+#RohrTank
+PipeTank.PressureOut	 = PressureOut
+PipeTank.MassFlowOut	 = MassFlowOut
+PipeTank.Viscosity		 = HLP46.Viscosity
+PipeTank.Density		 = HLP46.Density
+
+#Drossel
+Valve.PressureOut	  	 = PipeTank.PressureIn
+Valve.MassFlowOut		 = PipeTank.MassFlowIn
+Valve.Density			 = HLP46.Density
+Valve.ValveCtrl			 = ValveCtrl
+
+#RohrPumpe
+Pipe.PressureOut		 = Valve.PressureIn
+Pipe.MassFlowOut		 = Valve.MassFlowIn
+Pipe.Viscosity		 	 = HLP46.Viscosity
+Pipe.Density			 = HLP46.Density
+
+#KonstantPumpe
+ConstantPump.MassFlowOut = Pipe.MassFlowIn
+ConstantPump.Density	 = HLP46.Density
+ConstantPump.PumpCtrl	 = PumpCtrl
+ConstantPump.RotSpeed	 = RotSpeed
+
+#Hydrauliköl
+HLP46.Temperature		= Thermal_HLP46.Temperature
+HLP46.Pressure			= ConstantPump.PressureOut
+
+#Thermik
+TotalHeatLoss.Plus		= ConstantPump.PLoss
+
+Thermal_HLP46.In		= ConstantPump.PLoss
+Thermal_HLP46.In		= PipeTank.PLoss
+Thermal_HLP46.In		= Valve.PLoss
+Thermal_HLP46.In		= Pipe.PLoss
+Thermal_HLP46.In		= Thermal_FreeFlow.PThermal21
+
+Thermal_FreeFlow.Temperature1  = Thermal_HLP46.Temperature
+Thermal_FreeFlow.Temperature2  = AmbTemperature
+
+
+
+
