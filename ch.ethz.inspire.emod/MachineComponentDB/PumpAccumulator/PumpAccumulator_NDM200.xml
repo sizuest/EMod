@@ -25,10 +25,11 @@
         Pump turn on value
       
   </comment>
-  <entry key="PressureSamples">1000000 14000000 15500000 16000000</entry>
-  <entry key="VolFlowSamples">21 20 19.8 0</entry>
-  <entry key="PowerSamples">6300 6200 6100 0</entry>
-  <entry key="GasPressureInitial">6000001</entry> 
+
+  <entry key="PressureSamples">2000000; 6800000; 7000000</entry>
+  <entry key="VolFlowSamples">22.4; 21; 0</entry>
+  <entry key="PowerSamples">800; 2500; 650</entry>
+  <entry key="GasPressureInitial">6000000</entry> 
   <entry key="GasVolumeInitial">0.00195</entry>
   <entry key="FluidVolumeInitial">0.0005</entry>
   <entry key="PressureMax">7000000</entry>

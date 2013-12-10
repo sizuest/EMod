@@ -312,7 +312,7 @@ public class PumpAccumulator extends APhysicalComponent{
 			 * Lookup mass flow in pump map and dive by density
 			 */
 			volFlowIn.setValue(Algo.linearInterpolation(pFluid.getValue(), pressureSamples, volFlowSamples));
-			pel.setValue(Algo.linearInterpolation(volFlowIn.getValue(), volFlowSamples, powerSamples));
+			pel.setValue(Algo.linearInterpolation(pFluid.getValue(), pressureSamples, powerSamples));
 			massFlowIn.setValue(volFlowIn.getValue()/60000*density.getValue());
 		}
 		else {
