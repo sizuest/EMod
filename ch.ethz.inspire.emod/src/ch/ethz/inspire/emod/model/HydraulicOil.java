@@ -228,7 +228,7 @@ public class HydraulicOil extends APhysicalComponent{
 		
 		viscosity.setValue(Algo.logInterpolation(temperature.getValue(), temperatureSamples, viscositySamples));
 		
-		density.setValue(Algo.bilinearInterpolation(temperature.getValue(), pressure.getValue(), temperatureSamples, pressureSamples, densityMatrix));
+		density.setValue(Algo.bilinearInterpolation(pressure.getValue(), temperature.getValue(), pressureSamples, temperatureSamples, densityMatrix));
 	
 	}
 
