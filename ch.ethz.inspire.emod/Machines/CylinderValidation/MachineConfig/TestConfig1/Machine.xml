@@ -16,7 +16,15 @@
 	        <!-- Hydrauliköl -->
 	    	<name>HLP46</name>
             <component xsi:type="hydraulicOil" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
+                <type>HLP46</type>
+            </component>
+        </machineComponent>
+        
+         <machineComponent>
+	        <!-- Zuleitung -->
+	    	<name>Pipe</name>
+            <component xsi:type="pipe" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>ALEX</type>
             </component>
         </machineComponent>
         
@@ -67,6 +75,11 @@
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>Velocity</name>
             <unit>MM_MIN</unit>
+        </simController>
+        
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>AmbTemperature</name>
+            <unit>KELVIN</unit>
         </simController>
         
         <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">

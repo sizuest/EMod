@@ -46,8 +46,7 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  *   1: MassFlowOut		 : [kg/s] 	: Demanded mass flow out
  *   2: Density			 : [kg/m^3]
  *   3: State			 : 		 	: ON/OFF position of the pump. 1 means ON, 0 means OFF
- *   4: Demanded pressure: [bar]	: Pressure that must be provided by the pump
- *   5: Rotspeed		 : [RPM]	: Actual rotational speed
+ *   4: Rotspeed		 : [RPM]	: Actual rotational speed
  * Outputlist:
  *   1: PElectric   : [W]    : Demanded electrical power
  *   2: PBypass     : [W]    : Power loss created by bypass flow through blow off valve
@@ -62,6 +61,7 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  *   VolFlowSamples		  :	[kg/s]		:
  *   RotSpeedSamples	  : [RPM]		:
  *   PressureMatrix		  : [Pa]		:
+ *   PumpPowerSamples	  : [W]			:
  * 
  * @author simon
  *

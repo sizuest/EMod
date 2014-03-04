@@ -26,6 +26,8 @@ public enum Unit {
 	M,
 	M_S,		  // m/s
 	MMSQUARE_S,
+	METERCUBIC,
+	S,
 	NEWTON,
 	METERCUBIC_S,
 	L_MIN,

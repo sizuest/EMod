@@ -17,7 +17,7 @@
       Hydraulic-mechanic efficiency
       	TODO
   </comment>
-  <entry key="CylinderType">1</entry>
+  <entry key="CylinderType">2</entry>
   <entry key="PistonDiameter">0.085</entry>
   <entry key="PistonThickness">0.01</entry>
   <entry key="CylinderStroke">0.032</entry>

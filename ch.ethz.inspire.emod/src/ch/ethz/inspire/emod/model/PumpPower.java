@@ -36,6 +36,8 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  * 
  * Inputlist:
  *   1: MassFlowOut : [kg/s] : Demanded mass flow out
+ *   2: Density		: [kg/m3]:
+ *   3: PumpCtrl	: []	 : Pump ON/OFF
  * Outputlist:
  *   1: PTotal      : [W]    : Demanded electrical power
  *   2: PLoss       : [W]    : Thermal pump losses
@@ -60,6 +62,8 @@ public class PumpPower extends APhysicalComponent{
 	
 	// Input parameters:
 	private IOContainer massFlowOut;
+	private IOContainer density;
+	private IOContainer pumpCtrl;
 	// Output parameters:
 	private IOContainer pel;
 	private IOContainer pth;
@@ -70,10 +74,12 @@ public class PumpPower extends APhysicalComponent{
 	
 	// Parameters used by the model. 
 	private double[] pressureSamples;  	// Samples of pressure [Pa]
-	private double[] massFlowSamples;  	// Samples of mass flow [kg/s]
-	private double[] pressureSamplesR, massFlowSamplesR;
-	private double rhoFluid;			// Fluid density [kg/m3]
-	private double[] pelPumpSamples;	// Samples of Power demand of the pump if on [W]
+	private double[] volFlowSamplesFlow;  	// Samples of mass flow [kg/s]
+	private double[] volFlowSamplesNoFlow;
+	private double[] pressureSamplesR, volFlowSamplesFlowR, volFlowSamplesNoFlowR;
+	private double[] powerSamplesNoFlow;	// Samples of Power demand of the pump if on [W]
+	private double[] powerSamplesFlow;
+	private double lastpressure;
 	
 	/**
 	 * Constructor called from XmlUnmarshaller.
@@ -108,7 +114,11 @@ public class PumpPower extends APhysicalComponent{
 		/* Define Input parameters */
 		inputs     = new ArrayList<IOContainer>();
 		massFlowOut = new IOContainer("MassFlowOut", Unit.KG_S, 0);
+		density		= new IOContainer("Density", Unit.KG_MCUBIC, 0);
+		pumpCtrl	= new IOContainer("PumpCtrl", Unit.NONE, 0);
 		inputs.add(massFlowOut);
+		inputs.add(density);
+		inputs.add(pumpCtrl);
 		
 		/* Define output parameters */
 		outputs    = new ArrayList<IOContainer>();
@@ -140,9 +150,10 @@ public class PumpPower extends APhysicalComponent{
 		/* Read the config parameter: */
 		try {
 			pressureSamples = params.getDoubleArray("PressureSamples");
-			massFlowSamples = params.getDoubleArray("MassFlowSamples");
-			rhoFluid        = params.getDoubleValue("DensityFluid");
-			pelPumpSamples  = params.getDoubleArray("ElectricalPowerSamples");
+			volFlowSamplesFlow = params.getDoubleArray("VolFlowSamplesFlow");
+			volFlowSamplesNoFlow = params.getDoubleArray("VolFlowSamplesNoFlow");
+			powerSamplesNoFlow  = params.getDoubleArray("PowerSamplesNoFlow");
+			powerSamplesFlow  = params.getDoubleArray("PowerSamplesFlow");
 			
 			/*
 			 * Revert arrays;
@@ -151,9 +162,13 @@ public class PumpPower extends APhysicalComponent{
 			for (int i=0; i<pressureSamples.length; i++) {
 				pressureSamplesR[i] = pressureSamples[pressureSamples.length-1-i];
 			}
-			massFlowSamplesR = new double[massFlowSamples.length];
-			for (int i=0; i<massFlowSamples.length; i++) {
-				massFlowSamplesR[i] = massFlowSamples[massFlowSamples.length-1-i];
+			volFlowSamplesFlowR = new double[volFlowSamplesFlow.length];
+			for (int i=0; i<volFlowSamplesFlow.length; i++) {
+				volFlowSamplesFlowR[i] = volFlowSamplesFlow[volFlowSamplesFlow.length-1-i];
+			}
+			volFlowSamplesNoFlowR = new double[volFlowSamplesNoFlow.length];
+			for (int i=0; i<volFlowSamplesNoFlow.length; i++) {
+				volFlowSamplesNoFlowR[i] = volFlowSamplesNoFlow[volFlowSamplesNoFlow.length-1-i];
 			}
 		}
 		catch (Exception e) {
@@ -181,50 +196,78 @@ public class PumpPower extends APhysicalComponent{
 	{		
 		// Check model parameters:
 		// Check dimensions pressureSamples vs. massFlowSamples:
-		if (pressureSamples.length != massFlowSamples.length) {
+		if (pressureSamples.length != volFlowSamplesFlow.length) {
 			throw new Exception("Pump, type:" +type+ 
 					": Dimension missmatch: Vector 'pressureSamples' must have same dimension as " +
-					"'massFlowSamples' (" + pressureSamples.length + "!=" + massFlowSamples.length + ")!");
+					"'massFlowSamples' (" + pressureSamples.length + "!=" + volFlowSamplesFlow.length + ")!");
 		}
-		// Check dimensions pressureSamples vs. pelPumpSamples:
-				if (pressureSamples.length != pelPumpSamples.length) {
+		if (pressureSamples.length != volFlowSamplesNoFlow.length) {
+			throw new Exception("Pump, type:" +type+ 
+					": Dimension missmatch: Vector 'pressureSamples' must have same dimension as " +
+					"'massFlowSamples' (" + pressureSamples.length + "!=" + volFlowSamplesNoFlow.length + ")!");
+		}
+		// Check dimensions pressureSamples vs. powerSamples:
+				if (pressureSamples.length != powerSamplesNoFlow.length) {
 					throw new Exception("Pump, type:" +type+ 
 							": Dimension missmatch: Vector 'pressureSamples' must have same dimension as " +
-							"'pelPumpSamples' (" + pressureSamples.length + "!=" + pelPumpSamples.length + ")!");
+							"'pelPumpSamples' (" + pressureSamples.length + "!=" + powerSamplesNoFlow.length + ")!");
+				}
+				if (pressureSamples.length != powerSamplesFlow.length) {
+					throw new Exception("Pump, type:" +type+ 
+							": Dimension missmatch: Vector 'pressureSamples' must have same dimension as " +
+							"'pelPumpSamples' (" + pressureSamples.length + "!=" + powerSamplesFlow.length + ")!");
 				}
 		// Check if sorted:
-		for (int i=1; i<pressureSamplesR.length; i++) {
-			if (pressureSamplesR[i] <= pressureSamplesR[i-1]) {
+		for (int i=1; i<pressureSamples.length; i++) {
+			if (pressureSamples[i] <= pressureSamples[i-1]) {
 				throw new Exception("Pump, type:" +type+ 
 						": Sample vector 'pressureSamples' must be sorted!");
 			}
 		}
 		
-		// Check if sorted:
-		for (int i=1; i<massFlowSamples.length; i++) {
-			if (massFlowSamples[i] <= massFlowSamples[i-1]) {
+		for (int i=1; i<volFlowSamplesFlow.length; i++) {
+			if (volFlowSamplesFlow[i] <= volFlowSamplesFlow[i-1]) {
 				throw new Exception("Pump, type:" +type+ 
-						": Sample vector 'massFlowSamples' must be sorted!");
+						": Sample vector 'volFlowSamples' must be sorted!");
 			}
 		}
 		
-		// Check if sorted:
-				for (int i=1; i<pelPumpSamples.length; i++) {
-					if (pelPumpSamples[i] <= pelPumpSamples[i-1]) {
-						throw new Exception("Pump, type:" +type+ 
-								": Sample vector 'pelPumpSamples' must be sorted!");
-					}
-				}
+		for (int i=1; i<volFlowSamplesNoFlow.length; i++) {
+			if (volFlowSamplesNoFlow[i] <= volFlowSamplesNoFlow[i-1]) {
+				throw new Exception("Pump, type:" +type+ 
+						": Sample vector 'volFlowSamples' must be sorted!");
+			}
+		}
+		
+		for (int i=1; i<powerSamplesFlow.length; i++) {
+			if (powerSamplesFlow[i] < powerSamplesFlow[i-1]) {
+				throw new Exception("Pump, type:" +type+ 
+						": Sample vector 'powerSamplesFlow' must be sorted!");
+			}
+		}
+		
+		for (int i=1; i<powerSamplesNoFlow.length; i++) {
+			if (powerSamplesNoFlow[i] < powerSamplesNoFlow[i-1]) {
+				throw new Exception("Pump, type:" +type+ 
+						": Sample vector 'powerSamplesNoFlow' must be sorted!");
+			}
+		}
 				
 		// Strictly positive
-		if (rhoFluid<=0){
-			throw new Exception("Pump, type:" +type+ 
-					": Negative or zero value: Density must be strictly positive!");
-		}
-		/*if (pelPump<=0){
-			throw new Exception("Pump, type:" +type+ 
+	
+		for (int i=1; i<powerSamplesFlow.length; i++) {
+			if (powerSamplesFlow[i]<=0){
+				throw new Exception("Pump, type:" +type+ 
 					": Negative or zero value: Pump power must be strictly positive!");
-		}*/
+			}
+		}
+		
+		for (int i=1; i<powerSamplesNoFlow.length; i++) {
+			if (powerSamplesNoFlow[i]<=0){
+				throw new Exception("Pump, type:" +type+ 
+					": Negative or zero value: Pump power must be strictly positive!");
+			}
+		}
 	}
 	
 
@@ -234,23 +277,31 @@ public class PumpPower extends APhysicalComponent{
 	@Override
 	public void update() {
 		
+		lastpressure=pFluid.getValue();
 		
-		if (massFlowOut.getValue() != 0){
-			pel.setValue(Algo.linearInterpolation(massFlowOut.getValue(), massFlowSamples, pelPumpSamples));
-			massFlowIn.setValue(massFlowOut.getValue());
-			pFluid.setValue(Algo.linearInterpolation(massFlowOut.getValue(), massFlowSamples, pressureSamples));
+		if(pumpCtrl.getValue() == 1){
+			if (massFlowOut.getValue() != 0){
+				pel.setValue(Algo.linearInterpolation(massFlowOut.getValue()/density.getValue()*60000, volFlowSamplesFlow, powerSamplesFlow));
+				massFlowIn.setValue(massFlowOut.getValue());
+				pFluid.setValue(Algo.linearInterpolation(massFlowOut.getValue()/density.getValue()*60000, volFlowSamplesFlow, pressureSamples));
+			}
+			else {
+				pel.setValue(Algo.linearInterpolation(massFlowOut.getValue()/density.getValue()*60000, volFlowSamplesNoFlow, powerSamplesNoFlow));
+				massFlowIn.setValue(0);
+				pFluid.setValue(lastpressure);
+			}
 		}
-		else {
+		
+		else{
 			pel.setValue(0);
 			massFlowIn.setValue(0);
 			pFluid.setValue(0);
 		}
-			
 		
 		/* The mechanical power is given by the pressure and the voluminal flow:
 		 * Pmech = pFluid [Pa] * Vdot [m3/s]
 		 */
-		pmech.setValue( Math.abs(massFlowIn.getValue()*pFluid.getValue()/rhoFluid) );
+		pmech.setValue( Math.abs(massFlowIn.getValue()*pFluid.getValue()/density.getValue()) );
 		
 		/* The Losses are the difference between electrical and mechanical power
 		 */

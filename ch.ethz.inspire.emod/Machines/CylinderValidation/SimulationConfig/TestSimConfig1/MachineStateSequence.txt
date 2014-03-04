@@ -2,5 +2,5 @@
 # Duration , Machine state
 #  [s]
     0  , OFF;         # line comment
-    1200   , PROCESS;
+    10   , PROCESS;
     5	, OFF;

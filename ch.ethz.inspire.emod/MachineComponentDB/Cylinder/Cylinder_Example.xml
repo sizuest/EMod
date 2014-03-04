@@ -24,4 +24,6 @@
   <entry key="PistonRodDiameter">0.02</entry>
   <entry key="thermal.Mass">10</entry>
   <entry key="thermal.HeatCapacity">480</entry>
+  <entry key="PMax">4000000</entry>
+  <entry key="CylinderType">1</entry>
 </properties>

@@ -1,16 +1,25 @@
 # Input - Output mapping
 
 #Zylinder
-Cylinder.Force			= Force
-Cylinder.Velocity		= Velocity
+Cylinder.Force				= Force
+Cylinder.Velocity			= Velocity
+Cylinder.Density			= HLP46.Density
+Cylinder.Viscosity			= HLP46.Viscosity
+Cylinder.ConnectionDiameter = Pipe.ConnectionDiameter
 
 #Hydrauliköl
-HLP46.Temperature		= Thermal_HLP46.Temperature
-HLP46.Pressure			= ConstantPump.PressureOut
+HLP46.Temperature			= Thermal_HLP46.Temperature
+HLP46.Pressure				= Cylinder.PressureIn
+
+#Zuleitung
+Pipe.PressureOut			= Cylinder.PressureIn
+Pipe.MassFlowOut			= Cylinder.MassFlowIn
+Pipe.Viscosity				= HLP46.Viscosity
+Pipe.Density				= HLP46.Density
 
 #Thermik
-
-Thermal_HLP46.In		= Thermal_FreeFlow.PThermal21
+Thermal_HLP46.In			= Thermal_FreeFlow.PThermal21
+Thermal_HLP46.In			= Cylinder.PLoss
 
 Thermal_FreeFlow.Temperature1  = Thermal_HLP46.Temperature
 Thermal_FreeFlow.Temperature2  = AmbTemperature

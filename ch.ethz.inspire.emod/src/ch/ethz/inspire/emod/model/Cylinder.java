@@ -30,7 +30,7 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  * Assumptions:
  * -3 States (idle, moving, extended&hold)
  * -Leakage only occurs internally and is treated as annular passage flow.
- * -Fitting between cylinder and piston is assumed as H8/f7.
+ * -Fitting between cylinder and piston is assumed as H7/h6.
  * -Friction is taken into account by hydraulic-mechanic efficiency
  * 
  * 
@@ -93,13 +93,14 @@ public class Cylinder extends APhysicalComponent{
 	private double pistonDiameter;
 	private double pistonThickness;
 	private double stroke;
-	private double H_8;
-	private double f_7;
+	private double H_7;					//Tolerance Cylinder
+	private double h_6;					//Tolerance Piston
 	private double efficiency;
 	private double pistonRodDiameter;
-	private double k = 5;				//Geometric loss koefficient
+	private double k = 0.5;				//Geometric loss koefficient
 	private double pmax;
 	private int cylinderType;
+
 	
 	/**
 	 * Constructor called from XmlUnmarshaller.
@@ -236,9 +237,9 @@ public class Cylinder extends APhysicalComponent{
 		
 		if(cylinderType != 1 && cylinderType != 2){
 			throw new Exception("Cylinder, type:" +type+
-					": Non physical value: Variable 'PMax' must be bigger than zero!");
+					": Non physical value: Variable 'PMax' must be 1 or 2!");
 		}
-		
+				
 	}
 	
 
@@ -254,32 +255,32 @@ public class Cylinder extends APhysicalComponent{
 			return;
 		}
 		
-		lastvelocity  = velocity.getValue() /60/1000;	// mm/min -> m/s
+		lastvelocity  = velocity.getValue()/(60*1000);	// mm/min -> m/s
 		lastforce     = force.getValue();
 
 		//Choosing of the fitting according to the piston diameter
 		if(pistonDiameter > 0.03 && pistonDiameter <= 0.05)
 		{
-			H_8 = 39/2*Math.pow(10,-6);
-			f_7 = 37.5*Math.pow(10,-6);
+			H_7 = 12.5*Math.pow(10,-6);
+			h_6 = 8*Math.pow(10,-6);
 		}
 		
 		else if(pistonDiameter > 0.05 && pistonDiameter <= 0.065)
 		{
-			H_8 = 23*Math.pow(10,-6);
-			f_7 = 45*Math.pow(10,-6);
+			H_7 = 15*Math.pow(10,-6);
+			h_6 = 19/2*Math.pow(10,-6);
 		}
 		
 		else if(pistonDiameter > 0.065 && pistonDiameter <= 0.08)
 		{
-			H_8 = 23*Math.pow(10,-6);
-			f_7 = 45*Math.pow(10,-6);
+			H_7 = 15*Math.pow(10,-6);
+			h_6 = 19/2*Math.pow(10,-6);
 		}
 		
 		else if(pistonDiameter > 0.08 && pistonDiameter <= 0.1)
 		{
-			H_8 = 27*Math.pow(10,-6);
-			f_7 = 53.5*Math.pow(10,-6);
+			H_7 = 17.5*Math.pow(10,-6);
+			h_6 = 11*Math.pow(10,-6);
 		}
 		
 		//State 1: Cylinder idle
@@ -298,15 +299,15 @@ public class Cylinder extends APhysicalComponent{
 		//State 2: Cylinder extended & hold
 		else if(lastvelocity == 0 && lastforce != 0)
 		{
-			pressureIn.setValue(lastforce/(Math.PI/4*(Math.pow(pistonDiameter,2)-Math.pow(pistonRodDiameter, 2))));
-			leakFlow.setValue(Math.PI*pressureIn.getValue()*Math.pow(pistonDiameter/2+H_8-(pistonDiameter/2-f_7), 3)*(pistonDiameter/2+H_8+pistonDiameter/2-f_7)/(12*viscosity.getValue()*Math.pow(10,-6)*pistonThickness));
+			pressureIn.setValue(Math.abs(lastforce)/(Math.PI/4*(Math.pow(pistonDiameter,2)-Math.pow(pistonRodDiameter, 2))));
+			leakFlow.setValue(Math.PI*pressureIn.getValue()*Math.pow(pistonDiameter/2+H_7-(pistonDiameter/2-h_6), 3)*(pistonDiameter/2+H_7+pistonDiameter/2-h_6)/(12*viscosity.getValue()*Math.pow(10,-6)*pistonThickness));
 			massFlowIn.setValue(leakFlow.getValue());
 			pmech.setValue(lastforce*Math.abs(lastvelocity));
 			phydr.setValue(pressureIn.getValue()*massFlowIn.getValue()/density.getValue());
 			ploss.setValue(phydr.getValue()-pmech.getValue());
 		}
 		
-		//State 3: Piston moving
+		//State 3a: Piston moving
 		else if(lastvelocity != 0)
 		{
 			// Check if movement is possible & take measures
@@ -326,10 +327,11 @@ public class Cylinder extends APhysicalComponent{
 				}
 			}
 			
-			if(cylinderType == 1){
+			if(cylinderType == 1){ //differential cylinder
 				if(lastvelocity>0){
-					pressureIn.setValue(lastforce/(efficiency*Math.PI/4*(Math.pow(pistonDiameter,2)-Math.pow(pistonRodDiameter, 2))));
-					massFlowIn.setValue(density.getValue()*lastvelocity*Math.PI/4*(Math.pow(pistonDiameter,2)-Math.pow(pistonRodDiameter, 2)));
+					pressureIn.setValue( Math.abs(lastforce)/(efficiency*Math.PI/4*Math.pow(pistonDiameter, 2)) + (Math.pow(lastvelocity, 2)*Math.pow(Math.PI/4*(Math.pow(pistonDiameter,2)-Math.pow(pistonRodDiameter, 2)), 2)+ Math.pow(leakFlow.getValue(), 2)*density.getValue())/(2*Math.pow(Math.PI/4*Math.pow(connectionDiameter.getValue(),2)*k, 2))*Math.pow(pistonDiameter, 2)-Math.pow(pistonRodDiameter, 2)/Math.pow(pistonDiameter, 2) );
+					leakFlow.setValue(Math.PI*Math.abs(pressureIn.getValue())*Math.pow(pistonDiameter/2+H_7-(pistonDiameter/2-h_6), 3)*(pistonDiameter/2+H_7+pistonDiameter/2-h_6)/(12*viscosity.getValue()*Math.pow(10,-6)*pistonThickness));
+					massFlowIn.setValue(density.getValue()*Math.abs(lastvelocity)*Math.PI/4*(Math.pow(pistonDiameter,2))+leakFlow.getValue());
 					pmech.setValue(lastforce*lastvelocity);
 					phydr.setValue(pressureIn.getValue()*massFlowIn.getValue()/density.getValue());
 					ploss.setValue(phydr.getValue()-pmech.getValue());
@@ -345,11 +347,11 @@ public class Cylinder extends APhysicalComponent{
 				leakFlow.setValue(0);
 			}
 			
-			else{
-				pressureIn.setValue( lastforce/(efficiency*Math.PI/4*(Math.pow(pistonDiameter,2)-Math.pow(pistonRodDiameter, 2))) + (Math.pow(lastvelocity, 2)*Math.pow(Math.PI/4*(Math.pow(pistonDiameter,2)-Math.pow(pistonRodDiameter, 2)), 2)+ Math.pow(leakFlow.getValue(), 2)*density.getValue())/(2*Math.pow(Math.PI/4*Math.pow(connectionDiameter.getValue(),2)*k, 2)) );
-				leakFlow.setValue(Math.PI*pressureIn.getValue()*Math.pow(pistonDiameter/2+H_8-(pistonDiameter/2-f_7), 3)*(pistonDiameter/2+H_8+pistonDiameter/2-f_7)/(12*viscosity.getValue()*Math.pow(10,-6)*pistonThickness));
-				massFlowIn.setValue(density.getValue()*(Math.abs(lastvelocity)*Math.PI/4*(Math.pow(pistonDiameter,2)-Math.pow(pistonRodDiameter, 2)))+leakFlow.getValue());
-				pmech.setValue(lastforce*Math.abs(lastvelocity));
+			else if(cylinderType == 2){	//double action cylinder with equal areas
+				pressureIn.setValue(Math.abs(lastforce)/(efficiency*Math.PI/4*(Math.pow(pistonDiameter, 2)-Math.pow(pistonRodDiameter, 2))) + 875*Math.pow(lastvelocity, 2)*Math.pow(Math.PI/4*(Math.pow(pistonDiameter, 2)-Math.pow(pistonRodDiameter, 2)), 2)/(2*Math.pow(Math.PI/4*k*Math.pow(0.01, 2), 2)) );
+				leakFlow.setValue(Math.PI*Math.abs(pressureIn.getValue())*Math.pow(pistonDiameter/2+H_7-(pistonDiameter/2-h_6), 3)*(pistonDiameter/2+H_7+pistonDiameter/2-h_6)/(12*viscosity.getValue()*Math.pow(10,-6)*pistonThickness));
+				massFlowIn.setValue(density.getValue()*Math.abs(lastvelocity)*Math.PI/4*(Math.pow(pistonDiameter, 2)-Math.pow(pistonRodDiameter, 2))+leakFlow.getValue());
+				pmech.setValue(Math.abs(lastforce)*Math.abs(lastvelocity));
 				phydr.setValue(pressureIn.getValue()*massFlowIn.getValue()/density.getValue());
 				ploss.setValue(phydr.getValue()-pmech.getValue());
 			}
@@ -357,7 +359,7 @@ public class Cylinder extends APhysicalComponent{
 			lastposition += sampleperiod * lastvelocity;
 					
 		}
-		
+			
 		/*if(pressureIn.getValue>pmax){
 			Alarmstufe Rot
 			}

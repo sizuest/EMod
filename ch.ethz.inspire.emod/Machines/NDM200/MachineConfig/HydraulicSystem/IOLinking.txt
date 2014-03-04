@@ -20,10 +20,15 @@ Valve.MassFlowOut	 	= Pipe.MassFlowIn
 Valve.Density			= HLP46.Density
 Valve.ValveCtrl			= ValveCtrl
 
-#Flügelzellenpumpe
+#Flügelzellenpumpe ohne Speicher
+PumpPower.MassFlowOut		= Valve.MassFlowIn
+PumpPower.Density			= HLP46.Density
+PumpPower.PumpCtrl			= PumpCtrl
+
+#Flügelzellenpumpe mit Speicher
 PumpAccumulator.MassFlowOut = Valve.MassFlowIn
 PumpAccumulator.Density	 	= HLP46.Density
-PumpAccumulator.Level	 	= Level
+PumpAccumulator.PumpCtrl 	= PumpCtrl
 
 #Hydrauliköl
 HLP46.Temperature		= Thermal_HLP46.Temperature
@@ -33,11 +38,13 @@ HLP46.Pressure			= Cylinder.PressureIn
 TotalHeatLoss.Plus		= Cylinder.PLoss
 TotalHeatLoss.Plus		= Pipe.PLoss
 TotalHeatLoss.Plus		= Valve.PLoss
+TotalHeatLoss.Plus		= PumpPower.PLoss
 TotalHeatLoss.Plus		= PumpAccumulator.PLoss
 
 Thermal_HLP46.In		= Cylinder.PLoss
 Thermal_HLP46.In		= Pipe.PLoss
 Thermal_HLP46.In		= Valve.PLoss
+Thermal_HLP46.In		= PumpPower.PLoss
 Thermal_HLP46.In		= PumpAccumulator.PLoss
 Thermal_HLP46.In		= Thermal_FreeFlow.PThermal21
 

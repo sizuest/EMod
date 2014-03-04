@@ -35,14 +35,15 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  * 
  * Inputlist:
  *   1: PressureOut : [Pa]   : Pressure at the end
- *   2: MassflowOut : [kg/s] : Massflow in the pipe
+ *   2: MassflowOut : [kg/s] : Mass flow in the pipe
  *   3: Viscosity  	: [mm2/s] : Hydraulic oil`s kinematic viscosity
  *   4: Density     : [kg/m3] : Hydraulic oil`s density
  * Outputlist:
  *   1: PressureIn  : [Pa]   : Pressure in the cylinder chamber
- *   2: MassFlowIn  : [kg/s] : Massflow into the cylinder chamber
+ *   2: MassFlowIn  : [kg/s] : Mass flow into the cylinder chamber
  *   3: Ploss		: [W]	 : Power loss
- *   4: Pressureloss: [Pa]   : Pressuredifference over the pipe
+ *   4: Pressureloss: [Pa]   : Pressure difference over the pipe
+ *   5: ConnectionDiameter: [m]: This value is needed by the cylinder
  *   
  * Config parameters:
  *   PipeDiameter   : [m] 

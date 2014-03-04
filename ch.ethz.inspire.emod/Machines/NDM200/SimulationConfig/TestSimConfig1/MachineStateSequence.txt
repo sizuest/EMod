@@ -2,6 +2,6 @@
 # Duration , Machine state
 #  [s]
     0      , ON;         # line comment
-	300    , PROCESS;
+	400    , PROCESS;
     5      , OFF;
 

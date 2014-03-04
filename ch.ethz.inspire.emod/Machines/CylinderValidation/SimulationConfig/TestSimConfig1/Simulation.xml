@@ -4,7 +4,7 @@
 	<comment>
 		General simulation config file.
 	</comment>
-	<entry key="simulationPeriod">1</entry>
-	<entry key="initialTemperature.HomogStorage_Example">301</entry>
+	<entry key="simulationPeriod">0.1</entry>
+	<entry key="initialTemperature.HomogStorage_Example">293</entry>
 	<entry key="initialPressure.HomogStorage_Example">100000</entry>
 </properties>

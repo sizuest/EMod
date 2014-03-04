@@ -39,7 +39,7 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  *   2: Massflow    : [kg/s]  : Oil flow through the valve
  *   3: Density     : [kg/m3] : Hydraulic oil`s density
  *   4: State		:			ON/OFF position of the valve. 1 means ON, 0 means OFF. Only needed for magnetic valves
- *   5: PumpPressure: [Pa]	  : Pressure provided by the pump
+ 
  * Outputlist:
  *   1: PressureIn  : [Pa]   : Pressure in the cylinder chamber
  *   2: MassFlow    : [kg/s] : Massflow into the cylinder chamber
@@ -51,7 +51,6 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  *   ElectricPower    : [W] 
  *   PressureSamples  : [Pa]
  *   VolflowSamples   : [l/min]: Unit [l/min] is chosen because of easier handling for the user. Manufacturer data always given in [l/min]. From [kg/s] to [l/min], the factor 60*1000/density must be taken.
- *   AdjustedPressure : [Pa]   : This value is only needed for a pressure reducing valve.
  * 
  * @author kraandre
  *

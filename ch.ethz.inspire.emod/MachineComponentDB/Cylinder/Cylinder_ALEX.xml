@@ -19,10 +19,11 @@
   </comment>
   <entry key="CylinderType">2</entry>
   <entry key="PistonDiameter">0.05</entry>
-  <entry key="PistonThickness">0.01</entry>
-  <entry key="CylinderStroke">0.5</entry>
+  <entry key="PistonThickness">0.0105</entry>
+  <entry key="CylinderStroke">0.05</entry>
   <entry key="Efficiency">0.95</entry>
   <entry key="PistonRodDiameter">0.02</entry>
   <entry key="thermal.Mass">10</entry>
   <entry key="thermal.HeatCapacity">480</entry>
+  <entry key="PMax">4000000</entry>
 </properties>

@@ -10,7 +10,7 @@
     ----------
       ElectricPower [W]
         TODO
-      MassflowSamples [kg/s]
+      VolflowSamples [l/min]
         TODO
       PressureSamples [Pa]
         TODO

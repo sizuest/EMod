@@ -35,9 +35,17 @@
         </machineComponent>
                        
         <machineComponent>
-	        <!-- Flügelzellenpumpe -->
+	        <!-- Flügelzellenpumpe mit Speicher -->
 	    	<name>PumpAccumulator</name>
             <component xsi:type="pumpAccumulator" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>NDM200</type>
+            </component>
+        </machineComponent>
+        
+        <machineComponent>
+	        <!-- Flügelzellenpumpe ohne Speicher -->
+	    	<name>PumpPower</name>
+            <component xsi:type="pumpPower" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>NDM200</type>
             </component>
         </machineComponent>
@@ -97,7 +105,7 @@
         </simController>
         
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>Level</name>
+            <name>PumpCtrl</name>
             <unit>NONE</unit>
         </simController>
         

@@ -26,13 +26,13 @@ public class PumpAccumulatorTest {
 		PumpAccumulator pump = new PumpAccumulator("NDM200");
 		
 		// Set Mass flow to zero
-		pump.getInput("MassFlowOut").setValue(0);
+		pump.getInput("MassFlowOut").setValue(0.1);
 		pump.setSimulationPeriod(1);
 		pump.update();
 		
 		assertEquals("Pump power @ 0s", 0,       pump.getOutput("PTotal").getValue(),     0);
 		assertEquals("Mass flow @ 0s",  0,       pump.getOutput("MassFlowIn").getValue(), 0);
-		assertEquals("Pressure @ 0s",   1650000, pump.getOutput("Pressure").getValue(),   0);
+		assertEquals("Pressure @ 0s",   6000000, pump.getOutput("Pressure").getValue(),   0);
 		
 		// Set Mass flow to 1kg/s and sample time to 1s
 		pump.getInput("MassFlowOut").setValue(1);
