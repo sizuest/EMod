@@ -18,7 +18,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 
@@ -72,11 +72,11 @@ public class ConstantComponent extends APhysicalComponent {
 	private void init() {
 		//input
 		inputs = new ArrayList<IOContainer>();
-		level = new IOContainer("level", Unit.NONE, 0);
+		level = new IOContainer("level", Unit.NONE, 0, ContainerType.CONTROL);
 		inputs.add(level);
 		//output
 		outputs = new ArrayList<IOContainer>();
-		ptotal = new IOContainer("ptotal", Unit.WATT, 0);
+		ptotal = new IOContainer("ptotal", Unit.WATT, 0, ContainerType.ELECTRIC);
 		outputs.add(ptotal);
 		
 		ComponentConfigReader configReader = null;

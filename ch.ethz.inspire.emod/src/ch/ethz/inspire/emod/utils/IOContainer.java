@@ -12,7 +12,7 @@
  ***********************************/
 package ch.ethz.inspire.emod.utils;
 
-import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.model.units.*;
 
 /**
  * Container for all model i/o
@@ -25,6 +25,7 @@ public class IOContainer {
 	private String name;
 	private Unit unit;
 	private double value;
+	private ContainerType type;
 	/**
 	 * @param name
 	 * @param unit
@@ -32,9 +33,23 @@ public class IOContainer {
 	 */
 	public IOContainer(String name, Unit unit, double value) {
 		super();
-		this.name = name;
-		this.unit = unit;
+		this.name  = name;
+		this.unit  = unit;
 		this.value = value;
+		this.type  = ContainerType.NONE;
+	}
+	/**
+	 * @param name
+	 * @param unit
+	 * @param value
+	 * @param type
+	 */
+	public IOContainer(String name, Unit unit, double value, ContainerType type) {
+		super();
+		this.name  = name;
+		this.unit  = unit;
+		this.value = value;
+		this.type  = type;
 	}
 	public IOContainer() {
 		
@@ -63,8 +78,14 @@ public class IOContainer {
 	public Unit getUnit() {
 		return unit;
 	}
+	/**
+	 * @return the type
+	 */
+	public ContainerType getType() {
+		return type;
+	}
 	
 	public String toString() {
-		return name + " " + value + " " + unit;
+		return name + " " + value + " " + unit + " " + type;
 	}
 }

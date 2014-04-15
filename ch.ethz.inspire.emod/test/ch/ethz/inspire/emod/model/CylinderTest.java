@@ -30,16 +30,16 @@ public class CylinderTest {
 		// TODO
 		
 		cyl.getInput("Force").setValue(0);
-		cyl.getInput("Speed").setValue(0);
+		cyl.getInput("Velocity").setValue(0);
 		cyl.update();
 		
-		assertEquals("No Force/movement", 0, cyl.getOutput("Pressure").getValue(), 0);
+		assertEquals("No Force/movement", 0, cyl.getOutput("PressureIn").getValue(), 0);
 		
 		cyl.getInput("Force").setValue(1000);
-		cyl.getInput("Speed").setValue(0);
+		cyl.getInput("Velocity").setValue(0);
 		cyl.update();
 		
-		assertEquals("Clamping", 509392, cyl.getOutput("Pressure").getValue(), 100);
+		assertEquals("Clamping", 606419, cyl.getOutput("PressureIn").getValue(), 1000);
 		
 	}
 

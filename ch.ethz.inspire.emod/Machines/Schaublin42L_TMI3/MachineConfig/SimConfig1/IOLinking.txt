@@ -62,10 +62,10 @@ ControlPowerTransformer.Plus = Fan_in.PTotal
 ControlPowerTransformer.Plus = Fan_out.PTotal
 ControlPowerTransformer.Plus = X1_Brake.ptotal
 ControlPowerTransformer.Plus = Z1_Brake.ptotal
-ControlPowerTransformer.Plus = C1_amp.PCtrl
-ControlPowerTransformer.Plus = Ax_amp.PCtrl
-ControlPowerTransformer.Plus = B1_amp.PCtrl
-ControlPowerTransformer.Plus = Z3_amp.PCtrl
+ControlPowerTransformer.Plus = C1_amp.PLoss
+ControlPowerTransformer.Plus = Ax_amp.PLoss
+ControlPowerTransformer.Plus = B1_amp.PLoss
+ControlPowerTransformer.Plus = Z3_amp.PLoss
 
 # Compressed air --------------------------
 CompressedAir.Flow           = SealingAirDemand

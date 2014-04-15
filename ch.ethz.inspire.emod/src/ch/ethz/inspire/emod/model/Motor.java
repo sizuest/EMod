@@ -20,7 +20,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.lang.Math;
 
-import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.model.units.ContainerType;
+import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.utils.Algo;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
@@ -118,17 +119,17 @@ public class Motor extends APhysicalComponent{
 	{
 		/* Define Input parameters */
 		inputs = new ArrayList<IOContainer>();
-		rotspeed = new IOContainer("RotSpeed", Unit.RPM, 0);
+		rotspeed = new IOContainer("RotSpeed", Unit.RPM, 0, ContainerType.MECHANIC);
 		inputs.add(rotspeed);
 		torque = new IOContainer("Torque", Unit.NEWTONMETER, 0);
 		inputs.add(torque);
 		
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		pmech      = new IOContainer("PUse",       Unit.WATT, 0);
-		ploss      = new IOContainer("PLoss",      Unit.WATT, 0);
-		pel        = new IOContainer("PTotal",     Unit.WATT, 0);
-		efficiency = new IOContainer("Efficiency", Unit.NONE, 0);
+		pmech      = new IOContainer("PUse",       Unit.WATT, 0, ContainerType.MECHANIC);
+		ploss      = new IOContainer("PLoss",      Unit.WATT, 0, ContainerType.THERMAL);
+		pel        = new IOContainer("PTotal",     Unit.WATT, 0, ContainerType.ELECTRIC);
+		efficiency = new IOContainer("Efficiency", Unit.NONE, 0, ContainerType.INFORMATION);
 		outputs.add(pel);
 		outputs.add(ploss);
 		outputs.add(pmech);

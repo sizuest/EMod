@@ -35,8 +35,8 @@ public class HydraulicOilTest {
 		hoi.getInput("Pressure").setValue(30000000);
 		hoi.update();
 		
-		assertEquals("Viscosity", 30, hoi.getOutput("Viscosity").getValue(), 5);
-		assertEquals("Density", 188, hoi.getOutput("Density").getValue(), 10);
+		assertEquals("Viscosity", 30,  hoi.getOutput("Viscosity").getValue(), 5);
+		assertEquals("Density",   887, hoi.getOutput("Density").getValue(),   1);
 		
 	}
 

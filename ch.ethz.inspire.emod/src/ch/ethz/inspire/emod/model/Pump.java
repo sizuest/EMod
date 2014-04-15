@@ -19,7 +19,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.utils.Algo;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
@@ -107,16 +107,16 @@ public class Pump extends APhysicalComponent{
 	{
 		/* Define Input parameters */
 		inputs     = new ArrayList<IOContainer>();
-		massFlowOut = new IOContainer("MassFlowOut", Unit.KG_S, 0);
+		massFlowOut = new IOContainer("MassFlowOut", Unit.KG_S, 0, ContainerType.FLUIDDYNAMIC);
 		inputs.add(massFlowOut);
 		
 		/* Define output parameters */
 		outputs    = new ArrayList<IOContainer>();
-		pel        = new IOContainer("PTotal", Unit.WATT, 0);
-		pth        = new IOContainer("PLoss",  Unit.WATT, 0);
-		pmech      = new IOContainer("PUse",   Unit.WATT, 0);
-		massFlowIn = new IOContainer("MassFlowIn", Unit.KG_S, 0);
-		pFluid     = new IOContainer("Pressure", Unit.PA, 0);
+		pel        = new IOContainer("PTotal",     Unit.WATT, 0, ContainerType.ELECTRIC);
+		pth        = new IOContainer("PLoss",      Unit.WATT, 0, ContainerType.THERMAL);
+		pmech      = new IOContainer("PUse",       Unit.WATT, 0, ContainerType.FLUIDDYNAMIC);
+		massFlowIn = new IOContainer("MassFlowIn", Unit.KG_S, 0, ContainerType.FLUIDDYNAMIC);
+		pFluid     = new IOContainer("Pressure",   Unit.PA,   0, ContainerType.FLUIDDYNAMIC);
 		outputs.add(pel);
 		outputs.add(pth);
 		outputs.add(pmech);

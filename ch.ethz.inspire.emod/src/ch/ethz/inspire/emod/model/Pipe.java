@@ -19,7 +19,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 
@@ -41,8 +41,8 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  * Outputlist:
  *   1: PressureIn  : [Pa]   : Pressure in the cylinder chamber
  *   2: MassFlowIn  : [kg/s] : Mass flow into the cylinder chamber
- *   3: Ploss		: [W]	 : Power loss
- *   4: Pressureloss: [Pa]   : Pressure difference over the pipe
+ *   3: PLoss		: [W]	 : Power loss
+ *   4: PressureLoss: [Pa]   : Pressure difference over the pipe
  *   5: ConnectionDiameter: [m]: This value is needed by the cylinder
  *   
  * Config parameters:
@@ -71,7 +71,7 @@ public class Pipe extends APhysicalComponent{
 	private double Reynolds		 = 0;
 	private double lambda		 = 0;
 	
-	//TODO Viskosität und Dichte je nach Öl und Temperatur variabel
+	//TODO Viskositï¿½t und Dichte je nach ï¿½l und Temperatur variabel
 	
 	// Output parameters:
 	private IOContainer pressureIn;
@@ -115,23 +115,23 @@ public class Pipe extends APhysicalComponent{
 	private void init()
 	{
 		/* Define Input parameters */
-		inputs    = new ArrayList<IOContainer>();
-		pressureOut     = new IOContainer("PressureOut", Unit.PA, 0);
-		massflowOut  = new IOContainer("MassFlowOut", Unit.KG_S, 0);
-		viscosity = new IOContainer("Viscosity", Unit.MMSQUARE_S, 0);
-		density   = new IOContainer("Density", Unit.KG_MCUBIC, 0);
+		inputs      = new ArrayList<IOContainer>();
+		pressureOut = new IOContainer("PressureOut", Unit.PA,         0,    ContainerType.FLUIDDYNAMIC);
+		massflowOut = new IOContainer("MassFlowOut", Unit.KG_S,       0,    ContainerType.FLUIDDYNAMIC);
+		viscosity   = new IOContainer("Viscosity",   Unit.MMSQUARE_S, 70,   ContainerType.FLUIDDYNAMIC);
+		density     = new IOContainer("Density",     Unit.KG_MCUBIC,  1000, ContainerType.FLUIDDYNAMIC);
 		inputs.add(pressureOut);
 		inputs.add(massflowOut);
 		inputs.add(viscosity);
 		inputs.add(density);
 		
 		/* Define output parameters */
-		outputs   = new ArrayList<IOContainer>();
-		pressureIn  = new IOContainer("PressureIn", Unit.PA, 0);
-		massflowIn  = new IOContainer("MassFlowIn", Unit.KG_S, 0);
-		ploss     = new IOContainer("PLoss", Unit.WATT, 0);
-		pressureloss = new IOContainer("PressureLoss", Unit.PA, 0);
-		connectionDiameter = new IOContainer("ConnectionDiameter", Unit.M, 0);
+		outputs            = new ArrayList<IOContainer>();
+		pressureIn         = new IOContainer("PressureIn",         Unit.PA,   0, ContainerType.FLUIDDYNAMIC);
+		massflowIn         = new IOContainer("MassFlowIn",         Unit.KG_S, 0, ContainerType.FLUIDDYNAMIC);
+		ploss              = new IOContainer("PLoss",              Unit.WATT, 0, ContainerType.THERMAL);
+		pressureloss       = new IOContainer("PressureLoss",       Unit.PA,   0, ContainerType.FLUIDDYNAMIC);
+		connectionDiameter = new IOContainer("ConnectionDiameter", Unit.M,    0, ContainerType.FLUIDDYNAMIC);
 		outputs.add(pressureIn);
 		outputs.add(massflowIn);
 		outputs.add(ploss);

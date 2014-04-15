@@ -19,7 +19,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 import ch.ethz.inspire.emod.utils.IOContainer;
 
@@ -35,7 +35,9 @@ import ch.ethz.inspire.emod.utils.IOContainer;
  *   2: TemperatureAmb : [K]      : Ambient temperature
  *   3: PressureAmb    : [Pa]     : Ambient Pressure
  * Outputlist:
- *   1: PTotal         : [W]      : Power in the flow
+ *   1: PTotal         : [W]      : Power demand to generate the flow
+ *   2: PUse           : [W]      : Power available in the fluid
+ *   3: PLoss          : [W]      : Power loss during the generation
  *   
  * Config parameters:
  *   Density               : [N/mm]   : density of the fluid under ambient conditions
@@ -43,7 +45,7 @@ import ch.ethz.inspire.emod.utils.IOContainer;
  *   IsentropicCoefficient : [-]      : isentropic coefficent of the fluid
  *   SupplyPressure        : [Pa]     : pressure of the fluid in the supply
  * 
- * @author simon
+ * @author sizuest
  *
  */
 @XmlRootElement
@@ -58,6 +60,8 @@ public class CompressedFluid extends APhysicalComponent{
 	private IOContainer pAmb;
 	// Output parameters:
 	private IOContainer ptotal;
+	private IOContainer puse;
+	private IOContainer ploss;
 	
 	// Parameters used by the model. 
 	private double rho, 	// [kg/m3]  Fluid density under normal conditions
@@ -97,17 +101,21 @@ public class CompressedFluid extends APhysicalComponent{
 	{
 		/* Define Input parameters */
 		inputs    = new ArrayList<IOContainer>();
-		vFlowDot  = new IOContainer("Flow", Unit.L_S, 0);
-		tempAmb   = new IOContainer("TemperatureAmb", Unit.KELVIN, 0);
-		pAmb      = new IOContainer("PressureAmb", Unit.PA, 100000);
+		vFlowDot  = new IOContainer("Flow",           Unit.L_S,    0,      ContainerType.FLUIDDYNAMIC);
+		tempAmb   = new IOContainer("TemperatureAmb", Unit.KELVIN, 0,      ContainerType.THERMAL);
+		pAmb      = new IOContainer("PressureAmb",    Unit.PA,     100000, ContainerType.FLUIDDYNAMIC);
 		inputs.add(vFlowDot);
 		inputs.add(tempAmb);
 		inputs.add(pAmb);
 		
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		ptotal  = new IOContainer("PTotal", Unit.WATT, 0);
+		ptotal  = new IOContainer("PTotal", Unit.WATT, 0, ContainerType.ELECTRIC);
+		puse    = new IOContainer("PUse",   Unit.WATT, 0, ContainerType.FLUIDDYNAMIC);
+		ploss   = new IOContainer("PLoss",  Unit.WATT, 0, ContainerType.THERMAL);
 		outputs.add(ptotal);
+		outputs.add(puse);
+		outputs.add(ploss);
 		
 		/* ************************************************************************/
 		/*         Read configuration parameters: */
@@ -181,12 +189,22 @@ public class CompressedFluid extends APhysicalComponent{
 		
 		if (pAmb.getValue() == 0) {
 			ptotal.setValue(0);
+			puse.setValue(0);
+			ploss.setValue(0);
 			return;
 		}
-		/* Calculate power flow trough fluid
+		/* Calculate power required to generate the flow
 		 * PTotal [W] = cp [J/Kg/K] * Tamb [K] * [ (psupply [Pa] /pamb [Pa] )^{(kappa-1)/kappa} ] * rho [kg/m3] * Vdot [l/s] / 1000 [l/m3]
 		 */
 		ptotal.setValue(cp*tempAmb.getValue()*(Math.pow(psupply/pAmb.getValue(), gamma-1)-1)*rho*vFlowDot.getValue()/1000);
+		/* Calculate power flow trough fluid
+		 * PUse [W] = psupply [Pa]  * Vdot [l/s] / 1000 [l/m3]
+		 */
+		puse.setValue(psupply*vFlowDot.getValue()/1000);
+		/* Calculate power loss during the generation
+		 * PLoss [W] = PTotal-PUse
+		 */
+		ploss.setValue(ptotal.getValue()-puse.getValue());
 	
 	}
 

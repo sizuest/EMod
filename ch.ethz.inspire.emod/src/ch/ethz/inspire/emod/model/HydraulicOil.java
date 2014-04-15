@@ -19,7 +19,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.utils.Algo;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
@@ -108,15 +108,15 @@ public class HydraulicOil extends APhysicalComponent{
 		
 		/* Define input parameters */
 		inputs   = new ArrayList<IOContainer>();
-		temperature  = new IOContainer("Temperature", Unit.KELVIN, 0273.15);
-		pressure  = new IOContainer("Pressure", Unit.PA, 0);
+		temperature  = new IOContainer("Temperature", Unit.KELVIN, 273.15, ContainerType.THERMAL);
+		pressure     = new IOContainer("Pressure",    Unit.PA,     0,      ContainerType.FLUIDDYNAMIC);
 		inputs.add(temperature);
 		inputs.add(pressure);
 		
 		/* Define output parameters */
 		outputs   = new ArrayList<IOContainer>();
-		viscosity  = new IOContainer("Viscosity", Unit.MMSQUARE_S, 45);
-		density  = new IOContainer("Density", Unit.KG_MCUBIC, 800);
+		viscosity  = new IOContainer("Viscosity", Unit.MMSQUARE_S,  45, ContainerType.FLUIDDYNAMIC);
+		density    = new IOContainer("Density",   Unit.KG_MCUBIC,  800, ContainerType.FLUIDDYNAMIC);
 		outputs.add(viscosity);
 		outputs.add(density);
 

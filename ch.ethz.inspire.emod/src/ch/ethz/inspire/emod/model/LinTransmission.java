@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.lang.Math;
 
-import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 
@@ -37,7 +37,9 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  * Outputlist:
  *   1: RotSpeed	    : [rpm]     : Resulting rotational speed
  *   2: Torque			: [Nm]		: Resulting torque
- *   3: PLoss			: [W]		: Heat loss
+ *   3: PTotal			: [W]       : Input power
+ *   4: PUse            : [W]       : Output power (usable)
+ *   5: PLoss			: [W]		: Heat loss
  *   
  * Config parameters:
  *   TransmissionRatio    : [-] : Ratio between the demaned and the resulting speed
@@ -58,7 +60,9 @@ public class LinTransmission extends APhysicalComponent{
 	// Output parameters:
 	private IOContainer rotSpeedOut;
 	private IOContainer torqueOut;
-	private IOContainer pLoss;
+	private IOContainer ploss;
+	private IOContainer puse;
+	private IOContainer ptotal;
 	
 	// Parameters used by the model. 
 	private double k; // Fluid density [kg/m3]
@@ -96,19 +100,23 @@ public class LinTransmission extends APhysicalComponent{
 	{
 		/* Define Input parameters */
 		inputs     = new ArrayList<IOContainer>();
-		rotSpeedIn = new IOContainer("RotSpeed", Unit.RPM, 0);
-		torqueIn   = new IOContainer("Torque", Unit.NEWTONMETER, 0);
+		rotSpeedIn = new IOContainer("RotSpeed", Unit.RPM,         0, ContainerType.MECHANIC);
+		torqueIn   = new IOContainer("Torque",   Unit.NEWTONMETER, 0, ContainerType.MECHANIC);
 		inputs.add(rotSpeedIn);
 		inputs.add(torqueIn);
 		
 		/* Define output parameters */
 		outputs     = new ArrayList<IOContainer>();
-		rotSpeedOut = new IOContainer("RotSpeed", Unit.RPM, 0);
-		torqueOut   = new IOContainer("Torque", Unit.NEWTONMETER, 0);
-		pLoss       = new IOContainer("PLoss",  Unit.WATT, 0);
+		rotSpeedOut = new IOContainer("RotSpeed", Unit.RPM,         0, ContainerType.MECHANIC);
+		torqueOut   = new IOContainer("Torque",   Unit.NEWTONMETER, 0, ContainerType.MECHANIC);
+		ptotal      = new IOContainer("PTotal",   Unit.WATT,        0, ContainerType.MECHANIC);
+		puse        = new IOContainer("PUse",     Unit.WATT,        0, ContainerType.MECHANIC);
+		ploss       = new IOContainer("PLoss",    Unit.WATT,        0, ContainerType.THERMAL);
 		outputs.add(rotSpeedOut);
 		outputs.add(torqueOut);
-		outputs.add(pLoss);
+		outputs.add(ptotal);
+		outputs.add(puse);
+		outputs.add(ploss);
 		
 		/* ************************************************************************/
 		/*         Read configuration parameters: */
@@ -177,8 +185,14 @@ public class LinTransmission extends APhysicalComponent{
 		 */
 		rotSpeedOut.setValue(rotSpeedIn.getValue()/k);
 		torqueOut.setValue(torqueIn.getValue()*k/eta);
-		
-		pLoss.setValue( rotSpeedIn.getValue()*Math.PI/30*torqueIn.getValue() * (1-eta)/eta );
+		/* Powers
+		 * PUse [W] = omegaOut [rpm] * 2*pi/60 [rad/s/rpm] * TOut [N]
+		 * PTotal [W] = omegaIn [rpm] * 2*pi/60 [rad/s/rpm] * TIn [N]
+		 * PLoss [W] = PTotal [W] - PUse [W];
+		 */
+		puse.setValue(rotSpeedIn.getValue()*torqueIn.getValue()*2*Math.PI/60);
+		ptotal.setValue(rotSpeedOut.getValue()*torqueOut.getValue()*2*Math.PI/60);
+		ploss.setValue(ptotal.getValue()-puse.getValue());
 		
 	}
 

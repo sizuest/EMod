@@ -19,7 +19,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.utils.Algo;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
@@ -88,7 +88,11 @@ public class Amplifier extends APhysicalComponent{
 		super();
 	}
 	
-	public void afterUnmarshal(Unmarshaller u, Object parent) {
+	/**
+	 * @param u
+	 * @param parent
+	 */
+	public void afterUnmarshal(final Unmarshaller u, final Object parent) {
 		//post xml init method (loading physics data)
 		init();
 	}
@@ -112,18 +116,18 @@ public class Amplifier extends APhysicalComponent{
 	{
 		/* Define Input parameters */
 		inputs = new ArrayList<IOContainer>();
-		level = new IOContainer("State", Unit.NONE, 0);
-		pdmd  = new IOContainer("PDmd", Unit.WATT, 0);
+		level = new IOContainer("State", Unit.NONE, 0, ContainerType.CONTROL);
+		pdmd  = new IOContainer("PDmd",  Unit.WATT, 0, ContainerType.ELECTRIC);
 		inputs.add(level);
 		inputs.add(pdmd);
 		
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		pel        = new IOContainer("PTotal",     Unit.WATT, 0);
-		ploss      = new IOContainer("PLoss",      Unit.WATT, 0);
-		pamp       = new IOContainer("PAmp",       Unit.WATT, 0);
-		pctrl      = new IOContainer("PCtrl",      Unit.WATT, 0);
-		efficiency = new IOContainer("Efficiency", Unit.NONE, 0);
+		pel        = new IOContainer("PTotal",     Unit.WATT, 0, ContainerType.ELECTRIC);
+		ploss      = new IOContainer("PLoss",      Unit.WATT, 0, ContainerType.THERMAL);
+		pamp       = new IOContainer("PAmp",       Unit.WATT, 0, ContainerType.ELECTRIC);
+		pctrl      = new IOContainer("PUse",       Unit.WATT, 0, ContainerType.ELECTRIC);
+		efficiency = new IOContainer("Efficiency", Unit.NONE, 0, ContainerType.INFORMATION);
 		outputs.add(pel);
 		outputs.add(ploss);
 		outputs.add(pamp);

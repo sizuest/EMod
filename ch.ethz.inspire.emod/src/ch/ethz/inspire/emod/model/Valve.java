@@ -19,6 +19,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import ch.ethz.inspire.emod.model.units.ContainerType;
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.utils.Algo;
 import ch.ethz.inspire.emod.utils.IOContainer;
@@ -43,9 +44,9 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  * Outputlist:
  *   1: PressureIn  : [Pa]   : Pressure in the cylinder chamber
  *   2: MassFlow    : [kg/s] : Massflow into the cylinder chamber
- *   3: Ploss		: [W]	 : Power loss
- *   4: Pressureloss: [Pa]	 : Pressuredifference over the valve
- *   5: PElectric	: [W]	 : Needed electrical power to open and hold the valve
+ *   3: PLoss		: [W]	 : Power loss
+ *   4: PressureLoss: [Pa]	 : Pressuredifference over the valve
+ *   5: PTotal    	: [W]	 : Needed electrical power to open and hold the valve
  *   
  * Config parameters:
  *   ElectricPower    : [W] 
@@ -123,11 +124,11 @@ public class Valve extends APhysicalComponent{
 	{
 		/* Define Input parameters */
 		inputs       = new ArrayList<IOContainer>();
-		pressureOut  = new IOContainer("PressureOut", Unit.PA, 0);
-		massflowOut  = new IOContainer("MassFlowOut", Unit.KG_S, 0);
-		density		 = new IOContainer("Density", Unit.KG_MCUBIC, 0);
-		valveCtrl	 = new IOContainer("ValveCtrl", Unit.NONE, 1);
-		pumpPressure = new IOContainer("PumpPressure", Unit.PA, 0);
+		pressureOut  = new IOContainer("PressureOut",  Unit.PA,           0, ContainerType.FLUIDDYNAMIC);
+		massflowOut  = new IOContainer("MassFlowOut",  Unit.KG_S,         0, ContainerType.FLUIDDYNAMIC);
+		density		 = new IOContainer("Density",      Unit.KG_MCUBIC, 1000, ContainerType.FLUIDDYNAMIC);
+		valveCtrl	 = new IOContainer("ValveCtrl",    Unit.NONE,         1, ContainerType.CONTROL);
+		pumpPressure = new IOContainer("PumpPressure", Unit.PA,           0, ContainerType.FLUIDDYNAMIC);
 		inputs.add(pressureOut);
 		inputs.add(massflowOut);
 		inputs.add(density);
@@ -136,11 +137,11 @@ public class Valve extends APhysicalComponent{
 		
 		/* Define output parameters */
 		outputs   = new ArrayList<IOContainer>();
-		pressureIn  = new IOContainer("PressureIn", Unit.PA, 0);
-		massflowIn  = new IOContainer("MassFlowIn", Unit.KG_S, 0);
-		ploss       = new IOContainer("PLoss"   , Unit.WATT, 0);
-		pressureloss= new IOContainer("PressureLoss"   , Unit.PA, 0);
-		pel			= new IOContainer("PEl",	  Unit.WATT, 0);
+		pressureIn  = new IOContainer("PressureIn",   Unit.PA,   0, ContainerType.FLUIDDYNAMIC);
+		massflowIn  = new IOContainer("MassFlowIn",   Unit.KG_S, 0, ContainerType.FLUIDDYNAMIC);
+		ploss       = new IOContainer("PLoss",        Unit.WATT, 0, ContainerType.THERMAL);
+		pressureloss= new IOContainer("PressureLoss", Unit.PA,   0, ContainerType.FLUIDDYNAMIC);
+		pel			= new IOContainer("PTotal",	      Unit.WATT, 0, ContainerType.ELECTRIC);
 		outputs.add(pressureIn);
 		outputs.add(massflowIn);
 		outputs.add(ploss);
@@ -242,7 +243,10 @@ public class Valve extends APhysicalComponent{
 	@Override
 	public void update() {
 		
-		if (lastpressure == pressureOut.getValue()  && lastmassflow == massflowOut.getValue() && lastvalveCtrl == valveCtrl.getValue() && lastpumppressure == pumpPressure.getValue()) {
+		if ( lastpressure     == pressureOut.getValue() && 
+			 lastmassflow     == massflowOut.getValue() && 
+			 lastvalveCtrl    == valveCtrl.getValue()   && 
+			 lastpumppressure == pumpPressure.getValue()) {
 				// Input values did not change, nothing to do.
 				return;
 		}
@@ -252,23 +256,15 @@ public class Valve extends APhysicalComponent{
 		lastvalveCtrl	 = valveCtrl.getValue();
 		lastpumppressure = pumpPressure.getValue();
 		
-		if(lastvalveCtrl == 1){
-			
+		if(lastvalveCtrl == 1){		
 			massflowIn.setValue(lastmassflow);
 		
-			//if(adjustedPressure == 0){					
-				pressureloss.setValue(Algo.linearInterpolation(lastmassflow/density.getValue()*60*1000, volflowSamples, pressureSamples));
-				pressureIn.setValue(lastpressure+pressureloss.getValue());
-			//}
-			
-			/*else{
-				pressureloss.setValue((pumpPressure.getValue()-adjustedPressure)*lastmassflow*60*1000/density.getValue());
-			}*/
+			pressureloss.setValue(Algo.linearInterpolation(lastmassflow/density.getValue()*60*1000, volflowSamples, pressureSamples));
+			pressureIn.setValue(lastpressure+pressureloss.getValue());
 			
 			pel.setValue(electricPower);
 			ploss.setValue(lastmassflow/density.getValue()*pressureloss.getValue()+pel.getValue());
-		}
-		
+		}	
 		else{
 			pressureOut.setValue(0);
 			pressureloss.setValue(0);

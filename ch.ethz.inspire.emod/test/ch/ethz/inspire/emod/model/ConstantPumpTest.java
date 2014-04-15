@@ -1,10 +1,10 @@
 /***********************************
- * $Id: PumpTest.java 96 2012-04-05 08:10:57Z sizuest $
+ * $Id$
  *
- * $URL: https://icvrdevil.ethz.ch/svn/EMod/trunk/ch.ethz.inspire.emod/test/ch/ethz/inspire/emod/model/PumpTest.java $
- * $Author: sizuest $
- * $Date: 2012-04-05 10:10:57 +0200 (Do, 05 Apr 2012) $
- * $Rev: 96 $
+ * $URL$
+ * $Author$
+ * $Date$
+ * $Rev$
  *
  * Copyright (c) 2011 by Inspire AG, ETHZ
  * All rights reserved
@@ -25,15 +25,16 @@ public class ConstantPumpTest {
 		ConstantPump cpump = new ConstantPump("Example");
 		
 		
-		// Set Mass flow to 0.2 kg/s
 		cpump.getInput("MassFlowOut").setValue(0.4928);
 		cpump.getInput("PumpCtrl").setValue(1);
+		cpump.getInput("RotSpeed").setValue(3200);
+		cpump.getInput("DemandedPressure").setValue(700000);
 		cpump.update();
 		
-		assertEquals("Pressure ",   2, cpump.getOutput("PressureOut").getValue(),      1.1);
-		assertEquals("Pump losses through bypass ",   2, cpump.getOutput("PBypass").getValue(),      1.1);
-		assertEquals("Hydraulic power",           286, cpump.getOutput("PHydr").getValue(),  1);
-		assertEquals("Electric power consumption",   942, cpump.getOutput("PEl").getValue(),    1);
-		assertEquals("Thermal power losses",   1477, cpump.getOutput("PTh").getValue(),    1);
+		assertEquals("Pressure ",                   1500000, cpump.getOutput("PressureOut").getValue(), 1.1);
+		assertEquals("Pump losses through bypass ", 65.8,    cpump.getOutput("PBypass").getValue(),     0.1);
+		assertEquals("Hydraulic power",             739,     cpump.getOutput("PUse").getValue(),        1);
+		assertEquals("Electric power consumption",  1040,    cpump.getOutput("PTotal").getValue(),      1);
+		assertEquals("Thermal power losses",        301,     cpump.getOutput("PLoss").getValue(),       1);
 	}
 }

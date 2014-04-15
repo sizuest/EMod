@@ -43,7 +43,7 @@ public class TransmisisonTest {
 		// 
 		assertEquals("Resulting speed", 	60, transm.getOutput("RotSpeed").getValue(), 0);
 		assertEquals("Resulting torque", 111.1, transm.getOutput("Torque").getValue(),  0.1);
-		assertEquals("Heat loss", 		 69.8, transm.getOutput("PLoss").getValue(),    0.1);
+		assertEquals("Heat loss", 		 69.8, transm.getOutput("PLoss").getValue(),    0.2);
 	}
 	
 }

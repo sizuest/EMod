@@ -35,8 +35,8 @@ public class PipeTest {
 		pip.getInput("MassFlowOut").setValue(0.44);
 		pip.update();
 		
-		assertEquals("PressureLoss", 375584, pip.getOutput("PressureLoss").getValue(), 10);
-		assertEquals("Ploss", 188, pip.getOutput("PLoss").getValue(), 10);
+		assertEquals("PressureLoss", 87843, pip.getOutput("PressureLoss").getValue(), 1);
+		assertEquals("Ploss", 39, pip.getOutput("PLoss").getValue(), 1);
 		assertEquals("massFlow", 0.44, pip.getOutput("MassFlowIn").getValue(), 0.1);
 		
 	}

@@ -19,7 +19,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.utils.Algo;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
@@ -48,9 +48,9 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  *   3: State			 : 		 	: ON/OFF position of the pump. 1 means ON, 0 means OFF
  *   4: Rotspeed		 : [RPM]	: Actual rotational speed
  * Outputlist:
- *   1: PElectric   : [W]    : Demanded electrical power
+ *   1: PTotal	    : [W]    : Demanded electrical power
  *   2: PBypass     : [W]    : Power loss created by bypass flow through blow off valve
- *   3: PHydraulic  : [W]    : Total power in the fluid
+ *   3: PUse        : [W]    : Total power in the fluid
  *   4: PThermal	: [W]	 : Thermal power loss in the motor and pump
  *   5: PLoss		: [W]	 : Total power loss => PTh + PBypass
  *   6: PressureOut : [bar]  : Created pressure by the pump
@@ -136,11 +136,11 @@ public class ConstantPump extends APhysicalComponent{
 	{
 		/* Define Input parameters */
 		inputs       	 = new ArrayList<IOContainer>();
-		massFlowOut 	 = new IOContainer("MassFlowOut", Unit.KG_S, 0);
-		density			 = new IOContainer("Density", Unit.KG_MCUBIC, 0);
-		pumpCtrl		 = new IOContainer("PumpCtrl", Unit.NONE, 0);
-		rotSpeed		 = new IOContainer("RotSpeed", Unit.RPM, 0);
-		demandedPressure = new IOContainer("DemandedPressure", Unit.PA, 0);
+		massFlowOut 	 = new IOContainer("MassFlowOut",      Unit.KG_S,      0,    ContainerType.FLUIDDYNAMIC);
+		density			 = new IOContainer("Density",          Unit.KG_MCUBIC, 1000, ContainerType.FLUIDDYNAMIC);
+		pumpCtrl		 = new IOContainer("PumpCtrl",         Unit.NONE,      0,    ContainerType.CONTROL);
+		rotSpeed		 = new IOContainer("RotSpeed",         Unit.RPM,       0,    ContainerType.MECHANIC);
+		demandedPressure = new IOContainer("DemandedPressure", Unit.PA,        0,    ContainerType.FLUIDDYNAMIC);
 		inputs.add(massFlowOut);
 		inputs.add(density);
 		inputs.add(pumpCtrl);
@@ -149,13 +149,13 @@ public class ConstantPump extends APhysicalComponent{
 		
 		/* Define output parameters */
 		outputs    	   = new ArrayList<IOContainer>();
-		pressureOut    = new IOContainer("PressureOut", Unit.PA, 0);
-		pel        	   = new IOContainer("PElectric", Unit.WATT, 0);
-		pbypass    	   = new IOContainer("PBypass",  Unit.WATT, 0);
-		phydr      	   = new IOContainer("PHydraulic", Unit.WATT, 0);
-		pth		   	   = new IOContainer("PThermal",   Unit.WATT, 0);
-		ploss	   	   = new IOContainer("PLoss", Unit.WATT, 0);
-		massFlowBypass = new IOContainer("MassFlowBypass", Unit.KG_S,0);
+		pressureOut    = new IOContainer("PressureOut",    Unit.PA,   0, ContainerType.FLUIDDYNAMIC);
+		pel        	   = new IOContainer("PTotal",         Unit.WATT, 0, ContainerType.ELECTRIC);
+		pbypass    	   = new IOContainer("PBypass",        Unit.WATT, 0, ContainerType.INFORMATION);
+		phydr      	   = new IOContainer("PUse",           Unit.WATT, 0, ContainerType.FLUIDDYNAMIC);
+		pth		   	   = new IOContainer("PThermal",       Unit.WATT, 0, ContainerType.INFORMATION);
+		ploss	   	   = new IOContainer("PLoss",          Unit.WATT, 0, ContainerType.THERMAL);
+		massFlowBypass = new IOContainer("MassFlowBypass", Unit.KG_S, 0, ContainerType.FLUIDDYNAMIC);
 		outputs.add(pressureOut);
 		outputs.add(pel);
 		outputs.add(pbypass);
@@ -297,7 +297,7 @@ public class ConstantPump extends APhysicalComponent{
 	public void update() {
 				
 	    if(lastpressure == pressureOut.getValue() && lastmassflow==massFlowOut.getValue() && lastpumpCtrl == pumpCtrl.getValue() && lastrotspeed == rotSpeed.getValue()){
-	    	    	// Input values did not change, nothing to do.
+	    	// Input values did not change, nothing to do.
 			return;
 	    }
 	    
@@ -306,34 +306,28 @@ public class ConstantPump extends APhysicalComponent{
 		lastpumpCtrl = pumpCtrl.getValue();
 		lastrotspeed = rotSpeed.getValue();
 	
+
 		//Pump ON
 		if(lastpumpCtrl == 1){
 			
-		pumppressure=Algo.bilinearInterpolation(lastrotspeed, lastmassflow/density.getValue()*(60*1000), rotSpeedSamples, volFlowSamples,pressureMatrix);
+		pumppressure=Algo.bilinearInterpolation(lastrotspeed, lastmassflow/density.getValue()*(60*1000), rotSpeedSamples, volFlowSamples, pressureMatrix);
+							
+			if(pumppressure<pDBV){
+				pressureOut.setValue(pumppressure);
+				pumpmassflow=lastmassflow;
+			}
 			
-			//if(lastmassflow<=displacement*lastrotspeed*density.getValue()/(60*1000*1000) || demandedPressure.getValue()<=pumppressure){
-				
-				if(pumppressure<pDBV){
-					pressureOut.setValue(pumppressure);
-					pumpmassflow=lastmassflow;
-				}
-				
-				else{
-					pressureOut.setValue(pDBV);
-					pumpmassflow=Algo.doubleLinearInterpolation(lastrotspeed, pDBV, rotSpeedSamples, volFlowSamples, pressureMatrix)*density.getValue()/60000;
-				}
-					massFlowBypass.setValue(pumpmassflow-lastmassflow);
-					phydr.setValue(pressureOut.getValue()*lastmassflow/density.getValue());
-					pel.setValue(Algo.linearInterpolation(pumpmassflow/density.getValue()*60000, volFlowSamples, pumpPowerSamples));
-					pbypass.setValue(pressureOut.getValue()*massFlowBypass.getValue()/density.getValue());
-					pth.setValue(pel.getValue()-phydr.getValue()-pbypass.getValue());
-					ploss.setValue(pth.getValue()+pbypass.getValue());
-				
-			//}
-			
-			//else{
-				//Fehlerausgabe: Verlangter Massenstrom oder Druck zu gross aktuelle Einstellungen der Pumpe
-			//}
+			else{
+				pressureOut.setValue(pDBV);
+				pumpmassflow=Algo.doubleLinearInterpolation(lastrotspeed, pDBV, rotSpeedSamples, volFlowSamples, pressureMatrix)*density.getValue()/60000;
+			}
+			massFlowBypass.setValue(pumpmassflow-lastmassflow);
+			phydr.setValue(pressureOut.getValue()*lastmassflow/density.getValue());
+			pel.setValue(Algo.linearInterpolation(pumpmassflow/density.getValue()*60000, volFlowSamples, pumpPowerSamples));
+			pbypass.setValue(pressureOut.getValue()*massFlowBypass.getValue()/density.getValue());
+			pth.setValue(pel.getValue()-phydr.getValue()-pbypass.getValue());
+			ploss.setValue(pth.getValue()+pbypass.getValue());
+
 		}
 			
 			

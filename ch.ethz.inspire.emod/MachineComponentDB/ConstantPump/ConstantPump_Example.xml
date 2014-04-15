@@ -20,7 +20,7 @@
   </comment>
   <entry key="Displacement">7</entry>
   <entry key="ElectricalPower">1500</entry>
-  <entry key="P_DBV">2500000</entry>
+  <entry key="P_DBV">1500000</entry>
   <entry key="VolFlowSamples">  0;       30.7;    30.9;    31;      31.3;    31.5;    31.7;    32;      32.2;    32.4;    32.7;    33;      33.2;    33.6;    33.8;   34.1</entry>
   <entry key="RotSpeedSamples"> 0;       400;     800;     1200;    1600;    2000;    2400;    2800;    3200;    3600;    4000;    4400;    4800;    5200;    5600;   6000</entry>
   <entry key="PumpPowerSamples">1500;    1350;    1300;    1250;    1220;    1175;    1125;    1075;    1040;    1000;    965;     920;     875;     845;     800;    750</entry>

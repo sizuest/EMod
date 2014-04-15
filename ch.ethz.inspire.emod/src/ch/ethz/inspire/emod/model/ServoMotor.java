@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.lang.Math;
 
-import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 
@@ -109,18 +109,18 @@ public class ServoMotor extends APhysicalComponent{
 	{
 		/* Define Input parameters */
 		inputs   = new ArrayList<IOContainer>();
-		rotspeed = new IOContainer("RotSpeed", Unit.RPM, 0);
-		torque   = new IOContainer("Torque",   Unit.NEWTONMETER, 0);
+		rotspeed = new IOContainer("RotSpeed", Unit.RPM,         0, ContainerType.MECHANIC);
+		torque   = new IOContainer("Torque",   Unit.NEWTONMETER, 0, ContainerType.MECHANIC);
 		//inputs.add(brake);
 		inputs.add(rotspeed);
 		inputs.add(torque);
 		
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		pel     = new IOContainer("PTotal", Unit.WATT, 0);
-		ploss   = new IOContainer("PLoss",  Unit.WATT, 0);
-		pmech   = new IOContainer("PUse",   Unit.WATT, 0);
-		efficiency = new IOContainer("Efficiency", Unit.NONE, 0);
+		pel     = new IOContainer("PTotal", Unit.WATT, 0, ContainerType.ELECTRIC);
+		ploss   = new IOContainer("PLoss",  Unit.WATT, 0, ContainerType.THERMAL);
+		pmech   = new IOContainer("PUse",   Unit.WATT, 0, ContainerType.MECHANIC);
+		efficiency = new IOContainer("Efficiency", Unit.NONE, 0, ContainerType.INFORMATION);
 		outputs.add(pel);
 		outputs.add(ploss);
 		outputs.add(pmech);

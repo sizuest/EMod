@@ -19,7 +19,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 
@@ -44,9 +44,9 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  *   1: Pressure  	      : [Pa]     : Pressure in the cylinder chamber
  *   2: MassFlow  	      : [kg/s]   : Massflow into the cylinder chamber
  *   3: LeakFlow  	      : [kg/s]   : Internal leakage from high pressure chamber to low low pressure chamber
- *   4: Pmech		  	  : [W]	 	 : Mechanical power
- *   5: Ploss		  	  : [W]	 	 : Power loss
- *   6: Phydr			  : [W]	 	 : Hydraulic power
+ *   4: PUse		  	  : [W]	 	 : Mechanical power
+ *   5: PLoss		  	  : [W]	 	 : Power loss
+ *   6: PHydraulic   	  : [W]	 	 : Hydraulic power
  *   
  * Config parameters:
  *   PistonDiameter 	: [m] 
@@ -134,11 +134,11 @@ public class Cylinder extends APhysicalComponent{
 	{
 		/* Define Input parameters */
 		inputs    = new ArrayList<IOContainer>();
-		force     = new IOContainer("Force", Unit.NEWTON, 0);
-		velocity  = new IOContainer("Velocity", Unit.MM_MIN, 0);
-		viscosity = new IOContainer("Viscosity", Unit.MMSQUARE_S, 0);
-		density   = new IOContainer("Density", Unit.KG_MCUBIC, 0);
-		connectionDiameter = new IOContainer("ConnectionDiameter", Unit.M, 0);
+		force     = new IOContainer("Force",     Unit.NEWTON,     0, ContainerType.MECHANIC);
+		velocity  = new IOContainer("Velocity",  Unit.MM_MIN,     0, ContainerType.MECHANIC);
+		viscosity = new IOContainer("Viscosity", Unit.MMSQUARE_S, 0, ContainerType.FLUIDDYNAMIC);
+		density   = new IOContainer("Density",   Unit.KG_MCUBIC,  0, ContainerType.FLUIDDYNAMIC);
+		connectionDiameter = new IOContainer("ConnectionDiameter", Unit.M, 0, ContainerType.FLUIDDYNAMIC);
 		inputs.add(force);
 		inputs.add(velocity);
 		inputs.add(density);
@@ -146,13 +146,13 @@ public class Cylinder extends APhysicalComponent{
 		inputs.add(connectionDiameter);
 		
 		/* Define output parameters */
-		outputs   = new ArrayList<IOContainer>();
-		pressureIn  = new IOContainer("PressureIn", Unit.PA, 0);
-		massFlowIn  = new IOContainer("MassFlowIn", Unit.KG_S, 0);
-		leakFlow  = new IOContainer("LeakFlow", Unit.KG_S, 0);
-		pmech     = new IOContainer("PMech"   , Unit.WATT, 0);
-		ploss     = new IOContainer("PLoss"   , Unit.WATT, 0);
-		phydr     = new IOContainer("PHydr"   , Unit.WATT, 0);
+		outputs     = new ArrayList<IOContainer>();
+		pressureIn  = new IOContainer("PressureIn", Unit.PA,   0, ContainerType.FLUIDDYNAMIC);
+		massFlowIn  = new IOContainer("MassFlowIn", Unit.KG_S, 0, ContainerType.FLUIDDYNAMIC);
+		leakFlow    = new IOContainer("LeakFlow",   Unit.KG_S, 0, ContainerType.FLUIDDYNAMIC);
+		pmech       = new IOContainer("PUse",       Unit.WATT, 0, ContainerType.MECHANIC);
+		ploss       = new IOContainer("PLoss",      Unit.WATT, 0, ContainerType.THERMAL);
+		phydr       = new IOContainer("PTotal",     Unit.WATT, 0, ContainerType.FLUIDDYNAMIC);
 		outputs.add(pressureIn);
 		outputs.add(massFlowIn);
 		outputs.add(leakFlow);

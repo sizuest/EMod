@@ -19,6 +19,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import ch.ethz.inspire.emod.model.units.ContainerType;
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 import ch.ethz.inspire.emod.utils.IOContainer;
@@ -105,14 +106,14 @@ public class Revolver extends APhysicalComponent{
 	{
 		/* Define Input parameters */
 		inputs = new ArrayList<IOContainer>();
-		n      = new IOContainer("Tool", Unit.NONE, 0);
+		n      = new IOContainer("Tool", Unit.NONE, 0, ContainerType.CONTROL);
 		inputs.add(n);
 		
 		/* Define output parameters */
 		outputs  = new ArrayList<IOContainer>();
-		torque   = new IOContainer("Torque", Unit.NEWTONMETER, 0);
-		rotspeed = new IOContainer("RotSpeed", Unit.RPM, 0);
-		nReal    = new IOContainer("ToolReal", Unit.NONE, 1);
+		torque   = new IOContainer("Torque",   Unit.NEWTONMETER, 0, ContainerType.MECHANIC);
+		rotspeed = new IOContainer("RotSpeed", Unit.RPM,         0, ContainerType.MECHANIC);
+		nReal    = new IOContainer("ToolReal", Unit.NONE,        1, ContainerType.INFORMATION);
 		outputs.add(torque);
 		outputs.add(rotspeed);
 		outputs.add(nReal);

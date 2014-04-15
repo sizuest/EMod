@@ -19,7 +19,8 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.model.units.ContainerType;
+import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.utils.Algo;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
@@ -125,21 +126,21 @@ public class PumpAccumulator extends APhysicalComponent{
 	{
 		/* Define Input parameters */
 		inputs      = new ArrayList<IOContainer>();
-		massFlowOut = new IOContainer("MassFlowOut", Unit.KG_S, 0);
-		level       = new IOContainer("Level", Unit.NONE, 0);
-		density		= new IOContainer("Density", Unit.KG_MCUBIC, 0);
+		massFlowOut = new IOContainer("MassFlowOut", Unit.KG_S,         0, ContainerType.FLUIDDYNAMIC);
+		level       = new IOContainer("Level",       Unit.NONE,         0, ContainerType.CONTROL);
+		density		= new IOContainer("Density",     Unit.KG_MCUBIC, 1000, ContainerType.FLUIDDYNAMIC);
 		inputs.add(massFlowOut);
 		inputs.add(level);
 		inputs.add(density);
 		
 		/* Define output parameters */
 		outputs    = new ArrayList<IOContainer>();
-		pel        = new IOContainer("PTotal", Unit.WATT, 0);
-		pth        = new IOContainer("PLoss",  Unit.WATT, 0);
-		pmech      = new IOContainer("PUse",   Unit.WATT, 0);
-		massFlowIn = new IOContainer("MassFlowIn", Unit.KG_S, 0);
-		volFlowIn  = new IOContainer("VolFlowIn", Unit.L_MIN, 0);
-		pFluid     = new IOContainer("Pressure", Unit.PA, 0);
+		pel        = new IOContainer("PTotal",     Unit.WATT,  0, ContainerType.ELECTRIC);
+		pth        = new IOContainer("PLoss",      Unit.WATT,  0, ContainerType.THERMAL);
+		pmech      = new IOContainer("PUse",       Unit.WATT,  0, ContainerType.FLUIDDYNAMIC);
+		massFlowIn = new IOContainer("MassFlowIn", Unit.KG_S,  0, ContainerType.FLUIDDYNAMIC);
+		volFlowIn  = new IOContainer("VolFlowIn",  Unit.L_MIN, 0, ContainerType.FLUIDDYNAMIC);
+		pFluid     = new IOContainer("Pressure",   Unit.PA,    0, ContainerType.FLUIDDYNAMIC);
 		outputs.add(pel);
 		outputs.add(pth);
 		outputs.add(pmech);
@@ -316,6 +317,7 @@ public class PumpAccumulator extends APhysicalComponent{
 			massFlowIn.setValue(volFlowIn.getValue()/60000*density.getValue());
 		}
 		else {
+			volFlowIn.setValue(0);
 			pel.setValue(0);
 			massFlowIn.setValue(0);
 		}

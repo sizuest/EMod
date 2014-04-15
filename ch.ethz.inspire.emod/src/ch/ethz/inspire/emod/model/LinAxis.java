@@ -19,7 +19,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 import ch.ethz.inspire.emod.utils.IOContainer;
 
@@ -38,6 +38,9 @@ import ch.ethz.inspire.emod.utils.IOContainer;
  * Outputlist:
  *   1: Torque      : [Nm]   : Calculated torque
  *   2: RotSpeed	: [rpm]  : Requested rotational speed
+ *   3: PTotal      : [W]    : Input power
+ *   4: PUse        : [W]    : Output power (usable)
+ *   5: PLoss       : [W]    : Output power (losses)
  *   
  * Config parameters:
  *   Transmission         : [mm/rev]   : Transmission between the motor (rpm) 
@@ -61,8 +64,9 @@ public class LinAxis extends APhysicalComponent{
 	// Output parameters:
 	private IOContainer torque;
 	private IOContainer rotspeed;
-	private IOContainer pmech;
+	private IOContainer puse;
 	private IOContainer ploss;
+	private IOContainer ptotal;
 	
 	// Save last input values
 	private double lastspeed, 
@@ -105,21 +109,23 @@ public class LinAxis extends APhysicalComponent{
 	{
 		/* Define Input parameters */
 		inputs = new ArrayList<IOContainer>();
-		speed  = new IOContainer("Speed", Unit.MM_MIN, 0);
+		speed  = new IOContainer("Speed",        Unit.MM_MIN, 0, ContainerType.MECHANIC);	
+		force  = new IOContainer("ProcessForce", Unit.NEWTON, 0, ContainerType.MECHANIC);
 		inputs.add(speed);
-		force  = new IOContainer("ProcessForce", Unit.NEWTON, 0);
 		inputs.add(force);
 		
 		/* Define output parameters */
-		outputs = new ArrayList<IOContainer>();
-		torque = new IOContainer("Torque", Unit.NEWTONMETER, 0);
+		outputs  = new ArrayList<IOContainer>();
+		torque   = new IOContainer("Torque",   Unit.NEWTONMETER, 0, ContainerType.MECHANIC);
+		rotspeed = new IOContainer("RotSpeed", Unit.RPM,         0, ContainerType.MECHANIC);
+		puse     = new IOContainer("PUse",     Unit.WATT,        0, ContainerType.MECHANIC);
+		ploss    = new IOContainer("PLoss",    Unit.WATT,        0, ContainerType.THERMAL);
+		ptotal   = new IOContainer("PTotal",   Unit.WATT,        0, ContainerType.MECHANIC);
 		outputs.add(torque);
-		rotspeed = new IOContainer("RotSpeed", Unit.RPM, 0);
 		outputs.add(rotspeed);
-		pmech = new IOContainer("Pmech", Unit.WATT, 0);
-		ploss = new IOContainer("Ploss", Unit.WATT, 0);
-		outputs.add(pmech);
+		outputs.add(puse);
 		outputs.add(ploss);
+		outputs.add(ptotal);
 		
 		/* ************************************************************************/
 		/*         Read configuration parameters: */
@@ -204,9 +210,14 @@ public class LinAxis extends APhysicalComponent{
 		 * Remark: transmission is [mm/rev]
 		 */
 		torque.setValue(transmission/1000 * ( lastforce - mass*9.81*Math.cos(alpha*Math.PI/180) ) );
-		
-		pmech.setValue(0);
-		ploss.setValue(0);
+		/* Powers
+		 * PUse [W] = v [mm/min] * 1000/60 [min*m/mm/s] * F [N]
+		 * PTotal [W] = omega [rpm] * 2*pi/60 [rad/s/rpm] * T [N]
+		 * PLoss [W] = PTotal [W] - PUse [W];
+		 */
+		puse.setValue(lastspeed*lastforce*1000/60);
+		ptotal.setValue(rotspeed.getValue()*torque.getValue()*2*Math.PI/60);
+		ploss.setValue(ptotal.getValue()-puse.getValue());
 	}
 
 	/* (non-Javadoc)

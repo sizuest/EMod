@@ -19,7 +19,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 
 
-import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 import ch.ethz.inspire.emod.utils.Defines;
 import ch.ethz.inspire.emod.utils.IOContainer;
@@ -81,7 +81,7 @@ public class LayerStorage extends APhysicalComponent{
 	private double alpha;
 	private double lambda;
 	private double dWall;
-	private double temperatureInit;
+	private double temperatureInit = 0;
 	private int    nElements;
 	
 	// Sum
@@ -119,23 +119,40 @@ public class LayerStorage extends APhysicalComponent{
 	}
 	
 	/**
+	 * Layer Storage constructor
+	 * 
+	 * @param type
+	 * @param parentType
+	 * @param temperatureInit
+	 */
+	public LayerStorage(String type, String parentType, double temperatureInit) {
+		super();
+		
+		this.type       = type;
+		this.parentType = parentType;
+		this.temperatureInit = temperatureInit;
+		
+		init();
+	}
+	
+	/**
 	 * Called from constructor or after unmarshaller.
 	 */
 	private void init()
 	{		
 		/* Define Input parameters */
 		inputs   = new ArrayList<IOContainer>();
-		tempIn   = new IOContainer("TemperatureIn",  Unit.KELVIN, 0);
-		tempAmb  = new IOContainer("TemperatureAmb", Unit.KELVIN, 0);
-		mDotIn   = new IOContainer("MassFlow",       Unit.KG_S, 0);
+		tempIn   = new IOContainer("TemperatureIn",  Unit.KELVIN, 0, ContainerType.THERMAL);
+		tempAmb  = new IOContainer("TemperatureAmb", Unit.KELVIN, 0, ContainerType.THERMAL);
+		mDotIn   = new IOContainer("MassFlow",       Unit.KG_S,   0, ContainerType.FLUIDDYNAMIC);
 		inputs.add(tempIn);
 		inputs.add(tempAmb);
 		inputs.add(mDotIn);
 		
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		tempOut = new IOContainer("TemperatureOut", Unit.KELVIN, 0);
-		ploss   = new IOContainer("PLoss",          Unit.WATT,   0);
+		tempOut = new IOContainer("TemperatureOut", Unit.KELVIN, 0, ContainerType.THERMAL);
+		ploss   = new IOContainer("PLoss",          Unit.WATT,   0, ContainerType.THERMAL);
 		outputs.add(tempOut);
 		outputs.add(ploss);
 		
@@ -175,15 +192,19 @@ public class LayerStorage extends APhysicalComponent{
 		
 		/* Load initial condition
 		 */
-		path = PropertiesHandler.getProperty("app.MachineDataPathPrefix")+
-				"/"+PropertiesHandler.getProperty("sim.MachineName")+"/"+Defines.SIMULATIONCONFIGDIR+"/"+
-				PropertiesHandler.getProperty("sim.SimulationConfigName")+"/"+Defines.SIMULATIONCONFIGFILE;
-		try {
-			initCond = new ComponentConfigReader(path);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			System.exit(-1);
+		
+		if (temperatureInit==0) {
+			path = PropertiesHandler.getProperty("app.MachineDataPathPrefix")+
+					"/"+PropertiesHandler.getProperty("sim.MachineName")+"/"+Defines.SIMULATIONCONFIGDIR+"/"+
+					PropertiesHandler.getProperty("sim.SimulationConfigName")+"/"+Defines.SIMULATIONCONFIGFILE;
+			try {
+				initCond = new ComponentConfigReader(path);
+				temperatureInit = initCond.getDoubleValue("initialTemperature."+this.getClass().getSimpleName()+"_"+type);
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				System.exit(-1);
+			}
 		}
 		
 		/* Read the config parameter: */
@@ -195,7 +216,6 @@ public class LayerStorage extends APhysicalComponent{
 			lambda          = params.getDoubleValue("thermal.ConductionConstant");
 			dWall           = params.getDoubleValue("thermal.WallThickness");
 			nElements       = params.getIntValue("thermal.NumberOfElements");
-			temperatureInit = initCond.getDoubleValue("initialTemperature."+this.getClass().getSimpleName()+"_"+type);
 		}
 		catch (Exception e) {
 			e.printStackTrace();

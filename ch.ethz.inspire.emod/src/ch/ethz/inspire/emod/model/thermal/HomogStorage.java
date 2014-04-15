@@ -19,7 +19,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 
 
-import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 import ch.ethz.inspire.emod.utils.Defines;
 import ch.ethz.inspire.emod.utils.IOContainer;
@@ -65,7 +65,7 @@ public class HomogStorage extends APhysicalComponent{
 	// Unit of the element 
 	private double cp;
 	private double m;
-	private double temperatureInit;
+	private double temperatureInit = 0;
 	
 	// Sum
 	private double tmpSum, curTemperature;
@@ -99,6 +99,23 @@ public class HomogStorage extends APhysicalComponent{
 	}
 	
 	/**
+	 * Homog. Storage constructor
+	 * 
+	 * @param type
+	 * @param parentType
+	 * @param temperatureInit
+	 */
+	public HomogStorage(String type, String parentType, double temperatureInit) {
+		super();
+		
+		this.type       = type;
+		this.parentType = parentType;
+		this.temperatureInit = temperatureInit;
+		
+		init();
+	}
+	
+	/**
 	 * Called from constructor or after unmarshaller.
 	 */
 	private void init()
@@ -110,7 +127,7 @@ public class HomogStorage extends APhysicalComponent{
 		
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		temperature     = new IOContainer("Temperature", Unit.KELVIN, 0);
+		temperature     = new IOContainer("Temperature", Unit.KELVIN, 0, ContainerType.THERMAL);
 		outputs.add(temperature);
 		
 		/* ************************************************************************/
@@ -149,24 +166,27 @@ public class HomogStorage extends APhysicalComponent{
 		
 		/* Load initial condition
 		 */
-		path = PropertiesHandler.getProperty("app.MachineDataPathPrefix")+
-				"/"+PropertiesHandler.getProperty("sim.MachineName")+"/"+Defines.SIMULATIONCONFIGDIR+"/"+
-				PropertiesHandler.getProperty("sim.SimulationConfigName")+"/"+Defines.SIMULATIONCONFIGFILE;
-		try {
-			initCond = new ComponentConfigReader(path);
+		if (temperatureInit==0) {
+			path = PropertiesHandler.getProperty("app.MachineDataPathPrefix")+
+					"/"+PropertiesHandler.getProperty("sim.MachineName")+"/"+Defines.SIMULATIONCONFIGDIR+"/"+
+					PropertiesHandler.getProperty("sim.SimulationConfigName")+"/"+Defines.SIMULATIONCONFIGFILE;
+			try {
+				initCond = new ComponentConfigReader(path);
+				temperatureInit = initCond.getDoubleValue("initialTemperature."+this.getClass().getSimpleName()+"_"+type);
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				System.exit(-1);
+			}
 		}
-		catch (Exception e) {
-			e.printStackTrace();
-			System.exit(-1);
-		}
-		
-		
+			
+			
 		/* Read the config parameter: */
 		try {
 			m               = params.getDoubleValue("thermal.Mass");
 			cp              = params.getDoubleValue("thermal.HeatCapacity");
 			//temperatureInit = params.getDoubleValue("thermal.InitialTemperature");
-			temperatureInit = initCond.getDoubleValue("initialTemperature."+this.getClass().getSimpleName()+"_"+type);
+			
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -230,12 +250,12 @@ public class HomogStorage extends APhysicalComponent{
 		 * If the initialization has not been done, create a output with same unit as input
 		 */
 		if(name.matches("In")) {
-			temp = new IOContainer("In"+(thIn.size()+1), Unit.WATT, 0);
+			temp = new IOContainer("In"+(thIn.size()+1), Unit.WATT, 0, ContainerType.THERMAL);
 			inputs.add(temp);
 			thIn.add(temp);
 		}
 		else if(name.matches("Out")) {
-			temp = new IOContainer("Out"+(thOut.size()+1), Unit.WATT, 0);
+			temp = new IOContainer("Out"+(thOut.size()+1), Unit.WATT, 0, ContainerType.THERMAL);
 			inputs.add(temp);
 			thOut.add(temp);
 		}

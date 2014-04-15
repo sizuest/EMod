@@ -19,7 +19,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 import ch.ethz.inspire.emod.utils.IOContainer;
 
@@ -70,7 +70,7 @@ public class Clamp extends APhysicalComponent{
 		super();
 	}
 	
-	public void afterUnmarshal(Unmarshaller u, Object parent) {
+	public void afterUnmarshal(final Unmarshaller u, final Object parent) {
 		//post xml init method (loading physics data)
 		init();
 	}
@@ -94,12 +94,12 @@ public class Clamp extends APhysicalComponent{
 	{
 		/* Define Input parameters */
 		inputs    = new ArrayList<IOContainer>();
-		position  = new IOContainer("Position", Unit.MM, 0);
+		position  = new IOContainer("Position", Unit.MM, 0, ContainerType.MECHANIC);
 		inputs.add(position);
 		
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		force   = new IOContainer("Force", Unit.NEWTONMETER, 0);
+		force   = new IOContainer("Force", Unit.NEWTONMETER, 0, ContainerType.MECHANIC);
 		outputs.add(force);
 		
 		/* ************************************************************************/

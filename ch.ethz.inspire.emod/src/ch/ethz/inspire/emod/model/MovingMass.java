@@ -20,10 +20,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.lang.Math;
 
-import ch.ethz.inspire.emod.model.units.Unit;
-import ch.ethz.inspire.emod.utils.Algo;
+import ch.ethz.inspire.emod.model.units.ContainerType;
+import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.utils.IOContainer;
-import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 
 /**
  * General Moving Mass Class.
@@ -93,13 +92,13 @@ public class MovingMass extends APhysicalComponent{
 	{
 		/* Define Input parameters */
 		inputs = new ArrayList<IOContainer>();
-		speed  = new IOContainer("Speed", Unit.MM_MIN, 0);
+		speed  = new IOContainer("Speed", Unit.MM_MIN, 0, ContainerType.MECHANIC);
 		inputs.add(speed);
 		
 		
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		force   = new IOContainer("Force", Unit.NEWTON, 0);
+		force   = new IOContainer("Force", Unit.NEWTON, 0, ContainerType.MECHANIC);
 		outputs.add(force);
 		
 		// Validate the parameters:

@@ -30,13 +30,13 @@ public class ValveTest {
 		// TODO
 		
 		val.getInput("PressureOut").setValue(200000);
-		val.getInput("MassFlowOut").setValue(0.176);
+		val.getInput("MassFlowOut").setValue(0.25);
 		val.update();
 		
-		assertEquals("PressureLoss", 600000, val.getOutput("PressureLoss").getValue(), 30000);
-		assertEquals("Ploss", 138, val.getOutput("PLoss").getValue(), 10);
-		assertEquals("MassFlow", 0.176, val.getOutput("MassFlowIn").getValue(), 0.1);
-		assertEquals("PressureIn", 800000, val.getOutput("PressureIn").getValue(), 30000);
+		assertEquals("PressureLoss", 350000, val.getOutput("PressureLoss").getValue(), 30000);
+		assertEquals("Ploss",        87.5,   val.getOutput("PLoss").getValue(),        0.1);
+		assertEquals("MassFlow",     0.25,   val.getOutput("MassFlowIn").getValue(),   0.1);
+		assertEquals("PressureIn",   550000, val.getOutput("PressureIn").getValue(),   30000);
 		
 	}
 

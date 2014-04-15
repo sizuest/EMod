@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.lang.Math;
 
-import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 
@@ -104,15 +104,15 @@ public class Fan extends APhysicalComponent{
 	{
 		/* Define Input parameters */
 		inputs   = new ArrayList<IOContainer>();
-		u    = new IOContainer("level", Unit.NONE, 0);
+		u    = new IOContainer("level", Unit.NONE, 0, ContainerType.CONTROL);
 		inputs.add(u);
 		
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		pel     = new IOContainer("PTotal", Unit.WATT, 0);
-		ploss   = new IOContainer("PLoss",  Unit.WATT, 0);
-		pmech   = new IOContainer("PUse",   Unit.WATT, 0);
-		mdot    = new IOContainer("MassFlow", Unit.KG_S, 0);
+		pel     = new IOContainer("PTotal",   Unit.WATT, 0, ContainerType.ELECTRIC);
+		ploss   = new IOContainer("PLoss",    Unit.WATT, 0, ContainerType.THERMAL);
+		pmech   = new IOContainer("PUse",     Unit.WATT, 0, ContainerType.FLUIDDYNAMIC);
+		mdot    = new IOContainer("MassFlow", Unit.KG_S, 0, ContainerType.FLUIDDYNAMIC);
 		outputs.add(pel);
 		outputs.add(ploss);
 		outputs.add(pmech);
