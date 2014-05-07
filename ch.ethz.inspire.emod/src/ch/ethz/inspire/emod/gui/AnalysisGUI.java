@@ -86,6 +86,7 @@ public class AnalysisGUI extends AEvaluationGUI {
 		CTabItem ptChartItem = new CTabItem(aTabFolder, SWT.NONE);
 		ptChartItem.setShowClose(true);
 		ptChartItem.setText(LocalizationHandler.getItem("app.gui.analysis.ptchart"));
+		
 		ptChartItem.setControl(createPTChart(aTabFolder));
 		
 		CTabItem varChartItem = new CTabItem(aTabFolder, SWT.NONE);

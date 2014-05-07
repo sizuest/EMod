@@ -24,6 +24,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
@@ -43,6 +44,9 @@ public class EModGUI {
 	private static Logger logger = Logger.getLogger(EModGUI.class.getName());
 	protected Shell shell;
 	protected Display disp;
+	
+	protected Composite model;
+	protected Composite sim;
 	protected Composite analysis;
 		
 	public EModGUI(Display display) {
@@ -86,17 +90,53 @@ public class EModGUI {
 		fileMenuHeader.setText(LocalizationHandler.getItem("app.gui.menu.file"));
 		Menu fileMenu = new Menu(shell, SWT.DROP_DOWN);
 		fileMenuHeader.setMenu(fileMenu);
-		MenuItem fileSaveItem = new MenuItem(fileMenu, SWT.PUSH);
-		fileSaveItem.setText(LocalizationHandler.getItem("app.gui.menu.save"));
-		MenuItem fileLoadItem = new MenuItem(fileMenu, SWT.PUSH);
-		fileLoadItem.setText(LocalizationHandler.getItem("app.gui.menu.load"));
-		MenuItem fileExitItem = new MenuItem(fileMenu, SWT.PUSH);
-		fileExitItem.setText(LocalizationHandler.getItem("app.gui.menu.exit"));
+			MenuItem fileNewItem = new MenuItem(fileMenu, SWT.PUSH);
+			fileNewItem.setText(LocalizationHandler.getItem("app.gui.menu.file.new"));
+			MenuItem fileOpenItem = new MenuItem(fileMenu, SWT.PUSH);
+			fileOpenItem.setText(LocalizationHandler.getItem("app.gui.menu.file.open"));
+			MenuItem fileSaveItem = new MenuItem(fileMenu, SWT.PUSH);
+			fileSaveItem.setText(LocalizationHandler.getItem("app.gui.menu.file.save"));
+			MenuItem fileSaveAsItem = new MenuItem(fileMenu, SWT.PUSH);
+			fileSaveAsItem.setText(LocalizationHandler.getItem("app.gui.menu.file.saveas"));			
+			MenuItem filePropertiesItem = new MenuItem(fileMenu, SWT.PUSH);
+			filePropertiesItem.setText(LocalizationHandler.getItem("app.gui.menu.file.properties"));
+			MenuItem fileExitItem = new MenuItem(fileMenu, SWT.PUSH);
+			fileExitItem.setText(LocalizationHandler.getItem("app.gui.menu.file.exit"));
+		
+		//create "Database Components" tab and items
+		MenuItem compDBMenuHeader = new MenuItem(menuBar, SWT.CASCADE);
+		compDBMenuHeader.setText(LocalizationHandler.getItem("app.gui.menu.compDB"));
+		Menu compDBMenu = new Menu(shell, SWT.DROP_DOWN);
+		compDBMenuHeader.setMenu(compDBMenu);
+			MenuItem compDBNewItem = new MenuItem(compDBMenu, SWT.PUSH);
+			compDBNewItem.setText(LocalizationHandler.getItem("app.gui.menu.compDB.new"));
+			MenuItem compDBOpenItem = new MenuItem(compDBMenu, SWT.PUSH);
+			compDBOpenItem.setText(LocalizationHandler.getItem("app.gui.menu.compDB.open"));
+			MenuItem compDBImportItem = new MenuItem(compDBMenu, SWT.PUSH);
+			compDBImportItem.setText(LocalizationHandler.getItem("app.gui.menu.compDB.import"));
+		
+		//create "Help" tab and items
+		MenuItem helpMenuHeader = new MenuItem(menuBar, SWT.CASCADE);
+		helpMenuHeader.setText(LocalizationHandler.getItem("app.gui.menu.help"));
+		Menu helpMenu = new Menu(shell, SWT.DROP_DOWN);
+		helpMenuHeader.setMenu(helpMenu);
+			MenuItem helpContentItem = new MenuItem(helpMenu, SWT.PUSH);
+			helpContentItem.setText(LocalizationHandler.getItem("app.gui.menu.help.content"));
+			MenuItem helpAboutItem = new MenuItem(helpMenu, SWT.PUSH);
+			helpAboutItem.setText(LocalizationHandler.getItem("app.gui.menu.help.about"));
 		
 		//add listeners
+		//fileNewItem.addSelectionListener(new fileNewItemListener());
+		fileOpenItem.addSelectionListener(new fileOpenItemListener());
 		fileSaveItem.addSelectionListener(new fileSaveItemListener());
-		fileLoadItem.addSelectionListener(new fileLoadItemListener());
+		//fileSaveAsItem.addSelectionListener(new fileSaveAsItemListener());
+		//filePropertiesItem.addSelectionListener(new filePropertiesItemListener());
 		fileExitItem.addSelectionListener(new fileExitItemListener());
+		
+		helpAboutItem.addSelectionListener(new helpAboutItemListener());
+		
+		
+		
 		
 		shell.setMenuBar(menuBar);
 	}
@@ -109,16 +149,18 @@ public class EModGUI {
 		TabItem tabModelItem = new TabItem(tabFolder, SWT.NONE);
 		tabModelItem.setText(LocalizationHandler.getItem("app.gui.tabs.mach"));
 		tabModelItem.setToolTipText(LocalizationHandler.getItem("app.gui.tabs.machtooltip"));
+		tabModelItem.setControl(initModel(tabFolder));
 		
 		//tab for simulation config
 		TabItem tabSimItem = new TabItem(tabFolder, SWT.NONE);
 		tabSimItem.setText(LocalizationHandler.getItem("app.gui.tabs.sim"));
 		tabSimItem.setToolTipText(LocalizationHandler.getItem("app.gui.tabs.simtooltip"));
+		tabSimItem.setControl(initSim(tabFolder));
 		
-		//tab for thermal model config
-		TabItem tabThermalItem = new TabItem(tabFolder, SWT.NONE);
-		tabThermalItem.setText(LocalizationHandler.getItem("app.gui.tabs.thermal"));
-		tabThermalItem.setToolTipText(LocalizationHandler.getItem("app.gui.tabs.thermaltooltip"));
+		//tab for thermal model config - not used at the moment
+		//TabItem tabThermalItem = new TabItem(tabFolder, SWT.NONE);
+		//tabThermalItem.setText(LocalizationHandler.getItem("app.gui.tabs.thermal"));
+		//tabThermalItem.setToolTipText(LocalizationHandler.getItem("app.gui.tabs.thermaltooltip"));
 
 		//tab for analysis
 		TabItem tabAnalysisItem = new TabItem(tabFolder, SWT.NONE);
@@ -133,6 +175,18 @@ public class EModGUI {
 				logger.log(LogLevel.DEBUG, "tab"+ tabFolder.getSelection()[0].getText()+" selected");
 			}
 		});
+	}
+	
+	//manick: open ModelGUI in tab
+	private Composite initModel(TabFolder tabFolder){
+		model = new ModelGUI(tabFolder);
+		return model;
+	}
+
+	//manick: open SimGUI in tab
+	private Composite initSim(TabFolder tabFolder){
+		sim = new SimGUI(tabFolder);
+		return sim;
 	}
 	
 	private Composite initAnalysis(TabFolder tabFolder) {
@@ -179,9 +233,9 @@ public class EModGUI {
 	 * @author dhampl
 	 *
 	 */
-	class fileLoadItemListener implements SelectionListener {
+	class fileOpenItemListener implements SelectionListener {
 		public void widgetSelected(SelectionEvent event) {
-			logger.log(LogLevel.DEBUG, "menu load item selected");
+			logger.log(LogLevel.DEBUG, "menu open item selected");
 			FileDialog fd = new FileDialog(shell, SWT.OPEN);
 	        fd.setText(LocalizationHandler.getItem("app.gui.open"));
 	        fd.setFilterPath("C:/");
@@ -192,7 +246,7 @@ public class EModGUI {
 	        	logger.log(LogLevel.DEBUG, "no file selected");
 	        	return;
 	        }
-	        logger.log(LogLevel.DEBUG, "Load file: "+selected);
+	        logger.log(LogLevel.DEBUG, "Open file: "+selected);
 	        Machine.initMachineFromFile(selected);
 		}
 
@@ -225,6 +279,27 @@ public class EModGUI {
 		public void widgetDefaultSelected(SelectionEvent e) {
 			shell.close();
 			disp.dispose();
+		}
+	}
+	
+	
+	/**
+	 * menu item action listener for help about item
+	 * 
+	 * @author manick
+	 *
+	 */
+	class helpAboutItemListener implements SelectionListener {
+		public void widgetSelected(SelectionEvent event){
+			logger.log(LogLevel.DEBUG, "help about item selected");
+			MessageBox messageBox = new MessageBox(shell);
+			messageBox.setText(LocalizationHandler.getItem("app.gui.menu.help.about"));
+			messageBox.setMessage(LocalizationHandler.getItem("app.gui.menu.help.about.message"));
+			messageBox.open();
+		}
+		
+		public void widgetDefaultSelected(SelectionEvent event){
+
 		}
 	}
 }
