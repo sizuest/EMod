@@ -29,6 +29,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
+import ch.ethz.inspire.emod.simulation.EModSimulationRun;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
 import ch.ethz.inspire.emod.LogLevel;
 import ch.ethz.inspire.emod.Machine;
@@ -163,7 +164,7 @@ public class EModGUI {
 		//tabThermalItem.setToolTipText(LocalizationHandler.getItem("app.gui.tabs.thermaltooltip"));
 
 		//tab for analysis
-		TabItem tabAnalysisItem = new TabItem(tabFolder, SWT.NONE);
+		final TabItem tabAnalysisItem = new TabItem(tabFolder, SWT.NONE);
 		tabAnalysisItem.setText(LocalizationHandler.getItem("app.gui.tabs.analysis"));
 		tabAnalysisItem.setToolTipText(LocalizationHandler.getItem("app.gui.tabs.analysistooltip"));
 		tabAnalysisItem.setControl(initAnalysis(tabFolder));
@@ -173,6 +174,14 @@ public class EModGUI {
 		tabFolder.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent event) {
 				logger.log(LogLevel.DEBUG, "tab"+ tabFolder.getSelection()[0].getText()+" selected");
+				
+				// manick: if tab Analysis is opened -> Run Simulation
+				if (tabFolder.getItem(tabFolder.getSelectionIndex()).equals(tabAnalysisItem))
+		        {
+					// manick: EModSimRun contains all the necessary commands to run a simulation
+					EModSimulationRun.EModSimRun();
+					logger.log(LogLevel.DEBUG, "simulation run");
+		        }
 			}
 		});
 	}
@@ -182,7 +191,7 @@ public class EModGUI {
 		model = new ModelGUI(tabFolder);
 		return model;
 	}
-
+	
 	//manick: open SimGUI in tab
 	private Composite initSim(TabFolder tabFolder){
 		sim = new SimGUI(tabFolder);
@@ -190,6 +199,7 @@ public class EModGUI {
 	}
 	
 	private Composite initAnalysis(TabFolder tabFolder) {
+		// TODO: manick add selectionListener??
 		analysis = new AnalysisGUI("simulation_output.dat", tabFolder);
 		// TODO: input file config
 		return analysis;

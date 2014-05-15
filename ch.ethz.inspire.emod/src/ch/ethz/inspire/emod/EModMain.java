@@ -23,8 +23,6 @@ import java.util.logging.StreamHandler;
 import org.eclipse.swt.widgets.*;
 
 import ch.ethz.inspire.emod.gui.EModGUI;
-import ch.ethz.inspire.emod.simulation.EModSimulationMain;
-import ch.ethz.inspire.emod.simulation.Process;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 /**
@@ -102,6 +100,12 @@ public class EModMain {
 		
 		logger.info("Start EModMain");
 		
+		
+		/* manick: run simulation just when tab "Analysis" is opened.
+		 * following code part therefore moved to: ch.ethz.inspire.emod.simulation.EModSimulationRun.java
+		 * EModSimulationRun.EModSimRun() is called from EModGUI -> tabFolder.addSelectionListener
+
+		
 		// Get name of machine 
 		String machineName = PropertiesHandler.getProperty("sim.MachineName");
 		if (machineName == null) {
@@ -124,30 +128,33 @@ public class EModMain {
 			System.exit(-1);
 		}
 		
-		/* Build machine: Read and check machine configuration */
+		// Build machine: Read and check machine configuration
 		Machine.buildMachine(machineName, machineConfigName);
 		
-		/* Setup the simulation: Read simulation config  */
+		// Setup the simulation: Read simulation config 
 		EModSimulationMain sim = new EModSimulationMain(machineName, simulationConfigName);
 		
-		/* Connect simulation with machine config */
+		// Connect simulation with machine config
 		sim.setMachineComponentList(Machine.getInstance().getMachineComponentList());
 		sim.setIOConnectionList(Machine.getInstance().getIOLinkList());
 		sim.setInputparamObjectList(Machine.getInstance().getInputObjectList());
 		
-		/* Setup the process */
+		// Setup the process
 		Process process = new Process(PropertiesHandler.getProperty("sim.ProcessName"));
 		
-		/* Set process parameters for simulation */
+		// Set process parameters for simulation
 		sim.setProcessParamsforSimulation(process);
 		
-		/* Set simulation period for all simulation objects */
+		// Set simulation period for all simulation objects
 		sim.updateSimulationPeriod();
 		
-		/* Run the simulation */
+		// Run the simulation
 		sim.runSimulation();
 		
-		/* Write the machine configuration */
+		// Write the machine configuration
 		//Machine.saveMachineToFile("machineexportallinone.xml");
+		
+		*/
+		
 	}
 }
