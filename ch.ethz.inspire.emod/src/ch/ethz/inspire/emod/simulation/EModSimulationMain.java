@@ -197,7 +197,7 @@ public class EModSimulationMain {
 	 */
 	private void setInputs() {
 		for(IOConnection ioc : connectionList) {
-			ioc.getTarget().setValue(ioc.getSoure().getValue());
+			ioc.getTarget().setValue(ioc.getSoure().getValue() * ioc.getGain());
 		}
 	}
 	

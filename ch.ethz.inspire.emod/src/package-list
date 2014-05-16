@@ -1,0 +1,10 @@
+ch.ethz.inspire.emod
+ch.ethz.inspire.emod.gui
+ch.ethz.inspire.emod.gui.utils
+ch.ethz.inspire.emod.model
+ch.ethz.inspire.emod.model.control
+ch.ethz.inspire.emod.model.math
+ch.ethz.inspire.emod.model.thermal
+ch.ethz.inspire.emod.model.units
+ch.ethz.inspire.emod.simulation
+ch.ethz.inspire.emod.utils

@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 
-
+import ch.ethz.inspire.emod.model.Material;
 import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 import ch.ethz.inspire.emod.utils.Defines;
@@ -66,8 +66,10 @@ public class ForcedHeatTransfere extends APhysicalComponent{
 	private IOContainer pth12;
 	private IOContainer pth21;
 	
-	// Unit of the element 
+	// Fluid properties
 	private double cp;
+	private String fluidType;
+	private Material fluid;
 	
 	/**
 	 * Constructor called from XmlUnmarshaller.
@@ -153,7 +155,7 @@ public class ForcedHeatTransfere extends APhysicalComponent{
 		
 		/* Read the config parameter: */
 		try {
-			cp = params.getDoubleValue("thermal.HeatCapacity");
+			fluidType = params.getString("Material");
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -170,6 +172,9 @@ public class ForcedHeatTransfere extends APhysicalComponent{
 		    System.exit(-1);
 		}
 		
+		// Create Fluid object
+		fluid = new Material(fluidType);
+		
 	}
 	
 	/**
@@ -177,15 +182,7 @@ public class ForcedHeatTransfere extends APhysicalComponent{
 	 * 
 	 * @throws Exception
 	 */
-    private void checkConfigParams() throws Exception
-	{		
-    	// Check model parameters:
-    	
-    	if (cp < 0) {
-    		throw new Exception("ForcedHeatTransfere, type:" + type +
-    				": Negative value: HeatCapacity must be non negative");
-    	}
-    	
+    private void checkConfigParams() throws Exception{		   	
 	}
 
 	/* (non-Javadoc)
@@ -193,6 +190,8 @@ public class ForcedHeatTransfere extends APhysicalComponent{
 	@Override
 	 */
 	public void update() {
+		
+		cp = fluid.getHeatCapacity();
 		
 		/* The heat transfere from 1 to 2 is
 		 * Qdot12 [W] = cp [J/K/kg] * mDot [kg/s] * (T_1 - T_2) [K]

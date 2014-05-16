@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 
-
+import ch.ethz.inspire.emod.model.Material;
 import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 import ch.ethz.inspire.emod.utils.Defines;
@@ -35,8 +35,9 @@ import ch.ethz.inspire.emod.model.APhysicalComponent;
  * 
  * 
  * Inputlist:
- *   1: In          : [var] : Thermal flows in
- *   2: Out         : [var] : Thermal flow out
+ *   1: In          : [W]  : Thermal flows in
+ *   2: Out         : [W]  : Thermal flow out
+ *   3: Pressure    : [Pa] : Pressure
  * Outputlist:
  *   1: Temperature : [var] : Calculated temperature
  *   
@@ -58,6 +59,7 @@ public class HomogStorage extends APhysicalComponent{
 	// Input Lists
 	private ArrayList<IOContainer> thIn;
 	private ArrayList<IOContainer> thOut;
+	private IOContainer pressure;
 	
 	// Output parameters:
 	private IOContainer temperature;
@@ -65,7 +67,10 @@ public class HomogStorage extends APhysicalComponent{
 	// Unit of the element 
 	private double cp;
 	private double m;
+	private double V;
 	private double temperatureInit = 0;
+	private String materialType;
+	private Material material;
 	
 	// Sum
 	private double tmpSum, curTemperature;
@@ -124,6 +129,8 @@ public class HomogStorage extends APhysicalComponent{
 		inputs   = new ArrayList<IOContainer>();
 		thIn     = new ArrayList<IOContainer>();
 		thOut    = new ArrayList<IOContainer>();
+		pressure = new IOContainer("Pressure", Unit.PA, 1E5, ContainerType.FLUIDDYNAMIC);
+		inputs.add(pressure);
 		
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
@@ -183,8 +190,8 @@ public class HomogStorage extends APhysicalComponent{
 			
 		/* Read the config parameter: */
 		try {
-			m               = params.getDoubleValue("thermal.Mass");
-			cp              = params.getDoubleValue("thermal.HeatCapacity");
+			V         = params.getDoubleValue("thermal.Volume");
+			materialType = params.getString("Material");
 			//temperatureInit = params.getDoubleValue("thermal.InitialTemperature");
 			
 		}
@@ -206,6 +213,9 @@ public class HomogStorage extends APhysicalComponent{
 		// Initial Temperature:
 		curTemperature = temperatureInit;
 		temperature.setValue(curTemperature);
+		
+		// Fluid object
+		material = new Material(materialType);
 	}
 	
 	/**
@@ -217,13 +227,9 @@ public class HomogStorage extends APhysicalComponent{
 	{		
     	// Check model parameters:
 		// Parameter must be non negative and non zero
-    	if (m <= 0) {
+    	if (V <= 0) {
     		throw new Exception("HomogStorage, type:" + type +
     				": Non positive value: Mass must be non negative and non zero");
-    	}
-    	if (cp <= 0) {
-    		throw new Exception("HomogStorage, type:" + type +
-    				": Non positive value: HeatCapacity must be non negative and non zero");
     	}
     	if (temperatureInit <= 0) {
     		throw new Exception("HomogStorage, type:" + type +
@@ -277,6 +283,8 @@ public class HomogStorage extends APhysicalComponent{
 	 */
 	@Override
 	public void update() {
+		cp = material.getHeatCapacity();
+		m  = V*material.getDensity(curTemperature, pressure.getValue());
 		tmpSum = 0;
 		
 		// Sum up inputs

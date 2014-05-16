@@ -43,6 +43,10 @@ public abstract class APhysicalComponent {
 		return outputs.get(id).getValue();
 	}
 	
+	public double getInput(int id) {
+		return inputs.get(id).getValue();
+	}
+	
 	public List<IOContainer> getInputs() {
 		return inputs;
 	}
@@ -77,6 +81,11 @@ public abstract class APhysicalComponent {
 	
 	public abstract void update();
 	
+	/**
+	 * Sets the sample time for the model
+	 * 
+	 * @param sampleperiod sample time in seconds
+	 */
 	public void setSimulationPeriod(double sampleperiod){
 		this.sampleperiod = sampleperiod;
 	}

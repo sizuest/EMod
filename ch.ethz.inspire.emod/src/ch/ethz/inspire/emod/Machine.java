@@ -47,6 +47,7 @@ import ch.ethz.inspire.emod.simulation.StaticSimulationControl;
 import ch.ethz.inspire.emod.utils.Defines;
 import ch.ethz.inspire.emod.utils.IOConnection;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
+import java.lang.reflect.*;
 
 /**
  * 
@@ -87,7 +88,7 @@ public class Machine {
 	/**
 	 * Private constructor for singleton implementation.
 	 */
-	private Machine()
+	public Machine()
 	{
 		
 	}
@@ -124,6 +125,23 @@ public class Machine {
 		/* Check link list: Every input must be connected. */
 		checkMachineConfig();
 		
+	}
+	
+	/**
+	 * Saves the machine
+	 * 
+	 * @param machineName   Name of machine
+	 * @param machineConfig Name of machine config
+	 */
+	public static void saveMachine(String machineName, String machineConfig) {
+		/* Generate path to machine config:
+		 * e.g. Machines/NDM200/MachineConfig/TestConfig1/ */
+		String prefix = PropertiesHandler.getProperty("app.MachineDataPathPrefix");
+		String path = prefix + "/" + machineName + "/"+ Defines.MACHINECONFIGDIR +"/" + 
+		              machineConfig + "/";
+		
+		/* Saves the machine */
+		saveMachineToFile(path);
 	}
 	
 	public static void newMachine(String machineName, String machineConfigDir) {
@@ -331,6 +349,15 @@ public class Machine {
 	 * @return the {@link MachineComponent} with the name. 
 	 */
 	public static MachineComponent getMachineComponent(String name){
+		
+		// Case: Empty machine
+		if(null==machineModel)
+			return null;
+		else if (null==Machine.getInstance().componentList)
+			return null;
+			
+		
+		// Default case:
 		MachineComponent temp=null;
 		for(MachineComponent mc : Machine.getInstance().componentList) {
 			if(mc.getName().equals(name)) {
@@ -382,6 +409,180 @@ public class Machine {
 		}
 		return machineModel;
 	}
+	
+	/**
+	 * Get unique component name. If the name stated in the argument already exists, 
+	 * a index number will be added and incremented
+	 * @param prefix Varbiable prefix
+	 * @return Unique component name
+	 */
+	public static String getUniqueComponentName(String prefix){
+		
+		String name = prefix;
+		int idx     = 0;
+		
+		// Loop until name is unique
+		while(null!=getMachineComponent(name))
+			name = prefix+"_"+(++idx);
+		
+		return name;
+		
+	}
+	
+	/**
+	 * Add new component. The function is "name save": 
+	 * If a component with the same name exists, a unique new name will be generated
+	 * @param component Component to be added
+	 */
+	public static void addMachineComponent(MachineComponent component){
+		
+		// If it is an empty machine, create a new machine
+		if(machineModel==null)
+			machineModel = new Machine();
+		
+		// If it is the first component, create list
+		if(getInstance().componentList==null)
+			getInstance().componentList = new ArrayList<MachineComponent>();
+		
+		// Make name unique
+		component.setName(getUniqueComponentName(component.getName()));
+		// Add to component list
+		getInstance().componentList.add(component);
+	}
+	
+	/**
+	 * Adds a new (non existent) machine component by its model type and
+	 * parameter set.
+	 * @param mdlType    model type name (same as class name)
+	 * @param paramType  parameter set name
+	 * @return           created machine component object
+	 */
+	public static MachineComponent addNewMachineComponent(String mdlType, String paramType){
+		
+		Object component = null;
+		
+		// Try to create and parametrize the object
+		try {
+			// Get class and constructor objects
+			Class        cl = Class.forName("ch.ethz.inspire.emod.model."+mdlType);
+			Constructor  co = cl.getConstructor(String.class);
+			// initialize new component
+			component = co.newInstance(paramType);
+		} catch (Exception e) {
+			Exception ex = new Exception("Unable to create component "+mdlType+"("+paramType+")"+" : " + e.getMessage());
+			ex.printStackTrace();
+			return null;
+		} 
+		
+		// Create new machine component object
+		MachineComponent mc = new MachineComponent(mdlType);
+		mc.setComponent((APhysicalComponent) component);
+		
+		// Add to machine
+		addMachineComponent(mc);
+		
+		return mc;
+				
+	}
+	
+	/**
+	 * Removes the component with the given name
+	 * @param mc Machine Component object
+	 */
+	public static void removeMachineComponent(MachineComponent mc) {
+		
+		if(null!=getInstance().getIOLinkList())
+			getInstance().removeMachineComponentConnections(mc);
+		
+		// Try to remove the component
+		if(!getInstance().getMachineComponentList().remove(mc)) {
+			Exception ex = new Exception("Unable to remove component "+mc.getName()+" : Can't remove component from list");
+			ex.printStackTrace();
+			return;
+		}
+		
+		
+	}
+	/**
+	 * Removes the component with the given name
+	 * @param name Name of the component
+	 */
+	public static void removeMachineComponent(String name) {
+		// Check if component exists
+		if(null==getMachineComponent(name)) {
+			Exception ex = new Exception("Unable to remove component "+name+" : No component with this name");
+			ex.printStackTrace();
+			return;
+		}
+		else
+			removeMachineComponent(getMachineComponent(name));
+	}
+	
+	/**
+	 * Removes all the IOConnections of the stated machine component from the list
+	 * @param mc Machine component object
+	 */
+	public void removeMachineComponentConnections(MachineComponent mc) {
+		
+		// Inputs
+		try {
+			for(int i=0; i<mc.getComponent().getInputs().size(); i++ ) {
+				// Go through all links, at test if current input is part of it
+				// If so, delete it
+				for(int j=1; i<getInstance().getIOLinkList().size(); i++) {
+					if( getInstance().getIOLinkList().get(j).getSoure().equals(mc.getComponent().getInputs().get(i)) ||
+							getInstance().getIOLinkList().get(j).getTarget().equals(mc.getComponent().getInputs().get(i)) )
+						getInstance().getIOLinkList().remove(j);
+				}
+			}
+		} catch(Exception x) {
+			Exception ex = new Exception("Unable to remove link on input list");
+			ex.printStackTrace();
+			return;
+		}
+		
+		// Outputs
+		try {
+			for(int i=0; i<mc.getComponent().getOutputs().size(); i++ ) {
+				// Go through all links, at test if current input is part of it
+				// If so, delete it
+				for(int j=1; i<getInstance().getIOLinkList().size(); i++) {
+					if( getInstance().getIOLinkList().get(j).getSoure().equals(mc.getComponent().getOutputs().get(i)) ||
+							getInstance().getIOLinkList().get(j).getTarget().equals(mc.getComponent().getOutputs().get(i)) )
+						getInstance().getIOLinkList().remove(j);
+				}
+			}
+		} catch(Exception x) {
+			Exception ex = new Exception("Unable to remove link on output list");
+			ex.printStackTrace();
+			return;
+		}
+	}
+	
+	/**
+	 * Adds a new IOConnection between the source and the target
+	 * @param source
+	 * @param target
+	 */
+	public static void addIOLink(IOContainer source, IOContainer target) {
+		IOConnection io;
+		// Create new IOConnection
+		try {
+			io = new IOConnection(source, target);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return;
+		}
+		
+		// Add Element to List
+		if(machineModel==null)
+			machineModel = new Machine();
+		if(null==getInstance().getIOLinkList())
+			getInstance().connectionList = new ArrayList<IOConnection>();
+		
+		getInstance().getIOLinkList().add(io);
+		
+	}
 
 	/**
 	 * ================================================================================
@@ -408,4 +609,5 @@ public class Machine {
 	{
 		componentList = list;
 	}
+	
 }
