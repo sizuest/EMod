@@ -4,8 +4,8 @@
   <comment>
     Layer Storage
   </comment>
-  <entry key="thermal.HeatCapacity">1000</entry>
-  <entry key="thermal.Mass">10</entry>
+  <entry key="Material">Example</entry>
+  <entry key="thermal.Volume">0.01</entry>
   <entry key="thermal.Surface">1</entry>
   <entry key="thermal.ConvectionConstant">1</entry>
   <entry key="thermal.ConductionConstant">1</entry>

@@ -118,6 +118,8 @@
   </entry>
   <entry key="FrictionTorque">1</entry>
   <entry key="Inertia">0.25</entry>
+  <entry key="thermal.Volume">0.0076</entry>
+  <entry key="Material">Steel</entry>
   <entry key="thermal.Mass">60</entry>
   <entry key="thermal.HeatCapacity">480</entry>
   <entry key="thermal.Surface">0.37</entry>

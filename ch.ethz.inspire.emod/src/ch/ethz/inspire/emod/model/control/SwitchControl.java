@@ -81,12 +81,18 @@ public class SwitchControl extends APhysicalComponent{
 	}
 	
 	/**
-	 * Hysteresis constructor
+	 * Switch constructor
 	 * 
 	 * @param type
 	 */
 	public SwitchControl(String type) {
 		super();
+		
+		// Default values
+		signalUnit  = Unit.WATT.toString();
+		controlUnit = Unit.NONE.toString();
+		threshold   = 1;
+		passHigh    = false;
 		
 		//this.type=type;
 		init();

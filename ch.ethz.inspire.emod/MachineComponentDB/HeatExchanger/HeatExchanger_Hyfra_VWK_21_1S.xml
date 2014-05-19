@@ -17,6 +17,8 @@
   <entry key="CompressorPower">1000</entry>
   <entry key="EERCooling">3.14</entry>
   <entry key="thermal.Mass">13</entry>
+  <entry key="thermal.Volume">0.013</entry>
+  <entry key="Material">Water</entry>
   <entry key="thermal.HeatCapacity">4180</entry>
   <entry key="thermal.Surface">.25</entry>
   <entry key="thermal.ConvectionConstants">6</entry>

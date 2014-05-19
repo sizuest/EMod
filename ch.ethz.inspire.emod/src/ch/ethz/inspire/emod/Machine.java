@@ -35,6 +35,7 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 import ch.ethz.inspire.emod.model.*;
 import ch.ethz.inspire.emod.model.math.*;
 import ch.ethz.inspire.emod.model.thermal.*;
+import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.model.control.*;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.model.MachineComponent;
@@ -146,6 +147,13 @@ public class Machine {
 	
 	public static void newMachine(String machineName, String machineConfigDir) {
 		//TODO: create new machine model, prepare lists, config dirs etc
+	}
+	
+	/**
+	 * Clears the current machine
+	 */
+	public static void deleteMachine() {
+		machineModel = null;
 	}
 
 	public static void initMachineFromFile(String file) {
@@ -370,6 +378,31 @@ public class Machine {
 	}
 	
 	/**
+	 * returns the first simulator with a specified name.
+	 * 
+	 * @param name
+	 * @return the {@link ASimulationControl} with the name. 
+	 */
+	public static ASimulationControl getSimulator(String name){
+		
+		// Case: Empty machine
+		if(null==machineModel)
+			return null;
+		else if (null==Machine.getInstance().simulators)
+			return null;
+			
+		
+		// Default case:
+
+		for(int i=0; i<getInstance().simulators.size(); i++) {
+			if(getInstance().simulators.get(i).getName().equals(name))
+				return getInstance().simulators.get(i);
+		}
+		
+		return null;
+	}
+	
+	/**
 	 * 
 	 * @return list of all input-Output connections
 	 */
@@ -429,6 +462,17 @@ public class Machine {
 		
 	}
 	
+	public static String getUniqueSimulatorName(String prefix){
+		String name = prefix;
+		int idx     = 0;
+		
+		// Loop unitil name is unique
+		while(null!=getSimulator(name))
+			name = prefix+"_"+(++idx);
+		
+		return name;
+	}
+	
 	/**
 	 * Add new component. The function is "name save": 
 	 * If a component with the same name exists, a unique new name will be generated
@@ -486,13 +530,62 @@ public class Machine {
 	}
 	
 	/**
+	 * Add new simulator. The function is "name save": 
+	 * If a component with the same name exists, a unique new name will be generated
+	 * @param simulator Simulator to be added
+	 */
+	public static void addSimulator(ASimulationControl simulator){
+		
+		// If it is an empty machine, create a new machine
+		if(machineModel==null)
+			machineModel = new Machine();
+		
+		// If it is the first component, create list
+		if(getInstance().simulators==null)
+			getInstance().simulators = new ArrayList<ASimulationControl>();
+		
+		// Make name unique
+		simulator.setName(getUniqueSimulatorName(simulator.getName()));
+		// Add to component list
+		getInstance().simulators.add(simulator);
+	}
+	
+	/**
+	 * Adds a new simulator by its name
+	 * @param name Simulator name
+	 * @param unit Simulator unit
+	 * @return {@link ASimulationControl} with the simulator 
+	 */
+	public static ASimulationControl addNewSimulator(String name, Unit unit) {
+		
+		Object simulator = null;
+		
+		// Try to create and parametrize the object
+		try {
+			// Get class and constructor objects
+			Class        cl = Class.forName("ch.ethz.inspire.emod.simulation."+name);
+			Constructor  co = cl.getConstructor(String.class, Unit.class);
+			// initialize new component
+			simulator = co.newInstance(name, unit);
+		} catch (Exception e) {
+			Exception ex = new Exception("Unable to create component "+name+"("+unit.toString()+")"+" : " + e.getMessage());
+			ex.printStackTrace();
+			return null;
+		} 
+		
+		addSimulator((ASimulationControl) simulator);
+		
+		return (ASimulationControl) simulator;
+	}
+	
+	/**
 	 * Removes the component with the given name
 	 * @param mc Machine Component object
 	 */
 	public static void removeMachineComponent(MachineComponent mc) {
 		
 		if(null!=getInstance().getIOLinkList())
-			getInstance().removeMachineComponentConnections(mc);
+			getInstance().removeConnections(mc);
 		
 		// Try to remove the component
 		if(!getInstance().getMachineComponentList().remove(mc)) {
@@ -503,6 +596,7 @@ public class Machine {
 		
 		
 	}
+	
 	/**
 	 * Removes the component with the given name
 	 * @param name Name of the component
@@ -519,17 +613,49 @@ public class Machine {
 	}
 	
 	/**
+	 * Removes the simulator with the given name
+	 * @param sc {@link ASimulationControl} simulator object
+	 */
+	public static void removeSimulator(ASimulationControl sc) {
+		
+		if(null!=getInstance().getIOLinkList())
+			getInstance().removeConnections(sc);
+		
+		// Try to remove the component
+		if(!getInstance().getInputObjectList().remove(sc)) {
+			Exception ex = new Exception("Unable to remove component "+sc.getName()+" : Can't remove component from list");
+			ex.printStackTrace();
+			return;
+		}		
+	}
+	
+	/**
+	 * Removes the simulator with the given name
+	 * @param name Name of the simulator
+	 */
+	public static void removeSimulator(String name) {
+		// Check if component exists
+		if(null==getSimulator(name)) {
+			Exception ex = new Exception("Unable to remove simulator "+name+" : No simulator with this name");
+			ex.printStackTrace();
+			return;
+		}
+		else
+			removeSimulator(getSimulator(name));
+	}
+	
+	/**
 	 * Removes all the IOConnections of the stated machine component from the list
 	 * @param mc Machine component object
 	 */
-	public void removeMachineComponentConnections(MachineComponent mc) {
+	public void removeConnections(MachineComponent mc) {
 		
 		// Inputs
 		try {
 			for(int i=0; i<mc.getComponent().getInputs().size(); i++ ) {
 				// Go through all links, at test if current input is part of it
 				// If so, delete it
-				for(int j=1; i<getInstance().getIOLinkList().size(); i++) {
+				for(int j=1; j<getInstance().getIOLinkList().size(); j++) {
 					if( getInstance().getIOLinkList().get(j).getSoure().equals(mc.getComponent().getInputs().get(i)) ||
 							getInstance().getIOLinkList().get(j).getTarget().equals(mc.getComponent().getInputs().get(i)) )
 						getInstance().getIOLinkList().remove(j);
@@ -546,7 +672,7 @@ public class Machine {
 			for(int i=0; i<mc.getComponent().getOutputs().size(); i++ ) {
 				// Go through all links, at test if current input is part of it
 				// If so, delete it
-				for(int j=1; i<getInstance().getIOLinkList().size(); i++) {
+				for(int j=0; j<getInstance().getIOLinkList().size(); j++) {
 					if( getInstance().getIOLinkList().get(j).getSoure().equals(mc.getComponent().getOutputs().get(i)) ||
 							getInstance().getIOLinkList().get(j).getTarget().equals(mc.getComponent().getOutputs().get(i)) )
 						getInstance().getIOLinkList().remove(j);
@@ -554,6 +680,24 @@ public class Machine {
 			}
 		} catch(Exception x) {
 			Exception ex = new Exception("Unable to remove link on output list");
+			ex.printStackTrace();
+			return;
+		}
+	}
+	
+	/**
+	 * Removes all the IOConnections of the stated simulator from the list
+	 * @param sc Simulator object
+	 */
+	public void removeConnections(ASimulationControl sc) {
+		
+		try {
+			for(int j=0; j<getInstance().getIOLinkList().size(); j++) {
+				if( getInstance().getIOLinkList().get(j).getSoure().equals(sc.getOutput()) )
+					getInstance().getIOLinkList().remove(j);
+			}
+		} catch(Exception x) {
+			Exception ex = new Exception("Unable to remove link on input list");
 			ex.printStackTrace();
 			return;
 		}

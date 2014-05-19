@@ -48,7 +48,7 @@ public class ProcessSimulationControl extends ASimulationControl {
 	 * @param name
 	 * @param unit
 	 */
-	ProcessSimulationControl(String name, Unit unit) {
+	public ProcessSimulationControl(String name, Unit unit) {
 		this.name = name;
 		this.unit = unit;
 		

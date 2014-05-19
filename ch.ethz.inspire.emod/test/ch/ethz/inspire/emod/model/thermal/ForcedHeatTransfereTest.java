@@ -48,8 +48,8 @@ public class ForcedHeatTransfereTest {
 		fht.getInput("MassFlow").setValue(1);
 		fht.update();
 		
-		assertEquals("Heatflow 1->2",  10000, fht.getOutput("PThermal12").getValue(), 0);
-		assertEquals("Heatflow 1->2", -10000, fht.getOutput("PThermal21").getValue(), 0);
+		assertEquals("Heatflow 1->2",  41820, fht.getOutput("PThermal12").getValue(), 0);
+		assertEquals("Heatflow 1->2", -41820, fht.getOutput("PThermal21").getValue(), 0);
 		
 	}
 	

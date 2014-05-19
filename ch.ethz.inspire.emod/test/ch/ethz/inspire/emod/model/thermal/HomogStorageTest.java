@@ -52,8 +52,8 @@ public class HomogStorageTest {
 			hs.update();
 		
 		// Total heat flow: 10-2-3+4 W= 9 kW
-		// New temperature : 293 + 9kW / 10kg / 1000J/kg/K * 10s = 9K+293K
-		assertEquals("Temperature", 302, hs.getOutput("Temperature").getValue(), .1);
+		// New temperature : 293 + 9kW / 10kg / 4182 J/kg/K * 10s = 2.152K+293K
+		assertEquals("Temperature", 295.152, hs.getOutput("Temperature").getValue(), .1);
 
 	}
 	

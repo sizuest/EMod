@@ -25,7 +25,7 @@ public class LayerStorageTest {
 	 */
 	@Test
 	public void testLayerStorageTest(){
-		LayerStorage ls = new LayerStorage("Example","ThermalTest", 293);
+		LayerStorage ls = new LayerStorage("Example","ThermalTest", 303);
 		ls.setSimulationPeriod(0.2);
 		
 		// No temperature gradient
@@ -35,20 +35,20 @@ public class LayerStorageTest {
 		ls.update();
 		
 		assertEquals("Outflow temperature", 293, ls.getOutput("TemperatureOut").getValue(), 0);
-		assertEquals("Thermal Loss",        0, ls.getOutput("PLoss").getValue(), 0);
+		assertEquals("Thermal Loss",          0, ls.getOutput("PLoss").getValue(), 0);
 		
 		ls.getInput("TemperatureAmb").setValue(0);
 		ls.getInput("MassFlow").setValue(1);
 		ls.update();
 		
-		// Loss is equal to average temperature drop * thermal resistance * surace
-		assertEquals("Thermal Loss",        293*.5*1, ls.getOutput("PLoss").getValue(), 1);
+		// Loss is equal to average temperature drop * thermal resistance * surface
+		assertEquals("Thermal Loss",        293*1*1, ls.getOutput("PLoss").getValue(), 1);
 		
 		// After 10s steady state is reached
 		for (int i=0; i<50; i++)
 			ls.update();
 		
-		assertEquals("Outflow temperature", 292.8, ls.getOutput("TemperatureOut").getValue(), .1);
+		assertEquals("Outflow temperature", 292.8, ls.getOutput("TemperatureOut").getValue(), .2);
 
 		
 	}

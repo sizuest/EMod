@@ -132,6 +132,14 @@ public abstract class ASimulationControl {
 	public String getName() {
 		return name;
 	}
+	
+	/**
+	 * Sets a new name
+	 * @param name New name to be set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
 		
 	public IOContainer getOutput() {
 		return simulationOutput;
