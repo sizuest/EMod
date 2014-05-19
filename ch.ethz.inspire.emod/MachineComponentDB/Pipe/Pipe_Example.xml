@@ -15,7 +15,7 @@
   </comment>
   <entry key="PipeDiameter">0.01</entry>
   <entry key="PipeLength">10</entry>
-  <entry key="Fluid">Example</entry>
+  <entry key="Material">Example</entry>
   <entry key="thermal.ConvectionConstant">1</entry>
   <entry key="thermal.NumberOfElements">10</entry>
   <entry key="thermal.InitialTemperature">293</entry>
