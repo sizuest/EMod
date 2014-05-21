@@ -17,6 +17,8 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -32,12 +34,13 @@ import ch.ethz.inspire.emod.model.units.Unit;
  *
  */
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.NONE)
 public abstract class ASimulationControl {
 
 	private static Logger logger = Logger.getLogger(ASimulationControl.class.getName());
 	
 	/* Attributes for JABX*/
-	@XmlElement
+	@XmlElement(name="name")
 	protected String name;
 	@XmlElement
 	protected Unit unit;
@@ -130,7 +133,7 @@ public abstract class ASimulationControl {
 	}
 	
 	public String getName() {
-		return name;
+		return this.name;
 	}
 	
 	/**

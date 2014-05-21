@@ -14,6 +14,7 @@
 package ch.ethz.inspire.emod;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.Writer;
@@ -143,17 +144,86 @@ public class Machine {
 		
 		/* Saves the machine */
 		saveMachineToFile(path);
+		
+		/* Saves the linking */
+		saveIOLinking(path);
 	}
 	
+	/**
+	 * @param machineName		Name of the machine
+	 * @param machineConfigDir	Name of the machine configuration
+	 */
 	public static void newMachine(String machineName, String machineConfigDir) {
-		//TODO: create new machine model, prepare lists, config dirs etc
+			
+		/*
+		 * Check, if the directories already exists
+		 */
+		String prefix = PropertiesHandler.getProperty("app.MachineDataPathPrefix");
+		
+		File path = new File(prefix+"/"+machineName+"/"+Defines.MACHINECONFIGDIR+"/"+machineConfigDir);
+		// Creat directory if required
+		if(path.exists()){
+			Exception ex = new Exception("Can't create new machine "+machineName+":"+machineConfigDir+": Machine already exists");
+			return;
+		}
+		
+		// Create directory if required
+		path.mkdirs();
+				
+		// Create empty machine
+		// clearMachine();
+		
+		// Save machine
+		saveMachine(machineName, machineConfigDir);
+		
+		// Save IO Linking
+				
 	}
 	
 	/**
 	 * Clears the current machine
 	 */
-	public static void deleteMachine() {
-		machineModel = null;
+	public static void clearMachine() {
+		machineModel = new Machine();
+		
+		getInstance().componentList  = new ArrayList<MachineComponent>();
+		getInstance().simulators     = new ArrayList<ASimulationControl>();
+		getInstance().connectionList = new ArrayList<IOConnection>();
+	}
+	
+	/**
+	 * Deletes the machine
+	 * @param machineName      
+	 * @param machineConfigDir 
+	 */
+	public static void deleteMachine(String machineName, String machineConfigDir){
+		//Clear current machine
+		clearMachine();
+		
+		//Check for config dir
+		String prefix = PropertiesHandler.getProperty("app.MachineDataPathPrefix");
+		
+		File path = new File(prefix+"/"+machineName+"/"+machineConfigDir);
+		// Creat directory if required
+		if(!path.exists()){
+			Exception ex = new Exception("Can't delete machine "+machineName+":"+machineConfigDir+": Machine does not exists");
+			return;
+		}
+		
+		// Empty directory
+		for(File f : path.listFiles()){
+			try{
+				f.delete();
+			} catch(Exception e){
+				Exception ex = new Exception("Can't delete machine "+machineName+":"+machineConfigDir+": Failed to remove configuration file "+f.getName());
+			}
+		}
+			
+		try{
+			path.delete();
+		} catch(Exception e){
+			Exception ex = new Exception("Can't delete machine "+machineName+":"+machineConfigDir+": Failed to remove configuration directory");
+		}
 	}
 
 	public static void initMachineFromFile(String file) {
@@ -168,15 +238,64 @@ public class Machine {
 	}
 	
 	public static void saveMachineToFile(String file) {
+		// Save Machine Configuration
 		try {
 			JAXBContext context = JAXBContext.newInstance(Machine.class);
 			Marshaller m = context.createMarshaller();
 			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 			
-			Writer w = new FileWriter(file);
+			Writer w = new FileWriter(file+Defines.MACHINEFILENAME);
 			m.marshal(machineModel, w);
 			w.close();
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void saveIOLinking(String file) {
+		List<IOConnection> connections      = getInstance().getIOLinkList();
+		List<MachineComponent> components   = getInstance().getMachineComponentList();
+		List<ASimulationControl> simulators = getInstance().getInputObjectList();
+		
+		String source = "", target = "";
+		
+		try {
+			Writer w = new FileWriter(file+Defines.LINKFILENAME);
+		
+			/*
+			 * Loop through all connections and write them as plain text
+			 */
+			
+			for(IOConnection io : connections){
+				source = "";
+				target = "";
+				// Simulators
+				for (ASimulationControl sc : simulators){
+					if(sc.getOutput().equals(io.getSoure())){
+						source = sc.getName();
+						break;
+					}
+				}
+				// Components
+				for (MachineComponent mc : components){
+					if(mc.getComponent().getInputs().contains(io.getTarget()))
+						target = mc.getName()+"."+io.getSoure().getName();
+					if(mc.getComponent().getOutputs().contains(io.getSoure()))
+						source = mc.getName()+"."+io.getTarget().getName();
+					if(!source.isEmpty() & !target.isEmpty())
+						break;
+				}
+				
+				if(source.isEmpty() | target.isEmpty()) {
+					Exception ex = new Exception("Can not parse IOConnection: Missing Component or Input" );
+					ex.printStackTrace();
+				}
+				else
+					w.write(target+" = "+source+"\n");
+			}
+			
+			w.close();
+		}catch (Exception e){
 			e.printStackTrace();
 		}
 	}
@@ -383,7 +502,7 @@ public class Machine {
 	 * @param name
 	 * @return the {@link ASimulationControl} with the name. 
 	 */
-	public static ASimulationControl getSimulator(String name){
+	public static ASimulationControl getInputObject(String name){
 		
 		// Case: Empty machine
 		if(null==machineModel)
@@ -462,12 +581,12 @@ public class Machine {
 		
 	}
 	
-	public static String getUniqueSimulatorName(String prefix){
+	public static String getUniqueInputObjectName(String prefix){
 		String name = prefix;
 		int idx     = 0;
 		
 		// Loop unitil name is unique
-		while(null!=getSimulator(name))
+		while(null!=getInputObject(name))
 			name = prefix+"_"+(++idx);
 		
 		return name;
@@ -534,7 +653,7 @@ public class Machine {
 	 * If a component with the same name exists, a unique new name will be generated
 	 * @param simulator Simulator to be added
 	 */
-	public static void addSimulator(ASimulationControl simulator){
+	public static void addInputObject(ASimulationControl simulator){
 		
 		// If it is an empty machine, create a new machine
 		if(machineModel==null)
@@ -545,7 +664,7 @@ public class Machine {
 			getInstance().simulators = new ArrayList<ASimulationControl>();
 		
 		// Make name unique
-		simulator.setName(getUniqueSimulatorName(simulator.getName()));
+		simulator.setName(getUniqueInputObjectName(simulator.getName()));
 		// Add to component list
 		getInstance().simulators.add(simulator);
 	}
@@ -556,7 +675,7 @@ public class Machine {
 	 * @param unit Simulator unit
 	 * @return {@link ASimulationControl} with the simulator 
 	 */
-	public static ASimulationControl addNewSimulator(String name, Unit unit) {
+	public static ASimulationControl addNewInputObject(String name, Unit unit) {
 		
 		Object simulator = null;
 		
@@ -573,7 +692,7 @@ public class Machine {
 			return null;
 		} 
 		
-		addSimulator((ASimulationControl) simulator);
+		addInputObject((ASimulationControl) simulator);
 		
 		return (ASimulationControl) simulator;
 	}
@@ -616,7 +735,7 @@ public class Machine {
 	 * Removes the simulator with the given name
 	 * @param sc {@link ASimulationControl} simulator object
 	 */
-	public static void removeSimulator(ASimulationControl sc) {
+	public static void removeInputObject(ASimulationControl sc) {
 		
 		if(null!=getInstance().getIOLinkList())
 			getInstance().removeConnections(sc);
@@ -633,15 +752,15 @@ public class Machine {
 	 * Removes the simulator with the given name
 	 * @param name Name of the simulator
 	 */
-	public static void removeSimulator(String name) {
+	public static void removeInputObject(String name) {
 		// Check if component exists
-		if(null==getSimulator(name)) {
+		if(null==getInputObject(name)) {
 			Exception ex = new Exception("Unable to remove simulator "+name+" : No simulator with this name");
 			ex.printStackTrace();
 			return;
 		}
 		else
-			removeSimulator(getSimulator(name));
+			removeInputObject(getInputObject(name));
 	}
 	
 	/**
@@ -704,6 +823,50 @@ public class Machine {
 	}
 	
 	/**
+	 * Renames the component with the given name to a new name
+	 * @param name		Old name
+	 * @param newname   New name
+	 */
+	public static void renameMachineComponent(String name, String newname) {
+		
+		MachineComponent mc = getMachineComponent(name);
+		
+		if(null==mc) {
+			Exception ex = new Exception("Unable to rename component "+name+" : No component with this name");
+			ex.printStackTrace();
+			return;
+		}
+		// No rename required if new and old name are the same
+		else if(name.equals(newname))
+			return;
+		else
+			mc.setName(getUniqueComponentName(newname));	
+		
+	}
+	
+	/**
+	 * Renames the input object with the given name to a new name
+	 * @param name		Old name
+	 * @param newname   New name
+	 */
+	public static void renameInputObject(String name, String newname) {
+		
+		ASimulationControl sc = getInputObject(name);
+		
+		if(null==sc) {
+			Exception ex = new Exception("Unable to rename input "+name+" : No input with this name");
+			ex.printStackTrace();
+			return;
+		}
+		// No rename required if new and old name are the same
+		else if(name.equals(newname))
+			return;
+		else
+			sc.setName(getUniqueInputObjectName(newname));	
+		
+	}
+	
+	/**
 	 * Adds a new IOConnection between the source and the target
 	 * @param source
 	 * @param target
@@ -727,7 +890,44 @@ public class Machine {
 		getInstance().getIOLinkList().add(io);
 		
 	}
-
+	
+	/**
+	 * @return {@link IOContainer} List of all components and simulators outputs
+	 */
+	public static ArrayList<IOContainer> getOutputList() {
+		ArrayList<IOContainer> outputs = new ArrayList<IOContainer>();
+		
+		// Get all machine components
+		ArrayList<MachineComponent> components = getInstance().getMachineComponentList();
+		// Get all simulator outputs
+		List<ASimulationControl> simulators = getInstance().getInputObjectList();
+		
+		// Fetch all outputs
+		for(MachineComponent mc : components)
+			outputs.addAll(mc.getComponent().getOutputs());
+		
+		for(ASimulationControl sc : simulators)
+			outputs.add(sc.getOutput());
+		
+		return outputs;
+	}
+	
+	/**
+	 * @param unit {@link Unit} Unit of the outputs
+	 * @return {@link IOContainer} List of all components and simulators outputs with the declared unit
+	 */
+	public static ArrayList<IOContainer> getOutputList(Unit unit) {
+		// Fetch all outputs
+		ArrayList<IOContainer> outputs = getOutputList();
+		
+		// Remove not matching units
+		for(IOContainer io : outputs)
+			if(!io.getUnit().equals(unit))
+				outputs.remove(io);
+		
+		return outputs;
+	}
+	
 	/**
 	 * ================================================================================
 	 * Methods for test only!
