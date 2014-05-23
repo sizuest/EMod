@@ -45,7 +45,10 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.widgets.Shell;
 //import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
@@ -76,10 +79,9 @@ import ch.ethz.inspire.emod.utils.PropertiesHandler;
 public class ModelGUI extends Composite {
 	
 	private Text aText;
-	private StyledText bText;
-	private Canvas aCanvas;
 	private Table aTable;
 	private Tree aTree;
+
 	
 	/**
 	 * @param parent
@@ -103,7 +105,7 @@ public class ModelGUI extends Composite {
 		aTable = new Table(this, SWT.BORDER | SWT.MULTI);
 		gridData = new GridData(GridData.FILL, GridData.CENTER, false, true);
 		gridData.horizontalSpan = 1;
-		gridData.widthHint = 700;
+		gridData.widthHint = 600;
 		gridData.heightHint = 600;
 		aTable.setLayoutData(gridData);
 		aTable.setLinesVisible(true);
@@ -121,14 +123,7 @@ public class ModelGUI extends Composite {
 		for(int i = 0; i < titles.length; i++){
 			aTable.getColumn(i).pack();
 		}
-		
-		
-		//TODO manick: Wo wird aus dem String, der in den Tree geladen wird eine Komponente?
-		/* Machin.getMachineComponent(); nutzen?
-		 * 
-		 */
-		
-		
+				
 		//Quellframe linke Seite für Maschinenkomponenten. Realisiert als Tree
 		aTree = new Tree(this, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
 		gridData = new GridData(GridData.FILL, GridData.CENTER, false, true);
@@ -192,36 +187,15 @@ public class ModelGUI extends Composite {
 				
 			}
 			public void drop(DropTargetEvent event){
-				/*
-				 * 
-				String[] strings = null;
-		        strings = new String[] { (String) event.data };
-		        Point p = event.display.map(null, aTable, event.x, event.y);
-		        TableItem dropItem = aTable.getItem(p);
-		        int index = dropItem == null ? aTable.getItemCount() : aTable.indexOf(dropItem);
-		        
-		        for (int i = 0; i < strings.length; i++) {
-		          TableItem item = new TableItem(aTable, SWT.NONE, index);
-		          item.setText(0, String.valueOf(i));
-		          item.setText(1, strings[i]);
-		          item.setText(2, "dropped item");
-		          
-		          //SOURCE http://www.java2s.com/Tutorial/Java/0280__SWT/TableCellEditorComboTextandButton.htm
-		          TableEditor editor = new TableEditor(aTable);
-		          Button button = new Button(aTable, SWT.PUSH);
-		          button.setText("edit Linking");
-		          button.pack();
-		          editor.minimumWidth = button.getSize().x;
-		          editor.horizontalAlignment = SWT.LEFT;
-		          editor.setEditor(button, item, 3);
-		        }
-		        */
-		        
+
+				//String des DnD entgegennehmen, und aufsplitten in type und parameter
 				String string = null;
 		        string = (String) event.data;
-		        String[] split = string.split("_",2);
+		        final String[] split = string.split("_",2);
 		        split[1] = split[1].replace(".xml","");
 		        
+		        //TODO manick: funktioniert das wirklich wie gedacht?
+		        //Position des Drops ermitteln
 		        Point p = event.display.map(null, aTable, event.x, event.y);
 		        TableItem dropItem = aTable.getItem(p);
 		        int index = dropItem == null ? aTable.getItemCount() : aTable.indexOf(dropItem);
@@ -236,7 +210,7 @@ public class ModelGUI extends Composite {
 		        item.setText(2, split[1]);
 		        
 		        //TODO manick: aus split[0] und split[1] eine Komponente erstellen
-		        MachineComponent mc = Machine.addNewMachineComponent(split[0],split[1]); 
+		        final MachineComponent mc = Machine.addNewMachineComponent(split[0],split[1]); 
 		        Machine.addMachineComponent(mc);
 		        
 		        //Edit Linking Button in letzter Spalte erstellen
@@ -244,6 +218,19 @@ public class ModelGUI extends Composite {
 		        TableEditor editor = new TableEditor(aTable);
 		        Button button = new Button(aTable, SWT.PUSH);
 		        button.setText("edit Linking");
+		        button.addSelectionListener(new SelectionListener(){
+		        	public void widgetSelected(SelectionEvent event){
+		        		
+		        		//Fenster fürs IO Linking öffnen
+		        		LinkingGUI linkingGUI = new LinkingGUI();
+		        		linkingGUI.open(split[1]);
+		        		
+		        		System.out.println("Button edit Linking of component " + split[1]);
+		        	}
+		        	public void widgetDefaultSelected(SelectionEvent event){
+		        		
+		        	}
+		        });
 		        button.pack();
 		        editor.minimumWidth = button.getSize().x;
 		        editor.horizontalAlignment = SWT.LEFT;

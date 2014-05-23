@@ -46,11 +46,24 @@ public class ComponentHandler {
 			//Einzelne Konfigurationen der Komponenten Kategorie unter entsprechender Kategorie ausgeben
 			for(int j = 0; j < subDirsComponents.length; j++){
 				TreeItem grandChild = new TreeItem(child, SWT.NONE);
+				
 				grandChild.setText(subDirsComponents[j].getName());
+				
+				//TODO manick: damit das so gelöst werden kann, muss im DnD auch das child des Trees mitkommen.
+				/*
+				 * 
+		        String[] split = subDirsComponents[j].getName().split("_",2);
+		        split[1] = split[1].replace(".xml","");
+				grandChild.setText(split[1]);
+				 */
 			}
 		} 
 	}
 	
-	
+	//TODO manick: implementieren
+	//Methode um Komponenten aus einer Maschinenkonfiguration laden und in ModelGUI darzustellen
+	public static void loadMachineConfig(){
+		
+	}
 	
 }
