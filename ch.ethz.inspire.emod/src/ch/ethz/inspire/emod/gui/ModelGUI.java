@@ -28,11 +28,13 @@ import org.eclipse.swt.custom.CTabFolderEvent;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.dnd.*;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Point;
 //import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridLayout;
@@ -47,17 +49,22 @@ import org.eclipse.swt.widgets.Label;
 //import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
 import ch.ethz.inspire.emod.LogLevel;
+import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.gui.AnalysisGUI.MachineComponentComposite;
 import ch.ethz.inspire.emod.gui.utils.BarChart;
 import ch.ethz.inspire.emod.gui.utils.ComponentHandler;
 import ch.ethz.inspire.emod.gui.utils.ConsumerData;
 import ch.ethz.inspire.emod.gui.utils.LineChart;
 import ch.ethz.inspire.emod.gui.utils.StackedAreaChart;
+import ch.ethz.inspire.emod.model.MachineComponent;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
@@ -71,6 +78,7 @@ public class ModelGUI extends Composite {
 	private Text aText;
 	private StyledText bText;
 	private Canvas aCanvas;
+	private Table aTable;
 	private Tree aTree;
 	
 	/**
@@ -90,24 +98,29 @@ public class ModelGUI extends Composite {
 		gridData.horizontalSpan = 2;
 		aText.setLayoutData(gridData);
 		aText.setText(LocalizationHandler.getItem("app.gui.tabs.machtooltip"));
-				
-		//Zeichnungsfläche für Maschinenmodell initieren
-		aCanvas = new Canvas(this, SWT.MULTI | SWT.BORDER);
+		
+		//Tabelle für Maschinenmodell initieren
+		aTable = new Table(this, SWT.BORDER | SWT.MULTI);
 		gridData = new GridData(GridData.FILL, GridData.CENTER, false, true);
 		gridData.horizontalSpan = 1;
 		gridData.widthHint = 700;
 		gridData.heightHint = 600;
-		aCanvas.setLayoutData(gridData); 
+		aTable.setLayoutData(gridData);
+		aTable.setLinesVisible(true);
+		aTable.setHeaderVisible(true);
 		
+		//Titel der Spalten setzen
 		
-		//TODO manick: Canvas ersetzen mit Table -> 4 Spaltige Tabelle
-		/* Tabellenspalten:
-		 * 1: ID der Komponente
-		 * 2: Typ der Komponente (Moto, Pump, etc.)
-		 * 3: Parametersatz (Siemens_XYZ)
-		 * 4: Button: Edit Linking
-		 * 	-> Button öffnet Tabelle mit allen I/O, mit Dropdown können dann Verlinkungen gemacht werden....
-		 */
+		//TODO manick: Werte in Languagepack übernehmen
+		String[] titles =  {"ID", "Type", "Parameter", "Linking"};
+		for(int i=0; i < titles.length; i++){
+			TableColumn column = new TableColumn(aTable, SWT.NULL);
+			column.setText(titles[i]);
+		}
+		
+		for(int i = 0; i < titles.length; i++){
+			aTable.getColumn(i).pack();
+		}
 		
 		
 		//TODO manick: Wo wird aus dem String, der in den Tree geladen wird eine Komponente?
@@ -134,10 +147,9 @@ public class ModelGUI extends Composite {
 		Transfer[] types = new Transfer[] {TextTransfer.getInstance()};
 		source.setTransfer(types);
 		
-		final TreeItem[] dragSourceItem = new TreeItem[1];
 		source.addDragListener(new DragSourceListener() {
 			
-			//Quelle von dragStart/dragSetData:http://www.tutorials.de/swing-java2d-3d-swt-jface/376583-drag-drop-und-eigener-transfertype-ja-oder-nein.html
+			//SOURCE von dragStart/dragSetData:http://www.tutorials.de/swing-java2d-3d-swt-jface/376583-drag-drop-und-eigener-transfertype-ja-oder-nein.html
 			private TreeItem[] selection = null;
 			
 			public void dragStart(DragSourceEvent event){
@@ -156,33 +168,13 @@ public class ModelGUI extends Composite {
 				}
 			});
 		
-		//Überschrift des Fensters Maschinenmodell
+		operations = DND.DROP_COPY;
+		DropTarget target = new DropTarget(aTable, operations);
 		
-		
-		//TODO manick: Versuch mit einem StyledText-Widget für den DND
-		/*
-		 * 
-		 */
-		
-		//neues Styled Text Widget erstellen
-		bText = new StyledText(this, SWT.BORDER);
-		gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
-		gridData.horizontalSpan = 2;
-		bText.setLayoutData(gridData);
-		
-		
-		// operations für den DND festlegen
-		operations = DND.DROP_COPY;		
-		//DropTarget ist das Styled Text Widget
-		DropTarget target = new DropTarget(bText, operations);
-		
-		// typen für den transfer festlegen
 		final TextTransfer textTransfer = TextTransfer.getInstance();
 		types = new Transfer[] {textTransfer};
 		target.setTransfer(types);
 		
-		
-		// dropListener für DND, 
 		target.addDropListener(new DropTargetListener(){
 			public void dragEnter(DropTargetEvent event){
 				event.detail = DND.DROP_COPY;
@@ -190,25 +182,79 @@ public class ModelGUI extends Composite {
 			public void dragOver(DropTargetEvent event){
 				
 			}
-			public void dragOperationChanged(DropTargetEvent event){
-				
-			}
 			public void dragLeave(DropTargetEvent event){
 				
 			}
+			public void dragOperationChanged(DropTargetEvent event) {
+				
+			}
 			public void dropAccept(DropTargetEvent event){
-				bText.insert((String) event.data);
+				
 			}
 			public void drop(DropTargetEvent event){
-				//String text = (String)event.data;
-				//TextItem item = new TextItem(bText, SWT.NONE);
-				//System.out.println(text);
-				bText.insert((String) event.data);
-				//bText.insert(text);
+				/*
+				 * 
+				String[] strings = null;
+		        strings = new String[] { (String) event.data };
+		        Point p = event.display.map(null, aTable, event.x, event.y);
+		        TableItem dropItem = aTable.getItem(p);
+		        int index = dropItem == null ? aTable.getItemCount() : aTable.indexOf(dropItem);
+		        
+		        for (int i = 0; i < strings.length; i++) {
+		          TableItem item = new TableItem(aTable, SWT.NONE, index);
+		          item.setText(0, String.valueOf(i));
+		          item.setText(1, strings[i]);
+		          item.setText(2, "dropped item");
+		          
+		          //SOURCE http://www.java2s.com/Tutorial/Java/0280__SWT/TableCellEditorComboTextandButton.htm
+		          TableEditor editor = new TableEditor(aTable);
+		          Button button = new Button(aTable, SWT.PUSH);
+		          button.setText("edit Linking");
+		          button.pack();
+		          editor.minimumWidth = button.getSize().x;
+		          editor.horizontalAlignment = SWT.LEFT;
+		          editor.setEditor(button, item, 3);
+		        }
+		        */
+		        
+				String string = null;
+		        string = (String) event.data;
+		        String[] split = string.split("_",2);
+		        split[1] = split[1].replace(".xml","");
+		        
+		        Point p = event.display.map(null, aTable, event.x, event.y);
+		        TableItem dropItem = aTable.getItem(p);
+		        int index = dropItem == null ? aTable.getItemCount() : aTable.indexOf(dropItem);
+		        
+		        //Tabelleninhalte füllen
+		        TableItem item = new TableItem(aTable, SWT.NONE, index);
+		        //TODO manick: ID Vergabe organisieren
+		        item.setText(0, "ID");
+		        
+		        //Type und Parameter in Tabelle schreiben
+		        item.setText(1, split[0]);
+		        item.setText(2, split[1]);
+		        
+		        //TODO manick: aus split[0] und split[1] eine Komponente erstellen
+		        MachineComponent mc = Machine.addNewMachineComponent(split[0],split[1]); 
+		        Machine.addMachineComponent(mc);
+		        
+		        //Edit Linking Button in letzter Spalte erstellen
+		        //SOURCE http://www.java2s.com/Tutorial/Java/0280__SWT/TableCellEditorComboTextandButton.htm
+		        TableEditor editor = new TableEditor(aTable);
+		        Button button = new Button(aTable, SWT.PUSH);
+		        button.setText("edit Linking");
+		        button.pack();
+		        editor.minimumWidth = button.getSize().x;
+		        editor.horizontalAlignment = SWT.LEFT;
+		        editor.setEditor(button, item, 3);
+		        
+		        //Tabelle schreiben
+		        TableColumn[] columns = aTable.getColumns();
+		        for (int i = 0; i < columns.length; i++) {
+		          columns[i].pack();
+		        }
 			}
-		});
-		
-		
-		
+		});	
 		}
 	}
