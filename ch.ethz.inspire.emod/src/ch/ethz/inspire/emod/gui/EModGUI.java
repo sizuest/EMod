@@ -18,6 +18,7 @@ import org.eclipse.swt.*;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -43,7 +44,9 @@ import ch.ethz.inspire.emod.Machine;
 public class EModGUI {
 
 	private static Logger logger = Logger.getLogger(EModGUI.class.getName());
-	protected Shell shell;
+	
+	//TODO manick: had to turn Shell into static for EModGUI.shellPosition() to work, any problem?
+	protected static Shell shell;
 	protected Display disp;
 	
 	protected Composite model;
@@ -78,6 +81,7 @@ public class EModGUI {
 			}
 		}
 	}
+	
 	
 	/**
 	 * Initializes the main menu bar.
@@ -312,4 +316,21 @@ public class EModGUI {
 
 		}
 	}
+
+	/*
+	 * returns the current position of the shell
+	 */
+
+	public static int[] shellPosition(){
+		Rectangle rect = shell.getBounds();
+		
+		//find the middle of the shell an write into position array
+		int[] position = {0, 0};
+		position[0] = rect.x + rect.width / 2;
+		position[1] = rect.y + rect.height / 2;
+		
+		//return array
+		return position;
+	}
+	
 }

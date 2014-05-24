@@ -81,7 +81,7 @@ public class ModelGUI extends Composite {
 	private Text aText;
 	private Table aTable;
 	private Tree aTree;
-
+	private int ID = 1;
 	
 	/**
 	 * @param parent
@@ -114,16 +114,12 @@ public class ModelGUI extends Composite {
 		//Titel der Spalten setzen
 		
 		//TODO manick: Werte in Languagepack übernehmen
-		String[] titles =  {"ID", "Type", "Parameter", "Linking"};
+		String[] titles =  {"ID", "Type", "Parameter", "edit Linking", "delete Component"};
 		for(int i=0; i < titles.length; i++){
 			TableColumn column = new TableColumn(aTable, SWT.NULL);
 			column.setText(titles[i]);
 		}
-		
-		for(int i = 0; i < titles.length; i++){
-			aTable.getColumn(i).pack();
-		}
-				
+					
 		//Quellframe linke Seite für Maschinenkomponenten. Realisiert als Tree
 		aTree = new Tree(this, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
 		gridData = new GridData(GridData.FILL, GridData.CENTER, false, true);
@@ -201,9 +197,10 @@ public class ModelGUI extends Composite {
 		        int index = dropItem == null ? aTable.getItemCount() : aTable.indexOf(dropItem);
 		        
 		        //Tabelleninhalte füllen
-		        TableItem item = new TableItem(aTable, SWT.NONE, index);
+		        final TableItem item = new TableItem(aTable, SWT.NONE, index);
 		        //TODO manick: ID Vergabe organisieren
-		        item.setText(0, "ID");
+		        item.setText(0, String.valueOf(ID));
+		        ID++;
 		        
 		        //Type und Parameter in Tabelle schreiben
 		        item.setText(1, split[0]);
@@ -213,17 +210,17 @@ public class ModelGUI extends Composite {
 		        final MachineComponent mc = Machine.addNewMachineComponent(split[0],split[1]); 
 		        Machine.addMachineComponent(mc);
 		        
-		        //Edit Linking Button in letzter Spalte erstellen
+		        //Edit Linking Button in zweitletzter Spalte erstellen
 		        //SOURCE http://www.java2s.com/Tutorial/Java/0280__SWT/TableCellEditorComboTextandButton.htm
 		        TableEditor editor = new TableEditor(aTable);
-		        Button button = new Button(aTable, SWT.PUSH);
-		        button.setText("edit Linking");
-		        button.addSelectionListener(new SelectionListener(){
+		        final Button aButton = new Button(aTable, SWT.PUSH);
+		        aButton.setText("edit Linking");
+		        aButton.addSelectionListener(new SelectionListener(){
 		        	public void widgetSelected(SelectionEvent event){
 		        		
 		        		//Fenster fürs IO Linking öffnen
 		        		LinkingGUI linkingGUI = new LinkingGUI();
-		        		linkingGUI.open(split[1]);
+		        		linkingGUI.openLinkingGUI(split[1]);
 		        		
 		        		System.out.println("Button edit Linking of component " + split[1]);
 		        	}
@@ -231,10 +228,40 @@ public class ModelGUI extends Composite {
 		        		
 		        	}
 		        });
-		        button.pack();
-		        editor.minimumWidth = button.getSize().x;
+		        aButton.pack();
+		        editor.minimumWidth = aButton.getSize().x;
 		        editor.horizontalAlignment = SWT.LEFT;
-		        editor.setEditor(button, item, 3);
+		        editor.setEditor(aButton, item, 3);
+		        
+		        //Delete Component Button in letzter Spalte erstellen
+		        editor = new TableEditor(aTable);
+		        final Button bButton = new Button(aTable, SWT.PUSH);
+		        bButton.setText("delete Component");
+		        bButton.addSelectionListener(new SelectionListener(){
+		        	public void widgetSelected(SelectionEvent event){
+		        		
+		        		//TODO manick: Delete Component
+		        		Machine.removeMachineComponent(mc);
+
+		        		aButton.dispose();
+		        		bButton.dispose();
+		        		item.dispose();
+		        		
+				        TableColumn[] columns = aTable.getColumns();
+				        for (int i = 0; i < columns.length; i++) {
+				          columns[i].pack();
+				        }
+		        		
+		        		System.out.println("Button delete Component " + split[1]);
+		        	}
+		        	public void widgetDefaultSelected(SelectionEvent event){
+		        		
+		        	}
+		        });
+		        bButton.pack();
+		        editor.minimumWidth = bButton.getSize().x;
+		        editor.horizontalAlignment = SWT.LEFT;
+		        editor.setEditor(bButton, item, 4);		        
 		        
 		        //Tabelle schreiben
 		        TableColumn[] columns = aTable.getColumns();
