@@ -4,7 +4,9 @@
   <comment>
     Layer Storage
   </comment>
+  <entry key="Material">Water</entry>
   <entry key="thermal.Mass">.5</entry>
+  <entry key="thermal.Volume">0.0005</entry>
   <entry key="thermal.HeatCapacity">4180</entry>
   <entry key="thermal.Surface">0.08</entry>
   <entry key="thermal.ConvectionConstant">500</entry>
@@ -12,4 +14,5 @@
   <entry key="thermal.WallThickness">0.001</entry>
   <entry key="thermal.NumberOfElements">2</entry>
   <entry key="thermal.InitialTemperature">300</entry>
+  
 </properties>

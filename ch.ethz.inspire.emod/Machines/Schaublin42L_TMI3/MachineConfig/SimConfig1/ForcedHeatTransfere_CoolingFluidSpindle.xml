@@ -5,4 +5,5 @@
     Layer Storage
   </comment>
   <entry key="thermal.HeatCapacity">4180</entry>
+  <entry key="Material">Water</entry>
 </properties>
