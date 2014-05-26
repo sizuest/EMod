@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>
+    Model parameter definition
+    ==========================
+      Model : HydraulicOil 
+      Type  : Example
+    Parameters
+    ----------
+      TemperatureSamples [K]
+        TODO
+      PressureSamples [Pa]
+        TODO
+      ViscositySamples [mm2/s]
+      	TODO
+      DensityMatrix [kg/m3]
+      	TODO
+      	
+  </comment>
+  <entry key="TemperatureSamples">293; 303; 313; 323; 333</entry>
+  <entry key="PressureSamples">0; 10000000; 20000000; 30000000; 40000000</entry>
+  <entry key="ViscositySamples">135; 77; 46; 30; 20.5</entry>
+  <entry key="DensityMatrix">878, 874.6, 870.3, 867, 864.6;
+  							 888, 884.6, 881.3, 878, 874,6;
+  							 892, 888.6, 885.3, 882, 878.6;
+  							 897, 893.6, 890.3, 887, 884.6;
+  							 901, 897.6, 894.3, 891, 887.6;</entry>
+  <entry key="HeatCapacity">1885</entry>
+
+</properties>
