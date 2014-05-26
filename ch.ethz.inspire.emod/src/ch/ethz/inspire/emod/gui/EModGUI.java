@@ -20,6 +20,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
@@ -29,6 +30,7 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
+import org.eclipse.swt.widgets.Text;
 
 import ch.ethz.inspire.emod.simulation.EModSimulationRun;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
@@ -65,15 +67,26 @@ public class EModGUI {
 		
 		shell.setLayout(new FillLayout());
 		
+		System.out.println("EModGUI initialized menu");
+		
 		//init menu bar
 		logger.log(LogLevel.DEBUG, "init menu");
 		initMenu();
 		
+		System.out.println("EModGUI initialized tabs");
+		
 		//init tabs
 		logger.log(LogLevel.DEBUG, "init tabs");
 		initTabs();
+
 		
 		shell.open();
+				
+		System.out.println("EModGUI called EModStartupGUI");
+		
+		//manick: Startup GUI for Settings of machine/sim confg
+		new EModStartupGUI();
+
 		
 		while(!shell.isDisposed()) {
 			if(!display.readAndDispatch()) {
@@ -178,6 +191,8 @@ public class EModGUI {
 		tabFolder.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent event) {
 				logger.log(LogLevel.DEBUG, "tab"+ tabFolder.getSelection()[0].getText()+" selected");
+				
+				System.out.println("tab " + tabFolder.getSelection()[0].getText() + " selected");
 				
 				// manick: if tab Analysis is opened -> Run Simulation
 				if (tabFolder.getItem(tabFolder.getSelectionIndex()).equals(tabAnalysisItem))

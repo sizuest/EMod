@@ -81,6 +81,8 @@ public class ModelGUI extends Composite {
 	private Text aText;
 	private Table aTable;
 	private Tree aTree;
+	
+	//TODO manick: ID Vergabe über Machine/MachineComponent lösen
 	private int ID = 1;
 	
 	/**
@@ -112,13 +114,18 @@ public class ModelGUI extends Composite {
 		aTable.setHeaderVisible(true);
 		
 		//Titel der Spalten setzen
-		
 		//TODO manick: Werte in Languagepack übernehmen
 		String[] titles =  {"ID", "Type", "Parameter", "edit Linking", "delete Component"};
 		for(int i=0; i < titles.length; i++){
 			TableColumn column = new TableColumn(aTable, SWT.NULL);
 			column.setText(titles[i]);
 		}
+		
+        //Tabelle schreiben
+        TableColumn[] columns = aTable.getColumns();
+        for (int i = 0; i < columns.length; i++) {
+          columns[i].pack();
+        }
 					
 		//Quellframe linke Seite für Maschinenkomponenten. Realisiert als Tree
 		aTree = new Tree(this, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
@@ -129,6 +136,8 @@ public class ModelGUI extends Composite {
 		
 		//Tree füllen mit aktuellen Werten aus dem Verzeichnis der DB
 		ComponentHandler.fillTree(aTree);
+		
+		System.out.println("ModelGUI called ComponentHandler.fillTree");
 		
 		//Tree als Drag Source festlegen
 		int operations = DND.DROP_COPY;
@@ -159,19 +168,22 @@ public class ModelGUI extends Composite {
 				}
 			});
 		
+		//Table als Drop Target festlegen
 		operations = DND.DROP_COPY;
 		DropTarget target = new DropTarget(aTable, operations);
 		
+		//Texttransfer akzeptieren
 		final TextTransfer textTransfer = TextTransfer.getInstance();
 		types = new Transfer[] {textTransfer};
 		target.setTransfer(types);
+		
 		
 		target.addDropListener(new DropTargetListener(){
 			public void dragEnter(DropTargetEvent event){
 				event.detail = DND.DROP_COPY;
 			}
 			public void dragOver(DropTargetEvent event){
-				
+
 			}
 			public void dragLeave(DropTargetEvent event){
 				
@@ -183,24 +195,30 @@ public class ModelGUI extends Composite {
 				
 			}
 			public void drop(DropTargetEvent event){
-
+				aTable.setRedraw(false);
+				
 				//String des DnD entgegennehmen, und aufsplitten in type und parameter
 				String string = null;
 		        string = (String) event.data;
 		        final String[] split = string.split("_",2);
 		        split[1] = split[1].replace(".xml","");
 		        
+		        System.out.println("New Component " + split[1] + " added");
+		        
 		        //TODO manick: funktioniert das wirklich wie gedacht?
-		        //Position des Drops ermitteln
+		        //Position des Drops ermitteln		        
 		        Point p = event.display.map(null, aTable, event.x, event.y);
 		        TableItem dropItem = aTable.getItem(p);
 		        int index = dropItem == null ? aTable.getItemCount() : aTable.indexOf(dropItem);
 		        
 		        //Tabelleninhalte füllen
 		        final TableItem item = new TableItem(aTable, SWT.NONE, index);
+		        
 		        //TODO manick: ID Vergabe organisieren
 		        item.setText(0, String.valueOf(ID));
 		        ID++;
+		        
+		        //TODO manick: Vorgehen ändern --> zuerst Componente erzeugen und ID erstellen --> Werte von Komponente in Tabelle schreiben!
 		        
 		        //Type und Parameter in Tabelle schreiben
 		        item.setText(1, split[0]);
@@ -240,6 +258,8 @@ public class ModelGUI extends Composite {
 		        bButton.addSelectionListener(new SelectionListener(){
 		        	public void widgetSelected(SelectionEvent event){
 		        		
+			    		aTable.setRedraw(false);
+			    		
 		        		//TODO manick: Delete Component
 		        		Machine.removeMachineComponent(mc);
 
@@ -253,6 +273,9 @@ public class ModelGUI extends Composite {
 				        }
 		        		
 		        		System.out.println("Button delete Component " + split[1]);
+		        		
+			    		aTable.setRedraw(true);	
+
 		        	}
 		        	public void widgetDefaultSelected(SelectionEvent event){
 		        		
@@ -268,6 +291,7 @@ public class ModelGUI extends Composite {
 		        for (int i = 0; i < columns.length; i++) {
 		          columns[i].pack();
 		        }
+		        aTable.setRedraw(true);
 			}
 		});	
 		}

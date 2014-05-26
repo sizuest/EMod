@@ -101,13 +101,19 @@ public class LinkingGUI {
 	    	    	//SOURCE http://www.java2s.com/Code/Java/SWT-JFace-Eclipse/SWTTableSimpleDemo.htm Imported for function control   	
 
 	    	Button aButton = new Button(shell, SWT.BORDER);
-	    	aButton.setText("Speichern");
+	    	aButton.setText("Save");
 			gridData = new GridData(GridData.FILL, GridData.VERTICAL_ALIGN_END, true, false);
 			gridData.horizontalSpan = 1;
 			aButton.setLayoutData(gridData);
-			
-			//TODO manick: selectionListener Button
-	        
+		    aButton.addSelectionListener(new SelectionListener(){
+		    	public void widgetSelected(SelectionEvent event){
+		    		shell.close();
+		    		System.out.println("Linking saved");
+		    	}
+		    	public void widgetDefaultSelected(SelectionEvent event){
+		    		
+		    	}
+		    });
 			
 			shell.pack();
 

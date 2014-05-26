@@ -69,7 +69,11 @@ public class EModMain {
 		
 		//start program
 		new EModMain();
+			
+		System.out.println("EModMain called EModGUI");
 		new EModGUI(disp);
+
+		
 		
 /*		Shell shell = new Shell(disp);
 		shell.setLayout(new FillLayout());
