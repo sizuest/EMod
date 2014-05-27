@@ -78,70 +78,67 @@ import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 public class ModelGUI extends Composite {
 	
-	private Text aText;
-	private Table aTable;
-	private Tree aTree;
-	
-	//TODO manick: ID Vergabe über Machine/MachineComponent lösen
-	private int ID = 1;
+	private Text textModelTitel;
+	private Table tableModelView;
+	private Tree treeComponentDBView;
 	
 	/**
 	 * @param parent
 	 */
 	public ModelGUI(Composite parent) {
 		super(parent, SWT.NONE);
-		this.setLayout(new GridLayout(2, false));
+		this.setLayout(new GridLayout(3, true));
 		init();
 	}
 
 	
 	public void init() {
 		//Überschrift des Fensters Maschinenmodell
-		aText = new Text(this, SWT.MULTI);
-		GridData gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
-		gridData.horizontalSpan = 2;
-		aText.setLayoutData(gridData);
-		aText.setText(LocalizationHandler.getItem("app.gui.tabs.machtooltip"));
+		textModelTitel = new Text(this, SWT.MULTI);
+		GridData gridData = new GridData(GridData.FILL, GridData.CENTER, false, false);
+		gridData.horizontalSpan = 3;
+		textModelTitel.setLayoutData(gridData);
+		textModelTitel.setText(LocalizationHandler.getItem("app.gui.tabs.machtooltip"));
 		
-		//Tabelle für Maschinenmodell initieren
-		aTable = new Table(this, SWT.BORDER | SWT.MULTI);
-		gridData = new GridData(GridData.FILL, GridData.CENTER, false, true);
-		gridData.horizontalSpan = 1;
-		gridData.widthHint = 600;
-		gridData.heightHint = 600;
-		aTable.setLayoutData(gridData);
-		aTable.setLinesVisible(true);
-		aTable.setHeaderVisible(true);
+		//Tabelle links für Maschinenmodell initieren
+		tableModelView = new Table(this, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL);
+		gridData = new GridData(GridData.FILL, GridData.FILL, true, true);
+		gridData.horizontalSpan = 2;
+		//gridData.widthHint = 600;
+		//gridData.heightHint = 600;
+		tableModelView.setLayoutData(gridData);
+		tableModelView.setLinesVisible(true);
+		tableModelView.setHeaderVisible(true);
 		
 		//Titel der Spalten setzen
 		//TODO manick: Werte in Languagepack übernehmen
-		String[] titles =  {"ID", "Type", "Parameter", "edit Linking", "delete Component"};
+		String[] titles =  {"ID", "Type", "Parameter", "edit Component", "edit Linking", "delete Component"};
 		for(int i=0; i < titles.length; i++){
-			TableColumn column = new TableColumn(aTable, SWT.NULL);
+			TableColumn column = new TableColumn(tableModelView, SWT.NULL);
 			column.setText(titles[i]);
 		}
 		
         //Tabelle schreiben
-        TableColumn[] columns = aTable.getColumns();
+        TableColumn[] columns = tableModelView.getColumns();
         for (int i = 0; i < columns.length; i++) {
           columns[i].pack();
         }
 					
-		//Quellframe linke Seite für Maschinenkomponenten. Realisiert als Tree
-		aTree = new Tree(this, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
-		gridData = new GridData(GridData.FILL, GridData.CENTER, false, true);
+		//Quellframe rechte Seite für Maschinenkomponenten. Realisiert als Tree
+		treeComponentDBView = new Tree(this, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
+		gridData = new GridData(GridData.FILL, GridData.FILL, true, true);
 		gridData.horizontalSpan = 1;
-		gridData.heightHint = 600;
-		aTree.setLayoutData(gridData);
+		//gridData.heightHint = 600;
+		treeComponentDBView.setLayoutData(gridData);
 		
 		//Tree füllen mit aktuellen Werten aus dem Verzeichnis der DB
-		ComponentHandler.fillTree(aTree);
+		ComponentHandler.fillTree(treeComponentDBView);
 		
 		System.out.println("ModelGUI called ComponentHandler.fillTree");
 		
 		//Tree als Drag Source festlegen
 		int operations = DND.DROP_COPY;
-		final DragSource source = new DragSource(aTree, operations);
+		final DragSource source = new DragSource(treeComponentDBView, operations);
 		
 		//Provide data in Text format
 		Transfer[] types = new Transfer[] {TextTransfer.getInstance()};
@@ -153,7 +150,8 @@ public class ModelGUI extends Composite {
 			private TreeItem[] selection = null;
 			
 			public void dragStart(DragSourceEvent event){
-				selection = aTree.getSelection();
+				selection = treeComponentDBView.getSelection();
+				System.out.println("Drag started with " + selection.toString() + " Component");
 			}
 			
 			public void dragSetData(DragSourceEvent event){
@@ -162,6 +160,8 @@ public class ModelGUI extends Composite {
 					text += (String)item.getText();	
 				}
 				event.data = text;
+
+				System.out.println("Drag data set to " + text);
 			}
 			
 			public void dragFinished(DragSourceEvent event) {
@@ -170,7 +170,7 @@ public class ModelGUI extends Composite {
 		
 		//Table als Drop Target festlegen
 		operations = DND.DROP_COPY;
-		DropTarget target = new DropTarget(aTable, operations);
+		DropTarget target = new DropTarget(tableModelView, operations);
 		
 		//Texttransfer akzeptieren
 		final TextTransfer textTransfer = TextTransfer.getInstance();
@@ -195,7 +195,7 @@ public class ModelGUI extends Composite {
 				
 			}
 			public void drop(DropTargetEvent event){
-				aTable.setRedraw(false);
+				tableModelView.setRedraw(false);
 				
 				//String des DnD entgegennehmen, und aufsplitten in type und parameter
 				String string = null;
@@ -203,20 +203,25 @@ public class ModelGUI extends Composite {
 		        final String[] split = string.split("_",2);
 		        split[1] = split[1].replace(".xml","");
 		        
-		        System.out.println("New Component " + split[1] + " added");
+		        System.out.println("New Component " + split[1] + " added to Machine");
 		        
 		        //TODO manick: funktioniert das wirklich wie gedacht?
 		        //Position des Drops ermitteln		        
-		        Point p = event.display.map(null, aTable, event.x, event.y);
-		        TableItem dropItem = aTable.getItem(p);
-		        int index = dropItem == null ? aTable.getItemCount() : aTable.indexOf(dropItem);
+		        Point p = event.display.map(null, tableModelView, event.x, event.y);
+		        TableItem dropItem = tableModelView.getItem(p);
+		        int index = dropItem == null ? tableModelView.getItemCount() : tableModelView.indexOf(dropItem);
 		        
 		        //Tabelleninhalte füllen
-		        final TableItem item = new TableItem(aTable, SWT.NONE, index);
+		        final TableItem item = new TableItem(tableModelView, SWT.NONE, index);
+		        
+		        // aus split[0] und split[1] eine Komponente erstellen
+		        final MachineComponent mc = Machine.addNewMachineComponent(split[0],split[1]); 
+		        Machine.addMachineComponent(mc);
+		        System.out.println("New Component " + mc.getName() + " created");
+		        
 		        
 		        //TODO manick: ID Vergabe organisieren
-		        item.setText(0, String.valueOf(ID));
-		        ID++;
+		        item.setText(0, mc.getName());
 		        
 		        //TODO manick: Vorgehen ändern --> zuerst Componente erzeugen und ID erstellen --> Werte von Komponente in Tabelle schreiben!
 		        
@@ -224,16 +229,31 @@ public class ModelGUI extends Composite {
 		        item.setText(1, split[0]);
 		        item.setText(2, split[1]);
 		        
-		        //TODO manick: aus split[0] und split[1] eine Komponente erstellen
-		        final MachineComponent mc = Machine.addNewMachineComponent(split[0],split[1]); 
-		        Machine.addMachineComponent(mc);
+		        //Button für edit Component erstellen
+		        TableEditor editor = new TableEditor(tableModelView);
+		        final Button buttonEditComponent = new Button(tableModelView, SWT.PUSH);
+		        buttonEditComponent.setText("edit Component");
+		        buttonEditComponent.addSelectionListener(new SelectionListener(){
+		        	public void widgetSelected(SelectionEvent event){
+		        		
+		        			        		
+		        		System.out.println("Button edit Component of component " + split[1]);
+		        	}
+		        	public void widgetDefaultSelected(SelectionEvent event){
+		        		
+		        	}
+		        });
+		        buttonEditComponent.pack();
+		        editor.minimumWidth = buttonEditComponent.getSize().x;
+		        editor.horizontalAlignment = SWT.LEFT;
+		        editor.setEditor(buttonEditComponent, item, 3);
 		        
 		        //Edit Linking Button in zweitletzter Spalte erstellen
 		        //SOURCE http://www.java2s.com/Tutorial/Java/0280__SWT/TableCellEditorComboTextandButton.htm
-		        TableEditor editor = new TableEditor(aTable);
-		        final Button aButton = new Button(aTable, SWT.PUSH);
-		        aButton.setText("edit Linking");
-		        aButton.addSelectionListener(new SelectionListener(){
+		        editor = new TableEditor(tableModelView);
+		        final Button buttonEditLinking = new Button(tableModelView, SWT.PUSH);
+		        buttonEditLinking.setText("edit Linking");
+		        buttonEditLinking.addSelectionListener(new SelectionListener(){
 		        	public void widgetSelected(SelectionEvent event){
 		        		
 		        		//Fenster fürs IO Linking öffnen
@@ -246,52 +266,55 @@ public class ModelGUI extends Composite {
 		        		
 		        	}
 		        });
-		        aButton.pack();
-		        editor.minimumWidth = aButton.getSize().x;
+		        buttonEditLinking.pack();
+		        editor.minimumWidth = buttonEditLinking.getSize().x;
 		        editor.horizontalAlignment = SWT.LEFT;
-		        editor.setEditor(aButton, item, 3);
+		        editor.setEditor(buttonEditLinking, item, 4);
 		        
 		        //Delete Component Button in letzter Spalte erstellen
-		        editor = new TableEditor(aTable);
-		        final Button bButton = new Button(aTable, SWT.PUSH);
-		        bButton.setText("delete Component");
-		        bButton.addSelectionListener(new SelectionListener(){
+		        editor = new TableEditor(tableModelView);
+		        final Button buttonDeleteComponent = new Button(tableModelView, SWT.PUSH);
+		        buttonDeleteComponent.setText("delete Component");
+		        buttonDeleteComponent.addSelectionListener(new SelectionListener(){
 		        	public void widgetSelected(SelectionEvent event){
 		        		
-			    		aTable.setRedraw(false);
+			    		tableModelView.setRedraw(false);
 			    		
 		        		//TODO manick: Delete Component
 		        		Machine.removeMachineComponent(mc);
 
-		        		aButton.dispose();
-		        		bButton.dispose();
+		        		buttonEditLinking.dispose();
+		        		buttonDeleteComponent.dispose();
+		        		buttonEditComponent.dispose();
 		        		item.dispose();
 		        		
-				        TableColumn[] columns = aTable.getColumns();
+				        TableColumn[] columns = tableModelView.getColumns();
 				        for (int i = 0; i < columns.length; i++) {
 				          columns[i].pack();
 				        }
 		        		
 		        		System.out.println("Button delete Component " + split[1]);
 		        		
-			    		aTable.setRedraw(true);	
+			    		tableModelView.setRedraw(true);	
 
 		        	}
 		        	public void widgetDefaultSelected(SelectionEvent event){
 		        		
 		        	}
 		        });
-		        bButton.pack();
-		        editor.minimumWidth = bButton.getSize().x;
+		        buttonDeleteComponent.pack();
+		        editor.minimumWidth = buttonDeleteComponent.getSize().x;
 		        editor.horizontalAlignment = SWT.LEFT;
-		        editor.setEditor(bButton, item, 4);		        
+		        editor.setEditor(buttonDeleteComponent, item, 5);		        
+		        
+
 		        
 		        //Tabelle schreiben
-		        TableColumn[] columns = aTable.getColumns();
+		        TableColumn[] columns = tableModelView.getColumns();
 		        for (int i = 0; i < columns.length; i++) {
 		          columns[i].pack();
 		        }
-		        aTable.setRedraw(true);
+		        tableModelView.setRedraw(true);
 			}
 		});	
 		}

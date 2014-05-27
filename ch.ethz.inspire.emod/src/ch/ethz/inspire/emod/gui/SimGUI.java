@@ -78,17 +78,15 @@ public class SimGUI extends Composite {
 	public void init() {
 		//Überschrift des Fensters Simulation
 		aText = new Text(this, SWT.MULTI);
-		GridData gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
+		GridData gridData = new GridData(GridData.BEGINNING, GridData.BEGINNING, true, false);
 		gridData.horizontalSpan = 1;
 		aText.setLayoutData(gridData);
 		aText.setText(LocalizationHandler.getItem("app.gui.tabs.simtooltip"));
 		
 		//Tabelle für Maschinenmodell initieren
 		aTable = new Table(this, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
-		gridData = new GridData(GridData.BEGINNING, GridData.BEGINNING, false, true);
+		gridData = new GridData(GridData.BEGINNING, GridData.BEGINNING, true, false);
 		gridData.horizontalSpan = 1;
-		gridData.widthHint = 200;
-		//gridData.heightHint = 100;
 		aTable.setLayoutData(gridData);
 		aTable.setLinesVisible(true);
 		aTable.setHeaderVisible(true);
@@ -170,17 +168,17 @@ public class SimGUI extends Composite {
         
 		//Überschrift des Fensters Simulation
 		bText = new Text(this, SWT.MULTI);
-		gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
+		gridData = new GridData(GridData.FILL, GridData.BEGINNING, true, false);
 		gridData.horizontalSpan = 1;
 		bText.setLayoutData(gridData);
 		bText.setText("Die Prozessparameter konfigurieren");
         
 		//Tabelle für Prozess initieren
 		bTable = new Table(this, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
-		gridData = new GridData(GridData.BEGINNING, GridData.BEGINNING, false, true);
+		gridData = new GridData(GridData.BEGINNING, GridData.FILL, false, true);
 		gridData.horizontalSpan = 1;
-		gridData.widthHint = 600;
-		gridData.heightHint = 300;
+		//gridData.widthHint = 600;
+		//gridData.heightHint = 300;
 		bTable.setLayoutData(gridData);
 		bTable.setLinesVisible(true);
 		bTable.setHeaderVisible(true);

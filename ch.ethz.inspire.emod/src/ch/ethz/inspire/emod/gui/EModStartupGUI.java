@@ -19,7 +19,7 @@ public class EModStartupGUI {
 	private static Shell shell;
 	
 	public EModStartupGUI(){
-    shell = new Shell(Display.getCurrent());
+    shell = new Shell(Display.getCurrent(),SWT.APPLICATION_MODAL);
     
 	//TODO manick: startup window
 

@@ -117,9 +117,8 @@ public class LinkingGUI {
 			
 			shell.pack();
 
-			Rectangle rect = shell.getBounds();
-			
 			//width and height of the shell
+			Rectangle rect = shell.getBounds();
 			int[] size = {0, 0};
 			size[0] = rect.width;
 			size[1] = rect.height;

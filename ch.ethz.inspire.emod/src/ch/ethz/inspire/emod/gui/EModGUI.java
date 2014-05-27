@@ -151,6 +151,8 @@ public class EModGUI {
 		//filePropertiesItem.addSelectionListener(new filePropertiesItemListener());
 		fileExitItem.addSelectionListener(new fileExitItemListener());
 		
+		compDBOpenItem.addSelectionListener(new compDBOpenListener());
+		
 		helpAboutItem.addSelectionListener(new helpAboutItemListener());
 		
 		
@@ -311,6 +313,20 @@ public class EModGUI {
 		}
 	}
 	
+	/**
+	 * menu item action listener for comp DB open item
+	 * 
+	 * @author manick
+	 *
+	 */
+	class compDBOpenListener implements SelectionListener {
+		public void widgetSelected(SelectionEvent event){
+			new ComponentDBGUI();
+		}
+		public void widgetDefaultSelected(SelectionEvent event){
+
+		}
+	}
 	
 	/**
 	 * menu item action listener for help about item
