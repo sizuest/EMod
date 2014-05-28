@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>
+    Process definition
+    ==================
+    Name                    : Testprocess1
+    Duration                : 1
+
+    Process description:
+      TODO
+
+    Process parameters:
+      SamplePeriod  [s]           : Sample period (used in this file) of the time vectors of the process parameters
+  </comment>
+  <entry key="SamplePeriod">600</entry>
+  <entry key="Pressure">100000</entry>
+  <entry key="MassFlow">0  0.1 0.1 0 0 0.1</entry>
+  <entry key="AmbTemperature">293</entry>
+  <entry key="InletTemperature">293 303.000000</entry> 
+</properties>

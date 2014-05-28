@@ -1,0 +1,12 @@
+# Input - Output mapping
+
+
+Pipe.PressureOut		= Pressure
+Pipe.MassFlowOut		= MassFlow
+Pipe.TemperatureIn		= InletTemperature
+Pipe.TemperatureAmb		= AmbTemperature
+
+
+
+
+

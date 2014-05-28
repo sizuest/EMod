@@ -1,10 +1,10 @@
 /***********************************
- * $Id: HydraulicOil.java 103 2013-10-31 13:39:36Z kraandre $
+ * $Id$
  *
- * $URL: https://icvrdevil.ethz.ch/svn/EMod/trunk/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/model/Cylinder.java $
- * $Author: kraandre $
- * $Date: 2013-10-31 14:39:36 +0100 (Do, 31 Okt 2013) $
- * $Rev: 103 $
+ * $URL$
+ * $Author$
+ * $Date$
+ * $Rev$
  *
  * Copyright (c) 2013 by Inspire AG, ETHZ
  * All rights reserved
