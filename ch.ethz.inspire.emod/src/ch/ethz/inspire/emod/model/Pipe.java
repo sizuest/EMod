@@ -284,4 +284,9 @@ public class Pipe extends APhysicalComponent{
 		layerStorage.setSimulationPeriod(sampleperiod);
 	}
 	
+	public void setType(String type) {
+		this.type = type;
+		init();
+	}
+	
 }

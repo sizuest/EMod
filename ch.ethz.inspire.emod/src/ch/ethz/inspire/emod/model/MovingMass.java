@@ -20,7 +20,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.lang.Math;
 
-import ch.ethz.inspire.emod.model.units.ContainerType;
 import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.utils.IOContainer;
 
@@ -155,6 +154,10 @@ public class MovingMass extends APhysicalComponent{
 	@Override
 	public String getType() {
 		return "m="+mass+"-alpha="+angle;
+	}
+	
+	public void setType(String type) {
+		//TODO
 	}
 	
 }

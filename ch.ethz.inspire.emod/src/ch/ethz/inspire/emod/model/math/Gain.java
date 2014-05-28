@@ -143,4 +143,8 @@ public class Gain extends APhysicalComponent{
 	public String getType() {
 		return unit;
 	}
+	
+	public void setType(String type) {
+		//TODO this.type = type;
+	}
 }

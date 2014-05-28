@@ -929,6 +929,29 @@ public class Machine {
 	}
 	
 	/**
+	 * Return a list of all IOContainers with the unit which do not include Outputs of the
+	 * stated machine component mc.
+	 * @param mc	{@link MachineComponent} who's elements are to be excluded
+	 * @param unit  {@link Unit} of the desired outputs
+	 * @return List of {@link IOContainer}
+	 */
+	public static ArrayList<IOContainer> getOutputList(MachineComponent mc, Unit unit) {
+		// Fetch all outputs
+		ArrayList<IOContainer> outputs = getOutputList(unit);
+		
+		// Remove all outputs of mc
+		
+		for(IOContainer iomc : mc.getComponent().getOutputs())
+			for(IOContainer io : outputs)
+				if(io.equals(iomc)) {
+					outputs.remove(io);
+					break;
+				}
+		
+		return outputs;
+	}
+	
+	/**
 	 * ================================================================================
 	 * Methods for test only!
 	 * ================================================================================

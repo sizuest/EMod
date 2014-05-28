@@ -316,4 +316,9 @@ public class PumpPower extends APhysicalComponent{
 		return type;
 	}
 	
+	public void setType(String type) {
+		this.type = type;
+		init();
+	}
+	
 }

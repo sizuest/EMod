@@ -89,4 +89,10 @@ public abstract class APhysicalComponent {
 	public void setSimulationPeriod(double sampleperiod){
 		this.sampleperiod = sampleperiod;
 	}
+	
+	/**
+	 * Sets the type of the component according to the argument
+	 * @param type
+	 */
+	public abstract void setType(String type);
 }

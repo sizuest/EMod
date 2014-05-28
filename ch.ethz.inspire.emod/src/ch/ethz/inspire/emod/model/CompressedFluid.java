@@ -215,4 +215,9 @@ public class CompressedFluid extends APhysicalComponent{
 	public String getType() {
 		return type;
 	}
+	
+	public void setType(String type) {
+		this.type = type;
+		init();
+	}
 }

@@ -66,7 +66,5 @@ public class MachineComponent {
 	public void setComponent(APhysicalComponent component) {
 		this.component = component;
 	}
-	
-	
 
 }

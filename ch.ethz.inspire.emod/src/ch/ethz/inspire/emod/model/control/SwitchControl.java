@@ -165,5 +165,8 @@ public class SwitchControl extends APhysicalComponent{
 	public String getType() {
 		return "switch@"+threshold+controlUnit.toString();
 	}
+	public void setType(String type) {
+		//TODO this.type = type;
+	}
 	
 }

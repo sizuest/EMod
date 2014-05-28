@@ -121,12 +121,15 @@ public class MachineTest {
 	public void testGetOutputs() {
 		Machine.clearMachine();
 		
-		Machine.addNewMachineComponent("Motor", "Siemens_1FE1115-6WT11");
+		MachineComponent mc;
+		
+		mc = Machine.addNewMachineComponent("Motor", "Siemens_1FE1115-6WT11");
 		Machine.addNewInputObject("ProcessSimulationControl", Unit.WATT);
 		
 		try {
 			assertEquals("number of outputs", 5, Machine.getOutputList().size());
 			assertEquals("number of outputs in WATT", 4, Machine.getOutputList(Unit.WATT).size());
+			assertEquals("number of outputs in WATT without the motor", 1, Machine.getOutputList(mc, Unit.WATT).size());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -165,6 +168,23 @@ public class MachineTest {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+	}
+	
+	@Test
+	public void testSetType(){
+		Machine.clearMachine();
+		
+		// Add some components
+		MachineComponent mc = Machine.addNewMachineComponent("Amplifier", "Siemens_6SN1123_1AA00_0CA1");
+		
+		try {
+			Machine.getMachineComponent(mc.getName()).getComponent().setType("Example");
+			assertEquals("New name is Example: ", "Example", Machine.getMachineComponent(mc.getName()).getComponent().getType());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		
 	}
 

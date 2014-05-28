@@ -19,7 +19,6 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import ch.ethz.inspire.emod.model.units.ContainerType;
 import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.utils.Algo;
 import ch.ethz.inspire.emod.utils.IOContainer;
@@ -339,6 +338,11 @@ public class PumpAccumulator extends APhysicalComponent{
 	@Override
 	public String getType() {
 		return type;
+	}
+	
+	public void setType(String type) {
+		this.type = type;
+		init();
 	}
 	
 }

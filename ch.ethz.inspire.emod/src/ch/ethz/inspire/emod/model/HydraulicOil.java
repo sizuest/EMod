@@ -240,4 +240,8 @@ public class HydraulicOil extends APhysicalComponent{
 		return type;
 	}
 	
+	public void setType(String type) {
+		this.type = type;
+		init();
+	}
 }

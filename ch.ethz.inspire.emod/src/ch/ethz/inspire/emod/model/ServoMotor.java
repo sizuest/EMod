@@ -285,4 +285,9 @@ public class ServoMotor extends APhysicalComponent{
 		return type;
 	}
 	
+	public void setType(String type) {
+		this.type = type;
+		init();
+	}
+	
 }
