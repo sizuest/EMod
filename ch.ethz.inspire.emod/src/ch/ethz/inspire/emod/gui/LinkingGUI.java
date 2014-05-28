@@ -12,6 +12,8 @@
  ***********************************/
 package ch.ethz.inspire.emod.gui;
 
+import java.util.List;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.SelectionEvent;
@@ -28,56 +30,59 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
+import ch.ethz.inspire.emod.model.MachineComponent;
+import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
 
 public class LinkingGUI {
 
     private Shell shell;
 
-
     public LinkingGUI(){
 	        shell = new Shell(Display.getCurrent());
 	    }
 
-	public void openLinkingGUI(String aString){
+	public void openLinkingGUI(MachineComponent mc){
 	        System.out.println("LinkingGUI opened");
 	        
-	        shell.setText("IO Linking " + aString);
+	        shell.setText(LocalizationHandler.getItem("app.gui.linking.title"));
 
-	    	shell.setLayout(new GridLayout(2, false));
+	    	shell.setLayout(new GridLayout(1, false));
 	    	
 	    	Text aText = new Text(shell, SWT.MULTI);
 			GridData gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
-			gridData.horizontalSpan = 2;
+			gridData.horizontalSpan = 1;
 			aText.setLayoutData(gridData);
-			aText.setText("Component: " + aString);
+			aText.setText(LocalizationHandler.getItem("app.gui.linking.title") + ": " + mc.getName());
 	    	
+			List<IOContainer> inputList = mc.getComponent().getInputs();
+			System.out.println("The Component has x inputs: " + inputList.size());
+			
 	    	//SOURCE http://www.java2s.com/Code/Java/SWT-JFace-Eclipse/SWTTableSimpleDemo.htm Imported for function control
-	    	Table aTable = new Table(shell, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
+	    	Table tableLinkingView = new Table(shell, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
 	    	gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
-			gridData.horizontalSpan = 2;
-	    	aTable.setLayoutData(gridData);
-			aTable.setHeaderVisible(true);
+			gridData.horizontalSpan = 1;
+	    	tableLinkingView.setLayoutData(gridData);
+			tableLinkingView.setHeaderVisible(true);
 	    		    //TODO manick: language file!
-	    		    String[] titles = { "Input", "Link to"};
+	    		    String[] titles = {LocalizationHandler.getItem("app.gui.linking.input"),
+	    		    				   LocalizationHandler.getItem("app.gui.linking.linkto")};
 
 	    		    for (int i=0; i < titles.length; i++) {
-	    		      TableColumn column = new TableColumn(aTable, SWT.NULL);
+	    		      TableColumn column = new TableColumn(tableLinkingView, SWT.NULL);
 	    		      column.setText(titles[i]);
 	    		    }
+	    		    
+	    		    for (int i=0; i < inputList.size(); i++){
+	    		    	TableItem item = new TableItem(tableLinkingView, SWT.MULTI);
+	    		    	item.setText(0, inputList.get(i).getName());
 
-	    		    // inputs auslesen aus komponente??
-	    		    for (int loopIndex = 0; loopIndex < 4; loopIndex++) {
-	    		      TableItem item = new TableItem(aTable, SWT.NULL);
-	    		      item.setText("Item " + loopIndex);
-	    		      item.setText(0, "Input");
-	    		      
-	  		        	TableEditor editor = new TableEditor(aTable);
-	  		        	Combo aCombo = new Combo(aTable, SWT.DROP_DOWN);
+	  		        	TableEditor editor = new TableEditor(tableLinkingView);
+	  		        	Combo comboOutputs = new Combo(tableLinkingView, SWT.DROP_DOWN);
 	  		        	String items[] = {"Output 1", "Output 2", "Output 3", "and so on"};
-	  		        	aCombo.setItems(items);
+	  		        	comboOutputs.setItems(items);
 	  		        	
-	  		        	aCombo.addSelectionListener(new SelectionListener(){
+	  		        	comboOutputs.addSelectionListener(new SelectionListener(){
 	  		        		public void widgetSelected(SelectionEvent event){
 			        		
 	  		        			String string = (String) event.data;
@@ -87,25 +92,29 @@ public class LinkingGUI {
 			        		
 	  		        		}
 	  		        	});
-	  		        	aCombo.pack();
-	  		        	editor.minimumWidth = aCombo.getSize().x;
+	  		        	
+	  		        	comboOutputs.pack();
+	  		        	editor.minimumWidth = comboOutputs.getSize().x;
 	  		        	editor.horizontalAlignment = SWT.LEFT;
-	  		        	editor.setEditor(aCombo, item, 1);
+	  		        	editor.setEditor(comboOutputs, item, 1);
 	    		    }
+	    		    
+	    		    
+	    		    
+			        //Tabelle schreiben
+			        TableColumn[] columns = tableLinkingView.getColumns();
+			        for (int i = 0; i < columns.length; i++) {
+			          columns[i].pack();
+			        }
 
-	    		    for (int loopIndex = 0; loopIndex < titles.length; loopIndex++) {
-	    		      aTable.getColumn(loopIndex).pack();
-	    		    }
+			        //SOURCE http://www.java2s.com/Code/Java/SWT-JFace-Eclipse/SWTTableSimpleDemo.htm Imported for function control   	
 
-	    		    //aTable.setBounds(25, 25, 220, 200);
-	    	    	//SOURCE http://www.java2s.com/Code/Java/SWT-JFace-Eclipse/SWTTableSimpleDemo.htm Imported for function control   	
-
-	    	Button aButton = new Button(shell, SWT.BORDER);
-	    	aButton.setText("Save");
-			gridData = new GridData(GridData.FILL, GridData.VERTICAL_ALIGN_END, true, false);
+	    	Button buttonSave = new Button(shell, SWT.BORDER);
+	    	buttonSave.setText(LocalizationHandler.getItem("app.gui.save"));
+			gridData = new GridData(GridData.END, GridData.END, false, false);
 			gridData.horizontalSpan = 1;
-			aButton.setLayoutData(gridData);
-		    aButton.addSelectionListener(new SelectionListener(){
+			buttonSave.setLayoutData(gridData);
+		    buttonSave.addSelectionListener(new SelectionListener(){
 		    	public void widgetSelected(SelectionEvent event){
 		    		shell.close();
 		    		System.out.println("Linking saved");
@@ -115,7 +124,8 @@ public class LinkingGUI {
 		    	}
 		    });
 			
-			shell.pack();
+		    shell.setSize(200,200);
+			//shell.pack();
 
 			//width and height of the shell
 			Rectangle rect = shell.getBounds();

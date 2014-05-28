@@ -4,7 +4,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -13,6 +12,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import ch.ethz.inspire.emod.utils.LocalizationHandler;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 public class EModStartupGUI {
@@ -35,32 +35,32 @@ public class EModStartupGUI {
 	GridData gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
 	gridData.horizontalSpan = 1;
 	aText.setLayoutData(gridData);
-	aText.setText("Load machine config:");
+	aText.setText(LocalizationHandler.getItem("app.gui.startup.machconfig"));
 	
-	Combo aCombo = new Combo(shell, SWT.NONE);
+	Combo comboMachineName = new Combo(shell, SWT.NONE);
 	gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
 	gridData.horizontalSpan = 1;
-	aCombo.setLayoutData(gridData);
-	aCombo.setText(machineName);
+	comboMachineName.setLayoutData(gridData);
+	comboMachineName.setText(machineName);
 	
 	Text bText = new Text(shell, SWT.LEFT);
 	gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
 	gridData.horizontalSpan = 1;
 	bText.setLayoutData(gridData);
-	bText.setText("Load simulation config:");
+	bText.setText(LocalizationHandler.getItem("app.gui.startup.simconfig"));
 	
-	Combo bCombo = new Combo(shell, SWT.NONE);
+	Combo comboConfigName = new Combo(shell, SWT.NONE);
 	gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
 	gridData.horizontalSpan = 1;
-	bCombo.setLayoutData(gridData);
-	bCombo.setText(machineConfigName);
+	comboConfigName.setLayoutData(gridData);
+	comboConfigName.setText(machineConfigName);
 	
-	Button aButton = new Button(shell, SWT.LEFT);
+	Button buttonContinue = new Button(shell, SWT.LEFT);
 	gridData = new GridData(GridData.END, GridData.CENTER, true, false);
 	gridData.horizontalSpan = 2;
-	aButton.setLayoutData(gridData);
-	aButton.setText("Continue");
-    aButton.addSelectionListener(new SelectionListener(){
+	buttonContinue.setLayoutData(gridData);
+	buttonContinue.setText(LocalizationHandler.getItem("app.gui.continue"));
+    buttonContinue.addSelectionListener(new SelectionListener(){
     	public void widgetSelected(SelectionEvent event){
     		shell.close();
     		System.out.println("Machine config and sim config loaded");

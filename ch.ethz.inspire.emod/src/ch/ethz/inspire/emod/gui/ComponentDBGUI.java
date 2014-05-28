@@ -9,10 +9,10 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 
 import ch.ethz.inspire.emod.gui.utils.ComponentHandler;
+import ch.ethz.inspire.emod.utils.LocalizationHandler;
 
 public class ComponentDBGUI {
 
@@ -23,7 +23,7 @@ public class ComponentDBGUI {
 	
 	public ComponentDBGUI(){
 		shell = new Shell(Display.getCurrent());
-		shell.setText("Component Database");
+		shell.setText(LocalizationHandler.getItem("app.gui.compdb.title"));
 		shell.setSize(400, 600);
 		
 		shell.setLayout(new GridLayout(2, false));
@@ -37,7 +37,7 @@ public class ComponentDBGUI {
 		ComponentHandler.fillTree(treeComponentDBView);
 
 		buttonEdit = new Button(shell, SWT.BORDER);
-		buttonEdit.setText("Edit Component");
+		buttonEdit.setText(LocalizationHandler.getItem("app.gui.compdb.editcomp"));
 		gridData = new GridData(GridData.FILL, GridData.VERTICAL_ALIGN_END, true, false);
 		gridData.horizontalSpan = 1;
 		buttonEdit.setLayoutData(gridData);
@@ -52,7 +52,7 @@ public class ComponentDBGUI {
 	    });
 		
 		buttonClose = new Button(shell, SWT.BORDER);
-		buttonClose.setText("Close");
+		buttonClose.setText(LocalizationHandler.getItem("app.gui.close"));
 		gridData = new GridData(GridData.FILL, GridData.VERTICAL_ALIGN_END, true, false);
 		gridData.horizontalSpan = 1;
 		buttonClose.setLayoutData(gridData);

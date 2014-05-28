@@ -12,46 +12,17 @@
  ***********************************/
 package ch.ethz.inspire.emod.gui;
 
-import java.nio.file.FileSystems;
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Logger;
-//import java.awt.Desktop;
-import java.io.File;
-import java.io.FileFilter;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CTabFolder;
-import org.eclipse.swt.custom.CTabFolder2Adapter;
-import org.eclipse.swt.custom.CTabFolderEvent;
-import org.eclipse.swt.custom.CTabItem;
-import org.eclipse.swt.custom.ScrolledComposite;
-import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.dnd.*;
-import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
-//import org.eclipse.swt.graphics.Path;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowData;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.swt.widgets.Shell;
-//import org.eclipse.swt.widgets.List;
-import org.eclipse.swt.widgets.TabFolder;
-import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
@@ -59,17 +30,10 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
-import ch.ethz.inspire.emod.LogLevel;
 import ch.ethz.inspire.emod.Machine;
-import ch.ethz.inspire.emod.gui.AnalysisGUI.MachineComponentComposite;
-import ch.ethz.inspire.emod.gui.utils.BarChart;
 import ch.ethz.inspire.emod.gui.utils.ComponentHandler;
-import ch.ethz.inspire.emod.gui.utils.ConsumerData;
-import ch.ethz.inspire.emod.gui.utils.LineChart;
-import ch.ethz.inspire.emod.gui.utils.StackedAreaChart;
 import ch.ethz.inspire.emod.model.MachineComponent;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
-import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 /**
  * @author manick
@@ -93,57 +57,59 @@ public class ModelGUI extends Composite {
 
 	
 	public void init() {
-		//Überschrift des Fensters Maschinenmodell
+		//set title of the tab machine config
 		textModelTitel = new Text(this, SWT.MULTI);
 		GridData gridData = new GridData(GridData.FILL, GridData.CENTER, false, false);
 		gridData.horizontalSpan = 3;
 		textModelTitel.setLayoutData(gridData);
 		textModelTitel.setText(LocalizationHandler.getItem("app.gui.tabs.machtooltip"));
 		
-		//Tabelle links für Maschinenmodell initieren
+		//set table on the left side of the tab model for the machine config
 		tableModelView = new Table(this, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL);
 		gridData = new GridData(GridData.FILL, GridData.FILL, true, true);
 		gridData.horizontalSpan = 2;
-		//gridData.widthHint = 600;
-		//gridData.heightHint = 600;
 		tableModelView.setLayoutData(gridData);
 		tableModelView.setLinesVisible(true);
 		tableModelView.setHeaderVisible(true);
 		
-		//Titel der Spalten setzen
-		//TODO manick: Werte in Languagepack übernehmen
-		String[] titles =  {"ID", "Type", "Parameter", "edit Component", "edit Linking", "delete Component"};
+		//set the titles of the columns of the table
+		String[] titles =  {LocalizationHandler.getItem("app.gui.model.id"),
+							LocalizationHandler.getItem("app.gui.model.type"),
+							LocalizationHandler.getItem("app.gui.model.param"),
+							LocalizationHandler.getItem("app.gui.model.editcomp"),
+							LocalizationHandler.getItem("app.gui.model.editlink"),
+							LocalizationHandler.getItem("app.gui.model.delcomp")};
 		for(int i=0; i < titles.length; i++){
 			TableColumn column = new TableColumn(tableModelView, SWT.NULL);
 			column.setText(titles[i]);
 		}
 		
-        //Tabelle schreiben
+        //initialize table with columns
         TableColumn[] columns = tableModelView.getColumns();
         for (int i = 0; i < columns.length; i++) {
           columns[i].pack();
         }
 					
-		//Quellframe rechte Seite für Maschinenkomponenten. Realisiert als Tree
+		//set tree on the right side of the tab model for the component DB
 		treeComponentDBView = new Tree(this, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
 		gridData = new GridData(GridData.FILL, GridData.FILL, true, true);
 		gridData.horizontalSpan = 1;
-		//gridData.heightHint = 600;
 		treeComponentDBView.setLayoutData(gridData);
 		
-		//Tree füllen mit aktuellen Werten aus dem Verzeichnis der DB
+		//fill tree with the components existing in the directory
 		ComponentHandler.fillTree(treeComponentDBView);
 		
 		System.out.println("ModelGUI called ComponentHandler.fillTree");
 		
-		//Tree als Drag Source festlegen
+		//set tree as dragsource for the DnD of the components
 		int operations = DND.DROP_COPY;
 		final DragSource source = new DragSource(treeComponentDBView, operations);
 		
-		//Provide data in Text format
+		//DnD shall transfer text of the selected element
 		Transfer[] types = new Transfer[] {TextTransfer.getInstance()};
 		source.setTransfer(types);
 		
+		//create draglistener to transfer text of selected tree element
 		source.addDragListener(new DragSourceListener() {
 			
 			//SOURCE von dragStart/dragSetData:http://www.tutorials.de/swing-java2d-3d-swt-jface/376583-drag-drop-und-eigener-transfertype-ja-oder-nein.html
@@ -168,7 +134,7 @@ public class ModelGUI extends Composite {
 				}
 			});
 		
-		//Table als Drop Target festlegen
+		//set table as drop target
 		operations = DND.DROP_COPY;
 		DropTarget target = new DropTarget(tableModelView, operations);
 		
@@ -232,7 +198,7 @@ public class ModelGUI extends Composite {
 		        //Button für edit Component erstellen
 		        TableEditor editor = new TableEditor(tableModelView);
 		        final Button buttonEditComponent = new Button(tableModelView, SWT.PUSH);
-		        buttonEditComponent.setText("edit Component");
+		        buttonEditComponent.setText(LocalizationHandler.getItem("app.gui.model.editcomp"));
 		        buttonEditComponent.addSelectionListener(new SelectionListener(){
 		        	public void widgetSelected(SelectionEvent event){
 		        		
@@ -252,13 +218,13 @@ public class ModelGUI extends Composite {
 		        //SOURCE http://www.java2s.com/Tutorial/Java/0280__SWT/TableCellEditorComboTextandButton.htm
 		        editor = new TableEditor(tableModelView);
 		        final Button buttonEditLinking = new Button(tableModelView, SWT.PUSH);
-		        buttonEditLinking.setText("edit Linking");
+		        buttonEditLinking.setText(LocalizationHandler.getItem("app.gui.model.editlink"));
 		        buttonEditLinking.addSelectionListener(new SelectionListener(){
 		        	public void widgetSelected(SelectionEvent event){
 		        		
 		        		//Fenster fürs IO Linking öffnen
 		        		LinkingGUI linkingGUI = new LinkingGUI();
-		        		linkingGUI.openLinkingGUI(split[1]);
+		        		linkingGUI.openLinkingGUI(mc);
 		        		
 		        		System.out.println("Button edit Linking of component " + split[1]);
 		        	}
@@ -274,7 +240,7 @@ public class ModelGUI extends Composite {
 		        //Delete Component Button in letzter Spalte erstellen
 		        editor = new TableEditor(tableModelView);
 		        final Button buttonDeleteComponent = new Button(tableModelView, SWT.PUSH);
-		        buttonDeleteComponent.setText("delete Component");
+		        buttonDeleteComponent.setText(LocalizationHandler.getItem("app.gui.model.delcomp"));
 		        buttonDeleteComponent.addSelectionListener(new SelectionListener(){
 		        	public void widgetSelected(SelectionEvent event){
 		        		

@@ -20,7 +20,6 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
@@ -30,7 +29,6 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
-import org.eclipse.swt.widgets.Text;
 
 import ch.ethz.inspire.emod.simulation.EModSimulationRun;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
@@ -348,14 +346,20 @@ public class EModGUI {
 		}
 	}
 
-	/*
-	 * returns the current position of the shell
+	/**
+	 * returns the position of the shell (used to center new windows on current position)
+	 * 
+	 * @author manick
+	 *
 	 */
 
 	public static int[] shellPosition(){
+		//get postion of current shell
 		Rectangle rect = shell.getBounds();
 		
-		//find the middle of the shell an write into position array
+		//find the middle of the shell and return two dimensional array
+		//position[0]: middle of the shell in horizontal direction
+		//position[1]: middle of the shell in vertical direction
 		int[] position = {0, 0};
 		position[0] = rect.x + rect.width / 2;
 		position[1] = rect.y + rect.height / 2;
