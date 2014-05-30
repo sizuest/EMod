@@ -23,6 +23,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
@@ -44,7 +46,10 @@ public class ModelGUI extends Composite {
 	
 	private Text textModelTitel;
 	private Table tableModelView;
+	private TabFolder tabFolder;
 	private Tree treeComponentDBView;
+	private Button buttonEditLinking;
+	private GridData gridData;
 	
 	/**
 	 * @param parent
@@ -52,14 +57,16 @@ public class ModelGUI extends Composite {
 	public ModelGUI(Composite parent) {
 		super(parent, SWT.NONE);
 		this.setLayout(new GridLayout(3, true));
-		init();
+		initLayout();
+		initDragSource(treeComponentDBView);
+		initDropTarget(tableModelView);
 	}
 
 	
-	public void init() {
+	private void initLayout() {
 		//set title of the tab machine config
 		textModelTitel = new Text(this, SWT.MULTI);
-		GridData gridData = new GridData(GridData.FILL, GridData.CENTER, false, false);
+		gridData = new GridData(GridData.FILL, GridData.CENTER, false, false);
 		gridData.horizontalSpan = 3;
 		textModelTitel.setLayoutData(gridData);
 		textModelTitel.setText(LocalizationHandler.getItem("app.gui.tabs.machtooltip"));
@@ -72,12 +79,46 @@ public class ModelGUI extends Composite {
 		tableModelView.setLinesVisible(true);
 		tableModelView.setHeaderVisible(true);
 		
+		initTable(tableModelView);
+        
+		//set tabfolder on the right side of the tab model for the component DB and for the inputs
+		tabFolder = new TabFolder(this, SWT.NONE);
+		gridData = new GridData(GridData.FILL, GridData.FILL, true, true);
+		gridData.horizontalSpan = 1;
+		tabFolder.setLayoutData(gridData);
+		
+		initTabCompDB(tabFolder);
+		initTabInputs(tabFolder);
+		
+		//set button to edit linking on the buttom of the tab
+		buttonEditLinking = new Button(this, SWT.NONE);
+		buttonEditLinking.setText(LocalizationHandler.getItem("app.gui.model.editlink"));
+		buttonEditLinking.pack();
+		gridData = new GridData(GridData.CENTER, GridData.FILL, false, false);
+		gridData.horizontalSpan = 2;
+		buttonEditLinking.setLayoutData(gridData);
+        buttonEditLinking.addSelectionListener(new SelectionListener(){
+        	public void widgetSelected(SelectionEvent event){
+        		
+        		//Fenster fürs IO Linking öffnen
+        		LinkingGUI linkingGUI = new LinkingGUI();
+        		linkingGUI.openLinkingGUI();
+        		        		
+        		System.out.println("Button edit Linking of component ");
+        	}
+        	public void widgetDefaultSelected(SelectionEvent event){
+        		
+        	}
+        });
+     }
+
+	private void initTable(Table tableModelView){
 		//set the titles of the columns of the table
-		String[] titles =  {LocalizationHandler.getItem("app.gui.model.id"),
+		String[] titles =  {LocalizationHandler.getItem("app.gui.model.name"),
 							LocalizationHandler.getItem("app.gui.model.type"),
 							LocalizationHandler.getItem("app.gui.model.param"),
 							LocalizationHandler.getItem("app.gui.model.editcomp"),
-							LocalizationHandler.getItem("app.gui.model.editlink"),
+							//LocalizationHandler.getItem("app.gui.model.editlink"),
 							LocalizationHandler.getItem("app.gui.model.delcomp")};
 		for(int i=0; i < titles.length; i++){
 			TableColumn column = new TableColumn(tableModelView, SWT.NULL);
@@ -89,18 +130,39 @@ public class ModelGUI extends Composite {
         for (int i = 0; i < columns.length; i++) {
           columns[i].pack();
         }
-					
-		//set tree on the right side of the tab model for the component DB
-		treeComponentDBView = new Tree(this, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
-		gridData = new GridData(GridData.FILL, GridData.FILL, true, true);
-		gridData.horizontalSpan = 1;
-		treeComponentDBView.setLayoutData(gridData);
-		
+	}
+	
+	private void initTabCompDB(TabFolder tabFolder){
+		treeComponentDBView = new Tree(tabFolder, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
+
 		//fill tree with the components existing in the directory
 		ComponentHandler.fillTree(treeComponentDBView);
 		
 		System.out.println("ModelGUI called ComponentHandler.fillTree");
 		
+		//tab for tree item
+		TabItem tabCompDBItem = new TabItem(tabFolder, SWT.NONE);
+		tabCompDBItem.setText(LocalizationHandler.getItem("app.gui.model.comp"));
+		tabCompDBItem.setToolTipText(LocalizationHandler.getItem("app.gui.model.comptooltip"));
+		tabCompDBItem.setControl(treeComponentDBView);        
+	}
+
+	private void initTabInputs(TabFolder tabFolder){
+		
+		Text aText = new Text(tabFolder, SWT.NONE);
+		
+		//TODO Simon: create content of tabFolder Inputs
+		aText.setText("Content of tabFolder Inputs");
+		
+		
+		//tab for simulation config
+		TabItem tabInputsItem = new TabItem(tabFolder, SWT.NONE);
+		tabInputsItem.setText(LocalizationHandler.getItem("app.gui.model.inputs"));
+		tabInputsItem.setToolTipText(LocalizationHandler.getItem("app.gui.model.inputstooltip"));
+		tabInputsItem.setControl(aText);
+	}
+	
+	private void initDragSource(final Tree treeComponentDBView){
 		//set tree as dragsource for the DnD of the components
 		int operations = DND.DROP_COPY;
 		final DragSource source = new DragSource(treeComponentDBView, operations);
@@ -133,14 +195,16 @@ public class ModelGUI extends Composite {
 			public void dragFinished(DragSourceEvent event) {
 				}
 			});
-		
+	}
+	
+	private void initDropTarget(final Table tableModelView){
 		//set table as drop target
-		operations = DND.DROP_COPY;
+		int operations = DND.DROP_COPY;
 		DropTarget target = new DropTarget(tableModelView, operations);
 		
 		//Texttransfer akzeptieren
 		final TextTransfer textTransfer = TextTransfer.getInstance();
-		types = new Transfer[] {textTransfer};
+		Transfer[] types = new Transfer[] {textTransfer};
 		target.setTransfer(types);
 		
 		
@@ -214,29 +278,6 @@ public class ModelGUI extends Composite {
 		        editor.horizontalAlignment = SWT.LEFT;
 		        editor.setEditor(buttonEditComponent, item, 3);
 		        
-		        //Edit Linking Button in zweitletzter Spalte erstellen
-		        //SOURCE http://www.java2s.com/Tutorial/Java/0280__SWT/TableCellEditorComboTextandButton.htm
-		        editor = new TableEditor(tableModelView);
-		        final Button buttonEditLinking = new Button(tableModelView, SWT.PUSH);
-		        buttonEditLinking.setText(LocalizationHandler.getItem("app.gui.model.editlink"));
-		        buttonEditLinking.addSelectionListener(new SelectionListener(){
-		        	public void widgetSelected(SelectionEvent event){
-		        		
-		        		//Fenster fürs IO Linking öffnen
-		        		LinkingGUI linkingGUI = new LinkingGUI();
-		        		linkingGUI.openLinkingGUI(mc);
-		        		
-		        		System.out.println("Button edit Linking of component " + split[1]);
-		        	}
-		        	public void widgetDefaultSelected(SelectionEvent event){
-		        		
-		        	}
-		        });
-		        buttonEditLinking.pack();
-		        editor.minimumWidth = buttonEditLinking.getSize().x;
-		        editor.horizontalAlignment = SWT.LEFT;
-		        editor.setEditor(buttonEditLinking, item, 4);
-		        
 		        //Delete Component Button in letzter Spalte erstellen
 		        editor = new TableEditor(tableModelView);
 		        final Button buttonDeleteComponent = new Button(tableModelView, SWT.PUSH);
@@ -249,7 +290,7 @@ public class ModelGUI extends Composite {
 		        		//TODO manick: Delete Component
 		        		Machine.removeMachineComponent(mc);
 
-		        		buttonEditLinking.dispose();
+		        		//buttonEditLinking.dispose();
 		        		buttonDeleteComponent.dispose();
 		        		buttonEditComponent.dispose();
 		        		item.dispose();
@@ -271,7 +312,7 @@ public class ModelGUI extends Composite {
 		        buttonDeleteComponent.pack();
 		        editor.minimumWidth = buttonDeleteComponent.getSize().x;
 		        editor.horizontalAlignment = SWT.LEFT;
-		        editor.setEditor(buttonDeleteComponent, item, 5);		        
+		        editor.setEditor(buttonDeleteComponent, item, 4);		        
 		        
 
 		        
@@ -283,5 +324,5 @@ public class ModelGUI extends Composite {
 		        tableModelView.setRedraw(true);
 			}
 		});	
-		}
 	}
+}

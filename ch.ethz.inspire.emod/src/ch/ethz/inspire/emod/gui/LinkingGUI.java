@@ -42,7 +42,7 @@ public class LinkingGUI {
 	        shell = new Shell(Display.getCurrent());
 	    }
 
-	public void openLinkingGUI(MachineComponent mc){
+	public void openLinkingGUI(){
 	        System.out.println("LinkingGUI opened");
 	        
 	        shell.setText(LocalizationHandler.getItem("app.gui.linking.title"));
@@ -53,10 +53,11 @@ public class LinkingGUI {
 			GridData gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
 			gridData.horizontalSpan = 1;
 			aText.setLayoutData(gridData);
-			aText.setText(LocalizationHandler.getItem("app.gui.linking.title") + ": " + mc.getName());
+			
+			aText.setText(LocalizationHandler.getItem("app.gui.linking.title"));
+			//aText.setText(LocalizationHandler.getItem("app.gui.linking.title") + ": " + mc.getName());
 	    	
-			List<IOContainer> inputList = mc.getComponent().getInputs();
-			System.out.println("The Component has x inputs: " + inputList.size());
+			//List<IOContainer> inputList = mc.getComponent().getInputs();
 			
 	    	//SOURCE http://www.java2s.com/Code/Java/SWT-JFace-Eclipse/SWTTableSimpleDemo.htm Imported for function control
 	    	Table tableLinkingView = new Table(shell, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
@@ -65,7 +66,9 @@ public class LinkingGUI {
 	    	tableLinkingView.setLayoutData(gridData);
 			tableLinkingView.setHeaderVisible(true);
 	    		    //TODO manick: language file!
-	    		    String[] titles = {LocalizationHandler.getItem("app.gui.linking.input"),
+	    		    String[] titles = {LocalizationHandler.getItem("app.gui.linking.name"),
+	    		    				   LocalizationHandler.getItem("app.gui.linking.input"),
+	    		    				   LocalizationHandler.getItem("app.gui.linking.unit"),
 	    		    				   LocalizationHandler.getItem("app.gui.linking.linkto")};
 
 	    		    for (int i=0; i < titles.length; i++) {
@@ -73,6 +76,8 @@ public class LinkingGUI {
 	    		      column.setText(titles[i]);
 	    		    }
 	    		    
+	    		    
+	    		    /*/
 	    		    for (int i=0; i < inputList.size(); i++){
 	    		    	TableItem item = new TableItem(tableLinkingView, SWT.MULTI);
 	    		    	item.setText(0, inputList.get(i).getName());
@@ -98,7 +103,7 @@ public class LinkingGUI {
 	  		        	editor.horizontalAlignment = SWT.LEFT;
 	  		        	editor.setEditor(comboOutputs, item, 1);
 	    		    }
-	    		    
+	    		    */
 	    		    
 	    		    
 			        //Tabelle schreiben
@@ -109,7 +114,7 @@ public class LinkingGUI {
 
 			        //SOURCE http://www.java2s.com/Code/Java/SWT-JFace-Eclipse/SWTTableSimpleDemo.htm Imported for function control   	
 
-	    	Button buttonSave = new Button(shell, SWT.BORDER);
+	    	Button buttonSave = new Button(shell, SWT.NONE);
 	    	buttonSave.setText(LocalizationHandler.getItem("app.gui.save"));
 			gridData = new GridData(GridData.END, GridData.END, false, false);
 			gridData.horizontalSpan = 1;
@@ -124,8 +129,8 @@ public class LinkingGUI {
 		    	}
 		    });
 			
-		    shell.setSize(200,200);
-			//shell.pack();
+		    //shell.setSize(200,200);
+			shell.pack();
 
 			//width and height of the shell
 			Rectangle rect = shell.getBounds();
