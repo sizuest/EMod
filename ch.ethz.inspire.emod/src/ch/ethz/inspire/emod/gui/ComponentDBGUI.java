@@ -1,6 +1,7 @@
 package ch.ethz.inspire.emod.gui;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.dnd.DragSourceEvent;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Rectangle;
@@ -10,8 +11,11 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeItem;
 
+import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.gui.utils.ComponentHandler;
+import ch.ethz.inspire.emod.model.MachineComponent;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
 
 public class ComponentDBGUI {
@@ -20,6 +24,7 @@ public class ComponentDBGUI {
 	private Tree treeComponentDBView;
 	private Button buttonEdit;
 	private Button buttonClose;
+	private MachineComponent mc;
 	
 	public ComponentDBGUI(){
 		shell = new Shell(Display.getCurrent());
@@ -36,14 +41,34 @@ public class ComponentDBGUI {
 		//Tree füllen mit aktuellen Werten aus dem Verzeichnis der DB
 		ComponentHandler.fillTree(treeComponentDBView);
 
-		buttonEdit = new Button(shell, SWT.BORDER);
+		buttonEdit = new Button(shell, SWT.NONE);
 		buttonEdit.setText(LocalizationHandler.getItem("app.gui.compdb.editcomp"));
 		gridData = new GridData(GridData.FILL, GridData.VERTICAL_ALIGN_END, true, false);
 		gridData.horizontalSpan = 1;
 		buttonEdit.setLayoutData(gridData);
 		buttonEdit.addSelectionListener(new SelectionListener(){
 	    	public void widgetSelected(SelectionEvent event){
-	    		shell.close();
+				TreeItem[] selection = null;
+				selection = treeComponentDBView.getSelection();
+				System.out.println("Drag started with " + selection.toString() + " Component");
+				String text = "";
+				for(TreeItem item:selection){
+					text += (String)item.getText();	
+				}
+				event.data = text;
+	    		
+				final String[] split = text.split("_",2);
+				split[1] = split[1].replace(".xml", "");
+				
+				System.out.println(split[1] + " component db edit gui selected");
+
+
+		        //TODO manick: solve: if machine component is added, then dispose later... or don't add at all?
+				mc = Machine.addNewMachineComponent(split[0],split[1]); 
+		        
+        		ComponentEditGUI componentEditGUI = new ComponentEditGUI();
+        		componentEditGUI.openComponentEditGUI(mc);
+				
 	    		System.out.println("Edit Component");
 	    	}
 	    	public void widgetDefaultSelected(SelectionEvent event){
@@ -51,13 +76,17 @@ public class ComponentDBGUI {
 	    	}
 	    });
 		
-		buttonClose = new Button(shell, SWT.BORDER);
+		buttonClose = new Button(shell, SWT.NONE);
 		buttonClose.setText(LocalizationHandler.getItem("app.gui.close"));
 		gridData = new GridData(GridData.FILL, GridData.VERTICAL_ALIGN_END, true, false);
 		gridData.horizontalSpan = 1;
 		buttonClose.setLayoutData(gridData);
 		buttonClose.addSelectionListener(new SelectionListener(){
 	    	public void widgetSelected(SelectionEvent event){
+
+	    		//TODO manick: just remove component if one was created!
+	    		//Machine.removeMachineComponent(mc);
+	    		
 	    		shell.close();
 	    		System.out.println("Edit Component");
 	    	}

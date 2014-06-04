@@ -30,6 +30,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
+import ch.ethz.inspire.emod.model.MachineComponent;
 import ch.ethz.inspire.emod.simulation.EModSimulationRun;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
 import ch.ethz.inspire.emod.LogLevel;
@@ -149,7 +150,8 @@ public class EModGUI {
 		//filePropertiesItem.addSelectionListener(new filePropertiesItemListener());
 		fileExitItem.addSelectionListener(new fileExitItemListener());
 		
-		compDBOpenItem.addSelectionListener(new compDBOpenListener());
+		compDBNewItem.addSelectionListener(new compDBNewItemListener());
+		compDBOpenItem.addSelectionListener(new compDBOpenItemListener());
 		
 		helpAboutItem.addSelectionListener(new helpAboutItemListener());
 		
@@ -317,7 +319,25 @@ public class EModGUI {
 	 * @author manick
 	 *
 	 */
-	class compDBOpenListener implements SelectionListener {
+	class compDBNewItemListener implements SelectionListener {
+		public void widgetSelected(SelectionEvent event){
+    		ComponentEditGUI componentEditGUI = new ComponentEditGUI();
+	        final MachineComponent mc = Machine.addNewMachineComponent("Motor", "siemens123");
+    		componentEditGUI.openComponentEditGUI(mc);
+		}
+		public void widgetDefaultSelected(SelectionEvent event){
+
+		}
+	}
+	
+	
+	/**
+	 * menu item action listener for comp DB open item
+	 * 
+	 * @author manick
+	 *
+	 */
+	class compDBOpenItemListener implements SelectionListener {
 		public void widgetSelected(SelectionEvent event){
 			new ComponentDBGUI();
 		}

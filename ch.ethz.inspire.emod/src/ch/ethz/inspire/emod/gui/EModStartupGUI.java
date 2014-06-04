@@ -55,7 +55,7 @@ public class EModStartupGUI {
 	comboConfigName.setLayoutData(gridData);
 	comboConfigName.setText(machineConfigName);
 	
-	Button buttonContinue = new Button(shell, SWT.LEFT);
+	Button buttonContinue = new Button(shell, SWT.NONE);
 	gridData = new GridData(GridData.END, GridData.CENTER, true, false);
 	gridData.horizontalSpan = 2;
 	buttonContinue.setLayoutData(gridData);

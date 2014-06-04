@@ -246,7 +246,7 @@ public class ModelGUI extends Composite {
 		        
 		        // aus split[0] und split[1] eine Komponente erstellen
 		        final MachineComponent mc = Machine.addNewMachineComponent(split[0],split[1]); 
-		        Machine.addMachineComponent(mc);
+		        //Machine.addMachineComponent(mc);
 		        System.out.println("New Component " + mc.getName() + " created");
 		        
 		        
@@ -266,6 +266,8 @@ public class ModelGUI extends Composite {
 		        buttonEditComponent.addSelectionListener(new SelectionListener(){
 		        	public void widgetSelected(SelectionEvent event){
 		        		
+		        		ComponentEditGUI componentEditGUI = new ComponentEditGUI();
+		        		componentEditGUI.openComponentEditGUI(mc);
 		        			        		
 		        		System.out.println("Button edit Component of component " + split[1]);
 		        	}
@@ -287,14 +289,15 @@ public class ModelGUI extends Composite {
 		        		
 			    		tableModelView.setRedraw(false);
 			    		
-		        		//TODO manick: Delete Component
+		        		//remove component form machine
 		        		Machine.removeMachineComponent(mc);
 
-		        		//buttonEditLinking.dispose();
+		        		//dispose the buttons for edit and delete, and dispose the item
 		        		buttonDeleteComponent.dispose();
 		        		buttonEditComponent.dispose();
 		        		item.dispose();
 		        		
+		        		//pack the columns
 				        TableColumn[] columns = tableModelView.getColumns();
 				        for (int i = 0; i < columns.length; i++) {
 				          columns[i].pack();

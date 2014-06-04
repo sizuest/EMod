@@ -905,9 +905,10 @@ public class Machine {
 		// Fetch all outputs
 		for(MachineComponent mc : components)
 			outputs.addAll(mc.getComponent().getOutputs());
-		
-		for(ASimulationControl sc : simulators)
-			outputs.add(sc.getOutput());
+
+		//TODO sizuest: 
+		//for(ASimulationControl sc : simulators)
+		//	outputs.add(sc.getOutput());
 		
 		return outputs;
 	}
