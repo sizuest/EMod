@@ -123,9 +123,10 @@ public class LinkingGUI {
 
  		  		        	//*/
 	  		        	
-		  		        	ArrayList<IOContainer> outputs = Machine.getOutputList(components.get(j), inputs.get(k).getUnit());
+		  		        	ArrayList<String> outputs = Machine.getOutputList(components.get(j), inputs.get(k).getUnit());
+		  		        	String[] items = outputs.toArray(new String[outputs.size()]);
 		  		        	
-		  		        	String items[] = {"Output 1", "Output 2", "Output 3", "and so on"};
+		  		        	//String items[] = {"Output 1", "Output 2", "Output 3", "and so on"};
 		  		        	comboOutputs.setItems(items);
  		  		        	
  		  		        	

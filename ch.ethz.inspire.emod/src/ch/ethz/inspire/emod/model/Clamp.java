@@ -108,7 +108,7 @@ public class Clamp extends APhysicalComponent{
 		ComponentConfigReader params = null;
 		/* Open file containing the parameters of the model type: */
 		try {
-			params = new ComponentConfigReader("Clamp", type);
+			params = new ComponentConfigReader(getModelType(), type);
 		}
 		catch (Exception e) {
 			e.printStackTrace();

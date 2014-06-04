@@ -16,7 +16,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 
 import ch.ethz.inspire.emod.utils.Algo;
-import ch.ethz.inspire.emod.utils.ComponentConfigReader;
+import ch.ethz.inspire.emod.utils.MaterialConfigReader;
 
 /**
  * General Material model class.
@@ -85,10 +85,10 @@ public class Material {
 		/* ************************************************************************/
 		/*         Read configuration parameters: */
 		/* ************************************************************************/
-		ComponentConfigReader params = null;
+		MaterialConfigReader params = null;
 		/* Open file containing the parameters of the model type: */
 		try {
-			params = new ComponentConfigReader("Material", type);
+			params = new MaterialConfigReader("Material", type);
 		}
 		catch (Exception e) {
 			e.printStackTrace();

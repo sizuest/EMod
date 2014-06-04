@@ -100,7 +100,7 @@ public class ModelGUI extends Composite {
         buttonEditLinking.addSelectionListener(new SelectionListener(){
         	public void widgetSelected(SelectionEvent event){
         		
-        		//Fenster fürs IO Linking öffnen
+        		//Fenster fï¿½rs IO Linking ï¿½ffnen
         		LinkingGUI linkingGUI = new LinkingGUI();
         		linkingGUI.openLinkingGUI();
         		        		
@@ -241,25 +241,24 @@ public class ModelGUI extends Composite {
 		        TableItem dropItem = tableModelView.getItem(p);
 		        int index = dropItem == null ? tableModelView.getItemCount() : tableModelView.indexOf(dropItem);
 		        
-		        //Tabelleninhalte füllen
+		        //Tabelleninhalte fï¿½llen
 		        final TableItem item = new TableItem(tableModelView, SWT.NONE, index);
 		        
 		        // aus split[0] und split[1] eine Komponente erstellen
 		        final MachineComponent mc = Machine.addNewMachineComponent(split[0],split[1]); 
-		        //Machine.addMachineComponent(mc);
 		        System.out.println("New Component " + mc.getName() + " created");
 		        
 		        
 		        //TODO manick: ID Vergabe organisieren
 		        item.setText(0, mc.getName());
 		        
-		        //TODO manick: Vorgehen ändern --> zuerst Componente erzeugen und ID erstellen --> Werte von Komponente in Tabelle schreiben!
+		        //TODO manick: Vorgehen ï¿½ndern --> zuerst Componente erzeugen und ID erstellen --> Werte von Komponente in Tabelle schreiben!
 		        
 		        //Type und Parameter in Tabelle schreiben
 		        item.setText(1, split[0]);
 		        item.setText(2, split[1]);
 		        
-		        //Button für edit Component erstellen
+		        //Button fï¿½r edit Component erstellen
 		        TableEditor editor = new TableEditor(tableModelView);
 		        final Button buttonEditComponent = new Button(tableModelView, SWT.PUSH);
 		        buttonEditComponent.setText(LocalizationHandler.getItem("app.gui.model.editcomp"));

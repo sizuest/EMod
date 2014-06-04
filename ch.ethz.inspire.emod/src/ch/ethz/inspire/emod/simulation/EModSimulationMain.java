@@ -150,7 +150,7 @@ public class EModSimulationMain {
 		SimulationOutput simoutput = new SimulationOutput("simulation_output.dat", 
 				machineComponentList, simulators);
 		
-		logger.info("starting simulation");
+		logger.info("initializing model");
 		time = 0.0;
 		
 		/* Init simulation control objects. */
@@ -159,6 +159,12 @@ public class EModSimulationMain {
 			sc.setState(mstate);
 			sc.update(); // TODO: write init method.
 		}
+		
+		/* Init machine component objects */
+		for(MachineComponent mc : machineComponentList)
+			mc.getComponent().preSimulation();
+		
+		logger.info("starting simulation");
 		
 
 		/* Time 0.0 s:
@@ -201,6 +207,9 @@ public class EModSimulationMain {
 		}
 	}
 	
+	/**
+	 * Sets the simulation period for all components
+	 */
 	public void updateSimulationPeriod() {
 		for(ASimulationControl sc: simulators) 
 			sc.setSimulationPeriod(sampleperiod);
@@ -209,6 +218,9 @@ public class EModSimulationMain {
 			mc.getComponent().setSimulationPeriod(sampleperiod);
 	}
 	
+	/**
+	 * @return the simulation period [s]
+	 */
 	public double getSampleperiod() {
 		return sampleperiod;
 	}

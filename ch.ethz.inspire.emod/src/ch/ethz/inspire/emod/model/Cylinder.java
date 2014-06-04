@@ -170,7 +170,7 @@ public class Cylinder extends APhysicalComponent{
 		ComponentConfigReader params = null;
 		/* Open file containing the parameters of the model type: */
 		try {
-			params = new ComponentConfigReader("Cylinder", type);
+			params = new ComponentConfigReader(getModelType(), type);
 		}
 		catch (Exception e) {
 			e.printStackTrace();

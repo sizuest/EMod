@@ -269,4 +269,43 @@ public class ConfigReader {
 		return retmatrix;
 	}
 	
+	/**
+	 * Sets the property "name" to "value"
+	 * @param name
+	 * @param value
+	 */
+	public void setValue(String name, String value) {
+		props.setProperty(name, value);
+	}
+	
+	/**
+	 * Sets the property "name" to "value"
+	 * @param name
+	 * @param value
+	 */
+	public void setValue(String name, double value) {
+		props.setProperty(name, Double.toString(value));
+	}
+	
+	/**
+	 * Sets the property "name" to "value"
+	 * @param name
+	 * @param value
+	 */
+	public void setValue(String name, boolean value) {
+		props.setProperty(name, Boolean.toString(value));
+	}
+	
+	/**
+	 * Sets the property "name" to "value"
+	 * @param name
+	 * @param value
+	 */
+	public void setValue(String name, double[] value){
+		String valueAsString = "";
+		for(double v : value)
+			valueAsString += Double.toString(v)+",";
+		props.setProperty(name,  valueAsString);
+	}
+	
 }

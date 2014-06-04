@@ -51,6 +51,7 @@ public class MachineComponent {
 	 */
 	public void setName(String name) {
 		this.name = name;
+		setInitialConditions();
 	}
 	
 	/**
@@ -61,10 +62,16 @@ public class MachineComponent {
 	}
 
 	/**
-	 * @param component the component to set
+	 * @param component the {@link APhysicalComponent} to set
 	 */
 	public void setComponent(APhysicalComponent component) {
 		this.component = component;
+		setInitialConditions();
+	}
+	
+	private void setInitialConditions(){
+		if(!component.equals(null))
+			component.setDynamicStateParent(name);
 	}
 
 }

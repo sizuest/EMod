@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlElement;
 
 import ch.ethz.inspire.emod.model.Material;
 import ch.ethz.inspire.emod.model.units.*;
+import ch.ethz.inspire.emod.simulation.DynamicState;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 import ch.ethz.inspire.emod.utils.Defines;
 import ch.ethz.inspire.emod.utils.IOContainer;
@@ -51,9 +52,9 @@ import ch.ethz.inspire.emod.model.APhysicalComponent;
  */
 
 public class HomogStorage extends APhysicalComponent{
-	@XmlElement
+	@XmlElement(name = "type", type = String.class)
 	protected String type;
-	@XmlElement
+	@XmlElement(name = "parentType", type = String.class)
 	protected String parentType;
 	
 	// Input Lists
@@ -62,18 +63,19 @@ public class HomogStorage extends APhysicalComponent{
 	private IOContainer pressure;
 	
 	// Output parameters:
-	private IOContainer temperature;
+	private IOContainer temperatureOut;
 	
 	// Unit of the element 
 	private double cp;
 	private double m;
 	private double V;
-	private double temperatureInit = 0;
 	private String materialType;
 	private Material material;
 	
+	DynamicState temperature = newDynamicState("Temperature", Unit.KELVIN);
+	
 	// Sum
-	private double tmpSum, curTemperature;
+	private double tmpSum;
 	
 	/**
 	 * Constructor called from XmlUnmarshaller.
@@ -83,6 +85,10 @@ public class HomogStorage extends APhysicalComponent{
 		super();
 	}
 	
+	/**
+	 * @param u
+	 * @param parent
+	 */
 	public void afterUnmarshal(Unmarshaller u, Object parent) {
 		//post xml init method (loading physics data)
 		init();
@@ -113,9 +119,9 @@ public class HomogStorage extends APhysicalComponent{
 	public HomogStorage(String type, String parentType, double temperatureInit) {
 		super();
 		
-		this.type       = type;
-		this.parentType = parentType;
-		this.temperatureInit = temperatureInit;
+		this.type           = type;
+		this.parentType     = parentType;
+		temperature.setInitialCondition(temperatureInit);
 		
 		init();
 	}
@@ -134,14 +140,14 @@ public class HomogStorage extends APhysicalComponent{
 		
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		temperature     = new IOContainer("Temperature", Unit.KELVIN, 0, ContainerType.THERMAL);
-		outputs.add(temperature);
+		temperatureOut     = new IOContainer("Temperature", Unit.KELVIN, 0, ContainerType.THERMAL);
+		outputs.add(temperatureOut);
 		
+	
 		/* ************************************************************************/
 		/*         Read configuration parameters: */
 		/* ************************************************************************/
 		ComponentConfigReader params = null;
-		ComponentConfigReader initCond = null;
 		String path;
 		/* If no parent model file is configured, the local configuration file
 		 * will be opened. Otherwise the cfg file of the parent will be opened
@@ -169,24 +175,7 @@ public class HomogStorage extends APhysicalComponent{
 				e.printStackTrace();
 				System.exit(-1);
 			}
-		}
-		
-		/* Load initial condition
-		 */
-		if (temperatureInit==0) {
-			path = PropertiesHandler.getProperty("app.MachineDataPathPrefix")+
-					"/"+PropertiesHandler.getProperty("sim.MachineName")+"/"+Defines.SIMULATIONCONFIGDIR+"/"+
-					PropertiesHandler.getProperty("sim.SimulationConfigName")+"/"+Defines.SIMULATIONCONFIGFILE;
-			try {
-				initCond = new ComponentConfigReader(path);
-				temperatureInit = initCond.getDoubleValue("initialTemperature."+this.getClass().getSimpleName()+"_"+type);
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-				System.exit(-1);
-			}
-		}
-			
+		}		
 			
 		/* Read the config parameter: */
 		try {
@@ -209,11 +198,7 @@ public class HomogStorage extends APhysicalComponent{
 		    e.printStackTrace();
 		    System.exit(-1);
 		}
-		
-		// Initial Temperature:
-		curTemperature = temperatureInit;
-		temperature.setValue(curTemperature);
-		
+			
 		// Fluid object
 		material = new Material(materialType);
 	}
@@ -230,10 +215,6 @@ public class HomogStorage extends APhysicalComponent{
     	if (V <= 0) {
     		throw new Exception("HomogStorage, type:" + type +
     				": Non positive value: Mass must be non negative and non zero");
-    	}
-    	if (temperatureInit <= 0) {
-    		throw new Exception("HomogStorage, type:" + type +
-    				": Non positive value: InitialTemperature must be non negative and non zero");
     	}
 	}
     
@@ -283,8 +264,10 @@ public class HomogStorage extends APhysicalComponent{
 	 */
 	@Override
 	public void update() {
+		
+			
 		cp = material.getHeatCapacity();
-		m  = V*material.getDensity(curTemperature, pressure.getValue());
+		m  = V*material.getDensity(temperature.getValue(), pressure.getValue());
 		tmpSum = 0;
 		
 		// Sum up inputs
@@ -299,13 +282,13 @@ public class HomogStorage extends APhysicalComponent{
 		/* Integration step:
 		 * T(k+1) [K] = T(k) [K]+ SampleTime[s]*(P_in [W] - P_out [W]) / cp [J/kg/K] / m [kg] 
 		 */	
-		curTemperature += sampleperiod * tmpSum / cp / m; 
+		temperature.setValue( temperature.getValue() + sampleperiod * tmpSum / cp / m ); 
 		
 		//if (0>curTemperature)
 		//	curTemperature = 0;
 		
 		// Set output
-		temperature.setValue(curTemperature);
+		temperatureOut.setValue(temperature.getValue());
 	}
 
 	/* (non-Javadoc)

@@ -113,7 +113,7 @@ public class Amplifier extends APhysicalComponent{
 	 * Called from constructor or after unmarshaller.
 	 */
 	private void init()
-	{
+	{		
 		/* Define Input parameters */
 		inputs = new ArrayList<IOContainer>();
 		level = new IOContainer("State", Unit.NONE, 0, ContainerType.CONTROL);
@@ -140,7 +140,7 @@ public class Amplifier extends APhysicalComponent{
 		ComponentConfigReader params = null;
 		/* Open file containing the parameters of the model type: */
 		try {
-			params = new ComponentConfigReader("Amplifier", type);
+			params = new ComponentConfigReader(getModelType(), type);
 		}
 		catch (Exception e) {
 			e.printStackTrace();

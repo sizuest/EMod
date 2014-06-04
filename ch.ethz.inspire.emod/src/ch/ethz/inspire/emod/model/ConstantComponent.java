@@ -81,7 +81,7 @@ public class ConstantComponent extends APhysicalComponent {
 		
 		ComponentConfigReader configReader = null;
 		try {
-			configReader = new ComponentConfigReader("ConstantComponent", type);
+			configReader = new ComponentConfigReader(getModelType(), type);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

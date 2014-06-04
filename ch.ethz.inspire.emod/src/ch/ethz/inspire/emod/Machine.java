@@ -43,6 +43,7 @@ import ch.ethz.inspire.emod.model.MachineComponent;
 import ch.ethz.inspire.emod.simulation.ASimulationControl;
 //import ch.ethz.inspire.emod.simulation.GeometricKienzleSimulationControl_old;
 import ch.ethz.inspire.emod.simulation.GeometricKienzleSimulationControl;
+import ch.ethz.inspire.emod.simulation.DynamicState;
 import ch.ethz.inspire.emod.simulation.ProcessSimulationControl;
 import ch.ethz.inspire.emod.simulation.RandomSimulationControl;
 import ch.ethz.inspire.emod.simulation.StaticSimulationControl;
@@ -59,14 +60,14 @@ import java.lang.reflect.*;
 @XmlRootElement(namespace = "ch.ethz.inspire.emod")
 @XmlSeeAlso({MachineComponent.class, APhysicalComponent.class, Motor.class, LinAxis.class,
 	ClampTest.class, ServoMotor.class, Revolver.class, Fan.class, Pump.class, PumpAccumulator.class, HeatExchanger.class, 
-	PumpPower.class, LinTransmission.class, CompressedFluid.class, Amplifier.class, ConstantComponent.class, 
+	PumpPower.class, Transmission.class, CompressedFluid.class, Amplifier.class, ConstantComponent.class, 
 	Cylinder.class, Valve.class, Pipe.class, HydraulicOil.class, ConstantPump.class,
 	MovingMass.class,
 	HysteresisControl.class, SwitchControl.class, Sum.class, Gain.class,
 	HomogStorage.class, LayerStorage.class, ForcedHeatTransfere.class, FreeHeatTransfere.class,
 	ASimulationControl.class, RandomSimulationControl.class, StaticSimulationControl.class, 
 	ProcessSimulationControl.class, GeometricKienzleSimulationControl.class})
-@XmlAccessorType(XmlAccessType.NONE)
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Machine {
 
 	private static Logger logger = Logger.getLogger(Machine.class.getName());
@@ -894,8 +895,27 @@ public class Machine {
 	/**
 	 * @return {@link IOContainer} List of all components and simulators outputs
 	 */
-	public static ArrayList<IOContainer> getOutputList() {
-		ArrayList<IOContainer> outputs = new ArrayList<IOContainer>();
+	public static ArrayList<String> getOutputList() {
+		return getOutputList(null,null);
+	}
+	
+	/**
+	 * @param unit {@link Unit} Unit of the outputs
+	 * @return {@link IOContainer} List of all components and simulators outputs with the declared unit
+	 */
+	public static ArrayList<String> getOutputList(Unit unit) {
+		return getOutputList(null, unit);
+	}
+	
+	/**
+	 * Return a list of all IOContainers with the unit which do not include Outputs of the
+	 * stated machine component mc. Both conditions are ignored when feeding null.
+	 * @param mc_excl	{@link MachineComponent} who's elements are to be excluded
+	 * @param unit  	{@link Unit} of the desired outputs
+	 * @return List of	{@link IOContainer}
+	 */
+	public static ArrayList<String> getOutputList(MachineComponent mc_excl, Unit unit) {
+		ArrayList<String> outputs = new ArrayList<String>();
 		
 		// Get all machine components
 		ArrayList<MachineComponent> components = getInstance().getMachineComponentList();
@@ -903,53 +923,33 @@ public class Machine {
 		List<ASimulationControl> simulators = getInstance().getInputObjectList();
 		
 		// Fetch all outputs
-		for(MachineComponent mc : components)
-			outputs.addAll(mc.getComponent().getOutputs());
+		if(null!=components)
+			for(MachineComponent mc : components)
+				if(!mc.equals(mc_excl))
+					for(IOContainer ic : mc.getComponent().getOutputs())
+						if(!ic.equals(null) & (ic.getUnit().equals(unit) | null==unit))
+							outputs.add(mc.getName()+"."+ic.getName());
 
-		//TODO sizuest: 
-		//for(ASimulationControl sc : simulators)
-		//	outputs.add(sc.getOutput());
+		if(null!=simulators)
+			for(ASimulationControl sc : simulators)
+				if(sc.getOutput().getUnit().equals(unit) | null==unit)
+						outputs.add(sc.getName()+"."+sc.getOutput().getName());
 		
 		return outputs;
 	}
 	
 	/**
-	 * @param unit {@link Unit} Unit of the outputs
-	 * @return {@link IOContainer} List of all components and simulators outputs with the declared unit
+	 * Returns a List of all {@link Initial Condition}
+	 * @return
 	 */
-	public static ArrayList<IOContainer> getOutputList(Unit unit) {
-		// Fetch all outputs
-		ArrayList<IOContainer> outputs = getOutputList();
+	public static ArrayList<DynamicState> getDynamicStatesList(){
+		ArrayList<DynamicState> output = new ArrayList<DynamicState>();
 		
-		// Remove not matching units
-		for(IOContainer io : outputs)
-			if(!io.getUnit().equals(unit))
-				outputs.remove(io);
+		for(MachineComponent mc : Machine.getInstance().componentList) {
+			output.addAll(mc.getComponent().getDynamicStateList());
+		}
 		
-		return outputs;
-	}
-	
-	/**
-	 * Return a list of all IOContainers with the unit which do not include Outputs of the
-	 * stated machine component mc.
-	 * @param mc	{@link MachineComponent} who's elements are to be excluded
-	 * @param unit  {@link Unit} of the desired outputs
-	 * @return List of {@link IOContainer}
-	 */
-	public static ArrayList<IOContainer> getOutputList(MachineComponent mc, Unit unit) {
-		// Fetch all outputs
-		ArrayList<IOContainer> outputs = getOutputList(unit);
-		
-		// Remove all outputs of mc
-		
-		for(IOContainer iomc : mc.getComponent().getOutputs())
-			for(IOContainer io : outputs)
-				if(io.equals(iomc)) {
-					outputs.remove(io);
-					break;
-				}
-		
-		return outputs;
+		return output;
 	}
 	
 	/**

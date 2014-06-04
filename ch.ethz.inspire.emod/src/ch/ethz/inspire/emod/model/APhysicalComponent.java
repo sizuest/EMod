@@ -12,10 +12,13 @@
  ***********************************/
 package ch.ethz.inspire.emod.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.simulation.DynamicState;
 import ch.ethz.inspire.emod.utils.IOContainer;
 
 /**
@@ -30,6 +33,7 @@ public abstract class APhysicalComponent {
 	protected List<IOContainer> inputs;
 	protected List<IOContainer> outputs;
 	protected double sampleperiod;
+	protected ArrayList<DynamicState> dynamicStates = new ArrayList<DynamicState>();
 	
 	/**
 	 * @param id
@@ -82,12 +86,27 @@ public abstract class APhysicalComponent {
 	public abstract void update();
 	
 	/**
+	 * To be executed before Simulation
+	 */
+	public void preSimulation(){
+		for(DynamicState ic : dynamicStates)
+			try {
+				ic.loadInitialCondition();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+	}
+	
+	/**
 	 * Sets the sample time for the model
 	 * 
 	 * @param sampleperiod sample time in seconds
 	 */
 	public void setSimulationPeriod(double sampleperiod){
 		this.sampleperiod = sampleperiod;
+		for(DynamicState ds : dynamicStates) 
+			ds.setTimestep(sampleperiod);
+		
 	}
 	
 	/**
@@ -95,4 +114,59 @@ public abstract class APhysicalComponent {
 	 * @param type
 	 */
 	public abstract void setType(String type);
+	
+	/**
+	 * Returns the type of the model used, referring to the folders in the
+	 * MachineComponentDB. If not over-written, this is th class name.
+	 * @return Model Type
+	 */
+	public String getModelType() {
+		return this.getClass().getSimpleName();
+	}
+	
+	/**
+	 * Adds a new initial condition to the set
+	 * @param name
+	 * @param unit
+	 * @return the created {@link DynamicState}
+	 */
+	public DynamicState newDynamicState(String name, Unit unit){
+		
+		DynamicState ic = new DynamicState(name, unit);
+		dynamicStates.add(ic);
+		
+		return ic;
+	}
+	
+	/**
+	 * Returns the {@link DynamicState} with the given name and parent
+	 * @param name
+	 * @param parent 
+	 * @return {@link DynamicState}
+	 */
+	public DynamicState getDynamicState(String name, String parent){
+		for(DynamicState ds : dynamicStates) 
+			if(ds.getName().equals(name) & ds.getParent().equals(parent))
+				return ds;
+			
+		return null;
+	}
+	
+	/**
+	 * List of all initial conditions in this set
+	 * @return {@link DynamicState}
+	 */
+	public ArrayList<DynamicState> getDynamicStateList(){
+		return dynamicStates;
+	}
+	
+	/**
+	 * Sets the parent of all initial conditions
+	 * @param parent
+	 */
+	public void setDynamicStateParent(String parent){
+		for(DynamicState ic : dynamicStates)
+			ic.setParent(parent);
+	}
+	
 }
