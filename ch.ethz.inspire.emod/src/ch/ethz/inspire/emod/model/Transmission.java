@@ -49,7 +49,7 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  *
  */
 @XmlRootElement
-public class LinTransmission extends APhysicalComponent{
+public class Transmission extends APhysicalComponent{
 
 	@XmlElement
 	protected String type;
@@ -72,7 +72,7 @@ public class LinTransmission extends APhysicalComponent{
 	 * Constructor called from XmlUnmarshaller.
 	 * Attribute 'type' is set by XmlUnmarshaller.
 	 */
-	public LinTransmission() {
+	public Transmission() {
 		super();
 	}
 	
@@ -86,7 +86,7 @@ public class LinTransmission extends APhysicalComponent{
 	 * 
 	 * @param type
 	 */
-	public LinTransmission(String type) {
+	public Transmission(String type) {
 		super();
 		
 		this.type=type;
@@ -124,7 +124,7 @@ public class LinTransmission extends APhysicalComponent{
 		ComponentConfigReader params = null;
 		/* Open file containing the parameters of the model type: */
 		try {
-			params = new ComponentConfigReader("Transmission", type);
+			params = new ComponentConfigReader(getModelType(), type);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
