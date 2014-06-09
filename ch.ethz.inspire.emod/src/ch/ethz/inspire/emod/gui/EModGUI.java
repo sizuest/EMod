@@ -12,6 +12,9 @@
  ***********************************/
 package ch.ethz.inspire.emod.gui;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import org.eclipse.swt.*;
@@ -33,6 +36,7 @@ import org.eclipse.swt.widgets.TabItem;
 import ch.ethz.inspire.emod.model.MachineComponent;
 import ch.ethz.inspire.emod.simulation.EModSimulationRun;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
+import ch.ethz.inspire.emod.utils.PropertiesHandler;
 import ch.ethz.inspire.emod.LogLevel;
 import ch.ethz.inspire.emod.Machine;
 
@@ -66,26 +70,19 @@ public class EModGUI {
 		
 		shell.setLayout(new FillLayout());
 		
-		System.out.println("EModGUI initialized menu");
-		
 		//init menu bar
 		logger.log(LogLevel.DEBUG, "init menu");
 		initMenu();
-		
-		System.out.println("EModGUI initialized tabs");
 		
 		//init tabs
 		logger.log(LogLevel.DEBUG, "init tabs");
 		initTabs();
 
-		
 		shell.open();
 				
-		System.out.println("EModGUI called EModStartupGUI");
-		
 		//manick: Startup GUI for Settings of machine/sim confg
-		new EModStartupGUI();
-
+		EModStartupGUI startup =new EModStartupGUI();
+		startup.loadMachineGUI();
 		
 		while(!shell.isDisposed()) {
 			if(!display.readAndDispatch()) {
@@ -113,8 +110,8 @@ public class EModGUI {
 			fileOpenItem.setText(LocalizationHandler.getItem("app.gui.menu.file.open"));
 			MenuItem fileSaveItem = new MenuItem(fileMenu, SWT.PUSH);
 			fileSaveItem.setText(LocalizationHandler.getItem("app.gui.menu.file.save"));
-			MenuItem fileSaveAsItem = new MenuItem(fileMenu, SWT.PUSH);
-			fileSaveAsItem.setText(LocalizationHandler.getItem("app.gui.menu.file.saveas"));			
+			//MenuItem fileSaveAsItem = new MenuItem(fileMenu, SWT.PUSH);
+			//fileSaveAsItem.setText(LocalizationHandler.getItem("app.gui.menu.file.saveas"));			
 			MenuItem filePropertiesItem = new MenuItem(fileMenu, SWT.PUSH);
 			filePropertiesItem.setText(LocalizationHandler.getItem("app.gui.menu.file.properties"));
 			MenuItem fileExitItem = new MenuItem(fileMenu, SWT.PUSH);
@@ -129,25 +126,25 @@ public class EModGUI {
 			compDBNewItem.setText(LocalizationHandler.getItem("app.gui.menu.compDB.new"));
 			MenuItem compDBOpenItem = new MenuItem(compDBMenu, SWT.PUSH);
 			compDBOpenItem.setText(LocalizationHandler.getItem("app.gui.menu.compDB.open"));
-			MenuItem compDBImportItem = new MenuItem(compDBMenu, SWT.PUSH);
-			compDBImportItem.setText(LocalizationHandler.getItem("app.gui.menu.compDB.import"));
+			//MenuItem compDBImportItem = new MenuItem(compDBMenu, SWT.PUSH);
+			//compDBImportItem.setText(LocalizationHandler.getItem("app.gui.menu.compDB.import"));
 		
 		//create "Help" tab and items
 		MenuItem helpMenuHeader = new MenuItem(menuBar, SWT.CASCADE);
 		helpMenuHeader.setText(LocalizationHandler.getItem("app.gui.menu.help"));
 		Menu helpMenu = new Menu(shell, SWT.DROP_DOWN);
 		helpMenuHeader.setMenu(helpMenu);
-			MenuItem helpContentItem = new MenuItem(helpMenu, SWT.PUSH);
-			helpContentItem.setText(LocalizationHandler.getItem("app.gui.menu.help.content"));
+			//MenuItem helpContentItem = new MenuItem(helpMenu, SWT.PUSH);
+			//helpContentItem.setText(LocalizationHandler.getItem("app.gui.menu.help.content"));
 			MenuItem helpAboutItem = new MenuItem(helpMenu, SWT.PUSH);
 			helpAboutItem.setText(LocalizationHandler.getItem("app.gui.menu.help.about"));
 		
 		//add listeners
-		//fileNewItem.addSelectionListener(new fileNewItemListener());
+		fileNewItem.addSelectionListener(new fileNewItemListener());
 		fileOpenItem.addSelectionListener(new fileOpenItemListener());
 		fileSaveItem.addSelectionListener(new fileSaveItemListener());
 		//fileSaveAsItem.addSelectionListener(new fileSaveAsItemListener());
-		//filePropertiesItem.addSelectionListener(new filePropertiesItemListener());
+		filePropertiesItem.addSelectionListener(new filePropertiesItemListener());
 		fileExitItem.addSelectionListener(new fileExitItemListener());
 		
 		compDBNewItem.addSelectionListener(new compDBNewItemListener());
@@ -166,7 +163,7 @@ public class EModGUI {
 		final TabFolder tabFolder = new TabFolder(shell, SWT.NONE);
 		
 		//tab for machine model config
-		TabItem tabModelItem = new TabItem(tabFolder, SWT.NONE);
+		final TabItem tabModelItem = new TabItem(tabFolder, SWT.NONE);
 		tabModelItem.setText(LocalizationHandler.getItem("app.gui.tabs.mach"));
 		tabModelItem.setToolTipText(LocalizationHandler.getItem("app.gui.tabs.machtooltip"));
 		tabModelItem.setControl(initModel(tabFolder));
@@ -195,6 +192,16 @@ public class EModGUI {
 				logger.log(LogLevel.DEBUG, "tab"+ tabFolder.getSelection()[0].getText()+" selected");
 				
 				System.out.println("tab " + tabFolder.getSelection()[0].getText() + " selected");
+				
+				// manick: if tab Model is closed -> save machine to .xml
+				if(!(tabFolder.getItem(tabFolder.getSelectionIndex()).equals(tabModelItem))){
+					System.out.println("Model tab deselected");
+		    		String path = PropertiesHandler.getProperty("app.MachineDataPathPrefix") + "/" +
+	    					  PropertiesHandler.getProperty("sim.MachineName") + "/MachineConfig/" +
+	    				      PropertiesHandler.getProperty("sim.MachineConfigName") + "/";
+
+					Machine.saveMachineToFile(path);
+				}	
 				
 				// manick: if tab Analysis is opened -> Run Simulation
 				if (tabFolder.getItem(tabFolder.getSelectionIndex()).equals(tabAnalysisItem))
@@ -225,6 +232,22 @@ public class EModGUI {
 		// TODO: input file config
 		return analysis;
 	}
+
+	/**
+	 * menu item action listener for save item
+	 * 
+	 * @author dhampl
+	 *
+	 */
+	class fileNewItemListener implements SelectionListener {
+		public void widgetSelected(SelectionEvent event) {
+			EModStartupGUI startup = new EModStartupGUI();
+			startup.createNewMachineGUI();
+		}
+		public void widgetDefaultSelected(SelectionEvent event) {
+			
+		}
+	}
 	
 	/**
 	 * menu item action listener for save item
@@ -246,7 +269,7 @@ public class EModGUI {
 	        	return;
 	        }
 	        logger.log(LogLevel.DEBUG, "File to save to: "+selected);
-	        Machine.saveMachineToFile(selected);
+	        Machine.saveMachineToNewFile(selected);
 		}
 
 		/* (non-Javadoc)
@@ -279,12 +302,37 @@ public class EModGUI {
 	        }
 	        logger.log(LogLevel.DEBUG, "Open file: "+selected);
 	        Machine.initMachineFromFile(selected);
+	        
+			ArrayList<MachineComponent> mclist = Machine.getInstance().getMachineComponentList();
+
+			int i = 0;
+			for(MachineComponent mc:mclist){
+				ModelGUI.addTableItem(mc, i);
+				i++;
+			}
+	        
 		}
 
 		/* (non-Javadoc)
 		 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
 		 */
 		@Override
+		public void widgetDefaultSelected(SelectionEvent event) {
+			
+		}
+	}
+
+	/**
+	 * menu item action listener for properties item
+	 * 
+	 * @author manick
+	 *
+	 */
+	class filePropertiesItemListener implements SelectionListener {
+		public void widgetSelected(SelectionEvent event) {
+			logger.log(LogLevel.DEBUG, "menu properties item selected");
+			new PropertiesGUI();
+		}
 		public void widgetDefaultSelected(SelectionEvent event) {
 			
 		}
@@ -321,9 +369,9 @@ public class EModGUI {
 	 */
 	class compDBNewItemListener implements SelectionListener {
 		public void widgetSelected(SelectionEvent event){
-    		ComponentEditGUI componentEditGUI = new ComponentEditGUI();
-	        final MachineComponent mc = Machine.addNewMachineComponent("Motor", "siemens123");
-    		componentEditGUI.openComponentEditGUI(mc);
+    		//TODO manick implement for new component: i.e. create copy of example component, open it, offer options to edit
+			ComponentEditGUI componentEditGUI = new ComponentEditGUI();
+			componentEditGUI.newComponentEditGUI();
 		}
 		public void widgetDefaultSelected(SelectionEvent event){
 

@@ -13,8 +13,11 @@
 package ch.ethz.inspire.emod.utils;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Properties;
 
 /**
@@ -43,5 +46,21 @@ public class PropertiesHandler {
 		}
 		
 		return prop.getProperty(property);
+	}
+	
+	public static void setProperty(String property, String value){
+		prop.setProperty(property, value);
+		
+		OutputStream os = null;
+		try {
+			os = new FileOutputStream("app.config");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		try {
+			prop.store(os, "");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

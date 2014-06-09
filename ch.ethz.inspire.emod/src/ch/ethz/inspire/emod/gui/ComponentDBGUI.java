@@ -1,7 +1,6 @@
 package ch.ethz.inspire.emod.gui;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.dnd.DragSourceEvent;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Rectangle;
@@ -13,82 +12,65 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
-import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.gui.utils.ComponentHandler;
-import ch.ethz.inspire.emod.model.MachineComponent;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
 
 public class ComponentDBGUI {
 
 	private Shell shell;
+	
+	//tree to list all the components
 	private Tree treeComponentDBView;
-	private Button buttonEdit;
-	private Button buttonClose;
-	private MachineComponent mc;
 	
 	public ComponentDBGUI(){
 		shell = new Shell(Display.getCurrent());
 		shell.setText(LocalizationHandler.getItem("app.gui.compdb.title"));
 		shell.setSize(400, 600);
-		
 		shell.setLayout(new GridLayout(2, false));
 	
+		//create ne tree element and fill it with the components from the DB
 		treeComponentDBView = new Tree(shell, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
-		GridData gridData = new GridData(GridData.FILL, GridData.FILL, true, true);
-		gridData.horizontalSpan = 2;
-		treeComponentDBView.setLayoutData(gridData);
-		
-		//Tree füllen mit aktuellen Werten aus dem Verzeichnis der DB
+		treeComponentDBView.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 		ComponentHandler.fillTree(treeComponentDBView);
 
-		buttonEdit = new Button(shell, SWT.NONE);
+		//show button to edit the selected component
+		Button buttonEdit = new Button(shell, SWT.NONE);
 		buttonEdit.setText(LocalizationHandler.getItem("app.gui.compdb.editcomp"));
-		gridData = new GridData(GridData.FILL, GridData.VERTICAL_ALIGN_END, true, false);
-		gridData.horizontalSpan = 1;
-		buttonEdit.setLayoutData(gridData);
+		buttonEdit.setLayoutData(new GridData(SWT.FILL, SWT.END, true, false, 1, 1));
+		//selection listener for the button
 		buttonEdit.addSelectionListener(new SelectionListener(){
-	    	public void widgetSelected(SelectionEvent event){
+			//when selected -> get selection -> get file of component -> open window to edit said component
+			public void widgetSelected(SelectionEvent event){
+				//get the selection of the tree and set it as event data
 				TreeItem[] selection = null;
 				selection = treeComponentDBView.getSelection();
-				System.out.println("Drag started with " + selection.toString() + " Component");
 				String text = "";
 				for(TreeItem item:selection){
 					text += (String)item.getText();	
 				}
 				event.data = text;
 	    		
-				final String[] split = text.split("_",2);
+				//split the given string into component name and type
+				String[] split = text.split("_",2);
 				split[1] = split[1].replace(".xml", "");
 				
-				System.out.println(split[1] + " component db edit gui selected");
-
-
-		        //TODO manick: solve: if machine component is added, then dispose later... or don't add at all?
-				mc = Machine.addNewMachineComponent(split[0],split[1]); 
-		        
-        		ComponentEditGUI componentEditGUI = new ComponentEditGUI();
-        		componentEditGUI.openComponentEditGUI(mc);
-				
-	    		System.out.println("Edit Component");
+				//open window editComponentEditGUI with the selected component
+				ComponentEditGUI componentEditGUI = new ComponentEditGUI();
+				componentEditGUI.editComponentEditGUI(split[0], split[1]);
 	    	}
 	    	public void widgetDefaultSelected(SelectionEvent event){
 	    		
 	    	}
 	    });
 		
-		buttonClose = new Button(shell, SWT.NONE);
+		//button to close the window
+		Button buttonClose = new Button(shell, SWT.NONE);
 		buttonClose.setText(LocalizationHandler.getItem("app.gui.close"));
-		gridData = new GridData(GridData.FILL, GridData.VERTICAL_ALIGN_END, true, false);
-		gridData.horizontalSpan = 1;
-		buttonClose.setLayoutData(gridData);
+		buttonClose.setLayoutData(new GridData(SWT.FILL, SWT.END, true, false, 1, 1));
 		buttonClose.addSelectionListener(new SelectionListener(){
 	    	public void widgetSelected(SelectionEvent event){
-
-	    		//TODO manick: just remove component if one was created!
-	    		//Machine.removeMachineComponent(mc);
-	    		
+	    		//no special actions need to be done
 	    		shell.close();
-	    		System.out.println("Edit Component");
 	    	}
 	    	public void widgetDefaultSelected(SelectionEvent event){
 	    		

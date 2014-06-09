@@ -34,7 +34,12 @@ public class IOConnection {
 	private double gain;
 	
 	private static Logger logger = Logger.getLogger(EModMain.class.getName());
+	
+	public IOConnection(){
 		
+	}
+	
+	
 	/**
 	 * 
 	 * @param source

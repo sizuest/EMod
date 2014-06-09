@@ -5,7 +5,7 @@
     Model parameter definition
     ==========================
       Model : Motor 
-      Type  : siemens123
+      Type  : Example
     Parameters
     ----------
       PowerNominal [W]

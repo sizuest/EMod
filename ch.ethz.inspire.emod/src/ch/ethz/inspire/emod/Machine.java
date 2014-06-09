@@ -253,6 +253,21 @@ public class Machine {
 		}
 	}
 	
+	public static void saveMachineToNewFile(String file) {
+		// Save Machine Configuration
+		try {
+			JAXBContext context = JAXBContext.newInstance(Machine.class);
+			Marshaller m = context.createMarshaller();
+			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+			
+			Writer w = new FileWriter(file);
+			m.marshal(machineModel, w);
+			w.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public static void saveIOLinking(String file) {
 		List<IOConnection> connections      = getInstance().getIOLinkList();
 		List<MachineComponent> components   = getInstance().getMachineComponentList();
