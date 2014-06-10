@@ -287,7 +287,7 @@ public class Machine {
 				target = "";
 				// Simulators
 				for (ASimulationControl sc : simulators){
-					if(sc.getOutput().equals(io.getSoure())){
+					if(sc.getOutput().equals(io.getSource())){
 						source = sc.getName();
 						break;
 					}
@@ -295,8 +295,8 @@ public class Machine {
 				// Components
 				for (MachineComponent mc : components){
 					if(mc.getComponent().getInputs().contains(io.getTarget()))
-						target = mc.getName()+"."+io.getSoure().getName();
-					if(mc.getComponent().getOutputs().contains(io.getSoure()))
+						target = mc.getName()+"."+io.getSource().getName();
+					if(mc.getComponent().getOutputs().contains(io.getSource()))
 						source = mc.getName()+"."+io.getTarget().getName();
 					if(!source.isEmpty() & !target.isEmpty())
 						break;
@@ -791,7 +791,7 @@ public class Machine {
 				// Go through all links, at test if current input is part of it
 				// If so, delete it
 				for(int j=1; j<getInstance().getIOLinkList().size(); j++) {
-					if( getInstance().getIOLinkList().get(j).getSoure().equals(mc.getComponent().getInputs().get(i)) ||
+					if( getInstance().getIOLinkList().get(j).getSource().equals(mc.getComponent().getInputs().get(i)) ||
 							getInstance().getIOLinkList().get(j).getTarget().equals(mc.getComponent().getInputs().get(i)) )
 						getInstance().getIOLinkList().remove(j);
 				}
@@ -808,7 +808,7 @@ public class Machine {
 				// Go through all links, at test if current input is part of it
 				// If so, delete it
 				for(int j=0; j<getInstance().getIOLinkList().size(); j++) {
-					if( getInstance().getIOLinkList().get(j).getSoure().equals(mc.getComponent().getOutputs().get(i)) ||
+					if( getInstance().getIOLinkList().get(j).getSource().equals(mc.getComponent().getOutputs().get(i)) ||
 							getInstance().getIOLinkList().get(j).getTarget().equals(mc.getComponent().getOutputs().get(i)) )
 						getInstance().getIOLinkList().remove(j);
 				}
@@ -828,7 +828,7 @@ public class Machine {
 		
 		try {
 			for(int j=0; j<getInstance().getIOLinkList().size(); j++) {
-				if( getInstance().getIOLinkList().get(j).getSoure().equals(sc.getOutput()) )
+				if( getInstance().getIOLinkList().get(j).getSource().equals(sc.getOutput()) )
 					getInstance().getIOLinkList().remove(j);
 			}
 		} catch(Exception x) {

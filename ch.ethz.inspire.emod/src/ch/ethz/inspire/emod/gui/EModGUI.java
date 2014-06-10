@@ -33,6 +33,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
+import ch.ethz.inspire.emod.gui.utils.ProgressbarGUI;
 import ch.ethz.inspire.emod.model.MachineComponent;
 import ch.ethz.inspire.emod.simulation.EModSimulationRun;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
@@ -50,17 +51,21 @@ public class EModGUI {
 
 	private static Logger logger = Logger.getLogger(EModGUI.class.getName());
 	
-	//TODO manick: had to turn Shell into static for EModGUI.shellPosition() to work, any problem?
 	protected static Shell shell;
 	protected Display disp;
 	
 	protected Composite model;
 	protected Composite sim;
 	protected Composite analysis;
-		
+	
 	public EModGUI(Display display) {
 		disp = display;
 		shell = new Shell(display);
+		
+		
+		ProgressbarGUI pg = new ProgressbarGUI();
+		pg.updateProgressbar(0);
+	
 		
 		shell.setText(LocalizationHandler.getItem("app.gui.title"));
 		if(display.getBounds().width >= 1024)
@@ -70,16 +75,25 @@ public class EModGUI {
 		
 		shell.setLayout(new FillLayout());
 		
+		pg.updateProgressbar(10);
+		
 		//init menu bar
 		logger.log(LogLevel.DEBUG, "init menu");
 		initMenu();
+		
+		pg.updateProgressbar(50);
 		
 		//init tabs
 		logger.log(LogLevel.DEBUG, "init tabs");
 		initTabs();
 
+		pg.updateProgressbar(80);
+		
 		shell.open();
-				
+		
+		pg.updateProgressbar(100);
+
+		
 		//manick: Startup GUI for Settings of machine/sim confg
 		EModStartupGUI startup =new EModStartupGUI();
 		startup.loadMachineGUI();
@@ -151,9 +165,6 @@ public class EModGUI {
 		compDBOpenItem.addSelectionListener(new compDBOpenItemListener());
 		
 		helpAboutItem.addSelectionListener(new helpAboutItemListener());
-		
-		
-		
 		
 		shell.setMenuBar(menuBar);
 	}

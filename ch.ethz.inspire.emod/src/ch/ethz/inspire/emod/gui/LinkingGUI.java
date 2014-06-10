@@ -136,7 +136,7 @@ public class LinkingGUI {
 		    		//TODO manick: just the name, not the component of the linking are delivered??
 		    		for(IOConnection li:linking){
 						if(li.getTarget().equals(io)){
-							comboLinkTo[i].setText(li.getSoure().getName());
+							comboLinkTo[i].setText(li.getSource().getName());
 						}
 					}
 
@@ -202,6 +202,8 @@ public class LinkingGUI {
 									}
 								}
 
+								//Machine.getMachineComponent(stringSource).getComponent().getOutput(id);
+								
 								//create source and target iocontainer with name, unit, value, type
 								//TODO manick: value, type are not considered at the moment
 			    				IOContainer source = new IOContainer(stringSource, unitlist[k], 0.0, ContainerType.NONE);

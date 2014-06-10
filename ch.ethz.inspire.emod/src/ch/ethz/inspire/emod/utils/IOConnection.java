@@ -130,7 +130,7 @@ public class IOConnection {
 		}
 	}
 	
-	public IOContainer getSoure() {
+	public IOContainer getSource() {
 		return source;
 	}
 	

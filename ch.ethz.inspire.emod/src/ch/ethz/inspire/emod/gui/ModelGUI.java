@@ -77,7 +77,7 @@ public class ModelGUI extends Composite {
 		tableModelView.setHeaderVisible(true);
 		
 		initTable(tableModelView);
-        
+
 		//set tabfolder on the right side of the tab model for the component DB and for the inputs
 		tabFolder = new TabFolder(this, SWT.NONE);
 		tabFolder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));

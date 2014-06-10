@@ -52,16 +52,12 @@ public class EModStartupGUI {
 		
 		//text load machine config
 		Text textLoadMachConfig = new Text(shell, SWT.READ_ONLY | SWT.LEFT);
-		GridData gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
-		gridData.horizontalSpan = 1;
-		textLoadMachConfig.setLayoutData(gridData);
+		textLoadMachConfig.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		textLoadMachConfig.setText(LocalizationHandler.getItem("app.gui.startup.machinename"));
 	
 		//combo for the user to select the desired MachConfig
 		comboMachineName = new Combo(shell, SWT.NONE);
-		gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
-		gridData.horizontalSpan = 1;
-		comboMachineName.setLayoutData(gridData);
+		comboMachineName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 	
 		//possible items of the combo are all Machines present in the folder Machines
 		String path = PropertiesHandler.getProperty("app.MachineDataPathPrefix") + "/";
@@ -94,16 +90,12 @@ public class EModStartupGUI {
 
 		//text load simulation config
 		Text textLoadSimConfig = new Text(shell, SWT.READ_ONLY | SWT.LEFT);
-		gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
-		gridData.horizontalSpan = 1;
-		textLoadSimConfig.setLayoutData(gridData);
+		textLoadSimConfig.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		textLoadSimConfig.setText(LocalizationHandler.getItem("app.gui.startup.machineconfigname"));
 
 		//combo for the user to select the desired SimConfig
 		comboMachineConfigName = new Combo(shell, SWT.NONE);
-		gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
-		gridData.horizontalSpan = 1;
-		comboMachineConfigName.setLayoutData(gridData);
+		comboMachineConfigName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		//possible items of the combo are all SimConfig that match to the selected MachConfig
 		updatecomboMachineConfigName(machineName);
 		//prefill the last used SimConfig as default value into the combo
@@ -111,9 +103,7 @@ public class EModStartupGUI {
 
 		//Button to continue (exit the window, load the selected configuration)
 		Button buttonContinue = new Button(shell, SWT.NONE);
-		gridData = new GridData(GridData.END, GridData.CENTER, true, false);
-		gridData.horizontalSpan = 2;
-		buttonContinue.setLayoutData(gridData);
+		buttonContinue.setLayoutData(new GridData(SWT.END, SWT.CENTER, true, false, 2, 1));
 		buttonContinue.setText(LocalizationHandler.getItem("app.gui.continue"));
     	buttonContinue.addSelectionListener(new SelectionListener(){
     	public void widgetSelected(SelectionEvent event){
