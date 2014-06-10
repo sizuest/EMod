@@ -2,40 +2,16 @@
 <ns2:machine xmlns:ns2="ch.ethz.inspire.emod">
     <machine>
         <machineComponent>
-            <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
-            </component>
-            <name>Signalverst</name>
-        </machineComponent>
-        <machineComponent>
-            <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
-            </component>
-            <name>Operationsverst</name>
-        </machineComponent>
-        <machineComponent>
             <component xsi:type="motor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
-            <name>Hauptspindel</name>
-        </machineComponent>
-        <machineComponent>
-            <component xsi:type="servoMotor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>FanucAlphaC12_2000</type>
-            </component>
-            <name>Z3</name>
+            <name>Motor</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="revolver" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Schaublin42L</type>
+                <type>Example</type>
             </component>
-            <name>T1_pos</name>
-        </machineComponent>
-        <machineComponent>
-            <component xsi:type="constantComponent" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>FanucAlphaC12_2000</type>
-            </component>
-            <name>Z1_Brake</name>
+            <name>Revolver</name>
         </machineComponent>
     </machine>
     <simulators>
@@ -44,13 +20,6 @@
             <unit>WATT</unit>
         </simController>
     </simulators>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
     <connectionList/>
     <connectionList/>
     <connectionList/>

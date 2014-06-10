@@ -75,7 +75,7 @@ public class LinkingGUI {
 			//get List of current Machine Components and IOLinkList
 			ArrayList<MachineComponent> components = Machine.getInstance().getMachineComponentList();
 			List<IOConnection> linking = Machine.getInstance().getIOLinkList();
-			
+						
 			//if one or zero components are added to the machine, output warning and return to main shell
 			if (components.size()<2){
 				MessageBox messageBox = new MessageBox(shell);
@@ -133,13 +133,14 @@ public class LinkingGUI {
 		    		comboLinkTo[i].setItems(items);
 
 		    		//prefil the combo with the value from the iolinking file
-		    		//TODO manick: just the name, not the component of the linking are delivered??
+		    		//TODO sizuest: just the name, not the component of the linking are delivered??
+		    		//the combo should be prefilled with "Motor.Efficiency" and not just "Efficiency"
 		    		for(IOConnection li:linking){
 						if(li.getTarget().equals(io)){
 							comboLinkTo[i].setText(li.getSource().getName());
 						}
 					}
-
+		    		
 		    		//needed to get the value of i inside the selection listener
 		    		final int k = i;
 		    		
@@ -166,62 +167,35 @@ public class LinkingGUI {
 		    //button selection listener
 			buttonSave.addSelectionListener(new SelectionListener(){
 		    	public void widgetSelected(SelectionEvent event){
-
-		    		//TODO manick: get path from app.config
+		    		//path to the current Machine Configuration folders with the machine.xml and iolinking.txt
 		    		String path = PropertiesHandler.getProperty("app.MachineDataPathPrefix") + "/" +
 		    					  PropertiesHandler.getProperty("sim.MachineName") + "/MachineConfig/" +
 		    				      PropertiesHandler.getProperty("sim.MachineConfigName") + "/";
-		    		
-		    		//try to write to file
-		    		try {
-		    			//the file is in the machinepath, named IOLinking.txt
-						Writer w = new FileWriter(path + "IOLinking.txt");
-
-						//get all units form the enum unit
-						Unit[] unitlist = Unit.values();
 						
-						//iterate over all inputs
-			    		for(int i = 0; i < intNumberOfInputs; i++){
-			    			//only write to the file, if a output was selected
-			    			if(stringLinkTo[i] != null){
-			    				//the source is the current entry of the stringLinkTo
-			    				String stringSource = stringLinkTo[i];
-			    				//the target is from the matching row, in the form name.input
-			    				String stringTarget = textName[i].getText() + "." + textInput[i].getText();
+					//iterate over all inputs
+			    	for(int i = 0; i < intNumberOfInputs; i++){
+			    		//only write to the file, if a output was selected
+			    		if(stringLinkTo[i] != null){
+			    			//the source is the current entry of the stringLinkTo -> create IO container source
+			    			String stringSource = stringLinkTo[i];
+							String[] splitSource = stringSource.split("\\.", 2);
+							IOContainer source = Machine.getMachineComponent(splitSource[0]).getComponent().getOutput(splitSource[1]);
 			    			
-			    				//write to file
-								w.write(stringTarget+" = "+stringSource+"\n");
+							//the target is from the matching row, in the form name.input -> create IO container target
+			    			String stringTarget = textName[i].getText() + "." + textInput[i].getText();
+							String[] splitTarget = stringTarget.split("\\.", 2);
+							IOContainer target = Machine.getMachineComponent(splitTarget[0]).getComponent().getInput(splitTarget[1]);
 			    				
-								//get the unit of the current link and look up its position in the unitlist
-								int k = 0;
-								for(int j = 0; j < unitlist.length; j++){
-									if(unitlist[j].toString().equals(textUnit[i].getText())){
-										//if a match was made, save the position, exit loop
-										k = j;
-										continue;
-									}
-								}
-
-								//Machine.getMachineComponent(stringSource).getComponent().getOutput(id);
-								
-								//create source and target iocontainer with name, unit, value, type
-								//TODO manick: value, type are not considered at the moment
-			    				IOContainer source = new IOContainer(stringSource, unitlist[k], 0.0, ContainerType.NONE);
-			    				IOContainer target = new IOContainer(stringTarget, unitlist[k], 0.0, ContainerType.NONE);
-			    				
-			    				//add IOLink to the Machine
-								Machine.addIOLink(source, target);
-			    			}
+			    			//add IOLink to the Machine
+							Machine.addIOLink(source, target);
 			    		}
-			    		//close file
-						w.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-
-		    		
-		    		//TODO manick: saveIOLinking doesn't write anything to file and returns errors at rerun
-		    		//Machine.saveIOLinking(path);
+			    	}
+			    	
+			    	//TODO sizuest: already existing linkings are written a second time to the IOLinking.txt file
+			    	//TODO sizuest: messed up target/source/input/output... 
+			    	//when connection input Revolver.Tool to Motor.Efficiency in the GUI, the 
+			    	//saveIOLinking writes: Revolver.Efficiency = Motor.Tool to the file?!
+					Machine.saveIOLinking(path);
 			
 		    		shell.close();
 		    		System.out.println("Linking saved");

@@ -238,7 +238,6 @@ public class EModGUI {
 	}
 	
 	private Composite initAnalysis(TabFolder tabFolder) {
-		// TODO: manick add selectionListener??
 		analysis = new AnalysisGUI("simulation_output.dat", tabFolder);
 		// TODO: input file config
 		return analysis;
@@ -380,7 +379,6 @@ public class EModGUI {
 	 */
 	class compDBNewItemListener implements SelectionListener {
 		public void widgetSelected(SelectionEvent event){
-    		//TODO manick implement for new component: i.e. create copy of example component, open it, offer options to edit
 			ComponentEditGUI componentEditGUI = new ComponentEditGUI();
 			componentEditGUI.newComponentEditGUI();
 		}

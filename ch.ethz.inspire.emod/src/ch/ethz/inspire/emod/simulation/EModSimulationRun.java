@@ -8,14 +8,6 @@ public class EModSimulationRun {
 	
 // manick: Method to run the simulation, copied from EModMain.java
 public static void EModSimRun(){
-	
-	// TODO: manick: Progressbar for Simulation Process --> Realisieren in AnalysisGUI und Werte rausschreiben????
-	// int progress = null;
-	// return progress = 0;
-	
-	ProgressbarGUI pg = new ProgressbarGUI();
-	pg.updateProgressbar(0);
-	
 	// Get name of machine 
 	String machineName = PropertiesHandler.getProperty("sim.MachineName");
 	
@@ -25,8 +17,6 @@ public static void EModSimRun(){
 		System.exit(-1);
 	}
 	
-	pg.updateProgressbar(10);
-	
 	// Get name of the machine configuration
 	String machineConfigName = PropertiesHandler.getProperty("sim.MachineConfigName");
 	if (machineConfigName == null) {
@@ -35,8 +25,6 @@ public static void EModSimRun(){
 		System.exit(-1);
 	}
 	
-	pg.updateProgressbar(20);
-	
 	// Get name of the simulation configuration
 	String simulationConfigName = PropertiesHandler.getProperty("sim.SimulationConfigName");
 	if (simulationConfigName == null) {
@@ -44,8 +32,6 @@ public static void EModSimRun(){
 		e.printStackTrace();
 		System.exit(-1);
 	}
-	
-	pg.updateProgressbar(100);
 	
 	/* Build machine: Read and check machine configuration */
 	Machine.buildMachine(machineName, machineConfigName);

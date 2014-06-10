@@ -230,7 +230,7 @@ public class ComponentEditGUI {
 	    		FileOutputStream fos = null;
 	    		try {
 	    			fos = new FileOutputStream(file);
-	        		//TODO manick: comment from original file is lost
+	        		//TODO sizuest: comment from original file is lost
 			         props.storeToXML(fos, "File changed by user: " + System.getProperty("user.name"));
 	    		} catch (FileNotFoundException e1) {
 	    			e1.printStackTrace();

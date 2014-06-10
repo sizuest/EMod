@@ -52,21 +52,17 @@ public class SimGUI extends Composite {
 	public void init() {
 		//Überschrift des Fensters Simulation
 		textSimTitle = new Text(this, SWT.MULTI);
-		GridData gridData = new GridData(GridData.BEGINNING, GridData.BEGINNING, true, false);
-		gridData.horizontalSpan = 1;
-		textSimTitle.setLayoutData(gridData);
+		textSimTitle.setLayoutData(new GridData(SWT.BEGINNING, SWT.BEGINNING, true, false, 1, 1));
 		textSimTitle.setText(LocalizationHandler.getItem("app.gui.tabs.simtooltip"));
 		
 		//Tabelle für Maschinenmodell initieren
 		tableSimParam = new Table(this, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
-		gridData = new GridData(GridData.BEGINNING, GridData.BEGINNING, true, false);
-		gridData.horizontalSpan = 1;
-		tableSimParam.setLayoutData(gridData);
+		tableSimParam.setLayoutData(new GridData(SWT.BEGINNING, SWT.BEGINNING, true, false, 1, 1));
 		tableSimParam.setLinesVisible(true);
 		tableSimParam.setHeaderVisible(true);
 		
 		//Titel der Spalten setzen
-		//TODO manick: Werte in Languagepack übernehmen
+		//TODO: Werte in Languagepack übernehmen
 		String[] aTitles =  {"Parameter", "initial Value"};
 		for(int i=0; i < aTitles.length; i++){
 			TableColumn column = new TableColumn(tableSimParam, SWT.NULL);
@@ -142,23 +138,19 @@ public class SimGUI extends Composite {
         
 		//Überschrift des Fensters Simulation
 		textProcessTitle = new Text(this, SWT.MULTI);
-		gridData = new GridData(GridData.FILL, GridData.BEGINNING, true, false);
-		gridData.horizontalSpan = 1;
-		textProcessTitle.setLayoutData(gridData);
+		textProcessTitle.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false, 1, 1));
 		textProcessTitle.setText("Die Prozessparameter konfigurieren");
         
 		//Tabelle für Prozess initieren
 		tableProcessParam = new Table(this, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
-		gridData = new GridData(GridData.BEGINNING, GridData.FILL, false, true);
-		gridData.horizontalSpan = 1;
 		//gridData.widthHint = 600;
 		//gridData.heightHint = 300;
-		tableProcessParam.setLayoutData(gridData);
+		tableProcessParam.setLayoutData(new GridData(SWT.BEGINNING, SWT.FILL, false, true, 1, 1));
 		tableProcessParam.setLinesVisible(true);
 		tableProcessParam.setHeaderVisible(true);
 		
 		//Titel der Spalten setzen
-		//TODO manick: Werte in Languagepack übernehmen
+		//TODO: Werte in Languagepack übernehmen
 		String[] bTitles =  {"Time", "Parameter 1 Value", "Parameter 2 Value", "Parameter 3 Value", "Parameter 4 Value"};
 		for(int i=0; i < bTitles.length; i++){
 			TableColumn column = new TableColumn(tableProcessParam, SWT.NULL);
