@@ -137,7 +137,7 @@ public class LinkingGUI {
 		    		//the combo should be prefilled with "Motor.Efficiency" and not just "Efficiency"
 		    		for(IOConnection li:linking){
 						if(li.getTarget().equals(io)){
-							comboLinkTo[i].setText(li.getSource().getName());
+							comboLinkTo[i].setText(Machine.getOutputFullName(li.getSource()));
 						}
 					}
 		    		

@@ -295,9 +295,9 @@ public class Machine {
 				// Components
 				for (MachineComponent mc : components){
 					if(mc.getComponent().getInputs().contains(io.getTarget()))
-						target = mc.getName()+"."+io.getSource().getName();
+						target = mc.getName()+"."+io.getTarget().getName();
 					if(mc.getComponent().getOutputs().contains(io.getSource()))
-						source = mc.getName()+"."+io.getTarget().getName();
+						source = mc.getName()+"."+io.getSource().getName();
 					if(!source.isEmpty() & !target.isEmpty())
 						break;
 				}
@@ -954,8 +954,8 @@ public class Machine {
 	}
 	
 	/**
-	 * Returns a List of all {@link Initial Condition}
-	 * @return
+	 * Returns a List of all {@link DynamicState}
+	 * @return {@link DynamicState}
 	 */
 	public static ArrayList<DynamicState> getDynamicStatesList(){
 		ArrayList<DynamicState> output = new ArrayList<DynamicState>();
@@ -965,6 +965,32 @@ public class Machine {
 		}
 		
 		return output;
+	}
+	
+	public static String getOutputFullName(IOContainer container){
+		String out = null;
+		
+		for(MachineComponent mc : getInstance().getMachineComponentList()){
+			for(IOContainer io : mc.getComponent().getOutputs()){
+				if(io.equals(container)){
+					out = mc.getName()+"."+io.getName();
+					break;
+				}
+			}
+			if(out!=null)
+				break;
+		}
+		
+		if(out==null)
+			for(ASimulationControl sc : getInstance().getInputObjectList()){
+				if(sc.getOutput().equals(container)){
+					out = sc.getName();
+					break;
+				}
+			}
+				
+				
+		return out;
 	}
 	
 	/**
