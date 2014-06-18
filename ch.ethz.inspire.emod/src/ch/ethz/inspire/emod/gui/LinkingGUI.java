@@ -12,9 +12,6 @@
  ***********************************/
 package ch.ethz.inspire.emod.gui;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,8 +30,6 @@ import org.eclipse.swt.widgets.Text;
 
 import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.model.MachineComponent;
-import ch.ethz.inspire.emod.model.units.ContainerType;
-import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.utils.IOConnection;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
@@ -54,6 +49,9 @@ public class LinkingGUI {
 
 	    }
 
+ 	/**
+	 * open and initialize the linking GUI
+	 */ 
 	public void openLinkingGUI(){
 			shell = new Shell(Display.getCurrent());
 	        shell.setText(LocalizationHandler.getItem("app.gui.linking.title"));
@@ -220,9 +218,12 @@ public class LinkingGUI {
 			
 	        //open the new shell
 			shell.open();
-	    }
-
-	    public void closeLinkingGUI(){
-	    	shell.close();
-	    }
+	}
+	
+ 	/**
+	 * close the linking GUI
+	 */ 
+	public void closeLinkingGUI(){
+	  	shell.close();
+	}
 }

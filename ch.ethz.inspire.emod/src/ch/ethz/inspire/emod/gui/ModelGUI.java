@@ -35,7 +35,7 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
 import ch.ethz.inspire.emod.Machine;
-import ch.ethz.inspire.emod.gui.utils.ComponentHandler;
+import ch.ethz.inspire.emod.gui.utils.MachineComponentHandler;
 import ch.ethz.inspire.emod.model.MachineComponent;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
 
@@ -63,7 +63,9 @@ public class ModelGUI extends Composite {
 		initDropTarget(tableModelView);
 	}
 
-	
+ 	/**
+	 * initialize the layout of the Model GUI
+	 */ 	
 	private void initLayout() {
 		//set title of the tab machine config
 		textModelTitel = new Text(this, SWT.MULTI);
@@ -102,6 +104,10 @@ public class ModelGUI extends Composite {
         });
      }
 
+ 	/**
+	 * initialize the table of the Model GUI
+	 * @param tableModelView	the table to initialize with the columns to later add machine components
+	 */ 	
 	private void initTable(Table tableModelView){
 		//set the titles of the columns of the table
 		String[] titles =  {LocalizationHandler.getItem("app.gui.model.name"),
@@ -121,12 +127,16 @@ public class ModelGUI extends Composite {
           columns[i].pack();
         }
 	}
-	
+
+ 	/**
+	 * initialize the tab folder on the right side of the Model GUI
+	 * @param tabFolder	the tab folder to initialize
+	 */ 	
 	private void initTabCompDB(TabFolder tabFolder){
 		treeComponentDBView = new Tree(tabFolder, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
 
 		//fill tree with the components existing in the directory
-		ComponentHandler.fillTree(treeComponentDBView);
+		MachineComponentHandler.fillTree(treeComponentDBView);
 		
 		//tab for tree item
 		TabItem tabCompDBItem = new TabItem(tabFolder, SWT.NONE);
@@ -135,11 +145,18 @@ public class ModelGUI extends Composite {
 		tabCompDBItem.setControl(treeComponentDBView);        
 	}
 
+ 	/**
+	 * update the component db in the tab folder on the right side of the model gui
+	 */ 	
 	public static void updateTabCompDB(){
 		treeComponentDBView.removeAll();
-		ComponentHandler.fillTree(treeComponentDBView);
+		MachineComponentHandler.fillTree(treeComponentDBView);
 	}
 	
+ 	/**
+	 * initialize the tab inputs in the tab folder on the right side of the Model GUI
+	 * @param tabFolder	the tab folder to initialize
+	 */ 	
 	private void initTabInputs(TabFolder tabFolder){
 		
 		Text aText = new Text(tabFolder, SWT.NONE);
@@ -154,11 +171,18 @@ public class ModelGUI extends Composite {
 		tabInputsItem.setToolTipText(LocalizationHandler.getItem("app.gui.model.inputstooltip"));
 		tabInputsItem.setControl(aText);
 	}
-	
+
+ 	/**
+	 * initialize the component tree as drag source
+	 * @param treeComponentDBView	the tree to set as drag source
+	 */ 
 	private void initDragSource(final Tree treeComponentDBView){
 		//set tree as dragsource for the DnD of the components
 		int operations = DND.DROP_COPY;
 		final DragSource source = new DragSource(treeComponentDBView, operations);
+		
+		//SOURCE for drag source:
+		//http://www.eclipse.org/articles/Article-SWT-DND/DND-in-SWT.html
 		
 		//DnD shall transfer text of the selected element
 		Transfer[] types = new Transfer[] {TextTransfer.getInstance()};
@@ -188,11 +212,18 @@ public class ModelGUI extends Composite {
 			}
 		});
 	}
-	
+
+ 	/**
+	 * initialize the machine table as drop target
+	 * @param tableModelView	the table to set as drop target
+	 */ 		
 	private void initDropTarget(final Table tableModelView){
 		//set table as drop target
 		int operations = DND.DROP_COPY;
 		DropTarget target = new DropTarget(tableModelView, operations);
+		
+		//SOURCE for drop target:
+		//http://www.eclipse.org/articles/Article-SWT-DND/DND-in-SWT.html
 		
 		//only accept texttransfer
 		final TextTransfer textTransfer = TextTransfer.getInstance();
@@ -239,6 +270,11 @@ public class ModelGUI extends Composite {
 		});	
 	}
 	
+ 	/**
+	 * add new machine component to the machine table
+	 * @param mc	Machine Component to add to the machine table
+	 * @param index	position, where the component should be added to the table
+	 */ 	
 	public static void addTableItem(final MachineComponent mc, int index){
 		tableModelView.setRedraw(false);
 
@@ -257,8 +293,8 @@ public class ModelGUI extends Composite {
         buttonEditComponent.addSelectionListener(new SelectionListener(){
         	public void widgetSelected(SelectionEvent event){
         		//open new componenteditgui with the current machine component
-        		ComponentEditGUI componentEditGUI = new ComponentEditGUI();
-        		componentEditGUI.openComponentEditGUI(mc, item);
+        		EditMachineComponentGUI componentEditGUI = new EditMachineComponentGUI();
+        		componentEditGUI.openMachineComponentGUI(mc, item);
         	}
         	public void widgetDefaultSelected(SelectionEvent event){
         		
@@ -311,7 +347,11 @@ public class ModelGUI extends Composite {
         updateTable();
         tableModelView.setRedraw(true);
 	}
-		
+
+ 	/**
+	 * reset the width of all columns of the machine table
+	 * needed after deleting all items
+	 */ 	
 	public static void updateTable(){
         TableColumn[] columns = tableModelView.getColumns();
         for (int i = 0; i < columns.length; i++) {
@@ -319,7 +359,9 @@ public class ModelGUI extends Composite {
         }
 	}
 
-
+ 	/**
+	 * clear all items of the machine table
+	 */ 	
 	public static void clearTable() {
 		tableModelView.setRedraw(false);
 

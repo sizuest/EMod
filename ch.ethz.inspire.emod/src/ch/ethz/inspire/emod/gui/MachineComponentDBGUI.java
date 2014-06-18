@@ -12,17 +12,20 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
-import ch.ethz.inspire.emod.gui.utils.ComponentHandler;
+import ch.ethz.inspire.emod.gui.utils.MachineComponentHandler;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
 
-public class ComponentDBGUI {
+public class MachineComponentDBGUI {
 
 	private Shell shell;
 	
 	//tree to list all the components
 	private Tree treeComponentDBView;
-	
-	public ComponentDBGUI(){
+
+	/**
+	 * window with the component db to select a component to edit
+	 */ 	
+	public MachineComponentDBGUI(){
 		shell = new Shell(Display.getCurrent());
 		shell.setText(LocalizationHandler.getItem("app.gui.compdb.title"));
 		shell.setSize(400, 600);
@@ -31,7 +34,7 @@ public class ComponentDBGUI {
 		//create ne tree element and fill it with the components from the DB
 		treeComponentDBView = new Tree(shell, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
 		treeComponentDBView.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
-		ComponentHandler.fillTree(treeComponentDBView);
+		MachineComponentHandler.fillTree(treeComponentDBView);
 
 		//show button to edit the selected component
 		Button buttonEdit = new Button(shell, SWT.NONE);
@@ -55,8 +58,8 @@ public class ComponentDBGUI {
 				split[1] = split[1].replace(".xml", "");
 				
 				//open window editComponentEditGUI with the selected component
-				ComponentEditGUI componentEditGUI = new ComponentEditGUI();
-				componentEditGUI.editComponentEditGUI(split[0], split[1]);
+				EditMachineComponentGUI componentEditGUI = new EditMachineComponentGUI();
+				componentEditGUI.editMachineComponentGUI(split[0], split[1]);
 	    	}
 	    	public void widgetDefaultSelected(SelectionEvent event){
 	    		

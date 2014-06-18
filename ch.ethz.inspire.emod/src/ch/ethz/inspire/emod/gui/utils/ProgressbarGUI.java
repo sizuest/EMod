@@ -33,7 +33,10 @@ public class ProgressbarGUI {
     	//open the new shell
 		shell.open();
 	}
-
+ 	/**
+	 * update the progress bar
+	 * @param progress	set from 0 to 100 as percentage of progress, when set to 100 -> progressbar is closed
+	 */ 	
 	public void updateProgressbar(int progress) {
 		pb.setSelection(progress);
 		if(progress == 100){

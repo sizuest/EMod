@@ -12,8 +12,6 @@
  ***********************************/
 package ch.ethz.inspire.emod.gui;
 
-import java.io.File;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
@@ -379,8 +377,8 @@ public class EModGUI {
 	 */
 	class compDBNewItemListener implements SelectionListener {
 		public void widgetSelected(SelectionEvent event){
-			ComponentEditGUI componentEditGUI = new ComponentEditGUI();
-			componentEditGUI.newComponentEditGUI();
+			EditMachineComponentGUI componentEditGUI = new EditMachineComponentGUI();
+			componentEditGUI.newMachineComponentGUI();
 		}
 		public void widgetDefaultSelected(SelectionEvent event){
 
@@ -396,7 +394,7 @@ public class EModGUI {
 	 */
 	class compDBOpenItemListener implements SelectionListener {
 		public void widgetSelected(SelectionEvent event){
-			new ComponentDBGUI();
+			new MachineComponentDBGUI();
 		}
 		public void widgetDefaultSelected(SelectionEvent event){
 

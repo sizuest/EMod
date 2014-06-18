@@ -39,6 +39,9 @@ public class EModStartupGUI {
 
 	}
 	
+ 	/**
+	 * window to load existing machine configuration
+	 */
 	protected void loadMachineGUI(){
 		
 		//new shell in style modal to prevent user from skipping window
@@ -116,14 +119,14 @@ public class EModStartupGUI {
 					System.out.println("------******------ keine Maschkonfig ausgewählt");
 					return;
 				}
-				
-				//build machine and add components to the table of the model gui tab
-				loadMachineModelConfig(machine, config);
 
 				//set the machinename and conifgname to app.config, to restore at next run
 				PropertiesHandler.setProperty("sim.MachineName", machine);
 				PropertiesHandler.setProperty("sim.MachineConfigName", config);
-						
+				
+				//build machine and add components to the table of the model gui tab
+				loadMachineModelConfig(machine, config);
+				
 				shell.close();
 			}
     		public void widgetDefaultSelected(SelectionEvent event){
@@ -167,6 +170,9 @@ public class EModStartupGUI {
 		shell.open();
 	}
 	
+ 	/**
+	 * window to create a new machine configuration
+	 */
 	protected void createNewMachineGUI() {
 		final Shell shellCreateMachine = new Shell(Display.getCurrent(),SWT.APPLICATION_MODAL);
 		shellCreateMachine.setText("EMod startup");
@@ -231,6 +237,11 @@ public class EModStartupGUI {
     	shellCreateMachine.open();
 	}
 
+ 	/**
+	 * method to create files and folders of a new machine
+	 * @param machine	name of the machine to add
+	 * @param config	name of the machine conifguration to add
+	 */
 	protected void createNewMachine(String machine, String config) {
 		//clear machine and table
 		ModelGUI.clearTable();		
@@ -252,7 +263,10 @@ public class EModStartupGUI {
 		PropertiesHandler.setProperty("sim.MachineConfigName", config);		
 	}
 
-	//update the comboMachineConfigName according to the selection of comboMachineName
+ 	/**
+	 * update the comboMachineConfigName according to the selection of comboMachineName
+	 * @param stringMachConfig	update the selection of possible machine conifgurations
+	 */
     protected void updatecomboMachineConfigName(String stringMachConfig){
     	String path = PropertiesHandler.getProperty("app.MachineDataPathPrefix") + "/" + stringMachConfig + "/MachineConfig/";
     	File subdir = new File(path);
@@ -270,6 +284,11 @@ public class EModStartupGUI {
     	}
 	}
 
+ 	/**
+	 * load a machine configuration from DB and write it to the machine table
+	 * @param machine	name of the machine to load
+	 * @param config	name of the configuration to load
+	 */   
     public void loadMachineModelConfig(String machine, String config){
 		// Build machine: Read and check machine configuration
 		Machine.buildMachine(machine, config);
@@ -281,9 +300,5 @@ public class EModStartupGUI {
 			ModelGUI.addTableItem(mc, i);
 			i++;
 		}
-    }
-    
-	public void closeLinkingGUI(){
-    	shell.close();
     }
 }

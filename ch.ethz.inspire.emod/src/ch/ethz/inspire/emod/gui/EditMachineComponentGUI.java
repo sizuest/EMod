@@ -31,27 +31,29 @@ import ch.ethz.inspire.emod.model.MachineComponent;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
-public class ComponentEditGUI {
+public class EditMachineComponentGUI {
 
     private Shell shell;
 
-    public ComponentEditGUI(){
+    public EditMachineComponentGUI(){
     	
 	    }
 
-    //Component Edit GUI for creating a new Component
-    public void newComponentEditGUI(){
+ 	/**
+	 * Component Edit GUI for creating a new Component
+	 */
+    public void newMachineComponentGUI(){
     	shell = new Shell(Display.getCurrent());
         shell.setText(LocalizationHandler.getItem("app.gui.compdb.newcomp"));
     	shell.setLayout(new GridLayout(2, false));
 
 		//Text "Type" of the Component
-		Text textCompType = new Text(shell, SWT.READ_ONLY);
-		textCompType.setText(LocalizationHandler.getItem("app.gui.model.type") + ":");
-		textCompType.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, true, true, 1, 1));
+		Text textComponentType = new Text(shell, SWT.READ_ONLY);
+		textComponentType.setText(LocalizationHandler.getItem("app.gui.model.type") + ":");
+		textComponentType.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, true, true, 1, 1));
 		
 		//Combo to select Value of "Type" of the Component
-		final Combo comboCompTypeValue = new Combo(shell, SWT.NONE);
+		final Combo comboComponentTypeValue = new Combo(shell, SWT.NONE);
 		
 		//according to the given component, get the path for the parameter sets
 		final String path = PropertiesHandler.getProperty("app.MachineComponentDBPathPrefix") + "/";
@@ -60,20 +62,20 @@ public class ComponentEditGUI {
     	//check if the directory exists, then show possible parameter sets to select
     	if(subdir.exists()){
     		String[] subitems = subdir.list();
-    		comboCompTypeValue.setItems(subitems);
+    		comboComponentTypeValue.setItems(subitems);
     	}
 		
-		comboCompTypeValue.setText(LocalizationHandler.getItem("app.gui.compdb.selecttype"));
-		comboCompTypeValue.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, true, true, 1, 1));
+		comboComponentTypeValue.setText(LocalizationHandler.getItem("app.gui.compdb.selecttype"));
+		comboComponentTypeValue.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, true, true, 1, 1));
 		
-		//Text "Parameter-Set" of the Component
-		Text textCompParam = new Text(shell, SWT.READ_ONLY);
-		textCompParam.setText(LocalizationHandler.getItem("app.gui.compdb.compname"));
-		textCompParam.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, true, true, 1, 1));
+		//Text "Model Type" of the Component
+		Text textComponentModelType = new Text(shell, SWT.READ_ONLY);
+		textComponentModelType.setText(LocalizationHandler.getItem("app.gui.compdb.compname"));
+		textComponentModelType.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, true, true, 1, 1));
 		
-		//Combo to let the user select the desired Parameter-set of the Component
-		final Text textCompParamValue = new Text(shell, SWT.NONE);
-		textCompParamValue.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true, 1, 1));
+		//Combo to let the user select the desired model type of the Component
+		final Text textComponentModelTypeValue = new Text(shell, SWT.NONE);
+		textComponentModelTypeValue.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true, 1, 1));
 
     	//button to continue
 		Button buttonContinue = new Button(shell, SWT.NONE);
@@ -81,11 +83,11 @@ public class ComponentEditGUI {
 		//selection Listener for the button, actions when button is pressed
 		buttonContinue.addSelectionListener(new SelectionListener(){
 	    	public void widgetSelected(SelectionEvent event){
-	    		String stringCompTypeValue = comboCompTypeValue.getText();
-	    		String stringCompParamValue = textCompParamValue.getText();
+	    		String stringCompTypeValue = comboComponentTypeValue.getText();
+	    		String stringCompParamValue = textComponentModelTypeValue.getText();
 	    		
 	    		//copy the example type of the selected component and create a copy
-	    		//source http://www.javapractices.com/topic/TopicAction.do?Id=246
+	    		//SOURCE for the file copy: http://www.javapractices.com/topic/TopicAction.do?Id=246 
 	    		Path from = Paths.get(path + stringCompTypeValue + "/" + stringCompTypeValue + "_Example.xml");
 	    	    Path to = Paths.get(path + stringCompTypeValue + "/" + stringCompTypeValue + "_" + stringCompParamValue + ".xml");
 	    	    //overwrite existing file, if exists
@@ -102,7 +104,7 @@ public class ComponentEditGUI {
 	    		shell.close();
 	    		
 	    		//open the edit ComponentEditGUI with the newly created component file
-	    		editComponentEditGUI(stringCompTypeValue, stringCompParamValue);
+	    		editMachineComponentGUI(stringCompTypeValue, stringCompParamValue);
 	    	}
 	    	public void widgetDefaultSelected(SelectionEvent event){
 	    		
@@ -127,31 +129,33 @@ public class ComponentEditGUI {
 		shell.open();
     }
     
-    //Component Edit GUI for editing a existing Component of the Component DB
-    public void editComponentEditGUI(String type, String parameter){
+ 	/**
+	 * Component Edit GUI for editing a existing Component of the Component DB
+	 */
+    public void editMachineComponentGUI(String type, String parameter){
     	shell = new Shell(Display.getCurrent());
         shell.setText(LocalizationHandler.getItem("app.gui.compdb.editcomp"));
     	shell.setLayout(new GridLayout(2, false));
 				
 		//Text "Type" of the Component
-		Text textCompType = new Text(shell, SWT.READ_ONLY);
-		textCompType.setText(LocalizationHandler.getItem("app.gui.model.type") + ":");
-		textCompType.setLayoutData(new GridData(SWT.BEGINNING, SWT.TOP, false, true, 1, 1));
+		Text textComponentType = new Text(shell, SWT.READ_ONLY);
+		textComponentType.setText(LocalizationHandler.getItem("app.gui.model.type") + ":");
+		textComponentType.setLayoutData(new GridData(SWT.BEGINNING, SWT.TOP, false, true, 1, 1));
 		
 		//Text to show Value of "Type" of the Component
-		Text textCompTypeValue = new Text(shell, SWT.READ_ONLY);
-		textCompTypeValue.setText(type);
-		textCompTypeValue.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, true, 1, 1));
+		Text textComponentTypeValue = new Text(shell, SWT.READ_ONLY);
+		textComponentTypeValue.setText(type);
+		textComponentTypeValue.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, true, 1, 1));
     	
- 		//Text "Parameter-Set" of the Component
-		Text textCompParam = new Text(shell, SWT.READ_ONLY);
-		textCompParam.setText(LocalizationHandler.getItem("app.gui.model.param") + ":");
-		textCompParam.setLayoutData(new GridData(SWT.BEGINNING, SWT.TOP, false, true, 1, 1));
+ 		//Text model type of the Component
+		Text textComponentModelType = new Text(shell, SWT.READ_ONLY);
+		textComponentModelType.setText(LocalizationHandler.getItem("app.gui.model.param") + ":");
+		textComponentModelType.setLayoutData(new GridData(SWT.BEGINNING, SWT.TOP, false, true, 1, 1));
 		
 		//Combo to let the user select the desired Parameter-set of the Component
-		Text textCompParamValue = new Text(shell, SWT.READ_ONLY);
-		textCompParamValue.setText(parameter);
-		textCompParamValue.setLayoutData(new GridData(SWT.BEGINNING, SWT.TOP, true, true, 1, 1));
+		Text textComponentModelTypeValue = new Text(shell, SWT.READ_ONLY);
+		textComponentModelTypeValue.setText(parameter);
+		textComponentModelTypeValue.setLayoutData(new GridData(SWT.BEGINNING, SWT.TOP, true, true, 1, 1));
 		
 		//path + filename -> link to the .xml file
 		String path = PropertiesHandler.getProperty("app.MachineComponentDBPathPrefix") + "/" + type + "/";
@@ -167,6 +171,9 @@ public class ComponentEditGUI {
 		}
 		
 		//load properties from the file
+		
+		//SOURCE for loading properties from xml file:
+		//http://www.avajava.com/tutorials/lessons/how-do-i-read-properties-from-an-xml-file.html
 		final Properties props = new Properties();
 		try {
 			props.loadFromXML(iostream);
@@ -181,7 +188,6 @@ public class ComponentEditGUI {
 		final Text[] textValue = new Text[length];
 
 		//iterate over all the objects of the properties
-		//SOURCE http://www.avajava.com/tutorials/lessons/how-do-i-read-properties-from-an-xml-file.html
 		int i = 0;
 		Enumeration<Object> enuKeys = props.keys();
 		while (enuKeys.hasMoreElements()) {
@@ -266,40 +272,45 @@ public class ComponentEditGUI {
 		shell.open();
     }
     
-    //open Component Edit GUI for Component, that already exists in the machine configuration    
-	public void openComponentEditGUI(final MachineComponent mc, final TableItem item){
+ 	/**
+	 * open Component Edit GUI for Component, that already exists in the machine configuration 
+	 * 
+	 * @param mc	Machine component which should be edited
+	 * @param item	table item in which the machine component is stored
+	 */
+    public void openMachineComponentGUI(final MachineComponent mc, final TableItem item){
         	shell = new Shell(Display.getCurrent());
 	        shell.setText(LocalizationHandler.getItem("app.gui.compdb.editcomp"));
 	    	shell.setLayout(new GridLayout(2, false));
 
 	    	//Text "Name" of the Component
-			Text textCompName = new Text(shell, SWT.READ_ONLY);
-			textCompName.setText(LocalizationHandler.getItem("app.gui.model.name") + ":");
-			textCompName.setLayoutData(new GridData(SWT.BEGINNING, SWT.TOP, true, true, 1, 1));;
+			Text textComponentName = new Text(shell, SWT.READ_ONLY);
+			textComponentName.setText(LocalizationHandler.getItem("app.gui.model.name") + ":");
+			textComponentName.setLayoutData(new GridData(SWT.BEGINNING, SWT.TOP, true, true, 1, 1));;
 			
 			//Textfield to enter the Name of the Component
-			final Text textCompNameValue = new Text(shell, SWT.NONE);
-			textCompNameValue.setText(mc.getName());
-			textCompNameValue.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, true, 1, 1));
+			final Text textComponentNameValue = new Text(shell, SWT.NONE);
+			textComponentNameValue.setText(mc.getName());
+			textComponentNameValue.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, true, 1, 1));
 			
 			//Text "Type" of the Component
-			Text textCompType = new Text(shell, SWT.READ_ONLY);
-			textCompType.setText(LocalizationHandler.getItem("app.gui.model.type") + ":");
-			textCompType.setLayoutData(new GridData(SWT.BEGINNING, SWT.TOP, true, true, 1, 1));
+			Text textComponentType = new Text(shell, SWT.READ_ONLY);
+			textComponentType.setText(LocalizationHandler.getItem("app.gui.model.type") + ":");
+			textComponentType.setLayoutData(new GridData(SWT.BEGINNING, SWT.TOP, true, true, 1, 1));
 			
 			//Text Value of "Type" of the Component
 			Text textCompTypeValue = new Text(shell, SWT.READ_ONLY);
 			textCompTypeValue.setText(mc.getComponent().getClass().toString().replace("class ch.ethz.inspire.emod.model.",""));
 			textCompTypeValue.setLayoutData(new GridData(SWT.BEGINNING, SWT.TOP, true, true, 1, 1));
 			
-			//Text "Parameter-Set" of the Component
-			Text textCompParam = new Text(shell, SWT.READ_ONLY);
-			textCompParam.setText(LocalizationHandler.getItem("app.gui.model.param") + ":");
-			textCompParam.setLayoutData(new GridData(SWT.BEGINNING, SWT.TOP, true, true, 1, 1));
+			//Text model type of the Component
+			Text textComponentModelType = new Text(shell, SWT.READ_ONLY);
+			textComponentModelType.setText(LocalizationHandler.getItem("app.gui.model.param") + ":");
+			textComponentModelType.setLayoutData(new GridData(SWT.BEGINNING, SWT.TOP, true, true, 1, 1));
 			
 			//Combo to let the user select the desired Parameter-set of the Component
-			final Combo comboCompParamValue = new Combo(shell, SWT.NONE);
-			comboCompParamValue.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, true, 1, 1));
+			final Combo comboComponentModelTypeValue = new Combo(shell, SWT.NONE);
+			comboComponentModelTypeValue.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, true, 1, 1));
 			
 			//according to the given component, get the path for the parameter sets
 			String path = PropertiesHandler.getProperty("app.MachineComponentDBPathPrefix") + "/" + mc.getComponent().getModelType() + "/";
@@ -316,8 +327,8 @@ public class ComponentEditGUI {
 	    		}   
 	    		
 	    		//set the possible parameter sets to the combo
-	    		comboCompParamValue.setItems(subitems);
-	    		comboCompParamValue.setText(mc.getComponent().getType());
+	    		comboComponentModelTypeValue.setItems(subitems);
+	    		comboComponentModelTypeValue.setText(mc.getComponent().getType());
 	    	}
 	    				
 	    	//button to save the selection
@@ -327,12 +338,12 @@ public class ComponentEditGUI {
 			buttonSave.addSelectionListener(new SelectionListener(){
 		    	public void widgetSelected(SelectionEvent event){
 		    		//get the entered name in the textfield and set it to the MachineComponents name
-		    		mc.setName(textCompNameValue.getText());
+		    		mc.setName(textComponentNameValue.getText());
 		    		//set the Name into the table item
 		    		item.setText(0, mc.getName());
 		    		
 		    		//get the selected name of the parameter in the combo and set it to the MachineComponent
-		    		mc.getComponent().setType(comboCompParamValue.getText());
+		    		mc.getComponent().setType(comboComponentModelTypeValue.getText());
 		    		//set the name into the table item
 		    		item.setText(2, mc.getComponent().getType());
 
@@ -340,7 +351,7 @@ public class ComponentEditGUI {
 		    		ModelGUI.updateTable();
 		    		
 		    		//close the Component Edit GUI
-		    		closeComponentEditGUI();
+		    		closeMachineComponentGUI();
 		    	}
 		    	public void widgetDefaultSelected(SelectionEvent event){
 		    		
@@ -364,8 +375,11 @@ public class ComponentEditGUI {
 	        //open the new shell
 			shell.open();
 	}
-	
-    public void closeComponentEditGUI(){
+    
+ 	/**
+	 * closes the MachineComponentGUI
+	 */	
+    public void closeMachineComponentGUI(){
     	shell.close();
     }
 }

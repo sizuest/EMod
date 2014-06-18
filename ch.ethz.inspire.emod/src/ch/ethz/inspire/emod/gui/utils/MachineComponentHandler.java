@@ -1,10 +1,10 @@
 /***********************************
- * $Id$
+ * $Id: ComponentHandler.java 159 2014-06-09 14:24:44Z manick $
  *
- * $URL$
- * $Author$
- * $Date$
- * $Rev$
+ * $URL: https://icvrdevil.ethz.ch/svn/EMod/trunk/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/gui/utils/ComponentHandler.java $
+ * $Author: manick $
+ * $Date: 2014-06-09 16:24:44 +0200 (Mo, 09 Jun 2014) $
+ * $Rev: 159 $
  *
  * Copyright (c) 2011 by Inspire AG, ETHZ
  * All rights reserved
@@ -21,9 +21,12 @@ import org.eclipse.swt.widgets.TreeItem;
 
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
-public class ComponentHandler {
+public class MachineComponentHandler {
 
-	//method to read the component db and write it to a tree
+ 	/**
+	 * fill a tree element with the machine component from the DB
+	 * @param aTree	tree element to fill
+	 */ 	
 	public static void fillTree(Tree aTree){
 		
 		//read machinecomponent db folder from the current path
