@@ -30,9 +30,9 @@ public class EModStartupGUI {
 	private String machineName;
 	
 	//Combo to let the user select the SimConfig
-	private Combo comboMachineConfigName;
+	private Combo comboMachineConfigName, comboSimConfigName, comboProcName;
 	//name of the SimConfig from the last use of EMod from app.config
-	private String machineConfigName;
+	private String machineConfigName, simConfigName, procName;
 	
 	//start the StartupGUI and initialize all needed content
 	public EModStartupGUI(){
@@ -52,6 +52,8 @@ public class EModStartupGUI {
 		//get machineName and machineConfigName from app.config file
 		machineName = PropertiesHandler.getProperty("sim.MachineName");
 		machineConfigName = PropertiesHandler.getProperty("sim.MachineConfigName");
+		simConfigName     = PropertiesHandler.getProperty("sim.SimulationConfigName");
+		procName          = PropertiesHandler.getProperty("sim.ProcessName");
 		
 		//text load machine config
 		Text textLoadMachConfig = new Text(shell, SWT.READ_ONLY | SWT.LEFT);
@@ -77,24 +79,31 @@ public class EModStartupGUI {
 			public void widgetSelected(SelectionEvent event){
 				//disable comboMachineConfigName to prevent argument null for updatecomboMachineConfigName
 				comboMachineConfigName.setEnabled(false);
+				comboSimConfigName.setEnabled(false);
+				comboProcName.setEnabled(false);
     		
 				//get Text of chosen MachineConfig
     			String stringMachConfig = comboMachineName.getText();
+    			String stringSimConfig  = comboSimConfigName.getText();
     			//update comboMachineConfigName according to the Selection of MachineConfig
     			updatecomboMachineConfigName(stringMachConfig);
+    			updatecomboSimConfigName(stringMachConfig);
+    			updatecomboProcName(stringMachConfig, stringSimConfig);
     		
     			//enable comboMachineConfigName after update
     			comboMachineConfigName.setEnabled(true);
+				comboSimConfigName.setEnabled(true);
+				comboProcName.setEnabled(true);
     		}
     		public void widgetDefaultSelected(SelectionEvent event){
     		
     		}
     	});
 
-		//text load simulation config
-		Text textLoadSimConfig = new Text(shell, SWT.READ_ONLY | SWT.LEFT);
-		textLoadSimConfig.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		textLoadSimConfig.setText(LocalizationHandler.getItem("app.gui.startup.machineconfigname"));
+		//text load machine config
+		Text textLoadMachineConfig = new Text(shell, SWT.READ_ONLY | SWT.LEFT);
+		textLoadMachineConfig.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		textLoadMachineConfig.setText(LocalizationHandler.getItem("app.gui.startup.machineconfigname"));
 
 		//combo for the user to select the desired SimConfig
 		comboMachineConfigName = new Combo(shell, SWT.NONE);
@@ -103,6 +112,52 @@ public class EModStartupGUI {
 		updatecomboMachineConfigName(machineName);
 		//prefill the last used SimConfig as default value into the combo
 		comboMachineConfigName.setText(machineConfigName);
+		
+		//text load simulation config
+		Text textLoadSimConfig = new Text(shell, SWT.READ_ONLY | SWT.LEFT);
+		textLoadSimConfig.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		textLoadSimConfig.setText(LocalizationHandler.getItem("app.gui.startup.simulationconfigname"));
+
+		//combo for the user to select the desired SimConfig
+		comboSimConfigName = new Combo(shell, SWT.NONE);
+		comboSimConfigName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		//possible items of the combo are all SimConfig that match to the selected MachConfig
+		updatecomboSimConfigName(machineName);
+		//prefill the last used SimConfig as default value into the combo
+		comboSimConfigName.setText(simConfigName);
+		
+		//add selection listener to the combo
+		comboSimConfigName.addSelectionListener(new SelectionListener(){
+			public void widgetSelected(SelectionEvent event){
+				//disable comboMachineConfigName to prevent argument null for updatecomboMachineConfigName
+				comboProcName.setEnabled(false);
+    		
+				//get Text of chosen MachineConfig
+    			String stringMachConfig = comboMachineName.getText();
+    			String stringSimConfig  = comboSimConfigName.getText();
+    			//update comboMachineConfigName according to the Selection of MachineConfig
+    			updatecomboProcName(stringMachConfig, stringSimConfig);
+    		
+    			//enable comboMachineConfigName after update
+    			comboProcName.setEnabled(true);
+    		}
+    		public void widgetDefaultSelected(SelectionEvent event){
+    		
+    		}
+		});
+		
+		//text load process config
+		Text textLoadProcConfig = new Text(shell, SWT.READ_ONLY | SWT.LEFT);
+		textLoadProcConfig.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		textLoadProcConfig.setText(LocalizationHandler.getItem("app.gui.startup.processconfigname"));
+
+		//combo for the user to select the desired process
+		comboProcName = new Combo(shell, SWT.NONE);
+		comboProcName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		//possible items of the combo are all process that match to the selected MachConfig and SimConfig
+		updatecomboProcName(machineName, simConfigName);
+		//prefill the last used process as default value into the combo
+		comboProcName.setText(procName);
 
 		//Button to continue (exit the window, load the selected configuration)
 		Button buttonContinue = new Button(shell, SWT.NONE);
@@ -111,21 +166,26 @@ public class EModStartupGUI {
     	buttonContinue.addSelectionListener(new SelectionListener(){
     	public void widgetSelected(SelectionEvent event){
     			//get the values for the Machine Name and the Machine Config Name
-				String machine = comboMachineName.getText();
-				String config = comboMachineConfigName.getText();
+				String machine    = comboMachineName.getText();
+				String machConfig = comboMachineConfigName.getText();
+				String simConfig  = comboSimConfigName.getText();
+				String procName   = comboProcName.getText();
 
 				//check if a machine config was selected, otherwise stop
-				if(config.equals(LocalizationHandler.getItem("app.gui.startup.selectmachineconfigname"))){
-					System.out.println("------******------ keine Maschkonfig ausgewählt");
+				if(machConfig.equals(LocalizationHandler.getItem("app.gui.startup.selectmachineconfigname"))){
+					System.out.println("------******------ keine Maschkonfig ausgewï¿½hlt");
 					return;
 				}
-
+				
 				//set the machinename and conifgname to app.config, to restore at next run
 				PropertiesHandler.setProperty("sim.MachineName", machine);
-				PropertiesHandler.setProperty("sim.MachineConfigName", config);
+				PropertiesHandler.setProperty("sim.MachineConfigName", machConfig);
+				PropertiesHandler.setProperty("sim.SimulationConfigName", simConfig);
+				PropertiesHandler.setProperty("sim.ProcessName", procName);
 				
 				//build machine and add components to the table of the model gui tab
-				loadMachineModelConfig(machine, config);
+				loadMachineModelConfig(machine, machConfig);
+				
 				
 				shell.close();
 			}
@@ -281,6 +341,46 @@ public class EModStartupGUI {
     	else{
     		comboMachineConfigName.removeAll();
     		comboMachineConfigName.setText(LocalizationHandler.getItem("app.gui.startup.newmachineconfigname"));
+    	}
+	}
+    
+   //update the comboSimConfigName according to the selection of comboMachineName
+    protected void updatecomboSimConfigName(String stringMachConfig){
+    	String path = PropertiesHandler.getProperty("app.MachineDataPathPrefix") + "/" + stringMachConfig + "/SimulationConfig/";
+    	File subdir = new File(path);
+    	
+    	//check if subdirectory exists, then show possible configurations to select
+    	if(subdir.exists()){
+    		String[] subitems = subdir.list();
+        	comboSimConfigName.setItems(subitems);
+        	comboSimConfigName.setText(LocalizationHandler.getItem("app.gui.startup.selectmachineconfigname"));
+    	}
+    	//otherwise inform the user to create a new SimConfig
+    	else{
+    		comboSimConfigName.removeAll();
+    		comboSimConfigName.setText(LocalizationHandler.getItem("app.gui.startup.newmachineconfigname"));
+    	}
+	}
+    
+    //update the comboProcName according to the selection of comboMachineName
+    protected void updatecomboProcName(String stringMachConfig, String stringSimConfig){
+    	String path = PropertiesHandler.getProperty("app.MachineDataPathPrefix") + "/" + stringMachConfig + "/SimulationConfig/" + stringSimConfig;
+    	File files = new File(path);
+    	
+    	//check if subdirectory exists, then show possible configurations to select
+    	if(files.exists()){
+    		comboProcName.removeAll();
+    		for(File f : files.listFiles()){
+    			if(f.getName().startsWith("process_")){
+    				comboProcName.add(f.getName().substring(8, f.getName().length()-4));
+    			}
+    		}
+    		comboProcName.setText(LocalizationHandler.getItem("app.gui.startup.selectmachineconfigname"));
+    	}
+    	//otherwise inform the user to create a new SimConfig
+    	else{
+    		comboProcName.removeAll();
+    		comboProcName.setText(LocalizationHandler.getItem("app.gui.startup.newmachineconfigname"));
     	}
 	}
 

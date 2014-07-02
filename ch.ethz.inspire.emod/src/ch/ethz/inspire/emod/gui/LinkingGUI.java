@@ -177,7 +177,12 @@ public class LinkingGUI {
 			    			//the source is the current entry of the stringLinkTo -> create IO container source
 			    			String stringSource = stringLinkTo[i];
 							String[] splitSource = stringSource.split("\\.", 2);
-							IOContainer source = Machine.getMachineComponent(splitSource[0]).getComponent().getOutput(splitSource[1]);
+							
+							IOContainer source;
+							if(splitSource.length>1)
+								source = Machine.getMachineComponent(splitSource[0]).getComponent().getOutput(splitSource[1]);
+							else
+								source = Machine.getInputObject(splitSource[0]).getOutput();
 			    			
 							//the target is from the matching row, in the form name.input -> create IO container target
 			    			String stringTarget = textName[i].getText() + "." + textInput[i].getText();
@@ -190,9 +195,6 @@ public class LinkingGUI {
 			    	}
 			    	
 			    	//TODO sizuest: already existing linkings are written a second time to the IOLinking.txt file
-			    	//TODO sizuest: messed up target/source/input/output... 
-			    	//when connection input Revolver.Tool to Motor.Efficiency in the GUI, the 
-			    	//saveIOLinking writes: Revolver.Efficiency = Motor.Tool to the file?!
 					Machine.saveIOLinking(path);
 			
 		    		shell.close();

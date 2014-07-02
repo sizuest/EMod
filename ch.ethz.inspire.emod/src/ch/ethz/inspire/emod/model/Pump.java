@@ -60,6 +60,7 @@ public class Pump extends APhysicalComponent{
 	
 	// Input parameters:
 	private IOContainer massFlowOut;
+	private IOContainer tempIn;
 	// Output parameters:
 	private IOContainer pel;
 	private IOContainer pth;
@@ -72,8 +73,8 @@ public class Pump extends APhysicalComponent{
 	private double[] pressureSamples;  	// Samples of pressure [Pa]
 	private double[] massFlowSamples;  	// Samples of mass flow [kg/s]
 	private double[] pressureSamplesR, massFlowSamplesR;
-	private double rhoFluid;			// Fluid density [kg/m3]
 	private double pelPump;				// Power demand of the pump if on [W]
+	private Material fluid;
 	
 	/**
 	 * Constructor called from XmlUnmarshaller.
@@ -106,9 +107,11 @@ public class Pump extends APhysicalComponent{
 	private void init()
 	{
 		/* Define Input parameters */
-		inputs     = new ArrayList<IOContainer>();
+		inputs      = new ArrayList<IOContainer>();
 		massFlowOut = new IOContainer("MassFlowOut", Unit.KG_S, 0, ContainerType.FLUIDDYNAMIC);
+		tempIn      = new IOContainer("TemperatureIn", Unit.KELVIN, 0, ContainerType.THERMAL);
 		inputs.add(massFlowOut);
+		inputs.add(tempIn);
 		
 		/* Define output parameters */
 		outputs    = new ArrayList<IOContainer>();
@@ -141,8 +144,8 @@ public class Pump extends APhysicalComponent{
 		try {
 			pressureSamples = params.getDoubleArray("PressureSamples");
 			massFlowSamples = params.getDoubleArray("MassFlowSamples");
-			rhoFluid        = params.getDoubleValue("DensityFluid");
 			pelPump         = params.getDoubleValue("ElectricalPower");
+			fluid           = params.getMaterial("Fluid");
 			
 			/*
 			 * Revert arrays;
@@ -202,11 +205,6 @@ public class Pump extends APhysicalComponent{
 			}
 		}
 				
-		// Strictly positive
-		if (rhoFluid<=0){
-			throw new Exception("Pump, type:" +type+ 
-					": Negative or zero value: Density must be strictly positive!");
-		}
 		if (pelPump<=0){
 			throw new Exception("Pump, type:" +type+ 
 					": Negative or zero value: Pump power must be strictly positive!");
@@ -236,7 +234,7 @@ public class Pump extends APhysicalComponent{
 		/* The mechanical power is given by the pressure and the voluminal flow:
 		 * Pmech = pFluid [Pa] * Vdot [m3/s]
 		 */
-		pmech.setValue( Math.abs(massFlowIn.getValue()*pFluid.getValue()/rhoFluid) );
+		pmech.setValue( Math.abs(massFlowIn.getValue()*pFluid.getValue()/fluid.getDensity(tempIn.getValue(), pFluid.getValue())) );
 		
 		/* The Losses are the difference between electrical and mechanical power
 		 */

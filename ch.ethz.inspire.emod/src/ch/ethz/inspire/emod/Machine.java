@@ -948,7 +948,7 @@ public class Machine {
 		if(null!=simulators)
 			for(ASimulationControl sc : simulators)
 				if(sc.getOutput().getUnit().equals(unit) | null==unit)
-						outputs.add(sc.getName()+"."+sc.getOutput().getName());
+						outputs.add(sc.getName());
 		
 		return outputs;
 	}

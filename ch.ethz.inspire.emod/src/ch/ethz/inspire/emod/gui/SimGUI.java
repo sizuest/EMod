@@ -12,6 +12,8 @@
  ***********************************/
 package ch.ethz.inspire.emod.gui;
 
+import java.util.ArrayList;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ControlEditor;
 import org.eclipse.swt.custom.TableCursor;
@@ -24,7 +26,9 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
+import ch.ethz.inspire.emod.Machine;
 
+import ch.ethz.inspire.emod.simulation.DynamicState;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
 
 /**
@@ -50,30 +54,36 @@ public class SimGUI extends Composite {
 
 	
 	public void init() {
-		//Überschrift des Fensters Simulation
+		//ï¿½berschrift des Fensters Simulation
 		textSimTitle = new Text(this, SWT.MULTI);
 		textSimTitle.setLayoutData(new GridData(SWT.BEGINNING, SWT.BEGINNING, true, false, 1, 1));
 		textSimTitle.setText(LocalizationHandler.getItem("app.gui.tabs.simtooltip"));
 		
-		//Tabelle für Maschinenmodell initieren
+		//Tabelle fï¿½r Maschinenmodell initieren
 		tableSimParam = new Table(this, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
 		tableSimParam.setLayoutData(new GridData(SWT.BEGINNING, SWT.BEGINNING, true, false, 1, 1));
 		tableSimParam.setLinesVisible(true);
 		tableSimParam.setHeaderVisible(true);
 		
 		//Titel der Spalten setzen
-		//TODO: Werte in Languagepack übernehmen
+		//TODO: Werte in Languagepack ï¿½bernehmen
 		String[] aTitles =  {"Parameter", "initial Value"};
 		for(int i=0; i < aTitles.length; i++){
 			TableColumn column = new TableColumn(tableSimParam, SWT.NULL);
 			column.setText(aTitles[i]);
 		}
 		
+		/*ArrayList <DynamicState> dsList = Machine.getDynamicStatesList();
+		for (DynamicState s:dsList){
+			TableItem item = new TableItem(tableSimParam, SWT.NONE);
+			item.setText(0, s.getName());
+			item.setText(0, s.getInitialValue()+" "+s.getUnit());
+		}*/
         for (int i = 0; i < 10; i++) {
             TableItem item = new TableItem(tableSimParam, SWT.NONE);
             item.setText(0, "Parameter " + i);
             item.setText(1, "Initial Value");
-          }
+        }
 		
         //Tabelle packen
         TableColumn[] columns = tableSimParam.getColumns();
@@ -136,12 +146,12 @@ public class SimGUI extends Composite {
         
         
         
-		//Überschrift des Fensters Simulation
+		//ï¿½berschrift des Fensters Simulation
 		textProcessTitle = new Text(this, SWT.MULTI);
 		textProcessTitle.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false, 1, 1));
 		textProcessTitle.setText("Die Prozessparameter konfigurieren");
         
-		//Tabelle für Prozess initieren
+		//Tabelle fï¿½r Prozess initieren
 		tableProcessParam = new Table(this, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
 		//gridData.widthHint = 600;
 		//gridData.heightHint = 300;
@@ -150,7 +160,7 @@ public class SimGUI extends Composite {
 		tableProcessParam.setHeaderVisible(true);
 		
 		//Titel der Spalten setzen
-		//TODO: Werte in Languagepack übernehmen
+		//TODO: Werte in Languagepack ï¿½bernehmen
 		String[] bTitles =  {"Time", "Parameter 1 Value", "Parameter 2 Value", "Parameter 3 Value", "Parameter 4 Value"};
 		for(int i=0; i < bTitles.length; i++){
 			TableColumn column = new TableColumn(tableProcessParam, SWT.NULL);

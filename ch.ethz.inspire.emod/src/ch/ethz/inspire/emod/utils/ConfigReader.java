@@ -17,6 +17,8 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
 
+import ch.ethz.inspire.emod.model.Material;
+
 public class ConfigReader {
 	
 	protected Properties props;
@@ -267,6 +269,36 @@ public class ConfigReader {
 					+ "' in file '" + fileName + "'\n   " + e.getMessage());
 		}
 		return retmatrix;
+	}
+	
+	/**
+	 * Get property by name. The value of the property must be
+	 * a material name.
+	 * <p>
+	 * Format:<br />
+	 * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  fluid name.<br />
+	 * Example:<br />
+	 * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &lt;entry key="PARAMNAME"&gt;Water&lt;/entry&gt;
+	 * 
+	 * @param paramname Name of the property.
+	 * @return the material object
+	 * @throws Exception if the property could not be found or if the value could
+	 *         not be converted to a double value.
+	 */
+	public Material getMaterial(String paramname) throws Exception
+	{
+		String valstr = props.getProperty(paramname);
+		if (valstr == null) {
+			throw new Exception("No propertiy '" + paramname + "' found in '" + fileName + "'!");
+		}
+	
+		try {
+			return (new Material(valstr));
+		}
+		catch (Exception e) {
+			throw new Exception("Unknown format of propertiy '" + paramname 
+					+ "' in file '" + fileName + "'\n   " + e.getMessage());
+		}
 	}
 	
 	/**
