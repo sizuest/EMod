@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:machine xmlns:ns2="ch.ethz.inspire.emod">
+    <machine>
+        <machineComponent>
+            <component xsi:type="motor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>Motor</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>Amplifier</name>
+        </machineComponent>
+    </machine>
+    <simulators>
+        <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>AmplifierCtrl</name>
+            <unit>NONE</unit>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>RotSpeed</name>
+            <unit>RPM</unit>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Torque</name>
+            <unit>NEWTONMETER</unit>
+        </simController>
+    </simulators>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+</ns2:machine>

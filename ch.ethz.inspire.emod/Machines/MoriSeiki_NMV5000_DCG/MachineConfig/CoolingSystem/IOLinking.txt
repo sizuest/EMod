@@ -1,0 +1,5 @@
+PumpPower.MassFlowOut = PumpMassFlow
+PumpPower.TemperatureIn = PumpTemperature
+PumpPower.PumpCtrl = PumpCtrl
+ServoMotor.RotSpeed = RotSpeed
+ServoMotor.Torque = Torque
