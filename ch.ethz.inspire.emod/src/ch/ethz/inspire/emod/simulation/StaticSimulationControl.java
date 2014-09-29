@@ -42,10 +42,10 @@ public class StaticSimulationControl extends ASimulationControl {
 	 * @param name
 	 * @param unit
 	 */
-	public StaticSimulationControl(String name, Unit unit, double simulationPeriod) {
+	public StaticSimulationControl(String name, Unit unit) {
 		super(name, unit);
-		simulationStep=0;
-		this.simulationPeriod=simulationPeriod;
+		simulationStep   = 0;
+		simulationPeriod = -1;
 		readSamplesFromFile();
 	}
 	

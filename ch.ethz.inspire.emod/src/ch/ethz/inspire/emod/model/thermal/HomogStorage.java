@@ -72,7 +72,10 @@ public class HomogStorage extends APhysicalComponent{
 	private String materialType;
 	private Material material;
 	
-	DynamicState temperature = newDynamicState("Temperature", Unit.KELVIN);
+	// Initial Value
+	Double temperatureInit;
+	// State
+	DynamicState temperature;
 	
 	// Sum
 	private double tmpSum;
@@ -119,9 +122,9 @@ public class HomogStorage extends APhysicalComponent{
 	public HomogStorage(String type, String parentType, double temperatureInit) {
 		super();
 		
-		this.type           = type;
-		this.parentType     = parentType;
-		temperature.setInitialCondition(temperatureInit);
+		this.type            = type;
+		this.parentType      = parentType;
+		this.temperatureInit = temperatureInit;
 		
 		init();
 	}
@@ -142,6 +145,10 @@ public class HomogStorage extends APhysicalComponent{
 		outputs = new ArrayList<IOContainer>();
 		temperatureOut     = new IOContainer("Temperature", Unit.KELVIN, 0, ContainerType.THERMAL);
 		outputs.add(temperatureOut);
+		
+		/* State */
+		dynamicStates = new ArrayList<DynamicState>();
+		temperature   = newDynamicState("Temperature", Unit.KELVIN);
 		
 	
 		/* ************************************************************************/
@@ -201,6 +208,9 @@ public class HomogStorage extends APhysicalComponent{
 			
 		// Fluid object
 		material = new Material(materialType);
+		
+		// Initialize State
+		temperature.setInitialCondition(temperatureInit);
 	}
 	
 	/**

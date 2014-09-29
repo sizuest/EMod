@@ -14,6 +14,7 @@ package ch.ethz.inspire.emod.gui;
 
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.dnd.*;
 import org.eclipse.swt.events.DisposeEvent;
@@ -24,6 +25,7 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
@@ -37,6 +39,8 @@ import org.eclipse.swt.widgets.TreeItem;
 import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.gui.utils.MachineComponentHandler;
 import ch.ethz.inspire.emod.model.MachineComponent;
+import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.simulation.ASimulationControl;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
 
 /**
@@ -44,12 +48,12 @@ import ch.ethz.inspire.emod.utils.LocalizationHandler;
  *
  */
 
-public class ModelGUI extends Composite {
+public class ModelGUI extends AGUITab {
 	
 	private Text textModelTitel;
 	private static Table tableModelView;
 	private TabFolder tabFolder;
-	private static Tree treeComponentDBView;
+	private static Tree treeComponentDBView, treeInputsDBView;
 	private Button buttonEditLinking;
 	
 	/**
@@ -58,9 +62,7 @@ public class ModelGUI extends Composite {
 	public ModelGUI(Composite parent) {
 		super(parent, SWT.NONE);
 		this.setLayout(new GridLayout(3, true));
-		initLayout();
-		initDragSource(treeComponentDBView);
-		initDropTarget(tableModelView);
+		init();
 	}
 
  	/**
@@ -158,25 +160,71 @@ public class ModelGUI extends Composite {
 	 * @param tabFolder	the tab folder to initialize
 	 */ 	
 	private void initTabInputs(TabFolder tabFolder){
-		
-		Text aText = new Text(tabFolder, SWT.NONE);
-		
+			
 		//TODO sizuest: create content of tabFolder Inputs
-		aText.setText("Content of tabFolder Inputs");
+		treeInputsDBView = new Tree(tabFolder, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
 		
+		// Inputs
+		String[] items = {"ProcessSimulationControl", "StaticSimulationControl", "GeometricKienzleSimulationControl"};
+		for (String name:items){
+			TreeItem child = new TreeItem(treeInputsDBView, SWT.NONE);
+			child.setText(name);
+		}
 		
 		//tab for simulation config
 		TabItem tabInputsItem = new TabItem(tabFolder, SWT.NONE);
 		tabInputsItem.setText(LocalizationHandler.getItem("app.gui.model.inputs"));
 		tabInputsItem.setToolTipText(LocalizationHandler.getItem("app.gui.model.inputstooltip"));
-		tabInputsItem.setControl(aText);
+		tabInputsItem.setControl(treeInputsDBView);
 	}
-
+	
+	/**
+	 * initialize the component tree as drag source
+	 * @param treeComponentDBView	the tree to set as drag source
+	 */ 
+	private void initInputDragSource(final Tree treeDBView){
+		//set tree as dragsource for the DnD of the components
+		int operations = DND.DROP_COPY;
+		final DragSource source = new DragSource(treeDBView, operations);
+		
+		//SOURCE for drag source:
+		//http://www.eclipse.org/articles/Article-SWT-DND/DND-in-SWT.html
+		
+		//DnD shall transfer text of the selected element
+		Transfer[] types = new Transfer[] {TextTransfer.getInstance()};
+		source.setTransfer(types);
+		
+		//create draglistener to transfer text of selected tree element
+		source.addDragListener(new DragSourceListener() {
+			private TreeItem[] selection = null;
+			
+			//at drag start, get the selected tree element
+			public void dragStart(DragSourceEvent event){
+				selection = treeDBView.getSelection();
+			}
+			
+			//set the text of the selected tree element as event data
+			public void dragSetData(DragSourceEvent event){
+				String text = "";
+				for(TreeItem item:selection){
+					text += (String)item.getText();	
+				}
+				event.data = text;
+			}
+			
+			//nothing needs to be done at the end of the drag
+			public void dragFinished(DragSourceEvent event) {
+			
+			}
+		});
+	}
+	
+	
  	/**
 	 * initialize the component tree as drag source
 	 * @param treeComponentDBView	the tree to set as drag source
 	 */ 
-	private void initDragSource(final Tree treeComponentDBView){
+	private void initComponentDragSource(final Tree treeComponentDBView){
 		//set tree as dragsource for the DnD of the components
 		int operations = DND.DROP_COPY;
 		final DragSource source = new DragSource(treeComponentDBView, operations);
@@ -253,21 +301,123 @@ public class ModelGUI extends Composite {
 				//collect string of drag, split into type and parameter
 				String string = null;
 		        string = (String) event.data;
-		        final String[] split = string.split("_",2);
-		        split[1] = split[1].replace(".xml","");
 		        
 		        //get position of the drop		        
-		        Point p = event.display.map(null, tableModelView, event.x, event.y);
-		        TableItem dropItem = tableModelView.getItem(p);
-		        int index = dropItem == null ? tableModelView.getItemCount() : tableModelView.indexOf(dropItem);
+				Point p = event.display.map(null, tableModelView, event.x, event.y);
+				TableItem dropItem = tableModelView.getItem(p);
+				int index = dropItem == null ? tableModelView.getItemCount() : tableModelView.indexOf(dropItem);
 		        
-		        //create new machine component out of component and type
-		        final MachineComponent mc = Machine.addNewMachineComponent(split[0], split[1]);
+		        if (string.contains("SimulationControl")){
+					
+					//create new machine component out of component and type
+					final ASimulationControl sc = Machine.addNewInputObject(string, Unit.NONE);
+					
+					//add the machine component to the table
+					addTableItem(sc, index);
+		        }
+		        else{
+		        	final String[] split = string.split("_",2);
+			        split[1] = split[1].replace(".xml","");
+			        
+			        //create new machine component out of component and type
+			        final MachineComponent mc = Machine.addNewMachineComponent(split[0], split[1]);
+			        
+			        //add the machine component to the table
+			        addTableItem(mc, index);
+		        }
 
-		        //add the machine component to the table
-		        addTableItem(mc, index);
+
 			}
 		});	
+	}
+	
+	/**
+	 * add new simulation control to the machine table
+	 * @param sc	simulation control to add to the machine table
+	 * @param index	position, where the component should be added to the table
+	 */ 	
+	public static void addTableItem(final ASimulationControl sc, int index){
+		tableModelView.setRedraw(false);
+
+        //create new tableitem in the tableModelView
+        final TableItem item = new TableItem(tableModelView, SWT.NONE, index);
+        
+        //write Name, Type and Parameter to table
+        item.setText(0, sc.getName());
+        item.setText(1, "Input");
+        item.setText(2, "");
+        
+        //create button to edit component
+        TableEditor editor = new TableEditor(tableModelView);
+        final CCombo comboEditImputUnit = new CCombo(tableModelView, SWT.PUSH);
+        
+        String[] items = new String[Unit.values().length];
+        for(int i=0; i<items.length; i++){
+        	items[i] = Unit.values()[i].toString();
+        }
+        comboEditImputUnit.setItems(items);
+        comboEditImputUnit.setText(sc.getUnit().toString());
+        comboEditImputUnit.addSelectionListener(new SelectionListener(){
+			public void widgetSelected(SelectionEvent event){
+				//disable comboMachineConfigName to prevent argument null for updatecomboMachineConfigName
+				comboEditImputUnit.setEnabled(false);
+    		
+				sc.setUnit(Unit.valueOf(comboEditImputUnit.getText()));
+    		
+    			//enable comboMachineConfigName after update
+    			comboEditImputUnit.setEnabled(true);
+    		}
+    		public void widgetDefaultSelected(SelectionEvent event){
+    		
+    		}
+    	});
+        comboEditImputUnit.pack();
+        editor.minimumWidth = comboEditImputUnit.getSize().x;
+        editor.horizontalAlignment = SWT.LEFT;
+        editor.setEditor(comboEditImputUnit, item, 3);
+        
+        //create button to delete component in last column
+        editor = new TableEditor(tableModelView);
+        final Button buttonDeleteComponent = new Button(tableModelView, SWT.PUSH);
+        buttonDeleteComponent.setText(LocalizationHandler.getItem("app.gui.model.delcomp"));
+        buttonDeleteComponent.addSelectionListener(new SelectionListener(){	
+        	//action when button delete component is pressed
+        	public void widgetSelected(SelectionEvent event){
+        		tableModelView.setRedraw(false);
+	    		
+        		
+        		//remove component from machine
+        		if(Machine.removeInputObject(sc.getName())){
+	        		//dispose the buttons for edit and delete, and dispose the item
+	        		buttonDeleteComponent.dispose();
+	        		comboEditImputUnit.dispose();
+	        		item.dispose();
+        		}
+        		
+        		//resize columns of table
+        		updateTable();
+	    		tableModelView.setRedraw(true);
+        	}
+        	public void widgetDefaultSelected(SelectionEvent event){
+        		
+        	}
+        });
+        buttonDeleteComponent.pack();
+        editor.minimumWidth = buttonDeleteComponent.getSize().x;
+        editor.horizontalAlignment = SWT.LEFT;
+        editor.setEditor(buttonDeleteComponent, item, 4);		        
+        
+        //if item is disposed, remove button delete and button edit
+        item.addDisposeListener(new DisposeListener(){
+        	public void widgetDisposed(DisposeEvent e) {
+        		buttonDeleteComponent.dispose();
+        		comboEditImputUnit.dispose();
+        	}	
+        });
+        
+        //write table and resize columns
+        updateTable();
+        tableModelView.setRedraw(true);
 	}
 	
  	/**
@@ -315,12 +465,13 @@ public class ModelGUI extends Composite {
         		tableModelView.setRedraw(false);
 	    		
         		//remove component from machine
-        		Machine.removeMachineComponent(mc);
+        		if(Machine.removeMachineComponent(mc.getName())){
 
-        		//dispose the buttons for edit and delete, and dispose the item
-        		buttonDeleteComponent.dispose();
-        		buttonEditComponent.dispose();
-        		item.dispose();
+	        		//dispose the buttons for edit and delete, and dispose the item
+	        		buttonDeleteComponent.dispose();
+	        		buttonEditComponent.dispose();
+	        		item.dispose();
+        		}
         		
         		//resize columns of table
         		updateTable();
@@ -373,5 +524,18 @@ public class ModelGUI extends Composite {
 		updateTable();
 		tableModelView.setRedraw(true);
 		
+	}
+
+	@Override
+	public void init() {
+		initLayout();
+		initComponentDragSource(treeComponentDBView);
+		initDropTarget(tableModelView);
+		initInputDragSource(treeInputsDBView);		
+	}
+
+	@Override
+	public void update() {
+		updateTabCompDB();	
 	}
 }

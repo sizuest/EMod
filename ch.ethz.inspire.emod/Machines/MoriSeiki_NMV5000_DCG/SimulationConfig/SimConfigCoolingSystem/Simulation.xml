@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-	<comment>
-		General simulation config file.
-	</comment>
-	<entry key="simulationPeriod">1</entry>
+<comment/>
+<entry key="simulationPeriod">1</entry>
+<entry key="InitialValue_Pipe_Temperature">293.0</entry>
 </properties>

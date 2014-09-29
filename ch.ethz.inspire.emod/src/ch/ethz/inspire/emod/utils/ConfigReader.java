@@ -14,7 +14,11 @@
 package ch.ethz.inspire.emod.utils;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Properties;
 
 import ch.ethz.inspire.emod.model.Material;
@@ -24,8 +28,10 @@ public class ConfigReader {
 	protected Properties props;
 	protected String fileName;
 	
-	public ConfigReader(String fname) {
+	public ConfigReader(String fname) throws Exception {
 		fileName = fname;
+		
+		ConfigReaderOpen();
 	}
 	public ConfigReader() {
 	}
@@ -314,30 +320,45 @@ public class ConfigReader {
 	 * Sets the property "name" to "value"
 	 * @param name
 	 * @param value
+	 * @throws IOException 
 	 */
-	public void setValue(String name, double value) {
+	public void setValue(String name, double value) throws IOException {
 		props.setProperty(name, Double.toString(value));
+		saveValues();
 	}
 	
 	/**
 	 * Sets the property "name" to "value"
 	 * @param name
 	 * @param value
+	 * @throws IOException 
 	 */
-	public void setValue(String name, boolean value) {
+	public void setValue(String name, boolean value) throws IOException {
 		props.setProperty(name, Boolean.toString(value));
+		saveValues();
 	}
 	
 	/**
 	 * Sets the property "name" to "value"
 	 * @param name
 	 * @param value
+	 * @throws IOException 
 	 */
-	public void setValue(String name, double[] value){
+	public void setValue(String name, double[] value) throws IOException{
 		String valueAsString = "";
 		for(double v : value)
 			valueAsString += Double.toString(v)+",";
 		props.setProperty(name,  valueAsString);
+		saveValues();
+	}
+	
+	/**
+	 * Saves the defined properties in an xml file
+	 * @throws IOException
+	 */
+	public void saveValues() throws IOException{
+		OutputStream ioStream = new FileOutputStream(fileName);
+		props.storeToXML(ioStream, "");	
 	}
 	
 }

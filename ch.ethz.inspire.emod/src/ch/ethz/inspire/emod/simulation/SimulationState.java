@@ -12,14 +12,7 @@
  ***********************************/
 package ch.ethz.inspire.emod.simulation;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
-import java.util.logging.Logger;
-
-import ch.ethz.inspire.emod.utils.Defines;
-import ch.ethz.inspire.emod.utils.PropertiesHandler;
+import ch.ethz.inspire.emod.States;
 
 /**
  * Handles the machine state of a simulation.
@@ -38,13 +31,11 @@ import ch.ethz.inspire.emod.utils.PropertiesHandler;
  *
  */
 public class SimulationState {
-	
-	private static Logger logger = Logger.getLogger(SimulationState.class.getName());
-	
+		
 	/* Variables */
 	private double endtime = 0.0;      /* End of simulation in [s]*/
 	/* List mapping the times of a state change to the next state. */
-	private ArrayList<TimeStateMapper<MachineState>> timeStateMap = null;
+	//private ArrayList<TimeStateMapper<MachineState>> timeStateMap = null;
 	private int actualindex;           /* Index of actual (time,state) in list */
 	private double nextStateChgTime;   /* Time, when next state change occurs. */
 	private MachineState actualstate; /* Actual state */
@@ -52,19 +43,13 @@ public class SimulationState {
 	/**
 	 * Constructor: Reads state list from a file and sets the
 	 * variables (endtime, actualstate, nextStateChgTime).
+	 * @param machineName 
+	 * @param simConfigName 
 	 * 
 	 */
 	public SimulationState(String machineName, String simConfigName) {
 		
-		/* Generate file name with path:
-		 * e.g. Machines/NDM200/MachineConfig/TestConfig1/MachineStateSequence.txt */
-		String prefix = PropertiesHandler.getProperty("app.MachineDataPathPrefix");
-		String file = prefix + "/" + machineName + "/"+ Defines.SIMULATIONCONFIGDIR +"/" + 
-		              simConfigName + "/" + Defines.MACHINESTATEFNAME;
-		
-		logger.info("Read machine state sequence from file: " + file);
-		
-		readSimulationStatesFromFile(file);
+		readSimulationStates(machineName, simConfigName);
 	}
 	
 	/**
@@ -80,11 +65,11 @@ public class SimulationState {
 		/* Comparison with a number a little bit smaller than 0, due to
 		 * numerical precision of doubles. */
 		if (time-nextStateChgTime > -0.0001) {
-			while ((time-nextStateChgTime > -0.0001) && (actualindex+1 < timeStateMap.size())) {
+			while ((time-nextStateChgTime > -0.0001) && (actualindex+1 < States.getStateCount())) {
 				/* Update actual state to next state. */
 				actualindex++;
-				nextStateChgTime = timeStateMap.get(actualindex).Time;
-				actualstate = timeStateMap.get(actualindex).State;
+				nextStateChgTime = States.getTime(actualindex);
+				actualstate      = States.getState(actualindex);
 			}
 			/* Note: If time > endtime: The last state is repeated. No exception is thrown. */
 		}
@@ -100,6 +85,7 @@ public class SimulationState {
 		return endtime;
 	}
 	
+	
 	/**
 	 * reads machine states from file. 
 	 * <p>
@@ -109,64 +95,14 @@ public class SimulationState {
 	 * 
 	 * @param file
 	 */
-	private void readSimulationStatesFromFile(String file) {
+	private void readSimulationStates(String machineName, String simConfigName) {
 		
-		double rtime = 0.0;
-		int linenr = 0;
-		timeStateMap = new ArrayList<TimeStateMapper<MachineState>>();
-		
-		try {
-			BufferedReader input = new BufferedReader(new FileReader(file));
-			String line = null;
-			
-			while((line=input.readLine())!=null) {
-				//tokenize & append
-				linenr++;
-				
-				// A comment is identified by a leading '#'.
-				// Remove comments (regex can be use only by replaceAll())
-				String l = line.replaceAll("#.*", "").replace("\t", " ").trim();
-				
-				/* (time,state)-pairs are separated by ';'.*/
-				StringTokenizer st = new StringTokenizer(l, ";");
-				
-				while(st.hasMoreTokens()) {
-					// time and state are separated by a ',':
-					StringTokenizer str = new StringTokenizer(st.nextToken().trim(),",");
-					rtime += Double.parseDouble(str.nextToken().trim());
-					String state = str.nextToken().trim();
-					MachineState ms = MachineState.valueOf(state);
-					timeStateMap.add(new TimeStateMapper<MachineState>(rtime, ms));
-				}
-			}
-			input.close();
-			endtime = rtime;
-			actualindex = 0;
-			nextStateChgTime = timeStateMap.get(actualindex).Time;
-			actualstate = timeStateMap.get(actualindex).State;
-		} catch (Exception e) {
-			System.err.println("Format error in file '" + file + "' line " + linenr);
-			e.printStackTrace();
-			System.exit(-1);
-		} 
+		States.readStates(machineName, simConfigName);
+
+		endtime          = States.getTime(States.getStateCount()-1);
+		actualindex      = 0;
+		nextStateChgTime = States.getTime(actualindex);
+		actualstate      = States.getState(actualindex);
 	}
 
-}
-
-/**
- * Data class. Used to stored a pair of a time, machine state value.
- * 
- * @author andreas
- *
- */
-class TimeStateMapper<S>
-{
-	public double Time;
-	public S State;
-	
-	 public TimeStateMapper(double t, S s)
-	 {
-		 Time = t;
-		 State = s;
-	 }
 }

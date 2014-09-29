@@ -64,7 +64,7 @@ public class MachineTest {
 		Machine.addIOLink(mc1.getComponent().getOutput("PTotal"), mc3.getComponent().getInput("PDmd"));
 		Machine.addIOLink(sc1.getOutput(), mc3.getComponent().getInput("PDmd"));
 		
-		Machine.removeMachineComponent("Amplifier");
+		Machine.getInstance().removeMachineComponent("Amplifier");
 
 		try {
 			assertEquals("get component by name", null, Machine.getMachineComponent("Amplifier"));

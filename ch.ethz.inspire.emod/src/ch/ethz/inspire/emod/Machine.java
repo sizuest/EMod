@@ -91,10 +91,7 @@ public class Machine {
 	/**
 	 * Private constructor for singleton implementation.
 	 */
-	public Machine()
-	{
-		
-	}
+	private Machine(){}
 	
 	/**
 	 * Reads the machine config of the machine.
@@ -164,7 +161,7 @@ public class Machine {
 		File path = new File(prefix+"/"+machineName+"/"+Defines.MACHINECONFIGDIR+"/"+machineConfigDir);
 		// Creat directory if required
 		if(path.exists()){
-			Exception ex = new Exception("Can't create new machine "+machineName+":"+machineConfigDir+": Machine already exists");
+			System.err.print("Can't create new machine "+machineName+":"+machineConfigDir+": Machine already exists");
 			return;
 		}
 		
@@ -207,7 +204,7 @@ public class Machine {
 		File path = new File(prefix+"/"+machineName+"/"+machineConfigDir);
 		// Creat directory if required
 		if(!path.exists()){
-			Exception ex = new Exception("Can't delete machine "+machineName+":"+machineConfigDir+": Machine does not exists");
+			System.err.print("Can't delete machine "+machineName+":"+machineConfigDir+": Machine does not exists");
 			return;
 		}
 		
@@ -216,18 +213,19 @@ public class Machine {
 			try{
 				f.delete();
 			} catch(Exception e){
-				Exception ex = new Exception("Can't delete machine "+machineName+":"+machineConfigDir+": Failed to remove configuration file "+f.getName());
+				System.err.print("Can't delete machine "+machineName+":"+machineConfigDir+": Failed to remove configuration file "+f.getName());
 			}
 		}
 			
 		try{
 			path.delete();
 		} catch(Exception e){
-			Exception ex = new Exception("Can't delete machine "+machineName+":"+machineConfigDir+": Failed to remove configuration directory");
+			System.err.print("Can't delete machine "+machineName+":"+machineConfigDir+": Failed to remove configuration directory");
 		}
 	}
 
 	public static void initMachineFromFile(String file) {
+		machineModel = null;
 		try {
 			JAXBContext context = JAXBContext.newInstance(Machine.class);
 			Unmarshaller um = context.createUnmarshaller();
@@ -265,6 +263,33 @@ public class Machine {
 			w.close();
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public static void saveInitialConditions() {
+		String name;
+		for (DynamicState ds: getInstance().getDynamicStatesList()) {
+			name = "*unknown*";
+			try{
+				name = ds.getInitialConditionName();
+				ds.saveInitialCondition();
+			}
+			catch(Exception e){
+				System.err.print("Failed to save initial condition "+name+": "+e.getMessage());
+			}
+		}
+	}
+	
+	public static void loadInitialConditions(){
+		String name;
+		for (DynamicState ds: getInstance().getDynamicStatesList()){
+			name = "*unknown*";
+			try {
+				name = ds.getInitialConditionName();
+				ds.loadInitialCondition();
+			} catch (Exception e) {
+				System.err.print("Failed to save initial condition "+name+": "+e.getMessage());
+			}
 		}
 	}
 	
@@ -473,13 +498,15 @@ public class Machine {
 					Exception ex = new Exception("checkMachineConfig: Input " + 
 							mc.getName() + "." + mcinput.getName() +
 							" is not connected!");
-					ex.printStackTrace();
+					System.err.print(ex.getMessage());
+					//ex.printStackTrace();
 				}
 				else if (mc_in_iolist_cnt >= 2) {
 					Exception ex = new Exception("checkMachineConfig: Input " + 
 							mc.getName() + "." + mcinput.getName() +
 							" is linked multiple times!");
-					ex.printStackTrace();
+					System.err.print(ex.getMessage());
+					//ex.printStackTrace();
 				}
 			}
 		}
@@ -556,6 +583,24 @@ public class Machine {
 	}
 	
 	/**
+	 * Returns a list with all input objects requiring a time dependent process signal
+	 * @return out
+	 */
+	public List<ASimulationControl> getVariableInputObjectList(){
+		List<ASimulationControl> out = new ArrayList<ASimulationControl>();
+		
+		if (Machine.getInstance().getInputObjectList() == null)
+			return out;
+		
+		for(ASimulationControl sc : Machine.getInstance().getInputObjectList()){
+			if(sc.getClass().getSimpleName().equals("ProcessSimulationControl"))
+				out.add(sc);
+		}
+		
+		return out;
+	}
+	
+	/**
 	 * 
 	 * @return list of all input-Output connections
 	 */
@@ -571,9 +616,8 @@ public class Machine {
 	 */
 	public static Machine getInstance() {
 		if(machineModel==null) {
-			Exception ex = new Exception("Machine not yet built!");
-			ex.printStackTrace();
-			System.exit(-1);
+			System.out.print("No machine existing: Creating empty machine");
+			machineModel = new Machine();
 		}
 		return machineModel;
 	}
@@ -716,8 +760,9 @@ public class Machine {
 	/**
 	 * Removes the component with the given name
 	 * @param mc Machine Component object
+	 * @return success
 	 */
-	public static void removeMachineComponent(MachineComponent mc) {
+	public static boolean removeMachineComponent(MachineComponent mc) {
 		
 		if(null!=getInstance().getIOLinkList())
 			getInstance().removeConnections(mc);
@@ -726,8 +771,10 @@ public class Machine {
 		if(!getInstance().getMachineComponentList().remove(mc)) {
 			Exception ex = new Exception("Unable to remove component "+mc.getName()+" : Can't remove component from list");
 			ex.printStackTrace();
-			return;
+			return false;
 		}
+		
+		return true;
 		
 		
 	}
@@ -735,23 +782,25 @@ public class Machine {
 	/**
 	 * Removes the component with the given name
 	 * @param name Name of the component
+	 * @return success
 	 */
-	public static void removeMachineComponent(String name) {
+	public static boolean removeMachineComponent(String name) {
 		// Check if component exists
 		if(null==getMachineComponent(name)) {
 			Exception ex = new Exception("Unable to remove component "+name+" : No component with this name");
 			ex.printStackTrace();
-			return;
+			return false;
 		}
 		else
-			removeMachineComponent(getMachineComponent(name));
+			return removeMachineComponent(getMachineComponent(name));
 	}
 	
 	/**
 	 * Removes the simulator with the given name
 	 * @param sc {@link ASimulationControl} simulator object
+	 * @return sucess
 	 */
-	public static void removeInputObject(ASimulationControl sc) {
+	public static boolean removeInputObject(ASimulationControl sc) {
 		
 		if(null!=getInstance().getIOLinkList())
 			getInstance().removeConnections(sc);
@@ -760,23 +809,26 @@ public class Machine {
 		if(!getInstance().getInputObjectList().remove(sc)) {
 			Exception ex = new Exception("Unable to remove component "+sc.getName()+" : Can't remove component from list");
 			ex.printStackTrace();
-			return;
-		}		
+			return false;
+		}
+		
+		return true;
 	}
 	
 	/**
 	 * Removes the simulator with the given name
 	 * @param name Name of the simulator
+	 * @return success
 	 */
-	public static void removeInputObject(String name) {
+	public static boolean removeInputObject(String name) {
 		// Check if component exists
 		if(null==getInputObject(name)) {
 			Exception ex = new Exception("Unable to remove simulator "+name+" : No simulator with this name");
 			ex.printStackTrace();
-			return;
+			return false;
 		}
 		else
-			removeInputObject(getInputObject(name));
+			return removeInputObject(getInputObject(name));
 	}
 	
 	/**
@@ -957,14 +1009,25 @@ public class Machine {
 	 * Returns a List of all {@link DynamicState}
 	 * @return {@link DynamicState}
 	 */
-	public static ArrayList<DynamicState> getDynamicStatesList(){
+	public ArrayList<DynamicState> getDynamicStatesList(){
 		ArrayList<DynamicState> output = new ArrayList<DynamicState>();
 		
 		for(MachineComponent mc : Machine.getInstance().componentList) {
-			output.addAll(mc.getComponent().getDynamicStateList());
+			if(mc.getComponent().getDynamicStateList()!=null)
+				output.addAll(mc.getComponent().getDynamicStateList());
 		}
 		
 		return output;
+	}
+	
+	/**
+	 * Returns the dynamic state "name" of the component "parent"
+	 * @param name
+	 * @param parent
+	 * @return {@link DynamicState}
+	 */
+	public DynamicState getDynamicState(String name, String parent){
+		return getMachineComponent(parent).getComponent().getDynamicState(name);
 	}
 	
 	public static String getOutputFullName(IOContainer container){

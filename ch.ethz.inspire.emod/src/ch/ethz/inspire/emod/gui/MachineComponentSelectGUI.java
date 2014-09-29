@@ -46,7 +46,7 @@ public class MachineComponentSelectGUI extends AEvaluationGUI {
 		init();
 	}
 	
-	private void init() {
+	public void init() {
 		Composite c = new Composite(parent, SWT.NONE);
 		c.setLayout(new GridLayout());
 		GridData gd = new GridData();
@@ -152,6 +152,12 @@ public class MachineComponentSelectGUI extends AEvaluationGUI {
 				comp.setActive(i, outputs.get(i).getSelection());
 			}
 		}
+		
+	}
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
 		
 	}
 }

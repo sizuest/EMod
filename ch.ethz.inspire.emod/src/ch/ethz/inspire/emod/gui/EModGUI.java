@@ -12,13 +12,19 @@
  ***********************************/
 package ch.ethz.inspire.emod.gui;
 
+import java.io.PrintStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Logger;
 
 import org.eclipse.swt.*;
+import org.eclipse.swt.custom.StyleRange;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -30,6 +36,7 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
+import org.eclipse.swt.widgets.Text;
 
 import ch.ethz.inspire.emod.gui.utils.ProgressbarGUI;
 import ch.ethz.inspire.emod.model.MachineComponent;
@@ -38,6 +45,7 @@ import ch.ethz.inspire.emod.utils.LocalizationHandler;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
 import ch.ethz.inspire.emod.LogLevel;
 import ch.ethz.inspire.emod.Machine;
+import ch.ethz.inspire.emod.States;
 
 /**
  * main gui class for emod application
@@ -55,6 +63,7 @@ public class EModGUI {
 	protected Composite model;
 	protected Composite sim;
 	protected Composite analysis;
+	protected StyledText console;
 	
 	public EModGUI(Display display) {
 		disp = display;
@@ -122,8 +131,8 @@ public class EModGUI {
 			fileOpenItem.setText(LocalizationHandler.getItem("app.gui.menu.file.open"));
 			MenuItem fileSaveItem = new MenuItem(fileMenu, SWT.PUSH);
 			fileSaveItem.setText(LocalizationHandler.getItem("app.gui.menu.file.save"));
-			//MenuItem fileSaveAsItem = new MenuItem(fileMenu, SWT.PUSH);
-			//fileSaveAsItem.setText(LocalizationHandler.getItem("app.gui.menu.file.saveas"));			
+			MenuItem fileSaveAsItem = new MenuItem(fileMenu, SWT.PUSH);
+			fileSaveAsItem.setText(LocalizationHandler.getItem("app.gui.menu.file.saveas"));			
 			MenuItem filePropertiesItem = new MenuItem(fileMenu, SWT.PUSH);
 			filePropertiesItem.setText(LocalizationHandler.getItem("app.gui.menu.file.properties"));
 			MenuItem fileExitItem = new MenuItem(fileMenu, SWT.PUSH);
@@ -155,7 +164,7 @@ public class EModGUI {
 		fileNewItem.addSelectionListener(new fileNewItemListener());
 		fileOpenItem.addSelectionListener(new fileOpenItemListener());
 		fileSaveItem.addSelectionListener(new fileSaveItemListener());
-		//fileSaveAsItem.addSelectionListener(new fileSaveAsItemListener());
+		fileSaveAsItem.addSelectionListener(new fileSaveAsItemListener());
 		filePropertiesItem.addSelectionListener(new filePropertiesItemListener());
 		fileExitItem.addSelectionListener(new fileExitItemListener());
 		
@@ -178,10 +187,11 @@ public class EModGUI {
 		tabModelItem.setControl(initModel(tabFolder));
 		
 		//tab for simulation config
-		TabItem tabSimItem = new TabItem(tabFolder, SWT.NONE);
+		final TabItem tabSimItem = new TabItem(tabFolder, SWT.NONE);
 		tabSimItem.setText(LocalizationHandler.getItem("app.gui.tabs.sim"));
 		tabSimItem.setToolTipText(LocalizationHandler.getItem("app.gui.tabs.simtooltip"));
-		tabSimItem.setControl(initSim(tabFolder));
+		final Composite tabSimControl = initSim(tabFolder);
+		tabSimItem.setControl(tabSimControl);
 		
 		//tab for thermal model config - not used at the moment
 		//TabItem tabThermalItem = new TabItem(tabFolder, SWT.NONE);
@@ -192,7 +202,14 @@ public class EModGUI {
 		final TabItem tabAnalysisItem = new TabItem(tabFolder, SWT.NONE);
 		tabAnalysisItem.setText(LocalizationHandler.getItem("app.gui.tabs.analysis"));
 		tabAnalysisItem.setToolTipText(LocalizationHandler.getItem("app.gui.tabs.analysistooltip"));
-		tabAnalysisItem.setControl(initAnalysis(tabFolder));
+		final Composite tabAnalysisControl = initAnalysis(tabFolder);
+		tabAnalysisItem.setControl(tabAnalysisControl);
+		
+		//tab for console
+		final TabItem tabConsoleItem = new TabItem(tabFolder, SWT.NONE);
+		tabConsoleItem.setText(LocalizationHandler.getItem("app.gui.tabs.console"));
+		tabConsoleItem.setToolTipText(LocalizationHandler.getItem("app.gui.tabs.consoletooltip"));
+		tabConsoleItem.setControl(initConsole(tabFolder));
 		
 		tabFolder.setSelection(0);
 		
@@ -202,22 +219,23 @@ public class EModGUI {
 				
 				System.out.println("tab " + tabFolder.getSelection()[0].getText() + " selected");
 				
-				// manick: if tab Model is closed -> save machine to .xml
-				if(!(tabFolder.getItem(tabFolder.getSelectionIndex()).equals(tabModelItem))){
-					System.out.println("Model tab deselected");
-		    		String path = PropertiesHandler.getProperty("app.MachineDataPathPrefix") + "/" +
-	    					  PropertiesHandler.getProperty("sim.MachineName") + "/MachineConfig/" +
-	    				      PropertiesHandler.getProperty("sim.MachineConfigName") + "/";
-
-					Machine.saveMachineToFile(path);
-				}	
-				
+				if (tabFolder.getItem(tabFolder.getSelectionIndex()).equals(tabSimItem))
+		        {
+					tabSimControl.update();
+					logger.log(LogLevel.DEBUG, "updating simulation configuration tabs");
+		        }
+					
 				// manick: if tab Analysis is opened -> Run Simulation
 				if (tabFolder.getItem(tabFolder.getSelectionIndex()).equals(tabAnalysisItem))
 		        {
+					System.out.println("Simulation start initialization: Saving Machine and IOLinking");
+					// Save all
+					Machine.saveMachine(PropertiesHandler.getProperty("sim.MachineName"), PropertiesHandler.getProperty("sim.MachineConfigName"));
+					States.saveStates(PropertiesHandler.getProperty("sim.MachineName"), PropertiesHandler.getProperty("sim.SimulationConfigName"));
 					// manick: EModSimRun contains all the necessary commands to run a simulation
 					EModSimulationRun.EModSimRun();
 					logger.log(LogLevel.DEBUG, "simulation run");
+					tabAnalysisControl.update();
 		        }
 			}
 		});
@@ -240,6 +258,49 @@ public class EModGUI {
 		// TODO: input file config
 		return analysis;
 	}
+	
+	private StyledText initConsole(TabFolder tabFolder) {
+		console = new StyledText(tabFolder, SWT.V_SCROLL | SWT.H_SCROLL);
+		console.setEditable(false);
+		console.setFont(new Font(disp, "Mono", 8, SWT.NORMAL ));
+		
+		// Pipe Console
+		final PrintStream backupSystemOutStream = System.out;
+		final PrintStream backupSystemErrStream = System.err;
+	    System.setOut(new PrintStream(backupSystemOutStream) {
+	      public void print(final String s) {
+	    	  disp.asyncExec(new Runnable() {
+	          public void run() {
+	        	  String msg = "["+(new SimpleDateFormat("yyyy.MM.dd HH:mm:ss")).format((new Date()))+"] INFO:  "+s+"\n";
+	        	  console.append(msg);
+	        	  
+	        	  StyleRange[] sr = new StyleRange[1];
+	        	  sr[0] = new StyleRange(console.getCharCount()-msg.length(), msg.length(), disp.getSystemColor(SWT.COLOR_BLACK), disp.getSystemColor(SWT.COLOR_WHITE));
+	        	  console.replaceStyleRanges(sr[0].start, sr[0].length, sr);
+	          }
+	        });
+	        super.print(s);
+	      }
+	    });
+	    System.setErr(new PrintStream(backupSystemErrStream) {
+	      public void print(final String s) {
+	    	  disp.asyncExec(new Runnable() {
+	          public void run() {
+	        	  String msg = "["+(new SimpleDateFormat("yyyy.MM.dd HH:mm:ss")).format((new Date()))+"] ERROR: "+s+"\n";
+	        	  console.append(msg);
+	        	  
+	        	  StyleRange[] sr = new StyleRange[1];
+	        	  sr[0] = new StyleRange(console.getCharCount()-msg.length(), msg.length(), disp.getSystemColor(SWT.COLOR_RED), disp.getSystemColor(SWT.COLOR_WHITE));
+	        	  console.replaceStyleRanges(sr[0].start, sr[0].length, sr);
+	          }
+	        });
+	        super.print(s);
+	      }
+	    });
+		
+		// TODO: input file config
+		return console;
+	}
 
 	/**
 	 * menu item action listener for save item
@@ -260,12 +321,35 @@ public class EModGUI {
 	/**
 	 * menu item action listener for save item
 	 * 
-	 * @author dhampl
+	 * @author sizuest
 	 *
 	 */
 	class fileSaveItemListener implements SelectionListener {
 		public void widgetSelected(SelectionEvent event) {
 			logger.log(LogLevel.DEBUG, "menu save item selected");
+			Machine.saveMachine(PropertiesHandler.getProperty("sim.MachineName"), PropertiesHandler.getProperty("sim.MachineConfigName"));
+			Machine.saveInitialConditions();
+			States.saveStates(PropertiesHandler.getProperty("sim.MachineName"), PropertiesHandler.getProperty("sim.SimulationConfigName"));
+		}
+
+		/* (non-Javadoc)
+		 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
+		 */
+		@Override
+		public void widgetDefaultSelected(SelectionEvent event) {
+			
+		}
+	}
+	
+	/**
+	 * menu item action listener for save as item
+	 * 
+	 * @author dhampl
+	 *
+	 */
+	class fileSaveAsItemListener implements SelectionListener {
+		public void widgetSelected(SelectionEvent event) {
+			logger.log(LogLevel.DEBUG, "menu save as item selected");
 			FileDialog fd = new FileDialog(shell, SWT.SAVE);
 	        fd.setText(LocalizationHandler.getItem("app.gui.save"));
 	        fd.setFilterPath("C:/");

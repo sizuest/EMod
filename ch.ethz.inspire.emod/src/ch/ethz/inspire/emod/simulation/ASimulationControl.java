@@ -128,12 +128,20 @@ public abstract class ASimulationControl {
 		this.state = stateMap.get(state);
 	}
 	
+	public void setUnit(Unit unit) {
+		this.unit = unit;
+	}
+	
 	public ComponentState getState() {
 		return state;
 	}
 	
 	public String getName() {
 		return this.name;
+	}
+	
+	public Unit getUnit() {
+		return this.unit;
 	}
 	
 	/**

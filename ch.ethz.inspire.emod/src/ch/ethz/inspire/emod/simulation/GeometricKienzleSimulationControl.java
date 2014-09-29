@@ -48,11 +48,14 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 	/**
 	 * 
 	 * @param name
-	 * @param configValuesFile
+	 * @param unit 
+	 * @throws Exception 
 	 */
-	public GeometricKienzleSimulationControl(String name, double simulationPeriod) {
+	public GeometricKienzleSimulationControl(String name, Unit unit) throws Exception {
 		super(name, Unit.NEWTONMETER);
-		this.simulationPeriod=simulationPeriod;
+		this.simulationPeriod = -1;
+		if (!unit.equals(Unit.NEWTON))
+			throw new Exception("Kienzle unit violation: unit must be NEWTON");
 		readConfigFromFile();
 	}
 	

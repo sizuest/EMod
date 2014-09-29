@@ -75,6 +75,7 @@ public class LayerStorage extends APhysicalComponent{
 	
 	// Output parameters:
 	private IOContainer tempOut;
+	private IOContainer tempAvg;
 	private IOContainer ploss;
 	
 	// Unit of the element 
@@ -169,8 +170,10 @@ public class LayerStorage extends APhysicalComponent{
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
 		tempOut = new IOContainer("TemperatureOut", Unit.KELVIN, 0, ContainerType.THERMAL);
+		tempAvg = new IOContainer("TemperatureAvg", Unit.KELVIN, 0, ContainerType.THERMAL);
 		ploss   = new IOContainer("PLoss",          Unit.WATT,   0, ContainerType.THERMAL);
 		outputs.add(tempOut);
+		outputs.add(tempAvg);
 		outputs.add(ploss);
 		
 		/* ************************************************************************/
@@ -333,15 +336,15 @@ public class LayerStorage extends APhysicalComponent{
 		if (!layerStorageIsInitialized)
 			setInitTemperature(tempIn.getValue());
 		
-		double tempAvg = 0;
+		double TAvg = 0;
 		double[] flowDirection = new double[nElements];
 		
 		for (int i=0; i<nElements; i++) {
-			tempAvg += temperaturesCur[i];
+			TAvg += temperaturesCur[i];
 			flowDirection[i] = Math.signum(temperaturesCur[i]-tempAmb.getValue());
 		}
 		
-		tempAvg = tempAvg/nElements;
+		TAvg = TAvg/nElements;
 		
 		/* For each element the change in temperature is
 		 * Tdot_i [K/s] = N [-] /m [kg] * mDot [kg/s] *(T_i-1 - T_i) [K] - S [m2]/m [kg] /cp [J/kg/K] * k [W/m2/K] * (T_i-T_amb) [K]
@@ -364,7 +367,10 @@ public class LayerStorage extends APhysicalComponent{
 		 * S [m²] * (1/alpha + d/lambda)^-1 [W/K*m²] * (Temp_Avg - Temp_amb) [K]
 		 * wher Temp_Avg is equal to the average element temperature
 		 */
-		ploss.setValue( surf * thRessistance * (tempAvg-tempAmb.getValue()));
+		ploss.setValue( surf * thRessistance * (TAvg-tempAmb.getValue()));
+		
+		/* Avg Temperature */
+		tempAvg.setValue(TAvg);
 	}
 
 	/* (non-Javadoc)

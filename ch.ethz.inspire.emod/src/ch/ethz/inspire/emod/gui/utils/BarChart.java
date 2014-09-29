@@ -53,6 +53,10 @@ public class BarChart {
 			chart.dispose();
 			chart = new Chart(parent, SWT.NONE);
 		}
+		
+		if(0==data.size())
+			return chart;
+		
 		List<Double> s = new ArrayList<Double>();
 		List<String> xs = new ArrayList<String>();
 		for(ConsumerData cd:data){

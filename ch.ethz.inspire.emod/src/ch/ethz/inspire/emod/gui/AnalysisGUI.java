@@ -33,8 +33,6 @@ import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.TabFolder;
-import org.eclipse.swt.widgets.TabItem;
 
 import ch.ethz.inspire.emod.LogLevel;
 import ch.ethz.inspire.emod.gui.utils.BarChart;
@@ -56,6 +54,7 @@ public class AnalysisGUI extends AEvaluationGUI {
 	Composite c;
 	ScrolledComposite sc;
 	private CTabFolder aTabFolder;
+	private CTabItem ptChartItem, varChartItem, energyChartItem;
 	
 	int maxWidth;
 	
@@ -83,20 +82,37 @@ public class AnalysisGUI extends AEvaluationGUI {
 		aTabFolder.setUnselectedCloseVisible(false);
 		aTabFolder.setSimple(false);
 		
-		CTabItem ptChartItem = new CTabItem(aTabFolder, SWT.NONE);
+		update();
+	}
+	
+	@Override
+	public void update(){
+		
+		// Read data
+		readData();
+		
+		// try to close old tabs
+		if(null!=ptChartItem) ptChartItem.dispose();
+		if(null!=varChartItem) varChartItem.dispose();
+		if(null!=energyChartItem) energyChartItem.dispose();
+		
+		// Create Tabs
+		ptChartItem     = new CTabItem(aTabFolder, SWT.NONE);
+		varChartItem    = new CTabItem(aTabFolder, SWT.NONE);
+		energyChartItem = new CTabItem(aTabFolder, SWT.NONE);
+		
 		ptChartItem.setShowClose(true);
 		ptChartItem.setText(LocalizationHandler.getItem("app.gui.analysis.ptchart"));
-		
-		ptChartItem.setControl(createPTChart(aTabFolder));
-		
-		CTabItem varChartItem = new CTabItem(aTabFolder, SWT.NONE);
+
 		varChartItem.setShowClose(true);
 		varChartItem.setText(LocalizationHandler.getItem("app.gui.analysis.variancechart"));
-		varChartItem.setControl(StackedAreaChart.createChart(aTabFolder, getConsumerDataList()));
-		
-		CTabItem energyChartItem = new CTabItem(aTabFolder, SWT.NONE);
+
 		energyChartItem.setShowClose(true);
 		energyChartItem.setText(LocalizationHandler.getItem("app.gui.analysis.energychart"));
+		
+		
+		ptChartItem.setControl(createPTChart(aTabFolder));
+		varChartItem.setControl(StackedAreaChart.createChart(aTabFolder, getConsumerDataList()));
 		energyChartItem.setControl(BarChart.createBarChart(aTabFolder, getConsumerDataList()));
 		
 		aTabFolder.setSelection(0);
@@ -106,6 +122,8 @@ public class AnalysisGUI extends AEvaluationGUI {
 				logger.log(LogLevel.DEBUG, "atab"+aTabFolder.getSelection().getText());
 			}
 		});
+		
+		this.redraw();
 	}
 	
 	private Composite createPTChart(CTabFolder aTabFolder2) {

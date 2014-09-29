@@ -42,6 +42,9 @@ public class StackedAreaChart {
 		}
 		
 		int color = 3;
+		if(0==data.size())
+			return chart;
+		
 		localdata = new ArrayList<ConsumerData>(data);
 		
 		sort();

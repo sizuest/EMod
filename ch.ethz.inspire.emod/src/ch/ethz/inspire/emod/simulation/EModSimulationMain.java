@@ -20,6 +20,7 @@ import ch.ethz.inspire.emod.utils.ConfigReader;
 import ch.ethz.inspire.emod.utils.Defines;
 import ch.ethz.inspire.emod.utils.IOConnection;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
+import ch.ethz.inspire.emod.gui.utils.ProgressbarGUI;
 import ch.ethz.inspire.emod.model.MachineComponent;
 import ch.ethz.inspire.emod.simulation.ProcessSimulationControl;
 
@@ -134,6 +135,8 @@ public class EModSimulationMain {
 	public void runSimulation() {
 		
 		double time; 
+		ProgressbarGUI pg = new ProgressbarGUI();
+		pg.updateProgressbar(0);
 		
 		/* Check if all lists are defined: */
 		if ( (simulators == null) || 
@@ -193,7 +196,12 @@ public class EModSimulationMain {
 			
 			/*	Log data of the actual time sample */
 			simoutput.logData(time);
+			
+			/* Update Progress bar */
+			pg.updateProgressbar(time/machineState.simEndTime());
 		}
+		/* Close progress bar */
+		pg.updateProgressbar(100);
 		/* Close simulation output */
 		simoutput.close();
 	}

@@ -3,6 +3,7 @@ package ch.ethz.inspire.emod.gui;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -18,6 +19,7 @@ import org.eclipse.swt.widgets.Text;
 
 import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.model.MachineComponent;
+import ch.ethz.inspire.emod.simulation.ASimulationControl;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
@@ -393,11 +395,16 @@ public class EModStartupGUI {
 		// Build machine: Read and check machine configuration
 		Machine.buildMachine(machine, config);
 		ArrayList<MachineComponent> mclist = Machine.getInstance().getMachineComponentList();
+		List<ASimulationControl> sclist = Machine.getInstance().getInputObjectList();
 
 		//add the components to the table in the model gui tab
 		int i = 0;
 		for(MachineComponent mc:mclist){
 			ModelGUI.addTableItem(mc, i);
+			i++;
+		}
+		for(ASimulationControl sc:sclist){
+			ModelGUI.addTableItem(sc, i);
 			i++;
 		}
     }

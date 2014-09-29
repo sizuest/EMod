@@ -22,6 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import ch.ethz.inspire.emod.model.Material;
 import ch.ethz.inspire.emod.model.thermal.LayerStorage;
 import ch.ethz.inspire.emod.model.units.*;
+import ch.ethz.inspire.emod.simulation.DynamicState;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 
@@ -91,6 +92,12 @@ public class Pipe extends APhysicalComponent{
 	private double pipeLength;
 	private String fluidType;
 	
+	// Initial temperature
+	double temperatureInit = 0;
+	
+	// Dynamic State
+	private DynamicState temperatureState;
+	
 	/**
 	 * Constructor called from XmlUnmarshaller.
 	 * Attribute 'type' is set by XmlUnmarshaller.
@@ -102,26 +109,44 @@ public class Pipe extends APhysicalComponent{
 	/**
 	 * @param u
 	 * @param parent
+	 * @throws Exception 
 	 */
-	public void afterUnmarshal(final Unmarshaller u, final Object parent) {
+	public void afterUnmarshal(final Unmarshaller u, final Object parent) throws Exception {
 		//post xml init method (loading physics data)
 		init();
 	}
 	
 	/**
-	 * Cylinder constructor
+	 * Pipe constructor
 	 * 
 	 * @param type
+	 * @throws Exception 
 	 */
 	public Pipe(String type) {
 		super();
 		
-		this.type=type;
+		this.type = type;
+		init();
+	}
+	
+	/**
+	 * Pipe constructor
+	 * 
+	 * @param type
+	 * @param temperatureInit 
+	 * @throws Exception 
+	 */
+	public Pipe(String type, double temperatureInit) {
+		super();
+		
+		this.type = type;
+		this.temperatureInit = temperatureInit;
 		init();
 	}
 	
 	/**
 	 * Called from constructor or after unmarshaller.
+	 * @throws Exception 
 	 */
 	private void init()
 	{
@@ -148,6 +173,20 @@ public class Pipe extends APhysicalComponent{
 		outputs.add(temperatureOut);
 		outputs.add(ploss);
 		outputs.add(pressureloss);
+		
+		/* State */
+		dynamicStates    = new ArrayList<DynamicState>();
+		temperatureState = newDynamicState("Temperature", Unit.KELVIN);
+		
+		if(temperatureInit!=0)
+			temperatureState.setInitialCondition(temperatureInit);
+		else
+			try {
+				temperatureState.loadInitialCondition();
+			} catch (Exception e1) {
+				System.err.print("Failed to load initial condition for "+temperatureState.getInitialConditionName()+": "+e1.getMessage());
+			}
+
 
 			
 		/* ************************************************************************/
@@ -187,7 +226,7 @@ public class Pipe extends APhysicalComponent{
 		
 		/* Create new layer storage object */
 		try {
-			layerStorage = new LayerStorage(type, "Pipe");
+			layerStorage = new LayerStorage(type, "Pipe", temperatureState.getInitialValue());
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -264,7 +303,10 @@ public class Pipe extends APhysicalComponent{
 		layerStorage.getInput("TemperatureAmb").setValue(temperatureAmb.getValue());
 		layerStorage.getInput("MassFlow").setValue(massflowOut.getValue());
 		layerStorage.getInput("HeatSource").setValue(pressureloss.getValue()*massflowOut.getValue()/density);	
-		layerStorage.getInput("Pressure").setValue(lastpressure);	
+		layerStorage.getInput("Pressure").setValue(lastpressure);
+		
+		// Update State
+		temperatureState.setValue(layerStorage.getOutput("TemperatureAvg").getValue());
 	
 	}
 
@@ -286,7 +328,6 @@ public class Pipe extends APhysicalComponent{
 	
 	public void setType(String type) {
 		this.type = type;
-		init();
 	}
 	
 }

@@ -43,4 +43,8 @@ public class ProgressbarGUI {
 			shell.close();
 		}
 	}
+	
+	public void updateProgressbar(double progress){
+		updateProgressbar((int)(progress));
+	}
 }

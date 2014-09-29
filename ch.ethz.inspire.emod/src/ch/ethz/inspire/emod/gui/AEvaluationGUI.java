@@ -31,7 +31,7 @@ import ch.ethz.inspire.emod.model.units.Unit;
  * @author dhampl
  *
  */
-public abstract class AEvaluationGUI extends Composite {
+public abstract class AEvaluationGUI extends AGUITab {
 
 	private static Logger logger = Logger.getLogger(AEvaluationGUI.class.getName());
 	private String dataFile;
@@ -47,7 +47,7 @@ public abstract class AEvaluationGUI extends Composite {
 	/**
 	 * reads the data from a specified datafile
 	 */
-	private void readData() {
+	protected void readData() {
 		logger.info("reading simulation data from file '"+dataFile+"'");
 		availableConsumers = new ArrayList<ConsumerData>();
 		BufferedReader reader = null;
@@ -67,19 +67,24 @@ public abstract class AEvaluationGUI extends Composite {
 			e.printStackTrace();
 		}
 		
-		String[] headerLine = lines.get(0);
-		for(int i=0;i<headerLine.length;i++) {
-			String token = headerLine[i];
-			token=token.trim();
-			if(token.equals("Time")) 
-				continue; 
-			if(token.contains("Sim"))
-				continue;
-			String consumer = token.replaceAll("-.*", "").trim();
-			if(!consumerExists(consumer))
-				createConsumer(consumer, i);
-			else
-				addDataToConsumer(consumer, i);
+		// Check if result file is non-empty
+		if(0==lines.size())
+			System.err.print("Result file "+dataFile+" is empty");
+		else {
+			String[] headerLine = lines.get(0);
+			for(int i=0;i<headerLine.length;i++) {
+				String token = headerLine[i];
+				token=token.trim();
+				if(token.equals("Time")) 
+					continue; 
+				if(token.contains("Sim"))
+					continue;
+				String consumer = token.replaceAll("-.*", "").trim();
+				if(!consumerExists(consumer))
+					createConsumer(consumer, i);
+				else
+					addDataToConsumer(consumer, i);
+			}
 		}
 		
 		try {

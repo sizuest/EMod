@@ -146,6 +146,9 @@ public class PumpAccumulator extends APhysicalComponent{
 		outputs.add(massFlowIn);
 		outputs.add(pFluid);
 		
+		/* States */
+		
+		
 		
 		/* ************************************************************************/
 		/*         Read configuration parameters: */

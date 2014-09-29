@@ -33,7 +33,7 @@ public abstract class APhysicalComponent {
 	protected List<IOContainer> inputs;
 	protected List<IOContainer> outputs;
 	protected double sampleperiod;
-	protected ArrayList<DynamicState> dynamicStates = new ArrayList<DynamicState>();
+	protected ArrayList<DynamicState> dynamicStates;
 	
 	/**
 	 * @param id
@@ -89,6 +89,8 @@ public abstract class APhysicalComponent {
 	 * To be executed before Simulation
 	 */
 	public void preSimulation(){
+		if(null==dynamicStates)
+			return;
 		for(DynamicState ic : dynamicStates)
 			try {
 				ic.loadInitialCondition();
@@ -104,8 +106,9 @@ public abstract class APhysicalComponent {
 	 */
 	public void setSimulationPeriod(double sampleperiod){
 		this.sampleperiod = sampleperiod;
-		for(DynamicState ds : dynamicStates) 
-			ds.setTimestep(sampleperiod);
+		if(dynamicStates!=null)
+			for(DynamicState ds : dynamicStates) 
+				ds.setTimestep(sampleperiod);
 		
 	}
 	
@@ -131,7 +134,6 @@ public abstract class APhysicalComponent {
 	 * @return the created {@link DynamicState}
 	 */
 	public DynamicState newDynamicState(String name, Unit unit){
-		
 		DynamicState ic = new DynamicState(name, unit);
 		dynamicStates.add(ic);
 		
@@ -144,9 +146,9 @@ public abstract class APhysicalComponent {
 	 * @param parent 
 	 * @return {@link DynamicState}
 	 */
-	public DynamicState getDynamicState(String name, String parent){
+	public DynamicState getDynamicState(String name){
 		for(DynamicState ds : dynamicStates) 
-			if(ds.getName().equals(name) & ds.getParent().equals(parent))
+			if(ds.getName().equals(name))
 				return ds;
 			
 		return null;
@@ -165,8 +167,9 @@ public abstract class APhysicalComponent {
 	 * @param parent
 	 */
 	public void setDynamicStateParent(String parent){
-		for(DynamicState ic : dynamicStates)
-			ic.setParent(parent);
+		if(dynamicStates!=null)
+			for(DynamicState ic : dynamicStates)
+				ic.setParent(parent);
 	}
 	
 }

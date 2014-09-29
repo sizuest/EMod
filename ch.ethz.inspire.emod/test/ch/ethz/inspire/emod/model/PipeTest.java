@@ -22,10 +22,11 @@ public class PipeTest {
 	
 	/**
 	 * Test Pipe class
+	 * @throws Exception 
 	 */
 	@Test
-	public void testPipe(){
-		Pipe pip = new Pipe("Example");
+	public void testPipe() throws Exception{
+		Pipe pip = new Pipe("Example", 303);
 		
 		// TODO stimmt noch nicht
 		
