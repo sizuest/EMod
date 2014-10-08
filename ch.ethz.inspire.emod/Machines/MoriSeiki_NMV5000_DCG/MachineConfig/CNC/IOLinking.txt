@@ -2,3 +2,4 @@ Motor.RotSpeed = RotSpeed
 Motor.Torque = Torque
 Amplifier.State = AmplifierCtrl
 Amplifier.PDmd = Motor.PTotal
+Bearing.RotSpeed = RotSpeed

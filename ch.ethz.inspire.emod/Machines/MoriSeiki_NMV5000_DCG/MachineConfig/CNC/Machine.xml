@@ -13,6 +13,12 @@
             </component>
             <name>Amplifier</name>
         </machineComponent>
+        <machineComponent>
+            <component xsi:type="bearing" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>Bearing</name>
+        </machineComponent>
     </machine>
     <simulators>
         <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -28,6 +34,7 @@
             <unit>NEWTONMETER</unit>
         </simController>
     </simulators>
+    <connectionList/>
     <connectionList/>
     <connectionList/>
     <connectionList/>

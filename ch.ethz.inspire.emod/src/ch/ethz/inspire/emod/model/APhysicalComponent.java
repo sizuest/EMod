@@ -120,7 +120,7 @@ public abstract class APhysicalComponent {
 	
 	/**
 	 * Returns the type of the model used, referring to the folders in the
-	 * MachineComponentDB. If not over-written, this is th class name.
+	 * MachineComponentDB. If not over-written, this is the class name.
 	 * @return Model Type
 	 */
 	public String getModelType() {
