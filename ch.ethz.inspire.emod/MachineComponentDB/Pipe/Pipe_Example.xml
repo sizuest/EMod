@@ -19,4 +19,6 @@
   <entry key="thermal.ConvectionConstant">1</entry>
   <entry key="thermal.NumberOfElements">10</entry>
   <entry key="thermal.InitialTemperature">293</entry>
+  <entry key="thermal.Mass">5</entry>
+  <entry key="thermal.HeatCapacity">480</entry>
 </properties>

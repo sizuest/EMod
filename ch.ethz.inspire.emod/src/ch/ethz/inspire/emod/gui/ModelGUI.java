@@ -21,12 +21,14 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
@@ -243,6 +245,14 @@ public class ModelGUI extends AGUITab {
 			//at drag start, get the selected tree element
 			public void dragStart(DragSourceEvent event){
 				selection = treeComponentDBView.getSelection();
+				
+				//if a category of components was selected (i.e. a parent of the tree), don't do anything
+				for(TreeItem item:selection){
+					if(item.getParentItem() == null){
+						event.doit = false;
+					}
+				}
+				
 			}
 			
 			//set the text of the selected tree element as event data
@@ -307,7 +317,8 @@ public class ModelGUI extends AGUITab {
 				TableItem dropItem = tableModelView.getItem(p);
 				int index = dropItem == null ? tableModelView.getItemCount() : tableModelView.indexOf(dropItem);
 		        
-		        if (string.contains("SimulationControl")){
+		        //if (string.contains("SimulationControl")){
+				if (string.contains("ProcessSimulationControl")){
 					
 					//create new machine component out of component and type
 					final ASimulationControl sc = Machine.addNewInputObject(string, Unit.NONE);
@@ -316,7 +327,10 @@ public class ModelGUI extends AGUITab {
 					addTableItem(sc, index);
 		        }
 		        else{
-		        	final String[] split = string.split("_",2);
+		        	//TODO manick: configure the other cases
+		        	
+		        	
+/*/		        	final String[] split = string.split("_",2);
 			        split[1] = split[1].replace(".xml","");
 			        
 			        //create new machine component out of component and type
@@ -324,6 +338,7 @@ public class ModelGUI extends AGUITab {
 			        
 			        //add the machine component to the table
 			        addTableItem(mc, index);
+//*/
 		        }
 
 
@@ -379,7 +394,13 @@ public class ModelGUI extends AGUITab {
         //create button to delete component in last column
         editor = new TableEditor(tableModelView);
         final Button buttonDeleteComponent = new Button(tableModelView, SWT.PUSH);
-        buttonDeleteComponent.setText(LocalizationHandler.getItem("app.gui.model.delcomp"));
+        
+        //TODO manick: edit image!
+        //Image imageDelete = Display.getDefault().getSystemImage(SWT.ICON_ERROR);
+        Image imageDelete = new Image(Display.getDefault(), "src/resources/Delete16.gif");
+        buttonDeleteComponent.setImage(imageDelete);
+        //buttonDeleteComponent.setText(LocalizationHandler.getItem("app.gui.model.delcomp"));
+ 
         buttonDeleteComponent.addSelectionListener(new SelectionListener(){	
         	//action when button delete component is pressed
         	public void widgetSelected(SelectionEvent event){
@@ -439,7 +460,12 @@ public class ModelGUI extends AGUITab {
         //create button to edit component
         TableEditor editor = new TableEditor(tableModelView);
         final Button buttonEditComponent = new Button(tableModelView, SWT.PUSH);
-        buttonEditComponent.setText(LocalizationHandler.getItem("app.gui.model.editcomp"));
+        
+        //TODO manick: edit image!
+        Image imageEdit = new Image(Display.getDefault(), "src/resources/Edit16.gif");
+        buttonEditComponent.setImage(imageEdit);
+        //buttonEditComponent.setText(LocalizationHandler.getItem("app.gui.model.editcomp"));
+        
         buttonEditComponent.addSelectionListener(new SelectionListener(){
         	public void widgetSelected(SelectionEvent event){
         		//open new componenteditgui with the current machine component
@@ -458,7 +484,13 @@ public class ModelGUI extends AGUITab {
         //create button to delete component in last column
         editor = new TableEditor(tableModelView);
         final Button buttonDeleteComponent = new Button(tableModelView, SWT.PUSH);
-        buttonDeleteComponent.setText(LocalizationHandler.getItem("app.gui.model.delcomp"));
+        
+        //TODO manick: edit image!
+        //Image imageDelete = Display.getDefault().getSystemImage(SWT.ICON_ERROR);
+        Image imageDelete = new Image(Display.getDefault(), "src/resources/Delete16.gif");
+        buttonDeleteComponent.setImage(imageDelete);
+        //buttonDeleteComponent.setText(LocalizationHandler.getItem("app.gui.model.delcomp"));
+        
         buttonDeleteComponent.addSelectionListener(new SelectionListener(){	
         	//action when button delete component is pressed
         	public void widgetSelected(SelectionEvent event){

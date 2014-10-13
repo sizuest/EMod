@@ -13,6 +13,8 @@
       MassFlowSamples [kg/s]
         Array of corresponding mass floes to the given pressure
         samples
+	  Fluid [-]
+		type of the pumped fluid
       DensityFluid [kg/m3]
         desity of the pumped fluid
       ElectricalPower [W]
@@ -31,6 +33,7 @@
   </comment>
   <entry key="PressureSamples">2400000 2250000 2100000 1850000 1650000 1350000 1000000 650000 0</entry>
   <entry key="MassFlowSamples">0 0.6 1.2 1.8 2.4 3.0 3.6 4.2 4.8</entry>
+  <entry key="Fluid">Water</entry>
   <entry key="DensityFluid">800</entry>
   <entry key="ElectricalPower">1500</entry>
   <entry key="GasPressureInitial">1650000</entry>

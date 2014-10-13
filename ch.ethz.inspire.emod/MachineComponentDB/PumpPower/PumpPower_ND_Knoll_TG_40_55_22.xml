@@ -22,6 +22,7 @@
   </comment>
   <entry key="PressureSamples">320000 319500 315000 311500 303000 298000 283000 270000</entry>
   <entry key="MassFlowSamples">1.47 1.957 2.443 2.943 3.429 3.915 4.415 4.9</entry>
-  <entry key="ElectricalPowerSamples">1700 1850 2050 2250 2400 2550 2750 2850</entry>
+  <entry key="Fluid">Water</entry>
+  <entry key="PowerSamples">1700 1850 2050 2250 2400 2550 2750 2850</entry>
   <entry key="DensityFluid">883</entry>
 </properties>

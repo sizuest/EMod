@@ -21,6 +21,7 @@
   </comment>
   <entry key="PressureSamples">367975 68670</entry>
   <entry key="MassFlowSamples">0 0.000233</entry>
+  <entry key="Fluid">Water</entry>
   <entry key="DensityFluid">1000</entry>
   <entry key="ElectricalPower">135</entry>
 </properties>

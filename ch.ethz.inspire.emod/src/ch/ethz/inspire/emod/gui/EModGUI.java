@@ -25,6 +25,7 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -158,6 +159,9 @@ public class EModGUI {
 			//MenuItem helpContentItem = new MenuItem(helpMenu, SWT.PUSH);
 			//helpContentItem.setText(LocalizationHandler.getItem("app.gui.menu.help.content"));
 			MenuItem helpAboutItem = new MenuItem(helpMenu, SWT.PUSH);
+			
+			//TODO manick: also implement for others?
+	        helpAboutItem.setImage(new Image(Display.getDefault(), "src/resources/About16.gif"));
 			helpAboutItem.setText(LocalizationHandler.getItem("app.gui.menu.help.about"));
 		
 		//add listeners

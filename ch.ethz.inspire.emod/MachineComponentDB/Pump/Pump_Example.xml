@@ -13,8 +13,10 @@
       MassFlowSamples [kg/s]
         Array of corresponding mass floes to the given pressure
         samples
+	  Fluid [-]
+		type of the pumped fluid
       DensityFluid [kg/m3]
-        desity of the pumped fluid
+        density of the pumped fluid
       ElectricalPower [W]
       	Electrical power of the pump if running
       
