@@ -326,11 +326,19 @@ public class ModelGUI extends AGUITab {
 					//add the machine component to the table
 					addTableItem(sc, index);
 		        }
-		        else{
-		        	//TODO manick: configure the other cases
-		        	
-		        	
-/*/		        	final String[] split = string.split("_",2);
+				
+				else if(string.contains("ThermalTest")){
+					return;
+				}
+				else if(string.contains("StaticSimulation")){
+					return;
+				}
+				else if(string.contains("GeometricKienzle")){
+					return;
+				}
+				
+		        else{	        	
+		        	final String[] split = string.split("_",2);
 			        split[1] = split[1].replace(".xml","");
 			        
 			        //create new machine component out of component and type
@@ -338,7 +346,6 @@ public class ModelGUI extends AGUITab {
 			        
 			        //add the machine component to the table
 			        addTableItem(mc, index);
-//*/
 		        }
 
 
