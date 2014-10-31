@@ -1,10 +1,10 @@
 /***********************************
- * $Id: ComponentHandler.java 159 2014-06-09 14:24:44Z manick $
+ * $Id$
  *
- * $URL: https://icvrdevil.ethz.ch/svn/EMod/trunk/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/gui/utils/ComponentHandler.java $
- * $Author: manick $
- * $Date: 2014-06-09 16:24:44 +0200 (Mo, 09 Jun 2014) $
- * $Rev: 159 $
+ * $URL$
+ * $Author$
+ * $Date$
+ * $Rev$
  *
  * Copyright (c) 2011 by Inspire AG, ETHZ
  * All rights reserved

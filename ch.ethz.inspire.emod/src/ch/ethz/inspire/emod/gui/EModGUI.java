@@ -127,14 +127,19 @@ public class EModGUI {
 		Menu fileMenu = new Menu(shell, SWT.DROP_DOWN);
 		fileMenuHeader.setMenu(fileMenu);
 			MenuItem fileNewItem = new MenuItem(fileMenu, SWT.PUSH);
+			fileNewItem.setImage(new Image(Display.getDefault(), "src/resources/New16.gif"));
 			fileNewItem.setText(LocalizationHandler.getItem("app.gui.menu.file.new"));
 			MenuItem fileOpenItem = new MenuItem(fileMenu, SWT.PUSH);
+			fileOpenItem.setImage(new Image(Display.getDefault(), "src/resources/Open16.gif"));			
 			fileOpenItem.setText(LocalizationHandler.getItem("app.gui.menu.file.open"));
 			MenuItem fileSaveItem = new MenuItem(fileMenu, SWT.PUSH);
+			fileSaveItem.setImage(new Image(Display.getDefault(), "src/resources/Save16.gif"));
 			fileSaveItem.setText(LocalizationHandler.getItem("app.gui.menu.file.save"));
 			MenuItem fileSaveAsItem = new MenuItem(fileMenu, SWT.PUSH);
+			fileSaveAsItem.setImage(new Image(Display.getDefault(), "src/resources/SaveAs16.gif"));
 			fileSaveAsItem.setText(LocalizationHandler.getItem("app.gui.menu.file.saveas"));			
 			MenuItem filePropertiesItem = new MenuItem(fileMenu, SWT.PUSH);
+			filePropertiesItem.setImage(new Image(Display.getDefault(), "src/resources/Preferences16.gif"));
 			filePropertiesItem.setText(LocalizationHandler.getItem("app.gui.menu.file.properties"));
 			MenuItem fileExitItem = new MenuItem(fileMenu, SWT.PUSH);
 			fileExitItem.setText(LocalizationHandler.getItem("app.gui.menu.file.exit"));
@@ -145,12 +150,26 @@ public class EModGUI {
 		Menu compDBMenu = new Menu(shell, SWT.DROP_DOWN);
 		compDBMenuHeader.setMenu(compDBMenu);
 			MenuItem compDBNewItem = new MenuItem(compDBMenu, SWT.PUSH);
+			compDBNewItem.setImage(new Image(Display.getDefault(), "src/resources/New16.gif"));
 			compDBNewItem.setText(LocalizationHandler.getItem("app.gui.menu.compDB.new"));
 			MenuItem compDBOpenItem = new MenuItem(compDBMenu, SWT.PUSH);
+			compDBOpenItem.setImage(new Image(Display.getDefault(), "src/resources/Open16.gif"));
 			compDBOpenItem.setText(LocalizationHandler.getItem("app.gui.menu.compDB.open"));
 			//MenuItem compDBImportItem = new MenuItem(compDBMenu, SWT.PUSH);
 			//compDBImportItem.setText(LocalizationHandler.getItem("app.gui.menu.compDB.import"));
 		
+		//create "Database Material" tab and items
+		MenuItem matDBMenuHeader = new MenuItem(menuBar, SWT.CASCADE);
+		matDBMenuHeader.setText(LocalizationHandler.getItem("app.gui.menu.matDB"));
+		Menu matDBMenu = new Menu(shell, SWT.DROP_DOWN);
+		matDBMenuHeader.setMenu(matDBMenu);
+			MenuItem matDBNewItem = new MenuItem(matDBMenu, SWT.PUSH);
+			matDBNewItem.setImage(new Image(Display.getDefault(), "src/resources/New16.gif"));
+			matDBNewItem.setText(LocalizationHandler.getItem("app.gui.menu.matDB.new"));
+			MenuItem matDBOpenItem = new MenuItem(matDBMenu, SWT.PUSH);
+			matDBOpenItem.setImage(new Image(Display.getDefault(), "src/resources/Open16.gif"));
+			matDBOpenItem.setText(LocalizationHandler.getItem("app.gui.menu.matDB.open"));
+			
 		//create "Help" tab and items
 		MenuItem helpMenuHeader = new MenuItem(menuBar, SWT.CASCADE);
 		helpMenuHeader.setText(LocalizationHandler.getItem("app.gui.menu.help"));
@@ -159,8 +178,6 @@ public class EModGUI {
 			//MenuItem helpContentItem = new MenuItem(helpMenu, SWT.PUSH);
 			//helpContentItem.setText(LocalizationHandler.getItem("app.gui.menu.help.content"));
 			MenuItem helpAboutItem = new MenuItem(helpMenu, SWT.PUSH);
-			
-			//TODO manick: also implement for others?
 	        helpAboutItem.setImage(new Image(Display.getDefault(), "src/resources/About16.gif"));
 			helpAboutItem.setText(LocalizationHandler.getItem("app.gui.menu.help.about"));
 		
@@ -174,6 +191,9 @@ public class EModGUI {
 		
 		compDBNewItem.addSelectionListener(new compDBNewItemListener());
 		compDBOpenItem.addSelectionListener(new compDBOpenItemListener());
+		
+		matDBNewItem.addSelectionListener(new matDBNewItemListener());
+		matDBOpenItem.addSelectionListener(new matDBOpenItemListener());
 		
 		helpAboutItem.addSelectionListener(new helpAboutItemListener());
 		
@@ -458,7 +478,7 @@ public class EModGUI {
 	}
 	
 	/**
-	 * menu item action listener for comp DB open item
+	 * menu item action listener for comp DB new item
 	 * 
 	 * @author manick
 	 *
@@ -488,6 +508,39 @@ public class EModGUI {
 
 		}
 	}
+	
+	/**
+	 * menu item action listener for material DB new item
+	 * 
+	 * @author manick
+	 *
+	 */
+	class matDBNewItemListener implements SelectionListener {
+		public void widgetSelected(SelectionEvent event){
+			EditMaterialGUI materialEditGUI = new EditMaterialGUI();
+			materialEditGUI.newMaterialGUI();
+		}
+		public void widgetDefaultSelected(SelectionEvent event){
+
+		}
+	}
+	
+	
+	/**
+	 * menu item action listener for material DB open item
+	 * 
+	 * @author manick
+	 *
+	 */
+	class matDBOpenItemListener implements SelectionListener {
+		public void widgetSelected(SelectionEvent event){
+			new MaterialDBGUI();
+		}
+		public void widgetDefaultSelected(SelectionEvent event){
+
+		}
+	}
+	
 	
 	/**
 	 * menu item action listener for help about item
