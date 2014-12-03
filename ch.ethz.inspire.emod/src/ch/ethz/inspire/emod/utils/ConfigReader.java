@@ -361,4 +361,33 @@ public class ConfigReader {
 		props.storeToXML(ioStream, "");	
 	}
 	
+	public String[] getStringArray(String paramname) throws Exception {
+		String valstr = props.getProperty(paramname);
+		if (valstr == null) {
+			throw new Exception("No propertiy '" + paramname + "' found in '" + fileName + "'!");
+		}
+	
+		String[] retarray = null;
+		try {
+			// Remove semicolon at the end, if exists:
+			String valstr1 = valstr.replace(";", "");
+			// Change colons to spaces:
+			String valstr2 = valstr1.replace(",", " ");
+			// Split at white spaces:
+			String[] strarray = valstr2.trim().split("\\s+");
+		
+			// Convert string array to double array:
+			retarray = new String[strarray.length];
+			for (int i=0; i<strarray.length; i++) {
+				retarray[i] = strarray[i];
+			}
+		}
+		catch (NumberFormatException e) {
+			throw new NumberFormatException("Unknown format of propertiy '" + paramname 
+					+ "' in file '" + fileName + "'\n   " + e.getMessage());
+		}
+		
+		return retarray;
+	}
+	
 }

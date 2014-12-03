@@ -29,7 +29,7 @@ public class MovingMassTest {
 		MovingMass mm = new MovingMass(75,90);
 		
 		// Set time step to 1s
-		mm.setSimulationPeriod(1);
+		mm.setSimulationTimestep(1);
 		
 		// 1ST TEST
 		// Set speed [mm/min]

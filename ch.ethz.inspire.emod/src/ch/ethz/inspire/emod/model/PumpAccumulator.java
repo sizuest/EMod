@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import ch.ethz.inspire.emod.model.units.*;
+import ch.ethz.inspire.emod.simulation.DynamicState;
 import ch.ethz.inspire.emod.utils.Algo;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
@@ -93,6 +94,7 @@ public class PumpAccumulator extends APhysicalComponent{
 	private double pGas;				// Gas pressure
 	private boolean pumpOn;				// Pump state
 	
+	
 	/**
 	 * Constructor called from XmlUnmarshaller.
 	 * Attribute 'type' is set by XmlUnmarshaller.
@@ -147,7 +149,6 @@ public class PumpAccumulator extends APhysicalComponent{
 		outputs.add(pFluid);
 		
 		/* States */
-		
 		
 		
 		/* ************************************************************************/
@@ -276,7 +277,7 @@ public class PumpAccumulator extends APhysicalComponent{
 		 * Update mass in the reservoir:
 		 * m(t) += T[s] * (mdot_in(t-T) [kg/s] - mdot_out(t-T) [kg/s]) | / rho [kg/m3]
 		 */
-		volFluid += (massFlowIn.getValue()-massFlowOut.getValue()) / density.getValue() * sampleperiod;
+		volFluid += (massFlowIn.getValue()-massFlowOut.getValue()) / density.getValue() * timestep;
 		/*
 		 * New gas volume
 		 * V_gas(t) [m3] = V_gas,0 [m3] + V_fluid,0 [m3] - V(t) [m3]

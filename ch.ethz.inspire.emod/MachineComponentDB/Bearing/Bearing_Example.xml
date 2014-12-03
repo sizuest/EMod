@@ -1,40 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-  <comment>
-    Model parameter definition
-    ==========================
-      Model : Bearing 
-      Type  : Example
-    Parameters
-    ----------
-      X0 [-]
-        Static radial factor.
-      Y0 [-]
-        Static radial factor.
-      X1 [-]
-        Dynamic radial factor.
-      Y1 [-]
-        Dynamic radial  factor.
-      C0 [N]
-        Static load factor.
-      MeanDiameter [m]
-        Mean diameter of the bearing 
-      LubricantViscosity [m2/s]
-        Viscosity of the used lubricant
-      ContactAngle [°]
-        Contact angle of the rolling bodies
-      LubricationFactor [-]
-        Lubricant factor according to Harris p448
-        
-  </comment>
-<entry key="X0">0.5</entry>
-<entry key="Y0">0.46</entry>
+<comment>File changed by user: simon</comment>
 <entry key="X1">1</entry>
-<entry key="Y1">0</entry>
-<entry key="C0">13000</entry>
-<entry key="MeanDiameter">0.045</entry>
+<entry key="X0">0.5</entry>
 <entry key="LubricantViscosity">68e-8</entry>
 <entry key="ContactAngle">30</entry>
+<entry key="C0">13000</entry>
 <entry key="LubricationFactor">.7</entry>
+<entry key="Y1">0</entry>
+<entry key="MeanDiameter">0.045</entry>
+<entry key="Y0">0.46</entry>
 </properties>

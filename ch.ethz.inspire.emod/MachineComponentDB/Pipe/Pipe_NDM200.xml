@@ -16,9 +16,5 @@
   <entry key="PipeDiameter">0.01</entry>
   <entry key="PipeLength">0.7</entry>
   <entry key="Material">Example</entry>
-  <entry key="thermal.ConvectionConstant">1</entry>
-  <entry key="thermal.NumberOfElements">10</entry>
-  <entry key="thermal.InitialTemperature">293</entry>
-  <entry key="thermal.Mass">5</entry>
-  <entry key="thermal.HeatCapacity">480</entry>
+  <entry key="PipeHTC">1</entry>
 </properties>

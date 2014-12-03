@@ -223,7 +223,7 @@ public class EModSimulationMain {
 			sc.setSimulationPeriod(sampleperiod);
 		
 		for(MachineComponent mc : machineComponentList)
-			mc.getComponent().setSimulationPeriod(sampleperiod);
+			mc.getComponent().setSimulationTimestep(sampleperiod);
 	}
 	
 	/**

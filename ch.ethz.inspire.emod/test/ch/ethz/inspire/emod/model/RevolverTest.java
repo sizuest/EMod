@@ -24,7 +24,7 @@ public class RevolverTest {
 	public void testRevolver(){
 		Revolver rev = new Revolver("Example");
 		
-		rev.setSimulationPeriod(0.2);
+		rev.setSimulationTimestep(0.2);
 		
 		rev.getInput("Tool").setValue(2);
 		rev.update();

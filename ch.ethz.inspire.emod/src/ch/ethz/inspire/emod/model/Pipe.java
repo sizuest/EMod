@@ -19,8 +19,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import ch.ethz.inspire.emod.model.Material;
-import ch.ethz.inspire.emod.model.thermal.LayerStorage;
+import ch.ethz.inspire.emod.model.thermal.ThermalArray;
 import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.simulation.DynamicState;
 import ch.ethz.inspire.emod.utils.IOContainer;
@@ -76,9 +75,7 @@ public class Pipe extends APhysicalComponent{
 	private double Reynolds		 = 0;
 	private double lambda		 = 0;
 	
-	// Fluid properties
-	private Material fluid;
-	private LayerStorage layerStorage;
+	private ThermalArray fluid;
 	
 	// Output parameters:
 	private IOContainer pressureIn;
@@ -90,13 +87,11 @@ public class Pipe extends APhysicalComponent{
 	// Parameters used by the model. 
 	private double pipeDiameter;
 	private double pipeLength;
+	private double pipeHTC;
 	private String fluidType;
 	
 	// Initial temperature
 	double temperatureInit = 0;
-	
-	// Dynamic State
-	private DynamicState temperatureState;
 	
 	/**
 	 * Constructor called from XmlUnmarshaller.
@@ -174,20 +169,6 @@ public class Pipe extends APhysicalComponent{
 		outputs.add(ploss);
 		outputs.add(pressureloss);
 		
-		/* State */
-		dynamicStates    = new ArrayList<DynamicState>();
-		temperatureState = newDynamicState("Temperature", Unit.KELVIN);
-		
-		if(temperatureInit!=0)
-			temperatureState.setInitialCondition(temperatureInit);
-		else
-			try {
-				temperatureState.loadInitialCondition();
-			} catch (Exception e1) {
-				System.err.print("Failed to load initial condition for "+temperatureState.getInitialConditionName()+": "+e1.getMessage());
-			}
-
-
 			
 		/* ************************************************************************/
 		/*         Read configuration parameters: */
@@ -206,6 +187,7 @@ public class Pipe extends APhysicalComponent{
 		try {
 			pipeDiameter = params.getDoubleValue("PipeDiameter");
 			pipeLength   = params.getDoubleValue("PipeLength");
+			pipeHTC      = params.getDoubleValue("PipeHTC");
 			fluidType    = params.getString("Material");
 		
 		}
@@ -223,23 +205,14 @@ public class Pipe extends APhysicalComponent{
 		    e.printStackTrace();
 		    System.exit(-1);
 		}
+
+		/* Thermal Array */
+		fluid = new ThermalArray(fluidType, Math.pow(pipeDiameter/2,2)*Math.PI*pipeLength,10);
+		fluid.getTemperature().setInitialCondition(temperatureInit);
 		
-		/* Create new layer storage object */
-		try {
-			layerStorage = new LayerStorage(type, "Pipe", temperatureState.getInitialValue());
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			System.exit(-1);
-		}
-		/* Create new fluid object: */
-		try {
-			fluid = new Material(fluidType);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			System.exit(-1);
-		}
+		/* State */
+		dynamicStates = new ArrayList<DynamicState>();
+		dynamicStates.add(fluid.getTemperature());
 	}
 	
 	/**
@@ -267,18 +240,14 @@ public class Pipe extends APhysicalComponent{
 	public void update() {
 		double density, viscosity;
 		
-		layerStorage.update();
-		
+			
 		lastpressure    = pressureOut.getValue();
 		lastmassflow    = massflowOut.getValue();
-		lasttemperature = (layerStorage.getInput("TemperatureIn").getValue()+layerStorage.getOutput("TemperatureOut").getValue())/2;
-		
-		// Update Losses
-		ploss.setValue(layerStorage.getOutput("PLoss").getValue());
+		lasttemperature = fluid.getTemperature().getValue();
 		
 		// Get current fluid properties
-		density   = fluid.getDensity(lasttemperature,  lastpressure);
-		viscosity = fluid.getViscosity(lasttemperature, lastpressure);
+		density   = fluid.getMaterial().getDensity(lasttemperature,  lastpressure);
+		viscosity = fluid.getMaterial().getViscosity(lasttemperature, lastpressure);
 		
 		Reynolds = pipeDiameter*lastmassflow/(density*viscosity*Math.pow(10,-6)*Math.PI/4*Math.pow(pipeDiameter, 2));
 		
@@ -292,21 +261,25 @@ public class Pipe extends APhysicalComponent{
 		else
 			pressureloss.setValue(0);
 		
-		// Update mass flow and pressure
+		// set array boundary conditions
+		fluid.setThermalResistance(1/(pipeHTC*pipeLength*Math.pow(pipeDiameter/2, 2)*Math.PI));//TODOs
+		fluid.setFlowRate(lastmassflow);
+		fluid.setHeatSource(pressureloss.getValue()*lastmassflow/density);
+		fluid.setPressure(lastpressure);
+		fluid.setTemperatureExternal(temperatureAmb.getValue());
+		fluid.setTemperatureIn(temperatureIn.getValue());
+		
+		// Integration step
+		fluid.integrate(timestep);
+		
+		// Update outputs
 		massflowIn.setValue(massflowOut.getValue());				
 		pressureIn.setValue(pressureOut.getValue()+pressureloss.getValue());
+		ploss.setValue(fluid.getHeatLoss());
 		
-		temperatureOut.setValue(layerStorage.getOutput("TemperatureOut").getValue());
+		temperatureOut.setValue(fluid.getTemperatureOut());
 		
-		// Update Layer Model
-		layerStorage.getInput("TemperatureIn").setValue(temperatureIn.getValue());
-		layerStorage.getInput("TemperatureAmb").setValue(temperatureAmb.getValue());
-		layerStorage.getInput("MassFlow").setValue(massflowOut.getValue());
-		layerStorage.getInput("HeatSource").setValue(pressureloss.getValue()*massflowOut.getValue()/density);	
-		layerStorage.getInput("Pressure").setValue(lastpressure);
-		
-		// Update State
-		temperatureState.setValue(layerStorage.getOutput("TemperatureAvg").getValue());
+		// Update Layer Model		
 	
 	}
 
@@ -316,14 +289,6 @@ public class Pipe extends APhysicalComponent{
 	@Override
 	public String getType() {
 		return type;
-	}
-	/* (non-Javadoc)
-	 * @see ch.ethz.inspire.emod.model.APhysicalComponent#getType()
-	 */
-	@Override
-	public void setSimulationPeriod(double sampleperiod){
-		this.sampleperiod = sampleperiod;
-		layerStorage.setSimulationPeriod(sampleperiod);
 	}
 	
 	public void setType(String type) {

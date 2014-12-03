@@ -11,7 +11,7 @@
       PressureSamples [Pa]
         Array of operation points for the pump
       MassFlowSamples [l/min]
-        Array of corresponding mass floes to the given pressure
+        Array of corresponding mass flows to the given pressure
         samples
       GasPressureInitial [Pa] 
       	Initial pressure of the gas

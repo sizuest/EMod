@@ -25,8 +25,8 @@ public class HomogStorageTest {
 	 */
 	@Test
 	public void testHomogStorage(){
-		HomogStorage hs = new HomogStorage("Example","ThermalTest", 293);
-		hs.setSimulationPeriod(0.2);
+		HomogStorage hs = new HomogStorage("Water",10, 293);
+		hs.setSimulationTimestep(0.2);
 		
 		// Add two inflows and two outflows
 		hs.getInput("In");

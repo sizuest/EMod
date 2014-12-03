@@ -58,11 +58,11 @@ import java.lang.reflect.*;
  *
  */
 @XmlRootElement(namespace = "ch.ethz.inspire.emod")
-@XmlSeeAlso({MachineComponent.class, APhysicalComponent.class, Motor.class, LinAxis.class,
+@XmlSeeAlso({MachineComponent.class, APhysicalComponent.class, Motor.class, MotorAC.class, LinAxis.class,
 	ClampTest.class, ServoMotor.class, Revolver.class, Fan.class, Pump.class, PumpAccumulator.class, HeatExchanger.class, 
 	PumpPower.class, Transmission.class, CompressedFluid.class, Amplifier.class, ConstantComponent.class, 
 	Cylinder.class, Valve.class, Pipe.class, HydraulicOil.class, ConstantPump.class,
-	MovingMass.class, Bearing.class, 
+	MovingMass.class, Bearing.class, Spindle.class,
 	HysteresisControl.class, SwitchControl.class, Sum.class, Gain.class,
 	HomogStorage.class, LayerStorage.class, ForcedHeatTransfere.class, FreeHeatTransfere.class,
 	ASimulationControl.class, RandomSimulationControl.class, StaticSimulationControl.class, 

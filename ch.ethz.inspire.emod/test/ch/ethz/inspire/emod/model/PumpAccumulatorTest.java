@@ -28,7 +28,7 @@ public class PumpAccumulatorTest {
 		// Set Mass flow to zero
 		pump.getInput("Level").setValue(1);
 		pump.getInput("MassFlowOut").setValue(0);
-		pump.setSimulationPeriod(1);
+		pump.setSimulationTimestep(1);
 		pump.update();
 		
 		assertEquals("Pump power @ 0s", 0,       pump.getOutput("PTotal").getValue(),     0);
@@ -37,7 +37,7 @@ public class PumpAccumulatorTest {
 		
 		// Set Mass flow to 1kg/s and sample time to 1s
 		pump.getInput("MassFlowOut").setValue(0.01);
-		pump.setSimulationPeriod(1);
+		pump.setSimulationTimestep(1);
 		pump.update();
 		
 		// After 1s, pump is still off

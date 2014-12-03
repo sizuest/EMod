@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlElement;
 
 import ch.ethz.inspire.emod.model.Material;
 import ch.ethz.inspire.emod.model.units.*;
+import ch.ethz.inspire.emod.simulation.DynamicState;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 import ch.ethz.inspire.emod.utils.Defines;
 import ch.ethz.inspire.emod.utils.IOContainer;
@@ -81,22 +82,15 @@ public class LayerStorage extends APhysicalComponent{
 	// Unit of the element 
 	private double cp;
 	private double m;
-	private double V;
+	private double volume;
 	private double surf;
 	private double alpha;
 	private double temperatureInit = 0;
 	private int    nElements;
 	private String fluidType;
 	
-	// Fluid properties
-	private Material fluid;
-	
-	// Sum
-	private double[] temperaturesCur;
-	
-	// trigger layer storage initialization (temperature)
-	private boolean layerStorageIsInitialized = false;
-	
+	private ThermalArray thermalArray;
+		
 	// Heat transfere resistance
 	private double thRessistance;
 	
@@ -114,6 +108,7 @@ public class LayerStorage extends APhysicalComponent{
 	 */
 	public void afterUnmarshal(final Unmarshaller u, final Object parent) {
 		//post xml init method (loading physics data)
+		loadParameters();
 		init();
 	}
 	
@@ -128,6 +123,28 @@ public class LayerStorage extends APhysicalComponent{
 		
 		this.type       = type;
 		this.parentType = parentType;
+		
+		loadParameters();
+		init();
+	}
+	
+	/**
+	 * Layer Storage constructor
+	 * 
+	 * @param fluidType
+	 * @param volume
+	 * @param surf
+	 * @param alpha
+	 * @param nElements
+	 * @param temperatureInit
+	 */
+	public LayerStorage(String fluidType, double volume, double surf, double alpha, int nElements, double temperatureInit){
+		this.fluidType = fluidType;
+		this.volume    = volume;
+		this.surf      = surf;
+		this.alpha     = alpha;
+		this.nElements = nElements;
+		this.temperatureInit = temperatureInit;
 		
 		init();
 	}
@@ -146,6 +163,7 @@ public class LayerStorage extends APhysicalComponent{
 		this.parentType = parentType;
 		this.temperatureInit = temperatureInit;
 		
+		loadParameters();
 		init();
 	}
 	
@@ -176,11 +194,66 @@ public class LayerStorage extends APhysicalComponent{
 		outputs.add(tempAvg);
 		outputs.add(ploss);
 		
-		/* ************************************************************************/
+		
+		
+		// Validate the parameters:
+		try {
+		    checkConfigParams();
+		}
+		catch (Exception e) {
+		    e.printStackTrace();
+		    System.exit(-1);
+		}
+		
+		// Array object:
+		thermalArray = new ThermalArray(fluidType, volume, nElements);
+		thermalArray.getTemperature().setInitialCondition(temperatureInit);
+		
+		// Temperature state:
+		dynamicStates = new ArrayList<DynamicState>();
+		dynamicStates.add(thermalArray.getTemperature());
+
+		/* Calculate thermal ressistance k, with cases:
+		 * - alpha=0
+		 *   k = 0
+		 * - else
+		 *   k = alpha
+		 */
+		if(0==alpha)
+			thRessistance=Double.POSITIVE_INFINITY;
+		else
+			thRessistance=1/alpha/surf;
+	}
+	
+	/**
+	 * Validate the model parameters.
+	 * 
+	 * @throws Exception
+	 */
+    private void checkConfigParams() throws Exception
+	{		
+    	// Check model parameters:
+		// Parameter must be non negative and non zero
+    	if (surf < 0) {
+    		throw new Exception("LayerStorage, type:" + type +
+    				": Negative value: Surface must be non negative");
+    	}
+    	if (alpha < 0) {
+    		throw new Exception("LayerStorage, type:" + type +
+    				": Negative value: ConvectionConstant must be non negative");
+    	}
+    	if (nElements < 1) {
+    		throw new Exception("LayerStorage, type:" + type +
+			": Negative value: NumberOfElements must be at least one");
+    	}
+    		
+	}
+    
+    private void loadParameters(){
+    	/* ************************************************************************/
 		/*         Read configuration parameters: */
 		/* ************************************************************************/
 		ComponentConfigReader params = null;
-		ComponentConfigReader initCond = null;
 		String path;
 		/* If no parent model file is configured, the local configuration file
 		 * will be opened. Otherwise the cfg file of the parent will be opened
@@ -210,24 +283,6 @@ public class LayerStorage extends APhysicalComponent{
 			}
 		}
 		
-		/* 
-		 * Load initial condition
-		 */
-		
-		if (temperatureInit==0) {
-			path = PropertiesHandler.getProperty("app.MachineDataPathPrefix")+
-					"/"+PropertiesHandler.getProperty("sim.MachineName")+"/"+Defines.SIMULATIONCONFIGDIR+"/"+
-					PropertiesHandler.getProperty("sim.SimulationConfigName")+"/"+Defines.SIMULATIONCONFIGFILE;
-			try {
-				initCond = new ComponentConfigReader(path);
-				temperatureInit = initCond.getDoubleValue("initialTemperature."+this.getClass().getSimpleName()+"_"+type);
-				layerStorageIsInitialized = true;
-			}
-			catch (Exception e) {
-				layerStorageIsInitialized = false;
-			}
-		}
-		
 		/* Read the config parameter: */
 		try {
 			/* 
@@ -236,11 +291,11 @@ public class LayerStorage extends APhysicalComponent{
 			 */
 			if (parentType.contentEquals("Pipe")) {
 				surf = params.getDoubleValue("PipeDiameter")*params.getDoubleValue("PipeLength")*Math.PI;
-				V    = Math.pow(params.getDoubleValue("PipeDiameter")/2,2)*params.getDoubleValue("PipeLength")*Math.PI;
+				volume    = Math.pow(params.getDoubleValue("PipeDiameter")/2,2)*params.getDoubleValue("PipeLength")*Math.PI;
 			}
 			else {
 				surf = params.getDoubleValue("thermal.Surface");
-				V    = params.getDoubleValue("thermal.Volume");
+				volume    = params.getDoubleValue("thermal.Volume");
 			}
 			
 			// Load the other parameters
@@ -253,124 +308,30 @@ public class LayerStorage extends APhysicalComponent{
 			System.exit(-1);
 		}
 		params.Close(); /* Model configuration file not needed anymore. */
-		
-		// Validate the parameters:
-		try {
-		    checkConfigParams();
-		}
-		catch (Exception e) {
-		    e.printStackTrace();
-		    System.exit(-1);
-		}
-		
-		/* ************************************************************************/
-		/*         Fluid object: */
-		/* ************************************************************************/
-		fluid = new Material(fluidType);
-		
-		/* ************************************************************************/
-		/*         Initial temperature: */
-		/* ************************************************************************/
-		
-		/* Initialize array for element temperatures and set all to initialiation value */
-		temperaturesCur = new double[nElements];	
-		setInitTemperature(temperatureInit);
-
-		/* Calculate thermal ressistance k, with cases:
-		 * - alpha=0
-		 *   k = 0
-		 * - else
-		 *   k = alpha
-		 */
-		if(0==alpha)
-			thRessistance=0;
-		else
-			thRessistance=alpha;
-	}
-	
-	/**
-	 * @param temperatureInit [K]
-	 * @throws Exception
-	 */
-	public void setInitTemperature(double temperatureInit){
-		for (int i=0; i<temperaturesCur.length; i++)
-			temperaturesCur[i] = temperatureInit;
-		tempOut.setValue(temperatureInit);
-	}
-	
-	/**
-	 * Validate the model parameters.
-	 * 
-	 * @throws Exception
-	 */
-    private void checkConfigParams() throws Exception
-	{		
-    	// Check model parameters:
-		// Parameter must be non negative and non zero
-    	if (surf < 0) {
-    		throw new Exception("LayerStorage, type:" + type +
-    				": Negative value: Surface must be non negative");
-    	}
-    	if (alpha < 0) {
-    		throw new Exception("LayerStorage, type:" + type +
-    				": Negative value: ConvectionConstant must be non negative");
-    	}
-    	if (nElements < 1) {
-    		throw new Exception("LayerStorage, type:" + type +
-			": Negative value: NumberOfElements must be at least one");
-    	}
-    		
-	}
+    }
 
 	/* (non-Javadoc)
 	 * @see ch.ethz.inspire.emod.model.APhysicalComponent#update()
 	@Override
 	 */
 	public void update() {
-		
-		// Get fluid properties
-		cp = fluid.getHeatCapacity();
-		m  = V * fluid.getDensity( (tempIn.getValue()+tempOut.getValue())/2, pressure.getValue());
-		
-		//Set initial temperature if required
-		if (!layerStorageIsInitialized)
-			setInitTemperature(tempIn.getValue());
-		
-		double TAvg = 0;
-		double[] flowDirection = new double[nElements];
-		
-		for (int i=0; i<nElements; i++) {
-			TAvg += temperaturesCur[i];
-			flowDirection[i] = Math.signum(temperaturesCur[i]-tempAmb.getValue());
-		}
-		
-		TAvg = TAvg/nElements;
-		
-		/* For each element the change in temperature is
-		 * Tdot_i [K/s] = N [-] /m [kg] * mDot [kg/s] *(T_i-1 - T_i) [K] - S [m2]/m [kg] /cp [J/kg/K] * k [W/m2/K] * (T_i-T_amb) [K]
-		 * 
-		 * where T_-1 = T_in
-		 */	
-		for (int i=nElements-1; i>0; i--) {
-			temperaturesCur[i] += sampleperiod * ( nElements / m * mDotIn.getValue() * (temperaturesCur[i-1]-temperaturesCur[i]) -
-					                           		surf / m / cp * thRessistance * (temperaturesCur[i]-tempAmb.getValue()) + 
-					                           		heatSrc.getValue() / nElements);
-		}
-		temperaturesCur[0] += sampleperiod * ( nElements / m * mDotIn.getValue() * (tempIn.getValue()-temperaturesCur[0]) -
-                							   surf / m / cp * thRessistance * (temperaturesCur[0]-tempAmb.getValue()) +
-                							   heatSrc.getValue() / nElements);
-		
-		/* The outflow thermal energy is given by the massflow and temperature of the last element: */
-		tempOut.setValue(temperaturesCur[nElements-1]);
 				
-		/* The total heat loss is equal to:
-		 * S [m²] * (1/alpha + d/lambda)^-1 [W/K*m²] * (Temp_Avg - Temp_amb) [K]
-		 * wher Temp_Avg is equal to the average element temperature
-		 */
-		ploss.setValue( surf * thRessistance * (TAvg-tempAmb.getValue()));
+		// Set boundary conditions
+		thermalArray.setMassFlowRate(mDotIn.getValue(), tempIn.getValue(), pressure.getValue());
+		thermalArray.setHeatSource(0);
+		thermalArray.setPressure(pressure.getValue());
+		thermalArray.setTemperatureExternal(tempAmb.getValue());
+		thermalArray.setTemperatureIn(tempIn.getValue());
+		thermalArray.setThermalResistance(thRessistance);
 		
-		/* Avg Temperature */
-		tempAvg.setValue(TAvg);
+		// Update thermal array
+		thermalArray.integrate(timestep);
+		
+		// Set outputs
+		tempOut.setValue(thermalArray.getTemperatureOut());
+		ploss.setValue(thermalArray.getHeatLoss());
+		tempAvg.setValue(thermalArray.getTemperature().getValue());
+		
 	}
 
 	/* (non-Javadoc)

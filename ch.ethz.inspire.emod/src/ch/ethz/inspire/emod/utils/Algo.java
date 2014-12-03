@@ -13,7 +13,14 @@
 
 package ch.ethz.inspire.emod.utils;
 
+import java.awt.List;
 import java.util.Arrays;
+import java.util.Collections;
+
+import org.ejml.data.Complex64F;
+import org.ejml.data.DenseMatrix64F;
+import org.ejml.factory.DecompositionFactory;
+import org.ejml.interfaces.decomposition.EigenDecomposition;
 
 import ch.ethz.inspire.emod.utils.ArrayIndexComparator;
 
@@ -249,5 +256,45 @@ public class Algo {
 		}
 		return low;
 	}
+	
+	/**
+	 * Returns the roots of the polynome (real & complex parts)
+	 * Source {@link https://stackoverflow.com/questions/13805644/finding-roots-of-polynomial-in-java}
+	 * @param coefficients double array with the roots
+	 * @return roots {@link Complex64F} 
+	 */
+	public static Complex64F[] findRoots(double... coefficients) {
+        int N = coefficients.length-1;
+        
+        for (int i = 0; i < coefficients.length / 2; i++) {
+        	double temp = coefficients[i];
+        	coefficients[i] = coefficients[coefficients.length - 1 - i];
+        	coefficients[coefficients.length - 1 - i] = temp;
+		}
+
+        // Construct the companion matrix
+        DenseMatrix64F c = new DenseMatrix64F(N,N);
+
+        double a = coefficients[N];
+        for( int i = 0; i < N; i++ ) {
+            c.set(i,N-1,-coefficients[i]/a);
+        }
+        for( int i = 1; i < N; i++ ) {
+            c.set(i,i-1,1);
+        }
+
+        // use generalized eigenvalue decomposition to find the roots
+        EigenDecomposition<DenseMatrix64F> evd =  DecompositionFactory.eig(N, false);
+
+        evd.decompose(c);
+
+        Complex64F[] roots = new Complex64F[N];
+
+        for( int i = 0; i < N; i++ ) {
+            roots[i] = evd.getEigenvalue(i);
+        }
+
+        return roots;
+    }
 
 }

@@ -25,8 +25,9 @@ public class LayerStorageTest {
 	 */
 	@Test
 	public void testLayerStorageTest(){
-		LayerStorage ls = new LayerStorage("Example","ThermalTest", 303);
-		ls.setSimulationPeriod(0.2);
+		//LayerStorage ls = new LayerStorage("Example","ThermalTest", 303);
+		LayerStorage ls = new LayerStorage("Water", 0.01, 1, 1, 10, 293);
+		ls.setSimulationTimestep(0.2);
 		
 		// No temperature gradient
 		ls.getInput("TemperatureIn").setValue(293);

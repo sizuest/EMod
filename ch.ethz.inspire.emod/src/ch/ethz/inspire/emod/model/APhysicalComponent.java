@@ -32,7 +32,7 @@ public abstract class APhysicalComponent {
 
 	protected List<IOContainer> inputs;
 	protected List<IOContainer> outputs;
-	protected double sampleperiod;
+	protected double timestep;
 	protected ArrayList<DynamicState> dynamicStates;
 	
 	/**
@@ -102,13 +102,13 @@ public abstract class APhysicalComponent {
 	/**
 	 * Sets the sample time for the model
 	 * 
-	 * @param sampleperiod sample time in seconds
+	 * @param timestep sample time in seconds
 	 */
-	public void setSimulationPeriod(double sampleperiod){
-		this.sampleperiod = sampleperiod;
+	public void setSimulationTimestep(double timestep){
+		this.timestep = timestep;
 		if(dynamicStates!=null)
 			for(DynamicState ds : dynamicStates) 
-				ds.setTimestep(sampleperiod);
+				ds.setTimestep(timestep);
 		
 	}
 	
@@ -147,7 +147,7 @@ public abstract class APhysicalComponent {
 	 * @return {@link DynamicState}
 	 */
 	public DynamicState getDynamicState(String name){
-		for(DynamicState ds : dynamicStates) 
+		for(DynamicState ds : this.getDynamicStateList()) 
 			if(ds.getName().equals(name))
 				return ds;
 			
@@ -168,7 +168,7 @@ public abstract class APhysicalComponent {
 	 */
 	public void setDynamicStateParent(String parent){
 		if(dynamicStates!=null)
-			for(DynamicState ic : dynamicStates)
+			for(DynamicState ic : this.getDynamicStateList())
 				ic.setParent(parent);
 	}
 	

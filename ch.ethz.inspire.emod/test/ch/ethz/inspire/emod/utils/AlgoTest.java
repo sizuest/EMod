@@ -14,6 +14,9 @@ package ch.ethz.inspire.emod.utils;
 
 import static org.junit.Assert.*;
 
+import java.util.Arrays;
+
+import org.ejml.data.Complex64F;
 import org.junit.Test;
 
 /**
@@ -90,6 +93,31 @@ public class AlgoTest {
 		assertEquals("smaller than first item", -1, Algo.findInterval(-7, vals));
 		// case with value bigger than last item
 		assertEquals("larger than last item", 9, Algo.findInterval(12, vals));
+	}
+	
+	@Test
+	public void testFindRoots(){
+		/* (x+1)*(x-3)*x = x^3 - 2x^2 - 3x
+		 * poly: {1, -2, -3, 0}
+		 * roots: {-1, 0, 3}
+		 */
+		double[] poly = {1.0, -2.0, -3.0, 0.0};
+		//double[] poly = {0, -3, -2, 1};
+		double[] roots;
+		
+		Complex64F[] rootsc = Algo.findRoots(poly);
+		
+		roots = new double[rootsc.length];
+		for(int i=0; i<roots.length; i++)
+			roots[i] = rootsc[i].real;
+		
+		Arrays.sort(roots);
+		
+		assertEquals("Number of roots", 3, roots.length, 0);
+		assertEquals("Root 1", -1, roots[0], 0.0001);
+		assertEquals("Root 2", 0, roots[1], 0.0001);
+		assertEquals("Root 3", 3, roots[2], 0.0001);
+		
 	}
 
 }

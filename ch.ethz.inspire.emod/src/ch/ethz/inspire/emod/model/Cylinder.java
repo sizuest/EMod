@@ -356,7 +356,7 @@ public class Cylinder extends APhysicalComponent{
 				ploss.setValue(phydr.getValue()-pmech.getValue());
 			}
 			// Get new position
-			lastposition += sampleperiod * lastvelocity;
+			lastposition += timestep * lastvelocity;
 					
 		}
 			

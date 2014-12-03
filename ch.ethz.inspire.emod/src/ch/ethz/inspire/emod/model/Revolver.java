@@ -213,7 +213,7 @@ public class Revolver extends APhysicalComponent{
 		if(Math.PI<Math.abs(rotPosRel)) rotPosRel = -Math.signum(rotPosRel)*(2*Math.PI-Math.abs(rotPosRel));
 		
 		/* Determine requested torque */
-		torqueCurr = (2*rotPosRel/sampleperiod/sampleperiod-rotVelCurr/sampleperiod)*theta;
+		torqueCurr = (2*rotPosRel/timestep/timestep-rotVelCurr/timestep)*theta;
 		/* Limit torque */
 		if( torqueMax<torqueCurr) torqueCurr= torqueMax;
 		if(-torqueMax>torqueCurr) torqueCurr=-torqueMax;
@@ -222,8 +222,8 @@ public class Revolver extends APhysicalComponent{
 		/*
 		 * Remark: System becomes unstable with Euler fwd. emulation
 		 */
-		rotPosCurr += sampleperiod/2*(rotVelCurr+sampleperiod*torqueCurr/theta);
-		rotVelCurr += sampleperiod*torqueCurr/theta;
+		rotPosCurr += timestep/2*(rotVelCurr+timestep*torqueCurr/theta);
+		rotVelCurr += timestep*torqueCurr/theta;
 		
 		/* Check zero crossing */
 		if( rotPosCurr>=Math.PI*2) rotPosCurr-=Math.PI*2;

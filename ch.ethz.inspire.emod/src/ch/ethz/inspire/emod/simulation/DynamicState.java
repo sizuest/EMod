@@ -13,6 +13,8 @@
 
 package ch.ethz.inspire.emod.simulation;
 
+import java.lang.reflect.Method;
+
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.utils.ConfigReader;
 import ch.ethz.inspire.emod.utils.Defines;
@@ -31,6 +33,8 @@ public class DynamicState {
 	private double timestep;
 	private Unit unit;
 	private String parent;
+	private Method initFnct;
+	private Object initFnctObj;
 	
 	/**
 	 * Initial Condition for {@link APhysicalComponent}
@@ -45,15 +49,35 @@ public class DynamicState {
 		this.unit = unit;
 		this.parent = "";
 		this.timestep = 0;
+		
+		this.initFnct    = null;
+		this.initFnctObj = null;
 	}
 	
 	/**
-	 * Sets the value of the initial condition
+	 * Set state name
+	 * @param name 
+	 */
+	public void setName(String name){
+		this.name=name;
+	}
+	
+	/**
+	 * Sets the value of the state
 	 * @param value
 	 */
 	public void setValue(double value){
 		this.lastValue = this.value;
 		this.value     = value;
+	}
+	
+	/**
+	 * Adds the value to the current state
+	 * @param value
+	 */
+	public void addValue(double value){
+		this.lastValue = this.value;
+		this.value     += value;
 	}
 	
 	/**
@@ -65,9 +89,31 @@ public class DynamicState {
 		setInitialCondition();
 	}
 	
+	/**
+	 * sets the current and last value to the initial condition
+	 */
 	public void setInitialCondition(){
 		this.value     = this.initialValue;
 		this.lastValue = this.initialValue;
+		
+		// If available, run init function
+		if (initFnct!=null){
+			try {
+				initFnct.invoke(initFnctObj, this.initialValue);
+			} catch (Throwable e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	/**
+	 * @param initFnct
+	 * @param initFnctObj 
+	 */
+	public void setInitialConditionFunction(Method initFnct, Object initFnctObj){
+		this.initFnct    = initFnct;
+		this.initFnctObj = initFnctObj;
 	}
 	
 	/**

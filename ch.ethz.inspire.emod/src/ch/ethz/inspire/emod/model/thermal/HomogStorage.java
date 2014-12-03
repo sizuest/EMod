@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 
-import ch.ethz.inspire.emod.model.Material;
 import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.simulation.DynamicState;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
@@ -66,19 +65,14 @@ public class HomogStorage extends APhysicalComponent{
 	private IOContainer temperatureOut;
 	
 	// Unit of the element 
-	private double cp;
+	// private double cp;
 	private double m;
-	private double V;
 	private String materialType;
-	private Material material;
+	//private Material material;
+	private ThermalElement thermalElement;
 	
 	// Initial Value
-	Double temperatureInit;
-	// State
-	DynamicState temperature;
-	
-	// Sum
-	private double tmpSum;
+	double temperatureInit = 0;
 	
 	/**
 	 * Constructor called from XmlUnmarshaller.
@@ -94,6 +88,7 @@ public class HomogStorage extends APhysicalComponent{
 	 */
 	public void afterUnmarshal(Unmarshaller u, Object parent) {
 		//post xml init method (loading physics data)
+		loadParameters();
 		init();
 	}
 	
@@ -109,6 +104,7 @@ public class HomogStorage extends APhysicalComponent{
 		this.type       = type;
 		this.parentType = parentType;
 		
+		loadParameters();
 		init();
 	}
 	
@@ -126,34 +122,47 @@ public class HomogStorage extends APhysicalComponent{
 		this.parentType      = parentType;
 		this.temperatureInit = temperatureInit;
 		
+		loadParameters();
 		init();
 	}
 	
 	/**
-	 * Called from constructor or after unmarshaller.
+	 * Homog. Storage constructor
+	 * 
+	 * @param material string indicating the {@link: Material} to be used;
+	 * @param mass [kg]
+	 * @param temperatureInit [K]
 	 */
-	private void init()
-	{		
-		/* Define Input parameters */
-		inputs   = new ArrayList<IOContainer>();
-		thIn     = new ArrayList<IOContainer>();
-		thOut    = new ArrayList<IOContainer>();
-		pressure = new IOContainer("Pressure", Unit.PA, 1E5, ContainerType.FLUIDDYNAMIC);
-		inputs.add(pressure);
+	public HomogStorage(String material, double mass, double temperatureInit)
+	{
+		this.materialType = material;
+		this.m = mass;
+		this.temperatureInit = temperatureInit;
 		
-		/* Define output parameters */
-		outputs = new ArrayList<IOContainer>();
-		temperatureOut     = new IOContainer("Temperature", Unit.KELVIN, 0, ContainerType.THERMAL);
-		outputs.add(temperatureOut);
-		
-		/* State */
-		dynamicStates = new ArrayList<DynamicState>();
-		temperature   = newDynamicState("Temperature", Unit.KELVIN);
-		
+		init();
+	}
 	
-		/* ************************************************************************/
-		/*         Read configuration parameters: */
-		/* ************************************************************************/
+	/**
+	 * Homog. Storage constructor
+	 * 
+	 * @param material string indicating the {@link: Material} to be used;
+	 * @param mass [kg]
+	 */
+	public HomogStorage(String material, double mass)
+	{
+		this.materialType = material;
+		this.m = mass;
+		
+		init();
+	}
+	
+	/**
+	 * loadParameters
+	 * 
+	 * Loads the system parameters from the database. 
+	 */	
+ 	private void loadParameters()
+	{
 		ComponentConfigReader params = null;
 		String path;
 		/* If no parent model file is configured, the local configuration file
@@ -180,13 +189,13 @@ public class HomogStorage extends APhysicalComponent{
 			}
 			catch (Exception e) {
 				e.printStackTrace();
-				System.exit(-1);
+				//System.exit(-1);
 			}
 		}		
 			
 		/* Read the config parameter: */
 		try {
-			V         = params.getDoubleValue("thermal.Volume");
+			m            = params.getDoubleValue("thermal.mass");
 			materialType = params.getString("Material");
 			//temperatureInit = params.getDoubleValue("thermal.InitialTemperature");
 			
@@ -197,6 +206,27 @@ public class HomogStorage extends APhysicalComponent{
 		}
 		params.Close(); /* Model configuration file not needed anymore. */
 		
+	}
+	
+	/**
+	 * Called from constructor or after unmarshaller.
+	 */
+	private void init()
+	{		
+		/* Define Input parameters */
+		inputs   = new ArrayList<IOContainer>();
+		thIn     = new ArrayList<IOContainer>();
+		thOut    = new ArrayList<IOContainer>();
+		pressure = new IOContainer("Pressure", Unit.PA, 1E5, ContainerType.FLUIDDYNAMIC);
+		inputs.add(pressure);
+		
+		/* Define output parameters */
+		outputs = new ArrayList<IOContainer>();
+		temperatureOut     = new IOContainer("Temperature", Unit.KELVIN, 0, ContainerType.THERMAL);
+		outputs.add(temperatureOut);
+		
+		
+
 		// Validate the parameters:
 		try {
 		    checkConfigParams();
@@ -205,12 +235,23 @@ public class HomogStorage extends APhysicalComponent{
 		    e.printStackTrace();
 		    System.exit(-1);
 		}
+		
+		/* Thermal Element */
+		thermalElement = new ThermalElement(materialType, m);
+		thermalElement.getTemperature().setInitialCondition(temperatureInit);
+		
+		/* State */
+		dynamicStates = new ArrayList<DynamicState>();
+		dynamicStates.add(thermalElement.getTemperature());
+		
+		//temperature   = newDynamicState("Temperature", Unit.KELVIN);
 			
 		// Fluid object
-		material = new Material(materialType);
+		// material = new Material(materialType);
 		
 		// Initialize State
-		temperature.setInitialCondition(temperatureInit);
+		// temperature.setInitialCondition(temperatureInit);
+		
 	}
 	
 	/**
@@ -222,7 +263,7 @@ public class HomogStorage extends APhysicalComponent{
 	{		
     	// Check model parameters:
 		// Parameter must be non negative and non zero
-    	if (V <= 0) {
+    	if (m <= 0) {
     		throw new Exception("HomogStorage, type:" + type +
     				": Non positive value: Mass must be non negative and non zero");
     	}
@@ -276,30 +317,37 @@ public class HomogStorage extends APhysicalComponent{
 	public void update() {
 		
 			
-		cp = material.getHeatCapacity();
-		m  = V*material.getDensity(temperature.getValue(), pressure.getValue());
-		tmpSum = 0;
+		//cp = material.getHeatCapacity();
+		//tmpSum = 0;
 		
 		// Sum up inputs
 		for( IOContainer in : thIn)
 			if (!Double.isNaN(in.getValue()))
-				tmpSum += in.getValue();
+				thermalElement.addHeatInput(in.getValue());
 		
-		for( IOContainer in : thOut)
-			if (!Double.isNaN(in.getValue()))
-				tmpSum -= in.getValue();
+		for( IOContainer out : thOut)
+			if (!Double.isNaN(out.getValue()))
+				thermalElement.addHeatInput(-out.getValue());
 		
 		/* Integration step:
 		 * T(k+1) [K] = T(k) [K]+ SampleTime[s]*(P_in [W] - P_out [W]) / cp [J/kg/K] / m [kg] 
 		 */	
-		temperature.setValue( temperature.getValue() + sampleperiod * tmpSum / cp / m ); 
+		//temperature.setValue( temperature.getValue() + timestep * tmpSum / cp / m );
+		thermalElement.integrate(timestep);
 		
 		//if (0>curTemperature)
 		//	curTemperature = 0;
 		
 		// Set output
-		temperatureOut.setValue(temperature.getValue());
+		temperatureOut.setValue(thermalElement.getTemperature().getValue());
 	}
+	
+	/*@Override
+	public ArrayList<DynamicState> getDynamicStateList(){
+		ArrayList<DynamicState> dynamicStates = new ArrayList<DynamicState>();
+		dynamicStates.set(0, thermalElement.getTemperature());
+		return dynamicStates;
+	}*/
 
 	/* (non-Javadoc)
 	 * @see ch.ethz.inspire.emod.model.APhysicalComponent#getType()

@@ -1,16 +1,16 @@
 function [ ] = FlowchartPlotter( machineCfgPath , filename, outputType)
 %FLOWCHARTPLOTTER(PATH, NAME, TYPE)
-% â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?
+% =========================================================================
 % Creates a flowchart of the machine 
 % configuration located at the folder PATH (Machine.xml and IOLinking.txt
 % are required). The output consits of a graphviz file NAME (default:
 % 'flowchart') and a image of the format TYPE (default: ps, others: jpg,
 % png, eps)
-% â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+% -------------------------------------------------------------------------
 % Author:  sizuest                   Copyright (c) 2012 by Inspire AG, ETHZ
 % Date:    15.03.2012                All rights reserved
 % Version: 1.1
-% â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?
+% =========================================================================
 %
 % To compile the figure, dot is used. If the command is not available, no
 % image will be created
