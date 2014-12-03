@@ -367,43 +367,55 @@ public class ModelGUI extends AGUITab {
         //write Name, Type and Parameter to table
         item.setText(0, sc.getName());
         item.setText(1, "Input");
-        item.setText(2, "");
+        //item.setText(2, "");
         
-        //create button to edit component
+        //create combo to edit unit
         TableEditor editor = new TableEditor(tableModelView);
-        final CCombo comboEditImputUnit = new CCombo(tableModelView, SWT.PUSH);
+        final CCombo comboEditInputUnit = new CCombo(tableModelView, SWT.PUSH);
         
         String[] items = new String[Unit.values().length];
         for(int i=0; i<items.length; i++){
         	items[i] = Unit.values()[i].toString();
         }
-        comboEditImputUnit.setItems(items);
-        comboEditImputUnit.setText(sc.getUnit().toString());
-        comboEditImputUnit.addSelectionListener(new SelectionListener(){
+        comboEditInputUnit.setItems(items);
+        comboEditInputUnit.setText(sc.getUnit().toString());
+        comboEditInputUnit.addSelectionListener(new SelectionListener(){
 			public void widgetSelected(SelectionEvent event){
 				//disable comboMachineConfigName to prevent argument null for updatecomboMachineConfigName
-				comboEditImputUnit.setEnabled(false);
+				comboEditInputUnit.setEnabled(false);
     		
-				sc.setUnit(Unit.valueOf(comboEditImputUnit.getText()));
+				sc.setUnit(Unit.valueOf(comboEditInputUnit.getText()));
     		
     			//enable comboMachineConfigName after update
-    			comboEditImputUnit.setEnabled(true);
+				comboEditInputUnit.setEnabled(true);
     		}
     		public void widgetDefaultSelected(SelectionEvent event){
     		
     		}
     	});
-        comboEditImputUnit.pack();
-        editor.minimumWidth = comboEditImputUnit.getSize().x;
+        
+        //TODO manick: Spaltenbreite stimmt nicht!
+        comboEditInputUnit.pack();
+        editor.minimumWidth = comboEditInputUnit.getSize().x;
+        editor.grabHorizontal = true;
         editor.horizontalAlignment = SWT.LEFT;
-        editor.setEditor(comboEditImputUnit, item, 3);
+        editor.setEditor(comboEditInputUnit, item, 2);
+        
+        //create button to edit component
+        editor = new TableEditor(tableModelView);
+        final Button buttonEditComponent = new Button(tableModelView, SWT.PUSH);
+        Image imageEdit = new Image(Display.getDefault(), "src/resources/Edit16.gif");
+        buttonEditComponent.setImage(imageEdit);
+        buttonEditComponent.pack();
+        editor.minimumWidth = buttonEditComponent.getSize().x;
+        editor.horizontalAlignment = SWT.LEFT;
+        editor.setEditor(buttonEditComponent, item, 3);
+        
         
         //create button to delete component in last column
         editor = new TableEditor(tableModelView);
         final Button buttonDeleteComponent = new Button(tableModelView, SWT.PUSH);
         
-        //TODO manick: edit image!
-        //Image imageDelete = Display.getDefault().getSystemImage(SWT.ICON_ERROR);
         Image imageDelete = new Image(Display.getDefault(), "src/resources/Delete16.gif");
         buttonDeleteComponent.setImage(imageDelete);
         //buttonDeleteComponent.setText(LocalizationHandler.getItem("app.gui.model.delcomp"));
@@ -418,7 +430,7 @@ public class ModelGUI extends AGUITab {
         		if(Machine.removeInputObject(sc.getName())){
 	        		//dispose the buttons for edit and delete, and dispose the item
 	        		buttonDeleteComponent.dispose();
-	        		comboEditImputUnit.dispose();
+	        		comboEditInputUnit.dispose();
 	        		item.dispose();
         		}
         		
@@ -439,12 +451,13 @@ public class ModelGUI extends AGUITab {
         item.addDisposeListener(new DisposeListener(){
         	public void widgetDisposed(DisposeEvent e) {
         		buttonDeleteComponent.dispose();
-        		comboEditImputUnit.dispose();
+        		buttonEditComponent.dispose();
+        		comboEditInputUnit.dispose();
         	}	
         });
         
         //write table and resize columns
-        updateTable();
+        //updateTable();
         tableModelView.setRedraw(true);
 	}
 	
@@ -543,10 +556,22 @@ public class ModelGUI extends AGUITab {
 	 * needed after deleting all items
 	 */ 	
 	public static void updateTable(){
+		
+		//TODO manick: does not work, if a cell contains a TableEditor!
+		//therefore: check if any TableEditors are present -> get max Width -> set Width of column
+		
+		tableModelView.setRedraw(false);
         TableColumn[] columns = tableModelView.getColumns();
         for (int i = 0; i < columns.length; i++) {
           columns[i].pack();
         }
+        
+        //TODO manick: width is not correct for the TableEditors when .pack();
+        tableModelView.getColumn(2).setWidth(150);
+        tableModelView.getColumn(3).setWidth(30);
+        tableModelView.getColumn(4).setWidth(30);
+        
+        tableModelView.setRedraw(true);
 	}
 
  	/**

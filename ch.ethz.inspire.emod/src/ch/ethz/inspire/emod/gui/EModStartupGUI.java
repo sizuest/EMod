@@ -407,5 +407,8 @@ public class EModStartupGUI {
 			ModelGUI.addTableItem(sc, i);
 			i++;
 		}
+		
+		// update table to resize the columns
+		ModelGUI.updateTable();
     }
 }

@@ -37,14 +37,28 @@ public class MachineComponentHandler {
 		
 		//iterate twice, first over categories of machinecomponents, second over the parameter sets of each component
 		for (int i = 0; i < subDirs.length; i++){
-			TreeItem child = new TreeItem(aTree, SWT.NONE);
-			child.setText(subDirs[i].getName());
-						
 			//read the different parameter sets from subfolders
 			String subpath = path + subDirs[i].getName() + "/";
 			dir = new File(subpath);
 			File[] subDirsComponents = dir.listFiles();
 			Arrays.sort(subDirsComponents);
+			
+			//write all categories of components as childs into the tree
+			TreeItem child = new TreeItem(aTree, SWT.NONE);
+			child.setText(subDirs[i].getName());
+			
+			//TODO manick: exclude all machine components with an additional file "XYZ.exclude" (see ThermalTest)
+			String[] excludeComponents = new String[subDirsComponents.length];
+			int k = 0;
+			for(int j = 0; j < subDirsComponents.length; j++){
+				excludeComponents[j] = "";
+				if(subDirsComponents[j].getName().contains("exclude")){
+					excludeComponents[k] = subDirsComponents[j].getName().replace(".exclude","");
+					k++;
+				};
+				//System.out.println("***Entries of excludeComponents: " + excludeComponents[j]);
+			}
+			
 			
 			//append parameter sets to their parent
 			for(int j = 0; j < subDirsComponents.length; j++){
