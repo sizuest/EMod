@@ -3,3 +3,4 @@ PumpPower.TemperatureIn = PumpTemperature
 PumpPower.PumpCtrl = PumpCtrl
 ServoMotor.RotSpeed = RotSpeed
 ServoMotor.Torque = Torque
+Bearing.RotSpeed = RotSpeed

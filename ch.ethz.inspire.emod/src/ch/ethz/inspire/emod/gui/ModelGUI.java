@@ -401,11 +401,27 @@ public class ModelGUI extends AGUITab {
         editor.horizontalAlignment = SWT.LEFT;
         editor.setEditor(comboEditInputUnit, item, 2);
         
+        //System.out.println("********** " + editor.getColumn());
+        
+        if(tableModelView.getColumn(editor.getColumn()).getWidth() < comboEditInputUnit.getSize().x){
+        	tableModelView.getColumn(editor.getColumn()).setWidth(comboEditInputUnit.getSize().x);
+        }
+        
         //create button to edit component
         editor = new TableEditor(tableModelView);
         final Button buttonEditComponent = new Button(tableModelView, SWT.PUSH);
         Image imageEdit = new Image(Display.getDefault(), "src/resources/Edit16.gif");
         buttonEditComponent.setImage(imageEdit);
+        buttonEditComponent.addSelectionListener(new SelectionListener(){
+        	public void widgetSelected(SelectionEvent event){
+        		//open tab Simulation --> inputs
+        		EModGUI.tabFolder.setSelection(1);
+        		SimGUI.tabFolder.setSelection(3);
+        	}
+        	public void widgetDefaultSelected(SelectionEvent event){
+        		
+        	}
+        });
         buttonEditComponent.pack();
         editor.minimumWidth = buttonEditComponent.getSize().x;
         editor.horizontalAlignment = SWT.LEFT;
@@ -481,7 +497,6 @@ public class ModelGUI extends AGUITab {
         TableEditor editor = new TableEditor(tableModelView);
         final Button buttonEditComponent = new Button(tableModelView, SWT.PUSH);
         
-        //TODO manick: edit image!
         Image imageEdit = new Image(Display.getDefault(), "src/resources/Edit16.gif");
         buttonEditComponent.setImage(imageEdit);
         //buttonEditComponent.setText(LocalizationHandler.getItem("app.gui.model.editcomp"));
@@ -505,7 +520,6 @@ public class ModelGUI extends AGUITab {
         editor = new TableEditor(tableModelView);
         final Button buttonDeleteComponent = new Button(tableModelView, SWT.PUSH);
         
-        //TODO manick: edit image!
         //Image imageDelete = Display.getDefault().getSystemImage(SWT.ICON_ERROR);
         Image imageDelete = new Image(Display.getDefault(), "src/resources/Delete16.gif");
         buttonDeleteComponent.setImage(imageDelete);

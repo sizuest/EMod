@@ -50,6 +50,7 @@ import ch.ethz.inspire.emod.simulation.StaticSimulationControl;
 import ch.ethz.inspire.emod.utils.Defines;
 import ch.ethz.inspire.emod.utils.IOConnection;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
+
 import java.lang.reflect.*;
 
 /**
@@ -201,7 +202,9 @@ public class Machine {
 		//Check for config dir
 		String prefix = PropertiesHandler.getProperty("app.MachineDataPathPrefix");
 		
-		File path = new File(prefix+"/"+machineName+"/"+machineConfigDir);
+		//TOOD manick: the correct filepath is machineName/MachineConfig/machineConfigDir!
+		//File path = new File(prefix+"/"+machineName+"/"+machineConfigDir);
+		File path = new File(prefix+"/"+machineName+"/MachineConfig/"+machineConfigDir);
 		// Creat directory if required
 		if(!path.exists()){
 			System.err.print("Can't delete machine "+machineName+":"+machineConfigDir+": Machine does not exists");
@@ -456,11 +459,15 @@ public class Machine {
 					}
 					
 					try {
+						//Machine.getInstance().connectionList.add(new IOConnection(tempSource, tempTar));
 						Machine.getInstance().connectionList.add(new IOConnection(tempSource, tempTar));
+						//Machine.getInstance().connectionList.add(IOConnection.newLogicConnection(tempSource, tempTar));
+						//Machine.getInstance().connectionList.add(new IOConnection<LogicConnection>(tempSource, tempTar));
+						//Machine.getInstance().connectionList.add(new IOConnection<FluidConnection>(tempSource, tempTar));
 					} catch (Exception e) {
 						System.err.println("Could not add input-output mapping, file " + file + " line " + linenr);
 						e.printStackTrace();
-						System.exit(-1);
+						//System.exit(-1);
 					}
 				}
 			}
@@ -687,8 +694,8 @@ public class Machine {
 		// Try to create and parametrize the object
 		try {
 			// Get class and constructor objects
-			Class        cl = Class.forName("ch.ethz.inspire.emod.model."+mdlType);
-			Constructor  co = cl.getConstructor(String.class);
+			Class<?>        cl = Class.forName("ch.ethz.inspire.emod.model."+mdlType);
+			Constructor<?>  co = cl.getConstructor(String.class);
 			// initialize new component
 			component = co.newInstance(paramType);
 		} catch (Exception e) {
@@ -742,8 +749,8 @@ public class Machine {
 		// Try to create and parametrize the object
 		try {
 			// Get class and constructor objects
-			Class        cl = Class.forName("ch.ethz.inspire.emod.simulation."+name);
-			Constructor  co = cl.getConstructor(String.class, Unit.class);
+			Class<?>        cl = Class.forName("ch.ethz.inspire.emod.simulation."+name);
+			Constructor<?>  co = cl.getConstructor(String.class, Unit.class);
 			// initialize new component
 			simulator = co.newInstance(name, unit);
 		} catch (Exception e) {
@@ -958,6 +965,34 @@ public class Machine {
 		getInstance().getIOLinkList().add(io);
 		
 	}
+	
+	/**
+	 * Adds a new FluidConnection between the source and the target
+	 * @param source
+	 * @param target
+	 * @param material
+	 */
+	/*
+	public static void addIOLink(IOContainer source, IOContainer target, Material material) {
+		FluidConnection fio;
+		// Create new IOConnection
+		try {
+			fio = new FluidConnection(source, target, material);			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return;
+		}
+		
+		// Add Element to List
+		if(machineModel==null)
+			machineModel = new Machine();
+		if(null==getInstance().getIOLinkList())
+			getInstance().connectionList = new ArrayList<IOConnection>();
+		
+		getInstance().getIOLinkList().add(fio);
+			
+	}
+	*/
 	
 	/**
 	 * @return {@link IOContainer} List of all components and simulators outputs

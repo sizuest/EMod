@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>
+    Model parameter definition
+    ==========================
+      Model : Pump 
+      Type  : Spandau Vogel PV 80/180
+    Parameters
+    ----------
+      PressureSamples [Pa]
+        Array of operation points for the pump
+      MassFlowSamples [kg/s]
+        Array of corresponding mass floes to the given pressure
+        samples
+      DensityFluid [kg/m3]
+        desity of the pumped fluid
+      ElectricalPower [W]
+      	Electrical power of the pump if running
+      
+  </comment>
+  <entry key="PressureSamples">827370 779108 723950 655002 565370 475738 358527 241317</entry>
+  <entry key="MassFlowSamples">0 0.166 0.333 0.5 0.666 0.833 1 1.166</entry>
+  <entry key="Fluid">Water</entry>
+  <entry key="DensityFluid">883</entry>
+  <entry key="ElectricalPower">1925</entry>
+</properties>

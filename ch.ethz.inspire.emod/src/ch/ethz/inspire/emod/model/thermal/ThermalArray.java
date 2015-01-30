@@ -15,6 +15,7 @@ package ch.ethz.inspire.emod.model.thermal;
 import ch.ethz.inspire.emod.model.Material;
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.simulation.DynamicState;
+import ch.ethz.inspire.emod.utils.FluidContainer;
 
 /**
  * General thermal array class
@@ -64,6 +65,24 @@ public class ThermalArray {
 	}
 	
 	/**
+	 * copy constructor
+	 * @param that
+	 */
+	public ThermalArray(ThermalArray that){
+		this.flowRate 			= that.flowRate;
+		this.heatSource 		= that.heatSource;
+		this.material 			= that.material;
+		this.numElements 		= that.numElements;
+		this.pressure 			= that.pressure;
+		this.temperature 		= that.temperature;
+		this.temperatureBulk 	= that.temperatureBulk;
+		this.temperatureExt 	= that.temperatureExt;
+		this.temperatureIn 		= that.temperatureIn;
+		this.thermalResistance 	= that.thermalResistance;
+		this.volume 			= that.volume;
+	}
+	
+	/**
 	 * Sets the temperature vector to the initial value
 	 * @param temperatureInit 
 	 */
@@ -97,6 +116,14 @@ public class ThermalArray {
 	}
 	
 	/**
+	 * gets the fluid pressure
+	 * @return pressure
+	 */
+	public double getPressure(){
+		return pressure;
+	}
+	
+	/**
 	 * Sets the thermal resistance [K/W]
 	 * @param thermalResistance
 	 */
@@ -111,7 +138,13 @@ public class ThermalArray {
 	public void setFlowRate(double flowRate){
 		this.flowRate = flowRate;
 	}
-	
+	/**
+	 * get the flow rate [l/min]
+	 * @param flowRate
+	 */
+	public double getFlowRate(){
+		return flowRate;
+	}	
 	/**
 	 * Set the flow rate according to the mass flow rate
 	 * @param massFlowRate [kg/s]
@@ -122,7 +155,21 @@ public class ThermalArray {
 		double rho = material.getDensity(temperature, pressure);
 		this.flowRate = massFlowRate/rho*1000*60;
 	}
-	
+	/**
+	 * get the mass flow rate according
+	 * @param
+	 * @return massFlowRate [kg/s]
+	 */
+	public double getMassFlowRate(int id){
+		if(id < numElements){
+			double rho = material.getDensity(temperature[id], pressure);
+			return flowRate*rho/1000/60;
+		}
+		else{
+			return 0.0;
+		}
+
+	}
 	
 	/**
 	 * Set the internal heat sources
@@ -169,6 +216,33 @@ public class ThermalArray {
 		return (getTemperatureBulk()-temperatureExt)/thermalResistance;
 	}
 	
+	
+	/**
+	 * update in and outputs of fluid
+	 */
+	//TODO manick: not necessary!!
+	// in component: fluid.integrate()
+	// in fluidconnection: fluidIn = fluidOut and vise versa...
+	/*
+	public void update(FluidContainer fluidIn, FluidContainer fluidOut){
+		temperatureIn = fluidIn.getTemperature();
+		
+		if(fluidIn.getPressure() == fluidOut.getPressure())
+			pressure = fluidIn.getPressure();
+		else {
+			pressure = fluidIn.getPressure();
+			this.integrate(1);
+		}
+		
+		if(fluidIn.getFlowRate() == fluidOut.getFlowRate())
+			flowRate = fluidIn.getFlowRate();
+		else {
+			flowRate = fluidIn.getFlowRate();
+			this.integrate(1);
+		}	
+	}
+	*/
+	
 	/**
 	 * Perform an integration step of length timestep [s]
 	 * @param timestep
@@ -210,10 +284,34 @@ public class ThermalArray {
 	}
 	
 	/**
+	 * @param material to set
+	 */
+	public void setMaterial(Material material){
+		this.material = material;
+	}
+	
+	/**
 	 * @return Material
 	 */
 	public Material getMaterial(){
 		return material;
 	}
+	
+	/**
+	 * @param volume to set
+	 */
+	public void setVolume(double volume){
+		this.volume = volume;
+	}
+	
+	/**
+	 * @return volume
+	 */
+	public double getVolume(){
+		return volume;
+	}
 
+	public String toString() {
+		return temperatureExt + " " + temperatureIn + " " + material.toString() + " " + volume + " " + flowRate + " " + pressure + " " + heatSource + " " + numElements;
+	}
 }

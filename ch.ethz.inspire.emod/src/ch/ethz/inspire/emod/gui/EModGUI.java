@@ -61,6 +61,9 @@ public class EModGUI {
 	protected static Shell shell;
 	protected Display disp;
 	
+	protected static TabFolder tabFolder;
+
+	
 	protected Composite model;
 	protected Composite sim;
 	protected Composite analysis;
@@ -202,7 +205,8 @@ public class EModGUI {
 	
 	private void initTabs(){
 		//create the tab folder container
-		final TabFolder tabFolder = new TabFolder(shell, SWT.NONE);
+		//final TabFolder tabFolder = new TabFolder(shell, SWT.NONE);
+		tabFolder = new TabFolder(shell, SWT.NONE);
 		
 		//tab for machine model config
 		final TabItem tabModelItem = new TabItem(tabFolder, SWT.NONE);

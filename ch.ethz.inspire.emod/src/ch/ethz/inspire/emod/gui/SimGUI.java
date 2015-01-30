@@ -53,7 +53,7 @@ import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 public class SimGUI extends AGUITab  {
 	
-	private TabFolder tabFolder;
+	protected static TabFolder tabFolder;
 	private Table tableSimParam;
 	private Table tableProcessParam;
 	private Table tableStateSequence;

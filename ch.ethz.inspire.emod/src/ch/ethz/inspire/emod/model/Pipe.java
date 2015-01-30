@@ -22,6 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import ch.ethz.inspire.emod.model.thermal.ThermalArray;
 import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.simulation.DynamicState;
+import ch.ethz.inspire.emod.utils.FluidContainer;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 
@@ -56,42 +57,44 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  *
  */
 @XmlRootElement
-public class Pipe extends APhysicalComponent{
+public class Pipe extends APhysicalComponent /*implements Floodable*/{
+//public class Pipe<T> extends APhysicalComponent<T>{
 
 	@XmlElement
 	protected String type;
 	
 	// Input parameters:
-	private IOContainer pressureOut;
-	private IOContainer massflowOut;
-	private IOContainer temperatureIn;
+	//private IOContainer/*<Double>*/ pressureOut;
+	//private IOContainer/*<Double>*/ massflowOut;
+	//private IOContainer/*<Double>*/ temperatureIn;
 	private IOContainer temperatureAmb;
+	private FluidContainer fluidIn;
 	
 	//Saving last input values:
-	
-	private double lastpressure  = 0;
-	private double lastmassflow  = 0;
-	private double lasttemperature  = 293;
-	private double Reynolds		 = 0;
-	private double lambda		 = 0;
-	
-	private ThermalArray fluid;
-	
+	//private double lastpressure  = 0.00;
+	//private double lastmassflow  = 0.00;
+	//private double lasttemperature  = 293.00;
+	private double Reynolds		 = 0.00;
+	private double lambda		 = 0.00;
+		
 	// Output parameters:
-	private IOContainer pressureIn;
-	private IOContainer massflowIn;
-	private IOContainer ploss;
-	private IOContainer temperatureOut;
-	private IOContainer pressureloss;
+	//private IOContainer/*<Double>*/ pressureIn;
+	//private IOContainer/*<Double>*/ massflowIn;
+	private IOContainer/*<Double>*/ ploss;
+	//private IOContainer/*<Double>*/ temperatureOut;
+	private IOContainer/*<Double>*/ pressureloss;
+	private FluidContainer fluidOut;
 	
 	// Parameters used by the model. 
 	private double pipeDiameter;
 	private double pipeLength;
 	private double pipeHTC;
+	private double volume;
 	private String fluidType;
+	private ThermalArray fluid;
 	
 	// Initial temperature
-	double temperatureInit = 0;
+	double temperatureInit = 293;
 	
 	/**
 	 * Constructor called from XmlUnmarshaller.
@@ -131,6 +134,8 @@ public class Pipe extends APhysicalComponent{
 	 * @param temperatureInit 
 	 * @throws Exception 
 	 */
+	//TODO manick: what to do with a pipe without fluid? only constructor with fluid allowed!
+	/*
 	public Pipe(String type, double temperatureInit) {
 		super();
 		
@@ -138,6 +143,59 @@ public class Pipe extends APhysicalComponent{
 		this.temperatureInit = temperatureInit;
 		init();
 	}
+	*/
+	
+	/**
+	 * Pipe constructor
+	 * @param type
+	 * @param temperatureInit
+	 * @param material type
+	 * @throws Exception
+	 */
+	public Pipe(String type, double temperatureInit, String fluidType) {
+		super();
+		
+		this.type = type;
+		this.temperatureInit = temperatureInit;
+		this.fluidType = fluidType;
+		init();
+	}
+	
+	/**
+	 * Pipe constructor
+	 * @param type
+	 * @param temperatureInit
+	 * @param fluid
+	 * @throws Exception
+	 */
+	/*
+	public Pipe(String type, double temperatureInit, ThermalArray fluid){
+		super();
+		
+		this.type = type;
+		this.temperatureInit = temperatureInit;
+		this.fluid = fluid;
+		init();
+	}
+	*/
+	
+	/**
+	 * Pipe constructor
+	 * @param type
+	 * @param temperatureInit
+	 * @param fluid
+	 * @throws Exception
+	 */
+	/*
+	public Pipe(String type, double temperatureInit, String materialName, double volume, int numElements) {
+		super();
+		
+		this.type = type;
+		this.temperatureInit = temperatureInit;
+		this.fluid = new ThermalArray(materialName, volume, numElements);
+		init();
+	}
+	*/
 	
 	/**
 	 * Called from constructor or after unmarshaller.
@@ -146,28 +204,31 @@ public class Pipe extends APhysicalComponent{
 	private void init()
 	{
 		/* Define Input parameters */
-		inputs         = new ArrayList<IOContainer>();
-		pressureOut    = new IOContainer("PressureOut",    Unit.PA,       0, ContainerType.FLUIDDYNAMIC);
-		massflowOut    = new IOContainer("MassFlowOut",    Unit.KG_S,     0, ContainerType.FLUIDDYNAMIC);
-		temperatureIn  = new IOContainer("TemperatureIn",  Unit.KELVIN, 293, ContainerType.THERMAL);
-		temperatureAmb = new IOContainer("TemperatureAmb", Unit.KELVIN, 293, ContainerType.THERMAL);
-		inputs.add(pressureOut);
-		inputs.add(massflowOut);
-		inputs.add(temperatureIn);
-		inputs.add(temperatureAmb);
+		inputs         = new ArrayList<IOContainer/*<T>*/>();
+		//pressureOut    = new IOContainer/*<Double>*/("PressureOut",    Unit.PA,       0.00, ContainerType.FLUIDDYNAMIC);
+		//massflowOut    = new IOContainer/*<Double>*/("MassFlowOut",    Unit.KG_S,     0.00, ContainerType.FLUIDDYNAMIC);
+		//temperatureIn  = new IOContainer/*<Double>*/("TemperatureIn",  Unit.KELVIN, 293.00, ContainerType.THERMAL);
+		temperatureAmb = new IOContainer/*<Double>*/("TemperatureAmb", Unit.KELVIN, temperatureInit, ContainerType.THERMAL);
+		//pressureOut    = new IOContainer("PressureOut", Unit.PA, 0.00, ContainerType.FLUIDDYNAMIC);
+		//inputs.add(/*(IOContainer<T>)*/ pressureOut);
+		//inputs.add(/*(IOContainer<T>)*/ massflowOut);
+		//inputs.add(/*(IOContainer<T>)*/ temperatureIn);
+		inputs.add(/*(IOContainer<T>)*/ temperatureAmb);
+		//inputs.add(pressureOut);
 		
 		/* Define output parameters */
-		outputs        = new ArrayList<IOContainer>();
-		pressureIn     = new IOContainer("PressureIn",         Unit.PA,      0, ContainerType.FLUIDDYNAMIC);
-		massflowIn     = new IOContainer("MassFlowIn",         Unit.KG_S,    0, ContainerType.FLUIDDYNAMIC);
-		ploss          = new IOContainer("PLoss",              Unit.WATT,    0, ContainerType.THERMAL);
-		pressureloss   = new IOContainer("PressureLoss",       Unit.PA,      0, ContainerType.FLUIDDYNAMIC);
-		temperatureOut = new IOContainer("TemperatureOut",     Unit.KELVIN,293, ContainerType.THERMAL);
-		outputs.add(pressureIn);
-		outputs.add(massflowIn);
-		outputs.add(temperatureOut);
-		outputs.add(ploss);
-		outputs.add(pressureloss);
+		outputs        = new ArrayList<IOContainer/*<T>*/>();
+		//pressureIn     = new IOContainer/*<Double>*/("PressureIn",         Unit.PA,      0.00, ContainerType.FLUIDDYNAMIC);
+		//massflowIn     = new IOContainer/*<Double>*/("MassFlowIn",         Unit.KG_S,    0.00, ContainerType.FLUIDDYNAMIC);
+		ploss          = new IOContainer/*<Double>*/("PLoss",              Unit.WATT,    0.00, ContainerType.THERMAL);
+		pressureloss   = new IOContainer/*<Double>*/("PressureLoss",       Unit.PA,      0.00, ContainerType.FLUIDDYNAMIC);
+		//temperatureOut = new IOContainer/*<Double>*/("TemperatureOut",     Unit.KELVIN,293.00, ContainerType.THERMAL);
+		//outputs.add(/*(IOContainer<T>)*/ pressureIn);
+		//outputs.add(/*(IOContainer<T>)*/ massflowIn);
+		//outputs.add(/*(IOContainer<T>)*/ temperatureOut);
+		outputs.add(/*(IOContainer<T>)*/ ploss);
+		outputs.add(/*(IOContainer<T>)*/ pressureloss);
+
 		
 			
 		/* ************************************************************************/
@@ -188,8 +249,7 @@ public class Pipe extends APhysicalComponent{
 			pipeDiameter = params.getDoubleValue("PipeDiameter");
 			pipeLength   = params.getDoubleValue("PipeLength");
 			pipeHTC      = params.getDoubleValue("PipeHTC");
-			fluidType    = params.getString("Material");
-		
+			//fluidType    = params.getString("Material");
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -207,8 +267,16 @@ public class Pipe extends APhysicalComponent{
 		}
 
 		/* Thermal Array */
-		fluid = new ThermalArray(fluidType, Math.pow(pipeDiameter/2,2)*Math.PI*pipeLength,10);
+		volume = Math.pow(pipeDiameter/2,2)*Math.PI*pipeLength;
+		int numElements = 10;
+		fluid = new ThermalArray(fluidType, volume, numElements);
 		fluid.getTemperature().setInitialCondition(temperatureInit);
+		
+		//add fluid In/Output
+		fluidIn        = new FluidContainer("FluidIn", Unit.NONE, ContainerType.FLUIDDYNAMIC);
+		inputs.add(fluidIn);
+		fluidOut        = new FluidContainer("FluidOut", Unit.NONE, ContainerType.FLUIDDYNAMIC);
+		outputs.add(fluidOut);
 		
 		/* State */
 		dynamicStates = new ArrayList<DynamicState>();
@@ -240,47 +308,67 @@ public class Pipe extends APhysicalComponent{
 	public void update() {
 		double density, viscosity;
 		
-			
-		lastpressure    = pressureOut.getValue();
-		lastmassflow    = massflowOut.getValue();
-		lasttemperature = fluid.getTemperature().getValue();
-		
+		// Update inputs
+		//direction of calculation
+		//temperature [K]    : fluidIn --> fluidOut
+		//pressure    [Pa]   : fluidIn --> fluidOut
+		//flowRate:   [m^3/s]: fluidIn <-- fluidOut
+		fluid.setTemperatureIn(fluidIn.getTemperature());
+		fluid.setPressure(fluidIn.getPressure());
+		//fluid.setFlowRate(fluidOut.getFlowRate());
+
 		// Get current fluid properties
-		density   = fluid.getMaterial().getDensity(lasttemperature,  lastpressure);
-		viscosity = fluid.getMaterial().getViscosity(lasttemperature, lastpressure);
+		density   = fluid.getMaterial().getDensity(fluid.getTemperature().getValue(),  fluid.getPressure());
+		viscosity = fluid.getMaterial().getViscosity(fluid.getTemperature().getValue(), fluid.getPressure());
 		
-		Reynolds = pipeDiameter*lastmassflow/(density*viscosity*Math.pow(10,-6)*Math.PI/4*Math.pow(pipeDiameter, 2));
+		Reynolds = pipeDiameter*fluid.getFlowRate()/(density*viscosity*Math.pow(10,-6)*Math.PI/4*Math.pow(pipeDiameter, 2));
+		
+		//TODO manick: what to do with lambda when pressure difference occurs -> massflow is starting? (Reynolds = 0 -> lambda = NAN)
+		if (Reynolds == 0)
+			Reynolds = 1;
 		
 		if (Reynolds < 2300)
 			lambda = 64/Reynolds;
 		else
 			lambda = 0.3164/Math.pow(Reynolds, 0.25);
 		
-		if(lastmassflow!=0)
-			pressureloss.setValue(lambda*pipeLength*Math.pow(lastmassflow, 2)/(pipeDiameter*2*density*Math.pow(Math.PI/4*Math.pow(pipeDiameter, 2), 2)));
+		if(fluid.getFlowRate()!=0)
+			pressureloss.setValue(lambda*pipeLength*Math.pow(fluid.getFlowRate(), 2)/(pipeDiameter*2*density*Math.pow(Math.PI/4*Math.pow(pipeDiameter, 2), 2)));
 		else
-			pressureloss.setValue(0);
+			pressureloss.setValue(0.00);
 		
+		
+		if(fluidIn.getPressure() - fluidOut.getPressure() != 0){
+			System.out.println("*** change of pressure! ***");
+			//http://www.tlv.com/global/TI/calculator/water-pressure-loss-through-piping.html
+			//fluid.setFlowRate(fluid.getFlowRate() + Math.sqrt(2*pipeDiameter*(fluidIn.getPressure()-fluidOut.getPressure())/(/*lambda**/pipeLength*density)));
+			fluid.setFlowRate(0.1);
+		}
+				
 		// set array boundary conditions
 		fluid.setThermalResistance(1/(pipeHTC*pipeLength*Math.pow(pipeDiameter/2, 2)*Math.PI));//TODOs
-		fluid.setFlowRate(lastmassflow);
-		fluid.setHeatSource(pressureloss.getValue()*lastmassflow/density);
-		fluid.setPressure(lastpressure);
+		fluid.setHeatSource(pressureloss.getValue()*fluid.getFlowRate()/density);
 		fluid.setTemperatureExternal(temperatureAmb.getValue());
-		fluid.setTemperatureIn(temperatureIn.getValue());
 		
 		// Integration step
 		fluid.integrate(timestep);
 		
 		// Update outputs
-		massflowIn.setValue(massflowOut.getValue());				
-		pressureIn.setValue(pressureOut.getValue()+pressureloss.getValue());
+		//direction of calculation
+		//temperature [K]    : fluidIn --> fluidOut
+		//pressure    [Pa]   : fluidIn --> fluidOut
+		//flowRate:   [m^3/s]: fluidIn <-- fluidOut
+		
+		fluidOut.setTemperature(fluid.getTemperatureOut());
+		fluidOut.setPressure(fluid.getPressure());
+		fluidIn.setFlowRate(fluid.getFlowRate());		
+
 		ploss.setValue(fluid.getHeatLoss());
 		
-		temperatureOut.setValue(fluid.getTemperatureOut());
-		
-		// Update Layer Model		
+		// Update Layer Model
+
 	
+		System.out.println("pipe fluidvalues: " + fluid.getPressure() + " " + pressureloss.getValue() + " " + fluid.getFlowRate() + " " + fluid.getTemperature().getValue() + " " + density + " " + viscosity + " " + Reynolds + " " + lambda);
 	}
 
 	/* (non-Javadoc)
@@ -295,4 +383,12 @@ public class Pipe extends APhysicalComponent{
 		this.type = type;
 	}
 	
+	public ThermalArray getFluid(){
+		return fluid;
+	}
+
+	public void setFluid(ThermalArray fluid) {
+		this.fluid = fluid;
+		
+	}
 }

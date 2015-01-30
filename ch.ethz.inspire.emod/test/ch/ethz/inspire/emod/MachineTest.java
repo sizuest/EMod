@@ -8,6 +8,7 @@ import java.lang.reflect.Constructor;
 import ch.ethz.inspire.emod.model.*;
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.simulation.ASimulationControl;
+import ch.ethz.inspire.emod.utils.FluidConnection;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 import org.junit.Test;
@@ -64,7 +65,12 @@ public class MachineTest {
 		Machine.addIOLink(mc1.getComponent().getOutput("PTotal"), mc3.getComponent().getInput("PDmd"));
 		Machine.addIOLink(sc1.getOutput(), mc3.getComponent().getInput("PDmd"));
 		
-		Machine.getInstance().removeMachineComponent("Amplifier");
+		//TODO manick: add some connections with a Fluid
+		Machine.addIOLink(mc1.getComponent().getOutput("PTotal"), mc2.getComponent().getInput("PDmd"));
+		
+		System.out.println(Machine.getInstance().getIOLinkList().toString());
+		
+		Machine.removeMachineComponent("Amplifier");
 
 		try {
 			assertEquals("get component by name", null, Machine.getMachineComponent("Amplifier"));
@@ -164,6 +170,7 @@ public class MachineTest {
 		
 		try {
 			Machine.deleteMachine("Test", "TestConfig1");
+			//assertEquals("File does not exists", false, (new File(prefix+"/Test/MachineConfig/TestConfig1").exists()));
 			assertEquals("File does not exists", false, (new File(prefix+"/Test/TestConfig1").exists()));
 		} catch (Exception e) {
 			e.printStackTrace();
