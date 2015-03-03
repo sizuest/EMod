@@ -1,11 +1,3 @@
-Bearing.RotSpeed = RotSpeed
-MotorAC.RotSpeed = RotSpeed
-MotorAC.Torque = Bearing.Torque
-MotorAC.Torque = TotalTorque.Sum
-MotorAC.Torque = Torque
-MotorAC.Torque = Bearing.Torque
-MotorAC.Torque = Torque
-MotorAC.Torque = FrictionTorque
 Spindle.RotSpeed = RotSpeed
 Spindle.Torque = Torque
 Spindle.TemperatureIn = InletTemperature

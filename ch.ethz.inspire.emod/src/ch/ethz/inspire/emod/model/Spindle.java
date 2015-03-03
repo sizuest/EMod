@@ -21,6 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import java.lang.Math;
 
+import ch.ethz.inspire.emod.model.Pipe;
 import ch.ethz.inspire.emod.model.thermal.ThermalArray;
 import ch.ethz.inspire.emod.model.thermal.ThermalElement;
 import ch.ethz.inspire.emod.model.units.*;
@@ -77,6 +78,8 @@ public class Spindle extends APhysicalComponent{
 	private double[] preloadForce;
 	private double massStructure;
 	private double alphaCoolant, volumeCoolant;
+	private double lastTemperatureIn = Double.NaN;
+	private double[] agFrictCoeff;
 	
 	// Submodels
 	private MotorAC motor;
@@ -118,7 +121,7 @@ public class Spindle extends APhysicalComponent{
 		inputs = new ArrayList<IOContainer>();
 		rotspeed      = new IOContainer("RotSpeed",      Unit.RPM, 0, ContainerType.MECHANIC);
 		torque        = new IOContainer("Torque",        Unit.NEWTONMETER, 0, ContainerType.MECHANIC);
-		temperatureIn = new IOContainer("TemperatureIn", Unit.KELVIN, 0, ContainerType.THERMAL);
+		temperatureIn = new IOContainer("TemperatureIn", Unit.KELVIN, 293, ContainerType.THERMAL);
 		flowRate      = new IOContainer("FlowRate",      Unit.L_MIN, 0, ContainerType.FLUIDDYNAMIC);
 		inputs.add(rotspeed);
 		inputs.add(torque);
@@ -130,9 +133,9 @@ public class Spindle extends APhysicalComponent{
 		pmech          = new IOContainer("PUse",           Unit.WATT,   0, ContainerType.MECHANIC);
 		ploss          = new IOContainer("PLoss",          Unit.WATT,   0, ContainerType.THERMAL);
 		pel            = new IOContainer("PTotal",         Unit.WATT,   0, ContainerType.ELECTRIC);
-		temperatureOut = new IOContainer("TemperatureOut", Unit.NONE,   0, ContainerType.THERMAL);
+		temperatureOut = new IOContainer("TemperatureOut", Unit.NONE,   293, ContainerType.THERMAL);
 		cairFlow       = new IOContainer("CAirFlow",       Unit.NONE,   0, ContainerType.FLUIDDYNAMIC);
-		temperature    = new IOContainer("Temperature",    Unit.KELVIN, 0, ContainerType.THERMAL);
+		temperature    = new IOContainer("Temperature",    Unit.KELVIN, 293, ContainerType.THERMAL);
 		outputs.add(pel);
 		outputs.add(ploss);
 		outputs.add(pmech);
@@ -161,7 +164,8 @@ public class Spindle extends APhysicalComponent{
 			bearingType   = params.getStringArray("BearingType");
 			massStructure = params.getDoubleValue("StructureMass");
 			volumeCoolant = params.getDoubleValue("CoolantVolume");
-			alphaCoolant    = params.getDoubleValue("CoolantHTC");
+			alphaCoolant  = params.getDoubleValue("CoolantHTC");
+			agFrictCoeff  = params.getDoubleArray("AirGapFrictionCoeff");
 			
 			
 			
@@ -176,7 +180,7 @@ public class Spindle extends APhysicalComponent{
 			//bearingLosses = structure.getInput("In");
 			//coilLosses    = structure.getInput("In");
 			structure = new ThermalElement(params.getString("StructureMaterial"), massStructure);
-			coolant = new ThermalArray(params.getString("CoolantMaterial"), volumeCoolant, 10);
+			coolant = new ThermalArray(params.getString("CoolantMaterial"), volumeCoolant, 20);
 			
 			// Change state names
 			structure.getTemperature().setName("TemperatureStructure");
@@ -225,12 +229,18 @@ public class Spindle extends APhysicalComponent{
 	public void update() {
 		
 		//TODO Workarround
-		if(temperatureIn.getValue()<=0)
-			temperatureIn.setValue(coolant.getTemperature().getValue());
+		if(temperatureIn.getValue()<=0) {
+			if (Double.isNaN(lastTemperatureIn))
+				lastTemperatureIn = structure.getTemperature().getValue();
+			temperatureIn.setValue(lastTemperatureIn);
+		}
+		else
+			lastTemperatureIn = temperatureIn.getValue();
 		
 		double frictionTorque = 0;
 		double frictionLosses = 0;
 		
+		// Bearings
 		if(rotspeed.getValue()!=0)
 			for (int i=0; i<bearings.length; i++){
 				bearings[i].getInput("RotSpeed").setValue(rotspeed.getValue());
@@ -241,6 +251,10 @@ public class Spindle extends APhysicalComponent{
 				frictionTorque+=bearings[i].getOutput("Torque").getValue();
 				frictionLosses+=bearings[i].getOutput("PLoss").getValue();
 			}
+		
+		// Air Gap
+		frictionTorque += Math.pow(rotspeed.getValue()/30*Math.PI, agFrictCoeff[0])*agFrictCoeff[1];
+		frictionLosses += Math.pow(rotspeed.getValue()/30*Math.PI, agFrictCoeff[0])*agFrictCoeff[1]*rotspeed.getValue()/30*Math.PI;
 		
 		motor.getInput("RotSpeed").setValue(rotspeed.getValue());
 		motor.getInput("Torque").setValue(frictionTorque+torque.getValue());

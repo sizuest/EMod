@@ -15,7 +15,6 @@ package ch.ethz.inspire.emod.model.thermal;
 import ch.ethz.inspire.emod.model.Material;
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.simulation.DynamicState;
-import ch.ethz.inspire.emod.utils.FluidContainer;
 
 /**
  * General thermal array class
@@ -25,16 +24,27 @@ import ch.ethz.inspire.emod.utils.FluidContainer;
  */
 public class ThermalArray {
 	
+	/* Dynamic state object */
 	protected DynamicState temperatureBulk;
+	/* List of current [k+1] and past [k] node temperatures */
 	protected double[] temperature;
+	protected double[] lastTemperature;
+	/* Input and Ambient temperatures */
 	protected double temperatureExt = Double.NaN, temperatureIn = Double.NaN;
+	/* Material of the array */
 	protected Material material;
+	/* Volume of the array */
 	protected double volume;
+	/* Current flow rate [l/min] / pressure [Pa] / th. Resistance [K/W] */
 	protected double flowRate = 0;
 	protected double pressure = 0;
 	protected double thermalResistance = Double.NaN;
+	/* Internal heat source [W] */
 	protected double heatSource = 0;
+	/* Number of nodes */
 	protected int numElements;
+	/* Static constant C1/2[k] */
+	double lastC1 = Double.NaN, lastC2 = Double.NaN, lastC3 = Double.NaN, lastC4 = Double.NaN;
 	
 	/**
 	 * ThermalElement
@@ -52,7 +62,8 @@ public class ThermalArray {
 		// Default values
 		flowRate = 0;
 		
-		this.temperature  = new double[numElements];
+		this.temperature      = new double[numElements];
+		this.lastTemperature  = new double[numElements];
 		
 		// Set the initialization method
 		try {
@@ -87,8 +98,10 @@ public class ThermalArray {
 	 * @param temperatureInit 
 	 */
 	public void setInitialTemperature(double temperatureInit){
-		for(int i=0;i<this.numElements;i++)
-			temperature[i] = temperatureInit;
+		for(int i=0;i<this.numElements;i++) {
+			temperature[i]     = temperatureInit;
+			lastTemperature[i] = temperatureInit;
+		}
 	}
 	
 	/**
@@ -140,7 +153,7 @@ public class ThermalArray {
 	}
 	/**
 	 * get the flow rate [l/min]
-	 * @param flowRate
+	 * @return flowRate
 	 */
 	public double getFlowRate(){
 		return flowRate;
@@ -157,7 +170,7 @@ public class ThermalArray {
 	}
 	/**
 	 * get the mass flow rate according
-	 * @param
+	 * @param id 
 	 * @return massFlowRate [kg/s]
 	 */
 	public double getMassFlowRate(int id){
@@ -250,29 +263,62 @@ public class ThermalArray {
 	public void integrate(double timestep){
 		temperatureBulk.setTimestep(timestep);
 		
-		// Get fluid properties
+
+		
+		/* Get fluid properties */
 		double rho      = material.getDensity(getTemperatureBulk(), pressure);
 		double cp       = material.getHeatCapacity();
 		double mass     = volume*rho;
 		double massFlow = flowRate/1000/60*rho;
 		
+		/* Calculate constantes for the current timestep:
+		 * C1 = N*mDot + 1/Rth/cp
+		 * C2 = T_amb/Rth/cp
+		 * C3 = hsrc/cp
+		 */
+		double C1       = cp*thermalResistance;
+		double C2       = heatSource*thermalResistance+temperatureExt;
+		double C3       = massFlow;
+		double C4       = temperatureIn;
+		// If required initialize past constants
+		if(Double.isNaN(lastC1))
+			lastC1 = C1;
+		if(Double.isNaN(lastC2))
+			lastC2 = C2;
+		if(Double.isNaN(lastC3))
+			lastC3 = C3;
+		if(Double.isNaN(lastC4))
+			lastC4 = C4;
+			
 		
-		/* For each element the change in temperature is
-		 * Tdot_i [K/s] = N [-] /m [kg] * mDot [kg/s] *(T_i-1 - T_i) [K] - S [m2]/m [kg] /cp [J/kg/K] * k [W/m2/K] * (T_i-T_amb) [K]
-		 * 
-		 * where T_-1 = T_in
-		 */	
-		for (int i=numElements-1; i>0; i--) {
-			temperature[i] += timestep * ( numElements / mass * massFlow * (temperature[i-1]-temperature[i]) -
-					                           		1 / mass / cp / thermalResistance * (temperature[i]-temperatureExt) + 
-					                           		heatSource / numElements);
+		/* Bilinear transformation */
+		
+		for(int i=0; i<numElements; i++){
+			if(i==0)
+				temperature[i] = ( timestep * (lastC1*C2+C1*lastC2) +
+						           C1*( timestep*numElements*lastC1 * (lastC3*lastC4+C3*C4-lastC3*lastTemperature[i]) +
+						               -timestep*lastTemperature[i] + 2*lastC1*lastTemperature[i]*mass)) / 
+						         ( lastC1*(timestep+C1*(2*mass+numElements*timestep*C3)) );
+			else
+				temperature[i] = ( timestep * (lastC1*C2+C1*lastC2) +
+						           C1*( timestep*numElements*lastC1 * (lastC3*lastTemperature[i-1]+C3*temperature[i-1]-lastC3*lastTemperature[i]) +
+						               -timestep*lastTemperature[i] + 2*lastC1*lastTemperature[i]*mass)) / 
+						         ( lastC1*(timestep+C1*(2*mass+numElements*timestep*C3)) );
 		}
-		temperature[0] += timestep * ( numElements / mass * massFlow * (temperatureIn-temperature[0]) -
-                							   1 / mass / cp / thermalResistance * (temperature[0]-temperatureExt) +
-                							   heatSource / numElements);
+		
+		
+		
 		
 		/* State Temperature */
 		temperatureBulk.setValue(getTemperatureBulk());
+		
+		/* Shift new temperatures to old temperatures */
+		lastTemperature = temperature.clone();
+		
+		/* Shift new C1/2 to old C1/2 */
+		lastC1 = C1;
+		lastC2 = C2;
+		lastC3 = C3;
 	}
 	
 	/**

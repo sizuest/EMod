@@ -2,10 +2,10 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
   <comment>
-    Ambient pressure
+    Inlet temperature
   </comment>
   <entry key="samplePeriod">0.2</entry>
-  <entry key="ON">292</entry>
+  <entry key="ON">293.15</entry>
   <entry key="OFF">0</entry>
   <entry key="STANDBY">0</entry>
   <entry key="CONTROLLED">0</entry>

@@ -28,6 +28,7 @@ public class ThermalElement {
 	protected Material material;
 	protected double mass;
 	protected double heatInput;
+	protected double lastHeatInput;
 	
 	/**
 	 * ThermalElement
@@ -36,10 +37,10 @@ public class ThermalElement {
 	 * @param mass
 	 */
 	public ThermalElement(String materialName, double mass){
-		this.mass        = mass;
-		this.material    = new Material(materialName);
-		this.temperature = new DynamicState("Temperature", Unit.KELVIN);
-		
+		this.mass          = mass;
+		this.material      = new Material(materialName);
+		this.temperature   = new DynamicState("Temperature", Unit.KELVIN);
+		this.lastHeatInput = 0;
 	}
 	
 	/**
@@ -65,10 +66,13 @@ public class ThermalElement {
 	public void integrate(double timestep){
 		temperature.setTimestep(timestep);
 		/* Integration step:
-		 * T(k+1) [K] = T(k) [K]+ SampleTime[s]*P_in [W] / cp [J/kg/K] / m [kg] 
+		 * T(k+1) [K] = T(k) [K]+ SampleTime[s]/2*(P_in(k) [W]+P_in(k+1) [W]) / cp [J/kg/K] / m [kg] 
 		 */	
-		temperature.addValue(heatInput/mass/material.getHeatCapacity()*timestep);
-		this.heatInput = 0;
+		temperature.addValue((heatInput+lastHeatInput)/2/mass/material.getHeatCapacity()*timestep);
+		
+		// Shift Heat inputs
+		this.lastHeatInput = this.heatInput;
+		this.heatInput     = 0;
 	}
 	
 	/**

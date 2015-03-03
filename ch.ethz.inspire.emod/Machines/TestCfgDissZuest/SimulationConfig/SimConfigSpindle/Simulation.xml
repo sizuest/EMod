@@ -3,6 +3,6 @@
 <properties>
 <comment/>
 <entry key="simulationPeriod">1</entry>
-<entry key="InitialValue_Spindle_TemperatureStructure">295.0</entry>
-<entry key="InitialValue_Spindle_TemperatureCoolant">295.0</entry>
+<entry key="InitialValue_Spindle_TemperatureStructure">292.15</entry>
+<entry key="InitialValue_Spindle_TemperatureCoolant">292.15</entry>
 </properties>

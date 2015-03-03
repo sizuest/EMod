@@ -30,6 +30,7 @@ import org.eclipse.swt.widgets.Text;
 
 import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.model.MachineComponent;
+import ch.ethz.inspire.emod.simulation.ASimulationControl;
 import ch.ethz.inspire.emod.utils.IOConnection;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
@@ -72,10 +73,11 @@ public class LinkingGUI {
 			
 			//get List of current Machine Components and IOLinkList
 			ArrayList<MachineComponent> components = Machine.getInstance().getMachineComponentList();
+			List<ASimulationControl> mdlInputs     = Machine.getInstance().getInputObjectList();
 			List<IOConnection> linking = Machine.getInstance().getIOLinkList();
 						
 			//if one or zero components are added to the machine, output warning and return to main shell
-			if (components.size()<2){
+			if (components.size()+mdlInputs.size()<2){
 				MessageBox messageBox = new MessageBox(shell);
 				messageBox.setText(LocalizationHandler.getItem("app.gui.linking.warn"));
 				messageBox.setMessage(LocalizationHandler.getItem("app.gui.linking.warnmessage"));

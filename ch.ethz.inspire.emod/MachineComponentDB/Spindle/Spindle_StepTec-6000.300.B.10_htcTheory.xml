@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>File changed by user: sizuest</comment>
+<entry key="CoolantVolume">0.0001525</entry>
+<entry key="AirGapFrictionCoeff">1.8, 8.336e-9</entry>
+<entry key="PreloadForce">944,344,600</entry>
+<entry key="StructureMass">26</entry>
+<entry key="MotorType">E+A-10.6-10-4-239d-249dr12g</entry>
+<entry key="BearingType">SKF-7009,SKF-7009,SKF-7009</entry>
+<entry key="CoolantHTC">250</entry>
+<entry key="StructureMaterial">Steel</entry>
+<entry key="CoolantMaterial">GlykolWater_30</entry>
+</properties>

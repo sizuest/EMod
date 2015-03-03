@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-<comment>File changed by user: simon</comment>
+<comment>File changed by user: sizuest</comment>
 <entry key="BearingType">Example,Example,Example</entry>
-<entry key="PreloadForce">944,344,600</entry>
-<entry key="MotorType">Example</entry>
-<entry key="StructureMass">30</entry>
 <entry key="StructureMaterial">Steel</entry>
+<entry key="StructureMass">30</entry>
 <entry key="CoolantMaterial">Water</entry>
+<entry key="PreloadForce">944,344,600</entry>
 <entry key="CoolantVolume">.005</entry>
-<entry key="CoolantHTC">100</entry>
+<entry key="MotorType">Example</entry>
+<entry key="CoolantHTC">162</entry>
+<entry key="AirGapFrictionCoeff">1, 0</entry>
 </properties>

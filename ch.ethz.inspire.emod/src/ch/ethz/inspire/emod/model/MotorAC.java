@@ -76,6 +76,7 @@ public class MotorAC extends APhysicalComponent{
 	private double opU, opRotSpeed, opFreq;	// Operational point
 	private double maxU;
 	private double k;
+	private double[] pwmEffCoeff;
 	
 	/**
 	 * Constructor called from XmlUnmarshaller.
@@ -152,6 +153,7 @@ public class MotorAC extends APhysicalComponent{
 			opFreq     = params.getDoubleValue("RatedFrequency");
 			opRotSpeed = params.getDoubleValue("RatedRotSpeed");
 			maxU       = params.getDoubleValue("MaxVoltage");
+			pwmEffCoeff = params.getDoubleArray("PWMEffCoeff");
 			
 			// Us/fs at OP
 			k = opU / opFreq;
@@ -191,7 +193,7 @@ public class MotorAC extends APhysicalComponent{
 	@Override
 	public void update() {
 		
-		double s, fs, eff;
+		double s, fs, eff, pwmeff=0;
 				
 		if ( (lasttorque == torque.getValue() ) &&
 			 (lastrotspeed == rotspeed.getValue() ) ) {
@@ -249,6 +251,8 @@ public class MotorAC extends APhysicalComponent{
 					fs = Math.min(fs, roots2[i].real);
 			
 			}
+			
+			
 
 			
 
@@ -257,10 +261,17 @@ public class MotorAC extends APhysicalComponent{
 			 */
 			if (lastrotspeed==0 || fs<=1)
 				eff = 0;
-			else
-				eff = 1/( fs*2*Math.PI/p/(lastrotspeed*Math.PI/30.0) + 
-						  Rr*Rs/(Math.pow(Lm,2)*(fs*2*Math.PI-p*lastrotspeed*Math.PI/30.0)*p*lastrotspeed*Math.PI/30.0) +
-						  Rs/Rr*Math.pow(Lr,2)/Math.pow(Lm, 2)*(fs*2*Math.PI-p*lastrotspeed*Math.PI/30.0)/p/(lastrotspeed*Math.PI/30.0) );
+			else {
+				// PWM Efficiency
+				for(int i=0; i<pwmEffCoeff.length; i++)
+					pwmeff += pwmEffCoeff[i]*Math.pow(lastrotspeed, i);
+				
+				
+				eff = pwmeff/( fs*2*Math.PI/p/(lastrotspeed*Math.PI/30.0) + 
+						       Rr*Rs/(Math.pow(Lm,2)*(fs*2*Math.PI-p*lastrotspeed*Math.PI/30.0)*p*lastrotspeed*Math.PI/30.0) +
+						       Rs/Rr*Math.pow(Lr,2)/Math.pow(Lm, 2)*(fs*2*Math.PI-p*lastrotspeed*Math.PI/30.0)/p/(lastrotspeed*Math.PI/30.0) );
+			}
+			
 		
 			/* The power loss depends on the efficiency of the motor for the actual
 			 * working point (actual rotational speed and torque).

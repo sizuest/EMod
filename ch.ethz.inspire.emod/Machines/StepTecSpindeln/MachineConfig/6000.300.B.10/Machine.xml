@@ -3,15 +3,25 @@
     <machine>
         <machineComponent>
             <component xsi:type="spindle" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
+                <type>StepTec-6000.300.B.10</type>
             </component>
             <name>Spindle</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="spindle" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>StepTec-6000.300.B.10_htcTheory</type>
+            </component>
+            <name>Spindle_1</name>
         </machineComponent>
     </machine>
     <simulators>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>RotSpeed</name>
             <unit>RPM</unit>
+        </simController>
+        <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>FlowRate</name>
+            <unit>L_MIN</unit>
         </simController>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>Torque</name>
@@ -21,11 +31,11 @@
             <name>InletTemperature</name>
             <unit>KELVIN</unit>
         </simController>
-        <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>FlowRate</name>
-            <unit>L_MIN</unit>
-        </simController>
     </simulators>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
     <connectionList/>
     <connectionList/>
     <connectionList/>
