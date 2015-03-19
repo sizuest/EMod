@@ -5,23 +5,26 @@
     Model parameter definition
     ==========================
       Model : Material
-      Type  : Example
+      Type  : Water
     Parameters
     ----------
       TemperatureSamples [K]
         TODO
       PressureSamples [Pa]
         TODO
-      ViscositySamples [mm2/s]
-      	TODO
+      ViscositySamples [mPa*s] = [10^-3 Ns/m^2]
+      	Dynamic Viscosity! dynamic Viscosity = density * kinematic Viscosity
       DensityMatrix [kg/m3]
       	TODO
-      	
+	  HeatCapacity [J/kg K]
+	    TODO
+	  ThermalConductivity [W/m K]
+      	TODO
   </comment>
   <entry key="TemperatureSamples">273</entry>
   <entry key="PressureSamples">100000</entry>
-  <entry key="ViscositySamples">7.4</entry>
+  <entry key="ViscositySamples">1</entry>
   <entry key="DensityMatrix">1000	;</entry>
-  <entry key="HeatCapacity">4180</entry>
-
+  <entry key="HeatCapacity">4182</entry>
+  <entry key="ThermalConductivity">0.5984</entry>
 </properties>
