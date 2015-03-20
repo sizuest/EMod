@@ -63,7 +63,7 @@ import java.lang.reflect.*;
 	ClampTest.class, ServoMotor.class, Revolver.class, Fan.class, Pump.class, PumpAccumulator.class, HeatExchanger.class, 
 	PumpPower.class, Transmission.class, CompressedFluid.class, Amplifier.class, ConstantComponent.class, 
 	Cylinder.class, Valve.class, Pipe.class, HydraulicOil.class, ConstantPump.class,
-	MovingMass.class, Bearing.class, Spindle.class,
+	MovingMass.class, Bearing.class, Spindle.class, Tank.class, PumpFluid.class,
 	HysteresisControl.class, SwitchControl.class, Sum.class, Gain.class,
 	HomogStorage.class, LayerStorage.class, ForcedHeatTransfere.class, FreeHeatTransfere.class,
 	ASimulationControl.class, RandomSimulationControl.class, StaticSimulationControl.class, 
@@ -416,6 +416,11 @@ public class Machine {
 						System.exit(-1);
 					}
 
+					//TODO: check component list, if tank is present --> initiate fluidcircuit!	
+					if(inmc.getComponent() instanceof ch.ethz.inspire.emod.model.Tank){
+						System.out.println("Watch out, we've got a tank here... : " + inmc.getComponent().toString());
+					}
+					
 					/* Get output component and output object */
 					String outstruct = st.nextToken().trim();
 					StringTokenizer stout = new StringTokenizer(outstruct, ".");
@@ -578,6 +583,20 @@ public class Machine {
 	public ArrayList<MachineComponent> getMachineComponentList()
 	{
 		return componentList;
+	}
+	
+	/**
+	 * manick
+	 * @return list of all floodable components
+	 */
+	public ArrayList<MachineComponent> getFloodableMachineComponentList(){
+		ArrayList<MachineComponent> fmc = new ArrayList<MachineComponent>();
+		for(MachineComponent mc : componentList){
+			if(mc.getComponent() instanceof ch.ethz.inspire.emod.utils.Floodable){
+				fmc.add(mc);
+			}
+		}
+		return fmc;
 	}
 	
 	/**

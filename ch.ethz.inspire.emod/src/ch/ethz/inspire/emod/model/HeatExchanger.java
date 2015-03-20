@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import ch.ethz.inspire.emod.model.units.*;
+import ch.ethz.inspire.emod.utils.Floodable;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 
@@ -193,5 +194,4 @@ public class HeatExchanger extends APhysicalComponent{
 		this.type = type;
 		init();
 	}
-	
 }

@@ -1,22 +1,20 @@
 package ch.ethz.inspire.emod.utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.model.APhysicalComponent;
+import ch.ethz.inspire.emod.model.MachineComponent;
 import ch.ethz.inspire.emod.model.Material;
 import ch.ethz.inspire.emod.model.Tank;
 
+
 public class FluidConnection extends IOConnection {
-//public interface FluidConnection{
-	///*public abstract*/ void init();
-	///*public abstract*/ void update();
-//public class FluidConnection<T> extends IOConnection<T> {
-	
-	
-	
 	
 	protected Material material;
+	protected String stringSource = "null";
+	protected String stringTarget = "null";
 	
 	//TODO manick: does this even work??
 	/**
@@ -28,6 +26,36 @@ public class FluidConnection extends IOConnection {
 	public FluidConnection(APhysicalComponent source, APhysicalComponent target) throws Exception{
 		// connect if source has "FluidOut" and target has "FluidIn" and both Material are same!
 		super(source.getOutput("FluidOut"), target.getInput("FluidIn"));
+
+		
+		//System.out.println("FluidConnection constructor: " + source.getClass().toString() + " " + target.getClass().toString());
+		
+		/*
+		if(target instanceof ch.ethz.inspire.emod.utils.Floodable){
+			System.out.println("target is Floodable ***");
+			((Floodable) target).setFluid("GlycolWater");;
+		}
+		*/
+		
+		if(source instanceof ch.ethz.inspire.emod.model.Tank){
+			//String type = ((Tank)source).getFluid().getMaterial().getType();
+			String type = ((Tank)source).getFluidType();
+			if(target instanceof Floodable){
+				((Floodable)target).setFluid(type);
+				//System.out.println("flooding component after tank with " + type);
+			}
+		} else if (source instanceof Floodable){
+			String type = ((Floodable)source).getFluidType();
+			if(target instanceof Floodable && !(target instanceof ch.ethz.inspire.emod.model.Tank)){
+				((Floodable)target).setFluid(type);
+				//System.out.println("flooding component after other comp with " + type);
+			}
+		}
+		
+		stringSource = source.getModelType();
+		stringTarget = target.getModelType();
+		
+		//get material from tank (respectively source), then add to target
 		
 		/*
 		if(	source.getOutput("FluidOut") != null &&
@@ -50,9 +78,30 @@ public class FluidConnection extends IOConnection {
 		*/
 	}
 	
+	//TODO manick: check
+
+	/**
+	 * 
+	 * @param source
+	 * @param target
+	 * @throws Exception
+	 */
 	public FluidConnection(FluidContainer source, FluidContainer target) throws Exception{
-		super((IOContainer)source, (IOContainer)target);		
+		super((IOContainer)source, (IOContainer)target);
+		
+		ArrayList<MachineComponent> components = Machine.getInstance().getMachineComponentList();
+		for(MachineComponent mc : components){
+			List<IOContainer> inputs = mc.getComponent().getInputs();
+			for(IOContainer io : inputs){
+				if(io.equals(source)){
+					System.out.println(io.getClass().toString());
+				}
+			}
+		}
 	}
+	
+	
+	
 	/*
 	public FluidConnection(IOContainer source, IOContainer target, Material material) throws Exception{
 	//public FluidConnection(IOContainer<T> source, IOContainer<T> target, Material material) throws Exception{
@@ -104,26 +153,10 @@ public class FluidConnection extends IOConnection {
 	}
 	
 	/**
-	 * @param io IOConnection without Fluid
-	 * @param material to set
-	 * @return fio FluidConnection with added Fluid
-	 * @throws Exception
-	 */
-	/*/
-	public FluidConnection addFluid(IOConnection io, Material material) throws Exception{
-		//io = (FluidConnection)io.setFluid(material);
-		//io.setFluid(material);
-		//return io;
-		FluidConnection fio = new FluidConnection(io.getSource(), io.getTarget(), material);
-		return fio;
-	}
-	//*/
-	
-	/**
 	 * @param material to set
 	 * @throws Exception
 	 */
-	public void setFluid(Material material) throws Exception{
+	public void setMaterial(Material material) throws Exception{
 		this.material = material;
 	}
 	
@@ -133,51 +166,97 @@ public class FluidConnection extends IOConnection {
 	public Material getMaterial(){
 		return material;
 	}
-	
+
 	/**
-	 * @param fio FluidConnection to remove Fluid from
-	 * @return io IOConnection without Fluid
-	 * @throws Exception
+	 * init a fluidconnection with values for temperature/pressure/flowRate
+	 * @param temperature
+	 * @param pressure
+	 * @param flowRate
 	 */
-	//TODO manick: test
-	public IOConnection removeFluid() throws Exception{
-	//public IOConnection<T> removeFluid() throws Exception{
-
-		// create new Connection without Fluid
-		IOConnection io = new IOConnection(this.getSource(), this.getTarget());
-		//IOConnection<T> io = new IOConnection<T>(this.getSource(), this.getTarget());
-		
-		// check if current connection is present in Machine IOLinkList, if yes, replace
-		List<IOConnection> listIO = Machine.getInstance().getIOLinkList();
-		if(listIO.contains(this)){
-			listIO.remove(this);
-			listIO.add(io);
-		}
-		
-		// return new FluidConnection
-		return io;
-	}
-
 	public void init(double temperature, double pressure, double flowRate){
 		((FluidContainer)source).setValues(temperature, pressure, flowRate);
 		((FluidContainer)target).setValues(temperature, pressure, flowRate);
 	}
-		
+	
+	/**
+	 * update from source to target or vice versa according to the direction of calculation
+	 */
 	public void update(){
-		//direction of calculation
-		//temperature [K]    : source --> target
-		//pressure    [Pa]   : source --> target
-		//flowRate:   [m^3/s]: source <-- target
+		/* direction of calculation
+		 * temperature [K]    : source --> target
+		 * pressure    [Pa]   : source --> target
+		 * flowRate:   [m^3/s]: source <-- target
+		 */
+
+		/* exception 1:
+		 * pump as source --> the flowrate is created by the pump
+		 */
+		/*
+		if(stringSource.equals("Pump")){
+			((FluidContainer)target).setFlowRate   (((FluidContainer)source).getFlowRate());
+		} else {
+			((FluidContainer)source).setFlowRate   (((FluidContainer)target).getFlowRate());
+		}
+		*/
+		
+		/* exception 2:
+		 * tank as target --> 
+		 */
+		/*
+		if(stringSource.equals("Pipe") && stringTarget.equals("Tank")){
+
+		}
+		*/
+		
 		((FluidContainer)target).setTemperature(((FluidContainer)source).getTemperature());
-		//TODO manick: just do this, if source is not a pump!!!
-		//if(!source.getClass().equals(new Pump())){
-			((FluidContainer)target).setPressure   (((FluidContainer)source).getPressure());
-		//}
+		((FluidContainer)target).setPressure   (((FluidContainer)source).getPressure());
 		((FluidContainer)source).setFlowRate   (((FluidContainer)target).getFlowRate());
 		
+		//TODO manick: some special cases: pump defines pressure etc.
 		//maybe there should be a case switch?
 		//pipe --> pump: pressure: source <-- target and control <-- target
 		//pump --> pipe: massflow: source --> target and source  <-- control
-		//or similar
 	}
 }
+
+/**
+ * @param io IOConnection without Fluid
+ * @param material to set
+ * @return fio FluidConnection with added Fluid
+ * @throws Exception
+ */
+/*
+public FluidConnection addFluid(IOConnection io, Material material) throws Exception{
+	//io = (FluidConnection)io.setFluid(material);
+	//io.setFluid(material);
+	//return io;
+	FluidConnection fio = new FluidConnection(io.getSource(), io.getTarget(), material);
+	return fio;
+}
+*/
+
+/**
+ * @param fio FluidConnection to remove Fluid from
+ * @return io IOConnection without Fluid
+ * @throws Exception
+ */
+//TODO manick: should not be allowed! 
+/*
+public IOConnection removeFluid() throws Exception{
+//public IOConnection<T> removeFluid() throws Exception{
+
+	// create new Connection without Fluid
+	IOConnection io = new IOConnection(this.getSource(), this.getTarget());
+	//IOConnection<T> io = new IOConnection<T>(this.getSource(), this.getTarget());
+	
+	// check if current connection is present in Machine IOLinkList, if yes, replace
+	List<IOConnection> listIO = Machine.getInstance().getIOLinkList();
+	if(listIO.contains(this)){
+		listIO.remove(this);
+		listIO.add(io);
+	}
+	
+	// return new FluidConnection
+	return io;
+}
+*/

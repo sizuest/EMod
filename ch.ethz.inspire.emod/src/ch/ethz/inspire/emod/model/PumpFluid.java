@@ -23,6 +23,7 @@ import ch.ethz.inspire.emod.model.thermal.ThermalArray;
 import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.simulation.DynamicState;
 import ch.ethz.inspire.emod.utils.Algo;
+import ch.ethz.inspire.emod.utils.Floodable;
 import ch.ethz.inspire.emod.utils.FluidContainer;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
@@ -56,46 +57,31 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  *
  */
 @XmlRootElement
-public class PumpFluid extends APhysicalComponent /*implements Floodable*/{
-//public class PumpFluid<T> extends APhysicalComponent<T>{
+public class PumpFluid extends APhysicalComponent implements Floodable{
 
 	@XmlElement
 	protected String type;
 	
 	// Input parameters:
-	//private IOContainer/*<ThermalArray>*/ fluidIn;
-	private IOContainer/*<Double>*/ temperatureAmb;
+	private IOContainer temperatureAmb;
 	private FluidContainer fluidIn;
-	//private IOContainer massFlowOut;
-	private IOContainer pressureOut;
-	//private IOContainer<Double> massFlowOut;
-	//private IOContainer<Double> tempIn;
+	//private IOContainer pressureOut; --> would this be useful?
+	private IOContainer flowRateOut;
 	
-	//combine to object?
-	private double lastpressure  = 0.00;
-	//private double lastmassflow  = 0.00;
-	private double lasttemperature  = 293.00;
-	//private double Reynolds		 = 0.00;
-	//private double lambda		 = 0.00;
-	
-
+	//private double lastpressure  = 0.00;
+	//private double lasttemperature  = 293.00;
 	
 	// Output parameters:
-	private IOContainer/*<Double>*/ pel;
-	private IOContainer/*<Double>*/ pth;
-	private IOContainer/*<Double>*/ pmech;
-	//private IOContainer/*<ThermalArray>*/ fluidOut;
+	private IOContainer pel;
+	private IOContainer pth;
+	private IOContainer pmech;
 	private FluidContainer fluidOut;
-	//private IOContainer<Double> massFlowIn;
-	//private IOContainer<Double> pFluid;
-	
 	
 	// Parameters used by the model. 
 	private double[] pressureSamples;  	// Samples of pressure [Pa]
 	private double[] massFlowSamples;  	// Samples of mass flow [kg/s]
 	private double[] pressureSamplesR, massFlowSamplesR;
 	private double pelPump;				// Power demand of the pump if on [W]
-	//private Material fluid;
 	
 	private double temperatureInit;
 	private String fluidType;
@@ -141,20 +127,22 @@ public class PumpFluid extends APhysicalComponent /*implements Floodable*/{
 	private void init()
 	{
 		/* Define Input parameters */
-		inputs      = new ArrayList<IOContainer/*<ThermalArray>*/>();
-		temperatureAmb = new IOContainer/*<Double>*/("TemperatureAmb", Unit.KELVIN, temperatureInit, ContainerType.THERMAL);
-		pressureOut    = new IOContainer("PressureOut", Unit.PA, 0.00, ContainerType.FLUIDDYNAMIC);
+		inputs      = new ArrayList<IOContainer>();
+		temperatureAmb = new IOContainer("TemperatureAmb", Unit.KELVIN, temperatureInit, ContainerType.THERMAL);
+		//pressureOut    = new IOContainer("PressureOut", Unit.PA, 0.00, ContainerType.FLUIDDYNAMIC);
+		flowRateOut    = new IOContainer("FlowRateOut", Unit.KG_S, 0.00, ContainerType.FLUIDDYNAMIC);
 		inputs.add(temperatureAmb);
-		inputs.add(pressureOut);
+		//inputs.add(pressureOut);
+		inputs.add(flowRateOut);
 		
 		/* Define output parameters */
-		outputs    = new ArrayList<IOContainer/*<T>*/>();
-		pel        = new IOContainer/*<Double>*/("PTotal",     Unit.WATT, 0.00, ContainerType.ELECTRIC);
-		pth        = new IOContainer/*<Double>*/("PLoss",      Unit.WATT, 0.00, ContainerType.THERMAL);
-		pmech      = new IOContainer/*<Double>*/("PUse",       Unit.WATT, 0.00, ContainerType.FLUIDDYNAMIC);
-		outputs.add(/*(IOContainer<T>) */pel);
-		outputs.add(/*(IOContainer<T>) */pth);
-		outputs.add(/*(IOContainer<T>) */pmech);
+		outputs    = new ArrayList<IOContainer>();
+		pel        = new IOContainer("PTotal",     Unit.WATT, 0.00, ContainerType.ELECTRIC);
+		pth        = new IOContainer("PLoss",      Unit.WATT, 0.00, ContainerType.THERMAL);
+		pmech      = new IOContainer("PUse",       Unit.WATT, 0.00, ContainerType.FLUIDDYNAMIC);
+		outputs.add(pel);
+		outputs.add(pth);
+		outputs.add(pmech);
 
 		
 		/* ************************************************************************/
@@ -176,9 +164,9 @@ public class PumpFluid extends APhysicalComponent /*implements Floodable*/{
 			massFlowSamples = params.getDoubleArray("MassFlowSamples");
 			pelPump         = params.getDoubleValue("ElectricalPower");
 			//fluid           = params.getMaterial("Fluid");
-			int numElements = 1;
-			fluid           = new ThermalArray(fluidType, .001, numElements);
-			fluid.getTemperature().setInitialCondition(temperatureInit);
+			//int numElements = 1;
+			//fluid           = new ThermalArray(fluidType, .0001, 1);
+			//fluid.getTemperature().setInitialCondition(temperatureInit);
 			
 			/*
 			 * Revert arrays;
@@ -207,24 +195,17 @@ public class PumpFluid extends APhysicalComponent /*implements Floodable*/{
 		    System.exit(-1);
 		}
 		
-		//TODO manick: test for Fluid
-		//fluidIn       = new IOContainer/*<ThermalArray>*/("FluidIn", Unit.NONE,    fluid, ContainerType.FLUIDDYNAMIC);
+		if(fluidType != null){
+			setFluid(fluidType);
+		}
+		
+		/* Define FluidIn parameter */
 		fluidIn        = new FluidContainer("FluidIn", Unit.NONE, ContainerType.FLUIDDYNAMIC);
-		inputs.add(/*(IOContainer<T>)*/ fluidIn);
-		
-		fluidIn.setPressure(100000);
-		fluidIn.setTemperature(293);
-		
-		//TODO manick: test for Fluid
-		//fluidOut        = new IOContainer/*<ThermalArray>*/("FluidOut",      Unit.NONE,   fluid, ContainerType.FLUIDDYNAMIC);
+		inputs.add(fluidIn);
+
+		/* Define FluidOut parameter */
 		fluidOut        = new FluidContainer("FluidOut", Unit.NONE, ContainerType.FLUIDDYNAMIC);
-		outputs.add(/*(IOContainer<T>)*/ fluidOut);
-		
-		fluidOut.setFlowRate(0);
-		
-		/* State */
-		dynamicStates = new ArrayList<DynamicState>();
-		dynamicStates.add(fluid.getTemperature());
+		outputs.add(fluidOut);
 	}
 	
 	/**
@@ -269,71 +250,97 @@ public class PumpFluid extends APhysicalComponent /*implements Floodable*/{
 	 */
 	@Override
 	public void update() {
-		double density, viscosity;
+		double density;
 
-		// Update inputs
-		//direction of calculation
-		//temperature [K]    : fluidIn --> fluidOut
-		//pressure    [Pa]   : fluidIn --> fluidOut
-		//flowRate:   [m^3/s]: fluidIn <-- fluidOut
+		//TODO manick:
+		/*
+		 * folgendes Vorgehen:
+		 * Inputs: fluidIn, (Volumetric)FlowRateOut
+		 * Outputs: fluidOut
+		 * 
+		 * wenn: FlowRateOut != 0 --> check ob FlowRate möglich (FlowRateSamples/PressureSamples?) --> Pressure >= 0
+		 *       --> FlowRateIn rechnen, PressureOut rechnen
+		 * 
+		 */
+		
+		/* ************************************************************************/
+		/*         Update inputs, direction of calculation:                       */
+		/*         temperature [K]    : fluidIn --> fluid                         */
+		/*         pressure    [Pa]   : fluidIn --> fluid                         */
+		/*         flowRate:   [m^3/s]: fluid   <-- fluidOut                      */
+		/* ************************************************************************/
 		fluid.setTemperatureIn(fluidIn.getTemperature());
-		//fluid.setPressure(fluidIn.getPressure());
-		//fluid.setFlowRate(fluidOut.getFlowRate());
-		
-		lastpressure = fluid.getPressure();
-		//TODO manick: change of pressure! ....
-		if(pressureOut.getValue() != lastpressure)
-			System.out.println("pump: change of pressure");
-
-		
-		if(pressureOut.getValue() != 0){
-			pel.setValue(pelPump);
-			fluid.setPressure(pressureOut.getValue());
-			
-			//TODO manick: interpolation does not work this way round! pressureSamples should be sorted other way round
-			//fluid.setFlowRate(1.4);
-			fluid.setFlowRate(Algo.linearInterpolation(pressureOut.getValue(), pressureSamplesR, massFlowSamplesR));
-			
-			fluidIn.setFlowRate(fluid.getFlowRate());
-		}
-		else{
-			pel.setValue(0);
+		if(fluidIn.getPressure() > 0){
 			fluid.setPressure(fluidIn.getPressure());
-			fluid.setFlowRate(fluidOut.getFlowRate());
-			fluidIn.setFlowRate(fluid.getFlowRate());
+		} else {
+			fluid.setPressure(100000);
+		}
+		//fluid.setFlowRate(fluidOut.getFlowRate()); --> according to massFlowOut
+		
+		density   = fluid.getMaterial().getDensity(fluid.getTemperature().getValue(),  fluid.getPressure());
+		//viscosity = fluid.getMaterial().getViscosity(fluid.getTemperature().getValue(), fluid.getPressure());
+		double massFlowOut = flowRateOut.getValue() * density;
+		
+		if(massFlowSamples[massFlowSamples.length-1] < massFlowOut){
+			System.out.println("pump can not provide requested massflow!");
+		}
+
+		// Pump has Input flowRateOut. if flowRateOut can be provided by the pump, then calculate
+		if(flowRateOut.getValue() !=0 && massFlowSamples[massFlowSamples.length-1] >= massFlowOut){ // Pump is ON
+			pel.setValue(pelPump);
+			// set flowRate of fluidOut --> Pump creates flowRate
+			fluidOut.setFlowRate(flowRateOut.getValue());
+			
+			// set flowRate of fluid and calculate according pressure
+			fluid.setFlowRate(flowRateOut.getValue());
+			fluid.setPressure(Algo.linearInterpolation(massFlowOut, massFlowSamples, pressureSamples));
+		}
+		else { // Pump is OFF
+			pel.setValue(0);
+			
+			//therefore set flowRate to zero
+			fluid.setFlowRate(0);
+			fluid.setPressure(100000);
 		}
 		
 		/* The mechanical power is given by the pressure and the voluminal flow:
 		 * Pmech = pFluid [Pa] * Vdot [m3/s]
 		 */
-		pmech.setValue( Math.abs(fluid.getFlowRate()*fluid.getPressure()/fluid.getMaterial().getDensity(fluidIn.getTemperature(), fluid.getPressure())) );
+		pmech.setValue( Math.abs(fluid.getFlowRate()*fluid.getPressure()/fluid.getMaterial().getDensity(fluid.getTemperature().getValue(), fluid.getPressure())) );
 		
 		/* The Losses are the difference between electrical and mechanical power
 		 */
 		pth.setValue(pel.getValue()-pmech.getValue());		
 		
-		// Get current fluid properties
-		density   = fluid.getMaterial().getDensity(fluid.getTemperature().getValue(),  fluid.getPressure());
-		viscosity = fluid.getMaterial().getViscosity(fluid.getTemperature().getValue(), fluid.getPressure());
-		
-		fluid.setThermalResistance(1);
-		fluid.setHeatSource(pth.getValue());
+		/*
+		 * Settings for the fluid:
+		 * Temperature External, Thermal Resistance, Heat Source
+		 * Thermal Resistance: R_th = l / (lambda * A) = 2.55 with assumptions:
+		 *     l = length                    = 0.01     [m]
+		 *     lambda = thermal Conductivity = 50       [W/(m K)] (Steel)
+		 *     A = Area                      = 0.0001 [m^2]
+		 * Heat Source: pump losses (pth)
+		 */
 		fluid.setTemperatureExternal(temperatureAmb.getValue());
-		fluid.setTemperatureIn(fluidIn.getTemperature());
+		fluid.setThermalResistance(0.2);
+		fluid.setHeatSource(pth.getValue());
 		
-		// Integration step
+		/* ************************************************************************/
+		/*         Integration step:                                              */
+		/* ************************************************************************/
 		fluid.integrate(timestep);
-
-		// Update outputs
-		//direction of calculation
-		//temperature [K]    : fluidIn --> fluidOut
-		//pressure    [Pa]   : fluidIn --> fluidOut
-		//flowRate:   [m^3/s]: fluidIn <-- fluidOut
+		
+		/* ************************************************************************/
+		/*         Update outputs, direction of calculation:                      */
+		/*         temperature [K]    : fluid   --> fluidOut                      */
+		/*         pressure    [Pa]   : fluid   --> fluidOut                      */
+		/*         flowRate:   [m^3/s]: fluidIn <-- fluid                         */
+		/* ************************************************************************/
 		fluidOut.setTemperature(fluid.getTemperatureOut());
 		fluidOut.setPressure(fluid.getPressure());
 		fluidIn.setFlowRate(fluid.getFlowRate());
-
-		System.out.println("pump fluidvalues: " + fluidOut.getPressure() + " " + pth.getValue() + " " + fluid.getFlowRate() + " " + lasttemperature + " " + density + " " + viscosity + " " + pmech.getValue());
+		
+		System.out.println("pump: " + fluid.getPressure() + " " + fluid.getFlowRate() + " " + fluid.getTemperature().getValue());
 	}
 
 	/* (non-Javadoc)
@@ -344,15 +351,50 @@ public class PumpFluid extends APhysicalComponent /*implements Floodable*/{
 		return type;
 	}
 	
+	/**
+	 * set Type of the Pump
+	 * @param type: the type of the pump to set
+	 */
 	public void setType(String type) {
 		this.type = type;
 		init();
 	}
-	
-	public ThermalArray getFluid(){
-		return fluid;
-	}
 
+	/**
+	 * get the fluid type
+	 * @return the fluid type
+	 */
+	public String getFluidType(){
+		return fluid.getMaterial().getType();
+	}
+	
+	/**
+	 * set the fluid type, init the fluid
+	 * @param type: the type of the fluid to set
+	 */
+	public void setFluid(String type){
+		/* ThermalArray */
+		this.fluidType = type;
+		this.fluid = new ThermalArray(type, 0.0001, 1);
+		
+		/* Initialize Thermal Array */
+		if (temperatureAmb.getValue() > 0) {
+			fluid.setInitialTemperature(temperatureAmb.getValue());
+			fluid.getTemperature().setInitialCondition(temperatureAmb.getValue());
+		} else {
+			fluid.setInitialTemperature(293);
+			fluid.getTemperature().setInitialCondition(293);
+		}
+		
+		/* State */
+		dynamicStates = new ArrayList<DynamicState>();
+		dynamicStates.add(fluid.getTemperature());
+	}
+	
+	/**
+	 * set the fluid
+	 * @param fluid
+	 */
 	public void setFluid(ThermalArray fluid) {
 		this.fluid = fluid;
 	}

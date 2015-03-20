@@ -46,7 +46,15 @@ public class HeatExchangerTest {
 		
 		assertEquals("Heat flow out",     2*500, element.getOutput("PThermal").getValue(),  0);
 		assertEquals("Power demand",      500,   element.getOutput("PTotal").getValue(), 0);
-		
 	}
 	
+	@Test
+	public void testHeatExchangerHyfra(){
+		HeatExchanger heex = new HeatExchanger("Hyfra_VWK_21_1S");
+		
+		heex.getInput("level").setValue(1);
+		heex.update();
+		
+		System.out.println("PThermal: " + heex.getOutput("PThermal").getValue() + "PTotal: " + heex.getOutput("PTotal").getValue());
+	}
 }

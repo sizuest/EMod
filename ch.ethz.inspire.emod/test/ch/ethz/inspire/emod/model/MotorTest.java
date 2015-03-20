@@ -48,4 +48,17 @@ public class MotorTest {
 		assertEquals("Efficiency", 0.265, lm.getOutput("Efficiency").getValue(), 0.001);	
 	}
 	
+	
+	@Test
+	public void testKesslerMotor(){
+		Motor moto = new Motor("Kessler_000101561");
+		
+		//set rotspeed to 6000rpm and torque accordingly to get PTotal of about 830W...
+		moto.getInput("RotSpeed").setValue(6000);
+		moto.getInput("Torque").setValue(0.3);
+		
+		moto.update();
+		
+		System.out.println("PTotal: " + moto.getOutput("PTotal").getValue() + " PLoss: " + moto.getOutput("PLoss").getValue() + " Efficiency: " +  moto.getOutput("Efficiency").getValue());
+	}
 }

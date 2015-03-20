@@ -5,10 +5,11 @@
     Model parameter definition
     ==========================
       Model : Tank 
-      Type  : Example
+      Type  : Schaublin42L
     Parameters
     ----------
       Volume     [m^3]
+	    = Cylinder with diameter 25cm, height 18cm = 0.0088 m^3
 	    or
 	  Length     [m]
 	  Width      [m]
@@ -16,6 +17,6 @@
 	  
 	  Material   [-]
   </comment>
-  <entry key="Volume">1</entry>
-  <entry key="Material">Water</entry>
+  <entry key="Volume">0.0088</entry>
+  <entry key="Material">Monoethylenglykol_34</entry>
 </properties>

@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 
 import ch.ethz.inspire.emod.model.*;
 import ch.ethz.inspire.emod.model.units.Unit;
@@ -193,6 +194,31 @@ public class MachineTest {
 		}
 		
 		
+	}
+	
+	@Test
+	public void testFloodableComponent(){
+		Machine.clearMachine();
+		
+		// Add a components to the machine
+		MachineComponent mc1 = Machine.addNewMachineComponent("Tank", "Example");
+		MachineComponent mc2 = Machine.addNewMachineComponent("Amplifier", "Example");
+		MachineComponent mc3 = Machine.addNewMachineComponent("Pipe", "Example");
+		
+		// Check if components are floodable
+		ArrayList<MachineComponent> mcl = Machine.getInstance().getMachineComponentList();
+		for(MachineComponent mc : mcl){
+			if(mc.getComponent() instanceof ch.ethz.inspire.emod.utils.Floodable)
+				System.out.println(mc.getComponent().getClass().toString() + " is floodable");
+			else
+				System.out.println(mc.getComponent().getClass().toString() + " is not floodable");
+		}
+
+		System.out.println("all floodable components from the getFloodableMachineComponentList:");
+		ArrayList<MachineComponent> fmcl = Machine.getInstance().getFloodableMachineComponentList();
+		for(MachineComponent mc : fmcl){
+			System.out.println(mc.getComponent().toString());
+		}
 	}
 
 }

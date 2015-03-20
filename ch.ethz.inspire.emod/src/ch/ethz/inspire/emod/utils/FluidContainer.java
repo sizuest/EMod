@@ -1,17 +1,15 @@
 package ch.ethz.inspire.emod.utils;
 
-import ch.ethz.inspire.emod.model.Material;
 import ch.ethz.inspire.emod.model.units.ContainerType;
 import ch.ethz.inspire.emod.model.units.Unit;
 
 public class FluidContainer extends IOContainer {
 
-	//protected ThermalArray fluid;
-	//contains values: temperature, pressure, flowRate
+	/* Current temperature [K], pressure [Pa], flow rate [m^3/s]*/
 	protected double temperature;
 	protected double pressure;
 	protected double flowRate;
-	protected Material material;
+	//protected Material material;
 	//Material ist bereits im ThermalArray enthalten!
 
 	/**
@@ -37,14 +35,14 @@ public class FluidContainer extends IOContainer {
 		this.temperature = that.getTemperature();
 		this.pressure    = that.getPressure();
 		this.flowRate    = that.getFlowRate();
-		this.material    = that.material;
+		//this.material    = that.material;
 	}
 	
 	/**
 	 * set values for temperature, pressure and flowRate all at once
-	 * @param temperature
-	 * @param pressure
-	 * @param flowRate
+	 * @param temperature [K]
+	 * @param pressure    [Pa]
+	 * @param flowRate    [m^3/s]
 	 */
 	public void setValues(double temperature, double pressure, double flowRate){
 		this.temperature = temperature;
@@ -54,7 +52,7 @@ public class FluidContainer extends IOContainer {
 	
 	/**
 	 * the temperature to set
-	 * @param temperature
+	 * @param temperature [K]
 	 */
 	public void setTemperature(double temperature){
 		this.temperature = temperature;
@@ -62,7 +60,7 @@ public class FluidContainer extends IOContainer {
 	
 	/**
 	 * get the temperature
-	 * @return the temperature
+	 * @return the temperature [K]
 	 */
 	public double getTemperature(){
 		return temperature;
@@ -70,7 +68,7 @@ public class FluidContainer extends IOContainer {
 
 	/**
 	 * the pressure to set
-	 * @param pressure
+	 * @param pressure [Pa]
 	 */
 	public void setPressure(double pressure){
 		this.pressure = pressure;
@@ -78,7 +76,7 @@ public class FluidContainer extends IOContainer {
 	
 	/**
 	 * get the pressure
-	 * @return the pressure
+	 * @return the pressure [Pa]
 	 */
 	public double getPressure(){
 		return pressure;
@@ -86,7 +84,7 @@ public class FluidContainer extends IOContainer {
 
 	/**
 	 * the flowRate to set
-	 * @param flowRate
+	 * @param flowRate [m^3/s]
 	 */
 	public void setFlowRate(double flowRate){
 		this.flowRate = flowRate;
@@ -94,13 +92,13 @@ public class FluidContainer extends IOContainer {
 	
 	/**
 	 * get the flowRate
-	 * @return the flowRate
+	 * @return the flowRate [m^3/s]
 	 */
 	public double getFlowRate(){
 		return flowRate;
 	}
 	
 	public String toString(){
-		return material.toString() + " " + temperature + " " + pressure + " " + flowRate;
+		return "FluidContainer " + temperature + " " + pressure + " " + flowRate;
 	}
 }

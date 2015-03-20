@@ -223,6 +223,7 @@ public class Pump extends APhysicalComponent{
 			pel.setValue(pelPump);
 			massFlowIn.setValue(massFlowOut.getValue());
 			pFluid.setValue(Algo.linearInterpolation(massFlowOut.getValue(), massFlowSamples, pressureSamples));
+			System.out.println("massflow: " + massFlowOut.getValue() + " Pressure: " + pFluid.getValue());
 		}
 		else {
 			pel.setValue(0);

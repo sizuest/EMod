@@ -145,14 +145,14 @@ public class ThermalArray {
 	}
 	
 	/**
-	 * Set the flow rate [l/min]
+	 * Set the flow rate [m^3/s]
 	 * @param flowRate
 	 */
 	public void setFlowRate(double flowRate){
 		this.flowRate = flowRate;
 	}
 	/**
-	 * get the flow rate [l/min]
+	 * get the flow rate [m^3/s]
 	 * @return flowRate
 	 */
 	public double getFlowRate(){
@@ -166,7 +166,10 @@ public class ThermalArray {
 	 */
 	public void setMassFlowRate(double massFlowRate, double temperature, double pressure){
 		double rho = material.getDensity(temperature, pressure);
-		this.flowRate = massFlowRate/rho*1000*60;
+
+		//TODO manick: unit flowRate!
+		//this.flowRate = massFlowRate/rho*1000*60;
+		this.flowRate = massFlowRate/rho;
 	}
 	/**
 	 * get the mass flow rate according
@@ -176,7 +179,10 @@ public class ThermalArray {
 	public double getMassFlowRate(int id){
 		if(id < numElements){
 			double rho = material.getDensity(temperature[id], pressure);
-			return flowRate*rho/1000/60;
+			
+			//TODO manick: unit flowRate!
+			//return flowRate*rho/1000/60;
+			return flowRate*rho;
 		}
 		else{
 			return 0.0;
@@ -269,8 +275,12 @@ public class ThermalArray {
 		double rho      = material.getDensity(getTemperatureBulk(), pressure);
 		double cp       = material.getHeatCapacity();
 		double mass     = volume*rho;
-		double massFlow = flowRate/1000/60*rho;
 		
+		//TODO manick: unit flowRate!
+		//double massFlow = flowRate/1000/60*rho;
+		double massFlow = flowRate*rho;
+		
+		//System.out.println("ThermalArray.integrate: " + rho + " " + cp + " " + mass + " " + massFlow);
 		/* Calculate constantes for the current timestep:
 		 * C1 = N*mDot + 1/Rth/cp
 		 * C2 = T_amb/Rth/cp
@@ -305,6 +315,7 @@ public class ThermalArray {
 						               -timestep*lastTemperature[i] + 2*lastC1*lastTemperature[i]*mass)) / 
 						         ( lastC1*(timestep+C1*(2*mass+numElements*timestep*C3)) );
 		}
+		//System.out.println("ThermalArray.integrate 0: " + temperature[0]);
 		
 		
 		

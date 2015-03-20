@@ -4,16 +4,20 @@
   <comment>
     Model parameter definition
     ==========================
-      Model : Pipe 
+      Model : Tank 
       Type  : Example
     Parameters
     ----------
-      PipeDiameter [m]
-        TODO
-      PipeLength [m]
-        TODO
+      Volume     [m^3]
+	    or
+	  Length     [m]
+	  Width      [m]
+	  Height     [m]
+	  
+	  Material   [-]
   </comment>
-  <entry key="PipeDiameter">0.01</entry>
-  <entry key="PipeLength">0.5</entry>
-  <entry key="PipeHTC">1</entry>
+  <entry key="Length">0.5</entry>
+  <entry key="Width">0.5</entry>
+  <entry key="Height">0.25</entry>
+  <entry key="Material">Example</entry>
 </properties>

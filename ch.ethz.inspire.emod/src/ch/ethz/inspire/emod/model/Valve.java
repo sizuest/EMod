@@ -1,10 +1,10 @@
 /***********************************
- * $Id: Valve.java 103 2013-10-31 13:39:36Z kraandre $
+ * $Id$
  *
- * $URL: https://icvrdevil.ethz.ch/svn/EMod/trunk/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/model/Cylinder.java $
- * $Author: kraandre $
- * $Date: 2013-10-31 14:39:36 +0100 (Do, 31 Okt 2013) $
- * $Rev: 103 $
+ * $URL$
+ * $Author$
+ * $Date$
+ * $Rev$
  *
  * Copyright (c) 2013 by Inspire AG, ETHZ
  * All rights reserved
@@ -22,6 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import ch.ethz.inspire.emod.model.units.ContainerType;
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.utils.Algo;
+import ch.ethz.inspire.emod.utils.Floodable;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 
@@ -57,7 +58,7 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  *
  */
 @XmlRootElement
-public class Valve extends APhysicalComponent{
+public class Valve extends APhysicalComponent implements Floodable{
 
 	@XmlElement
 	protected String type;
@@ -286,6 +287,18 @@ public class Valve extends APhysicalComponent{
 	public void setType(String type) {
 		this.type = type;
 		init();
+	}
+
+	@Override
+	public void setFluid(String type) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getFluidType() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

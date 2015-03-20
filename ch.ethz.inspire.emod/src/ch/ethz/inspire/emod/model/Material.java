@@ -46,6 +46,7 @@ public class Material {
 	private double[] temperatureSamples;
 	private double[] viscositySamples;
 	private double[][] densityMatrix;
+	private double thermalConductivity = 0.00;
 	
 	/**
 	 * Constructor called from XmlUnmarshaller.
@@ -102,6 +103,7 @@ public class Material {
 			viscositySamples	= params.getDoubleArray("ViscositySamples");
 			densityMatrix		= params.getDoubleMatrix("DensityMatrix");	
 			heatCapacity        = params.getDoubleValue("HeatCapacity");
+			thermalConductivity = params.getDoubleValue("ThermalConductivity");
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -205,5 +207,19 @@ public class Material {
      */
     public double getHeatCapacity(){
     	return heatCapacity;
+    }
+    
+    /**
+     * @return type of material
+     */
+    public String getType(){
+    	return type;
+    }
+    
+    /**
+     * @return thermal conductivity [W/(m K)]
+     */
+    public double getThermalConductivity(){
+    	return thermalConductivity;
     }
 }

@@ -14,6 +14,6 @@
         TODO
   </comment>
   <entry key="PipeDiameter">0.01</entry>
-  <entry key="PipeLength">0.5</entry>
+  <entry key="PipeLength">1.4</entry>
   <entry key="PipeHTC">1</entry>
 </properties>

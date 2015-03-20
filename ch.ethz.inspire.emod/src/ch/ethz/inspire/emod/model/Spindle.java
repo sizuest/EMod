@@ -26,6 +26,7 @@ import ch.ethz.inspire.emod.model.thermal.ThermalArray;
 import ch.ethz.inspire.emod.model.thermal.ThermalElement;
 import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.simulation.DynamicState;
+import ch.ethz.inspire.emod.utils.Floodable;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 
@@ -53,7 +54,7 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  *
  */
 @XmlRootElement
-public class Spindle extends APhysicalComponent{
+public class Spindle extends APhysicalComponent implements Floodable{
 
 	@XmlElement
 	protected String type;
@@ -299,6 +300,17 @@ public class Spindle extends APhysicalComponent{
 	public void setType(String type) {
 		this.type = type;
 		init();
+	}
+
+	@Override
+	public void setFluid(String type) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getFluidType() {
+		return coolant.getMaterial().getType();
 	}
 	
 }
