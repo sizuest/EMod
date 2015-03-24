@@ -35,9 +35,9 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
+
 import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.States;
-
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.simulation.ASimulationControl;
 import ch.ethz.inspire.emod.simulation.DynamicState;
@@ -57,6 +57,9 @@ public class SimGUI extends AGUITab  {
 	private Table tableSimParam;
 	private Table tableProcessParam;
 	private Table tableStateSequence;
+	
+	// fields used in the Table for the State Sequences
+	private String[] stateList;
 	
 	SimulationState machineState;
 	
@@ -130,11 +133,16 @@ public class SimGUI extends AGUITab  {
 		tableStateSequence.clearAll();
 		tableStateSequence.setItemCount(0);
 		
+		//TODO: combos need to be disposed too!!
+		
 		for( TableColumn tc: tableStateSequence.getColumns() )
 			tc.dispose();
-				
-		//TODO Language pack
-		String[] bTitles =  {"", "Time", "Duration", "State"};
+
+		String[] bTitles =  {
+				"",
+				LocalizationHandler.getItem("app.gui.sim.machinestatesequence.time"),
+				LocalizationHandler.getItem("app.gui.sim.machinestatesequence.duration"),
+				LocalizationHandler.getItem("app.gui.sim.machinestatesequence.state")};
 		for(int i=0; i < bTitles.length; i++){
 			TableColumn column = new TableColumn(tableStateSequence, SWT.NULL);
 			column.setText(bTitles[i]);
@@ -143,49 +151,52 @@ public class SimGUI extends AGUITab  {
 		
 		
 		for(int i=0; i<States.getStateCount(); i++){
-			TableItem item = new TableItem(tableStateSequence, SWT.NONE);
+			final TableItem item = new TableItem(tableStateSequence, SWT.NONE);
 			item.setText(0, i+"" );
 			item.setText(1, (States.getTime(i)-States.getDuration(i))+"" );
             item.setText(2, States.getDuration(i).toString());
-            item.setText(3, States.getState(i).toString());
             
-            /*//create button to edit component
+            //stateList = new String[States.getStateCount()]; 
+            //stateList[i] = States.getState(i).toString();
+            //item.setText(3, States.getState(i).toString());
+            
+            final int id = i;
+            //final double duration = States.getDuration(i);
+            
+            //create combo to edit State
             TableEditor editor = new TableEditor(tableStateSequence);
-            final CCombo comboEditState = new CCombo(tableStateSequence, SWT.NONE);
+            final CCombo comboEditState = new CCombo(tableStateSequence, SWT.PUSH);
             
             String[] items = new String[MachineState.values().length];
-            for(int j=0; j<items.length; j++)
-            	items[j] = MachineState.values()[j].toString();
+            for(MachineState ms : MachineState.values()){
+            	items[ms.ordinal()] = ms.name();
+            }
             
             comboEditState.setItems(items);
             comboEditState.setText(States.getState(i).toString());
             comboEditState.addSelectionListener(new SelectionListener(){
     			public void widgetSelected(SelectionEvent event){
-    				//disable comboMachineConfigName to prevent argument null for updatecomboMachineConfigName
-    				comboEditState.setEnabled(false);
-    				
-    				    				
-    				setStateSequence();
-        		
-        			//enable comboMachineConfigName after update
-        			comboEditState.setEnabled(true);
+    				System.out.println("**** " + comboEditState.getText());
+    				stateList[id] = comboEditState.getText();
+    				//item.setText(3, comboEditState.getText());
         		}
         		public void widgetDefaultSelected(SelectionEvent event){
         		
         		}
         	});
             
+            //TODO manick: Spaltenbreite stimmt nicht!
             comboEditState.pack();
             editor.minimumWidth = comboEditState.getSize().x;
+            editor.grabHorizontal = true;
             editor.horizontalAlignment = SWT.LEFT;
-            editor.setEditor(comboEditState, item, 3);*/
+            editor.setEditor(comboEditState, item, 3);
 		}
 		
 		TableColumn[] columns = tableStateSequence.getColumns();
         for (int i = 0; i < columns.length; i++) {
           columns[i].pack();
         }
-        
         tableStateSequence.setRedraw(true);
 	}
 	
@@ -196,10 +207,8 @@ public class SimGUI extends AGUITab  {
 		for( TableColumn tc: tableProcessParam.getColumns() )
 			tc.dispose();
 		
-		
-		//TODO Language
 		TableColumn column = new TableColumn(tableProcessParam, SWT.NULL);
-		column.setText("Time\n[s]");
+		column.setText(LocalizationHandler.getItem("app.gui.sim.inputs.time"));
 		
 		
 		
@@ -208,7 +217,7 @@ public class SimGUI extends AGUITab  {
 		if(scList!=null) {
 			for(int i=0; i < scList.size(); i++){
 				column = new TableColumn(tableProcessParam, SWT.NULL);
-				column.setText(scList.get(i).getName()+"\n["+scList.get(i).getUnit().toString()+"]");
+				column.setText(scList.get(i).getName()+ " [" +scList.get(i).getUnit().toString() + "]");
 			}
 		}
 		
@@ -232,8 +241,7 @@ public class SimGUI extends AGUITab  {
 	public void initTabGeneral(TabFolder tabFolder){
 		//Tab for State sequence
 		TabItem tabGenerlItem = new TabItem(tabFolder, SWT.NONE);
-		//TODO Language
-		tabGenerlItem.setText("General");
+		tabGenerlItem.setText(LocalizationHandler.getItem("app.gui.sim.general.title"));
 	}
 	
 	public void initTabInitialConditions(TabFolder tabFolder){		
@@ -246,8 +254,11 @@ public class SimGUI extends AGUITab  {
 		
 		
 		//Titel der Spalten setzen
-		//TODO: Werte in Languagepack �bernehmen
-		String[] aTitles =  {"Component", "State", "Value", "Unit"};
+		String[] aTitles =  {
+				LocalizationHandler.getItem("app.gui.sim.initialconditions.component"),
+				LocalizationHandler.getItem("app.gui.sim.initialconditions.state"),
+				LocalizationHandler.getItem("app.gui.sim.initialconditions.value"),
+				LocalizationHandler.getItem("app.gui.sim.initialconditions.unit")};
 		
 		for(int i=0; i < aTitles.length; i++){
 			TableColumn column = new TableColumn(tableSimParam, SWT.NULL);
@@ -315,8 +326,7 @@ public class SimGUI extends AGUITab  {
 	    
 	    //Tab for IC
 		TabItem tabCompDBItem = new TabItem(tabFolder, SWT.NONE);
-		//TODO Language
-		tabCompDBItem.setText("Initial Conditions");
+		tabCompDBItem.setText(LocalizationHandler.getItem("app.gui.sim.initialconditions.title"));
 		tabCompDBItem.setToolTipText("Initial Conditions");
 		tabCompDBItem.setControl(tableSimParam);  
 	}
@@ -373,6 +383,7 @@ public class SimGUI extends AGUITab  {
 			                            }  
 			                        	break;
 		                        	case 3:
+		                        		// moegliche Werte: ON, OFF, STANDBY, READY, PROCESS;
 		                        		for(int j=0; j<MachineState.values().length; j++)
 		                        			if(text.getText().equals(MachineState.values()[j].toString())) {
 		                        				row.setText(column, text.getText());
@@ -395,13 +406,20 @@ public class SimGUI extends AGUITab  {
 	        }
 	    });
 		
+	    // workaround for the combo to select the state
+        stateList = new String[States.getStateCount()]; 
+        for(int i=0; i < States.getStateCount(); i++){
+            stateList[i] = States.getState(i).toString();
+        }
+
+        //item.setText(3, States.getState(i).toString());
+	    
 		//Update states
 		updateStateSequence();
 		
 		//Tab for State sequence
 		TabItem tabStatesItem = new TabItem(tabFolder, SWT.NONE);
-		//TODO Language
-		tabStatesItem.setText("Machine State Sequence");
+		tabStatesItem.setText(LocalizationHandler.getItem("app.gui.sim.machinestatesequence.title"));
 		tabStatesItem.setControl(tableStateSequence);
 	}
 	
@@ -415,13 +433,11 @@ public class SimGUI extends AGUITab  {
 		tableProcessParam.setHeaderVisible(true);
 		
 		//Titel der Spalten setzen
-		//TODO: Werte in Languagepack uebernehmen
 		updateProcess();
 		
 		//Tab for State sequence
 		TabItem tabProcessItem = new TabItem(tabFolder, SWT.NONE);
-		//TODO Language
-		tabProcessItem.setText("Inputs");
+		tabProcessItem.setText(LocalizationHandler.getItem("app.gui.sim.inputs.title"));
 		tabProcessItem.setControl(tableProcessParam);
 	}
 
@@ -433,8 +449,11 @@ public class SimGUI extends AGUITab  {
 	}
 	
 	private void setStateSequence(){
+		int id = 0;
 		for(TableItem ti:tableStateSequence.getItems()){
-			States.setState(Integer.valueOf(ti.getText(0)), Double.valueOf(ti.getText(2)), MachineState.valueOf(ti.getText(3)));
+			System.out.println("SimGUI.setStateSequence: " + ti.getText(0) + " " + ti.getText(2) + " " + stateList[id]);
+			States.setState(Integer.valueOf(ti.getText(0)), Double.valueOf(ti.getText(2)), MachineState.valueOf(stateList[id]));
+			id++;
 		}
 		updateStateSequence();
 	}

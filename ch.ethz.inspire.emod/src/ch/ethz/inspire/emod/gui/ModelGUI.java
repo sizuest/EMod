@@ -26,7 +26,6 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.TabFolder;
@@ -57,6 +56,7 @@ public class ModelGUI extends AGUITab {
 	private TabFolder tabFolder;
 	private static Tree treeComponentDBView, treeInputsDBView;
 	private Button buttonEditLinking;
+	private static int[] columnWidthTableModelView;
 	
 	/**
 	 * @param parent
@@ -127,8 +127,10 @@ public class ModelGUI extends AGUITab {
 		
         //initialize table with columns
         TableColumn[] columns = tableModelView.getColumns();
+		columnWidthTableModelView = new int[columns.length];
         for (int i = 0; i < columns.length; i++) {
           columns[i].pack();
+          columnWidthTableModelView[i] = 0;
         }
 	}
 
@@ -367,7 +369,11 @@ public class ModelGUI extends AGUITab {
         //write Name, Type and Parameter to table
         item.setText(0, sc.getName());
         item.setText(1, "Input");
-        //item.setText(2, "");
+        for(int i=0; i<=1; i++){
+            if(columnWidthTableModelView[i] < item.getBounds(i).x){
+            	columnWidthTableModelView[i] = item.getBounds(i).x;
+            }
+        }
         
         //create combo to edit unit
         TableEditor editor = new TableEditor(tableModelView);
@@ -397,6 +403,9 @@ public class ModelGUI extends AGUITab {
         //TODO manick: Spaltenbreite stimmt nicht!
         comboEditInputUnit.pack();
         editor.minimumWidth = comboEditInputUnit.getSize().x;
+        if(columnWidthTableModelView[2] < comboEditInputUnit.getSize().x){
+        	columnWidthTableModelView[2] = comboEditInputUnit.getSize().x;
+        }
         editor.grabHorizontal = true;
         editor.horizontalAlignment = SWT.LEFT;
         editor.setEditor(comboEditInputUnit, item, 2);
@@ -492,6 +501,11 @@ public class ModelGUI extends AGUITab {
         item.setText(0, mc.getName());
         item.setText(1, mc.getComponent().getModelType());
         item.setText(2, mc.getComponent().getType());
+        for(int i=0; i<=2; i++){
+            if(columnWidthTableModelView[i] < item.getBounds(i).x){
+            	columnWidthTableModelView[i] = item.getBounds(i).x;
+            }
+        }
         
         //create button to edit component
         TableEditor editor = new TableEditor(tableModelView);
@@ -513,6 +527,9 @@ public class ModelGUI extends AGUITab {
         });
         buttonEditComponent.pack();
         editor.minimumWidth = buttonEditComponent.getSize().x;
+        if(columnWidthTableModelView[3] < buttonEditComponent.getSize().x){
+        	columnWidthTableModelView[3] = buttonEditComponent.getSize().x;
+        }
         editor.horizontalAlignment = SWT.LEFT;
         editor.setEditor(buttonEditComponent, item, 3);
         
@@ -549,6 +566,9 @@ public class ModelGUI extends AGUITab {
         });
         buttonDeleteComponent.pack();
         editor.minimumWidth = buttonDeleteComponent.getSize().x;
+        if(columnWidthTableModelView[4] < buttonDeleteComponent.getSize().x){
+        	columnWidthTableModelView[4] = buttonDeleteComponent.getSize().x;
+        }
         editor.horizontalAlignment = SWT.LEFT;
         editor.setEditor(buttonDeleteComponent, item, 4);		        
         
@@ -570,20 +590,18 @@ public class ModelGUI extends AGUITab {
 	 * needed after deleting all items
 	 */ 	
 	public static void updateTable(){
-		
-		//TODO manick: does not work, if a cell contains a TableEditor!
-		//therefore: check if any TableEditors are present -> get max Width -> set Width of column
-		
 		tableModelView.setRedraw(false);
         TableColumn[] columns = tableModelView.getColumns();
         for (int i = 0; i < columns.length; i++) {
           columns[i].pack();
         }
         
-        //TODO manick: width is not correct for the TableEditors when .pack();
-        tableModelView.getColumn(2).setWidth(150);
-        tableModelView.getColumn(3).setWidth(30);
-        tableModelView.getColumn(4).setWidth(30);
+        //workaround: width is not correct for the TableEditors when .pack();
+        for(int i = 2; i <= 4; i++){
+        	if(columnWidthTableModelView[i] > 0){
+        		tableModelView.getColumn(i).setWidth(columnWidthTableModelView[i]+2);
+        	}
+        }
         
         tableModelView.setRedraw(true);
 	}
@@ -601,7 +619,6 @@ public class ModelGUI extends AGUITab {
 		//resize columns of table
 		updateTable();
 		tableModelView.setRedraw(true);
-		
 	}
 
 	@Override
