@@ -12,7 +12,6 @@
  ***********************************/
 package ch.ethz.inspire.emod.gui;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -21,14 +20,18 @@ import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.ControlEditor;
 import org.eclipse.swt.custom.TableCursor;
 import org.eclipse.swt.custom.TableEditor;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
@@ -38,7 +41,6 @@ import org.eclipse.swt.widgets.Text;
 
 import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.States;
-import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.simulation.ASimulationControl;
 import ch.ethz.inspire.emod.simulation.DynamicState;
 import ch.ethz.inspire.emod.simulation.MachineState;
@@ -54,6 +56,7 @@ import ch.ethz.inspire.emod.utils.PropertiesHandler;
 public class SimGUI extends AGUITab  {
 	
 	protected static TabFolder tabFolder;
+	
 	private Table tableSimParam;
 	private Table tableProcessParam;
 	private Table tableStateSequence;
@@ -129,75 +132,18 @@ public class SimGUI extends AGUITab  {
 	}
 	
 	private void updateStateSequence(){
+		//delete the content of the table
 		tableStateSequence.setRedraw(false);
 		tableStateSequence.clearAll();
 		tableStateSequence.setItemCount(0);
 		
-		//TODO: combos need to be disposed too!!
-		
-		for( TableColumn tc: tableStateSequence.getColumns() )
-			tc.dispose();
-
-		String[] bTitles =  {
-				"",
-				LocalizationHandler.getItem("app.gui.sim.machinestatesequence.time"),
-				LocalizationHandler.getItem("app.gui.sim.machinestatesequence.duration"),
-				LocalizationHandler.getItem("app.gui.sim.machinestatesequence.state")};
-		for(int i=0; i < bTitles.length; i++){
-			TableColumn column = new TableColumn(tableStateSequence, SWT.NULL);
-			column.setText(bTitles[i]);
-		}
-		
-		
-		
+		//fill the table with the values form States
 		for(int i=0; i<States.getStateCount(); i++){
-			final TableItem item = new TableItem(tableStateSequence, SWT.NONE);
-			item.setText(0, i+"" );
-			item.setText(1, (States.getTime(i)-States.getDuration(i))+"" );
-            item.setText(2, States.getDuration(i).toString());
-            
-            //stateList = new String[States.getStateCount()]; 
-            //stateList[i] = States.getState(i).toString();
-            //item.setText(3, States.getState(i).toString());
-            
-            final int id = i;
-            //final double duration = States.getDuration(i);
-            
-            //create combo to edit State
-            TableEditor editor = new TableEditor(tableStateSequence);
-            final CCombo comboEditState = new CCombo(tableStateSequence, SWT.PUSH);
-            
-            String[] items = new String[MachineState.values().length];
-            for(MachineState ms : MachineState.values()){
-            	items[ms.ordinal()] = ms.name();
-            }
-            
-            comboEditState.setItems(items);
-            comboEditState.setText(States.getState(i).toString());
-            comboEditState.addSelectionListener(new SelectionListener(){
-    			public void widgetSelected(SelectionEvent event){
-    				System.out.println("**** " + comboEditState.getText());
-    				stateList[id] = comboEditState.getText();
-    				//item.setText(3, comboEditState.getText());
-        		}
-        		public void widgetDefaultSelected(SelectionEvent event){
-        		
-        		}
-        	});
-            
-            //TODO manick: Spaltenbreite stimmt nicht!
-            comboEditState.pack();
-            editor.minimumWidth = comboEditState.getSize().x;
-            editor.grabHorizontal = true;
-            editor.horizontalAlignment = SWT.LEFT;
-            editor.setEditor(comboEditState, item, 3);
+			addStateSequenceItem(i);
 		}
 		
-		TableColumn[] columns = tableStateSequence.getColumns();
-        for (int i = 0; i < columns.length; i++) {
-          columns[i].pack();
-        }
-        tableStateSequence.setRedraw(true);
+		//show new Table
+		tableStateSequence.setRedraw(true);
 	}
 	
 	private void updateProcess(){
@@ -332,12 +278,23 @@ public class SimGUI extends AGUITab  {
 	}
 	
 	public void initTabStates(TabFolder tabFolder){
-		
 		//Tabelle fuer State Sequence	
 		tableStateSequence = new Table(tabFolder, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
 		tableStateSequence.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		tableStateSequence.setLinesVisible(true);
 		tableStateSequence.setHeaderVisible(true);
+		
+		String[] bTitles =  {
+				"",
+				LocalizationHandler.getItem("app.gui.sim.machinestatesequence.time"),
+				LocalizationHandler.getItem("app.gui.sim.machinestatesequence.duration"),
+				LocalizationHandler.getItem("app.gui.sim.machinestatesequence.state"),
+				"", ""};
+		for(int i=0; i < bTitles.length; i++){
+			TableColumn column = new TableColumn(tableStateSequence, SWT.NULL);
+			column.setText(bTitles[i]);
+		}
+		
 		
 		//SOURCE http://www.tutorials.de/threads/in-editierbarer-swt-tabelle-ohne-eingabe-von-enter-werte-aendern.299858/
 	    //create a TableCursor to navigate around the table
@@ -380,6 +337,7 @@ public class SimGUI extends AGUITab  {
 				                            	row.setText(column, text.getText());
 				                            	// Write new value to states
 				                            	setStateSequence();
+				                            	updateStateSequence();
 			                            }  
 			                        	break;
 		                        	case 3:
@@ -388,6 +346,7 @@ public class SimGUI extends AGUITab  {
 		                        			if(text.getText().equals(MachineState.values()[j].toString())) {
 		                        				row.setText(column, text.getText());
 		                        				setStateSequence();
+		                        				//updateStateSequence(); //not necessary here, the drop-down-combo takes care of this
 		                        			}
 		                        		break;
 		                        	}
@@ -411,11 +370,11 @@ public class SimGUI extends AGUITab  {
         for(int i=0; i < States.getStateCount(); i++){
             stateList[i] = States.getState(i).toString();
         }
-
-        //item.setText(3, States.getState(i).toString());
-	    
-		//Update states
-		updateStateSequence();
+        
+		for(int i=0; i<States.getStateCount(); i++){
+			addStateSequenceItem(i);
+		}
+        
 		
 		//Tab for State sequence
 		TabItem tabStatesItem = new TabItem(tabFolder, SWT.NONE);
@@ -449,13 +408,141 @@ public class SimGUI extends AGUITab  {
 	}
 	
 	private void setStateSequence(){
-		int id = 0;
 		for(TableItem ti:tableStateSequence.getItems()){
-			System.out.println("SimGUI.setStateSequence: " + ti.getText(0) + " " + ti.getText(2) + " " + stateList[id]);
-			States.setState(Integer.valueOf(ti.getText(0)), Double.valueOf(ti.getText(2)), MachineState.valueOf(stateList[id]));
-			id++;
+			States.setState(Integer.valueOf(ti.getText(0)), Double.valueOf(ti.getText(2)), MachineState.valueOf(ti.getText(3)));
 		}
-		updateStateSequence();
+		//updateStateSequence();
+	}
+	
+	private void addStateSequenceItem(int index){
+		tableStateSequence.setRedraw(false);
+		
+        //create new table item in the tableModelView
+        final TableItem item = new TableItem(tableStateSequence, SWT.NONE, index);
+        
+        //create combo for drop-down selection of the state
+        final CCombo comboEditState = new CCombo(tableStateSequence, SWT.PUSH);
+        //create button to append a new state
+        final Button buttonAddState = new Button(tableStateSequence, SWT.PUSH);
+        //create button to delete the last state of the list
+    	final Button buttonDeleteState = new Button(tableStateSequence, SWT.PUSH);
+        
+        //write id, time, duration and state to table
+        //first colum: id
+        item.setText(0, String.valueOf(index));
+        
+        //second column: time (if first item, time = 0.00)
+        if(index == 0){
+        	item.setText(1, "0.00");
+        }
+        else {
+        	Double startTime = //States.getTime(index-1) + States.getDuration(index-1);
+        					   Double.parseDouble(tableStateSequence.getItem(index-1).getText(1)) +
+        					   Double.parseDouble(tableStateSequence.getItem(index-1).getText(2));
+        	item.setText(1, String.valueOf(startTime));
+        }
+        
+        //third column: duration
+        item.setText(2, States.getDuration(index).toString());
+        //fourth column: state
+        item.setText(3, States.getState(index).toString());	
+        
+        //get the values for the drop-down combo
+        String[] comboItems = new String[MachineState.values().length];
+        for(MachineState ms : MachineState.values()){
+        	comboItems[ms.ordinal()] = ms.name();
+        }
+        comboEditState.setItems(comboItems);
+        
+        //prefill the combo with the current state
+        final int id = index;
+        final Double duration = States.getDuration(index);
+        comboEditState.setText(States.getState(index).toString());
+        comboEditState.addSelectionListener(new SelectionListener(){
+        	public void widgetSelected(SelectionEvent event){
+        		//set the selected value into the cell behind the combo (needed for the updateProcess)
+        		item.setText(3, comboEditState.getText());
+        		//set the state
+        		States.setState(id, duration, MachineState.valueOf(comboEditState.getText()));
+        	}
+        	public void widgetDefaultSelected(SelectionEvent event){
+        		
+        	}
+        });
+        
+        //pack the combo and set it into the cell
+        comboEditState.pack();
+        final TableEditor editor = new TableEditor(tableStateSequence);
+        editor.minimumWidth = comboEditState.getSize().x;
+        int widthColumnFour = comboEditState.getSize().x;
+        editor.grabHorizontal = true;
+        editor.horizontalAlignment = SWT.LEFT;
+        editor.setEditor(comboEditState, item, 3);
+        
+        //the last entry of the list has a delete/add button
+        if(index == States.getStateCount()-1){  
+
+            //create button to add a new row
+            Image imageAdd = new Image(Display.getDefault(), "src/resources/Add16.gif");
+            buttonAddState.setImage(imageAdd);
+            buttonAddState.addSelectionListener(new SelectionListener(){
+            	public void widgetSelected(SelectionEvent event){
+            		//append a state with duration 0 and state OFF
+            		States.appendState(0, MachineState.OFF);
+            		//get rid of the buttons, refresh table
+            		buttonAddState.dispose();
+               		buttonDeleteState.dispose();
+               		updateStateSequence();
+            	}
+            	public void widgetDefaultSelected(SelectionEvent event){
+            		
+            	}
+            });
+            //pack the button and set it into the cell
+            buttonAddState.pack();
+            TableEditor editor2 = new TableEditor(tableStateSequence);  
+            editor2.minimumWidth = buttonAddState.getSize().x;
+            editor2.horizontalAlignment = SWT.LEFT;
+            editor2.setEditor(buttonAddState, item, 5);
+            
+        	//create button to delete last row
+            Image imageDelete = new Image(Display.getDefault(), "src/resources/Delete16.gif");
+            buttonDeleteState.setImage(imageDelete);
+            buttonDeleteState.addSelectionListener(new SelectionListener(){
+            	public void widgetSelected(SelectionEvent event){
+            		//delete the cell, remove the state from the statesList, refresh table
+            		item.dispose();
+					States.getStateMap().remove(id);
+            		updateStateSequence();
+            	}
+            	public void widgetDefaultSelected(SelectionEvent event){
+            		
+            	}
+            });
+            //pack the button and set it into the cell
+            buttonDeleteState.pack();
+            TableEditor editor3 = new TableEditor(tableStateSequence);
+            editor3.minimumWidth = buttonDeleteState.getSize().x;
+            editor3.horizontalAlignment = SWT.LEFT;
+            editor3.setEditor(buttonDeleteState, item, 4);
+        }
+        
+		TableColumn[] columns = tableStateSequence.getColumns();
+        for (int i = 0; i < columns.length; i++) {
+          columns[i].pack();
+        }
+        tableStateSequence.getColumn(3).setWidth(widthColumnFour);
+        
+        //if a cell gets deleted, make shure that the combo and buttons get deleted too!
+        item.addDisposeListener(new DisposeListener(){
+			@Override
+			public void widgetDisposed(DisposeEvent e) {
+				comboEditState.dispose();
+				buttonAddState.dispose();
+				buttonDeleteState.dispose();
+			}
+        });
+        tableStateSequence.setRedraw(true);
 	}
 }
 
