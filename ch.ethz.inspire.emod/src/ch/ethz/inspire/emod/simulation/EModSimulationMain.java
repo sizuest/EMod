@@ -135,7 +135,7 @@ public class EModSimulationMain {
 	public void runSimulation() {
 		
 		double time; 
-		ProgressbarGUI pg = new ProgressbarGUI();
+		ProgressbarGUI pg = new ProgressbarGUI("app.gui.analysis.progressbar");
 		pg.updateProgressbar(0);
 		
 		/* Check if all lists are defined: */

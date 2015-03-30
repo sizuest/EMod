@@ -13,12 +13,17 @@
 package ch.ethz.inspire.emod.gui;
 
 
+import java.io.File;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.custom.ControlEditor;
+import org.eclipse.swt.custom.TableCursor;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.dnd.*;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
@@ -43,6 +48,7 @@ import ch.ethz.inspire.emod.model.MachineComponent;
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.simulation.ASimulationControl;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
+import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 /**
  * @author manick
@@ -117,9 +123,9 @@ public class ModelGUI extends AGUITab {
 		String[] titles =  {LocalizationHandler.getItem("app.gui.model.name"),
 							LocalizationHandler.getItem("app.gui.model.type"),
 							LocalizationHandler.getItem("app.gui.model.param"),
-							LocalizationHandler.getItem("app.gui.model.editcomp"),
+							"",//LocalizationHandler.getItem("app.gui.model.editcomp"),
 							//LocalizationHandler.getItem("app.gui.model.editlink"),
-							LocalizationHandler.getItem("app.gui.model.delcomp")};
+							""};//LocalizationHandler.getItem("app.gui.model.delcomp")};
 		for(int i=0; i < titles.length; i++){
 			TableColumn column = new TableColumn(tableModelView, SWT.NULL);
 			column.setText(titles[i]);
@@ -132,6 +138,68 @@ public class ModelGUI extends AGUITab {
           columns[i].pack();
           columnWidthTableModelView[i] = 0;
         }
+        
+		//SOURCE http://www.tutorials.de/threads/in-editierbarer-swt-tabelle-ohne-eingabe-von-enter-werte-aendern.299858/
+	    //create a TableCursor to navigate around the table
+	    final TableCursor cursor = new TableCursor(tableModelView, SWT.NONE);
+	    // create an editor to edit the cell when the user hits "ENTER"
+	    // while over a cell in the table
+	    final ControlEditor editor = new ControlEditor(cursor);
+	    editor.grabHorizontal = true;
+	    editor.grabVertical = true;
+	   
+	    cursor.addKeyListener(new KeyAdapter() {
+	        public void keyPressed(KeyEvent e) {
+	            switch(e.keyCode) {
+		            case SWT.ARROW_UP:
+		            case SWT.ARROW_RIGHT:
+		            case SWT.ARROW_DOWN:
+		            case SWT.ARROW_LEFT:
+		            //an dieser stelle fehlen auch noch alle anderen tasten die
+		            //ignoriert werden sollen...wie F1-12, esc,bsp,....
+		                //System.out.println("Taste ignorieren...");
+		                break;
+		               
+		            default:
+		                //System.out.println("hier jetzt text editieren");
+		                final Text text = new Text(cursor, SWT.NONE);
+		                TableItem row = cursor.getRow();
+		                int column = cursor.getColumn();
+		                final String oldName = row.getText(column);
+		                text.append(String.valueOf(e.character));
+		                text.addKeyListener(new KeyAdapter() {
+		                    public void keyPressed(KeyEvent e) {
+		                        // close the text editor and copy the data over
+		                        // when the user hits "ENTER"
+		                        if (e.character == SWT.CR) {
+		                        	TableItem row = cursor.getRow();
+		                            int column = cursor.getColumn();
+		                        	switch(column){
+		                        	case 0:
+		                        		row.setText(column, text.getText());
+		                        		if(row.getText(1).equals("Input")){
+		                        			//TODO: if no Inputs exists with this name, what to do??
+		                        			Machine.getInputObject(oldName).setName(text.getText());
+		                        		} else {
+		                        			Machine.getMachineComponent(oldName).setName(text.getText());
+		                        		}
+			                        	break;
+		                        	}
+			                        text.dispose();
+		                        }
+		                        // close the text editor when the user hits "ESC"
+		                        if (e.character == SWT.ESC) {
+		                            text.dispose();
+		                        }
+		                    }
+		                });
+		                editor.setEditor(text);
+		                text.setFocus();
+		                    break;
+	            }  
+	        }
+	    });
+        
 	}
 
  	/**
@@ -391,7 +459,7 @@ public class ModelGUI extends AGUITab {
 				comboEditInputUnit.setEnabled(false);
     		
 				sc.setUnit(Unit.valueOf(comboEditInputUnit.getText()));
-    		
+				//System.out.println("***comboEditInputUnit: " + sc.getName() + " " + sc.getUnit().toString());
     			//enable comboMachineConfigName after update
 				comboEditInputUnit.setEnabled(true);
     		}
@@ -453,9 +521,7 @@ public class ModelGUI extends AGUITab {
         		
         		//remove component from machine
         		if(Machine.removeInputObject(sc.getName())){
-	        		//dispose the buttons for edit and delete, and dispose the item
-	        		buttonDeleteComponent.dispose();
-	        		comboEditInputUnit.dispose();
+	        		//dispose the item
 	        		item.dispose();
         		}
         		
@@ -472,7 +538,7 @@ public class ModelGUI extends AGUITab {
         editor.horizontalAlignment = SWT.LEFT;
         editor.setEditor(buttonDeleteComponent, item, 4);		        
         
-        //if item is disposed, remove button delete and button edit
+        //if item is disposed, remove buttons delete/edit and combo
         item.addDisposeListener(new DisposeListener(){
         	public void widgetDisposed(DisposeEvent e) {
         		buttonDeleteComponent.dispose();
@@ -507,6 +573,7 @@ public class ModelGUI extends AGUITab {
             }
         }
         
+        /* replaced by the combo to edit parameter, and name can be edited directly in the column
         //create button to edit component
         TableEditor editor = new TableEditor(tableModelView);
         final Button buttonEditComponent = new Button(tableModelView, SWT.PUSH);
@@ -532,6 +599,51 @@ public class ModelGUI extends AGUITab {
         }
         editor.horizontalAlignment = SWT.LEFT;
         editor.setEditor(buttonEditComponent, item, 3);
+        */
+        
+        //set combo to let the user choose the parameter type of the mc
+        TableEditor editor = new TableEditor(tableModelView);
+        final CCombo comboComponentType = new CCombo(tableModelView, SWT.PUSH);
+        
+		//according to the given component, get the path for the parameter sets
+		String path = PropertiesHandler.getProperty("app.MachineComponentDBPathPrefix") + "/" + mc.getComponent().getModelType() + "/";
+		File subdir = new File(path);
+    	
+    	//check if the directory exists, then show possible parameter sets to select
+    	if(subdir.exists()){
+    		String[] subitems = subdir.list();
+    		
+    		//remove the "Type_" and the ".xml" part of the filename
+    		for(int i=0; i < subitems.length; i++){
+    			subitems[i] = subitems[i].replace(mc.getComponent().getModelType() + "_", "");
+    			subitems[i] = subitems[i].replace(".xml", "");
+    		}   
+    		
+    		//set the possible parameter sets to the combo
+    		comboComponentType.setItems(subitems);
+    		comboComponentType.setText(mc.getComponent().getType());
+    	}
+    	
+    	comboComponentType.addSelectionListener(new SelectionListener(){
+    		public void widgetSelected(SelectionEvent event){
+				//disable comboMachineConfigName to prevent argument null for comboComponentType
+    			comboComponentType.setEnabled(false);
+    		
+    			mc.getComponent().setType(comboComponentType.getText());
+    			comboComponentType.setEnabled(true);
+    		}
+    		public void widgetDefaultSelected(SelectionEvent event){
+    			
+    		}
+    	});
+    	comboComponentType.pack();
+        editor.minimumWidth = comboComponentType.getSize().x;
+        if(columnWidthTableModelView[2] < comboComponentType.getSize().x){
+        	columnWidthTableModelView[2] = comboComponentType.getSize().x;
+        }
+        editor.grabHorizontal = true;
+        editor.horizontalAlignment = SWT.LEFT;
+        editor.setEditor(comboComponentType, item, 2);
         
         //create button to delete component in last column
         editor = new TableEditor(tableModelView);
@@ -551,8 +663,9 @@ public class ModelGUI extends AGUITab {
         		if(Machine.removeMachineComponent(mc.getName())){
 
 	        		//dispose the buttons for edit and delete, and dispose the item
+        			comboComponentType.dispose();
 	        		buttonDeleteComponent.dispose();
-	        		buttonEditComponent.dispose();
+	        		//buttonEditComponent.dispose();
 	        		item.dispose();
         		}
         		
@@ -575,8 +688,9 @@ public class ModelGUI extends AGUITab {
         //if item is disposed, remove button delete and button edit
         item.addDisposeListener(new DisposeListener(){
         	public void widgetDisposed(DisposeEvent e) {
+        		comboComponentType.dispose();
         		buttonDeleteComponent.dispose();
-        		buttonEditComponent.dispose();
+        		//buttonEditComponent.dispose();
         	}	
         });
         

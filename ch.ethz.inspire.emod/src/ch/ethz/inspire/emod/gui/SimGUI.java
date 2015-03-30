@@ -273,7 +273,6 @@ public class SimGUI extends AGUITab  {
 	    //Tab for IC
 		TabItem tabCompDBItem = new TabItem(tabFolder, SWT.NONE);
 		tabCompDBItem.setText(LocalizationHandler.getItem("app.gui.sim.initialconditions.title"));
-		tabCompDBItem.setToolTipText("Initial Conditions");
 		tabCompDBItem.setControl(tableSimParam);  
 	}
 	

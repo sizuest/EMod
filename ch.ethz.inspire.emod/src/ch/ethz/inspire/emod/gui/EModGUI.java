@@ -34,6 +34,7 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.widgets.Monitor;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
@@ -74,7 +75,7 @@ public class EModGUI {
 		shell = new Shell(display);
 		
 		
-		ProgressbarGUI pg = new ProgressbarGUI();
+		ProgressbarGUI pg = new ProgressbarGUI("app.gui.startup.progressbar");
 		pg.updateProgressbar(0);
 	
 		
@@ -83,6 +84,15 @@ public class EModGUI {
 			shell.setSize(1024, 768);
 		else
 			shell.setSize(display.getBounds().width, display.getBounds().height);
+		
+	    Monitor primary = display.getPrimaryMonitor();
+	    Rectangle bounds = primary.getBounds();
+	    Rectangle rect = shell.getBounds();
+	    
+	    int x = bounds.x + (bounds.width - rect.width) / 2;
+	    int y = bounds.y + (bounds.height - rect.height) / 2;
+	    
+	    shell.setLocation(x, y);
 		
 		shell.setLayout(new FillLayout());
 		

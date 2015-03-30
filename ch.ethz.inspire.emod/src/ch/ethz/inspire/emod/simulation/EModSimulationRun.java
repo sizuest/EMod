@@ -1,7 +1,6 @@
 package ch.ethz.inspire.emod.simulation;
 
 import ch.ethz.inspire.emod.Machine;
-import ch.ethz.inspire.emod.gui.utils.ProgressbarGUI;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 public class EModSimulationRun {
