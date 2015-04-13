@@ -530,4 +530,125 @@ public class FluidTest {
 			//tank.getInput("HeatFlowIn").setValue(0);
 		}
 	}
+	
+	@Test
+	public void testSchaublinOld() throws Exception{
+		System.out.println("*** testSchaublin ***");
+		Tank tank = new Tank("Schaublin42L");
+		tank.getInput("TemperatureAmb").setValue(293);
+		
+		//
+		PumpFluid pump = new PumpFluid("Example");
+		//Pipe pip1 = new Pipe("Schaublin42LV", tank.getInput("TemperatureAmb").getValue(), tank.getFluidType());
+		Pipe pip1 = new Pipe("Schaublin42LV");
+		//Pipe piph = new Pipe("Example",       tank.getInput("TemperatureAmb").getValue(), tank.getFluidType());
+		Pipe piph = new Pipe("Example");
+		//Pipe pip2 = new Pipe("Schaublin42LR", tank.getInput("TemperatureAmb").getValue(), tank.getFluidType());
+		Pipe pip2 = new Pipe("Schaublin42LR");
+
+
+		
+		pump.getInput("TemperatureAmb").setValue(293);
+		pip1.getInput("TemperatureAmb").setValue(293);
+		piph.getInput("TemperatureAmb").setValue(293);
+		pip2.getInput("TemperatureAmb").setValue(293);
+		
+		double timestep = 0.01;
+		tank.setSimulationTimestep(timestep);
+		pump.setSimulationTimestep(timestep);
+		pip1.setSimulationTimestep(timestep);
+		piph.setSimulationTimestep(timestep);
+		pip2.setSimulationTimestep(timestep);
+		
+		pip1.getInput("HeatFlowIn").setValue(0);
+		piph.getInput("HeatFlowIn").setValue(0.5);
+		pip2.getInput("HeatFlowIn").setValue(0);
+		
+		FluidConnection fc1 = new FluidConnection(tank, pump);
+		fc1.init(293, 100000, 0);
+		FluidConnection fc2 = new FluidConnection(pump, pip1);
+		fc2.init(293, 100000, 0);
+		FluidConnection fc3 = new FluidConnection(pip1, piph);
+		fc2.init(293, 100000, 0);
+		FluidConnection fc4 = new FluidConnection(piph, pip2);
+		fc3.init(293, 100000, 0);
+		FluidConnection fc5 = new FluidConnection(pip2, tank);
+		fc4.init(293, 100000, 0);
+		
+		for(int i=0; i<10; i++){
+			tank.update();
+			fc1.update();
+			pump.update();
+			fc2.update();
+			pip1.update();
+			fc3.update();
+			piph.update();
+			fc4.update();
+			pip2.update();
+			fc5.update();
+		}	
+		
+		//((FluidContainer)pump.getInput("FluidIn")).setPressure(20000000);
+		//pump.getInput("PressureOut").setValue(2000000);
+		pump.getInput("FlowRateOut").setValue(0.00014);
+		
+		for(int i=0; i<10; i++){
+			tank.update();
+			fc1.update();
+			pump.update();
+			fc2.update();
+			pip1.update();
+			fc3.update();
+			piph.update();
+			fc4.update();
+			pip2.update();
+			fc5.update();
+		}
+		
+		piph.getInput("HeatFlowIn").setValue(100);
+		//tank.getInput("HeatFlowIn").setValue(-50);
+		
+		while(((FluidContainer)tank.getOutput("FluidOut")).getTemperature() <= 303){
+			tank.update();
+			fc1.update();
+			pump.update();
+			fc2.update();
+			pip1.update();
+			fc3.update();
+			piph.update();
+			fc4.update();
+			pip2.update();
+			fc5.update();
+		}
+		
+		tank.getInput("HeatFlowIn").setValue(-1);
+		while(((FluidContainer)tank.getOutput("FluidOut")).getTemperature() >= 293){
+			tank.update();
+			fc1.update();
+			pump.update();
+			fc2.update();
+			pip1.update();
+			fc3.update();
+			piph.update();
+			fc4.update();
+			pip2.update();
+			fc5.update();
+		}
+		
+		tank.getInput("HeatFlowIn").setValue(0);
+		int i = 0;
+		while(((FluidContainer)tank.getOutput("FluidOut")).getTemperature() <= 303 && i < 1000){
+			tank.update();
+			fc1.update();
+			pump.update();
+			fc2.update();
+			pip1.update();
+			fc3.update();
+			piph.update();
+			fc4.update();
+			pip2.update();
+			fc5.update();
+			i++;
+		}
+	}
 }

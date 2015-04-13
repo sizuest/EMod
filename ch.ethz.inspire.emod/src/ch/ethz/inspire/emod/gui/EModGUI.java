@@ -38,8 +38,6 @@ import org.eclipse.swt.widgets.Monitor;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
-import org.eclipse.swt.widgets.Text;
-
 import ch.ethz.inspire.emod.gui.utils.ProgressbarGUI;
 import ch.ethz.inspire.emod.model.MachineComponent;
 import ch.ethz.inspire.emod.simulation.EModSimulationRun;

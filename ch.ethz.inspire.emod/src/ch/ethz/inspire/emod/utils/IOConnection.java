@@ -17,7 +17,6 @@ import java.util.logging.Logger;
 
 import ch.ethz.inspire.emod.EModMain;
 import ch.ethz.inspire.emod.utils.IOContainer;
-//import ch.ethz.inspire.emod.model.units.ContainerType;
 
 /**
  * contains information on simulation input sources and targets
@@ -29,17 +28,9 @@ import ch.ethz.inspire.emod.utils.IOContainer;
  *
  */
 public class IOConnection {
-//public class IOConnection<T> {
-	//TODO manick: FluidConnection extends IOConnection
-	
 	protected IOContainer source;
-	//protected IOContainer<T> source;
 	protected IOContainer target;
-	//protected IOContainer<T> target;
 	protected double gain;
-	
-	//TODO manick: create IOConnection and IOContainer with fluid!
-	//private Material material;
 	
 	private static Logger logger = Logger.getLogger(EModMain.class.getName());
 	
@@ -56,7 +47,6 @@ public class IOConnection {
 	 * @throws Exception thrown if units don't match
 	 */
 	public IOConnection(IOContainer source, IOContainer target) throws Exception {
-	//public IOConnection(IOContainer<T> source, IOContainer<T> target) throws Exception {
 		this.source = source;
 		this.target = target;
 		this.gain   = 1;
@@ -66,92 +56,19 @@ public class IOConnection {
 		}
 	}
 	
-	
 	/**
-	 * @param material to set
-	 * @return fio FluidConnection with added Fluid
-	 * @throws Exception
+	 * gets the Source IOContainer of the Connection
+	 * @return the Source
 	 */
-	/*
-	public FluidConnection addFluid(Material material) throws Exception{
-	//public FluidConnection<T> addFluid(Material material) throws Exception{
-		// create new Connection with Fluid
-		FluidConnection fio = new FluidConnection(this.getSource(), this.getTarget(), material);
-		//FluidConnection<T> fio = new FluidConnection<T>(this.getSource(), this.getTarget(), material);
-		
-		// check if current connection is present in Machine IOLinkList, if yes, replace
-		List<IOConnection> listIO = Machine.getInstance().getIOLinkList();
-		if(listIO.contains(this)){
-			listIO.remove(this);
-			listIO.add(fio);
-		}
-		
-		// return new FluidConnection
-		return fio;
-	}
-	*/
-	
-	/**
-	 * 
-	 * @param <T>
-	 * @param source
-	 * @param target 
-	 * @throws Exception thrown if units don't match
-	 */
-	/*/
-	public IOConnection(T t, IOContainer source, IOContainer target) throws Exception {
-		this.source = source;
-		this.target = target;
-		this.gain   = 1;
-		//manick new
-		
-		//System.out.println("***** typ von connection " + t.getType());
-		
-		//t.hello();
-		//System.out.println("**** eine Verbindung vom Typ " + t.getClass().toString() + " wurde erstellt");
-		
-		if(source.getUnit()!=target.getUnit()) {
-			unitConversion();
-		}
-	}
-	//*/
-	
-	//TODO manick: new Connection LOGIC
-	/*/
-	public static IOConnection<LogicConnection> newLogicConnection(IOContainer source, IOContainer target) throws Exception{
-		System.out.println("**** endlich eine LogicConnection");
-		return new IOConnection<LogicConnection>(source, target);
-	}
-	//*/
-	
-	//TODO manick: new Connection mit FLUID
-	/*/
-	public static IOConnection<FluidConnection> newFluidConnection(IOContainer source, IOContainer target) throws Exception{
-		System.out.println("%%%%%% endlich eine FluidConnection?");
-		return new IOConnection<FluidConnection>(source, target);
-		//return new IOConnection<FluidConnection>();
-	}
-	//*/
-	
-	/*/
-	public IOConnection(IOContainer source, IOContainer target, Material material) throws Exception{
-		this.source = source;
-		this.target = target;
-		this.gain = 1;
-		this.material = material;
-		if(source.getUnit()!=target.getUnit()) {
-			unitConversion();
-		}
-	}
-	//*/
-	
 	public IOContainer getSource() {
-	//public IOContainer<T> getSource() {
 		return source;
 	}
 	
+	/**
+	 * gets the Target IOContainer of the Connection
+	 * @return the Target
+	 */
 	public IOContainer getTarget() {
-	//public IOContainer<T> getTarget() {
 		return target;
 	}
 	
@@ -231,7 +148,7 @@ public class IOConnection {
 				this.gain = -1;
 		}
 
-		//TODO manick: don't abort if there is a mismatch but inform the user!
+		//TODO: don't abort if there is a mismatch but inform the user!
 		if (this.gain<=0)
 			throw new Exception("units do not match "+source.getName()+
 					": "+source.getUnit()+" <-> "+target.getName()+": "+
@@ -240,5 +157,12 @@ public class IOConnection {
 			logger.info("explicit unit conversion " +source.getName()+
 					": "+source.getUnit()+" > * " +this.gain+ " > "+target.getName()+": "+
 					target.getUnit());
+	}
+
+	/**
+	 * update the connection, i.e. get the value of the source and write it to the target
+	 */
+	public void update() {
+		this.getTarget().setValue(this.getSource().getValue() * this.getGain());
 	}
 }

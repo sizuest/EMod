@@ -1,16 +1,17 @@
 package ch.ethz.inspire.emod.utils;
 
+import java.util.List;
+
+import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.model.units.ContainerType;
 import ch.ethz.inspire.emod.model.units.Unit;
 
 public class FluidContainer extends IOContainer {
 
-	/* Current temperature [K], pressure [Pa], flow rate [m^3/s]*/
+	/* Values for temperature [K], pressure [Pa], flow rate [m^3/s]*/
 	protected double temperature;
 	protected double pressure;
 	protected double flowRate;
-	//protected Material material;
-	//Material ist bereits im ThermalArray enthalten!
 
 	/**
 	 * constructor, set name, unit and type (used in IOContainer)
@@ -20,8 +21,8 @@ public class FluidContainer extends IOContainer {
 	 */
 	public FluidContainer(String name, Unit unit, ContainerType type){
 		super(name, unit, 0.00, type);
-		this.temperature = 0.00;
-		this.pressure    = 0.00;
+		this.temperature = 293;
+		this.pressure    = 100000;
 		this.flowRate    = 0.00;
 	}
 	
@@ -35,7 +36,6 @@ public class FluidContainer extends IOContainer {
 		this.temperature = that.getTemperature();
 		this.pressure    = that.getPressure();
 		this.flowRate    = that.getFlowRate();
-		//this.material    = that.material;
 	}
 	
 	/**
@@ -98,7 +98,45 @@ public class FluidContainer extends IOContainer {
 		return flowRate;
 	}
 	
+	/**
+	 * Override the setValue method from IOContainer
+	 * This method gets called when updating the Machine IOConnection-List
+	 * --> see EmodSimulationMain.setInputs()
+	 * @param value
+	 * @deprecated use FluidConnection.update(). Formerly used in EModSimulationMain.setInputs(), changed to Connection.update()
+	 */
+	@Override
+	public void setValue(double value){
+		//Load the IOConnection List (containing also FluidConnections)
+		List<IOConnection> ioc = Machine.getInstance().getIOLinkList();
+		for(IOConnection io:ioc){
+			//if the target of a connection equals to this FluidContainer, start the update
+			if(io.getTarget().equals(this)){
+				/* direction of calculation
+				 * temperature [K]    : source --> target
+				 * pressure    [Pa]   : source --> target
+				 * flowRate:   [m^3/s]: source <-- target
+				 */
+				//the casting to fluidContainer is necessary in each line
+				((FluidContainer)io.getTarget()).setTemperature(((FluidContainer)io.getSource()).getTemperature());
+				((FluidContainer)io.getTarget()).setPressure(((FluidContainer)io.getSource()).getPressure());
+				((FluidContainer)io.getSource()).setFlowRate(((FluidContainer)io.getTarget()).getFlowRate());
+			};
+		}
+	}
+	
+	/**
+	 * Override the getValue method from IOContainer
+	 * @return value is not needed in setValue-method
+	 * @deprecated use FluidConnection.update(). Formerly used in EModSimulationMain.setInputs(), changed to Connection.update()
+	 */
+	@Override
+	public double getValue(){
+		return temperature;
+	}
+	
 	public String toString(){
 		return "FluidContainer " + temperature + " " + pressure + " " + flowRate;
 	}
+
 }

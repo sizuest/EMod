@@ -55,7 +55,7 @@ public class MotorTest {
 		
 		//set rotspeed to 6000rpm and torque accordingly to get PTotal of about 830W...
 		moto.getInput("RotSpeed").setValue(6000);
-		moto.getInput("Torque").setValue(0.3);
+		moto.getInput("Torque").setValue(0.31);
 		
 		moto.update();
 		

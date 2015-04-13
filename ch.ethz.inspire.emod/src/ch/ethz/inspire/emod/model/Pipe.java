@@ -77,6 +77,7 @@ public class Pipe extends APhysicalComponent implements Floodable{
 	//private double lastmassflow  = 0.00;
 	//private double lasttemperature  = 293.00;
 	private double Reynolds		 = 0.00;
+	private double Nusselt       = 0.00;
 	private double lambda		 = 0.00;
 		
 	// Output parameters:
@@ -85,6 +86,7 @@ public class Pipe extends APhysicalComponent implements Floodable{
 	private IOContainer/*<Double>*/ ploss;
 	//private IOContainer/*<Double>*/ temperatureOut;
 	private IOContainer/*<Double>*/ pressureloss;
+	private IOContainer temperaturePipe;
 	private FluidContainer fluidOut;
 	
 	// Parameters used by the model. 
@@ -104,6 +106,12 @@ public class Pipe extends APhysicalComponent implements Floodable{
 	 */
 	public Pipe() {
 		super();
+		
+		this.type = "Example";
+		this.temperatureInit = 293;
+		this.fluidType = "Monoethylenglykol_34";
+		
+		init();
 	}
 	
 	/**
@@ -114,6 +122,8 @@ public class Pipe extends APhysicalComponent implements Floodable{
 	public void afterUnmarshal(final Unmarshaller u, final Object parent) throws Exception {
 		//post xml init method (loading physics data)
 		init();
+		
+		
 	}
 	
 	/**
@@ -227,12 +237,14 @@ public class Pipe extends APhysicalComponent implements Floodable{
 		//massflowIn     = new IOContainer/*<Double>*/("MassFlowIn",         Unit.KG_S,    0.00, ContainerType.FLUIDDYNAMIC);
 		ploss          = new IOContainer/*<Double>*/("PLoss",              Unit.WATT,    0.00, ContainerType.THERMAL);
 		pressureloss   = new IOContainer/*<Double>*/("PressureLoss",       Unit.PA,      0.00, ContainerType.FLUIDDYNAMIC);
+		temperaturePipe= new IOContainer("TemperaturePipe", Unit.KELVIN, temperatureInit, ContainerType.THERMAL);
 		//temperatureOut = new IOContainer/*<Double>*/("TemperatureOut",     Unit.KELVIN,293.00, ContainerType.THERMAL);
 		//outputs.add(/*(IOContainer<T>)*/ pressureIn);
 		//outputs.add(/*(IOContainer<T>)*/ massflowIn);
 		//outputs.add(/*(IOContainer<T>)*/ temperatureOut);
 		outputs.add(/*(IOContainer<T>)*/ ploss);
 		outputs.add(/*(IOContainer<T>)*/ pressureloss);
+		outputs.add(temperaturePipe);
 
 		
 			
@@ -325,7 +337,7 @@ public class Pipe extends APhysicalComponent implements Floodable{
 	 */
 	@Override
 	public void update() {
-		double density, viscosity;
+		double density, viscosity, heatCapacity, thermalConductivity, alphaFluid;
 		
 		/* ************************************************************************/
 		/*         Update inputs, direction of calculation:                       */
@@ -333,21 +345,15 @@ public class Pipe extends APhysicalComponent implements Floodable{
 		/*         pressure    [Pa]   : fluidIn --> fluid                         */
 		/*         flowRate:   [m^3/s]: fluid   <-- fluidOut                      */
 		/* ************************************************************************/
+		
 		fluid.setTemperatureIn(fluidIn.getTemperature());
+		
 		if(fluidIn.getPressure() > 0){
 			fluid.setPressure(fluidIn.getPressure());
 		} else {
 			fluid.setPressure(100000);
 		}
 		fluid.setFlowRate(fluidOut.getFlowRate());
-		
-		/*
-		if(fluidIn.getFlowRate() != fluid.getFlowRate()){ //the case if the pipe is connected to a pump
-			fluid.setFlowRate(fluidIn.getFlowRate());
-		} else {
-			fluid.setFlowRate(fluidOut.getFlowRate());
-		}
-		*/
 		
 		/* ************************************************************************/
 		/*         Calculate and set fluid values:                                */
@@ -357,47 +363,67 @@ public class Pipe extends APhysicalComponent implements Floodable{
 		// Get current fluid properties
 		density   = fluid.getMaterial().getDensity(fluid.getTemperature().getValue(),  fluid.getPressure());
 		viscosity = fluid.getMaterial().getViscosity(fluid.getTemperature().getValue(), fluid.getPressure());
-		//density   = fluid.getMaterial().getDensity(fluid.getTemperatureOut(),  fluid.getPressure());
-		//viscosity = fluid.getMaterial().getViscosity(fluid.getTemperatureOut(), fluid.getPressure());
+		heatCapacity = fluid.getMaterial().getHeatCapacity();
+		thermalConductivity = fluid.getMaterial().getThermalConductivity();
 
-		
-		//System.out.println("Pipe.update2: " + fluid.getTemperatureOut() + " " + fluid.getMaterial().toString() + " " + density + " " + viscosity);
-
-		//TODO manick: calculate Reynoldsnumber!
-		/* Reynoldszahl Rohrströmung: Re = velocity [m/s] * diameter [m] / kin_viscosity [m^2/s]
-		 * Reynoldszahl Re = (flowRate [m^3/s] / area [m^2]) * diameter [m] / (dyn_viscosity [kg/(m s)] / density [kg/m^3])
+		/* calculate Reynolds-Number pipe: Re = velocity [m/s] * diameter [m] / kin_viscosity [m^2/s]
+		 * Re = (flowRate [m^3/s] / area [m^2]) * diameter [m] / (dyn_viscosity [kg/(m s)] / density [kg/m^3])
+		 * calculate Nusselt-Number (Source for equations: VDI-Waermeatlas, 2013, Springer, page 28 & 759
 		 */
-		Reynolds = fluidOut.getFlowRate() / (Math.pow(pipeDiameter/2,2)*Math.PI) * pipeDiameter /((viscosity/1000) / density);
-		//Reynolds = 1.78 * 0.01 / (4.6*Math.pow(10,-6));
+		Reynolds = (fluidOut.getFlowRate() / (Math.pow(pipeDiameter/2,2)*Math.PI)) * pipeDiameter * density /(viscosity/1000);
 		
 		if (Reynolds <= 0){
 			Reynolds = 1;
+			Nusselt  = 1;
 		}
 		
-		if (Reynolds < 2300) {
+		if (Reynolds < 2300) { //laminar flow
 			lambda = 64/Reynolds;
-		} else {
+			Nusselt = 4.36;			
+		} else { //turbulent flow
 			lambda = 0.3164/Math.pow(Reynolds, 0.25);
+			double Prandtl = viscosity * heatCapacity / thermalConductivity; //n * cp / lambda
+			double xi = Math.pow(1.8 * Math.log10(Reynolds)-1.5, -2);
+			Nusselt = (Reynolds * Prandtl * xi/8)/(1+12.7*Math.sqrt(xi/8)*(Math.pow(Prandtl, 2/3)-1))*(1+Math.pow(pipeDiameter/pipeLength, 2/3));
 		}
-			
+		
+		/* with Nusselt-Number: calculate alphaFluid
+		 */
+		alphaFluid = Nusselt * lambda / pipeLength;
+		
+		/* further needed: alphaAir and pipeArea
+		 * and Rayleigh for air: Ra = beta * g * length^3 * DeltaT / (nu kappa)
+		 *  where DeltaT assumed as fluidTemp-ambTemp
+		 *  lambdaAir = 0.02587
+		 *  Prandlt-Air= 0.7, f3(Pr) = 0.325
+		 */
+		double pipeArea = 2 * Math.PI * pipeDiameter/2 * pipeLength;
+		double deltaT   = fluid.getTemperature().getValue()-temperatureAmb.getValue();
+		double Rayleigh = (0.003421*9.81*Math.pow(pipeLength,3)*deltaT)/(153.2*Math.pow(10,-7)* 216.3*Math.pow(10,-7));
+		//NusseltAir = (0.752 + 0.387(Ra * f3(Pr))^(1/6))^2
+		double NusseltAir= Math.pow(0.752+0.387*Math.pow(Rayleigh*0.325,1/6),2);
+		double alphaAir = NusseltAir * 0.02587 / pipeLength;
+		
+		/* calculate overall thermal Resistance of pipe
+		 * 
+		 * R_tot = 1/(alphaFluid*Area)      //convetion inside
+		 *       + length/(lambda * Area)   //conduction in pipe wall, assumed as 0
+		 *       + 1/(alphaAir*Area)        //convection outside
+		 * assumptions: r_in = 0.005, r_out= 0.0075, lambda_pipe = 0.25 (plastic)
+		 */
+		double thermalResistance = 1/(alphaFluid * pipeArea) + pipeLength / (0.25 * pipeArea) + 1/(alphaAir * pipeArea);
+		
+		/* calculate pressureloss with given lambda
+		 */
 		if(fluid.getFlowRate()!=0) {
 			pressureloss.setValue(lambda*pipeLength*Math.pow(fluid.getFlowRate(), 2)/(pipeDiameter*2*density*Math.pow(Math.PI/4*Math.pow(pipeDiameter, 2), 2)));
 		} else {
 			pressureloss.setValue(0.00);
 		}
 		
-		//TODO manick: calculate flowRate!		
-		//if(fluidIn.getPressure() - fluidOut.getPressure() != 0){
-			//http://www.tlv.com/global/TI/calculator/water-pressure-loss-through-piping.html
-			//fluid.setFlowRate(fluid.getFlowRate() + Math.sqrt(2*pipeDiameter*(fluidIn.getPressure()-fluidOut.getPressure())/(/*lambda**/pipeLength*density)));
-			//fluid.setFlowRate(0.000144166667); //m^3/s
-			//fluid.setFlowRate(8.65);           //l/min
-		//}
-				
 		// set array boundary conditions
-		fluid.setThermalResistance(1/(pipeHTC*pipeLength*Math.pow(pipeDiameter/2, 2)*Math.PI));//TODOs
+		fluid.setThermalResistance(thermalResistance);
 		fluid.setHeatSource(pressureloss.getValue()*fluid.getFlowRate()/density + heatFlowIn.getValue());
-		//fluid.setHeatSource(pressureloss.getValue()*fluid.getFlowRate()/density);
 		fluid.setTemperatureExternal(temperatureAmb.getValue());
 		
 		/* ************************************************************************/
@@ -411,20 +437,14 @@ public class Pipe extends APhysicalComponent implements Floodable{
 		/*         pressure    [Pa]   : fluid   --> fluidOut                      */
 		/*         flowRate:   [m^3/s]: fluidIn <-- fluid                         */
 		/* ************************************************************************/
-		fluidOut.setTemperature(fluid.getTemperature().getValue());
+		fluidOut.setTemperature(fluid.getTemperatureOut());
 		fluidOut.setPressure(fluid.getPressure());
 		fluidIn.setFlowRate(fluid.getFlowRate());
 		
-		//fluidOut.setTemperature(fluid.getTemperatureOut());
-		//fluidOut.setPressure(fluid.getPressure());
-		//fluidIn.setFlowRate(fluid.getFlowRate());		
-
 		ploss.setValue(fluid.getHeatLoss());
+		temperaturePipe.setValue(fluid.getTemperature().getValue());
 		
-		// Update Layer Model
-		System.out.println("pipe: " + fluid.getPressure() + " " + fluid.getFlowRate() + " " + fluid.getTemperature().getValue() + " " + Reynolds);
-
-		//System.out.println("pipe fluidvalues: " + fluid.getPressure() + " " + pressureloss.getValue() + " " + fluid.getFlowRate() + " " + fluid.getTemperature().getValue() + " " + density + " " + viscosity + " " + Reynolds + " " + lambda);
+		System.out.println("Pipe: " + fluid.getPressure() + " " + fluid.getFlowRate() + " " + fluid.getTemperature().getValue() + " " + thermalResistance + " " + fluid.getHeatLoss());
 	}
 
 	/**
@@ -477,17 +497,23 @@ public class Pipe extends APhysicalComponent implements Floodable{
 	*/
 	
 	public void setFluid(String type){
+		/* ThermalArray */
 		this.fluid = new ThermalArray(type, volume, 1);
+		this.fluidType = type;
 		
-		//TODO manick: fluid has to be initialized, but when?
+		/* Initialize Thermal Array */
 		if (temperatureAmb.getValue() > 0) {
 			fluid.setInitialTemperature(temperatureAmb.getValue());
 			fluid.getTemperature().setInitialCondition(temperatureAmb.getValue());
+			fluid.setTemperatureExternal(temperatureAmb.getValue());
 		} else {
 			fluid.setInitialTemperature(293);
 			fluid.getTemperature().setInitialCondition(293);
+			fluid.setTemperatureExternal(293);
 		}
+		fluid.setThermalResistance(1);
 		
+		/* State */
 		dynamicStates = new ArrayList<DynamicState>();
 		dynamicStates.add(fluid.getTemperature());
 	}

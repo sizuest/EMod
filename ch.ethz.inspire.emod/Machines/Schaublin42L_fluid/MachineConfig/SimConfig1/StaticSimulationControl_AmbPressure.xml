@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>
+    Ambient pressure
+  </comment>
+  <entry key="samplePeriod">1</entry>
+  <entry key="ON">101300</entry>
+  <entry key="OFF">101300</entry>
+  <entry key="STANDBY">101300</entry>
+  <entry key="CONTROLLED">101300</entry>
+  <entry key="PERIODIC">101300</entry>
+  <entry key="ON_state">ON</entry>
+  <entry key="OFF_state">ON</entry>
+  <entry key="STANDBY_state">ON</entry>
+  <entry key="READY_state">ON</entry>
+  <entry key="PROCESS_state">ON</entry>
+</properties>

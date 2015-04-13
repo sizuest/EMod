@@ -4,25 +4,19 @@
   <comment>
     Model parameter definition
     ==========================
-      Model : Pump 
+      Model : PumpFluid 
       Type  : Hyfra VWK 21/1S (Pump only)
     Parameters
     ----------
       PressureSamples [Pa]
         Array of operation points for the pump
-      MassFlowSamples [kg/s] <!-- better change to FlowRate, i. e. m^3/s, because fluid is exchangable -->
-        Array of corresponding mass floes to the given pressure
-        samples
 	  VolumetricFlowSamples [m^3/s]
 		Array of corresponding flow rate to the given pressure samples
-      DensityFluid [kg/m3] <!-- no fluid values is needed! fluid is given by the tank -->
-        desity of the pumped fluid
       ElectricalPower [W]
       	Electrical power of the pump if running
       
   </comment>
   <entry key="PressureSamples">367975 68670</entry>
-  <entry key="MassFlowSamples">0 0.233</entry> <!-- change manick: old value was 0.000233 [m^3/s], required are 0.233 [kg/s] = 1000 kg/m^3 * 0.000233 m^3/s -->
   <entry key="FlowRateSamples">0 0.000233</entry>
   <entry key="ElectricalPower">135</entry>
 </properties>

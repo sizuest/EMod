@@ -200,10 +200,10 @@ public class MachineTest {
 	public void testFloodableComponent(){
 		Machine.clearMachine();
 		
-		// Add a components to the machine
-		MachineComponent mc1 = Machine.addNewMachineComponent("Tank", "Example");
-		MachineComponent mc2 = Machine.addNewMachineComponent("Amplifier", "Example");
-		MachineComponent mc3 = Machine.addNewMachineComponent("Pipe", "Example");
+		// Add several components to the machine
+		Machine.addNewMachineComponent("Tank", "Example");
+		Machine.addNewMachineComponent("Amplifier", "Example");
+		Machine.addNewMachineComponent("Pipe", "Example");
 		
 		// Check if components are floodable
 		ArrayList<MachineComponent> mcl = Machine.getInstance().getMachineComponentList();

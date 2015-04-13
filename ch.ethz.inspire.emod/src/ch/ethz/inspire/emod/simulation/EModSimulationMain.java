@@ -162,7 +162,7 @@ public class EModSimulationMain {
 			sc.setState(mstate);
 			sc.update(); // TODO: write init method.
 		}
-		
+				
 		/* Init machine component objects */
 		for(MachineComponent mc : machineComponentList)
 			mc.getComponent().preSimulation();
@@ -192,8 +192,11 @@ public class EModSimulationMain {
 			
 			/* Iterate all models. The outputs of all component models are updated.*/
 			for(MachineComponent mc : machineComponentList)
-				mc.getComponent().update();
-			
+				try{
+					mc.getComponent().update();
+				} catch (Exception e){
+					System.out.println("EModSimulationMain.runSimulation(): update component not working for: " + mc.getComponent().toString());
+				}
 			/*	Log data of the actual time sample */
 			simoutput.logData(time);
 			
@@ -211,7 +214,9 @@ public class EModSimulationMain {
 	 */
 	private void setInputs() {
 		for(IOConnection ioc : connectionList) {
-			ioc.getTarget().setValue(ioc.getSource().getValue() * ioc.getGain());
+			//ioc.getTarget().setValue(ioc.getSource().getValue() * ioc.getGain());
+			//TODO 
+			ioc.update();
 		}
 	}
 	

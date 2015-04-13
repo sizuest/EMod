@@ -45,34 +45,4 @@ public enum ContainerType {
 	 * Default
 	 */
 	NONE;
-	
-	// boolean for fluidConnections
-	private boolean isFluidConnection;
-	
-	//
-	private ContainerType(){
-		isFluidConnection = false;
-	}
-	
-	private ContainerType(boolean isFluidConnection){
-		this.isFluidConnection = isFluidConnection;
-	}
-	
-	public void addFluid(){
-		if (this.equals(ContainerType.THERMAL) | this.equals(ContainerType.FLUIDDYNAMIC)) {
-			isFluidConnection = true;
-		}
-		else{
-			isFluidConnection = false;
-			System.out.println("Only Connections of Type Thermal or Fluiddynamic can be FluidConnections.");
-		}
-	}
-	
-	public void removeFluid(){
-		isFluidConnection = false;
-	}
-	
-	public boolean isFluidConnection(){
-		return isFluidConnection;
-	}
 }

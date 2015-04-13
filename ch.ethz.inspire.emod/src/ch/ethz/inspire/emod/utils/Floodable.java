@@ -1,12 +1,39 @@
+/***********************************
+ * $Id$
+ *
+ * $URL$
+ * $Author$
+ * $Date$
+ * $Rev$
+ *
+ * Copyright (c) 2015 by Inspire AG, ETHZ
+ * All rights reserved
+ *
+ ***********************************/
 package ch.ethz.inspire.emod.utils;
-
+/**
+ * Interface to define common methods of Floodable Machine Components, such as:
+ * - Pipe, Tank, Pump
+ * 
+ * Usage:
+ * - in ch.ethz.inspire.emod.utils.FluidCircuit to flood components with fluid
+ * - in Machine class to get all the Floodable components
+ * 
+ * @author manick
+ *
+ */
 public interface Floodable {
-
-	//private FluidContainer fluidIn;
-	//private FluidContainer fluidOut;
-	
+	/**
+	 * method to set the fluid of a floodable component by name
+	 * needs to be overriden by the component
+	 * @param type
+	 */
 	public void setFluid(String type);
 	
-	public String getFluidType();
-	
+	/**
+	 * method to get the fluidtype of a floodable component
+	 * needs to be overriden by the component
+	 * @return fluidType
+	 */
+	public String getFluidType();	
 }

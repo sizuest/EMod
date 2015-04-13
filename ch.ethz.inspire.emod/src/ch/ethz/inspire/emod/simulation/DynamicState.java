@@ -189,9 +189,10 @@ public class DynamicState {
 	public void loadInitialCondition() throws Exception{
 		
 		if(this.parent.equals("")) 
-			throw new Exception("Can't load initial condition: No parent set!");
+			throw new Exception("Can't load initial condition: No parent set!" + this.toString());
 		
 		try {
+			System.out.println("Loaded initial condition: " + this.toString());
 			ConfigReader initCond = new ConfigReader( configPath() );
 			setInitialCondition(initCond.getDoubleValue(getInitialConditionName()));
 			initCond.Close();

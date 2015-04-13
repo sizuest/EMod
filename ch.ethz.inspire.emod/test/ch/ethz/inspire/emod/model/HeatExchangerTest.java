@@ -55,6 +55,6 @@ public class HeatExchangerTest {
 		heex.getInput("level").setValue(1);
 		heex.update();
 		
-		System.out.println("PThermal: " + heex.getOutput("PThermal").getValue() + "PTotal: " + heex.getOutput("PTotal").getValue());
+		System.out.println("PThermal: " + heex.getOutput("PThermal").getValue() + " PTotal: " + heex.getOutput("PTotal").getValue());
 	}
 }

@@ -1,117 +1,47 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!--
-	Machine definition file
-	
-	The <machine> contains a list of <machineComponent>s. Each
-	<machineComponent> is specified by a <name>, a <component xsi:type> (e.g. linearMotor)
-	and a <type>. The machine component objects are built from this list automatically.
-
-	The <simulators> contains a list of simulators used for process and state simulation.
--->
 <ns2:machine xmlns:ns2="ch.ethz.inspire.emod">
-	<machine>
-		<!-- Spindle -->
-		<machineComponent>
-			<name>C1</name>
-			<component xsi:type="motor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>Siemens_1FE1115-6WT11</type>		
-			</component>
-		</machineComponent>
-		
-		<!-- X-Axis Motor 
+    <machine>
         <machineComponent>
             <component xsi:type="motor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>siemens123</type>
+                <type>Siemens_1FE1115-6WT11</type>
             </component>
-            <name>X1</name>
-        </machineComponent>-->
-		
-		<!-- Z-Axis Motor 
-		<machineComponent>
-			<name>Z1</name>
-			<component xsi:type="motor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>siemens123</type>
-			</component>
-		</machineComponent>-->
-		
-		<!-- Revolver 
-		<machineComponent>
-			<name>R1</name>
-			<component xsi:type="motor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>siemens123</type>
-			</component>
-		</machineComponent>-->
-		<machineComponent>
-			<name>Z1_ax</name>
-			<component xsi:type="linAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>Test</type>
-			</component>
-		</machineComponent>
-		
-	</machine>
-	
-	<simulators>
-		<!-- Rot. Speed C axis -->
-		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-			<name>C1_n</name>
-			<unit>RPM</unit>
-		</simController>
-		
-		<!-- Torque C axis -->
-		<simController xsi:type="geometricKienzleSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-			<name>C1_Torque</name>
-			<unit>NEWTONMETER</unit>
-		</simController>
-		
-		<!-- Position X axis -->
-		<!-- Position surface -->
-		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>C1</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="linAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Test</type>
+            </component>
+            <name>Z1_ax</name>
+        </machineComponent>
+    </machine>
+    <simulators>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>C1_n</name>
+            <unit>RPM</unit>
+        </simController>
+        <simController xsi:type="geometricKienzleSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>C1_Torque</name>
+            <unit>NEWTONMETER</unit>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>X1_d</name>
             <unit>MM</unit>
         </simController>
-        
-        <!-- Cutting depth -->
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>X1_ap</name>
             <unit>MM</unit>
         </simController>
-        
-		<!-- values X axis -->
-		<!-- Rot. Speed X axis 
-		<simController xsi:type="randomSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>X1_n</name>
-            <unit>RPM</unit>
-        </simController>-->
-        
-        <!-- Torque X axis 
-        <simController xsi:type="randomSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>X1_Torque</name>
-            <unit>NEWTONMETER</unit>
-        </simController> -->
-        
-        <!-- Feed on Z axis -->
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>Z1_v</name>
             <unit>MM_MIN</unit>
         </simController>
-        
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>X1_v</name>
             <unit>NEWTON</unit>
         </simController>
-        
-        <!-- Dummy values Revolver -->
-        <!-- Rot. Speed R1 
-        <simController xsi:type="randomSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>R1_n</name>
-            <unit>RPM</unit>
-        </simController> -->
-        
-        <!-- Torque R1 
-        <simController xsi:type="randomSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>R1_Torque</name>
-            <unit>NEWTONMETER</unit>
-        </simController> -->
-		
-	</simulators>
+    </simulators>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
 </ns2:machine>

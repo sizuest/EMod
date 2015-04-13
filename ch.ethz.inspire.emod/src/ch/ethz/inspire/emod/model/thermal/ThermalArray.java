@@ -85,8 +85,8 @@ public class ThermalArray {
 		this.material 			= that.material;
 		this.numElements 		= that.numElements;
 		this.pressure 			= that.pressure;
-		this.temperature 		= that.temperature;
-		this.temperatureBulk 	= that.temperatureBulk;
+		this.temperature 		= that.temperature; //TODO copy?
+		this.temperatureBulk 	= that.temperatureBulk; //TODO copy?
 		this.temperatureExt 	= that.temperatureExt;
 		this.temperatureIn 		= that.temperatureIn;
 		this.thermalResistance 	= that.thermalResistance;
@@ -158,31 +158,34 @@ public class ThermalArray {
 	public double getFlowRate(){
 		return flowRate;
 	}	
+	
 	/**
 	 * Set the flow rate according to the mass flow rate
 	 * @param massFlowRate [kg/s]
 	 * @param temperature [K]
 	 * @param pressure [Pa]
+	 * @deprecated better use ThermalArray.setFlowRate()
 	 */
 	public void setMassFlowRate(double massFlowRate, double temperature, double pressure){
 		double rho = material.getDensity(temperature, pressure);
-
-		//TODO manick: unit flowRate!
-		//this.flowRate = massFlowRate/rho*1000*60;
-		this.flowRate = massFlowRate/rho;
+		//TODO: unit flowRate!
+		//this.flowRate = massFlowRate/rho*1000*60; //flowRate [l/min]
+		this.flowRate = massFlowRate/rho; //flowRate [m^3/s]
 	}
+	
 	/**
 	 * get the mass flow rate according
 	 * @param id 
 	 * @return massFlowRate [kg/s]
+	 * @deprecated better use ThermalArray.getFlowRate() and calculate with density
 	 */
 	public double getMassFlowRate(int id){
 		if(id < numElements){
 			double rho = material.getDensity(temperature[id], pressure);
 			
-			//TODO manick: unit flowRate!
-			//return flowRate*rho/1000/60;
-			return flowRate*rho;
+			//TODO: unit flowRate!
+			//return flowRate*rho/1000/60; //flowRate [l/min]
+			return flowRate*rho; //flowRate [m^3/s]
 		}
 		else{
 			return 0.0;
@@ -234,34 +237,7 @@ public class ThermalArray {
 	public double getHeatLoss(){
 		return (getTemperatureBulk()-temperatureExt)/thermalResistance;
 	}
-	
-	
-	/**
-	 * update in and outputs of fluid
-	 */
-	//TODO manick: not necessary!!
-	// in component: fluid.integrate()
-	// in fluidconnection: fluidIn = fluidOut and vise versa...
-	/*
-	public void update(FluidContainer fluidIn, FluidContainer fluidOut){
-		temperatureIn = fluidIn.getTemperature();
 		
-		if(fluidIn.getPressure() == fluidOut.getPressure())
-			pressure = fluidIn.getPressure();
-		else {
-			pressure = fluidIn.getPressure();
-			this.integrate(1);
-		}
-		
-		if(fluidIn.getFlowRate() == fluidOut.getFlowRate())
-			flowRate = fluidIn.getFlowRate();
-		else {
-			flowRate = fluidIn.getFlowRate();
-			this.integrate(1);
-		}	
-	}
-	*/
-	
 	/**
 	 * Perform an integration step of length timestep [s]
 	 * @param timestep
@@ -276,11 +252,10 @@ public class ThermalArray {
 		double cp       = material.getHeatCapacity();
 		double mass     = volume*rho;
 		
-		//TODO manick: unit flowRate!
-		//double massFlow = flowRate/1000/60*rho;
-		double massFlow = flowRate*rho;
+		//TODO: unit flowRate!
+		//double massFlow = flowRate/1000/60*rho; //flowRate [l/min]
+		double massFlow = flowRate*rho; //flowRate [m^3/s]
 		
-		//System.out.println("ThermalArray.integrate: " + rho + " " + cp + " " + mass + " " + massFlow);
 		/* Calculate constantes for the current timestep:
 		 * C1 = N*mDot + 1/Rth/cp
 		 * C2 = T_amb/Rth/cp

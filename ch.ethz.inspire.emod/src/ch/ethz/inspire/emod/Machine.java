@@ -48,6 +48,8 @@ import ch.ethz.inspire.emod.simulation.ProcessSimulationControl;
 import ch.ethz.inspire.emod.simulation.RandomSimulationControl;
 import ch.ethz.inspire.emod.simulation.StaticSimulationControl;
 import ch.ethz.inspire.emod.utils.Defines;
+import ch.ethz.inspire.emod.utils.FluidConnection;
+import ch.ethz.inspire.emod.utils.FluidContainer;
 import ch.ethz.inspire.emod.utils.IOConnection;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
@@ -305,7 +307,17 @@ public class Machine {
 		
 		try {
 			Writer w = new FileWriter(file+Defines.LINKFILENAME);
-		
+
+			/*
+			 * TODO: at first, simply close the file to delete file content!
+			 */
+			//w.close();
+			
+			/*
+			 * open file again
+			 */
+			//w = new FileWriter(file+Defines.LINKFILENAME);
+			
 			/*
 			 * Loop through all connections and write them as plain text
 			 */
@@ -408,6 +420,8 @@ public class Machine {
 						System.exit(-1);
 					}
 
+					//when a fluidconnection is necessary ->
+					//create two FluidContainers instead
 					IOContainer tempTar = inmc.getComponent().getInput(inVar);
 					if (tempTar == null) {	
 						Exception ex = new Exception("Undefined input '" + inVar+ "' of component '" + inObj 
@@ -415,23 +429,30 @@ public class Machine {
 						ex.printStackTrace();
 						System.exit(-1);
 					}
-
-					//TODO: check component list, if tank is present --> initiate fluidcircuit!	
-					if(inmc.getComponent() instanceof ch.ethz.inspire.emod.model.Tank){
-						System.out.println("Watch out, we've got a tank here... : " + inmc.getComponent().toString());
+					
+					//check if source and target can handle a fluidConnection
+					boolean targetFluid = false;
+					boolean sourceFluid = false;
+					
+					//when handling a FluidConnection
+					if(tempTar.getName().equals("FluidIn")){
+						targetFluid = true;
 					}
 					
 					/* Get output component and output object */
 					String outstruct = st.nextToken().trim();
 					StringTokenizer stout = new StringTokenizer(outstruct, ".");
 					String outObj=stout.nextToken();
+					MachineComponent outmc = null;
+					
 					IOContainer tempSource = null;
 					if (stout.hasMoreTokens()) {
 
 						/* Output object comes from a component*/
 						String outVar=stout.nextToken();
 						
-						MachineComponent outmc = getMachineComponent(outObj);
+						//MachineComponent outmc = getMachineComponent(outObj);
+						outmc = getMachineComponent(outObj);
 						if (outmc == null) {
 							Exception ex = new Exception("Undefined output component '" + outObj+ "' in file " 
 											+ file + " on line " + linenr);
@@ -446,6 +467,12 @@ public class Machine {
 							ex.printStackTrace();
 							System.exit(-1);
 						}
+						
+						//when handling a FluidConnection
+						if(tempSource.getName().equals("FluidOut")){
+							sourceFluid = true;
+						}
+						
 					}
 					else {
 						/* If no output component, it must be a simulation object*/
@@ -464,11 +491,11 @@ public class Machine {
 					}
 					
 					try {
-						//Machine.getInstance().connectionList.add(new IOConnection(tempSource, tempTar));
+						if(targetFluid && sourceFluid){//create a FluidConnection
+							Machine.getInstance().connectionList.add(new FluidConnection(inmc.getComponent(), outmc.getComponent()));
+						} else {//create a IOConnection
 						Machine.getInstance().connectionList.add(new IOConnection(tempSource, tempTar));
-						//Machine.getInstance().connectionList.add(IOConnection.newLogicConnection(tempSource, tempTar));
-						//Machine.getInstance().connectionList.add(new IOConnection<LogicConnection>(tempSource, tempTar));
-						//Machine.getInstance().connectionList.add(new IOConnection<FluidConnection>(tempSource, tempTar));
+						}
 					} catch (Exception e) {
 						System.err.println("Could not add input-output mapping, file " + file + " line " + linenr);
 						e.printStackTrace();
@@ -633,6 +660,21 @@ public class Machine {
 	public List<IOConnection> getIOLinkList()
 	{
 		return connectionList;
+	}
+	
+	/**
+	 * @return list of all fluid-connections
+	 */
+	public List<FluidConnection> getFluidConnectionList(){
+		List<FluidConnection> fcList = new ArrayList<FluidConnection>();
+		
+		for(IOConnection io:connectionList){
+			if(io instanceof FluidConnection){
+				fcList.add((FluidConnection) io);	
+			}
+		}
+
+		return fcList;
 	}
 	
 	/**
@@ -985,6 +1027,29 @@ public class Machine {
 		
 	}
 	
+	/**
+	 * adds a new FluidConnection to the machine
+	 * @param source
+	 * @param target
+	 */
+	public static void addFluidLink(FluidContainer source, FluidContainer target){
+		FluidConnection fio;
+		
+		try{
+			fio = new FluidConnection(source, target);
+		} catch (Exception e){
+			e.printStackTrace();
+			return;
+		}
+		
+		// Add Element to List
+		if(machineModel==null)
+			machineModel = new Machine();
+		if(null==getInstance().getIOLinkList())
+			getInstance().connectionList = new ArrayList<IOConnection>();
+		
+		getInstance().getIOLinkList().add(fio);
+	}
 	/**
 	 * Adds a new FluidConnection between the source and the target
 	 * @param source

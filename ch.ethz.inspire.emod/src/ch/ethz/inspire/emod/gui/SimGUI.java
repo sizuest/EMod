@@ -188,6 +188,31 @@ public class SimGUI extends AGUITab  {
 		//Tab for State sequence
 		TabItem tabGenerlItem = new TabItem(tabFolder, SWT.NONE);
 		tabGenerlItem.setText(LocalizationHandler.getItem("app.gui.sim.general.title"));
+		
+		//add composite to the tabfolder for different values to change
+		Composite composite = new Composite(tabFolder, SWT.NONE);
+		composite.setLayout(new GridLayout(2, false));
+
+		//add text for stepsize
+		Text textStepSize = new Text(composite, SWT.READ_ONLY);
+		textStepSize.setLayoutData(new GridData(SWT.BEGINNING, SWT.FILL, false, false, 1, 1));
+		textStepSize.setText(LocalizationHandler.getItem("app.gui.sim.general.stepsize"));
+		
+		//add value_field for stepsize
+		Text valueStepSize = new Text(composite, SWT.NONE);
+		valueStepSize.setLayoutData(new GridData(SWT.BEGINNING, SWT.FILL, false, false, 1, 1));
+		valueStepSize.setText("TODO: let user change step size here");
+		//TODO: write actual stepsize to field, let the user change the step size here and then change stepsize for the simulation
+		
+		//TODO: added some additional fields for visualization
+		for(int i= 0; i< 6; i++){
+			new Text(composite, SWT.READ_ONLY).setText("Value to change");
+			new Text(composite, SWT.NONE).setText("new Value");
+		}
+		
+		//set the composite to the tab and show it
+		tabGenerlItem.setControl(composite);
+		tabFolder.pack();
 	}
 	
 	public void initTabInitialConditions(TabFolder tabFolder){		

@@ -42,9 +42,9 @@ public class PumpFluidTest {
 		for(int i=0; i<4; i++)
 			pump.update();
 		
-		assertEquals("Pump power after ",   1500, pump.getOutput("PTotal").getValue(),      0);
+		assertEquals("Pump power after ",   135, pump.getOutput("PTotal").getValue(),      0);
 		assertEquals("Flow if on",           /*3.6*//*1.44*/ 0.00014, ((FluidContainer)pump.getInput("FluidIn")).getFlowRate(),  0);
-		assertEquals("Pressure if on",   2000000, ((FluidContainer)pump.getOutput("FluidOut")).getPressure(),    400000);
+		assertEquals("Pressure if on",   188135, ((FluidContainer)pump.getOutput("FluidOut")).getPressure(),    400000);
 	}
 
 	@Test
@@ -53,12 +53,14 @@ public class PumpFluidTest {
 		
 		pump.getInput("TemperatureAmb").setValue(293);
 		
-		pump.setFluid("Water");
+		pump.setFluid("Monoethylenglykol_34");
 		
 		pump.getInput("FlowRateOut").setValue(0.00014);
 		for(int i=0; i<1000; i++){
 			pump.update();
 		}
+		
+		System.out.println("PTotal: " + pump.getOutput("PTotal").getValue() + " PLoss: " + pump.getOutput("PLoss").getValue());
 	}
 
 }
