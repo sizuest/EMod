@@ -14,6 +14,14 @@ package ch.ethz.inspire.emod.gui;
 
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.CopyOption;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.ControlEditor;
@@ -177,10 +185,31 @@ public class ModelGUI extends AGUITab {
 		                        	switch(column){
 		                        	case 0:
 		                        		row.setText(column, text.getText());
-		                        		if(row.getText(1).equals("Input")){
-		                        			//TODO: if no Inputs exists with this name, what to do??
+		                        		if(row.getText(1).contains("Input")){ //when handling a simulator
+		                        			//change name of the simulator in the machine
 		                        			Machine.getInputObject(oldName).setName(text.getText());
-		                        		} else {
+		                        			
+		                        			//change the name of file that belongs to the given simulator
+		                        			String prefix = PropertiesHandler.getProperty("app.MachineDataPathPrefix") + "/" +
+		                            					    PropertiesHandler.getProperty("sim.MachineName") + "/" +
+		                            					    "MachineConfig/" +
+		                            					    PropertiesHandler.getProperty("sim.MachineConfigName") +
+		                            					    "/";
+		                        			String type   = row.getText(1).replace("Input ", "");
+		                		    	    Path source = Paths.get(prefix, type + "_" + oldName + ".xml");
+		                		    	    
+		                		    	    //overwrite existing file, if exists
+		                		    	    CopyOption[] options = new CopyOption[]{
+		                		    	    	StandardCopyOption.REPLACE_EXISTING,
+		                		    	    }; 
+		                		    	    //try to rename the existing xml-file of the simulator to the new name
+		                		    	    try {
+		                		    	    	Files.move(source, source.resolveSibling(type + "_" + text.getText() + ".xml"), options);
+		                					} catch (IOException ee) {
+		                						ee.printStackTrace();
+		                					}
+
+		                        		} else { //when handling a machine component
 		                        			Machine.getMachineComponent(oldName).setName(text.getText());
 		                        		}
 			                        	break;
@@ -210,7 +239,7 @@ public class ModelGUI extends AGUITab {
 		treeComponentDBView = new Tree(tabFolder, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
 
 		//fill tree with the components existing in the directory
-		MachineComponentHandler.fillTree(treeComponentDBView);
+		MachineComponentHandler.fillMachineComponentTree(treeComponentDBView);
 		
 		//tab for tree item
 		TabItem tabCompDBItem = new TabItem(tabFolder, SWT.NONE);
@@ -224,7 +253,7 @@ public class ModelGUI extends AGUITab {
 	 */ 	
 	public static void updateTabCompDB(){
 		treeComponentDBView.removeAll();
-		MachineComponentHandler.fillTree(treeComponentDBView);
+		MachineComponentHandler.fillMachineComponentTree(treeComponentDBView);
 	}
 	
  	/**
@@ -232,16 +261,20 @@ public class ModelGUI extends AGUITab {
 	 * @param tabFolder	the tab folder to initialize
 	 */ 	
 	private void initTabInputs(TabFolder tabFolder){
-			
+
+
+		
 		//TODO sizuest: create content of tabFolder Inputs
 		treeInputsDBView = new Tree(tabFolder, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
+
+		MachineComponentHandler.fillInputsTree(treeInputsDBView);
 		
 		// Inputs
-		String[] items = {"ProcessSimulationControl", "StaticSimulationControl", "GeometricKienzleSimulationControl"};
-		for (String name:items){
-			TreeItem child = new TreeItem(treeInputsDBView, SWT.NONE);
-			child.setText(name);
-		}
+		//String[] items = {"ProcessSimulationControl", "StaticSimulationControl", "GeometricKienzleSimulationControl"};
+		//for (String name:items){
+		//	TreeItem child = new TreeItem(treeInputsDBView, SWT.NONE);
+		//	child.setText(name);
+		//}
 		
 		//tab for simulation config
 		TabItem tabInputsItem = new TabItem(tabFolder, SWT.NONE);
@@ -254,10 +287,10 @@ public class ModelGUI extends AGUITab {
 	 * initialize the component tree as drag source
 	 * @param treeComponentDBView	the tree to set as drag source
 	 */ 
-	private void initInputDragSource(final Tree treeDBView){
+	private void initInputDragSource(final Tree treeInputsDBView){
 		//set tree as dragsource for the DnD of the components
 		int operations = DND.DROP_COPY;
-		final DragSource source = new DragSource(treeDBView, operations);
+		final DragSource source = new DragSource(treeInputsDBView, operations);
 		
 		//SOURCE for drag source:
 		//http://www.eclipse.org/articles/Article-SWT-DND/DND-in-SWT.html
@@ -272,7 +305,7 @@ public class ModelGUI extends AGUITab {
 			
 			//at drag start, get the selected tree element
 			public void dragStart(DragSourceEvent event){
-				selection = treeDBView.getSelection();
+				selection = treeInputsDBView.getSelection();
 			}
 			
 			//set the text of the selected tree element as event data
@@ -378,7 +411,7 @@ public class ModelGUI extends AGUITab {
 			}
 			//only action is required when element is dropped
 			public void drop(DropTargetEvent event){
-				//collect string of drag, split into type and parameter
+				//collect string of drag
 				String string = null;
 		        string = (String) event.data;
 		        
@@ -387,10 +420,29 @@ public class ModelGUI extends AGUITab {
 				TableItem dropItem = tableModelView.getItem(p);
 				int index = dropItem == null ? tableModelView.getItemCount() : tableModelView.indexOf(dropItem);
 		        
-		        //if (string.contains("SimulationControl")){
-				if (string.contains("ProcessSimulationControl")){
-					
-					//create new machine component out of component and type
+		        if (string.contains("SimulationControl")){
+					//create new simulation control
+		        	System.out.println("simulationcontrol " + string);
+		        	
+		    		final String path = PropertiesHandler.getProperty("app.MachineComponentDBPathPrefix") + "/";
+		    		Path source = Paths.get(path + "/SimulationControl/" + string + "_Example.xml");
+		    	    Path target = Paths.get(PropertiesHandler.getProperty("app.MachineDataPathPrefix") + "/" +
+                            				PropertiesHandler.getProperty("sim.MachineName") + "/" +
+                            				"MachineConfig/" +
+                            				PropertiesHandler.getProperty("sim.MachineConfigName") +
+                            				"/", string + "_" + string + ".xml");
+		    	    //overwrite existing file, if exists
+		    	    CopyOption[] options = new CopyOption[]{
+		    	    	StandardCopyOption.REPLACE_EXISTING,
+		    	    	StandardCopyOption.COPY_ATTRIBUTES
+		    	    }; 
+		    	    try {
+		    	    	Files.copy(source, target, options);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+		        	
+		        	
 					final ASimulationControl sc = Machine.addNewInputObject(string, Unit.NONE);
 					
 					//add the machine component to the table
@@ -400,10 +452,7 @@ public class ModelGUI extends AGUITab {
 				else if(string.contains("ThermalTest")){
 					return;
 				}
-				else if(string.contains("StaticSimulation")){
-					return;
-				}
-				else if(string.contains("GeometricKienzle")){
+				else if(string.contains("SimulationControl")){
 					return;
 				}
 				
@@ -436,7 +485,7 @@ public class ModelGUI extends AGUITab {
         
         //write Name, Type and Parameter to table
         item.setText(0, sc.getName());
-        item.setText(1, "Input");
+        item.setText(1, "Input " + sc.getClass().getName().replace("ch.ethz.inspire.emod.simulation.", ""));
         for(int i=0; i<=1; i++){
             if(columnWidthTableModelView[i] < item.getBounds(i).x){
             	columnWidthTableModelView[i] = item.getBounds(i).x;
@@ -468,7 +517,6 @@ public class ModelGUI extends AGUITab {
     		}
     	});
         
-        //TODO manick: Spaltenbreite stimmt nicht!
         comboEditInputUnit.pack();
         editor.minimumWidth = comboEditInputUnit.getSize().x;
         if(columnWidthTableModelView[2] < comboEditInputUnit.getSize().x){
@@ -492,8 +540,14 @@ public class ModelGUI extends AGUITab {
         buttonEditComponent.addSelectionListener(new SelectionListener(){
         	public void widgetSelected(SelectionEvent event){
         		//open tab Simulation --> inputs
-        		EModGUI.tabFolder.setSelection(1);
-        		SimGUI.tabFolder.setSelection(3);
+        		//EModGUI.tabFolder.setSelection(1);
+        		//SimGUI.tabFolder.setSelection(3);
+        		
+        		String type = item.getText(1).replace("Input ", "");
+        		String name = item.getText(0);
+        		//open window editComponentEditGUI with the selected component
+				EditInputGUI inputGUI = new EditInputGUI();
+				inputGUI.editInputGUI(type, name);
         	}
         	public void widgetDefaultSelected(SelectionEvent event){
         		
@@ -521,7 +575,21 @@ public class ModelGUI extends AGUITab {
         		
         		//remove component from machine
         		if(Machine.removeInputObject(sc.getName())){
-	        		//dispose the item
+	        		//delete the according file
+        			String prefix = PropertiesHandler.getProperty("app.MachineDataPathPrefix") + "/" +
+    					    PropertiesHandler.getProperty("sim.MachineName") + "/" +
+    					    "MachineConfig/" +
+    					    PropertiesHandler.getProperty("sim.MachineConfigName") +
+    					    "/";
+        			String type   = item.getText(1).replace("Input ", "");
+        			Path file = Paths.get(prefix, type + "_" + item.getText(0) + ".xml");
+        			
+        			try {
+						Files.delete(file);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+        			//dispose the item
 	        		item.dispose();
         		}
         		
@@ -573,34 +641,6 @@ public class ModelGUI extends AGUITab {
             }
         }
         
-        /* replaced by the combo to edit parameter, and name can be edited directly in the column
-        //create button to edit component
-        TableEditor editor = new TableEditor(tableModelView);
-        final Button buttonEditComponent = new Button(tableModelView, SWT.PUSH);
-        
-        Image imageEdit = new Image(Display.getDefault(), "src/resources/Edit16.gif");
-        buttonEditComponent.setImage(imageEdit);
-        //buttonEditComponent.setText(LocalizationHandler.getItem("app.gui.model.editcomp"));
-        
-        buttonEditComponent.addSelectionListener(new SelectionListener(){
-        	public void widgetSelected(SelectionEvent event){
-        		//open new componenteditgui with the current machine component
-        		EditMachineComponentGUI componentEditGUI = new EditMachineComponentGUI();
-        		componentEditGUI.openMachineComponentGUI(mc, item);
-        	}
-        	public void widgetDefaultSelected(SelectionEvent event){
-        		
-        	}
-        });
-        buttonEditComponent.pack();
-        editor.minimumWidth = buttonEditComponent.getSize().x;
-        if(columnWidthTableModelView[3] < buttonEditComponent.getSize().x){
-        	columnWidthTableModelView[3] = buttonEditComponent.getSize().x;
-        }
-        editor.horizontalAlignment = SWT.LEFT;
-        editor.setEditor(buttonEditComponent, item, 3);
-        */
-        
         //set combo to let the user choose the parameter type of the mc
         TableEditor editor = new TableEditor(tableModelView);
         final CCombo comboComponentType = new CCombo(tableModelView, SWT.PUSH);
@@ -629,7 +669,9 @@ public class ModelGUI extends AGUITab {
 				//disable comboMachineConfigName to prevent argument null for comboComponentType
     			comboComponentType.setEnabled(false);
     		
-    			mc.getComponent().setType(comboComponentType.getText());
+    			//change the component to the new type, save machine
+    			Machine.getMachineComponent(mc.getName()).getComponent().setType(comboComponentType.getText());
+    			Machine.saveMachine(PropertiesHandler.getProperty("sim.MachineName"), PropertiesHandler.getProperty("sim.MachineConfigName"));
     			comboComponentType.setEnabled(true);
     		}
     		public void widgetDefaultSelected(SelectionEvent event){
@@ -739,8 +781,8 @@ public class ModelGUI extends AGUITab {
 	public void init() {
 		initLayout();
 		initComponentDragSource(treeComponentDBView);
-		initDropTarget(tableModelView);
-		initInputDragSource(treeInputsDBView);		
+		initInputDragSource(treeInputsDBView);
+		initDropTarget(tableModelView);		
 	}
 
 	@Override

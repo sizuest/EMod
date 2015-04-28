@@ -812,12 +812,15 @@ public class Machine {
 			// Get class and constructor objects
 			Class<?>        cl = Class.forName("ch.ethz.inspire.emod.simulation."+name);
 			Constructor<?>  co = cl.getConstructor(String.class, Unit.class);
+			
+			
+			System.out.println("*** Machine.addNewInputObject: " + cl.toString() + " " + co.toString());
 			// initialize new component
 			simulator = co.newInstance(name, unit);
 		} catch (Exception e) {
 			Exception ex = new Exception("Unable to create component "+name+"("+unit.toString()+")"+" : " + e.getMessage());
 			ex.printStackTrace();
-			return null;
+			//return null;
 		} 
 		
 		addInputObject((ASimulationControl) simulator);

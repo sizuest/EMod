@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>
+    Geometric Kienzle Simulation Control for JUnit test case
+	- Example file
+  </comment>
+  <entry key="samplePeriod">1</entry>
+  <entry key="ON">1</entry>
+  <entry key="OFF">0</entry>
+  <entry key="STANDBY">30</entry>
+  <entry key="CONTROLLED">40</entry>
+  <entry key="PERIODIC">50</entry>
+  <entry key="ON_state">ON</entry>
+  <entry key="OFF_state">OFF</entry>
+  <entry key="STANDBY_state">STANDBY</entry>
+  <entry key="READY_state">CONTROLLED</entry>
+  <entry key="PROCESS_state">CONTROLLED</entry>
+  <entry key="kc">1950</entry>
+  <entry key="kappa">90</entry>
+  <entry key="z">0.25</entry>
+  <entry key="n_name"></entry>
+  <entry key="v_name"></entry>
+  <entry key="d_name"></entry>
+  <entry key="ap_name"></entry>
+</properties>

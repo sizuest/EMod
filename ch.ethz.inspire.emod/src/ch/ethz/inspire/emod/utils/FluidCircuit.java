@@ -83,6 +83,7 @@ public class FluidCircuit {
 							if(mc.getComponent() instanceof ch.ethz.inspire.emod.model.Tank){
 								connected = true;
 								System.out.println("Circuit checked!");
+								break;
 							}
 						}
 					}

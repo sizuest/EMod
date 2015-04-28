@@ -9,7 +9,8 @@
     Parameters
     ----------
       Volume     [m^3]
-	    = Cylinder with diameter 25cm, height 18cm = 0.0088 m^3
+	    = original Volume = 13 l = 0.013
+		--> correction factor to take into account spindle heat capacity and structure of machine: *4! = 0.05
 	    or
 	  Length     [m]
 	  Width      [m]

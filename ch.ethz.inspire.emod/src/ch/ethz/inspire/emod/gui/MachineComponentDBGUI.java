@@ -34,7 +34,7 @@ public class MachineComponentDBGUI {
 		//create ne tree element and fill it with the components from the DB
 		treeComponentDBView = new Tree(shell, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
 		treeComponentDBView.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
-		MachineComponentHandler.fillTree(treeComponentDBView);
+		MachineComponentHandler.fillMachineComponentTree(treeComponentDBView);
 
 		//show button to edit the selected component
 		Button buttonEdit = new Button(shell, SWT.NONE);
