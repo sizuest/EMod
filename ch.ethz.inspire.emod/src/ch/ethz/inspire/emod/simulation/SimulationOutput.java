@@ -20,8 +20,11 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.ethz.inspire.emod.utils.Floodable;
+import ch.ethz.inspire.emod.utils.FluidContainer;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.model.MachineComponent;
+import ch.ethz.inspire.emod.model.units.Unit;
 
 /**
  * 
@@ -64,10 +67,22 @@ public class SimulationOutput {
 			outfile.write("Time");
 			for(MachineComponent mc : mclist) {
 				for (int i=0; i<mc.getComponent().getInputs().size(); i++) {
-					outfile.write(separator + mc.getName() + "-Input-" + (i+1));
+					if(mc.getComponent() instanceof Floodable & mc.getComponent().getInputs().get(i) instanceof FluidContainer){
+						outfile.write(separator + mc.getName() + "-Input-" + (i+1) + "-T");
+						outfile.write(separator + mc.getName() + "-Input-" + (i+1) + "-V");
+						outfile.write(separator + mc.getName() + "-Input-" + (i+1) + "-p");
+					}
+					else
+						outfile.write(separator + mc.getName() + "-Input-" + (i+1));
 				}
 				for (int i=0; i<mc.getComponent().getOutputs().size(); i++) {
-					outfile.write(separator + mc.getName() + "-Output-" + (i+1));
+					if(mc.getComponent() instanceof Floodable & mc.getComponent().getOutputs().get(i) instanceof FluidContainer){
+						outfile.write(separator + mc.getName() + "-Output-" + (i+1) + "-T");
+						outfile.write(separator + mc.getName() + "-Output-" + (i+1) + "-V");
+						outfile.write(separator + mc.getName() + "-Output-" + (i+1) + "-p");
+					}
+					else
+						outfile.write(separator + mc.getName() + "-Output-" + (i+1));
 				}
 			}
 			for(ASimulationControl sc : simlist) {
@@ -79,10 +94,22 @@ public class SimulationOutput {
 			outfile.write("   ");
 			for(MachineComponent mc : mclist) {
 				for (IOContainer input : mc.getComponent().getInputs()) {
-					outfile.write(separator + mc.getName() + "." + input.getName());
+					if(mc.getComponent() instanceof Floodable & input instanceof FluidContainer){
+						outfile.write(separator + mc.getName() + "." + input.getName() + "-Temperature");
+						outfile.write(separator + mc.getName() + "." + input.getName() + "-FlowRate");
+						outfile.write(separator + mc.getName() + "." + input.getName() + "-Pressure");
+					}
+					else
+						outfile.write(separator + mc.getName() + "." + input.getName());
 				}
 				for (IOContainer output : mc.getComponent().getOutputs()) {
-					outfile.write(separator + mc.getName() + "." + output.getName());
+					if(mc.getComponent() instanceof Floodable & output  instanceof FluidContainer){
+						outfile.write(separator + mc.getName() + "." + output.getName() + "-Temperature");
+						outfile.write(separator + mc.getName() + "." + output.getName() + "-FlowRate");
+						outfile.write(separator + mc.getName() + "." + output.getName() + "-Pressure");
+					}
+					else
+						outfile.write(separator + mc.getName() + "." + output.getName());
 				}
 			}
 			for(ASimulationControl sc : simlist) {
@@ -94,10 +121,22 @@ public class SimulationOutput {
 			outfile.write("[s]");
 			for(MachineComponent mc : mclist) {
 				for (IOContainer input : mc.getComponent().getInputs()) {
-					outfile.write(separator + "[" + input.getUnit() + "]");
+					if(mc.getComponent() instanceof Floodable & input instanceof FluidContainer){
+						outfile.write(separator + "[" + Unit.KELVIN + "]");
+						outfile.write(separator + "[" + Unit.METERCUBIC_S + "]");
+						outfile.write(separator + "[" + Unit.PA + "]");
+					}
+					else
+						outfile.write(separator + "[" + input.getUnit() + "]");
 				}
 				for (IOContainer output : mc.getComponent().getOutputs()) {
-					outfile.write(separator + "[" + output.getUnit() + "]");
+					if(mc.getComponent() instanceof Floodable & output instanceof FluidContainer){
+						outfile.write(separator + "[" + Unit.KELVIN + "]");
+						outfile.write(separator + "[" + Unit.METERCUBIC_S + "]");
+						outfile.write(separator + "[" + Unit.PA + "]");
+					}
+					else
+						outfile.write(separator + "[" + output.getUnit() + "]");
 				}
 			}
 			for(ASimulationControl sc : simlist) {
@@ -123,10 +162,24 @@ public class SimulationOutput {
 		try {
 			outfile.write(format.format(time));
 			for(MachineComponent mc : mclist) {
-				for (IOContainer input : mc.getComponent().getInputs())
-					outfile.write(separator + input.getValue());
-				for (IOContainer output : mc.getComponent().getOutputs())
-					outfile.write(separator + output.getValue());
+				for (IOContainer input : mc.getComponent().getInputs()){
+					if(mc.getComponent() instanceof Floodable & input instanceof FluidContainer){
+						outfile.write(separator + ((FluidContainer)input).getTemperature());
+						outfile.write(separator + ((Floodable)mc.getComponent()).getFluidProperties().getFlowRate());
+						outfile.write(separator + ((FluidContainer)input).getPressure());
+					}
+					else
+						outfile.write(separator + input.getValue());
+				}
+				for (IOContainer output : mc.getComponent().getOutputs()){
+					if(mc.getComponent() instanceof Floodable & output instanceof FluidContainer){
+						outfile.write(separator + ((FluidContainer)output).getTemperature());
+						outfile.write(separator + ((Floodable)mc.getComponent()).getFluidProperties().getFlowRate());
+						outfile.write(separator + ((FluidContainer)output).getPressure());
+					}
+					else
+						outfile.write(separator + output.getValue());
+				}
 			}
 			for(ASimulationControl sc : simlist) {
 				outfile.write(separator + sc.getState().toString());

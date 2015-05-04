@@ -38,7 +38,7 @@ public class PipeTest {
 		//set pressure needed out of pipe2
 		((FluidContainer)pip.getInput("FluidIn")).setPressure(2000000);
 		//set flowrate needed out of pipe2
-		((FluidContainer)pip.getOutput("FluidOut")).setFlowRate(0.0001);
+		pip.getFluidProperties().setFlowRate(0.0001);
 
 		pip.getInput("TemperatureAmb").setValue(293);
 		for(int i= 0; i < 100; i++){
@@ -47,7 +47,6 @@ public class PipeTest {
 		
 		assertEquals("PressureLoss", 0.0015, pip.getOutput("PressureLoss").getValue(), 10);
 		assertEquals("TemperatureOut", 293, ((FluidContainer)pip.getOutput("FluidOut")).getTemperature(), .5);
-		assertEquals("massFlow", 0.00014, ((FluidContainer)pip.getInput("FluidIn")).getFlowRate(), 0.001);
 	}
 	
 	@Test
@@ -60,14 +59,14 @@ public class PipeTest {
 		
 		
 		FluidConnection fc = new FluidConnection(pip1, pip2);
-		fc.init(293, 100000, 0);
+		fc.init(293, 100000);
 		
 		//set temperature of fluid flowing into pipe1 (after tank)
 		((FluidContainer)pip1.getInput("FluidIn")).setTemperature(293);
 		//set pressure of fluid flowing into pipe1 (after pump)
 		((FluidContainer)pip1.getInput("FluidIn")).setPressure(2000000);
 		//set flowrate needed out of pipe2
-		((FluidContainer)pip2.getOutput("FluidOut")).setFlowRate(0.001);
+		pip2.getFluidProperties().setFlowRate(0.0001);
 		
 		pip1.getInput("TemperatureAmb").setValue(293);
 		

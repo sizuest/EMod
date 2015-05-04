@@ -46,9 +46,7 @@ public class LinkingGUI {
 	private Text[] textUnit;
     private String[] stringLinkTo;
 
-    public LinkingGUI(){
-
-	    }
+    public LinkingGUI(){}
 
  	/**
 	 * open and initialize the linking GUI
@@ -133,8 +131,6 @@ public class LinkingGUI {
 		    		comboLinkTo[i].setItems(items);
 
 		    		//prefil the combo with the value from the iolinking file
-		    		//TODO sizuest: just the name, not the component of the linking are delivered??
-		    		//the combo should be prefilled with "Motor.Efficiency" and not just "Efficiency"
 		    		for(IOConnection li:linking){
 						if(li.getTarget().equals(io)){
 							comboLinkTo[i].setText(Machine.getOutputFullName(li.getSource()));
@@ -191,6 +187,8 @@ public class LinkingGUI {
 							String[] splitTarget = stringTarget.split("\\.", 2);
 							IOContainer target = Machine.getMachineComponent(splitTarget[0]).getComponent().getInput(splitTarget[1]);
 			    				
+							// remove existing links to target
+							Machine.removeIOLink(target);
 			    			//add IOLink to the Machine
 							Machine.addIOLink(source, target);
 			    		}

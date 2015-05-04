@@ -6,12 +6,16 @@ import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.model.units.ContainerType;
 import ch.ethz.inspire.emod.model.units.Unit;
 
+/**
+ * Implementation of a fluid interface on a component
+ * @author manick
+ *
+ */
 public class FluidContainer extends IOContainer {
 
-	/* Values for temperature [K], pressure [Pa], flow rate [m^3/s]*/
+	/* Values for temperature [K], pressure [Pa] */
 	protected double temperature;
 	protected double pressure;
-	protected double flowRate;
 
 	/**
 	 * constructor, set name, unit and type (used in IOContainer)
@@ -22,20 +26,21 @@ public class FluidContainer extends IOContainer {
 	public FluidContainer(String name, Unit unit, ContainerType type){
 		super(name, unit, 0.00, type);
 		this.temperature = 293;
-		this.pressure    = 100000;
-		this.flowRate    = 0.00;
+		this.pressure    = 0;
 	}
 	
-	public FluidContainer(){	}
+	/**
+	 * FluidContainer()
+	 */
+	public FluidContainer(){}
 
 	/**
 	 * copy constructor
-	 * @param FluidContainer that to copy
+	 * @param that {@link FluidContainer} to copy
 	 */
 	public FluidContainer(FluidContainer that){
 		this.temperature = that.getTemperature();
 		this.pressure    = that.getPressure();
-		this.flowRate    = that.getFlowRate();
 	}
 	
 	/**
@@ -44,10 +49,9 @@ public class FluidContainer extends IOContainer {
 	 * @param pressure    [Pa]
 	 * @param flowRate    [m^3/s]
 	 */
-	public void setValues(double temperature, double pressure, double flowRate){
+	public void setValues(double temperature, double pressure){
 		this.temperature = temperature;
 		this.pressure = pressure;
-		this.flowRate = flowRate;
 	}
 	
 	/**
@@ -81,22 +85,6 @@ public class FluidContainer extends IOContainer {
 	public double getPressure(){
 		return pressure;
 	}
-
-	/**
-	 * the flowRate to set
-	 * @param flowRate [m^3/s]
-	 */
-	public void setFlowRate(double flowRate){
-		this.flowRate = flowRate;
-	}
-	
-	/**
-	 * get the flowRate
-	 * @return the flowRate [m^3/s]
-	 */
-	public double getFlowRate(){
-		return flowRate;
-	}
 	
 	/**
 	 * Override the setValue method from IOContainer
@@ -120,7 +108,6 @@ public class FluidContainer extends IOContainer {
 				//the casting to fluidContainer is necessary in each line
 				((FluidContainer)io.getTarget()).setTemperature(((FluidContainer)io.getSource()).getTemperature());
 				((FluidContainer)io.getTarget()).setPressure(((FluidContainer)io.getSource()).getPressure());
-				((FluidContainer)io.getSource()).setFlowRate(((FluidContainer)io.getTarget()).getFlowRate());
 			};
 		}
 	}
@@ -136,7 +123,7 @@ public class FluidContainer extends IOContainer {
 	}
 	
 	public String toString(){
-		return "FluidContainer " + temperature + " " + pressure + " " + flowRate;
+		return "FluidContainer " + temperature + " " + pressure;
 	}
 
 }

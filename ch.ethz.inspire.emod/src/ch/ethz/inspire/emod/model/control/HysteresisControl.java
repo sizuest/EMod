@@ -61,7 +61,7 @@ public class HysteresisControl extends APhysicalComponent{
 	protected String type;
 	
 	// Input parameters:
-	private ArrayList<IOContainer> inpList;
+	private IOContainer inpSignal;
 	// Output parameters:
 	private IOContainer outSignal;
 	
@@ -105,7 +105,6 @@ public class HysteresisControl extends APhysicalComponent{
 		
 		outputs  = new ArrayList<IOContainer>();
 		inputs   = new ArrayList<IOContainer>();
-		inpList  = new ArrayList<IOContainer>();
 
 		/* ************************************************************************/
 		/*         Read configuration parameters: */
@@ -148,8 +147,12 @@ public class HysteresisControl extends APhysicalComponent{
 		    System.exit(-1);
 		}
 		
+		/* Define input parameters */
+		inpSignal = new IOContainer("Input", Unit.valueOf(unitIn), 0);
+		inputs.add(inpSignal);
+		
 		/* Define output parameters */
-		outSignal = new IOContainer("Output",   Unit.valueOf(unitOut), outLow);
+		outSignal = new IOContainer("Output", Unit.valueOf(unitOut), outLow);
 		outputs.add(outSignal);
 	}
 	
@@ -183,41 +186,6 @@ public class HysteresisControl extends APhysicalComponent{
 					": Nonexistent Unit: Unit "+unitOut+" does not exist");
 		}
 	}
-    
-    /**
-     * Returns the desired IOContainer
-     * 
-     * If the desired input name matches Input, a new input
-     * is created and added to the set of available inputs
-     * 
-     * @param  name	Name of the desired input
-     * @return temp IOContainer matched the desired name
-     * 
-     * @author simon
-     */
-    @Override
-    public IOContainer getInput(String name) {
-		IOContainer temp=null;
-		
-		/* 
-		 * If the initialization has not been done, create a output with same unit as input
-		 */
-		if(name.matches("Input")) {
-			temp = new IOContainer("In"+(inpList.size()+1), Unit.valueOf(unitIn), 0);
-			inputs.add(temp);
-			inpList.add(temp);
-		}
-		else {
-			for(IOContainer ioc:inputs){
-				if(ioc.getName().equals(name)) {
-					temp=ioc;
-					break;
-				}
-			}
-		}
-			
-		return temp;
-	}
 	
 
 	/* (non-Javadoc)
@@ -226,18 +194,14 @@ public class HysteresisControl extends APhysicalComponent{
 	@Override
 	public void update() {
 		
-		for( IOContainer in : inpList) {
-			
-			if (wasLow && in.getValue()>= thHigh) {
-				outSignal.setValue(outHigh);
-				wasLow = false;
-				break;
-			}
-			else if (!wasLow && in.getValue()<= thLow) {
-				outSignal.setValue(outLow);
-				wasLow = true;
-				break;
-			}
+
+		if (wasLow && inpSignal.getValue()>= thHigh) {
+			outSignal.setValue(outHigh);
+			wasLow = false;
+		}
+		else if (!wasLow && inpSignal.getValue()<= thLow) {
+			outSignal.setValue(outLow);
+			wasLow = true;
 		}
 	}
 

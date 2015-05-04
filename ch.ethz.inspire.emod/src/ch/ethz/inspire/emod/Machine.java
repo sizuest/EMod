@@ -48,6 +48,7 @@ import ch.ethz.inspire.emod.simulation.ProcessSimulationControl;
 import ch.ethz.inspire.emod.simulation.RandomSimulationControl;
 import ch.ethz.inspire.emod.simulation.StaticSimulationControl;
 import ch.ethz.inspire.emod.utils.Defines;
+import ch.ethz.inspire.emod.utils.Floodable;
 import ch.ethz.inspire.emod.utils.FluidConnection;
 import ch.ethz.inspire.emod.utils.FluidContainer;
 import ch.ethz.inspire.emod.utils.IOConnection;
@@ -62,10 +63,10 @@ import java.lang.reflect.*;
  */
 @XmlRootElement(namespace = "ch.ethz.inspire.emod")
 @XmlSeeAlso({MachineComponent.class, APhysicalComponent.class, Motor.class, MotorAC.class, LinAxis.class,
-	ClampTest.class, ServoMotor.class, Revolver.class, Fan.class, Pump.class, PumpAccumulator.class, HeatExchanger.class, 
+	ClampTest.class, ServoMotor.class, Revolver.class, Fan.class, PumpAccumulator.class, HeatExchanger.class, 
 	PumpPower.class, Transmission.class, CompressedFluid.class, Amplifier.class, ConstantComponent.class, 
 	Cylinder.class, Valve.class, Pipe.class, HydraulicOil.class, ConstantPump.class,
-	MovingMass.class, Bearing.class, Spindle.class, Tank.class, PumpFluid.class,
+	MovingMass.class, Bearing.class, Spindle.class, Tank.class, Pump.class, ForcedFluidFlow.class,
 	HysteresisControl.class, SwitchControl.class, Sum.class, Gain.class,
 	HomogStorage.class, LayerStorage.class, ForcedHeatTransfere.class, FreeHeatTransfere.class,
 	ASimulationControl.class, RandomSimulationControl.class, StaticSimulationControl.class, 
@@ -229,6 +230,10 @@ public class Machine {
 		}
 	}
 
+	/**
+	 * Initializes a new machin based on the machine name provided
+	 * @param file
+	 */
 	public static void initMachineFromFile(String file) {
 		machineModel = null;
 		try {
@@ -241,6 +246,10 @@ public class Machine {
 		}
 	}
 	
+	/**
+	 * Saves the existing machine at file name provided
+	 * @param file
+	 */
 	public static void saveMachineToFile(String file) {
 		// Save Machine Configuration
 		try {
@@ -256,6 +265,10 @@ public class Machine {
 		}
 	}
 	
+	/**
+	 * Saves the existing machine at a new location
+	 * @param file
+	 */
 	public static void saveMachineToNewFile(String file) {
 		// Save Machine Configuration
 		try {
@@ -271,6 +284,9 @@ public class Machine {
 		}
 	}
 	
+	/**
+	 * Saves the initial conditions
+	 */
 	public static void saveInitialConditions() {
 		String name;
 		for (DynamicState ds: getInstance().getDynamicStatesList()) {
@@ -285,6 +301,9 @@ public class Machine {
 		}
 	}
 	
+	/**
+	 * Loads the initial conditions
+	 */
 	public static void loadInitialConditions(){
 		String name;
 		for (DynamicState ds: getInstance().getDynamicStatesList()){
@@ -298,6 +317,10 @@ public class Machine {
 		}
 	}
 	
+	/**
+	 * Saves the component linking
+	 * @param file
+	 */
 	public static void saveIOLinking(String file) {
 		List<IOConnection> connections      = getInstance().getIOLinkList();
 		List<MachineComponent> components   = getInstance().getMachineComponentList();
@@ -709,6 +732,13 @@ public class Machine {
 		
 	}
 	
+	
+	/**
+	 * Returns a unique component name based on the prefix and available component names
+	 * Allready used prefixes will be supplemented by an incremented number
+	 * @param prefix
+	 * @return name
+	 */
 	public static String getUniqueInputObjectName(String prefix){
 		String name = prefix;
 		int idx     = 0;
@@ -1011,23 +1041,38 @@ public class Machine {
 	 * @param target
 	 */
 	public static void addIOLink(IOContainer source, IOContainer target) {
-		IOConnection io;
-		// Create new IOConnection
-		try {
-			io = new IOConnection(source, target);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return;
-		}
 		
 		// Add Element to List
 		if(machineModel==null)
 			machineModel = new Machine();
 		if(null==getInstance().getIOLinkList())
 			getInstance().connectionList = new ArrayList<IOConnection>();
+
+		// Create new IOConnection
+		try {
+			if(source instanceof FluidContainer & target instanceof FluidContainer)
+				getInstance().getIOLinkList().add(new FluidConnection((FluidContainer)source, (FluidContainer)target));
+			else
+				getInstance().getIOLinkList().add(new IOConnection(source, target));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return;
+		}
 		
-		getInstance().getIOLinkList().add(io);
-		
+	}
+	
+	/**
+	 * Removes the first IOConnection in the list containing the target stated in the argument
+	 * @param target
+	 */
+	public static void removeIOLink(IOContainer target){
+		// Find candidates to be removed
+		for(IOConnection ioc: getInstance().connectionList)
+			if(ioc.getTarget().equals(target)){
+				getInstance().connectionList.remove(ioc);
+				// Break after first candidate
+				break;
+			}
 	}
 	
 	/**
@@ -1053,33 +1098,6 @@ public class Machine {
 		
 		getInstance().getIOLinkList().add(fio);
 	}
-	/**
-	 * Adds a new FluidConnection between the source and the target
-	 * @param source
-	 * @param target
-	 * @param material
-	 */
-	/*
-	public static void addIOLink(IOContainer source, IOContainer target, Material material) {
-		FluidConnection fio;
-		// Create new IOConnection
-		try {
-			fio = new FluidConnection(source, target, material);			
-		} catch (Exception e) {
-			e.printStackTrace();
-			return;
-		}
-		
-		// Add Element to List
-		if(machineModel==null)
-			machineModel = new Machine();
-		if(null==getInstance().getIOLinkList())
-			getInstance().connectionList = new ArrayList<IOConnection>();
-		
-		getInstance().getIOLinkList().add(fio);
-			
-	}
-	*/
 	
 	/**
 	 * @return {@link IOContainer} List of all components and simulators outputs
@@ -1152,6 +1170,11 @@ public class Machine {
 		return getMachineComponent(parent).getComponent().getDynamicState(name);
 	}
 	
+	/**
+	 * Returns the full output name of the container
+	 * @param container {@link IOContainer}
+	 * @return name {@link String}
+	 */
 	public static String getOutputFullName(IOContainer container){
 		String out = null;
 		

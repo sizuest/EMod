@@ -73,7 +73,7 @@ public class MotorAC extends APhysicalComponent{
 	private double Lm, Lr, Ls; // mutal, rotor, stator inductance [H]
 	private double Rr, Rs; // rotor, stator resistance [Ohm]
 	private double p; // number of pole pairs [1]
-	private double opU, opRotSpeed, opFreq;	// Operational point
+	private double opU, opFreq;	// Operational point
 	private double maxU;
 	private double k;
 	private double[] pwmEffCoeff;
@@ -151,7 +151,6 @@ public class MotorAC extends APhysicalComponent{
 			p  = params.getIntValue("PolePairs");
 			opU        = params.getDoubleValue("RatedVoltage");
 			opFreq     = params.getDoubleValue("RatedFrequency");
-			opRotSpeed = params.getDoubleValue("RatedRotSpeed");
 			maxU       = params.getDoubleValue("MaxVoltage");
 			pwmEffCoeff = params.getDoubleArray("PWMEffCoeff");
 			
@@ -193,7 +192,7 @@ public class MotorAC extends APhysicalComponent{
 	@Override
 	public void update() {
 		
-		double s, fs, eff, pwmeff=0;
+		double fs, eff, pwmeff=0;
 				
 		if ( (lasttorque == torque.getValue() ) &&
 			 (lastrotspeed == rotspeed.getValue() ) ) {
@@ -232,9 +231,6 @@ public class MotorAC extends APhysicalComponent{
 					idxMin = i;
 			
 			fs = roots1[idxMin].real;
-			
-			// Resulting motor slip
-			s = (fs-p*lastrotspeed/60.0)/fs;
 					
 			
 			// Test for field-weakening

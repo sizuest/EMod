@@ -5,7 +5,7 @@ import org.junit.Test;
 import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.model.HeatExchanger;
 import ch.ethz.inspire.emod.model.Pipe;
-import ch.ethz.inspire.emod.model.PumpFluid;
+import ch.ethz.inspire.emod.model.Pump;
 import ch.ethz.inspire.emod.model.Tank;
 
 public class FluidTest {
@@ -18,7 +18,7 @@ public class FluidTest {
 		System.out.println("*** testPipePumpPipe ***");
 
 		Pipe pip1 		= new Pipe("Example", 293, "Example");
-		PumpFluid pf	= new PumpFluid("Example", 293, "Example");
+		Pump pf	= new Pump("Example", 293, "Example");
 		Pipe pip2 		= new Pipe("Example", 293, "Example");
 		//pip1.getFluid().setPressure(20000);
 		
@@ -29,10 +29,10 @@ public class FluidTest {
 		((FluidContainer)pip1.getInput("FluidIn")).setTemperature(293);
 		
 		FluidConnection fc1 = new FluidConnection(pip1, pf);
-		fc1.init(293, 100000, 0);
+		fc1.init(293, 100000);
 		
 		FluidConnection fc2 = new FluidConnection(pf, pip2);
-		fc2.init(293, 100000, 0);
+		fc2.init(293, 100000);
 				
 		for(int i=0; i<3; i++){
 			//what first??
@@ -66,7 +66,7 @@ public class FluidTest {
 
 		Tank tank = new Tank("Schaublin42L");
 		tank.getInput("TemperatureAmb").setValue(293);
-		PumpFluid pf	= new PumpFluid("Example", 293, "Example");
+		Pump pf	= new Pump("Example", 293, "Example");
 		Pipe pip 		= new Pipe("Example", 293, "Example");
 
 		tank.setSimulationTimestep(1);
@@ -74,13 +74,13 @@ public class FluidTest {
 		pip.setSimulationTimestep(1);
 		
 		FluidConnection fc1 = new FluidConnection(tank, pf);
-		fc1.init(293, 100000, 0);
+		fc1.init(293, 100000);
 		
 		FluidConnection fc2 = new FluidConnection(pf, pip);
-		fc2.init(293, 100000, 0);
+		fc2.init(293, 100000);
 		
 		FluidConnection fc3 = new FluidConnection(pip, tank);
-		fc3.init(293, 100000, 0);
+		fc3.init(293, 100000);
 		
 		//TODO manick: tempAmb should be set as Machine var!
 		tank.getInput("TemperatureAmb").setValue(293);
@@ -125,7 +125,7 @@ public class FluidTest {
 		pip2.setSimulationTimestep(2);
 		
 		FluidConnection fc1 = new FluidConnection(pip1, pip2);
-		fc1.init(293, 100000, 0);
+		fc1.init(293, 100000);
 
 		pip1.getInput("TemperatureAmb").setValue(293);
 		pip2.getInput("TemperatureAmb").setValue(293);
@@ -159,7 +159,7 @@ public class FluidTest {
 		Tank tank = new Tank("Schaublin42L");
 		tank.getInput("TemperatureAmb").setValue(293);
 		//
-		PumpFluid pump = new PumpFluid("Example");
+		Pump pump = new Pump("Example");
 		//Pipe pip1 = new Pipe("Schaublin42LV", tank.getInput("TemperatureAmb").getValue(), tank.getFluidType());
 		Pipe pip1 = new Pipe("Schaublin42LV");
 		//Pipe piph = new Pipe("Example",       tank.getInput("TemperatureAmb").getValue(), tank.getFluidType());
@@ -184,15 +184,15 @@ public class FluidTest {
 		pip2.getInput("HeatFlowIn").setValue(0);
 		
 		FluidConnection fc1 = new FluidConnection(tank, pump);
-		fc1.init(293, 100000, 0);
+		fc1.init(293, 100000);
 		FluidConnection fc2 = new FluidConnection(pump, pip1);
-		fc2.init(293, 100000, 0);
+		fc2.init(293, 100000);
 		FluidConnection fc3 = new FluidConnection(pip1, piph);
-		fc2.init(293, 100000, 0);
+		fc2.init(293, 100000);
 		FluidConnection fc4 = new FluidConnection(piph, pip2);
-		fc3.init(293, 100000, 0);
+		fc3.init(293, 100000);
 		FluidConnection fc5 = new FluidConnection(pip2, tank);
-		fc4.init(293, 100000, 0);
+		fc4.init(293, 100000);
 		
 		for(int i=0; i<10; i++){
 			tank.update();
@@ -285,7 +285,7 @@ public class FluidTest {
 		tank.getInput("TemperatureAmb").setValue(293);
 		
 		//
-		PumpFluid pump = new PumpFluid("Example");
+		Pump pump = new Pump("Example");
 		//Pipe pip1 = new Pipe("Schaublin42LV", tank.getInput("TemperatureAmb").getValue(), tank.getFluidType());
 		Pipe pip1 = new Pipe("Schaublin42LV");
 		//Pipe piph = new Pipe("Example",       tank.getInput("TemperatureAmb").getValue(), tank.getFluidType());
@@ -312,15 +312,15 @@ public class FluidTest {
 		pip2.getInput("HeatFlowIn").setValue(0);
 		
 		FluidConnection fc1 = new FluidConnection(tank, pump);
-		fc1.init(293, 100000, 0);
+		fc1.init(293, 100000);
 		FluidConnection fc2 = new FluidConnection(pump, pip1);
-		fc2.init(293, 100000, 0);
+		fc2.init(293, 100000);
 		FluidConnection fc3 = new FluidConnection(pip1, piph);
-		fc2.init(293, 100000, 0);
+		fc2.init(293, 100000);
 		FluidConnection fc4 = new FluidConnection(piph, pip2);
-		fc3.init(293, 100000, 0);
+		fc3.init(293, 100000);
 		FluidConnection fc5 = new FluidConnection(pip2, tank);
-		fc4.init(293, 100000, 0);
+		fc4.init(293, 100000);
 		
 		for(int i=0; i<10; i++){
 			tank.update();
@@ -389,7 +389,7 @@ public class FluidTest {
 		tank.getInput("TemperatureAmb").setValue(293);
 		
 		//
-		PumpFluid pump = new PumpFluid("Example");
+		Pump pump = new Pump("Example");
 		//Pipe pip1 = new Pipe("Schaublin42LV", tank.getInput("TemperatureAmb").getValue(), tank.getFluidType());
 		Pipe pip1 = new Pipe("Schaublin42LV");
 		//Pipe piph = new Pipe("Example",       tank.getInput("TemperatureAmb").getValue(), tank.getFluidType());
@@ -419,15 +419,15 @@ public class FluidTest {
 		pip2.getInput("HeatFlowIn").setValue(0);
 		
 		FluidConnection fc1 = new FluidConnection(tank, pump);
-		fc1.init(293, 100000, 0);
+		fc1.init(293, 100000);
 		FluidConnection fc2 = new FluidConnection(pump, pip1);
-		fc2.init(293, 100000, 0);
+		fc2.init(293, 100000);
 		FluidConnection fc3 = new FluidConnection(pip1, piph);
-		fc2.init(293, 100000, 0);
+		fc2.init(293, 100000);
 		FluidConnection fc4 = new FluidConnection(piph, pip2);
-		fc3.init(293, 100000, 0);
+		fc3.init(293, 100000);
 		FluidConnection fc5 = new FluidConnection(pip2, tank);
-		fc4.init(293, 100000, 0);
+		fc4.init(293, 100000);
 		
 		for(int i=0; i<10; i++){
 			heat.update();
@@ -538,7 +538,7 @@ public class FluidTest {
 		tank.getInput("TemperatureAmb").setValue(293);
 		
 		//
-		PumpFluid pump = new PumpFluid("Example");
+		Pump pump = new Pump("Example");
 		//Pipe pip1 = new Pipe("Schaublin42LV", tank.getInput("TemperatureAmb").getValue(), tank.getFluidType());
 		Pipe pip1 = new Pipe("Schaublin42LV");
 		//Pipe piph = new Pipe("Example",       tank.getInput("TemperatureAmb").getValue(), tank.getFluidType());
@@ -565,15 +565,15 @@ public class FluidTest {
 		pip2.getInput("HeatFlowIn").setValue(0);
 		
 		FluidConnection fc1 = new FluidConnection(tank, pump);
-		fc1.init(293, 100000, 0);
+		fc1.init(293, 100000);
 		FluidConnection fc2 = new FluidConnection(pump, pip1);
-		fc2.init(293, 100000, 0);
+		fc2.init(293, 100000);
 		FluidConnection fc3 = new FluidConnection(pip1, piph);
-		fc2.init(293, 100000, 0);
+		fc2.init(293, 100000);
 		FluidConnection fc4 = new FluidConnection(piph, pip2);
-		fc3.init(293, 100000, 0);
+		fc3.init(293, 100000);
 		FluidConnection fc5 = new FluidConnection(pip2, tank);
-		fc4.init(293, 100000, 0);
+		fc4.init(293, 100000);
 		
 		for(int i=0; i<10; i++){
 			tank.update();

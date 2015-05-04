@@ -16,6 +16,7 @@ package ch.ethz.inspire.emod.model;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import ch.ethz.inspire.emod.utils.Floodable;
 import ch.ethz.inspire.emod.utils.FluidContainer;
 
 public class PumpFluidTest {
@@ -23,39 +24,39 @@ public class PumpFluidTest {
 	@Test
 	public void testPump(){
 		//PumpFluid pump = new PumpFluid("Example", 293, "Example");
-		PumpFluid pump = new PumpFluid("Example");
+		Pump pump = new Pump("Example");
 		pump.getInput("TemperatureAmb").setValue(293);
-		pump.setFluid("Example");
+		pump.getInput("State").setValue(0);
+		pump.getFluidProperties().setMaterial(new Material("Example"));
 		// Set pressure out to pressure_amb
 		//pump.getInput("PressureOut").setValue(0);
-		pump.getInput("FlowRateOut").setValue(0);
+		((Floodable)pump).getFluidProperties().setFlowRate(0.0);
 		for(int i=0; i<4; i++)
 			pump.update();
 		
 		assertEquals("Pump power if off", 0, pump.getOutput("PTotal").getValue(),     0);
-		assertEquals("Flow if off",       0, ((FluidContainer)pump.getInput("FluidIn")).getFlowRate(), 0);
+		assertEquals("Flow if off",       0, pump.getFluidProperties().getFlowRate(), 0);
 		assertEquals("Pressure if off",   0, ((FluidContainer)pump.getOutput("FluidOut")).getPressure(),   100000);
 		
 		// Set pressure out to 20 bar
-		//pump.getInput("PressureOut").setValue(2000000);
-		pump.getInput("FlowRateOut").setValue(0.00014);
+		((FluidContainer)pump.getOutput("FluidOut")).setPressure(2000000);
+		pump.getInput("State").setValue(1);
 		for(int i=0; i<4; i++)
 			pump.update();
 		
 		assertEquals("Pump power after ",   135, pump.getOutput("PTotal").getValue(),      0);
-		assertEquals("Flow if on",           /*3.6*//*1.44*/ 0.00014, ((FluidContainer)pump.getInput("FluidIn")).getFlowRate(),  0);
-		assertEquals("Pressure if on",   188135, ((FluidContainer)pump.getOutput("FluidOut")).getPressure(),    400000);
+		assertEquals("Flow if on",          0.00014, ((Floodable)pump).getFluidProperties().getFlowRate(),  0);
 	}
 
 	@Test
 	public void testPumpFluid(){
-		PumpFluid pump = new PumpFluid("Hyfra_VWK_21_1S");
+		Pump pump = new Pump("Hyfra_VWK_21_1S");
 		
 		pump.getInput("TemperatureAmb").setValue(293);
 		
-		pump.setFluid("Monoethylenglykol_34");
+		pump.getFluidProperties().setMaterial(new Material("Monoethylenglykol_34"));
 		
-		pump.getInput("FlowRateOut").setValue(0.00014);
+		pump.getFluidProperties().setFlowRate(0.00014);
 		for(int i=0; i<1000; i++){
 			pump.update();
 		}

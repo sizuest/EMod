@@ -18,10 +18,11 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import ch.ethz.inspire.emod.model.thermal.ThermalArray;
+import ch.ethz.inspire.emod.model.thermal.ThermalElement;
 import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.simulation.DynamicState;
 import ch.ethz.inspire.emod.utils.Floodable;
+import ch.ethz.inspire.emod.utils.FluidCircuitProperties;
 import ch.ethz.inspire.emod.utils.FluidContainer;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
@@ -36,14 +37,14 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  * -Smooth surface
  * -Tank wall is rigid
  * 
- * Inputlist:
- *   1: FluidIn       : [-]    : Fluid Container with temperature, pressure, massflow
+ * Input list:
+ *   1: FluidIn       : [-]    : Fluid Container with temperature, pressure, mass flow
  *   2: PressureAmb   : [Pa]   : Ambient Pressure (assuming free surface of fluid in tank)
  *   3: TemperatureAmb: [K]    : Ambient temperature
- * Outputlist:
- *   1: FluidOut      : [-]    : Fluid Container with temperature, pressure, massflow
+ * Output list:
+ *   1: FluidOut      : [-]    : Fluid Container with temperature, pressure, mass flow
  *   
- * Config parameters:
+ * Configuration parameters:
  * 	 Volume			: [m^3]
  * 		or
  *   Length	    	: [m]
@@ -74,17 +75,18 @@ public class Tank extends APhysicalComponent implements Floodable {
 	// Output parameters:
 	private FluidContainer fluidOut;
 	private IOContainer temperatureTank;
-	private IOContainer levelHeatExchanger;
+	
+	// Fluid Properties
+	FluidCircuitProperties fluidProperties;
 	
 	// Parameters used by the model.
-	private String material;
 	private double volume;
 	private double length = 0.00;
 	private double width = 0.00;
 	private double height = 0.00;
-	private ThermalArray fluid;
-	private double lasttemp[];
+	private ThermalElement fluid = new ThermalElement("Example", 1);
 	double temperatureInit = 293.00;
+	private boolean materialSet = false;
 	
 	/**
 	 * Constructor called from XmlUnmarshaller.
@@ -117,6 +119,18 @@ public class Tank extends APhysicalComponent implements Floodable {
 	}
 	
 	/**
+	 * @param type
+	 * @param TInit
+	 */
+	public Tank(String type, double TInit){
+		super();
+		this.type = type;
+		init();
+		fluid.getTemperature().setInitialCondition(TInit);
+		fluid.getTemperature().setInitialCondition();
+	}
+	
+	/**
 	 * Called from constructor or after unmarshaller.
 	 * @throws Exception 
 	 */
@@ -136,10 +150,7 @@ public class Tank extends APhysicalComponent implements Floodable {
 		temperatureTank = new IOContainer("TemperatureTank", Unit.KELVIN, temperatureInit, ContainerType.THERMAL);
 		outputs.add(temperatureTank);
 		
-		//TODO level HeatExchanger correct?
-		levelHeatExchanger = new IOContainer("LevelHeatExchanger", Unit.NONE, 0, ContainerType.CONTROL);
-		outputs.add(levelHeatExchanger);
-		
+	
 		/* ************************************************************************/
 		/*         Read configuration parameters: */
 		/* ************************************************************************/
@@ -172,13 +183,10 @@ public class Tank extends APhysicalComponent implements Floodable {
 			}
 		}
 		try {
-			material     = params.getString("Material");
 			
 			/* Thermal Array */
-			System.out.println("tank.init: setting the fluid " + material);
-			if(material != null){
-				setFluid(material);
-			}
+			fluid.setMaterial(params.getString("Material"));
+			fluid.setVolume(volume);
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -200,6 +208,15 @@ public class Tank extends APhysicalComponent implements Floodable {
 		//TODO manick: test for Fluid
 		fluidOut        = new FluidContainer("FluidOut", Unit.NONE, ContainerType.FLUIDDYNAMIC);
 		outputs.add(fluidOut);
+
+		/* Dynamic state */
+		dynamicStates = new ArrayList<DynamicState>();
+		dynamicStates.add(fluid.getTemperature());
+		
+		/* FlowRate */
+		fluidProperties = new FluidCircuitProperties();
+		fluidProperties.setMaterial(fluid.getMaterial());
+
 	}
 	
 	/**
@@ -212,9 +229,6 @@ public class Tank extends APhysicalComponent implements Floodable {
 		if(0>volume){
 			throw new Exception("Tank, type: " + type + ": Non physical value: Variable 'volume' must be bigger than zero!");
 		}
-		if(material==null){
-			throw new Exception("Tank, type: " + type + ": empty Material!");
-		}
 	}
 	
 
@@ -224,23 +238,11 @@ public class Tank extends APhysicalComponent implements Floodable {
 	@Override
 	public void update() {
 		double density, heatCapacity, alphaFluid;
-		density   = fluid.getMaterial().getDensity(fluid.getTemperature().getValue(),  fluid.getPressure());
+		density   = fluid.getMaterial().getDensity(fluid.getTemperature().getValue(),  fluidIn.getPressure());
 		heatCapacity = fluid.getMaterial().getHeatCapacity();
 		
-		lasttemp[1] = fluid.getTemperature().getValue();
-		/* ************************************************************************/
-		/*         Update inputs, direction of calculation:                       */
-		/*         temperature [K]    : fluidIn --> fluid                         */
-		/*         pressure    [Pa]   : fluidIn --> fluid                         */
-		/*         flowRate:   [m^3/s]: fluid   <-- fluidOut                      */
-		/* ************************************************************************/
-		fluid.setTemperatureIn(fluidIn.getTemperature());
-		if(pressureAmb.getValue() > 0){
-			fluid.setPressure(pressureAmb.getValue());
-		} else {
-			fluid.setPressure(100000); //DIN 1343 normpressure = 1.01325 bar = 101325
-		}
-		fluid.setFlowRate(fluidOut.getFlowRate());
+		if(!materialSet)
+			fluidProperties.setMaterial(fluid.getMaterial());
 		
 		/* ************************************************************************/
 		/*         Calculate and set fluid values:                                */
@@ -248,45 +250,35 @@ public class Tank extends APhysicalComponent implements Floodable {
 		/*         HeatSource, TemperatureExternal                                */
 		/* ************************************************************************/
 		//assumption Tank is cubic: S = 6 * (volume)^(2/3)
-		double surface = 6 * Math.pow(volume, 2/3);
+		double surface = 6 * Math.pow(volume, 0.66);
 		//alpha = ln((T0-T_amb)/(T1-T_amb))*m*cp/surface
-		if(lasttemp[1] - temperatureAmb.getValue() <= 0 || lasttemp[0] - temperatureAmb.getValue() <= 0){
+		if(fluid.getTemperature().getValue() - temperatureAmb.getValue() <= 0 || fluid.getTemperature().getLastValue() - temperatureAmb.getValue() <= 0){
 			alphaFluid = 1;
 		} else { //calculated for one timestep, could also be done over more than one
-			alphaFluid = Math.log((lasttemp[0]-temperatureAmb.getValue())/(lasttemp[1]-temperatureAmb.getValue()) * volume * density * heatCapacity/surface);
+			alphaFluid = Math.log((fluid.getTemperature().getLastValue() - temperatureAmb.getValue())/(fluid.getTemperature().getValue()-temperatureAmb.getValue()) * volume * density * heatCapacity/surface);
 		}
 		
+		//System.out.println(alphaFluid+" W/K/m² on "+surface+" m²");
+		
+		//TODO
 		double thermalResistance = 1/(alphaFluid*surface);
-		fluid.setThermalResistance(thermalResistance);
-		fluid.setHeatSource(-heatExchangerIn.getValue());
-		fluid.setTemperatureExternal(temperatureAmb.getValue());
-				
-		/* ************************************************************************/
-		/*         Integration step:                                              */
-		/* ************************************************************************/
+		
+		// Convection
+		fluid.setHeatInput(-(fluid.getTemperature().getValue()-temperatureAmb.getValue())/thermalResistance);
+		// Mass transfere
+		fluid.addHeatInput((fluidIn.getTemperature()-fluidOut.getTemperature())*heatCapacity*density*fluidProperties.getFlowRate());
+		// External
+		fluid.addHeatInput(-heatExchangerIn.getValue());
+		// Integrate
 		fluid.integrate(timestep);
 		
-		/* ************************************************************************/
-		/*         Update outputs, direction of calculation:                      */
-		/*         temperature [K]    : fluid   --> fluidOut                      */
-		/*         pressure    [Pa]   : fluid   --> fluidOut                      */
-		/*         flowRate:   [m^3/s]: fluidIn <-- fluid                         */
-		/* ************************************************************************/
-		fluidOut.setTemperature(fluid.getTemperatureOut());
-		fluidOut.setPressure(fluid.getPressure());
-		fluidIn.setFlowRate(fluid.getFlowRate());
+		
+		// Outlet temperature is equal to the bulk temperature of the tank
+		fluidOut.setTemperature(fluid.getTemperature().getValue());
+		fluidOut.setPressure(0);
 		
 		temperatureTank.setValue(fluid.getTemperature().getValue());
 		
-		if(temperatureTank.getValue() > 303.5){
-			levelHeatExchanger.setValue(1);
-		} else if(temperatureTank.getValue() < 299.5){
-			levelHeatExchanger.setValue(0);
-		}
-		
-		lasttemp[0] = lasttemp[1];
-		
-		System.out.println("Tank: " + fluid.getPressure() + " " + fluid.getFlowRate() + " " + fluid.getTemperature().getValue() + " " + thermalResistance + " " + fluid.getHeatLoss());
 	}
 
 	/* (non-Javadoc)
@@ -301,11 +293,7 @@ public class Tank extends APhysicalComponent implements Floodable {
 		this.type = type;
 	}
 	
-	/*
-	public ThermalArray getFluid(){
-		return fluid;
-	}
-	*/
+
 	/**
 	 * get the type of the Fluid
 	 * @return type of the fluid
@@ -314,45 +302,16 @@ public class Tank extends APhysicalComponent implements Floodable {
 		return fluid.getMaterial().getType();
 	}
 
-	/*
-	public void setFluid(ThermalArray fluid) {
-		this.fluid = fluid;
-	}
-	*/
+		
 	/**
-	 * set Fluid to type and initialize it
-	 * @param type of the fluid
+	 * @return tank volume
 	 */
-	public void setFluid(String type){
-		/* ThermalArray */
-		this.fluid = new ThermalArray(type, volume, 1);
-		
-		lasttemp = new double[2];
-		
-		/* Initialize Thermal Array */
-		if (temperatureAmb.getValue() > 0) {
-			fluid.setInitialTemperature(temperatureAmb.getValue());
-			fluid.getTemperature().setInitialCondition(temperatureAmb.getValue());
-			fluid.setTemperatureExternal(temperatureAmb.getValue());
-			lasttemp[0] = temperatureAmb.getValue();
-			lasttemp[1] = temperatureAmb.getValue();
-		} else {
-			fluid.setInitialTemperature(293);
-			fluid.getTemperature().setInitialCondition(293);
-			fluid.setTemperatureExternal(293);
-			lasttemp[0] = 293;
-			lasttemp[1] = 293;
-		}
-		fluid.setThermalResistance(1);
-		
-		/* State */
-		dynamicStates = new ArrayList<DynamicState>();
-		dynamicStates.add(fluid.getTemperature());
-		
-		
-	}
-	
 	public double getVolume(){
 		return volume;
+	}
+
+	@Override
+	public FluidCircuitProperties getFluidProperties() {
+		return this.fluidProperties;
 	}
 }

@@ -2,8 +2,8 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <comment/>
-<entry key="InitialValue_Spindle_1_TemperatureStructure">293.15</entry>
-<entry key="InitialValue_Spindle_1_TemperatureCoolant">293.15</entry>
+<entry key="InitialValue_Spindle_1_TemperatureStructure">NaN</entry>
+<entry key="InitialValue_Spindle_1_TemperatureCoolant">NaN</entry>
 <entry key="simulationPeriod">1</entry>
 <entry key="InitialValue_Spindle_TemperatureStructure">293.15</entry>
 <entry key="InitialValue_Spindle_TemperatureCoolant">293.15</entry>

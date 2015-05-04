@@ -24,8 +24,7 @@ public class FluidConnection extends IOConnection {
 		super(source.getOutput("FluidOut"), target.getInput("FluidIn"));
 
 		// flood the target component with the same fluid as the source component
-		FluidCircuit fcir = new FluidCircuit();
-		fcir.floodCircuit(source,target);
+		FluidCircuit.floodCircuit(source,target);
 	}
 	
 	/**
@@ -40,8 +39,8 @@ public class FluidConnection extends IOConnection {
 	
 	
 	/**
+	 * @param io 
 	 * @param IOConnection
-	 * @return FluidConnection
 	 * @throws Exception 
 	 */
 	public FluidConnection(IOConnection io) throws Exception{
@@ -67,11 +66,10 @@ public class FluidConnection extends IOConnection {
 	 * init a fluidconnection with values for temperature/pressure/flowRate
 	 * @param temperature
 	 * @param pressure
-	 * @param flowRate
 	 */
-	public void init(double temperature, double pressure, double flowRate){
-		((FluidContainer)source).setValues(temperature, pressure, flowRate);
-		((FluidContainer)target).setValues(temperature, pressure, flowRate);
+	public void init(double temperature, double pressure){
+		((FluidContainer)source).setValues(temperature, pressure);
+		((FluidContainer)target).setValues(temperature, pressure);
 	}
 	
 	/**
@@ -83,11 +81,9 @@ public class FluidConnection extends IOConnection {
 		/* direction of calculation
 		 * temperature [K]    : source --> target
 		 * pressure    [Pa]   : source --> target
-		 * flowRate:   [m^3/s]: source <-- target
 		 */
 		((FluidContainer)this.target).setTemperature(((FluidContainer)this.source).getTemperature());
-		((FluidContainer)this.target).setPressure   (((FluidContainer)this.source).getPressure());
-		((FluidContainer)this.source).setFlowRate   (((FluidContainer)this.target).getFlowRate());
+		((FluidContainer)this.target).setPressure(((FluidContainer)this.source).getPressure());
 	}
 }
 

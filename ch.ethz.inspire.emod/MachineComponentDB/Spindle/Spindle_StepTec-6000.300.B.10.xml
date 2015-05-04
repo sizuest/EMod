@@ -11,4 +11,5 @@
 <entry key="MotorType">E+A-10.6-10-4-239d-249dr12g</entry>
 <entry key="CoolantHTC">452</entry>
 <entry key="AirGapFrictionCoeff">1.8, 8.336e-9</entry>
+<entry key="PressureLossCoefficient">1.68E13</entry>
 </properties>

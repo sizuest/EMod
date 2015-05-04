@@ -230,5 +230,13 @@ public class DynamicState {
 			      "/"+PropertiesHandler.getProperty("sim.MachineName")+"/"+Defines.SIMULATIONCONFIGDIR+"/"+
 			      PropertiesHandler.getProperty("sim.SimulationConfigName")+"/"+Defines.SIMULATIONCONFIGFILE;
 	}
+
+	/**
+	 * Returns the value before the last update call
+	 * @return last value
+	 */
+	public double getLastValue() {
+		return this.lastValue;
+	}
 	
 }

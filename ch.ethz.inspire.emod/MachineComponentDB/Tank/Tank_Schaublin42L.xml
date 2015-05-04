@@ -1,23 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-  <comment>
-    Model parameter definition
-    ==========================
-      Model : Tank 
-      Type  : Schaublin42L
-    Parameters
-    ----------
-      Volume     [m^3]
-	    = original Volume = 13 l = 0.013
-		--> correction factor to take into account spindle heat capacity and structure of machine: *4! = 0.05
-	    or
-	  Length     [m]
-	  Width      [m]
-	  Height     [m]
-	  
-	  Material   [-]
-  </comment>
-  <entry key="Volume">0.05</entry>
-  <entry key="Material">Monoethylenglykol_34</entry>
+<comment>File changed by user: simon</comment>
+<entry key="Volume">0.013</entry>
+<entry key="Material">Monoethylenglykol_34</entry>
 </properties>

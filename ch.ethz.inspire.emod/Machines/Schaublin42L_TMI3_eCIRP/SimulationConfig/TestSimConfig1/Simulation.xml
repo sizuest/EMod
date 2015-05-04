@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-	<comment>
-		General simulation config file.
-	</comment>
-	<entry key="simulationPeriod">0.2</entry>
-	<entry key="initialTemperature.HomogStorage_Example">293</entry>
-	<entry key="initialTemperature.LayerStorage_Example">293</entry>
+<comment/>
+<entry key="InitialValue_Pump_Temperature">293.0</entry>
+<entry key="InitialValue_C1_TemperatureCoolant">293.0</entry>
+<entry key="InitialValue_PipeVL_Temperature">293.0</entry>
+<entry key="simulationPeriod">1</entry>
+<entry key="InitialValue_C1_TemperatureStructure">293.0</entry>
+<entry key="InitialValue_PipeRL_Temperature">293.0</entry>
+<entry key="InitialValue_SpindleCoolingPump_Temperature">293.0</entry>
+<entry key="InitialValue_PumpFluid_Temperature">293.0</entry>
+<entry key="InitialValue_Tank_Temperature">293.0</entry>
 </properties>

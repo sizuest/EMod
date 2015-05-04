@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 
-import ch.ethz.inspire.emod.model.Material;
 import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.simulation.DynamicState;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
@@ -80,8 +79,6 @@ public class LayerStorage extends APhysicalComponent{
 	private IOContainer ploss;
 	
 	// Unit of the element 
-	private double cp;
-	private double m;
 	private double volume;
 	private double surf;
 	private double alpha;
@@ -317,7 +314,7 @@ public class LayerStorage extends APhysicalComponent{
 	public void update() {
 				
 		// Set boundary conditions
-		thermalArray.setMassFlowRate(mDotIn.getValue(), tempIn.getValue(), pressure.getValue());
+		thermalArray.setFlowRate(mDotIn.getValue()/thermalArray.getMaterial().getDensity(tempIn.getValue(), pressure.getValue()));
 		thermalArray.setHeatSource(0);
 		thermalArray.setPressure(pressure.getValue());
 		thermalArray.setTemperatureExternal(tempAmb.getValue());

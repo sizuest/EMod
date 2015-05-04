@@ -23,6 +23,7 @@ import ch.ethz.inspire.emod.model.units.ContainerType;
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.utils.Algo;
 import ch.ethz.inspire.emod.utils.Floodable;
+import ch.ethz.inspire.emod.utils.FluidCircuitProperties;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 
@@ -71,7 +72,6 @@ public class Valve extends APhysicalComponent implements Floodable{
 	private IOContainer pumpPressure;
 	
 	//Saving last input values:
-	
 	private double lastpressure  = 0;
 	private double lastmassflow  = 0;
 	private double lastvalveCtrl;
@@ -290,15 +290,10 @@ public class Valve extends APhysicalComponent implements Floodable{
 	}
 
 	@Override
-	public void setFluid(String type) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public String getFluidType() {
+	public FluidCircuitProperties getFluidProperties() {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	
 }

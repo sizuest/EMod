@@ -18,7 +18,6 @@ import java.util.List;
 import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.model.APhysicalComponent;
 import ch.ethz.inspire.emod.model.MachineComponent;
-import ch.ethz.inspire.emod.model.Tank;
 /**
  * Class to perform several checks and routines on fluid circuits
  * 
@@ -27,20 +26,14 @@ import ch.ethz.inspire.emod.model.Tank;
 public class FluidCircuit {
 	/**
 	 * used in FluidConnection to flood the components following a tank
-	 * @param source, target
+	 * @param source 
+	 * @param target 
 	 */
-	public void floodCircuit(APhysicalComponent source, APhysicalComponent target){
-		if(source instanceof ch.ethz.inspire.emod.model.Tank){
-			String type = ((Tank)source).getFluidType();
-			if(target instanceof Floodable){
-				((Floodable)target).setFluid(type);
-			}
-		} else if (source instanceof Floodable){
-			String type = ((Floodable)source).getFluidType();
-			if(target instanceof Floodable && !(target instanceof ch.ethz.inspire.emod.model.Tank)){
-				((Floodable)target).setFluid(type);
-			}
-		}
+	public static void floodCircuit(APhysicalComponent source, APhysicalComponent target){
+		// Set Fluid properties
+		if(source instanceof Floodable & target instanceof Floodable){
+			((Floodable)source).getFluidProperties().setPost(((Floodable)target).getFluidProperties());
+		}		
 	}
 	
 	

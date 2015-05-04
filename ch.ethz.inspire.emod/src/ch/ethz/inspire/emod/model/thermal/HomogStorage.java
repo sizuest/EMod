@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.simulation.DynamicState;
@@ -49,11 +50,13 @@ import ch.ethz.inspire.emod.model.APhysicalComponent;
  * @author simon
  *
  */
-
+@XmlRootElement
 public class HomogStorage extends APhysicalComponent{
-	@XmlElement(name = "type", type = String.class)
+	@XmlElement
+	protected String name;
+	@XmlElement
 	protected String type;
-	@XmlElement(name = "parentType", type = String.class)
+	@XmlElement
 	protected String parentType;
 	
 	// Input Lists

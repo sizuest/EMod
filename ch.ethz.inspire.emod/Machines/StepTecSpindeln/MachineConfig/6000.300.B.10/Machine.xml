@@ -3,15 +3,23 @@
     <machine>
         <machineComponent>
             <component xsi:type="spindle" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>StepTec-6000.300.B.10</type>
+                <type>StepTec-6000.300.B.10_htcTheory</type>
+                <flowRate>
+                    <value>0.0</value>
+                    <unit>METERCUBIC_S</unit>
+                </flowRate>
             </component>
             <name>Spindle</name>
         </machineComponent>
         <machineComponent>
-            <component xsi:type="spindle" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>StepTec-6000.300.B.10_htcTheory</type>
+            <component xsi:type="forcedFluidFlow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>GlykolWater_30</type>
+                <flowRate>
+                    <value>0.0</value>
+                    <unit>METERCUBIC_S</unit>
+                </flowRate>
             </component>
-            <name>Spindle_1</name>
+            <name>ForcedFluidFlow</name>
         </machineComponent>
     </machine>
     <simulators>
@@ -20,8 +28,12 @@
             <unit>RPM</unit>
         </simController>
         <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>InletPressure</name>
+            <unit>PA</unit>
+        </simController>
+        <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>FlowRate</name>
-            <unit>L_MIN</unit>
+            <unit>METERCUBIC_S</unit>
         </simController>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>Torque</name>
@@ -32,7 +44,6 @@
             <unit>KELVIN</unit>
         </simController>
     </simulators>
-    <connectionList/>
     <connectionList/>
     <connectionList/>
     <connectionList/>

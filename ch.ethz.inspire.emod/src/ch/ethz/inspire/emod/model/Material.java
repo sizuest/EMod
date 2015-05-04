@@ -222,4 +222,9 @@ public class Material {
     public double getThermalConductivity(){
     	return thermalConductivity;
     }
+
+	public void setMaterial(String type) {
+		this.type = type;
+		init();		
+	}
 }
