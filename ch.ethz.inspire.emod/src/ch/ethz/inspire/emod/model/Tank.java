@@ -18,6 +18,8 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import ch.ethz.inspire.emod.model.fluid.Fluid;
+import ch.ethz.inspire.emod.model.fluid.FluidElement;
 import ch.ethz.inspire.emod.model.thermal.ThermalElement;
 import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.simulation.DynamicState;
@@ -69,24 +71,27 @@ public class Tank extends APhysicalComponent implements Floodable {
 	private IOContainer pressureAmb;
 	//private IOContainer heatFlowIn;
 	
-	//TODO where to set the level for the heatExchanger? could also be done in process configuration
+
 	private IOContainer heatExchangerIn;
 		
 	// Output parameters:
 	private FluidContainer fluidOut;
 	private IOContainer temperatureTank;
+	private IOContainer massTank;
 	
 	// Fluid Properties
 	FluidCircuitProperties fluidProperties;
 	
 	// Parameters used by the model.
-	private double volume;
+	private double volume, surface;
 	private double length = 0.00;
 	private double width = 0.00;
 	private double height = 0.00;
-	private ThermalElement fluid = new ThermalElement("Example", 1);
+	private ThermalElement fluid;
 	double temperatureInit = 293.00;
 	private boolean materialSet = false;
+	
+	private FluidElement mass;
 	
 	/**
 	 * Constructor called from XmlUnmarshaller.
@@ -146,9 +151,11 @@ public class Tank extends APhysicalComponent implements Floodable {
 		inputs.add(heatExchangerIn);
 		
 		/* Define output parameters */
-		outputs        = new ArrayList<IOContainer>();		
+		outputs         = new ArrayList<IOContainer>();		
 		temperatureTank = new IOContainer("TemperatureTank", Unit.KELVIN, temperatureInit, ContainerType.THERMAL);
+		massTank        = new IOContainer("Content",         Unit.KG,     0,               ContainerType.FLUIDDYNAMIC);
 		outputs.add(temperatureTank);
+		outputs.add(massTank);
 		
 	
 		/* ************************************************************************/
@@ -166,7 +173,11 @@ public class Tank extends APhysicalComponent implements Floodable {
 		
 		/* Read the config parameter: */
 		try {
-			volume		 = params.getDoubleValue("Volume");
+			volume   = params.getDoubleValue("Volume");
+			length   = Math.pow(volume, .333);
+			width    = Math.pow(volume, .333);
+			height   = Math.pow(volume, .333);
+			surface  = 2*(length+width)*height + length*width;
 		}
 		catch (Exception e) {
 			System.out.println("no property 'Volume', checking for 'Length'/'Depth'/'Height':");
@@ -175,6 +186,7 @@ public class Tank extends APhysicalComponent implements Floodable {
 				width    = params.getDoubleValue("Width");
 				height   = params.getDoubleValue("Height");
 				volume   = length * width * height;
+				surface  = 2*(length+width)*height + length*width;
 			}
 			catch (Exception ee){
 				e.printStackTrace();
@@ -184,9 +196,11 @@ public class Tank extends APhysicalComponent implements Floodable {
 		}
 		try {
 			
-			/* Thermal Array */
-			fluid.setMaterial(params.getString("Material"));
-			fluid.setVolume(volume);
+			/* Thermal Element */
+			fluid = new ThermalElement(params.getString("Material"), volume);
+			/* Fluid Element */
+			mass  = new FluidElement(fluid.getMaterial(), volume/fluid.getMaterial().getDensity(293.15));
+			
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -212,9 +226,12 @@ public class Tank extends APhysicalComponent implements Floodable {
 		/* Dynamic state */
 		dynamicStates = new ArrayList<DynamicState>();
 		dynamicStates.add(fluid.getTemperature());
+		dynamicStates.add(mass.getMass());
 		
 		/* FlowRate */
 		fluidProperties = new FluidCircuitProperties();
+		fluidProperties.setCuppledInAndOut(false);
+		fluidProperties.setPressureReference(fluidOut);
 		fluidProperties.setMaterial(fluid.getMaterial());
 
 	}
@@ -237,7 +254,12 @@ public class Tank extends APhysicalComponent implements Floodable {
 	 */
 	@Override
 	public void update() {
-		double density, heatCapacity, alphaFluid;
+		double mIn,
+		       mOut,
+		       density, 
+		       heatCapacity, 
+		       alphaFluid, 
+		       thermalResistance;
 		density   = fluid.getMaterial().getDensity(fluid.getTemperature().getValue(),  fluidIn.getPressure());
 		heatCapacity = fluid.getMaterial().getHeatCapacity();
 		
@@ -249,35 +271,43 @@ public class Tank extends APhysicalComponent implements Floodable {
 		/*         TemperatureIn, Pressure, FlowRate, ThermalResistance,          */
 		/*         HeatSource, TemperatureExternal                                */
 		/* ************************************************************************/
-		//assumption Tank is cubic: S = 6 * (volume)^(2/3)
-		double surface = 6 * Math.pow(volume, 0.66);
-		//alpha = ln((T0-T_amb)/(T1-T_amb))*m*cp/surface
-		if(fluid.getTemperature().getValue() - temperatureAmb.getValue() <= 0 || fluid.getTemperature().getLastValue() - temperatureAmb.getValue() <= 0){
-			alphaFluid = 1;
-		} else { //calculated for one timestep, could also be done over more than one
-			alphaFluid = Math.log((fluid.getTemperature().getLastValue() - temperatureAmb.getValue())/(fluid.getTemperature().getValue()-temperatureAmb.getValue()) * volume * density * heatCapacity/surface);
-		}
 		
-		//System.out.println(alphaFluid+" W/K/m² on "+surface+" m²");
+		mIn  = fluidProperties.getFlowRateIn()*fluid.getMaterial().getDensity(fluidIn.getTemperature(), fluidOut.getPressure());
+		mOut = fluidProperties.getFlowRateOut()*fluid.getMaterial().getDensity(fluid.getTemperature().getValue(), pressureAmb.getValue());
 		
-		//TODO
-		double thermalResistance = 1/(alphaFluid*surface);
 		
+		alphaFluid = Fluid.convectionFreeCuboid(new Material("Air"), fluid.getTemperature().getValue(), temperatureAmb.getValue(), length, width, height, false);
+
+		thermalResistance = 1/(alphaFluid*surface);
+		
+		/* Mass sum */
+		mass.setMassInput(mIn-mOut);
+		mass.integrate(timestep);
+		
+		
+		/* Thermal sum */
 		// Convection
-		fluid.setHeatInput(-(fluid.getTemperature().getValue()-temperatureAmb.getValue())/thermalResistance);
+		if(0!=alphaFluid)
+			fluid.setHeatInput(0);
+		else
+			fluid.setHeatInput(-(fluid.getTemperature().getValue()-temperatureAmb.getValue())/thermalResistance);
 		// Mass transfere
 		fluid.addHeatInput((fluidIn.getTemperature()-fluidOut.getTemperature())*heatCapacity*density*fluidProperties.getFlowRate());
 		// External
 		fluid.addHeatInput(-heatExchangerIn.getValue());
 		// Integrate
 		fluid.integrate(timestep);
+		// Adjust mass
+		fluid.setMass(mass.getMass().getValue());
 		
 		
 		// Outlet temperature is equal to the bulk temperature of the tank
 		fluidOut.setTemperature(fluid.getTemperature().getValue());
-		fluidOut.setPressure(0);
+		fluidOut.setPressure(pressureAmb.getValue());
+		fluidIn.setPressure(pressureAmb.getValue());
 		
 		temperatureTank.setValue(fluid.getTemperature().getValue());
+		massTank.setValue(mass.getMass().getValue());
 		
 	}
 

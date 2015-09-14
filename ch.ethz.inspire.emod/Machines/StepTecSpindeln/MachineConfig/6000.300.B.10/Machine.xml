@@ -4,20 +4,12 @@
         <machineComponent>
             <component xsi:type="spindle" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>StepTec-6000.300.B.10_htcTheory</type>
-                <flowRate>
-                    <value>0.0</value>
-                    <unit>METERCUBIC_S</unit>
-                </flowRate>
             </component>
             <name>Spindle</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="forcedFluidFlow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>GlykolWater_30</type>
-                <flowRate>
-                    <value>0.0</value>
-                    <unit>METERCUBIC_S</unit>
-                </flowRate>
             </component>
             <name>ForcedFluidFlow</name>
         </machineComponent>

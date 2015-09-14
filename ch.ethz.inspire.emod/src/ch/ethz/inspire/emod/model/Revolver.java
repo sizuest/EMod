@@ -82,6 +82,10 @@ public class Revolver extends APhysicalComponent{
 		super();
 	}
 	
+	/**
+	 * @param u
+	 * @param parent
+	 */
 	public void afterUnmarshal(Unmarshaller u, Object parent) {
 		//post xml init method (loading physics data)
 		init();

@@ -18,6 +18,11 @@ package ch.ethz.inspire.emod.model.units;
  */
 public enum Unit {
 	/**
+	 * KG [kg] 
+	 * Mass
+	 */
+	KG,
+	/**
 	 * WATT [W] 
 	 * Power
 	 */

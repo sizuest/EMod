@@ -130,9 +130,9 @@ public class Material {
 	{		
 		
 		//Check dimensions
-		if(pressureSamples.length != temperatureSamples.length)
+		/*if(pressureSamples.length != temperatureSamples.length)
 			throw new Exception("Valve, type:" +type+
-					": PressureSamples and TemperatureSamples must have the same dimensions!");
+					": PressureSamples and TemperatureSamples must have the same dimensions!");*/
 		
 		if(viscositySamples.length != temperatureSamples.length)
 			throw new Exception("Valve, type:" +type+
@@ -183,21 +183,45 @@ public class Material {
 	}
     
     /**
+     * Viscosity (dyn)
+     * 
      * @param temperature [K]
      * @param pressure [Pa]
-     * @return viscosity [m2/s]
+     * @return viscosity [mPa s]
      */
     public double getViscosity(double temperature, double pressure) {
     	return Algo.logInterpolation(temperature, temperatureSamples, viscositySamples);
     }
     
     /**
+     * Viscosity (dyn) at nominal pressure
+     * 
+     * @param temperature [K]
+     * @return viscosity [mPa s]
+     */
+    public double getViscosity(double temperature) {
+    	return this.getViscosity(temperature, 100000);
+    }
+    
+    /**
+     * Density
+     * 
      * @param temperature [K]
      * @param pressure [Pa]
      * @return density [kg/m3]
      */
     public double getDensity(double temperature, double pressure) {
     	return Algo.bilinearInterpolation(pressure, temperature, pressureSamples, temperatureSamples, densityMatrix);
+    }
+    
+    /**
+     * Density at nominal pressure
+     * 
+     * @param temperature [K]
+     * @return density [kg/m3]
+     */
+    public double getDensity(double temperature){
+    	return this.getDensity(temperature, 100000);
     }
     
     /**

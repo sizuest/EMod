@@ -13,10 +13,7 @@
 
 package ch.ethz.inspire.emod.utils;
 
-import java.awt.List;
 import java.util.Arrays;
-import java.util.Collections;
-
 import org.ejml.data.Complex64F;
 import org.ejml.data.DenseMatrix64F;
 import org.ejml.factory.DecompositionFactory;
@@ -42,7 +39,7 @@ public class Algo {
 	 *   column of z at the value x
 	 * - y is estimated by a linear interpolation on zvec at z
 	 * 
-	 * @param y y-value
+	 * @param x x-value
 	 * @param z z-value
 	 * @param xsamples  Samples 'x_i' of the 'zvalues'. 
 	 * @param ysamples  Samples 'y_j' of the 'zvalues'. 
@@ -259,7 +256,6 @@ public class Algo {
 	
 	/**
 	 * Returns the roots of the polynome (real & complex parts)
-	 * Source {@link https://stackoverflow.com/questions/13805644/finding-roots-of-polynomial-in-java}
 	 * @param coefficients double array with the roots
 	 * @return roots {@link Complex64F} 
 	 */

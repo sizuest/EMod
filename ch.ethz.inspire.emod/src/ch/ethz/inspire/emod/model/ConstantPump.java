@@ -25,6 +25,7 @@ import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 
 /**
+ * @deprecated
  * General ConstantPump model class.
  * Implements the physical model of a ConstantPump including a blow off valve which opens automatically
  * if the generated pressure by the pump reaches the pressure limit set by the blow off valve.

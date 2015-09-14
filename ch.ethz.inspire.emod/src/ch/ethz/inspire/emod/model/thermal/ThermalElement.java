@@ -15,6 +15,7 @@ package ch.ethz.inspire.emod.model.thermal;
 import ch.ethz.inspire.emod.model.Material;
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.simulation.DynamicState;
+import ch.ethz.inspire.emod.utils.ShiftProperty;
 
 /**
  * General thermal element class
@@ -27,7 +28,7 @@ public class ThermalElement {
 	protected DynamicState temperature;
 	protected Material material;
 	protected double mass;
-	protected ThermalShiftProperty<Double> heatInput;
+	protected ShiftProperty<Double> heatInput;
 	//protected double heatInput;
 	//protected double lastHeatInput;
 	
@@ -41,7 +42,7 @@ public class ThermalElement {
 		this.mass          = mass;
 		this.material      = new Material(materialName);
 		this.temperature   = new DynamicState("Temperature", Unit.KELVIN);
-		this.heatInput     = new ThermalShiftProperty<Double>(0.0);
+		this.heatInput     = new ShiftProperty<Double>(0.0);
 		//this.lastHeatInput = 0;
 	}
 	
@@ -50,7 +51,10 @@ public class ThermalElement {
 	 * @param heatInput
 	 */
 	public void setHeatInput(double heatInput){
-		this.heatInput.set(heatInput);
+		if(!(heatInput==0 | Double.isInfinite(heatInput) | Double.isNaN(heatInput)))
+			this.heatInput.set(heatInput);
+		else
+			this.heatInput.set(0.0);
 	}
 	
 	/**
@@ -58,7 +62,9 @@ public class ThermalElement {
 	 * @param heatInput
 	 */
 	public void addHeatInput(double heatInput){
-		this.heatInput.set(this.heatInput.getCurrent()+heatInput);
+		if(!(heatInput==0 | Double.isInfinite(heatInput) | Double.isNaN(heatInput)))
+			this.heatInput.set(this.heatInput.getCurrent()+heatInput);
+		
 	}
 	
 	/**
@@ -96,6 +102,10 @@ public class ThermalElement {
 	
 	public void setVolume(double volume){
 		this.mass = volume*this.material.getDensity(this.getTemperature().getValue(), 100000);
+	}
+	
+	public void setMass(double mass){
+		this.mass = mass;
 	}
 
 }

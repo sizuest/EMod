@@ -15,5 +15,7 @@
   </comment>
   <entry key="PipeDiameter">0.01</entry>
   <entry key="PipeLength">1.65</entry>
-  <entry key="PipeHTC">0.01</entry>
+  <entry key="PipeMaterial">PUR</entry>
+  <entry key="PipeThickness">0.03</entry>
+  <entry key="PipeRoughness">1E-4</entry>
 </properties>

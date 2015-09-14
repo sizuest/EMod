@@ -16,36 +16,50 @@ package ch.ethz.inspire.emod.model;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import ch.ethz.inspire.emod.model.fluid.PressureReference;
 import ch.ethz.inspire.emod.utils.Floodable;
+import ch.ethz.inspire.emod.utils.FluidConnection;
 import ch.ethz.inspire.emod.utils.FluidContainer;
 
 public class PumpFluidTest {
 	
 	@Test
-	public void testPump(){
+	public void testPump() throws Exception{
 		//PumpFluid pump = new PumpFluid("Example", 293, "Example");
+		PressureReference pref = new PressureReference(0);
 		Pump pump = new Pump("Example");
+		FluidConnection fc = new FluidConnection(pump, pref);
+		
 		pump.getInput("TemperatureAmb").setValue(293);
 		pump.getInput("State").setValue(0);
 		pump.getFluidProperties().setMaterial(new Material("Example"));
+		
+		fc.init(293, 100000);
+		
 		// Set pressure out to pressure_amb
 		//pump.getInput("PressureOut").setValue(0);
-		((Floodable)pump).getFluidProperties().setFlowRate(0.0);
-		for(int i=0; i<4; i++)
+		((Floodable)pump).getFluidProperties().setFlowRateIn(0.0);
+		for(int i=0; i<4; i++){
 			pump.update();
+			pref.update();
+			fc.update();
+		}
 		
 		assertEquals("Pump power if off", 0, pump.getOutput("PTotal").getValue(),     0);
 		assertEquals("Flow if off",       0, pump.getFluidProperties().getFlowRate(), 0);
 		assertEquals("Pressure if off",   0, ((FluidContainer)pump.getOutput("FluidOut")).getPressure(),   100000);
 		
-		// Set pressure out to 20 bar
-		((FluidContainer)pump.getOutput("FluidOut")).setPressure(2000000);
+		// Set pressure out to 2 bar
+		pref.setPressureDrop(2E5);
 		pump.getInput("State").setValue(1);
-		for(int i=0; i<4; i++)
+		for(int i=0; i<4; i++){
 			pump.update();
+			pref.update();
+			fc.update();
+		}
 		
 		assertEquals("Pump power after ",   135, pump.getOutput("PTotal").getValue(),      0);
-		assertEquals("Flow if on",          0.00014, ((Floodable)pump).getFluidProperties().getFlowRate(),  0);
+		assertEquals("Flow if on",          0.00013, ((Floodable)pump).getFluidProperties().getFlowRate(),  0.000001);
 	}
 
 	@Test
@@ -56,7 +70,7 @@ public class PumpFluidTest {
 		
 		pump.getFluidProperties().setMaterial(new Material("Monoethylenglykol_34"));
 		
-		pump.getFluidProperties().setFlowRate(0.00014);
+		pump.getFluidProperties().setFlowRateIn(0.00014);
 		for(int i=0; i<1000; i++){
 			pump.update();
 		}

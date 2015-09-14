@@ -21,6 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.lang.Math;
 
 import ch.ethz.inspire.emod.model.units.*;
+import ch.ethz.inspire.emod.simulation.DynamicState;
 import ch.ethz.inspire.emod.utils.IOContainer;
 
 /**
@@ -58,6 +59,8 @@ public class MovingMass extends APhysicalComponent{
 	// Save last input values
 	private double lastspeed = 0;
 	
+	private DynamicState position;
+	
 	/**
 	 * Constructor called from XmlUnmarshaller.
 	 * Attribute 'type' is set by XmlUnmarshaller.
@@ -66,6 +69,10 @@ public class MovingMass extends APhysicalComponent{
 		super();
 	}
 	
+	/**
+	 * @param u
+	 * @param parent
+	 */
 	public void afterUnmarshal(Unmarshaller u, Object parent) {
 		//post xml init method (loading physics data)
 		init();
@@ -73,6 +80,8 @@ public class MovingMass extends APhysicalComponent{
 	
 	/**
 	 * Linear Motor constructor
+	 * @param mass 
+	 * @param angle 
 	 * 
 	 * @param type
 	 */
@@ -99,6 +108,12 @@ public class MovingMass extends APhysicalComponent{
 		outputs = new ArrayList<IOContainer>();
 		force   = new IOContainer("Force", Unit.NEWTON, 0, ContainerType.MECHANIC);
 		outputs.add(force);
+		
+		/* State */
+		position = new DynamicState("Position", Unit.M);
+		
+		dynamicStates = new ArrayList<DynamicState>();
+		dynamicStates.add(position);
 		
 		// Validate the parameters:
 		try {
@@ -134,6 +149,8 @@ public class MovingMass extends APhysicalComponent{
 		
 		// Get required speed in m/s (source:mm/min)
 		double curspeed = speed.getValue()/60/1000;
+		
+		position.addValue(curspeed*timestep);
 		
 		/*
 		 * Force is calculated by

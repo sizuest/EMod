@@ -15,6 +15,7 @@ package ch.ethz.inspire.emod.model.thermal;
 import ch.ethz.inspire.emod.model.Material;
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.simulation.DynamicState;
+import ch.ethz.inspire.emod.utils.ShiftProperty;
 
 /**
  * General thermal array class
@@ -29,7 +30,7 @@ public class ThermalArray {
 	/* List of current [k+1] and past [k] node temperatures */
 	//protected double[] temperature;
 	//protected double[] lastTemperature;
-	protected ThermalShiftProperty<double[]> temperature;
+	protected ShiftProperty<double[]> temperature;
 	/* Input and Ambient temperatures */
 	protected double temperatureExt = Double.NaN, temperatureIn = Double.NaN;
 	/* Material of the array */
@@ -65,7 +66,7 @@ public class ThermalArray {
 		
 		//this.temperature      = new double[numElements];
 		//this.lastTemperature  = new double[numElements];
-		this.temperature = new ThermalShiftProperty<double[]>(new double[numElements]);
+		this.temperature = new ShiftProperty<double[]>(new double[numElements]);
 		
 		// Set the initialization method
 		try {
@@ -147,7 +148,10 @@ public class ThermalArray {
 	 * @param thermalResistance
 	 */
 	public void setThermalResistance(double thermalResistance){
-		this.thermalResistance = thermalResistance;
+		if(!(Double.isInfinite(thermalResistance) | Double.isNaN(thermalResistance)))
+			this.thermalResistance = thermalResistance;
+		else
+			this.thermalResistance = 1;
 	}
 	
 	/**
@@ -204,7 +208,8 @@ public class ThermalArray {
 	 * @param heatSource
 	 */
 	public void setHeatSource(double heatSource){
-		this.heatSource = heatSource;
+		if(!(heatSource==0 | Double.isInfinite(heatSource) | Double.isNaN(heatSource)))
+			this.heatSource = heatSource;
 	}
 	
 	/**
@@ -241,7 +246,10 @@ public class ThermalArray {
 	 * @return heat loss to ambient
 	 */
 	public double getHeatLoss(){
-		return (getTemperatureBulk()-temperatureExt)/thermalResistance;
+		if(thermalResistance==0 | Double.isInfinite(thermalResistance) | Double.isNaN(thermalResistance))
+			return 0;
+		else
+			return (getTemperatureBulk()-temperatureExt)/thermalResistance;
 	}
 		
 	/**

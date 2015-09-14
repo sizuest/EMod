@@ -100,6 +100,10 @@ public class Spindle extends APhysicalComponent implements Floodable{
 		super();
 	}
 	
+	/**
+	 * @param u
+	 * @param parent
+	 */
 	public void afterUnmarshal(Unmarshaller u, Object parent) {
 		//post xml init method (loading physics data)
 		init();

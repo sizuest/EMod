@@ -19,6 +19,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import ch.ethz.inspire.emod.model.fluid.Fluid;
 import ch.ethz.inspire.emod.model.thermal.ThermalArray;
 import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.simulation.DynamicState;
@@ -53,6 +54,8 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  * Config parameters:
  *   PipeDiameter   : [m] 
  *   PipeLength		: [m]
+ *   PipeThickness  : [m]
+ *   PipeMaterial   : [Material];
  *   
  * 
  * @author kraandre, sizuest
@@ -69,11 +72,6 @@ public class Pipe extends APhysicalComponent implements Floodable{
 	private IOContainer temperatureAmb;
 	private IOContainer heatFlowIn;
 	private FluidContainer fluidIn;
-	
-	//Saving last input values:
-	private double Reynolds		 = 0.00;
-	private double Nusselt       = 0.00;
-	private double lambda		 = 0.00;
 		
 	// Output parameters:
 	private IOContainer ploss;
@@ -87,7 +85,11 @@ public class Pipe extends APhysicalComponent implements Floodable{
 	// Parameters used by the model. 
 	private double pipeDiameter;
 	private double pipeLength;
+	private double pipeThickness;
+	private double pipeRoughness;
+	private Material pipeMaterial;
 	private double volume;
+	double pipeArea, pipeThTransmittance;
 	private ThermalArray fluid;
 	
 	// Initial temperature
@@ -205,8 +207,15 @@ public class Pipe extends APhysicalComponent implements Floodable{
 		
 		/* Read the config parameter: */
 		try {
-			pipeDiameter = params.getDoubleValue("PipeDiameter");
-			pipeLength   = params.getDoubleValue("PipeLength");
+			pipeDiameter  = params.getDoubleValue("PipeDiameter");
+			pipeLength    = params.getDoubleValue("PipeLength");
+			pipeThickness = params.getDoubleValue("PipeThickness");
+			pipeRoughness = params.getDoubleValue("PipeRoughness");
+			pipeMaterial  = params.getMaterial("PipeMaterial");
+			
+			// Calculate constant parameters
+			pipeArea            = 2 * Math.PI * pipeDiameter/2 * pipeLength;
+			pipeThTransmittance = pipeMaterial.getThermalConductivity()/pipeThickness;
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -270,10 +279,13 @@ public class Pipe extends APhysicalComponent implements Floodable{
 	 */
 	@Override
 	public void update() {
-		double density, viscosity, heatCapacity, thermalConductivity, alphaFluid;
+		/* Local variables */
+		double	alphaFluid,
+				alphaAir,
+				thermalResistance;
 		
 
-		
+		/* Set fluid obj. boundary positions */
 		fluid.setTemperatureIn(fluidIn.getTemperature());
 		
 		if(fluidIn.getPressure() > 0){
@@ -283,77 +295,24 @@ public class Pipe extends APhysicalComponent implements Floodable{
 		}
 		fluid.setFlowRate(fluidProperties.getFlowRate());
 		
-		/* ************************************************************************/
-		/*         Calculate and set fluid values:                                */
-		/*         TemperatureIn, Pressure, FlowRate, ThermalResistance,          */
-		/*         HeatSource, TemperatureExternal                                */
-		/* ************************************************************************/
-		// Get current fluid properties
-		density             = fluid.getMaterial().getDensity(fluid.getTemperature().getValue(),  fluid.getPressure());
-		viscosity           = fluid.getMaterial().getViscosity(fluid.getTemperature().getValue(), fluid.getPressure());
-		heatCapacity        = fluid.getMaterial().getHeatCapacity();
-		thermalConductivity = fluid.getMaterial().getThermalConductivity();
-
-		/* calculate Reynolds-Number pipe: Re = velocity [m/s] * diameter [m] / kin_viscosity [m^2/s]
-		 * Re = (flowRate [m^3/s] / area [m^2]) * diameter [m] / (dyn_viscosity [kg/(m s)] / density [kg/m^3])
-		 * calculate Nusselt-Number (Source for equations: VDI-Waermeatlas, 2013, Springer, page 28 & 759
-		 */
-		Reynolds = (fluidProperties.getFlowRate() / (Math.pow(pipeDiameter/2,2)*Math.PI)) * pipeDiameter * density /(viscosity/1000);
 		
-		if (Reynolds <= 0){
-			Reynolds = 1;
-			Nusselt  = 1;
-		}
+		/* Calculate alphaFluid */
+		alphaFluid = Fluid.convectionForcedPipe(fluid.getMaterial(), fluid.getTemperature().getValue(), pipeLength, pipeDiameter, fluid.getFlowRate());
 		
-		if (Reynolds < 2300) { //laminar flow
-			lambda = 64/Reynolds;
-			Nusselt = 4.36;			
-		} else { //turbulent flow
-			lambda = 0.3164/Math.pow(Reynolds, 0.25);
-			double Prandtl = viscosity * heatCapacity / thermalConductivity; //n * cp / lambda
-			double xi = Math.pow(1.8 * Math.log10(Reynolds)-1.5, -2);
-			Nusselt = (Reynolds * Prandtl * xi/8)/(1+12.7*Math.sqrt(xi/8)*(Math.pow(Prandtl, 2/3)-1))*(1+Math.pow(pipeDiameter/pipeLength, 2/3));
-		}
+		/* Calculate alphaAir */
+		alphaAir = Fluid.convectionFreeCylinderHorz(fluid.getMaterial(), fluid.getTemperature().getValue(), temperatureAmb.getValue(), pipeDiameter);
 		
-		/* with Nusselt-Number: calculate alphaFluid
-		 */
-		alphaFluid = Nusselt * lambda / pipeLength;
+		/* Calculate overall thermal Resistance of pipe */
+		//double thermalResistance = 1/(alphaFluid * pipeArea) + 0.03 / (0.25 * pipeArea) + 1/(alphaAir * pipeArea);
+		thermalResistance = 1/(alphaFluid * pipeArea) + 1/(pipeThTransmittance * pipeArea) + 1/(alphaAir * pipeArea);
 		
-		/* further needed: alphaAir and pipeArea
-		 * and Rayleigh for air: Ra = beta * g * length^3 * DeltaT / (nu kappa)
-		 *  where DeltaT assumed as fluidTemp-ambTemp
-		 *  lambdaAir = 0.02587
-		 *  Prandlt-Air= 0.7, f3(Pr) = 0.325
-		 */
-		double pipeArea = 2 * Math.PI * pipeDiameter/2 * pipeLength;
-		double deltaT   = fluid.getTemperature().getValue()-temperatureAmb.getValue();
-		double Rayleigh = (0.003421*9.81*Math.pow(pipeLength,3)*deltaT)/(153.2*Math.pow(10,-7)* 216.3*Math.pow(10,-7));
-		//NusseltAir = (0.752 + 0.387(Ra * f3(Pr))^(1/6))^2
-		double NusseltAir= Math.pow(0.752+0.387*Math.pow(Rayleigh*0.325,1/6),2);
-		double alphaAir = NusseltAir * 0.02587 / pipeLength;
-		
-		/* calculate overall thermal Resistance of pipe
-		 * 
-		 * R_tot = 1/(alphaFluid*Area)      //convetion inside
-		 *       + length/(lambda * Area)   //conduction in pipe wall, assumed as 0
-		 *       + 1/(alphaAir*Area)        //convection outside
-		 * assumptions: r_in = 0.005, r_out= 0.0075, lambda_pipe = 0.25 (plastic)
-		 */
-		double thermalResistance = 1/(alphaFluid * pipeArea) + 0.03 / (0.25 * pipeArea) + 1/(alphaAir * pipeArea);
-		
-		/* calculate pressureloss with given lambda
-		 */
-		if(fluid.getFlowRate()!=0) {
-			pressureloss.setValue(lambda*pipeLength*Math.pow(fluid.getFlowRate(), 2)/(pipeDiameter*2*density*Math.pow(Math.PI/4*Math.pow(pipeDiameter, 2), 2)));
-		} else {
-			pressureloss.setValue(0.00);
-		}
-		
+		/* calculate pressure loss */
+		pressureloss.setValue(Fluid.pressureLossFriction(fluid.getMaterial(), fluid.getTemperature().getValue(), pipeLength, pipeDiameter, fluid.getFlowRate(), pipeRoughness));
 		fluidProperties.setPressureDrop(pressureloss.getValue());
 		
 		// set array boundary conditions
 		fluid.setThermalResistance(thermalResistance);
-		fluid.setHeatSource(pressureloss.getValue()*fluid.getFlowRate()*density + heatFlowIn.getValue());
+		fluid.setHeatSource(pressureloss.getValue()*fluid.getFlowRate() + heatFlowIn.getValue());
 		fluid.setTemperatureExternal(temperatureAmb.getValue());
 		
 		/* ************************************************************************/
@@ -387,6 +346,10 @@ public class Pipe extends APhysicalComponent implements Floodable{
 		this.type = type;
 	}
 	
+	/**
+	 * Fluid Type
+	 * @return {@link Material.java}
+	 */
 	public String getFluidType(){
 		return fluid.getMaterial().getType();
 	}

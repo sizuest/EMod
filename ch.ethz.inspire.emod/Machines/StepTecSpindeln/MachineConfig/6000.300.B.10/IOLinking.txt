@@ -1,7 +1,7 @@
 Spindle.RotSpeed = RotSpeed
 Spindle.Torque = Torque
-ForcedFluidFlow.FluidIn = Spindle.FluidOut
+Spindle.FluidIn = ForcedFluidFlow.FluidOut
 ForcedFluidFlow.TemperatureIn = InletTemperature
 ForcedFluidFlow.PressureIn = InletPressure
 ForcedFluidFlow.FlowRate = FlowRate
-Spindle.FluidIn = ForcedFluidFlow.FluidOut
+ForcedFluidFlow.FluidIn = Spindle.FluidOut

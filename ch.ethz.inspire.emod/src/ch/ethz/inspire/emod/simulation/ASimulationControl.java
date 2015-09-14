@@ -96,9 +96,8 @@ public abstract class ASimulationControl {
 					e.printStackTrace();
 				}
 				
-				for(MachineState ms : MachineState.values()) {
+				for(MachineState ms : MachineState.values())
 					stateMap.put(ms, scr.getComponentState(ms.name()));
-				}
 			} catch(Exception e) {
 				e.printStackTrace();
 				System.exit(-1);

@@ -128,6 +128,7 @@ public class EditMachineComponentGUI {
         //open the new shell
 		shell.open();
     }
+   
     
  	/**
 	 * Component Edit GUI for editing a existing Component of the Component DB
@@ -186,6 +187,7 @@ public class EditMachineComponentGUI {
 		int length = props.size();
 		Text[] textKey = new Text[length];
 		final Text[] textValue = new Text[length];
+		
 
 		//iterate over all the objects of the properties
 		int i = 0;
@@ -381,5 +383,10 @@ public class EditMachineComponentGUI {
 	 */	
     public void closeMachineComponentGUI(){
     	shell.close();
+    }
+    
+    
+    private void setMaterial(Text tb){
+    	
     }
 }

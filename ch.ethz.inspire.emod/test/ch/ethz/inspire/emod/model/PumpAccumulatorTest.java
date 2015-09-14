@@ -17,13 +17,13 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import ch.ethz.inspire.emod.model.PumpAccumulator;
+import ch.ethz.inspire.emod.model.HydraulicAccumulator;
 
 public class PumpAccumulatorTest {
 		
 	@Test
 	public void testPumpAccumulator(){
-		PumpAccumulator pump = new PumpAccumulator("Example");
+		HydraulicAccumulator pump = new HydraulicAccumulator("Example");
 		
 		// Set Mass flow to zero
 		pump.getInput("Level").setValue(1);

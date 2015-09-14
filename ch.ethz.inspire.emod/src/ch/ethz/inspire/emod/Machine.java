@@ -41,6 +41,7 @@ import ch.ethz.inspire.emod.model.control.*;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.model.MachineComponent;
 import ch.ethz.inspire.emod.simulation.ASimulationControl;
+import ch.ethz.inspire.emod.simulation.ConstantSimulationControl;
 //import ch.ethz.inspire.emod.simulation.GeometricKienzleSimulationControl_old;
 import ch.ethz.inspire.emod.simulation.GeometricKienzleSimulationControl;
 import ch.ethz.inspire.emod.simulation.DynamicState;
@@ -48,7 +49,6 @@ import ch.ethz.inspire.emod.simulation.ProcessSimulationControl;
 import ch.ethz.inspire.emod.simulation.RandomSimulationControl;
 import ch.ethz.inspire.emod.simulation.StaticSimulationControl;
 import ch.ethz.inspire.emod.utils.Defines;
-import ch.ethz.inspire.emod.utils.Floodable;
 import ch.ethz.inspire.emod.utils.FluidConnection;
 import ch.ethz.inspire.emod.utils.FluidContainer;
 import ch.ethz.inspire.emod.utils.IOConnection;
@@ -63,13 +63,13 @@ import java.lang.reflect.*;
  */
 @XmlRootElement(namespace = "ch.ethz.inspire.emod")
 @XmlSeeAlso({MachineComponent.class, APhysicalComponent.class, Motor.class, MotorAC.class, LinAxis.class,
-	ClampTest.class, ServoMotor.class, Revolver.class, Fan.class, PumpAccumulator.class, HeatExchanger.class, 
-	PumpPower.class, Transmission.class, CompressedFluid.class, Amplifier.class, ConstantComponent.class, 
-	Cylinder.class, Valve.class, Pipe.class, HydraulicOil.class, ConstantPump.class,
+	ClampTest.class, ServoMotor.class, Revolver.class, Fan.class, HydraulicAccumulator.class, HeatExchanger.class, 
+	Transmission.class, CompressedFluid.class, Amplifier.class, ConstantComponent.class, 
+	Cylinder.class, Valve.class, Pipe.class, HydraulicOil.class, 
 	MovingMass.class, Bearing.class, Spindle.class, Tank.class, Pump.class, ForcedFluidFlow.class,
 	HysteresisControl.class, SwitchControl.class, Sum.class, Gain.class,
 	HomogStorage.class, LayerStorage.class, ForcedHeatTransfere.class, FreeHeatTransfere.class,
-	ASimulationControl.class, RandomSimulationControl.class, StaticSimulationControl.class, 
+	ASimulationControl.class, RandomSimulationControl.class, ConstantSimulationControl.class, StaticSimulationControl.class, 
 	ProcessSimulationControl.class, GeometricKienzleSimulationControl.class})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Machine {
@@ -515,9 +515,11 @@ public class Machine {
 					
 					try {
 						if(targetFluid && sourceFluid){//create a FluidConnection
-							Machine.getInstance().connectionList.add(new FluidConnection(inmc.getComponent(), outmc.getComponent()));
-						} else {//create a IOConnection
-						Machine.getInstance().connectionList.add(new IOConnection(tempSource, tempTar));
+							//Machine.getInstance().connectionList.add(new FluidConnection(inmc.getComponent(), outmc.getComponent()));
+							Machine.getInstance().connectionList.add(new FluidConnection(outmc.getComponent(), inmc.getComponent()));
+						} 
+						else {//create a IOConnection
+							Machine.getInstance().connectionList.add(new IOConnection(tempSource, tempTar));
 						}
 					} catch (Exception e) {
 						System.err.println("Could not add input-output mapping, file " + file + " line " + linenr);

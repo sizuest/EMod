@@ -26,4 +26,5 @@
   <entry key="thermal.HeatCapacity">480</entry>
   <entry key="PMax">4000000</entry>
   <entry key="CylinderType">1</entry>
+  <entry key="ConnectionDiameter">.02</entry>
 </properties>

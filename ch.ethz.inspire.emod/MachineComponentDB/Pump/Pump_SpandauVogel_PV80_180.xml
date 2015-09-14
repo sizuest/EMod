@@ -18,5 +18,7 @@
   </comment>
   <entry key="PressureSamples">827370 779108 723950 655002 565370 475738 358527 241317</entry>
   <entry key="FlowRateSamples">0 0.000188 0.000377 0.000566 0.000754 0.000943 0.00113 0.00132</entry>
-  <entry key="PowerSamples">1925 1925</entry>
+  <entry key="PowerSamples">1925 1925 1925 1925 1925 1925 1925 1925</entry>
+  <entry key="Material">Steel</entry>
+  <entry key="Mass">15</entry>
 </properties>

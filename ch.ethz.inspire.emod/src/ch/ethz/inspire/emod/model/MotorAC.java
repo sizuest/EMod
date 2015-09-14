@@ -45,7 +45,15 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  *   4: Efficiency  : [1]   : Calculated efficiency
  *   
  * Config parameters:
- *   TODO
+ *	Ls		: [H]	: Stator inductance
+ *	Lr		: [H]	: Rotor inductance
+ *	Lm		: [H]	: Mutal inductance
+ *	Rs		: [Ohm]	: Stator resistance
+ *	Rr		: [Ohm]	: Rotor resistance
+ *	p		: [-]	: Number of pole pairs
+ *	opU		: [V]	: Rated stator voltage
+ *	opFreq	: [Hz]	: Rated field frequency
+ *	maxU	: [V]	: Maximum stator frequency
  * 
  * @author andreas
  *
@@ -66,8 +74,8 @@ public class MotorAC extends APhysicalComponent{
 	private IOContainer efficiency, debug;
 	
 	// Save last input values
-	private double lastrotspeed = 0;
-	private double lasttorque = 0;
+	private double lastrotspeed = Double.NaN;
+	private double lasttorque   = Double.NaN;
 	
 	// Parameters used by the model. 
 	private double Lm, Lr, Ls; // mutal, rotor, stator inductance [H]
@@ -152,7 +160,6 @@ public class MotorAC extends APhysicalComponent{
 			opU        = params.getDoubleValue("RatedVoltage");
 			opFreq     = params.getDoubleValue("RatedFrequency");
 			maxU       = params.getDoubleValue("MaxVoltage");
-			pwmEffCoeff = params.getDoubleArray("PWMEffCoeff");
 			
 			// Us/fs at OP
 			k = opU / opFreq;
@@ -192,7 +199,7 @@ public class MotorAC extends APhysicalComponent{
 	@Override
 	public void update() {
 		
-		double fs, eff, pwmeff=0;
+		double fs, U, eff, pwmeff=0, pwmloss, RE, Lsigma;
 				
 		if ( (lasttorque == torque.getValue() ) &&
 			 (lastrotspeed == rotspeed.getValue() ) ) {
@@ -203,87 +210,82 @@ public class MotorAC extends APhysicalComponent{
 		lasttorque   = torque.getValue();
 		lastrotspeed = rotspeed.getValue();
 				
-		/* The mechanical power is equal to the product of rotational speed
-		 * and torque. */
-		// pmech = rotspeed [rot/min] / 60 [s/min] * torque [Nm] * 2 * pi 
-		if ( lasttorque == 0 && lastrotspeed == 0){
-			pmech.setValue(0);
-			pel.setValue(0);
-			ploss.setValue(pel.getValue());
-			efficiency.setValue(0);
-		}
-		else{
-			pmech.setValue(lastrotspeed * lasttorque * Math.PI/ 30.0);
-			
-			// Calculate required stator voltage
-			
-			double[] p1 = new double[4];
-			p1[0] = -6*Math.pow(k, 2)*Math.pow(Lm, 2)*Math.PI;
-			p1[1] = 4*Rr*Math.pow((Lm+Ls)*Math.PI,2)*lasttorque + 3*Math.pow(k*Lm, 2)*p*lastrotspeed*Math.PI/30.0;
-			p1[2] = 0;
-			p1[3] = Rr*Math.pow(Rs, 2)*lasttorque;
-			
-			// Find the roots of the polynom p1
-			Complex64F[] roots1 = Algo.findRoots(p1);
-			int idxMin = 0;
-			for(int i=2; i<roots1.length; i++)
-				if (Math.abs(roots1[idxMin].imaginary)>Math.abs(roots1[i].imaginary))
-					idxMin = i;
-			
-			fs = roots1[idxMin].real;
-					
-			
-			// Test for field-weakening
-			if(fs*k>maxU){
-				double[] p2 = new double[3];
-				p2[0] = 4*Rr*Math.pow((Lm+Ls)*Math.PI, 2)*lasttorque;
-				p2[1] = -6*Math.pow(Lm*maxU, 2)*Math.PI;
-				p2[2] = Rr*Math.pow(Rs, 2)*lasttorque+3*Math.pow(Lm*maxU, 2)*p*lastrotspeed*Math.PI/30;
-				
-				// Find the roots of the polynom p2
-				Complex64F[] roots2 = Algo.findRoots(p2);
-				fs = Double.POSITIVE_INFINITY;
-				for(int i=1; i<roots2.length; i++)
-					fs = Math.min(fs, roots2[i].real);
-			
-			}
-			
-			
-
-			
-
-			/*
-			 * Get efficiency from the configured sample values by bilinear interpolation.
-			 */
-			if (lastrotspeed==0 || fs<=1)
-				eff = 0;
-			else {
-				// PWM Efficiency
-				for(int i=0; i<pwmEffCoeff.length; i++)
-					pwmeff += pwmEffCoeff[i]*Math.pow(lastrotspeed, i);
-				
-				
-				eff = pwmeff/( fs*2*Math.PI/p/(lastrotspeed*Math.PI/30.0) + 
-						       Rr*Rs/(Math.pow(Lm,2)*(fs*2*Math.PI-p*lastrotspeed*Math.PI/30.0)*p*lastrotspeed*Math.PI/30.0) +
-						       Rs/Rr*Math.pow(Lr,2)/Math.pow(Lm, 2)*(fs*2*Math.PI-p*lastrotspeed*Math.PI/30.0)/p/(lastrotspeed*Math.PI/30.0) );
-			}
-			
+		pmech.setValue(lastrotspeed * lasttorque * Math.PI/ 30.0);
 		
-			/* The power loss depends on the efficiency of the motor for the actual
-			 * working point (actual rotational speed and torque).
-			 */
-			// ptot = pmech / eff
-			// ploss = ptot - pmech = pmech / eff - pmech = pmech (1/eff -1)
-			if(eff==0)
-				ploss.setValue(pmech.getValue());
-			else
-				ploss.setValue(pmech.getValue() * (1/eff - 1));
+		/* Calculate required stator voltage */
+		double[] p1 = new double[4];
+		p1[0] = -6*Math.pow(k, 2)*Math.pow(Lm, 2)*Math.PI;
+		p1[1] = 4*Rr*Math.pow((Lm+Ls)*Math.PI,2)*lasttorque + 3*Math.pow(k*Lm, 2)*p*lastrotspeed*Math.PI/30.0;
+		p1[2] = 0;
+		p1[3] = Rr*Math.pow(Rs, 2)*lasttorque;
 		
-			pel.setValue(pmech.getValue()+ploss.getValue());
-			efficiency.setValue(eff);
+		// Find the roots of the polynom p1
+		Complex64F[] roots1 = Algo.findRoots(p1);
+		int idxMin = 0;
+		for(int i=2; i<roots1.length; i++)
+			if (Math.abs(roots1[idxMin].imaginary)>Math.abs(roots1[i].imaginary))
+				idxMin = i;
+		
+		fs = roots1[idxMin].real;
+				
+		
+		// Test for field-weakening
+		if(fs*k>maxU){
+			double[] p2 = new double[3];
+			p2[0] = 4*Rr*Math.pow((Lm+Ls)*Math.PI, 2)*lasttorque;
+			p2[1] = -6*Math.pow(Lm*maxU, 2)*Math.PI;
+			p2[2] = Rr*Math.pow(Rs, 2)*lasttorque+3*Math.pow(Lm*maxU, 2)*p*lastrotspeed*Math.PI/30;
 			
-			debug.setValue(fs);
+			// Find the roots of the polynom p2
+			Complex64F[] roots2 = Algo.findRoots(p2);
+			fs = Double.POSITIVE_INFINITY;
+			for(int i=1; i<roots2.length; i++)
+				fs = Math.min(fs, roots2[i].real);
+			
+			U = maxU;	
 		}
+		else
+			U = fs*k;
+		
+		
+
+		/* PWM Losses */
+		Lsigma  = Ls + Lr*Lm/(Lr+Lm);
+		RE      = Rs + Rr*Lm/(Lr+Lm);
+		pwmloss = Math.pow(maxU/20000/Lsigma,2) * RE / 72 * (1 - 3/4*Math.pow(U/maxU,2) - 2/3/Math.PI*Math.pow(U/maxU,3) + 9/16*Math.pow(U/maxU, 4));
+
+		/* Efficiency */
+		if (lastrotspeed==0 || fs<=1)
+			eff = 0;
+		else {
+			// PWM Efficiency
+			/*for(int i=0; i<pwmEffCoeff.length; i++)
+				pwmeff += pwmEffCoeff[i]*Math.pow(lastrotspeed, i);
+			
+			
+			eff = pwmeff/( fs*2*Math.PI/p/(lastrotspeed*Math.PI/30.0) + 
+					       Rr*Rs/(Math.pow(Lm,2)*(fs*2*Math.PI-p*lastrotspeed*Math.PI/30.0)*p*lastrotspeed*Math.PI/30.0) +
+					       Rs/Rr*Math.pow(Lr,2)/Math.pow(Lm, 2)*(fs*2*Math.PI-p*lastrotspeed*Math.PI/30.0)/p/(lastrotspeed*Math.PI/30.0) );*/
+			eff = 1 /( fs*2*Math.PI/p/(lastrotspeed*Math.PI/30.0) + 
+				       Rr*Rs/(Math.pow(Lm,2)*(fs*2*Math.PI-p*lastrotspeed*Math.PI/30.0)*p*lastrotspeed*Math.PI/30.0) +
+				       Rs/Rr*Math.pow(Lr,2)/Math.pow(Lm, 2)*(fs*2*Math.PI-p*lastrotspeed*Math.PI/30.0)/p/(lastrotspeed*Math.PI/30.0) );
+		}
+		
+	
+		/* The power loss depends on the efficiency of the motor for the actual
+		 * working point (actual rotational speed and torque).
+		 */
+		// ptot = pmech / eff
+		// ploss = ptot - pmech = pmech / eff - pmech = pmech (1/eff -1)
+		if (eff==0)
+			ploss.setValue(pmech.getValue() + pwmloss);
+		else
+			ploss.setValue(pmech.getValue() * (1/eff - 1) + pwmloss);
+	
+		pel.setValue(pmech.getValue()+ploss.getValue());
+		efficiency.setValue(eff);
+		
+		debug.setValue(fs);
 	}
 
 	/* (non-Javadoc)

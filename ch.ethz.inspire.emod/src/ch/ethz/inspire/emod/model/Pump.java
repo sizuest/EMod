@@ -52,7 +52,7 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  * Config parameters:
  *   PressureSamples      : [Pa]    : Pressure samples for liner interpolation
  *   FlowRateSamples      : [m^3/s] : Volumetric flow samples for liner interpolation
- *   ElectricalPower	  : [W]     : Nominal power if operating
+ *   ElectricalPower	  : [W]     : Power samples for liner interpolation
  * 
  * @author manick
  *
@@ -104,6 +104,11 @@ public class Pump extends APhysicalComponent implements Floodable{
 		this.fluidProperties.getMaterial().setMaterial("Monoethylenglykol_34");
 	}
 	
+	/**
+	 * @param type
+	 * @param temperatureInit
+	 * @param fluidType
+	 */
 	public Pump(String type, double temperatureInit, String fluidType){
 		super();
 		
@@ -113,6 +118,10 @@ public class Pump extends APhysicalComponent implements Floodable{
 		this.fluidProperties.getMaterial().setMaterial(fluidType);
 	}
 	
+	/**
+	 * @param u
+	 * @param parent
+	 */
 	public void afterUnmarshal(Unmarshaller u, Object parent) {
 		//post xml init method (loading physics data)
 		init();
@@ -283,18 +292,18 @@ public class Pump extends APhysicalComponent implements Floodable{
 		double heat2Fluid = 0;
 		
 		/* Calculate fluid properties */
-		fluidProperties.setPressureDrop(fluidProperties.getSumFront());//fluidOut.getPressure() - fluidIn.getPressure();
+		fluidProperties.setPressureDrop(fluidProperties.getPressureFront()-fluidProperties.getPressureBack());
 		
 		
 		/* If pump is running calculate flow rate and power demand */
 		if(pumpCtrl.getValue()>0){
 			// Resulting flow rate
-			fluidProperties.setFlowRate(Algo.linearInterpolation(fluidProperties.getPressureDrop(), pressureSamplesR, flowRateSamplesR));
+			fluidProperties.setFlowRateIn(Algo.linearInterpolation(fluidProperties.getPressureDrop(), pressureSamplesR, flowRateSamplesR));
 			// Resulting power demand
 			pel.setValue(Algo.linearInterpolation(fluidProperties.getPressureDrop(), pressureSamplesR, powerSamplesR));
 		}
 		else{
-			fluidProperties.setFlowRate(0.0);
+			fluidProperties.setFlowRateIn(0.0);
 			pel.setValue(0);
 		}
 			
@@ -334,7 +343,8 @@ public class Pump extends APhysicalComponent implements Floodable{
 		
 		
 		temperaturePump.setValue(fluidIn.getTemperature());
-		fluidOut.setPressure(fluidIn.getPressure()+fluidProperties.getPressureDrop());
+		fluidOut.setPressure(fluidProperties.getPressureFront());
+		fluidIn.setPressure(fluidProperties.getPressureBack());
 		
 	}
 
