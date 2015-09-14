@@ -5,7 +5,7 @@
     Model parameter definition
     ==========================
       Model : PumpPower 
-      Type  : Hebepumpe_Knoll_Etaprime_40_140
+      Type  : ND_Knoll_TG_40_55_22
     Parameters
     ----------
       PressureSamples [Pa]
@@ -20,8 +20,9 @@
       	Array of Electrical power to given mass flow
       
   </comment>
-  <entry key="PressureSamples">262000 250000 230000 200000 180000 164000 130000 100000</entry>
-  <entry key="MassFlowSamples">1.226 2.208 3.287 4.513 5.151 5.641 6.5 7.236</entry>
-  <entry key="ElectricalPowerSamples">1510 1700 1900 2090 2150 2200 2270 2330</entry>
-  <entry key="DensityFluid">883</entry>
+  <entry key="PressureSamples">320000 319500 315000 311500 303000 298000 283000 270000</entry>
+  <entry key="MassFlowSamples">1.47 1.957 2.443 2.943 3.429 3.915 4.415 4.9</entry>
+  <entry key="PowerSamples">1700 1850 2050 2250 2400 2550 2750 2850</entry>
+  <entry key="Material">Steel</entry>
+  <entry key="Mass">15</entry>
 </properties>

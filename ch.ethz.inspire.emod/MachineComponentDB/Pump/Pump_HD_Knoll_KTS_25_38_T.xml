@@ -5,7 +5,7 @@
     Model parameter definition
     ==========================
       Model : PumpPower 
-      Type  : ND_Knoll_TG_40_55_22
+      Type  : HD_Knoll_KTS_25_38_T
     Parameters
     ----------
       PressureSamples [Pa]
@@ -20,9 +20,9 @@
       	Array of Electrical power to given mass flow
       
   </comment>
-  <entry key="PressureSamples">320000 319500 315000 311500 303000 298000 283000 270000</entry>
-  <entry key="MassFlowSamples">1.47 1.957 2.443 2.943 3.429 3.915 4.415 4.9</entry>
-  <entry key="Fluid">Water</entry>
-  <entry key="PowerSamples">1700 1850 2050 2250 2400 2550 2750 2850</entry>
-  <entry key="DensityFluid">883</entry>
+  <entry key="PressureSamples">10000000 9000000 8000000 7000000 6000000 5000000 4000000 3000000 2000000 1000000</entry>
+  <entry key="MassFlowSamples">0.209 0.222 0.237 0.253 0.272 0.294 0.316 0.346 0.383 0.419</entry>
+  <entry key="PowerSamples">800 1400 2000 2600 3300 3900 4500 5100 5700 6400</entry>
+  <entry key="Material">Steel</entry>
+  <entry key="Mass">15</entry>
 </properties>

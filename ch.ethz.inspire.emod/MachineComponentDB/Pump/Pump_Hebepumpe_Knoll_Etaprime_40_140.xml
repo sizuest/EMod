@@ -22,7 +22,7 @@
   </comment>
   <entry key="PressureSamples">262000 250000 230000 200000 180000 164000 130000 100000</entry>
   <entry key="MassFlowSamples">1.226 2.208 3.287 4.513 5.151 5.641 6.5 7.236</entry>
-  <entry key="Fluid">Water</entry>
   <entry key="PowerSamples">1510 1700 1900 2090 2150 2200 2270 2330</entry>
-  <entry key="DensityFluid">883</entry>
+  <entry key="Material">Steel</entry>
+  <entry key="Mass">15</entry>
 </properties>

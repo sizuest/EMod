@@ -4,22 +4,22 @@
   <comment>
     Model parameter definition
     ==========================
-      Model : PumpPower 
-      Type  : Example
+      Model : Pump 
+      Type  : NDM200
     Parameters
     ----------
       PressureSamples [Pa]
         Array of operation points for the pump
-      MassFlowSamples [kg/s]
+      MassFlowSamples [l/min]
         Array of corresponding mass floes to the given pressure
         samples
-        MassFlow in Liter/min * 0.001/60 * DensityFluid
-      PowerSamples [W]
-      	Array of Electrical power to given mass flow
       
   </comment>
-  <entry key="PressureSamples">320000 319500 315000 311500 303000 298000 283000 270000</entry>
-  <entry key="MassFlowSamples">1.47 1.957 2.443 2.943 3.429 3.915 4.415 4.9</entry>
-  <entry key="PowerSamples">1700 1850 2050 2250 2400 2550 2750 2850</entry>
+
+  <entry key="PressureSamples">7000000; 6800000; 2000000;</entry>
+  <entry key="MassFlowSamples">0; 0.021; 0.0224</entry>
+  <entry key="PowerSamples">650; 2500; 800</entry>
   <entry key="Fluid">Water</entry>
+  <entry key="Material">Steel</entry>
+  <entry key="Mass">15</entry>
 </properties>
