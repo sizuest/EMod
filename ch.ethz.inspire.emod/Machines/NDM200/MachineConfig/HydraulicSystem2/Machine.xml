@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:machine xmlns:ns2="ch.ethz.inspire.emod">
+    <machine>
+        <machineComponent>
+            <component xsi:type="hydraulicOil" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>HLP46</type>
+            </component>
+            <name>HydraulicOil</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="pumpAccumulator" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>NDM200</type>
+            </component>
+            <name>PumpAccumulator</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="cylinder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>NDM200</type>
+            </component>
+            <name>Cylinder</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="pumpPower" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>NDM200</type>
+            </component>
+            <name>PumpPower</name>
+        </machineComponent>
+    </machine>
+    <simulators/>
+</ns2:machine>

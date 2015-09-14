@@ -1,0 +1,49 @@
+\begin{table}
+	\centering
+	\footnotesize
+	\begin{tabular}{lllp{5cm}}
+	\toprule		Component	& Model type	& Parameter set	& Attributes\\
+		\midrule		 C1	& motor	&Kessler\_000101561	&type: Kessler\_000101561\\
+		 X1	& servoMotor	&FanucAlphaC6\_2000	&type: FanucAlphaC6\_2000\\
+		 Z1	& servoMotor	&FanucAlphaC12\_2000	&type: FanucAlphaC12\_2000\\
+		 Z3	& servoMotor	&FanucAlphaC12\_2000	&type: FanucAlphaC12\_2000\\
+		 B1	& servoMotor	&FanucAlphaM9\_3000	&type: FanucAlphaM9\_3000\\
+		 X1\_ax	& linAxis	&Schaublin42L\_X1	&type: Schaublin42L\_X1\\
+		 Z1\_ax	& linAxis	&Schaublin42L\_Z1	&type: Schaublin42L\_Z1\\
+		 X1\_Brake	& constantComponent	&FanucAlphaC6\_2000	&type: FanucAlphaC6\_2000\\
+		 Z1\_Brake	& constantComponent	&FanucAlphaC12\_2000	&type: FanucAlphaC12\_2000\\
+		 X1\_BrakeAction	& switchControl	&--	&signalUnit: NEWTONMETER\newline	controlUnit: NONE\newline	threshold: 0.5\newline	passHigh: false\\
+		 Z1\_BrakeAction	& switchControl	&--	&signalUnit: NEWTONMETER\newline	controlUnit: NONE\newline	threshold: 0.5\newline	passHigh: false\\
+		 Z3\_ax	& linAxis	&Schaublin42L\_Tailstock	&type: Schaublin42L\_Tailstock\\
+		 T1\_pos	& revolver	&Schaublin42L	&type: Schaublin42L\\
+		 C1\_amp	& amplifier	&FanucSPM-26	&type: FanucSPM-26\\
+		 AxPower	& sum	&--	&unit: WATT\\
+		 Ax\_amp	& amplifier	&FanucSVM2-20-20	&type: FanucSVM2-20-20\\
+		 Z3\_amp	& amplifier	&FanucSVU1-80	&type: FanucSVU1-80\\
+		 B1\_amp	& amplifier	&FanucSVM1-80	&type: FanucSVM1-80\\
+		 CuttingFluidPump	& pump	&SpandauVogel\_PV80\_180	&type: SpandauVogel\_PV80\_180\\
+		 SpindleCoolingCompressor	& heatExchanger	&Hyfra\_VWK\_21\_1S	&type: Hyfra\_VWK\_21\_1S\\
+		 SpindleCoolingPump	& pump	&Hyfra\_VWK\_21\_1S	&type: Hyfra\_VWK\_21\_1S\\
+		 SpindleCoolingController	& hysteresisControl	&SpindleCoolingCompressor	&type: SpindleCoolingCompressor\\
+		 ChipConveyor	& constantComponent	&Bonfigioli\_BN804A	&type: Bonfigioli\_BN804A\\
+		 Fan\_in	& fan	&Pfannenberg\_PF\_3000	&type: Pfannenberg\_PF\_3000\\
+		 Fan\_out	& fan	&Pfannenberg\_PF\_3000	&type: Pfannenberg\_PF\_3000\\
+		 FanucTotalPower	& sum	&--	&unit: WATT\\
+		 FanucTotalHeatLoss	& sum	&--	&unit: WATT\\
+		 CompressedAir	& compressedFluid	&Air8bar	&type: Air8bar\\
+		 ControlPowerTransformer	& sum	&--	&unit: WATT\\
+		 TotalPower	& sum	&--	&unit: WATT\\
+		 TotalHeatLoss	& sum	&--	&unit: WATT\\
+		 Thermal\_SpindleTemperature	& homogStorage	&Kessler\_000101561	&type: Kessler\_000101561\newline	parentType: Motor\\
+		 Thermal\_SpindleFreeFlow	& freeHeatTransfere	&Kessler\_000101561	&type: Kessler\_000101561\newline	parentType: Motor\\
+		 Thermal\_SpindleHeatExchanger	& layerStorage	&SpindleHeatExchanger	&type: SpindleHeatExchanger\\
+		 Thermal\_CoolerBackflow	& forcedHeatTransfere	&CoolingFluidSpindle	&type: CoolingFluidSpindle\\
+		 Thermal\_CoolerTemperature	& homogStorage	&Hyfra\_VWK\_21\_1S	&type: Hyfra\_VWK\_21\_1S\newline	parentType: HeatExchanger\\
+		 Thermal\_PumpLossToFluid	& gain	&--	&unit: WATT\newline	gain: 0.3\\
+		 Thermal\_PumpLossToAmbient	& sum	&--	&unit: WATT\\
+		 Thermal\_CoolerFreeFlow	& freeHeatTransfere	&Hyfra\_VWK\_21\_1S	&type: Hyfra\_VWK\_21\_1S\newline	parentType: HeatExchanger\\
+		\bottomrule
+	\end{tabular}
+	\normalsize
+	\caption[\TODO]{\TODO}
+\end{table}

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>File changed by user: simon</comment>
+<entry key="CoolantVolume">0.0001525</entry>
+<entry key="AirGapFrictionCoeff">0, 0</entry>
+<entry key="PreloadForce">0</entry>
+<entry key="StructureMass">26</entry>
+<entry key="MotorType">Kessler_000101561</entry>
+<entry key="BearingType">Example</entry>
+<entry key="PressureLossCoefficient">8.179E12</entry>
+<entry key="CoolantHTC">200</entry>
+<entry key="StructureMaterial">Steel</entry>
+<entry key="CoolantMaterial">GlykolWater_30</entry>
+</properties>

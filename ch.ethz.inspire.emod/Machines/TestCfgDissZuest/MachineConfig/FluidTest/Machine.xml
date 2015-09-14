@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:machine xmlns:ns2="ch.ethz.inspire.emod">
+    <machine>
+        <machineComponent>
+            <component xsi:type="tank" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>Tank</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="pipe" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Schaublin42LV</type>
+            </component>
+            <name>PipeVL</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="pipe" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Schaublin42LR</type>
+            </component>
+            <name>PipeNL</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Hyfra_VWK_21_1S</type>
+            </component>
+            <name>Pump</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="hydraulicAccumulator" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>PumpAccumulator</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="cylinder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>NDM200</type>
+            </component>
+            <name>Cylinder</name>
+        </machineComponent>
+    </machine>
+    <simulators>
+        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>AmbTemperature</name>
+            <unit>KELVIN</unit>
+        </simController>
+        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>AmbPressure</name>
+            <unit>PA</unit>
+        </simController>
+    </simulators>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+</ns2:machine>

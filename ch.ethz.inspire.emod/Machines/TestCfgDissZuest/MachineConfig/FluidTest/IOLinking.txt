@@ -1,0 +1,12 @@
+Tank.TemperatureAmb = AmbTemperature
+Tank.PressureAmb = AmbPressure
+PipeVL.TemperatureAmb = AmbTemperature
+PipeNL.TemperatureAmb = AmbTemperature
+Pump.State = PumpAccumulator.State
+Pump.TemperatureAmb = AmbTemperature
+Tank.FluidIn = PipeNL.FluidOut
+PipeVL.FluidIn = Tank.FluidOut
+PipeNL.FluidIn = Cylinder.FluidOut
+Pump.FluidIn = PipeVL.FluidOut
+PumpAccumulator.FluidIn = Pump.FluidOut
+Cylinder.FluidIn = PumpAccumulator.FluidOut

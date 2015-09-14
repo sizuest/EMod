@@ -1,0 +1,1323 @@
+%!PS-Adobe-3.0
+%%Creator: graphviz version 2.36.0 (20140111.2315)
+%%Title: g
+%%Pages: (atend)
+%%BoundingBox: (atend)
+%%EndComments
+save
+%%BeginProlog
+/DotDict 200 dict def
+DotDict begin
+
+/setupLatin1 {
+mark
+/EncodingVector 256 array def
+ EncodingVector 0
+
+ISOLatin1Encoding 0 255 getinterval putinterval
+EncodingVector 45 /hyphen put
+
+% Set up ISO Latin 1 character encoding
+/starnetISO {
+        dup dup findfont dup length dict begin
+        { 1 index /FID ne { def }{ pop pop } ifelse
+        } forall
+        /Encoding EncodingVector def
+        currentdict end definefont
+} def
+/Times-Roman starnetISO def
+/Times-Italic starnetISO def
+/Times-Bold starnetISO def
+/Times-BoldItalic starnetISO def
+/Helvetica starnetISO def
+/Helvetica-Oblique starnetISO def
+/Helvetica-Bold starnetISO def
+/Helvetica-BoldOblique starnetISO def
+/Courier starnetISO def
+/Courier-Oblique starnetISO def
+/Courier-Bold starnetISO def
+/Courier-BoldOblique starnetISO def
+cleartomark
+} bind def
+
+%%BeginResource: procset graphviz 0 0
+/coord-font-family /Times-Roman def
+/default-font-family /Times-Roman def
+/coordfont coord-font-family findfont 8 scalefont def
+
+/InvScaleFactor 1.0 def
+/set_scale {
+       dup 1 exch div /InvScaleFactor exch def
+       scale
+} bind def
+
+% styles
+/solid { [] 0 setdash } bind def
+/dashed { [9 InvScaleFactor mul dup ] 0 setdash } bind def
+/dotted { [1 InvScaleFactor mul 6 InvScaleFactor mul] 0 setdash } bind def
+/invis {/fill {newpath} def /stroke {newpath} def /show {pop newpath} def} bind def
+/bold { 2 setlinewidth } bind def
+/filled { } bind def
+/unfilled { } bind def
+/rounded { } bind def
+/diagonals { } bind def
+/tapered { } bind def
+
+% hooks for setting color 
+/nodecolor { sethsbcolor } bind def
+/edgecolor { sethsbcolor } bind def
+/graphcolor { sethsbcolor } bind def
+/nopcolor {pop pop pop} bind def
+
+/beginpage {	% i j npages
+	/npages exch def
+	/j exch def
+	/i exch def
+	/str 10 string def
+	npages 1 gt {
+		gsave
+			coordfont setfont
+			0 0 moveto
+			(\() show i str cvs show (,) show j str cvs show (\)) show
+		grestore
+	} if
+} bind def
+
+/set_font {
+	findfont exch
+	scalefont setfont
+} def
+
+% draw text fitted to its expected width
+/alignedtext {			% width text
+	/text exch def
+	/width exch def
+	gsave
+		width 0 gt {
+			[] 0 setdash
+			text stringwidth pop width exch sub text length div 0 text ashow
+		} if
+	grestore
+} def
+
+/boxprim {				% xcorner ycorner xsize ysize
+		4 2 roll
+		moveto
+		2 copy
+		exch 0 rlineto
+		0 exch rlineto
+		pop neg 0 rlineto
+		closepath
+} bind def
+
+/ellipse_path {
+	/ry exch def
+	/rx exch def
+	/y exch def
+	/x exch def
+	matrix currentmatrix
+	newpath
+	x y translate
+	rx ry scale
+	0 0 1 0 360 arc
+	setmatrix
+} bind def
+
+/endpage { showpage } bind def
+/showpage { } def
+
+/layercolorseq
+	[	% layer color sequence - darkest to lightest
+		[0 0 0]
+		[.2 .8 .8]
+		[.4 .8 .8]
+		[.6 .8 .8]
+		[.8 .8 .8]
+	]
+def
+
+/layerlen layercolorseq length def
+
+/setlayer {/maxlayer exch def /curlayer exch def
+	layercolorseq curlayer 1 sub layerlen mod get
+	aload pop sethsbcolor
+	/nodecolor {nopcolor} def
+	/edgecolor {nopcolor} def
+	/graphcolor {nopcolor} def
+} bind def
+
+/onlayer { curlayer ne {invis} if } def
+
+/onlayers {
+	/myupper exch def
+	/mylower exch def
+	curlayer mylower lt
+	curlayer myupper gt
+	or
+	{invis} if
+} def
+
+/curlayer 0 def
+
+%%EndResource
+%%EndProlog
+%%BeginSetup
+14 default-font-family set_font
+1 setmiterlimit
+% /arrowlength 10 def
+% /arrowwidth 5 def
+
+% make sure pdfmark is harmless for PS-interpreters other than Distiller
+/pdfmark where {pop} {userdict /pdfmark /cleartomark load put} ifelse
+% make '<<' and '>>' safe on PS Level 1 devices
+/languagelevel where {pop languagelevel}{1} ifelse
+2 lt {
+    userdict (<<) cvn ([) cvn load put
+    userdict (>>) cvn ([) cvn load put
+} if
+
+%%EndSetup
+setupLatin1
+%%Page: 1 1
+%%PageBoundingBox: 36 36 2245 571
+%%PageOrientation: Portrait
+0 0 1 beginpage
+gsave
+36 36 2209 535 boxprim clip newpath
+1 1 set_scale 0 rotate 40 40 translate
+% Cylinder
+gsave
+0 0 0 nodecolor
+14 /Times-Roman set_font
+215 277.95 moveto 114 (ConnectionDiameter) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+215 258.45 moveto 43 (Density) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+215 239.45 moveto 31 (Force) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+215 220.45 moveto 47 (Velocity) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+215 201.45 moveto 52 (Viscosity) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+336 240.95 moveto 52 (Cylinder) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+394 271.95 moveto 69 (MassFlowIn) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+429 239.95 moveto 34 (PLoss) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+405 207.95 moveto 58 (PressureIn) alignedtext
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 210 192.65 moveto
+210 294.65 lineto
+468 294.65 lineto
+468 192.65 lineto
+closepath stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+296 178.45 moveto 86 (model: cylinder) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+297 158.45 moveto 84 (type: NDM200) alignedtext
+grestore
+% HLP46
+gsave
+0 0 0 nodecolor
+14 /Times-Roman set_font
+529 286.95 moveto 46 (Pressure) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+529 267.45 moveto 70 (Temperature) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+606 278.45 moveto 43 (HLP46) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+664 286.95 moveto 43 (Density) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+655 267.45 moveto 52 (Viscosity) alignedtext
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 524 258.65 moveto
+524 303.65 lineto
+712 303.65 lineto
+712 258.65 lineto
+closepath stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+562.5 244.45 moveto 111 (model: hydraulicOil) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+583 224.45 moveto 70 (type: HLP46) alignedtext
+grestore
+% Cylinder->HLP46
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 478 224.65 moveto
+497.08 224.65 493.43 250.22 504.34 259.41 curveto
+stroke
+0 0 0 edgecolor
+newpath 503.41 262.79 moveto
+514 262.65 lineto
+505.63 256.15 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 503.41 262.79 moveto
+514 262.65 lineto
+505.63 256.15 lineto
+closepath stroke
+grestore
+% Pipe
+gsave
+0 0 0 nodecolor
+14 /Times-Roman set_font
+774 182.95 moveto 43 (Density) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+774 163.45 moveto 78 (MassFlowOut) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+774 144.45 moveto 67 (PressureOut) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+774 125.45 moveto 52 (Viscosity) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+859 155.45 moveto 26 (Pipe) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+891 182.95 moveto 114 (ConnectionDiameter) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+936 163.45 moveto 69 (MassFlowIn) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+971 144.45 moveto 34 (PLoss) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+947 125.45 moveto 58 (PressureIn) alignedtext
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 769 116.65 moveto
+769 199.65 lineto
+1010 199.65 lineto
+1010 116.65 lineto
+closepath stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+857 102.45 moveto 65 (model: pipe) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+847.5 82.45 moveto 84 (type: NDM200) alignedtext
+grestore
+% Cylinder->Pipe
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 478 224.65 moveto
+499.11 224.65 495.12 203.11 514 193.65 curveto
+610.2 145.46 644.77 139.96 747.81 139.67 curveto
+stroke
+0 0 0 edgecolor
+newpath 748 143.16 moveto
+758 139.65 lineto
+748 136.16 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 748 143.16 moveto
+758 139.65 lineto
+748 136.16 lineto
+closepath stroke
+grestore
+% Cylinder->Pipe
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 478 224.65 moveto
+498 224.65 495.89 206.14 514 197.65 curveto
+611.77 151.81 644.49 140.35 747.78 139.68 curveto
+stroke
+0 0 0 edgecolor
+newpath 748.01 143.18 moveto
+758 139.65 lineto
+747.99 136.18 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 748.01 143.18 moveto
+758 139.65 lineto
+747.99 136.18 lineto
+closepath stroke
+grestore
+% TotalHeatLoss
+gsave
+0 1 1 nodecolor
+14 /Times-Roman set_font
+1698 232.95 moveto 9 (+) alignedtext
+0 1 1 nodecolor
+14 /Times-Roman set_font
+1698 213.45 moveto 9 (+) alignedtext
+0 1 1 nodecolor
+14 /Times-Roman set_font
+1698 194.45 moveto 9 (+) alignedtext
+0 1 1 nodecolor
+14 /Times-Roman set_font
+1698 175.45 moveto 9 (+) alignedtext
+0 1 1 nodecolor
+14 /Times-Roman set_font
+1698 156.45 moveto 9 (+) alignedtext
+0 1 1 nodecolor
+14 /Times-Roman set_font
+1760 194.95 moveto 9 (=) alignedtext
+1 setlinewidth
+solid
+0 1 1 nodecolor
+newpath 1693 147.65 moveto
+1693 249.65 lineto
+1774 249.65 lineto
+1774 147.65 lineto
+closepath stroke
+0 1 1 nodecolor
+14 /Times-Roman set_font
+1693.5 132.45 moveto 80 (TotalHeatLoss) alignedtext
+grestore
+% Cylinder->TotalHeatLoss
+gsave
+1 setlinewidth
+solid
+0 1 1 edgecolor
+newpath 478 224.65 moveto
+520.26 224.65 482.74 165.08 514 136.65 curveto
+642.47 19.83 714.36 23.65 888 23.65 curveto
+888 23.65 888 23.65 1169 23.65 curveto
+1353.89 23.65 1426.73 -44.57 1584 52.65 curveto
+1610.78 69.2 1602.1 87.75 1620 113.65 curveto
+1642.51 146.22 1638.65 182.75 1670.89 188.79 curveto
+stroke
+0 1 1 edgecolor
+newpath 1670.74 192.28 moveto
+1681 189.65 lineto
+1671.34 185.31 lineto
+closepath fill
+1 setlinewidth
+solid
+0 1 1 edgecolor
+newpath 1670.74 192.28 moveto
+1681 189.65 lineto
+1671.34 185.31 lineto
+closepath stroke
+grestore
+% Thermal_HLP46
+gsave
+0 1 1 nodecolor
+14 /Times-Roman set_font
+1636 425.95 moveto 12 (In) alignedtext
+0 1 1 nodecolor
+14 /Times-Roman set_font
+1655 426.95 moveto 100 (Thermal_HLP46) alignedtext
+0 1 1 nodecolor
+14 /Times-Roman set_font
+1761 425.95 moveto 70 (Temperature) alignedtext
+1 setlinewidth
+solid
+0 1 1 nodecolor
+newpath 1631 416.65 moveto
+1631 442.65 lineto
+1836 442.65 lineto
+1836 416.65 lineto
+closepath stroke
+0 1 1 nodecolor
+14 /Times-Roman set_font
+1673 402.45 moveto 121 (model: homogStorage) alignedtext
+0 1 1 nodecolor
+14 /Times-Roman set_font
+1693.5 382.45 moveto 80 (type: Example) alignedtext
+0 1 1 nodecolor
+14 /Times-Roman set_font
+1663 363.45 moveto 141 (parentType: HydraulicOil) alignedtext
+grestore
+% Cylinder->Thermal_HLP46
+gsave
+1 setlinewidth
+solid
+0 1 1 edgecolor
+newpath 478 224.65 moveto
+522.74 224.65 484.3 285.19 514 318.65 curveto
+638.71 459.17 700.13 515.65 888 515.65 curveto
+888 515.65 888 515.65 1169 515.65 curveto
+1355 515.65 1428.41 563.57 1584 461.65 curveto
+1606.56 446.87 1593.68 412.61 1610.14 403.76 curveto
+stroke
+0 1 1 edgecolor
+newpath 1610.95 407.17 moveto
+1620 401.65 lineto
+1609.49 400.32 lineto
+closepath fill
+1 setlinewidth
+solid
+0 1 1 edgecolor
+newpath 1610.95 407.17 moveto
+1620 401.65 lineto
+1609.49 400.32 lineto
+closepath stroke
+grestore
+% Valve
+gsave
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1071 349.95 moveto 43 (Density) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1071 330.45 moveto 78 (MassFlowOut) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1071 311.45 moveto 67 (PressureOut) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1071 292.45 moveto 54 (ValveCtrl) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1156 322.45 moveto 34 (Valve) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1196 340.45 moveto 69 (MassFlowIn) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1231 301.95 moveto 34 (PLoss) alignedtext
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1066 283.65 moveto
+1066 366.65 lineto
+1270 366.65 lineto
+1270 283.65 lineto
+closepath stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1133 269.45 moveto 70 (model: valve) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1126 249.45 moveto 84 (type: NDM200) alignedtext
+grestore
+% PumpAccumulator
+gsave
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1332 350.95 moveto 43 (Density) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1332 331.45 moveto 78 (MassFlowOut) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1332 312.45 moveto 54 (PumpCtrl) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1417 332.95 moveto 112 (PumpAccumulator) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1535 331.95 moveto 34 (PLoss) alignedtext
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1327 303.65 moveto
+1327 367.65 lineto
+1574 367.65 lineto
+1574 303.65 lineto
+closepath stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1379.5 289.45 moveto 142 (model: pumpAccumulator) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1408.5 269.45 moveto 84 (type: NDM200) alignedtext
+grestore
+% Valve->PumpAccumulator
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1280 306.65 moveto
+1292.58 306.65 1297.23 312.39 1305.97 315.18 curveto
+stroke
+0 0 0 edgecolor
+newpath 1305.6 318.66 moveto
+1316 316.65 lineto
+1306.62 311.73 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1305.6 318.66 moveto
+1316 316.65 lineto
+1306.62 311.73 lineto
+closepath stroke
+grestore
+% PumpPower
+gsave
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1351 180.95 moveto 43 (Density) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1351 161.45 moveto 78 (MassFlowOut) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1351 142.45 moveto 54 (PumpCtrl) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1436 162.95 moveto 73 (PumpPower) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1515 161.95 moveto 34 (PLoss) alignedtext
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1346 133.65 moveto
+1346 197.65 lineto
+1554 197.65 lineto
+1554 133.65 lineto
+closepath stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1396.5 119.45 moveto 107 (model: pumpPower) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1408 99.45 moveto 84 (type: NDM200) alignedtext
+grestore
+% Valve->PumpPower
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1280 306.65 moveto
+1351.38 306.65 1269.05 162.49 1324.82 147.85 curveto
+stroke
+0 0 0 edgecolor
+newpath 1325.48 151.29 moveto
+1335 146.65 lineto
+1324.66 144.34 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1325.48 151.29 moveto
+1335 146.65 lineto
+1324.66 144.34 lineto
+closepath stroke
+grestore
+% Valve->TotalHeatLoss
+gsave
+1 setlinewidth
+solid
+0 1 1 edgecolor
+newpath 1280 306.65 moveto
+1309.59 306.65 1291.09 266.62 1316 250.65 curveto
+1417.27 185.72 1465.79 235 1584 212.65 curveto
+1623.96 205.1 1634.96 192.03 1670.77 189.94 curveto
+stroke
+0 1 1 edgecolor
+newpath 1671.1 193.43 moveto
+1681 189.65 lineto
+1670.91 186.43 lineto
+closepath fill
+1 setlinewidth
+solid
+0 1 1 edgecolor
+newpath 1671.1 193.43 moveto
+1681 189.65 lineto
+1670.91 186.43 lineto
+closepath stroke
+grestore
+% Valve->Thermal_HLP46
+gsave
+1 setlinewidth
+solid
+0 1 1 edgecolor
+newpath 1280 306.65 moveto
+1317.38 306.65 1285.06 361.69 1316 382.65 curveto
+1425.23 456.65 1481.72 404.46 1609.84 401.76 curveto
+stroke
+0 1 1 edgecolor
+newpath 1610.04 405.26 moveto
+1620 401.65 lineto
+1609.96 398.26 lineto
+closepath fill
+1 setlinewidth
+solid
+0 1 1 edgecolor
+newpath 1610.04 405.26 moveto
+1620 401.65 lineto
+1609.96 398.26 lineto
+closepath stroke
+grestore
+% HLP46->Cylinder
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 723 262.65 moveto
+743.89 253.65 736.93 286.04 722 300.65 curveto
+556.19 462.97 362.8 456.99 200 291.65 curveto
+191.2 282.72 185.61 245.18 190.22 230.1 curveto
+stroke
+0 0 0 edgecolor
+newpath 192.35 232.9 moveto
+199 224.65 lineto
+188.66 226.95 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 192.35 232.9 moveto
+199 224.65 lineto
+188.66 226.95 lineto
+closepath stroke
+grestore
+% HLP46->Cylinder
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 723 262.65 moveto
+743.89 271.65 736.93 304.04 722 318.65 curveto
+556.19 480.97 362.8 474.99 200 309.65 curveto
+190 299.5 184.14 252.37 192.7 232.49 curveto
+stroke
+0 0 0 edgecolor
+newpath 195.46 234.64 moveto
+199 224.65 lineto
+190.01 230.25 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 195.46 234.64 moveto
+199 224.65 lineto
+190.01 230.25 lineto
+closepath stroke
+grestore
+% HLP46->Valve
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 722 262.65 moveto
+751.59 262.65 732.03 304.47 758 318.65 curveto
+860.2 374.45 905.06 337.3 1020 318.65 curveto
+1032.62 316.6 1037.1 310.77 1045.87 308.06 curveto
+stroke
+0 0 0 edgecolor
+newpath 1046.58 311.5 moveto
+1056 306.65 lineto
+1045.61 304.56 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1046.58 311.5 moveto
+1056 306.65 lineto
+1045.61 304.56 lineto
+closepath stroke
+grestore
+% HLP46->PumpAccumulator
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 722 262.65 moveto
+763.03 262.65 725.14 323.09 758 347.65 curveto
+864.77 427.46 922.91 374.08 1056 381.65 curveto
+1155.39 387.3 1194.23 432.19 1280 381.65 curveto
+1304.89 366.98 1288.5 328.22 1306.14 318.76 curveto
+stroke
+0 0 0 edgecolor
+newpath 1306.95 322.16 moveto
+1316 316.65 lineto
+1305.49 315.32 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1306.95 322.16 moveto
+1316 316.65 lineto
+1305.49 315.32 lineto
+closepath stroke
+grestore
+% HLP46->PumpPower
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 722 262.65 moveto
+738.49 262.65 741.82 256.87 758 253.65 curveto
+873.46 230.68 919.17 275.43 1020 214.65 curveto
+1043.14 200.7 1032.32 178.67 1056 165.65 curveto
+1161.94 107.42 1208.16 144.49 1324.98 146.56 curveto
+stroke
+0 0 0 edgecolor
+newpath 1324.97 150.06 moveto
+1335 146.65 lineto
+1325.03 143.06 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1324.97 150.06 moveto
+1335 146.65 lineto
+1325.03 143.06 lineto
+closepath stroke
+grestore
+% HLP46->Pipe
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 722 262.65 moveto
+774.96 254.28 711.33 147.38 747.89 139.63 curveto
+stroke
+0 0 0 edgecolor
+newpath 747.99 143.13 moveto
+758 139.65 lineto
+748.01 136.13 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 747.99 143.13 moveto
+758 139.65 lineto
+748.01 136.13 lineto
+closepath stroke
+grestore
+% HLP46->Pipe
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 722 262.65 moveto
+775.18 271.05 710.79 164.41 748.36 142.88 curveto
+stroke
+0 0 0 edgecolor
+newpath 749.63 146.15 moveto
+758 139.65 lineto
+747.41 139.51 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 749.63 146.15 moveto
+758 139.65 lineto
+747.41 139.51 lineto
+closepath stroke
+grestore
+% PumpAccumulator->TotalHeatLoss
+gsave
+1 setlinewidth
+solid
+0 1 1 edgecolor
+newpath 1584 316.65 moveto
+1651.28 316.65 1614.4 202.69 1670.7 190.67 curveto
+stroke
+0 1 1 edgecolor
+newpath 1671.39 194.12 moveto
+1681 189.65 lineto
+1670.7 187.16 lineto
+closepath fill
+1 setlinewidth
+solid
+0 1 1 edgecolor
+newpath 1671.39 194.12 moveto
+1681 189.65 lineto
+1670.7 187.16 lineto
+closepath stroke
+grestore
+% PumpAccumulator->Thermal_HLP46
+gsave
+1 setlinewidth
+solid
+0 1 1 edgecolor
+newpath 1584 316.65 moveto
+1620.86 316.65 1587.43 385.26 1610.01 399.2 curveto
+stroke
+0 1 1 edgecolor
+newpath 1609.45 402.67 moveto
+1620 401.65 lineto
+1611.12 395.87 lineto
+closepath fill
+1 setlinewidth
+solid
+0 1 1 edgecolor
+newpath 1609.45 402.67 moveto
+1620 401.65 lineto
+1611.12 395.87 lineto
+closepath stroke
+grestore
+% PumpPower->TotalHeatLoss
+gsave
+1 setlinewidth
+solid
+0 1 1 edgecolor
+newpath 1565 146.65 moveto
+1616.44 146.65 1625.04 184.29 1670.95 189.14 curveto
+stroke
+0 1 1 edgecolor
+newpath 1670.83 192.64 moveto
+1681 189.65 lineto
+1671.19 185.65 lineto
+closepath fill
+1 setlinewidth
+solid
+0 1 1 edgecolor
+newpath 1670.83 192.64 moveto
+1681 189.65 lineto
+1671.19 185.65 lineto
+closepath stroke
+grestore
+% PumpPower->Thermal_HLP46
+gsave
+1 setlinewidth
+solid
+0 1 1 edgecolor
+newpath 1565 146.65 moveto
+1619.23 146.65 1569.39 369.84 1610.21 398.61 curveto
+stroke
+0 1 1 edgecolor
+newpath 1609.41 402.03 moveto
+1620 401.65 lineto
+1611.49 395.34 lineto
+closepath fill
+1 setlinewidth
+solid
+0 1 1 edgecolor
+newpath 1609.41 402.03 moveto
+1620 401.65 lineto
+1611.49 395.34 lineto
+closepath stroke
+grestore
+% Pipe->Cylinder
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1021 139.65 moveto
+1035.67 139.65 1030.45 195.36 1020 205.65 curveto
+979.94 245.1 560.27 173.71 514 205.65 curveto
+476.84 231.31 515.16 275 478 300.65 curveto
+376.33 370.85 287.94 387.44 200 300.65 curveto
+190.42 291.2 184.75 248.55 191.39 231.61 curveto
+stroke
+0 0 0 edgecolor
+newpath 193.98 233.98 moveto
+199 224.65 lineto
+189.26 228.82 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 193.98 233.98 moveto
+199 224.65 lineto
+189.26 228.82 lineto
+closepath stroke
+grestore
+% Pipe->Valve
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1020 139.65 moveto
+1092.22 131.09 990.93 281.76 1046.2 304.24 curveto
+stroke
+0 0 0 edgecolor
+newpath 1045.45 307.66 moveto
+1056 306.65 lineto
+1047.13 300.86 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1045.45 307.66 moveto
+1056 306.65 lineto
+1047.13 300.86 lineto
+closepath stroke
+grestore
+% Pipe->Valve
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1020 139.65 moveto
+1092.07 148.19 991.34 299.1 1045.87 306.7 curveto
+stroke
+0 0 0 edgecolor
+newpath 1046.02 310.2 moveto
+1056 306.65 lineto
+1045.98 303.2 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1046.02 310.2 moveto
+1056 306.65 lineto
+1045.98 303.2 lineto
+closepath stroke
+grestore
+% Pipe->TotalHeatLoss
+gsave
+1 setlinewidth
+solid
+0 1 1 edgecolor
+newpath 1020 139.65 moveto
+1022.1 139.65 1313.91 80.86 1316 80.65 curveto
+1434.54 68.95 1475.33 31.89 1584 80.65 curveto
+1639.81 105.7 1618.93 180.49 1670.83 188.88 curveto
+stroke
+0 1 1 edgecolor
+newpath 1670.76 192.39 moveto
+1681 189.65 lineto
+1671.29 185.41 lineto
+closepath fill
+1 setlinewidth
+solid
+0 1 1 edgecolor
+newpath 1670.76 192.39 moveto
+1681 189.65 lineto
+1671.29 185.41 lineto
+closepath stroke
+grestore
+% Pipe->Thermal_HLP46
+gsave
+1 setlinewidth
+solid
+0 1 1 edgecolor
+newpath 1020 139.65 moveto
+1074.37 139.65 1017.29 343.47 1056 381.65 curveto
+1139.72 464.22 1468.69 439.71 1584 416.65 curveto
+1597.01 414.05 1601.04 406.64 1609.99 403.31 curveto
+stroke
+0 1 1 edgecolor
+newpath 1610.71 406.74 moveto
+1620 401.65 lineto
+1609.56 399.83 lineto
+closepath fill
+1 setlinewidth
+solid
+0 1 1 edgecolor
+newpath 1610.71 406.74 moveto
+1620 401.65 lineto
+1609.56 399.83 lineto
+closepath stroke
+grestore
+% Thermal_HLP46->HLP46
+gsave
+1 setlinewidth
+dashed
+0 1 1 edgecolor
+newpath 1847 401.65 moveto
+1867.89 401.65 1860.93 434.04 1846 448.65 curveto
+1774.22 518.92 1720.44 449.64 1620 448.65 curveto
+1235.85 444.86 1133.25 466.92 758 384.65 curveto
+647.18 360.36 582.38 400.18 514 309.65 curveto
+504.06 296.5 496.18 274.84 503.56 266.29 curveto
+stroke
+0 1 1 edgecolor
+newpath 504.93 269.51 moveto
+513 262.65 lineto
+502.41 262.98 lineto
+closepath fill
+1 setlinewidth
+solid
+0 1 1 edgecolor
+newpath 504.93 269.51 moveto
+513 262.65 lineto
+502.41 262.98 lineto
+closepath stroke
+grestore
+% Thermal_FreeFlow
+gsave
+0 1 1 nodecolor
+14 /Times-Roman set_font
+1898 435.95 moveto 77 (Temperature1) alignedtext
+0 1 1 nodecolor
+14 /Times-Roman set_font
+1898 416.45 moveto 77 (Temperature2) alignedtext
+0 1 1 nodecolor
+14 /Times-Roman set_font
+1982 427.45 moveto 113 (Thermal_FreeFlow) alignedtext
+0 1 1 nodecolor
+14 /Times-Roman set_font
+2101 426.45 moveto 68 (PThermal21) alignedtext
+1 setlinewidth
+solid
+0 1 1 nodecolor
+newpath 1893 407.65 moveto
+1893 452.65 lineto
+2174 452.65 lineto
+2174 407.65 lineto
+closepath stroke
+0 1 1 nodecolor
+14 /Times-Roman set_font
+1962.5 393.45 moveto 142 (model: freeHeatTransfere) alignedtext
+0 1 1 nodecolor
+14 /Times-Roman set_font
+1993.5 373.45 moveto 80 (type: Example) alignedtext
+0 1 1 nodecolor
+14 /Times-Roman set_font
+1963 354.45 moveto 141 (parentType: HydraulicOil) alignedtext
+grestore
+% Thermal_HLP46->Thermal_FreeFlow
+gsave
+1 setlinewidth
+dashed
+0 1 1 edgecolor
+newpath 1846 401.65 moveto
+1858 401.65 1863.25 401.65 1871.88 401.65 curveto
+stroke
+0 1 1 edgecolor
+newpath 1872 405.15 moveto
+1882 401.65 lineto
+1872 398.15 lineto
+closepath fill
+1 setlinewidth
+solid
+0 1 1 edgecolor
+newpath 1872 405.15 moveto
+1882 401.65 lineto
+1872 398.15 lineto
+closepath stroke
+grestore
+% Thermal_FreeFlow->Thermal_HLP46
+gsave
+1 setlinewidth
+solid
+0 1 1 edgecolor
+newpath 2185 401.65 moveto
+2210.34 401.65 2202.07 440.89 2184 458.65 curveto
+2088.26 552.72 2016.2 461.21 1882 458.65 curveto
+1765.49 456.43 1701.7 531.74 1620 448.65 curveto
+1608.33 436.78 1601.36 413.98 1609.58 405.21 curveto
+stroke
+0 1 1 edgecolor
+newpath 1610.88 408.46 moveto
+1619 401.65 lineto
+1608.41 401.91 lineto
+closepath fill
+1 setlinewidth
+solid
+0 1 1 edgecolor
+newpath 1610.88 408.46 moveto
+1619 401.65 lineto
+1608.41 401.91 lineto
+closepath stroke
+grestore
+% Force
+gsave
+0.66667 1 1 nodecolor
+14 /Times-Roman set_font
+65.5 263.95 moveto 34 (Force) alignedtext
+0.66667 1 1 nodecolor
+14 /Times-Roman set_font
+11.5 244.45 moveto 142 (processSimulationControl) alignedtext
+grestore
+% Force->Cylinder
+gsave
+1 setlinewidth
+solid
+0.66667 1 1 edgecolor
+newpath 164 257.65 moveto
+181.47 257.65 180.08 236.28 190.18 227.94 curveto
+stroke
+0.66667 1 1 edgecolor
+newpath 191.63 231.14 moveto
+200 224.65 lineto
+189.41 224.5 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 1 1 edgecolor
+newpath 191.63 231.14 moveto
+200 224.65 lineto
+189.41 224.5 lineto
+closepath stroke
+grestore
+% Velocity
+gsave
+0.66667 1 1 nodecolor
+14 /Times-Roman set_font
+58.5 198.95 moveto 48 (Velocity) alignedtext
+0.66667 1 1 nodecolor
+14 /Times-Roman set_font
+11.5 179.45 moveto 142 (processSimulationControl) alignedtext
+grestore
+% Velocity->Cylinder
+gsave
+1 setlinewidth
+solid
+0.66667 1 1 edgecolor
+newpath 164 192.65 moveto
+181.23 192.65 180.18 213.37 190.27 221.47 curveto
+stroke
+0.66667 1 1 edgecolor
+newpath 189.41 224.87 moveto
+200 224.65 lineto
+191.58 218.21 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 1 1 edgecolor
+newpath 189.41 224.87 moveto
+200 224.65 lineto
+191.58 218.21 lineto
+closepath stroke
+grestore
+% AmbTemperature
+gsave
+0.66667 1 1 nodecolor
+14 /Times-Roman set_font
+1680 87.95 moveto 107 (AmbTemperature) alignedtext
+0.66667 1 1 nodecolor
+14 /Times-Roman set_font
+1662.5 68.45 moveto 142 (processSimulationControl) alignedtext
+grestore
+% AmbTemperature->Thermal_FreeFlow
+gsave
+1 setlinewidth
+dashed
+0.66667 1 1 edgecolor
+newpath 1816 81.65 moveto
+1835.49 81.65 1837.72 96 1846 113.65 curveto
+1871.85 168.73 1823.57 376.19 1872.16 399.51 curveto
+stroke
+0.66667 1 1 edgecolor
+newpath 1871.48 402.95 moveto
+1882 401.65 lineto
+1872.97 396.11 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 1 1 edgecolor
+newpath 1871.48 402.95 moveto
+1882 401.65 lineto
+1872.97 396.11 lineto
+closepath stroke
+grestore
+% PumpCtrl
+gsave
+0.66667 1 1 nodecolor
+14 /Times-Roman set_font
+1138.5 204.95 moveto 60 (PumpCtrl) alignedtext
+0.66667 1 1 nodecolor
+14 /Times-Roman set_font
+1097.5 185.45 moveto 142 (processSimulationControl) alignedtext
+grestore
+% PumpCtrl->PumpAccumulator
+gsave
+1 setlinewidth
+solid
+0.66667 1 1 edgecolor
+newpath 1251 198.65 moveto
+1307.13 198.65 1262.52 302.36 1306.06 315.33 curveto
+stroke
+0.66667 1 1 edgecolor
+newpath 1305.63 318.8 moveto
+1316 316.65 lineto
+1306.55 311.86 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 1 1 edgecolor
+newpath 1305.63 318.8 moveto
+1316 316.65 lineto
+1306.55 311.86 lineto
+closepath stroke
+grestore
+% PumpCtrl->PumpPower
+gsave
+1 setlinewidth
+solid
+0.66667 1 1 edgecolor
+newpath 1251 198.65 moveto
+1291.13 198.65 1291.4 155.2 1324.68 147.74 curveto
+stroke
+0.66667 1 1 edgecolor
+newpath 1325.42 151.18 moveto
+1335 146.65 lineto
+1324.69 144.22 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 1 1 edgecolor
+newpath 1325.42 151.18 moveto
+1335 146.65 lineto
+1324.69 144.22 lineto
+closepath stroke
+grestore
+% ValveCtrl
+gsave
+0.66667 1 1 nodecolor
+14 /Times-Roman set_font
+860.5 292.95 moveto 58 (ValveCtrl) alignedtext
+0.66667 1 1 nodecolor
+14 /Times-Roman set_font
+818.5 273.45 moveto 142 (processSimulationControl) alignedtext
+grestore
+% ValveCtrl->Valve
+gsave
+1 setlinewidth
+solid
+0.66667 1 1 edgecolor
+newpath 972 286.65 moveto
+1006.78 286.65 1015.99 303.08 1045.98 306.16 curveto
+stroke
+0.66667 1 1 edgecolor
+newpath 1045.84 309.65 moveto
+1056 306.65 lineto
+1046.18 302.66 lineto
+closepath fill
+1 setlinewidth
+solid
+0.66667 1 1 edgecolor
+newpath 1045.84 309.65 moveto
+1056 306.65 lineto
+1046.18 302.66 lineto
+closepath stroke
+grestore
+% SystemCtrl
+gsave
+0.66667 1 1 nodecolor
+14 /Times-Roman set_font
+49 328.95 moveto 67 (SystemCtrl) alignedtext
+0.66667 1 1 nodecolor
+14 /Times-Roman set_font
+17.5 309.45 moveto 130 (staticSimulationControl) alignedtext
+grestore
+endpage
+showpage
+grestore
+%%PageTrailer
+%%EndPage: 1
+%%Trailer
+%%Pages: 1
+%%BoundingBox: 36 36 2245 571
+end
+restore
+%%EOF

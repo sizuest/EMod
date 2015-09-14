@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment/>
+<entry key="InitialValue_Tank_Mass">20.0</entry>
+<entry key="InitialValue_Pipe_1_Temperature">NaN</entry>
+<entry key="InitialValue_Pipe_Temperature">NaN</entry>
+<entry key="InitialValue_Pump_Temperature">293.0</entry>
+<entry key="InitialValue_PipeVL_Temperature">293.0</entry>
+<entry key="InitialValue_PumpAccumulator_Temperature">293.0</entry>
+<entry key="InitialValue_Spindle_TemperatureStructure">292.15</entry>
+<entry key="simulationPeriod">1</entry>
+<entry key="InitialValue_Spindle_TemperatureCoolant">292.15</entry>
+<entry key="InitialValue_PipeVl_Temperature">NaN</entry>
+<entry key="InitialValue_PipeNL_Temperature">293.0</entry>
+<entry key="InitialValue_Tank_Temperature">293.15</entry>
+<entry key="InitialValue_PipeRl_Temperature">NaN</entry>
+<entry key="InitialValue_Cylinder_Position">0.0</entry>
+</properties>

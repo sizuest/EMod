@@ -1,0 +1,63 @@
+digraph g {
+rankdir=LR;
+splines=true;
+overlap=scale;
+node [shape=plaintext];
+DiffCylinder [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Density" ALIGN="left"><FONT COLOR="black">Density</FONT></TD></TR><TR><TD PORT="Force" ALIGN="left"><FONT COLOR="black">Force</FONT></TD></TR><TR><TD PORT="Speed" ALIGN="left"><FONT COLOR="black">Speed</FONT></TD></TR><TR><TD PORT="Viscosity" ALIGN="left"><FONT COLOR="black">Viscosity</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">DiffCylinder</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="MassFlowIn" ALIGN="right"><FONT COLOR="black">MassFlowIn</FONT></TD></TR><TR><TD PORT="PLoss" ALIGN="right"><FONT COLOR="black">PLoss</FONT></TD></TR><TR><TD PORT="PressureIn" ALIGN="right"><FONT COLOR="black">PressureIn</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: cylinder</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+HLP46 [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Pressure" ALIGN="left"><FONT COLOR="black">Pressure</FONT></TD></TR><TR><TD PORT="Temperature" ALIGN="left"><FONT COLOR="black">Temperature</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">HLP46</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Density" ALIGN="right"><FONT COLOR="black">Density</FONT></TD></TR><TR><TD PORT="Viscosity" ALIGN="right"><FONT COLOR="black">Viscosity</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: hydraulicOil</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+Pipe [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Density" ALIGN="left"><FONT COLOR="black">Density</FONT></TD></TR><TR><TD PORT="MassFlowOut" ALIGN="left"><FONT COLOR="black">MassFlowOut</FONT></TD></TR><TR><TD PORT="PressureOut" ALIGN="left"><FONT COLOR="black">PressureOut</FONT></TD></TR><TR><TD PORT="Viscosity" ALIGN="left"><FONT COLOR="black">Viscosity</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">Pipe</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="MassFlowIn" ALIGN="right"><FONT COLOR="black">MassFlowIn</FONT></TD></TR><TR><TD PORT="PLoss" ALIGN="right"><FONT COLOR="black">PLoss</FONT></TD></TR><TR><TD PORT="PressureIn" ALIGN="right"><FONT COLOR="black">PressureIn</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: pipe</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+Valve [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Density" ALIGN="left"><FONT COLOR="black">Density</FONT></TD></TR><TR><TD PORT="MassFlowOut" ALIGN="left"><FONT COLOR="black">MassFlowOut</FONT></TD></TR><TR><TD PORT="PressureOut" ALIGN="left"><FONT COLOR="black">PressureOut</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">Valve</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="MassFlowIn" ALIGN="right"><FONT COLOR="black">MassFlowIn</FONT></TD></TR><TR><TD PORT="PLoss" ALIGN="right"><FONT COLOR="black">PLoss</FONT></TD></TR><TR><TD PORT="PressureIn" ALIGN="right"><FONT COLOR="black">PressureIn</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: valve</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+ConstantPump [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Density" ALIGN="left"><FONT COLOR="black">Density</FONT></TD></TR><TR><TD PORT="MassFlowOut" ALIGN="left"><FONT COLOR="black">MassFlowOut</FONT></TD></TR><TR><TD PORT="PressureOut" ALIGN="left"><FONT COLOR="black">PressureOut</FONT></TD></TR><TR><TD PORT="PumpCtrl" ALIGN="left"><FONT COLOR="black">PumpCtrl</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">ConstantPump</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PLoss" ALIGN="right"><FONT COLOR="black">PLoss</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: constantPump</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+TotalHeatLoss [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="red" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Plus0" ALIGN="left"><FONT COLOR="red">+</FONT></TD></TR><TR><TD PORT="Plus1" ALIGN="left"><FONT COLOR="red">+</FONT></TD></TR><TR><TD PORT="Plus2" ALIGN="left"><FONT COLOR="red">+</FONT></TD></TR><TR><TD PORT="Plus3" ALIGN="left"><FONT COLOR="red">+</FONT></TD></TR></TABLE></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Sum" ALIGN="right"><FONT COLOR="red">=</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="red">TotalHeatLoss</FONT></TD></TR></TABLE>
+> ];
+Thermal_HLP46 [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="red" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="In" ALIGN="left"><FONT COLOR="red">In</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="red">Thermal_HLP46</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Temperature" ALIGN="right"><FONT COLOR="red">Temperature</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="red"><I>model: homogStorage</I></FONT></TD></TR><TR><TD><FONT COLOR="red">type: Example</FONT></TD></TR><TR><TD><FONT COLOR="red">parentType: HydraulicOil</FONT></TD></TR></TABLE>
+> ];
+Thermal_FreeFlow [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="red" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Temperature1" ALIGN="left"><FONT COLOR="red">Temperature1</FONT></TD></TR><TR><TD PORT="Temperature2" ALIGN="left"><FONT COLOR="red">Temperature2</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="red">Thermal_FreeFlow</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PThermal21" ALIGN="right"><FONT COLOR="red">PThermal21</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="red"><I>model: freeHeatTransfere</I></FONT></TD></TR><TR><TD><FONT COLOR="red">type: Example</FONT></TD></TR><TR><TD><FONT COLOR="red">parentType: HydraulicOil</FONT></TD></TR></TABLE>
+> ];
+Force [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="blue"><B>Force</B></FONT></TD></TR><TR><TD><I><FONT COLOR="blue">processSimulationControl</FONT></I></TD></TR></TABLE>> ];
+Velocity [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="blue"><B>Velocity</B></FONT></TD></TR><TR><TD><I><FONT COLOR="blue">processSimulationControl</FONT></I></TD></TR></TABLE>> ];
+AmbTemperature [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="blue"><B>AmbTemperature</B></FONT></TD></TR><TR><TD><I><FONT COLOR="blue">processSimulationControl</FONT></I></TD></TR></TABLE>> ];
+PumpCtrl [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="blue"><B>PumpCtrl</B></FONT></TD></TR><TR><TD><I><FONT COLOR="blue">processSimulationControl</FONT></I></TD></TR></TABLE>> ];
+SystemCtrl [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="blue"><B>SystemCtrl</B></FONT></TD></TR><TR><TD><I><FONT COLOR="blue">staticSimulationControl</FONT></I></TD></TR></TABLE>> ];
+Force-> "DiffCylinder":Force[headport=w, tailport=e, color="blue", style="solid"]
+Velocity-> "DiffCylinder":Speed[headport=w, tailport=e, color="blue", style="solid"]
+"HLP46":Viscosity -> "DiffCylinder":Viscosity[headport=w, tailport=e, color="black", style="solid"]
+"HLP46":Density -> "DiffCylinder":Density[headport=w, tailport=e, color="black", style="solid"]
+"DiffCylinder":PressureIn -> "Pipe":PressureOut[headport=w, tailport=e, color="black", style="solid"]
+"DiffCylinder":MassFlowIn -> "Pipe":MassFlowOut[headport=w, tailport=e, color="black", style="solid"]
+"HLP46":Viscosity -> "Pipe":Viscosity[headport=w, tailport=e, color="black", style="solid"]
+"HLP46":Density -> "Pipe":Density[headport=w, tailport=e, color="black", style="solid"]
+"Pipe":PressureIn -> "Valve":PressureOut[headport=w, tailport=e, color="black", style="solid"]
+"Pipe":MassFlowIn -> "Valve":MassFlowOut[headport=w, tailport=e, color="black", style="solid"]
+"HLP46":Density -> "Valve":Density[headport=w, tailport=e, color="black", style="solid"]
+"Valve":PressureIn -> "ConstantPump":PressureOut[headport=w, tailport=e, color="black", style="solid"]
+"Valve":MassFlowIn -> "ConstantPump":MassFlowOut[headport=w, tailport=e, color="black", style="solid"]
+"HLP46":Density -> "ConstantPump":Density[headport=w, tailport=e, color="black", style="solid"]
+PumpCtrl-> "ConstantPump":PumpCtrl[headport=w, tailport=e, color="blue", style="solid"]
+"Thermal_HLP46":Temperature -> "HLP46":Temperature[headport=w, tailport=e, color="red", style="dashed"]
+"DiffCylinder":PressureIn -> "HLP46":Pressure[headport=w, tailport=e, color="black", style="solid"]
+"DiffCylinder":PLoss -> "TotalHeatLoss":Plus0[headport=w, tailport=e, color="red", style="solid"]
+"Pipe":PLoss -> "TotalHeatLoss":Plus1[headport=w, tailport=e, color="red", style="solid"]
+"Valve":PLoss -> "TotalHeatLoss":Plus2[headport=w, tailport=e, color="red", style="solid"]
+"ConstantPump":PLoss -> "TotalHeatLoss":Plus3[headport=w, tailport=e, color="red", style="solid"]
+"DiffCylinder":PLoss -> "Thermal_HLP46":In[headport=w, tailport=e, color="red", style="solid"]
+"Pipe":PLoss -> "Thermal_HLP46":In[headport=w, tailport=e, color="red", style="solid"]
+"Valve":PLoss -> "Thermal_HLP46":In[headport=w, tailport=e, color="red", style="solid"]
+"ConstantPump":PLoss -> "Thermal_HLP46":In[headport=w, tailport=e, color="red", style="solid"]
+"Thermal_FreeFlow":PThermal21 -> "Thermal_HLP46":In[headport=w, tailport=e, color="red", style="solid"]
+"Thermal_HLP46":Temperature -> "Thermal_FreeFlow":Temperature1[headport=w, tailport=e, color="red", style="dashed"]
+AmbTemperature-> "Thermal_FreeFlow":Temperature2[headport=w, tailport=e, color="blue", style="dashed"]
+}

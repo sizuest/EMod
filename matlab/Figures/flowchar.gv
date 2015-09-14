@@ -1,0 +1,239 @@
+digraph g {
+rankdir=LR;
+splines=true;
+overlap=scale;
+node [shape=plaintext];
+C1 [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="RotSpeed" ALIGN="left"><FONT COLOR="black">RotSpeed</FONT></TD></TR><TR><TD PORT="Torque" ALIGN="left"><FONT COLOR="black">Torque</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">C1</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PLoss" ALIGN="right"><FONT COLOR="black">PLoss</FONT></TD></TR><TR><TD PORT="PTotal" ALIGN="right"><FONT COLOR="black">PTotal</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: motor</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Kessler_000101561</FONT></TD></TR></TABLE>
+> ];
+X1 [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="RotSpeed" ALIGN="left"><FONT COLOR="black">RotSpeed</FONT></TD></TR><TR><TD PORT="Torque" ALIGN="left"><FONT COLOR="black">Torque</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">X1</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PLoss" ALIGN="right"><FONT COLOR="black">PLoss</FONT></TD></TR><TR><TD PORT="PTotal" ALIGN="right"><FONT COLOR="black">PTotal</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: servoMotor</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: FanucAlphaC6_2000</FONT></TD></TR></TABLE>
+> ];
+Z1 [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="RotSpeed" ALIGN="left"><FONT COLOR="black">RotSpeed</FONT></TD></TR><TR><TD PORT="Torque" ALIGN="left"><FONT COLOR="black">Torque</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">Z1</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PLoss" ALIGN="right"><FONT COLOR="black">PLoss</FONT></TD></TR><TR><TD PORT="PTotal" ALIGN="right"><FONT COLOR="black">PTotal</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: servoMotor</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: FanucAlphaC12_2000</FONT></TD></TR></TABLE>
+> ];
+Z3 [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="RotSpeed" ALIGN="left"><FONT COLOR="black">RotSpeed</FONT></TD></TR><TR><TD PORT="Torque" ALIGN="left"><FONT COLOR="black">Torque</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">Z3</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PLoss" ALIGN="right"><FONT COLOR="black">PLoss</FONT></TD></TR><TR><TD PORT="PTotal" ALIGN="right"><FONT COLOR="black">PTotal</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: servoMotor</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: FanucAlphaC12_2000</FONT></TD></TR></TABLE>
+> ];
+B1 [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="RotSpeed" ALIGN="left"><FONT COLOR="black">RotSpeed</FONT></TD></TR><TR><TD PORT="Torque" ALIGN="left"><FONT COLOR="black">Torque</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">B1</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PLoss" ALIGN="right"><FONT COLOR="black">PLoss</FONT></TD></TR><TR><TD PORT="PTotal" ALIGN="right"><FONT COLOR="black">PTotal</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: servoMotor</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: FanucAlphaM9_3000</FONT></TD></TR></TABLE>
+> ];
+X1_ax [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="ProcessForce" ALIGN="left"><FONT COLOR="black">ProcessForce</FONT></TD></TR><TR><TD PORT="Speed" ALIGN="left"><FONT COLOR="black">Speed</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">X1_ax</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="RotSpeed" ALIGN="right"><FONT COLOR="black">RotSpeed</FONT></TD></TR><TR><TD PORT="Torque" ALIGN="right"><FONT COLOR="black">Torque</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: linAxis</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Schaublin42L_X1</FONT></TD></TR></TABLE>
+> ];
+Z1_ax [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="ProcessForce" ALIGN="left"><FONT COLOR="black">ProcessForce</FONT></TD></TR><TR><TD PORT="Speed" ALIGN="left"><FONT COLOR="black">Speed</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">Z1_ax</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="RotSpeed" ALIGN="right"><FONT COLOR="black">RotSpeed</FONT></TD></TR><TR><TD PORT="Torque" ALIGN="right"><FONT COLOR="black">Torque</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: linAxis</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Schaublin42L_Z1</FONT></TD></TR></TABLE>
+> ];
+X1_Brake [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="level" ALIGN="left"><FONT COLOR="black">level</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">X1_Brake</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="ptotal" ALIGN="right"><FONT COLOR="black">ptotal</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: constantComponent</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: FanucAlphaC6_2000</FONT></TD></TR></TABLE>
+> ];
+Z1_Brake [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="level" ALIGN="left"><FONT COLOR="black">level</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">Z1_Brake</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="ptotal" ALIGN="right"><FONT COLOR="black">ptotal</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: constantComponent</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: FanucAlphaC12_2000</FONT></TD></TR></TABLE>
+> ];
+X1_BrakeAction [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Control" ALIGN="left"><FONT COLOR="black">Control</FONT></TD></TR><TR><TD PORT="Input" ALIGN="left"><FONT COLOR="black">Input</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">X1_BrakeAction</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Output" ALIGN="right"><FONT COLOR="black">Output</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: switchControl</I></FONT></TD></TR><TR><TD><FONT COLOR="black">signalUnit: NEWTONMETER</FONT></TD></TR><TR><TD><FONT COLOR="black">controlUnit: NONE</FONT></TD></TR><TR><TD><FONT COLOR="black">threshold: 0.5</FONT></TD></TR><TR><TD><FONT COLOR="black">passHigh: false</FONT></TD></TR></TABLE>
+> ];
+Z1_BrakeAction [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Control" ALIGN="left"><FONT COLOR="black">Control</FONT></TD></TR><TR><TD PORT="Input" ALIGN="left"><FONT COLOR="black">Input</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">Z1_BrakeAction</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Output" ALIGN="right"><FONT COLOR="black">Output</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: switchControl</I></FONT></TD></TR><TR><TD><FONT COLOR="black">signalUnit: NEWTONMETER</FONT></TD></TR><TR><TD><FONT COLOR="black">controlUnit: NONE</FONT></TD></TR><TR><TD><FONT COLOR="black">threshold: 0.5</FONT></TD></TR><TR><TD><FONT COLOR="black">passHigh: false</FONT></TD></TR></TABLE>
+> ];
+Z3_ax [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="ProcessForce" ALIGN="left"><FONT COLOR="black">ProcessForce</FONT></TD></TR><TR><TD PORT="Speed" ALIGN="left"><FONT COLOR="black">Speed</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">Z3_ax</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="RotSpeed" ALIGN="right"><FONT COLOR="black">RotSpeed</FONT></TD></TR><TR><TD PORT="Torque" ALIGN="right"><FONT COLOR="black">Torque</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: linAxis</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Schaublin42L_Tailstock</FONT></TD></TR></TABLE>
+> ];
+T1_pos [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Tool" ALIGN="left"><FONT COLOR="black">Tool</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">T1_pos</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="RotSpeed" ALIGN="right"><FONT COLOR="black">RotSpeed</FONT></TD></TR><TR><TD PORT="Torque" ALIGN="right"><FONT COLOR="black">Torque</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: revolver</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Schaublin42L</FONT></TD></TR></TABLE>
+> ];
+C1_amp [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PDmd" ALIGN="left"><FONT COLOR="black">PDmd</FONT></TD></TR><TR><TD PORT="State" ALIGN="left"><FONT COLOR="black">State</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">C1_amp</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PAmp" ALIGN="right"><FONT COLOR="black">PAmp</FONT></TD></TR><TR><TD PORT="PCtrl" ALIGN="right"><FONT COLOR="black">PCtrl</FONT></TD></TR><TR><TD PORT="PLoss" ALIGN="right"><FONT COLOR="black">PLoss</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: amplifier</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: FanucSPM-26</FONT></TD></TR></TABLE>
+> ];
+AxPower [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Plus0" ALIGN="left"><FONT COLOR="black">+</FONT></TD></TR><TR><TD PORT="Plus1" ALIGN="left"><FONT COLOR="black">+</FONT></TD></TR></TABLE></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Sum" ALIGN="right"><FONT COLOR="black">=</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black">AxPower</FONT></TD></TR></TABLE>
+> ];
+Ax_amp [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PDmd" ALIGN="left"><FONT COLOR="black">PDmd</FONT></TD></TR><TR><TD PORT="State" ALIGN="left"><FONT COLOR="black">State</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">Ax_amp</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PAmp" ALIGN="right"><FONT COLOR="black">PAmp</FONT></TD></TR><TR><TD PORT="PCtrl" ALIGN="right"><FONT COLOR="black">PCtrl</FONT></TD></TR><TR><TD PORT="PLoss" ALIGN="right"><FONT COLOR="black">PLoss</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: amplifier</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: FanucSVM2-20-20</FONT></TD></TR></TABLE>
+> ];
+Z3_amp [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PDmd" ALIGN="left"><FONT COLOR="black">PDmd</FONT></TD></TR><TR><TD PORT="State" ALIGN="left"><FONT COLOR="black">State</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">Z3_amp</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PAmp" ALIGN="right"><FONT COLOR="black">PAmp</FONT></TD></TR><TR><TD PORT="PCtrl" ALIGN="right"><FONT COLOR="black">PCtrl</FONT></TD></TR><TR><TD PORT="PLoss" ALIGN="right"><FONT COLOR="black">PLoss</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: amplifier</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: FanucSVU1-80</FONT></TD></TR></TABLE>
+> ];
+B1_amp [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PDmd" ALIGN="left"><FONT COLOR="black">PDmd</FONT></TD></TR><TR><TD PORT="State" ALIGN="left"><FONT COLOR="black">State</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">B1_amp</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PAmp" ALIGN="right"><FONT COLOR="black">PAmp</FONT></TD></TR><TR><TD PORT="PCtrl" ALIGN="right"><FONT COLOR="black">PCtrl</FONT></TD></TR><TR><TD PORT="PLoss" ALIGN="right"><FONT COLOR="black">PLoss</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: amplifier</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: FanucSVM1-80</FONT></TD></TR></TABLE>
+> ];
+CuttingFluidPump [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="MassFlowOut" ALIGN="left"><FONT COLOR="black">MassFlowOut</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">CuttingFluidPump</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PLoss" ALIGN="right"><FONT COLOR="black">PLoss</FONT></TD></TR><TR><TD PORT="PTotal" ALIGN="right"><FONT COLOR="black">PTotal</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: pump</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: SpandauVogel_PV80_180</FONT></TD></TR></TABLE>
+> ];
+SpindleCoolingCompressor [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="level" ALIGN="left"><FONT COLOR="black">level</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">SpindleCoolingCompressor</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PThermal" ALIGN="right"><FONT COLOR="black">PThermal</FONT></TD></TR><TR><TD PORT="PTotal" ALIGN="right"><FONT COLOR="black">PTotal</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: heatExchanger</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Hyfra_VWK_21_1S</FONT></TD></TR></TABLE>
+> ];
+SpindleCoolingPump [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="MassFlowOut" ALIGN="left"><FONT COLOR="black">MassFlowOut</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">SpindleCoolingPump</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PLoss" ALIGN="right"><FONT COLOR="black">PLoss</FONT></TD></TR><TR><TD PORT="PTotal" ALIGN="right"><FONT COLOR="black">PTotal</FONT></TD></TR><TR><TD PORT="PUse" ALIGN="right"><FONT COLOR="black">PUse</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: pump</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Hyfra_VWK_21_1S</FONT></TD></TR></TABLE>
+> ];
+SpindleCoolingController [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Input" ALIGN="left"><FONT COLOR="black">Input</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">SpindleCoolingController</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Output" ALIGN="right"><FONT COLOR="black">Output</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: hysteresisControl</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: SpindleCoolingCompressor</FONT></TD></TR></TABLE>
+> ];
+ChipConveyor [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="level" ALIGN="left"><FONT COLOR="black">level</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">ChipConveyor</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="ptotal" ALIGN="right"><FONT COLOR="black">ptotal</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: constantComponent</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Bonfigioli_BN804A</FONT></TD></TR></TABLE>
+> ];
+Fan_in [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="level" ALIGN="left"><FONT COLOR="black">level</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">Fan_in</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PTotal" ALIGN="right"><FONT COLOR="black">PTotal</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: fan</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Pfannenberg_PF_3000</FONT></TD></TR></TABLE>
+> ];
+Fan_out [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="level" ALIGN="left"><FONT COLOR="black">level</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">Fan_out</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PTotal" ALIGN="right"><FONT COLOR="black">PTotal</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: fan</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Pfannenberg_PF_3000</FONT></TD></TR></TABLE>
+> ];
+FanucTotalPower [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Plus0" ALIGN="left"><FONT COLOR="black">+</FONT></TD></TR><TR><TD PORT="Plus1" ALIGN="left"><FONT COLOR="black">+</FONT></TD></TR><TR><TD PORT="Plus2" ALIGN="left"><FONT COLOR="black">+</FONT></TD></TR><TR><TD PORT="Plus3" ALIGN="left"><FONT COLOR="black">+</FONT></TD></TR></TABLE></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Sum" ALIGN="right"><FONT COLOR="black">=</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black">FanucTotalPower</FONT></TD></TR></TABLE>
+> ];
+FanucTotalHeatLoss [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="red" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Plus0" ALIGN="left"><FONT COLOR="red">+</FONT></TD></TR><TR><TD PORT="Plus1" ALIGN="left"><FONT COLOR="red">+</FONT></TD></TR><TR><TD PORT="Plus2" ALIGN="left"><FONT COLOR="red">+</FONT></TD></TR><TR><TD PORT="Plus3" ALIGN="left"><FONT COLOR="red">+</FONT></TD></TR></TABLE></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Sum" ALIGN="right"><FONT COLOR="red">=</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="red">FanucTotalHeatLoss</FONT></TD></TR></TABLE>
+> ];
+CompressedAir [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Flow" ALIGN="left"><FONT COLOR="black">Flow</FONT></TD></TR><TR><TD PORT="PressureAmb" ALIGN="left"><FONT COLOR="black">PressureAmb</FONT></TD></TR><TR><TD PORT="TemperatureAmb" ALIGN="left"><FONT COLOR="black">TemperatureAmb</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">CompressedAir</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PTotal" ALIGN="right"><FONT COLOR="black">PTotal</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: compressedFluid</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Air8bar</FONT></TD></TR></TABLE>
+> ];
+ControlPowerTransformer [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Plus0" ALIGN="left"><FONT COLOR="black">+</FONT></TD></TR><TR><TD PORT="Plus1" ALIGN="left"><FONT COLOR="black">+</FONT></TD></TR><TR><TD PORT="Plus2" ALIGN="left"><FONT COLOR="black">+</FONT></TD></TR><TR><TD PORT="Plus3" ALIGN="left"><FONT COLOR="black">+</FONT></TD></TR><TR><TD PORT="Plus4" ALIGN="left"><FONT COLOR="black">+</FONT></TD></TR><TR><TD PORT="Plus5" ALIGN="left"><FONT COLOR="black">+</FONT></TD></TR><TR><TD PORT="Plus6" ALIGN="left"><FONT COLOR="black">+</FONT></TD></TR><TR><TD PORT="Plus7" ALIGN="left"><FONT COLOR="black">+</FONT></TD></TR></TABLE></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Sum" ALIGN="right"><FONT COLOR="black">=</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black">ControlPowerTransformer</FONT></TD></TR></TABLE>
+> ];
+TotalPower [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Plus0" ALIGN="left"><FONT COLOR="black">+</FONT></TD></TR><TR><TD PORT="Plus1" ALIGN="left"><FONT COLOR="black">+</FONT></TD></TR><TR><TD PORT="Plus2" ALIGN="left"><FONT COLOR="black">+</FONT></TD></TR><TR><TD PORT="Plus3" ALIGN="left"><FONT COLOR="black">+</FONT></TD></TR><TR><TD PORT="Plus4" ALIGN="left"><FONT COLOR="black">+</FONT></TD></TR><TR><TD PORT="Plus5" ALIGN="left"><FONT COLOR="black">+</FONT></TD></TR></TABLE></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Sum" ALIGN="right"><FONT COLOR="black">=</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black">TotalPower</FONT></TD></TR></TABLE>
+> ];
+TotalHeatLoss [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="red" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Plus0" ALIGN="left"><FONT COLOR="red">+</FONT></TD></TR><TR><TD PORT="Plus1" ALIGN="left"><FONT COLOR="red">+</FONT></TD></TR><TR><TD PORT="Plus2" ALIGN="left"><FONT COLOR="red">+</FONT></TD></TR><TR><TD PORT="Plus3" ALIGN="left"><FONT COLOR="red">+</FONT></TD></TR><TR><TD PORT="Plus4" ALIGN="left"><FONT COLOR="red">+</FONT></TD></TR><TR><TD PORT="Plus5" ALIGN="left"><FONT COLOR="red">+</FONT></TD></TR><TR><TD PORT="Plus6" ALIGN="left"><FONT COLOR="red">+</FONT></TD></TR><TR><TD PORT="Plus7" ALIGN="left"><FONT COLOR="red">+</FONT></TD></TR><TR><TD PORT="Plus8" ALIGN="left"><FONT COLOR="red">+</FONT></TD></TR><TR><TD PORT="Plus9" ALIGN="left"><FONT COLOR="red">+</FONT></TD></TR></TABLE></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Sum" ALIGN="right"><FONT COLOR="red">=</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="red">TotalHeatLoss</FONT></TD></TR></TABLE>
+> ];
+Thermal_SpindleTemperature [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="red" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="In" ALIGN="left"><FONT COLOR="red">In</FONT></TD></TR><TR><TD PORT="Out" ALIGN="left"><FONT COLOR="red">Out</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="red">Thermal_SpindleTemperature</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Temperature" ALIGN="right"><FONT COLOR="red">Temperature</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="red"><I>model: homogStorage</I></FONT></TD></TR><TR><TD><FONT COLOR="red">type: Kessler_000101561</FONT></TD></TR><TR><TD><FONT COLOR="red">parentType: Motor</FONT></TD></TR></TABLE>
+> ];
+Thermal_SpindleFreeFlow [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="red" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Temperature1" ALIGN="left"><FONT COLOR="red">Temperature1</FONT></TD></TR><TR><TD PORT="Temperature2" ALIGN="left"><FONT COLOR="red">Temperature2</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="red">Thermal_SpindleFreeFlow</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PThermal12" ALIGN="right"><FONT COLOR="red">PThermal12</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="red"><I>model: freeHeatTransfere</I></FONT></TD></TR><TR><TD><FONT COLOR="red">type: Kessler_000101561</FONT></TD></TR><TR><TD><FONT COLOR="red">parentType: Motor</FONT></TD></TR></TABLE>
+> ];
+Thermal_SpindleHeatExchanger [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="red" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="MassFlow" ALIGN="left"><FONT COLOR="red">MassFlow</FONT></TD></TR><TR><TD PORT="TemperatureAmb" ALIGN="left"><FONT COLOR="red">TemperatureAmb</FONT></TD></TR><TR><TD PORT="TemperatureIn" ALIGN="left"><FONT COLOR="red">TemperatureIn</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="red">Thermal_SpindleHeatExchanger</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PLoss" ALIGN="right"><FONT COLOR="red">PLoss</FONT></TD></TR><TR><TD PORT="TemperatureOut" ALIGN="right"><FONT COLOR="red">TemperatureOut</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="red"><I>model: layerStorage</I></FONT></TD></TR><TR><TD><FONT COLOR="red">type: SpindleHeatExchanger</FONT></TD></TR></TABLE>
+> ];
+Thermal_CoolerBackflow [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="red" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="MassFlow" ALIGN="left"><FONT COLOR="red">MassFlow</FONT></TD></TR><TR><TD PORT="Temperature1" ALIGN="left"><FONT COLOR="red">Temperature1</FONT></TD></TR><TR><TD PORT="Temperature2" ALIGN="left"><FONT COLOR="red">Temperature2</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="red">Thermal_CoolerBackflow</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PThermal12" ALIGN="right"><FONT COLOR="red">PThermal12</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="red"><I>model: forcedHeatTransfere</I></FONT></TD></TR><TR><TD><FONT COLOR="red">type: CoolingFluidSpindle</FONT></TD></TR></TABLE>
+> ];
+Thermal_CoolerTemperature [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="red" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="In" ALIGN="left"><FONT COLOR="red">In</FONT></TD></TR><TR><TD PORT="Out" ALIGN="left"><FONT COLOR="red">Out</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="red">Thermal_CoolerTemperature</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Temperature" ALIGN="right"><FONT COLOR="red">Temperature</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="red"><I>model: homogStorage</I></FONT></TD></TR><TR><TD><FONT COLOR="red">type: Hyfra_VWK_21_1S</FONT></TD></TR><TR><TD><FONT COLOR="red">parentType: HeatExchanger</FONT></TD></TR></TABLE>
+> ];
+Thermal_PumpLossToFluid [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="red" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Input" ALIGN="left"><FONT COLOR="red">Input</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="red">Thermal_PumpLossToFluid</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Output" ALIGN="right"><FONT COLOR="red">Output</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="red"><I>model: gain</I></FONT></TD></TR><TR><TD><FONT COLOR="red">unit: WATT</FONT></TD></TR><TR><TD><FONT COLOR="red">gain: 0.3</FONT></TD></TR></TABLE>
+> ];
+Thermal_PumpLossToAmbient [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="red" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Minus" ALIGN="left"><FONT COLOR="red">-</FONT></TD></TR><TR><TD PORT="Plus0" ALIGN="left"><FONT COLOR="red">+</FONT></TD></TR></TABLE></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Sum" ALIGN="right"><FONT COLOR="red">=</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="red">Thermal_PumpLossToAmbient</FONT></TD></TR></TABLE>
+> ];
+Thermal_CoolerFreeFlow [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="red" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Temperature1" ALIGN="left"><FONT COLOR="red">Temperature1</FONT></TD></TR><TR><TD PORT="Temperature2" ALIGN="left"><FONT COLOR="red">Temperature2</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="red">Thermal_CoolerFreeFlow</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PThermal12" ALIGN="right"><FONT COLOR="red">PThermal12</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="red"><I>model: freeHeatTransfere</I></FONT></TD></TR><TR><TD><FONT COLOR="red">type: Hyfra_VWK_21_1S</FONT></TD></TR><TR><TD><FONT COLOR="red">parentType: HeatExchanger</FONT></TD></TR></TABLE>
+> ];
+FanucCtrl [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="blue"><B>FanucCtrl</B></FONT></TD></TR><TR><TD><I><FONT COLOR="blue">staticSimulationControl</FONT></I></TD></TR></TABLE>> ];
+AxisBrakeCtrl [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="blue"><B>AxisBrakeCtrl</B></FONT></TD></TR><TR><TD><I><FONT COLOR="blue">processSimulationControl</FONT></I></TD></TR></TABLE>> ];
+LubFlow [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="blue"><B>LubFlow</B></FONT></TD></TR><TR><TD><I><FONT COLOR="blue">processSimulationControl</FONT></I></TD></TR></TABLE>> ];
+SpindleCoolingCtrl [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="blue"><B>SpindleCoolingCtrl</B></FONT></TD></TR><TR><TD><I><FONT COLOR="blue">staticSimulationControl</FONT></I></TD></TR></TABLE>> ];
+ChipConv [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="blue"><B>ChipConv</B></FONT></TD></TR><TR><TD><I><FONT COLOR="blue">processSimulationControl</FONT></I></TD></TR></TABLE>> ];
+SealingAirDemand [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="blue"><B>SealingAirDemand</B></FONT></TD></TR><TR><TD><I><FONT COLOR="blue">staticSimulationControl</FONT></I></TD></TR></TABLE>> ];
+FanCtrl [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="blue"><B>FanCtrl</B></FONT></TD></TR><TR><TD><I><FONT COLOR="blue">staticSimulationControl</FONT></I></TD></TR></TABLE>> ];
+C1_n [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="blue"><B>C1_n</B></FONT></TD></TR><TR><TD><I><FONT COLOR="blue">processSimulationControl</FONT></I></TD></TR></TABLE>> ];
+C1_Torque [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="blue"><B>C1_Torque</B></FONT></TD></TR><TR><TD><I><FONT COLOR="blue">geometricKienzleSimulationControl</FONT></I></TD></TR></TABLE>> ];
+X1_Force [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="blue"><B>X1_Force</B></FONT></TD></TR><TR><TD><I><FONT COLOR="blue">geometricKienzleSimulationControl</FONT></I></TD></TR></TABLE>> ];
+Z1_Force [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="blue"><B>Z1_Force</B></FONT></TD></TR><TR><TD><I><FONT COLOR="blue">geometricKienzleSimulationControl</FONT></I></TD></TR></TABLE>> ];
+X1_d [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="blue"><B>X1_d</B></FONT></TD></TR><TR><TD><I><FONT COLOR="blue">processSimulationControl</FONT></I></TD></TR></TABLE>> ];
+X1_ap [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="blue"><B>X1_ap</B></FONT></TD></TR><TR><TD><I><FONT COLOR="blue">processSimulationControl</FONT></I></TD></TR></TABLE>> ];
+X1_v [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="blue"><B>X1_v</B></FONT></TD></TR><TR><TD><I><FONT COLOR="blue">processSimulationControl</FONT></I></TD></TR></TABLE>> ];
+Z1_v [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="blue"><B>Z1_v</B></FONT></TD></TR><TR><TD><I><FONT COLOR="blue">processSimulationControl</FONT></I></TD></TR></TABLE>> ];
+FClamp [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="blue"><B>FClamp</B></FONT></TD></TR><TR><TD><I><FONT COLOR="blue">processSimulationControl</FONT></I></TD></TR></TABLE>> ];
+Tool [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="blue"><B>Tool</B></FONT></TD></TR><TR><TD><I><FONT COLOR="blue">processSimulationControl</FONT></I></TD></TR></TABLE>> ];
+AmbTemperature [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="blue"><B>AmbTemperature</B></FONT></TD></TR><TR><TD><I><FONT COLOR="blue">staticSimulationControl</FONT></I></TD></TR></TABLE>> ];
+AmbPressure [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="blue"><B>AmbPressure</B></FONT></TD></TR><TR><TD><I><FONT COLOR="blue">staticSimulationControl</FONT></I></TD></TR></TABLE>> ];
+Zero [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="blue"><B>Zero</B></FONT></TD></TR><TR><TD><I><FONT COLOR="blue">processSimulationControl</FONT></I></TD></TR></TABLE>> ];
+C1_n-> "C1":RotSpeed[headport=w, tailport=e, color="blue", style="solid"]
+C1_Torque-> "C1":Torque[headport=w, tailport=e, color="blue", style="solid"]
+FanucCtrl-> "C1_amp":State[headport=w, tailport=e, color="blue", style="solid"]
+"C1":PTotal -> "C1_amp":PDmd[headport=w, tailport=e, color="black", style="solid"]
+X1_v-> "X1_ax":Speed[headport=w, tailport=e, color="blue", style="solid"]
+X1_Force-> "X1_ax":ProcessForce[headport=w, tailport=e, color="blue", style="solid"]
+"X1_ax":RotSpeed -> "X1":RotSpeed[headport=w, tailport=e, color="black", style="solid"]
+"X1_ax":Torque -> "X1_BrakeAction":Input[headport=w, tailport=e, color="black", style="solid"]
+AxisBrakeCtrl-> "X1_BrakeAction":Control[headport=w, tailport=e, color="blue", style="solid"]
+"X1_BrakeAction":Output -> "X1":Torque[headport=w, tailport=e, color="black", style="solid"]
+AxisBrakeCtrl-> "X1_Brake":level[headport=w, tailport=e, color="blue", style="solid"]
+"X1":PTotal -> "AxPower":Plus0[headport=w, tailport=e, color="black", style="solid"]
+Z1_v-> "Z1_ax":Speed[headport=w, tailport=e, color="blue", style="solid"]
+Z1_Force-> "Z1_ax":ProcessForce[headport=w, tailport=e, color="blue", style="solid"]
+"Z1_ax":RotSpeed -> "Z1":RotSpeed[headport=w, tailport=e, color="black", style="solid"]
+"Z1_ax":Torque -> "Z1_BrakeAction":Input[headport=w, tailport=e, color="black", style="solid"]
+AxisBrakeCtrl-> "Z1_BrakeAction":Control[headport=w, tailport=e, color="blue", style="solid"]
+AxisBrakeCtrl-> "Z1_Brake":level[headport=w, tailport=e, color="blue", style="solid"]
+"Z1_BrakeAction":Output -> "Z1":Torque[headport=w, tailport=e, color="black", style="solid"]
+"Z1":PTotal -> "AxPower":Plus1[headport=w, tailport=e, color="black", style="solid"]
+FanucCtrl-> "Ax_amp":State[headport=w, tailport=e, color="blue", style="solid"]
+"AxPower":Sum -> "Ax_amp":PDmd[headport=w, tailport=e, color="black", style="solid"]
+Tool-> "T1_pos":Tool[headport=w, tailport=e, color="blue", style="solid"]
+"T1_pos":RotSpeed -> "B1":RotSpeed[headport=w, tailport=e, color="black", style="solid"]
+"T1_pos":Torque -> "B1":Torque[headport=w, tailport=e, color="black", style="solid"]
+FanucCtrl-> "B1_amp":State[headport=w, tailport=e, color="blue", style="solid"]
+"B1":PTotal -> "B1_amp":PDmd[headport=w, tailport=e, color="black", style="solid"]
+Zero-> "Z3_ax":Speed[headport=w, tailport=e, color="blue", style="solid"]
+FClamp-> "Z3_ax":ProcessForce[headport=w, tailport=e, color="blue", style="solid"]
+"Z3_ax":RotSpeed -> "Z3":RotSpeed[headport=w, tailport=e, color="black", style="solid"]
+"Z3_ax":Torque -> "Z3":Torque[headport=w, tailport=e, color="black", style="solid"]
+FanucCtrl-> "Z3_amp":State[headport=w, tailport=e, color="blue", style="solid"]
+"Z3":PTotal -> "Z3_amp":PDmd[headport=w, tailport=e, color="black", style="solid"]
+"C1_amp":PAmp -> "FanucTotalPower":Plus0[headport=w, tailport=e, color="black", style="solid"]
+"Ax_amp":PAmp -> "FanucTotalPower":Plus1[headport=w, tailport=e, color="black", style="solid"]
+"B1_amp":PAmp -> "FanucTotalPower":Plus2[headport=w, tailport=e, color="black", style="solid"]
+"Z3_amp":PAmp -> "FanucTotalPower":Plus3[headport=w, tailport=e, color="black", style="solid"]
+"C1_amp":PLoss -> "FanucTotalHeatLoss":Plus0[headport=w, tailport=e, color="red", style="solid"]
+"Ax_amp":PLoss -> "FanucTotalHeatLoss":Plus1[headport=w, tailport=e, color="red", style="solid"]
+"B1_amp":PLoss -> "FanucTotalHeatLoss":Plus2[headport=w, tailport=e, color="red", style="solid"]
+"Z3_amp":PLoss -> "FanucTotalHeatLoss":Plus3[headport=w, tailport=e, color="red", style="solid"]
+"Fan_in":PTotal -> "ControlPowerTransformer":Plus0[headport=w, tailport=e, color="black", style="solid"]
+"Fan_out":PTotal -> "ControlPowerTransformer":Plus1[headport=w, tailport=e, color="black", style="solid"]
+"X1_Brake":ptotal -> "ControlPowerTransformer":Plus2[headport=w, tailport=e, color="black", style="solid"]
+"Z1_Brake":ptotal -> "ControlPowerTransformer":Plus3[headport=w, tailport=e, color="black", style="solid"]
+"C1_amp":PCtrl -> "ControlPowerTransformer":Plus4[headport=w, tailport=e, color="black", style="solid"]
+"Ax_amp":PCtrl -> "ControlPowerTransformer":Plus5[headport=w, tailport=e, color="black", style="solid"]
+"B1_amp":PCtrl -> "ControlPowerTransformer":Plus6[headport=w, tailport=e, color="black", style="solid"]
+"Z3_amp":PCtrl -> "ControlPowerTransformer":Plus7[headport=w, tailport=e, color="black", style="solid"]
+SealingAirDemand-> "CompressedAir":Flow[headport=w, tailport=e, color="blue", style="solid"]
+AmbTemperature-> "CompressedAir":TemperatureAmb[headport=w, tailport=e, color="blue", style="dashed"]
+AmbPressure-> "CompressedAir":PressureAmb[headport=w, tailport=e, color="blue", style="solid"]
+"SpindleCoolingController":Output -> "SpindleCoolingCompressor":level[headport=w, tailport=e, color="black", style="solid"]
+SpindleCoolingCtrl-> "SpindleCoolingPump":MassFlowOut[headport=w, tailport=e, color="blue", style="solid"]
+LubFlow-> "CuttingFluidPump":MassFlowOut[headport=w, tailport=e, color="blue", style="solid"]
+ChipConv-> "ChipConveyor":level[headport=w, tailport=e, color="blue", style="solid"]
+FanCtrl-> "Fan_in":level[headport=w, tailport=e, color="blue", style="solid"]
+FanCtrl-> "Fan_out":level[headport=w, tailport=e, color="blue", style="solid"]
+"FanucTotalPower":Sum -> "TotalPower":Plus0[headport=w, tailport=e, color="black", style="solid"]
+"SpindleCoolingPump":PTotal -> "TotalPower":Plus1[headport=w, tailport=e, color="black", style="solid"]
+"SpindleCoolingCompressor":PTotal -> "TotalPower":Plus2[headport=w, tailport=e, color="black", style="solid"]
+"CuttingFluidPump":PTotal -> "TotalPower":Plus3[headport=w, tailport=e, color="black", style="solid"]
+"ChipConveyor":ptotal -> "TotalPower":Plus4[headport=w, tailport=e, color="black", style="solid"]
+"ControlPowerTransformer":Sum -> "TotalPower":Plus5[headport=w, tailport=e, color="black", style="solid"]
+"SpindleCoolingCompressor":PThermal -> "TotalHeatLoss":Plus0[headport=w, tailport=e, color="red", style="solid"]
+"FanucTotalHeatLoss":Sum -> "TotalHeatLoss":Plus1[headport=w, tailport=e, color="red", style="solid"]
+"X1":PLoss -> "TotalHeatLoss":Plus2[headport=w, tailport=e, color="red", style="solid"]
+"Z1":PLoss -> "TotalHeatLoss":Plus3[headport=w, tailport=e, color="red", style="solid"]
+"Z3":PLoss -> "TotalHeatLoss":Plus4[headport=w, tailport=e, color="red", style="solid"]
+"B1":PLoss -> "TotalHeatLoss":Plus5[headport=w, tailport=e, color="red", style="solid"]
+"CuttingFluidPump":PLoss -> "TotalHeatLoss":Plus6[headport=w, tailport=e, color="red", style="solid"]
+"Thermal_PumpLossToAmbient":Sum -> "TotalHeatLoss":Plus7[headport=w, tailport=e, color="red", style="solid"]
+"Thermal_CoolerFreeFlow":PThermal12 -> "TotalHeatLoss":Plus8[headport=w, tailport=e, color="red", style="solid"]
+"Thermal_SpindleFreeFlow":PThermal12 -> "TotalHeatLoss":Plus9[headport=w, tailport=e, color="red", style="solid"]
+"C1":PLoss -> "Thermal_SpindleTemperature":In[headport=w, tailport=e, color="red", style="solid"]
+"Thermal_SpindleHeatExchanger":PLoss -> "Thermal_SpindleTemperature":In[headport=w, tailport=e, color="red", style="solid"]
+"Thermal_SpindleFreeFlow":PThermal12 -> "Thermal_SpindleTemperature":Out[headport=w, tailport=e, color="red", style="solid"]
+"Thermal_SpindleTemperature":Temperature -> "Thermal_SpindleFreeFlow":Temperature1[headport=w, tailport=e, color="red", style="dashed"]
+AmbTemperature-> "Thermal_SpindleFreeFlow":Temperature2[headport=w, tailport=e, color="blue", style="dashed"]
+"SpindleCoolingPump":PLoss -> "Thermal_PumpLossToFluid":Input[headport=w, tailport=e, color="red", style="solid"]
+"Thermal_PumpLossToFluid":Output -> "Thermal_CoolerTemperature":In[headport=w, tailport=e, color="red", style="solid"]
+"Thermal_CoolerBackflow":PThermal12 -> "Thermal_CoolerTemperature":In[headport=w, tailport=e, color="red", style="solid"]
+"SpindleCoolingPump":PUse -> "Thermal_CoolerTemperature":In[headport=w, tailport=e, color="black", style="solid"]
+"SpindleCoolingCompressor":PThermal -> "Thermal_CoolerTemperature":Out[headport=w, tailport=e, color="red", style="solid"]
+"Thermal_CoolerFreeFlow":PThermal12 -> "Thermal_CoolerTemperature":Out[headport=w, tailport=e, color="red", style="solid"]
+"SpindleCoolingPump":PLoss -> "Thermal_PumpLossToAmbient":Plus0[headport=w, tailport=e, color="red", style="solid"]
+"Thermal_PumpLossToFluid":Output -> "Thermal_PumpLossToAmbient":Minus[headport=w, tailport=e, color="red", style="solid"]
+"Thermal_CoolerTemperature":Temperature -> "SpindleCoolingController":Input[headport=w, tailport=e, color="red", style="dashed"]
+"Thermal_CoolerTemperature":Temperature -> "Thermal_SpindleHeatExchanger":TemperatureIn[headport=w, tailport=e, color="red", style="dashed"]
+"Thermal_SpindleTemperature":Temperature -> "Thermal_SpindleHeatExchanger":TemperatureAmb[headport=w, tailport=e, color="red", style="dashed"]
+SpindleCoolingCtrl-> "Thermal_SpindleHeatExchanger":MassFlow[headport=w, tailport=e, color="blue", style="solid"]
+"Thermal_SpindleHeatExchanger":TemperatureOut -> "Thermal_CoolerBackflow":Temperature1[headport=w, tailport=e, color="red", style="dashed"]
+"Thermal_CoolerTemperature":Temperature -> "Thermal_CoolerBackflow":Temperature2[headport=w, tailport=e, color="red", style="dashed"]
+SpindleCoolingCtrl-> "Thermal_CoolerBackflow":MassFlow[headport=w, tailport=e, color="blue", style="solid"]
+"Thermal_CoolerTemperature":Temperature -> "Thermal_CoolerFreeFlow":Temperature1[headport=w, tailport=e, color="red", style="dashed"]
+AmbTemperature-> "Thermal_CoolerFreeFlow":Temperature2[headport=w, tailport=e, color="blue", style="dashed"]
+}

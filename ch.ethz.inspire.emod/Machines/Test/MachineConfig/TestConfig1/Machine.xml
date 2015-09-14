@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:machine xmlns:ns2="ch.ethz.inspire.emod">
+    <machine>
+        <machineComponent>
+            <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>Amplifier</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>Amplifier_1</name>
+        </machineComponent>
+    </machine>
+    <simulators>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>ProcessSimulationControl</name>
+            <unit>WATT</unit>
+        </simController>
+    </simulators>
+    <connectionList/>
+    <connectionList/>
+</ns2:machine>
