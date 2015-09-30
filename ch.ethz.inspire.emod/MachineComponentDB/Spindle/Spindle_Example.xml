@@ -5,7 +5,6 @@
 <entry key="BearingType">Example,Example,Example</entry>
 <entry key="StructureMaterial">Steel</entry>
 <entry key="StructureMass">30</entry>
-<entry key="CoolantMaterial">Water</entry>
 <entry key="PreloadForce">944,344,600</entry>
 <entry key="CoolantVolume">.005</entry>
 <entry key="MotorType">Example</entry>

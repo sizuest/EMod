@@ -217,9 +217,9 @@ public class LayerStorage extends APhysicalComponent{
 		 *   k = alpha
 		 */
 		if(0==alpha)
-			thRessistance=Double.POSITIVE_INFINITY;
+			thRessistance=0.0;
 		else
-			thRessistance=1/alpha/surf;
+			thRessistance=alpha*surf;
 	}
 	
 	/**
@@ -316,13 +316,12 @@ public class LayerStorage extends APhysicalComponent{
 		// Set boundary conditions
 		thermalArray.setFlowRate(mDotIn.getValue()/thermalArray.getMaterial().getDensity(tempIn.getValue(), pressure.getValue()));
 		thermalArray.setHeatSource(0);
-		thermalArray.setPressure(pressure.getValue());
-		thermalArray.setTemperatureExternal(tempAmb.getValue());
+		thermalArray.setTemperatureAmb(tempAmb.getValue());
 		thermalArray.setTemperatureIn(tempIn.getValue());
 		thermalArray.setThermalResistance(thRessistance);
 		
 		// Update thermal array
-		thermalArray.integrate(timestep);
+		thermalArray.integrate(timestep, 0, 0, pressure.getValue());
 		
 		// Set outputs
 		tempOut.setValue(thermalArray.getTemperatureOut());

@@ -19,7 +19,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import ch.ethz.inspire.emod.model.fluid.FluidElement;
+import ch.ethz.inspire.emod.model.fluid.Fluid;
 import ch.ethz.inspire.emod.model.thermal.ThermalElement;
 import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.simulation.DynamicState;
@@ -40,14 +40,11 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  * 
  * 
  * Inputlist:
- *   1: Level:		: [-]    : Indicator for pump on
- *   2: MassFlowOut : [kg/s] : Demanded mass flow out
- *   3: Density		: [kg/m^3]
+ *   1: FluidIn			: [-] : -
+ *   2: TemperatureAmb	: [K] : Ambient Temeprature
  * Outputlist:
- *   1: PTotal      : [W]    : Demanded electrical power
- *   2: PLoss       : [W]    : Thermal pump losses
- *   3: PUse        : [W]    : Power in the pluid
- *   4: MassFlowIn  : [m3/s] : Current mass flow in
+ *   1: FluidOut    : [-]    :
+ *   2: Content     : [m3]   : Current content
  *   5: pressure    : [Pa]   : Pressure in the tank
  *   
  * Config parameters:
@@ -55,7 +52,6 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  *   FluidValumeInitial   : [m3]    : Initial volume of the fluid in the reservoir
  *   PressureMax          : [Pa]    : Hysteresis controller max. reservoir pressure
  *   PressureMin          : [Pa]    : Hysteresis controller min. reservoir pressure
- *   ElectricalPower	  : [W]     : Nominal power if operating
  * 
  * @author simon
  *
@@ -68,6 +64,7 @@ public class HydraulicAccumulator extends APhysicalComponent implements Floodabl
 	
 	// Input parameters:
 	private FluidContainer fluidIn;
+	private IOContainer temperatureAmb;
 	// Output parameters:
 	private IOContainer pfluid;
 	private IOContainer content;
@@ -84,10 +81,10 @@ public class HydraulicAccumulator extends APhysicalComponent implements Floodabl
 	private double volGas;              // Gas volume
 	private double pGas;				// Gas pressure
 	private boolean pumpOn;				// Pump state
+	private double radius;				// Radius of the Tank
 	
 	// Sub-models used by the model
 	private ThermalElement fluid;
-	private FluidElement mass;
 	
 	// Fluid properties
 	private FluidCircuitProperties fluidCircuitProperties;
@@ -128,15 +125,17 @@ public class HydraulicAccumulator extends APhysicalComponent implements Floodabl
 	private void init()
 	{
 		/* Define Input parameters */
-		inputs      = new ArrayList<IOContainer>();
-		fluidIn     = new FluidContainer("FluidIn", Unit.NONE, ContainerType.FLUIDDYNAMIC);
+		inputs         = new ArrayList<IOContainer>();
+		fluidIn        = new FluidContainer("FluidIn", Unit.NONE, ContainerType.FLUIDDYNAMIC);
+		temperatureAmb = new IOContainer("TemperatureAmb",     Unit.KELVIN,    293.15, ContainerType.THERMAL);
 		inputs.add(fluidIn);
+		inputs.add(temperatureAmb);
 		
 		/* Define output parameters */
-		outputs    = new ArrayList<IOContainer>();
-		fluidOut   = new FluidContainer("FluidOut", Unit.NONE, ContainerType.FLUIDDYNAMIC);
-		content    = new IOContainer("Content",     Unit.KG,    0, ContainerType.FLUIDDYNAMIC);
-		pfluid     = new IOContainer("State",       Unit.NONE,  0, ContainerType.CONTROL);
+		outputs     = new ArrayList<IOContainer>();
+		fluidOut    = new FluidContainer("FluidOut", Unit.NONE, ContainerType.FLUIDDYNAMIC);
+		content     = new IOContainer("Content",     Unit.METERCUBIC,    0, ContainerType.FLUIDDYNAMIC);
+		pfluid      = new IOContainer("State",       Unit.NONE,  0, ContainerType.CONTROL);
 		outputs.add(fluidOut);
 		outputs.add(content);
 		outputs.add(pfluid);
@@ -169,8 +168,7 @@ public class HydraulicAccumulator extends APhysicalComponent implements Floodabl
 			
 			/* Sub Models */
 			this.fluid = new ThermalElement("Example", 1);
-			this.mass  = new FluidElement("Example", volFluidInit*fluid.getMaterial().getDensity(293, pGasInit));
-			this.mass.setMaterial(fluid.getMaterial());
+			this.fluid.setMass(volFluidInit*fluid.getMaterial().getDensity(293, pGasInit));
 			
 			/* Define fluid circuit properties
 			 * In this case, the element leads to a non-direct connected in- and outlet! */
@@ -188,6 +186,9 @@ public class HydraulicAccumulator extends APhysicalComponent implements Floodabl
 			 */
 			if (pGasInit<hystPMin) pumpOn = true;
 			else                   pumpOn = false;
+			
+			/* Estimate radius */
+			radius = Math.pow(0.75/Math.PI*(volFluidInit+volGasInit), 0.3333);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -241,16 +242,19 @@ public class HydraulicAccumulator extends APhysicalComponent implements Floodabl
 	 */
 	@Override
 	public void update() {
-		double mIn, mOut;
 		
-		/* Mass flows */
-		mIn =  fluidCircuitProperties.getFlowRateIn()*fluid.getMaterial().getDensity(fluidIn.getTemperature(), fluidIn.getPressure());
-		mOut = fluidCircuitProperties.getFlowRateOut()*fluid.getMaterial().getDensity(fluid.getTemperature().getValue(), pGas);
-		/*
-		 * Update mass in the reservoir:
-		 * m(t) += T[s] * (mdot_in(t-T) [kg/s] - mdot_out(t-T) [kg/s]) | / rho [kg/m3]
-		 */
-		volFluid += (mIn-mOut) / fluid.getMaterial().getDensity(fluid.getTemperature().getValue(), pGas) * timestep;
+		double thermalResistance;
+		
+		/* Convection */
+		thermalResistance = 4.0*Math.PI*Math.pow(radius, 2)*Fluid.convectionFreeSphere(new Material("Air"), fluid.getTemperature().getValue(), temperatureAmb.getValue(), radius);
+		
+		/* Thermal Energy flows by fluid */
+		fluid.setTemperatureIn(fluidIn.getTemperature());
+		fluid.setTemperatureAmb(temperatureAmb.getValue());
+		fluid.setThermalResistance(thermalResistance);
+		fluid.integrate(timestep, fluidCircuitProperties.getFlowRateIn(), fluidCircuitProperties.getFlowRateOut(), pGas);
+		
+		volFluid = fluid.getVolume();
 		/*
 		 * New gas volume
 		 * V_gas(t) [m3] = V_gas,0 [m3] + V_fluid,0 [m3] - V(t) [m3]
@@ -262,13 +266,12 @@ public class HydraulicAccumulator extends APhysicalComponent implements Floodabl
 		 */
 		pGas   = pGasInit * volGasInit / volGas;
 		
-		/* Thermal Energy flows */
-		fluid.setHeatInput(mIn*fluid.getMaterial().getHeatCapacity()-mOut*fluid.getMaterial().getHeatCapacity());
-		fluid.integrate(timestep);
+		
 		
 		
 		/* Write Fluid Channels */
 		fluidOut.setPressure(pGas);
+		fluidIn.setPressure(pGas);
 		fluidOut.setTemperature(fluid.getTemperature().getValue());
 		
 		
@@ -287,7 +290,7 @@ public class HydraulicAccumulator extends APhysicalComponent implements Floodabl
 		else
 			pfluid.setValue(0);
 		
-		content.setValue(mass.getMass().getValue());
+		content.setValue(fluid.getMass().getValue());
 					
 	}
 

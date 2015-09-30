@@ -42,15 +42,11 @@ import ch.ethz.inspire.emod.utils.IOContainer;
  *   2: PLoss         : [W]   : Resulting lossess 
  *   
  * Config parameters:
- *   X0                 : [-]   : Static radial factor.
- *   Y0                 : [-]   : Static radial factor.
- *   X1                 : [-]   : Dynamic radial factor.
- *   Y1                 : [-]   : Dynamic radial  factor.
  *   C0                 : [N]   : Static load factor.
  *   MeanDiameter       : [m]   : Mean diameter of the bearing 
- *   LubricantViscosity : [m2/s]: Viscosity of the used lubricant
  *   ContactAngle       : [°]   : Contact angle of the rolling bodies
  *   LubricationFactor  : [-]   : Lubricant factor according to Harris p448
+ *   LubricantMaterial  : [-]   : Name of the lubricant material
  * 
  * @author sizuest
  *
@@ -65,9 +61,13 @@ public class Bearing extends APhysicalComponent{
 	private IOContainer forceAxial;
 	private IOContainer forceRadial;
 	private IOContainer rotSpeed;
+	private IOContainer temperature1;
+	private IOContainer temperature2;
 	// Output parameters:
 	private IOContainer torque;
 	private IOContainer ploss;
+	private IOContainer heatFlux1;
+	private IOContainer heatFlux2;
 	
 	// Parameters used by the model. 
 	double bearingX0, // radial factor (static)
@@ -76,11 +76,13 @@ public class Bearing extends APhysicalComponent{
 	       bearingY1; // axial  factor (dynamic)
 	double bearingC0; // static load rating
 	double bearingRm; // Mean radius
-	double bearingNu; // Lubricant viscosity
 	double bearingA;  // Contact angle
 	double bearingF0; // Empirical lubrication factor
 	double bearingZ,  // Empirical model parameters, will be calculated dependent on the angle
 	       bearingY;
+	int    bearingNumRows;
+	int    bearingNumBodies;
+	Material lubricant; 
 	
 	/**
 	 * Constructor called from XmlUnmarshaller.
@@ -90,6 +92,10 @@ public class Bearing extends APhysicalComponent{
 		super();
 	}
 	
+	/**
+	 * @param u
+	 * @param parent
+	 */
 	public void afterUnmarshal(final Unmarshaller u, final Object parent) {
 		//post xml init method (loading physics data)
 		init();
@@ -114,19 +120,28 @@ public class Bearing extends APhysicalComponent{
 	{
 		/* Define Input parameters */
 		inputs       = new ArrayList<IOContainer>();
-		forceAxial   = new IOContainer("ForceAxial",  Unit.NEWTON, 0, ContainerType.MECHANIC);
-		forceRadial  = new IOContainer("ForceRadial", Unit.NEWTON, 0, ContainerType.MECHANIC);
-		rotSpeed     = new IOContainer("RotSpeed",    Unit.RPM,         0, ContainerType.MECHANIC);
+		forceAxial   = new IOContainer("ForceAxial",   Unit.NEWTON, 0,      ContainerType.MECHANIC);
+		forceRadial  = new IOContainer("ForceRadial",  Unit.NEWTON, 0,      ContainerType.MECHANIC);
+		rotSpeed     = new IOContainer("RotSpeed",     Unit.RPM,    0,      ContainerType.MECHANIC);
+		temperature1 = new IOContainer("Temperature1", Unit.KELVIN, 293.15, ContainerType.THERMAL);
+		temperature2 = new IOContainer("Temperature2", Unit.KELVIN, 293.15, ContainerType.THERMAL);
 		inputs.add(forceAxial);
 		inputs.add(forceRadial);
 		inputs.add(rotSpeed);
+		inputs.add(rotSpeed);
+		inputs.add(temperature1);
+		inputs.add(temperature2);
 		
 		/* Define output parameters */
-		outputs = new ArrayList<IOContainer>();
-		torque  = new IOContainer("Torque", Unit.NEWTONMETER, 0, ContainerType.MECHANIC);
-		ploss   = new IOContainer("PLoss",  Unit.WATT,        0, ContainerType.THERMAL);
+		outputs   = new ArrayList<IOContainer>();
+		torque    = new IOContainer("Torque",   Unit.NEWTONMETER, 0, ContainerType.MECHANIC);
+		ploss     = new IOContainer("PLoss",    Unit.WATT,        0, ContainerType.THERMAL);
+		heatFlux1 = new IOContainer("HeatFlux", Unit.WATT,        0, ContainerType.THERMAL);
+		heatFlux2 = new IOContainer("HeatFlux", Unit.WATT,        0, ContainerType.THERMAL);
 		outputs.add(torque);
 		outputs.add(ploss);
+		outputs.add(heatFlux1);
+		outputs.add(heatFlux2);
 		
 		/* ************************************************************************/
 		/*         Read configuration parameters: */
@@ -143,23 +158,18 @@ public class Bearing extends APhysicalComponent{
 		
 		/* Read the config parameter: */
 		try {
-			bearingX0 = params.getDoubleValue("X0");
-		    bearingY0 = params.getDoubleValue("Y0");
-			bearingX1 = params.getDoubleValue("X1");
-		    bearingY1 = params.getDoubleValue("Y1");
-			bearingC0 = params.getDoubleValue("C0"); 
+			// Load specific parameters
 			bearingRm = params.getDoubleValue("MeanDiameter")/2;
-			bearingNu = params.getDoubleValue("LubricantViscosity");
 			bearingA  = params.getDoubleValue("ContactAngle");
 			bearingF0 = params.getDoubleValue("LubricationFactor");
+			bearingC0 = params.getDoubleValue("C0");
+			bearingNumBodies = params.getIntValue("NumRollingBodies");
 			
+			lubricant = new Material(params.getString("LubricantMaterial"));
+
+			// Load general Parameters
+			setBearingParameters(bearingA);
 			
-			// Estimate empirical parameters
-			double[] Asamples = { 0,      30,    40,     90      };
-			double[] zsamples = { 0.0009,  0.001, 0.0013, 0.0012 };
-			double[] ysamples = { 0.55,    0.33,  0.33,   0.33   };
-			bearingZ = Algo.linearInterpolation(bearingA, Asamples, zsamples);
-			bearingY = Algo.linearInterpolation(bearingA, Asamples, ysamples);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -177,6 +187,51 @@ public class Bearing extends APhysicalComponent{
 		}
 	}
 	
+	private void setBearingParameters( double bearingA){
+		
+		/* CONFIG */
+		double[]   angleSamples = {0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 90};
+		double[]   X0Samples    = {.5, 1};
+		double[][] Y0Samples    = { {.6, .52, .5, .46, .42, .38, .33, .29, .26, .22, 0},
+				                    {.5, 1.04,  1, .92, .84, .76, .66, .58, .52, .44, 0} }; 
+		double[]   zSamples     = {0.0009, 0.0006, 0.0003, 0.0005, 0.0007, 0.0008, 0.001, 0.0012, 0.0013, 0.0013, 0.0012};
+		double[]   ySamples     = {0.55, 0.48, 0.4, 0.38, 0.37, 0.35, 0.33, 0.33, 0.33, 0.33, 0.33};
+		/* EOC */
+		
+			//	, X1Samples, Y1Samples, zSamples, ySamples
+		
+		/* 
+		 * Axial and radial factors 
+		 * SOURCE: ISO 76:2600
+		 * */
+		// Case: a=0°
+		if(0==bearingA)
+			bearingX0 = .6;
+		else
+			bearingX0 = X0Samples[bearingNumRows];
+		bearingY0 = Algo.linearInterpolation(bearingA, angleSamples, Y0Samples[bearingNumRows]);
+		
+		bearingX1 = 1;
+		bearingY1 = 0;
+			
+	
+		/* 
+		 * Friction factors
+		 * SOURCE: Harris, A., Rolling Bearing Analysis, John Wiley & Sons Inc., p446ff.
+		 */
+		bearingZ  = Algo.linearInterpolation(bearingA, angleSamples, zSamples);
+		bearingY  = Algo.linearInterpolation(bearingA, angleSamples, ySamples);		
+		
+	}
+	
+	private double getThermalResistance(double n){
+		double vp;
+		vp = bearingRm*n*Math.PI/30;
+		
+		return bearingNumBodies*1/2.4*Math.sqrt(14+2*Math.log(vp)-2*Math.log(bearingRm)*2000)*Math.pow(bearingRm*1000, 2);
+		
+	}
+	
 	/**
 	 * Validate the model parameters.
 	 * 
@@ -185,33 +240,17 @@ public class Bearing extends APhysicalComponent{
     private void checkConfigParams() throws Exception
 	{		
 		// Check model parameters:
-    	if (bearingX0<0){
-			throw new Exception("Bearing, type:" +type+ 
-					": Negative or zero value: X0 must be strictly positive!");
-		}
-    	if (bearingY0<0){
-			throw new Exception("Bearing, type:" +type+ 
-					": Negative or zero value: Y0 must be strictly positive!");
-		}
-    	if (bearingX1<0){
-			throw new Exception("Bearing, type:" +type+ 
-					": Negative or zero value: X1 must be strictly positive!");
-		}
-    	if (bearingY1<0){
-			throw new Exception("Bearing, type:" +type+ 
-					": Negative or zero value: Y1 must be strictly positive!");
-		}
     	if (bearingRm<=0){
 			throw new Exception("Bearing, type:" +type+ 
 					": Negative or zero value: MeanDiameter must be strictly positive!");
 		}
-    	if (bearingNu<=0){
-			throw new Exception("Bearing, type:" +type+ 
-					": Negative or zero value: LubricantViscosity must be strictly positive!");
-		}
     	if (bearingA<0){
 			throw new Exception("Bearing, type:" +type+ 
 					": Negative or zero value: ContactAngle must be strictly positive!");
+		}
+    	if (bearingA>90){
+			throw new Exception("Bearing, type:" +type+ 
+					": Out of bounds: ContactAngle must less than 90°!");
 		}
     	if (bearingF0<=0){
 			throw new Exception("Bearing, type:" +type+ 
@@ -229,6 +268,10 @@ public class Bearing extends APhysicalComponent{
 		double P0, P1;
 		double Tv, Tl;
 		double f1;
+		double nu;
+		
+		/* Viscosity Lubricant */
+		nu = lubricant.getViscosityKinematic((temperature2.getValue()+temperature1.getValue())/2);
 		
 		// Equivalent load
 		P0 = bearingX0*forceRadial.getValue() + bearingY0*forceAxial.getValue();
@@ -241,16 +284,16 @@ public class Bearing extends APhysicalComponent{
 		f1 = bearingZ*Math.pow( (P0/bearingC0), bearingY );
 		
 		// load torque
-		Tl = f1*P1*bearingRm*2 * 1.3558;
+		Tl = f1*P1*bearingRm*2 * 0.113;
 		
 		// viscous torque
 		if (rotSpeed.getValue() == 0)
 			Tv = 0;
-		else if ( rotSpeed.getValue() * bearingNu * 1e6 < 2000 )
-			Tv = 3.492E-3 * bearingF0 * Math.pow(bearingRm*2/.0254, 3) * 1.3558;
+		else if ( rotSpeed.getValue() * nu * 1e6 < 2000 )
+			Tv = 3.492E-3 * bearingF0 * Math.pow(bearingRm*2/.0254, 3) * 0.113;
 		else
-			Tv = 1.42E-5 * bearingF0 * Math.pow(bearingRm*2/.0254, 3) * 1.3558 * 
-			     Math.pow( Math.abs(rotSpeed.getValue()) * bearingNu * 1E6, 2.0/3);	
+			Tv = 1.42E-5 * bearingF0 * Math.pow(bearingRm*2/.0254, 3) * 0.113 * 
+			     Math.pow( Math.abs(rotSpeed.getValue()) * nu * 1E6, 2.0/3);	
 		
 		/* END OF Harris */
 		
@@ -259,6 +302,10 @@ public class Bearing extends APhysicalComponent{
 		
 		// PLoss [W] = | rotSpeed [rpm] * Pi/30 [rad/rpm] * torque [Nm] |
 		ploss.setValue( Math.abs( rotSpeed.getValue()*Math.PI/30*torque.getValue() ) );
+		
+		// heatFlux1 [W] = lambda [W/K] * (temperature2-temperature1) [K] + PLoss [W] / 2
+		heatFlux1.setValue(getThermalResistance(rotSpeed.getValue()) * (temperature2.getValue()-temperature1.getValue()) + ploss.getValue()/2 );
+		heatFlux2.setValue(getThermalResistance(rotSpeed.getValue()) * (temperature1.getValue()-temperature2.getValue()) + ploss.getValue()/2 );
 	}
 
 	/* (non-Javadoc)

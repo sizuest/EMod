@@ -5,7 +5,6 @@
 <entry key="BearingType">SKF-7009,SKF-7009,SKF-7009</entry>
 <entry key="StructureMaterial">Steel</entry>
 <entry key="StructureMass">26</entry>
-<entry key="CoolantMaterial">GlykolWater_30</entry>
 <entry key="PreloadForce">944,344,600</entry>
 <entry key="CoolantVolume">0.0001525</entry>
 <entry key="MotorType">E+A-10.6-10-4-239d-249dr12g</entry>

@@ -10,6 +10,5 @@
 <entry key="BearingType">SKF-7009,SKF-7009,SKF-7009</entry>
 <entry key="CoolantHTC">250</entry>
 <entry key="StructureMaterial">Steel</entry>
-<entry key="CoolantMaterial">GlykolWater_30</entry>
 <entry key="PressureLossCoefficient">1.68E13</entry>
 </properties>

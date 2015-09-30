@@ -3,7 +3,7 @@
     <machine>
         <machineComponent>
             <component xsi:type="spindle" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>StepTec-6000.300.B.10_htcTheory</type>
+                <type>StepTec-6000.300.B.10</type>
             </component>
             <name>Spindle</name>
         </machineComponent>
@@ -19,21 +19,25 @@
             <name>RotSpeed</name>
             <unit>RPM</unit>
         </simController>
-        <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>InletPressure</name>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Torque</name>
+            <unit>NEWTONMETER</unit>
+        </simController>
+        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>TemperatureIn</name>
+            <unit>KELVIN</unit>
+        </simController>
+        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>PressureIn</name>
             <unit>PA</unit>
         </simController>
         <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>FlowRate</name>
             <unit>METERCUBIC_S</unit>
         </simController>
-        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>Torque</name>
-            <unit>NEWTONMETER</unit>
-        </simController>
         <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>InletTemperature</name>
-            <unit>KELVIN</unit>
+            <name>MachineState</name>
+            <unit>NONE</unit>
         </simController>
     </simulators>
     <connectionList/>

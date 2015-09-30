@@ -21,6 +21,11 @@ import org.eclipse.swt.widgets.TreeItem;
 
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
+/**
+ * Handler class for machine component GUIs
+ * @author sizuest
+ *
+ */
 public class MachineComponentHandler {
 
  	/**
@@ -28,6 +33,15 @@ public class MachineComponentHandler {
 	 * @param aTree	tree element to fill
 	 */ 	
 	public static void fillMachineComponentTree(Tree aTree){
+		fillMachineComponentTree("", aTree);
+	}
+	
+	/**
+	 * fill a tree element with the machine component from the DB
+	 * @param type 
+	 * @param aTree	tree element to fill
+	 */ 	
+	public static void fillMachineComponentTree(String type, Tree aTree){
 		
 		//read machinecomponent db folder from the current path
 		String path = PropertiesHandler.getProperty("app.MachineComponentDBPathPrefix") + "/";
@@ -38,11 +52,14 @@ public class MachineComponentHandler {
 		//iterate twice, first over categories of machinecomponents, second over the parameter sets of each component
 		for (int i = 0; i < subDirs.length; i++){
 			//leave out the SimulationControl-Folder and SimulationControl-Folder
-			if(subDirs[i].getName().contains("ThermalTest")){
+			if(subDirs[i].getName().contains("ThermalTest"))
 				continue;
-			} else if (subDirs[i].getName().contains("SimulationControl")){
+			else if (subDirs[i].getName().contains("SimulationControl"))
 				continue;
-			}
+			
+			// If type is non empty
+			if(!type.matches("") && !subDirs[i].getName().matches(type+"[a-zA-Z]*"))
+				continue;
 				
 			//read the different parameter sets from subfolders
 			String subpath = path + subDirs[i].getName() + "/";
@@ -57,11 +74,15 @@ public class MachineComponentHandler {
 			//append parameter sets to their parent
 			for(int j = 0; j < subDirsComponents.length; j++){
 				TreeItem grandChild = new TreeItem(child, SWT.NONE);
-				grandChild.setText(subDirsComponents[j].getName());
+				grandChild.setText(subDirsComponents[j].getName().replace(child.getText()+"_", "").replace(".xml", ""));
 			}
 		} 
 	}
 	
+	/**
+	 * fill a tree element with the simulation inputs from the DB
+	 * @param aTree
+	 */
 	public static void fillInputsTree(Tree aTree){
 		
 		//read machinecomponent db folder from the current path

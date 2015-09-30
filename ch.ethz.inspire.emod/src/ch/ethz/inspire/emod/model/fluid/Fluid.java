@@ -164,6 +164,26 @@ public class Fluid {
 			return Fluid.convectionFreeCuboid(mf, Tb, Tf, l, b, h, true);
 		}
 		
+		
+		/**
+		 * Calculates the htc of a sphere assumin free convection
+		 * @param mf  Type of the fluid {@link Material.java} 
+		 * @param Tb  Temperature of the body (plate) [K]
+		 * @param Tf  Temperature of the fluid (bulk) [K]
+		 * @param r   Radius [m]
+		 * @return calculated htc [W/m2/K]
+		 */
+		public static double convectionFreeSphere(Material mf, double Tb, double Tf, double r){
+			double Nu;
+			
+			if(Tb==Tf)
+				return 0;
+			
+			Nu = 2+0.43*Math.pow(Fluid.rayleightNumber(mf, Tf, Math.abs(Tb-Tf), 2*r), 0.25);
+			
+			return Nu*mf.getThermalConductivity()/r/2;
+		}
+		
 		/**
 		 * Calculates the htc of a pipe assuming forced convection
 		 * @param mf  Type of the fluid {@link Material.java} 
@@ -178,8 +198,8 @@ public class Fluid {
 			double Re, Pr, Prw, Nu, x;
 			
 			/* Simplest case; Tb=Tf */
-			if(Tb==Tf)
-				return 0;
+			/*if(Tb==Tf)
+				return 0;*/
 			
 			/* Reynolds, Prandtl number */
 			Re  = Fluid.reynoldsNumber(mf, Tf, d, Q);
@@ -248,7 +268,7 @@ public class Fluid {
 				lambda = 64/Re;
 			else {
 				
-				nu = mf.getViscosity(Tf)/1000 / mf.getDensity(Tf);
+				nu = mf.getViscosityKinematic(Tf);
 				
 				if(v*k/nu<=5) 	    // smooth
 					lambda = 0.3164/Math.pow(Re, .25);
@@ -346,7 +366,7 @@ public class Fluid {
 			
 			/* Calculate parameters */
 			v  = Q / (Math.pow(d, 2)/4*Math.PI); 			// Q/A
-			nu = mf.getViscosity(Tf) / mf.getDensity(Tf) / 1000;	// eta/rho
+			nu = mf.getViscosityKinematic(Tf);
 			
 			/* Calculate Re */
 			return Fluid.reynoldsNumber(d, v, nu);
@@ -376,7 +396,7 @@ public class Fluid {
 			
 			/* Calculate parameters */
 			cp     = mf.getHeatCapacity();
-			eta    = mf.getViscosity(Tf)/1000;
+			eta    = mf.getViscosityDynamic(Tf)/1000;
 			lambda = mf.getThermalConductivity();
 			
 			/* Calculate Pr */
@@ -478,7 +498,7 @@ public class Fluid {
 			
 			/* Calculate parameter */
 			beta = 1/Tf; // Approximation for ideal gases
-			nu   = mf.getViscosity(Tf)/1000 / mf.getDensity(Tf);
+			nu   = mf.getViscosityKinematic(Tf);
 			
 			/* Calculate Gr */
 			return Fluid.grashofNumber(beta, nu, dT, d);

@@ -18,6 +18,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Properties;
 
 import ch.ethz.inspire.emod.model.Material;
@@ -26,6 +28,7 @@ public class ConfigReader {
 	
 	protected Properties props;
 	protected String fileName;
+	protected String comment = "";
 	
 	public ConfigReader(String fname) throws Exception {
 		fileName = fname;
@@ -351,15 +354,25 @@ public class ConfigReader {
 		saveValues();
 	}
 	
+	public void setValue(String name, PhysicalValue<?> value) throws IOException{
+		props.setProperty(name, value.toString());
+		saveValues();
+	}
+	
 	/**
 	 * Saves the defined properties in an xml file
 	 * @throws IOException
 	 */
 	public void saveValues() throws IOException{
 		OutputStream ioStream = new FileOutputStream(fileName);
-		props.storeToXML(ioStream, "");	
+		props.storeToXML(ioStream, comment);	
 	}
 	
+	/**
+	 * @param paramname
+	 * @return String array
+	 * @throws Exception
+	 */
 	public String[] getStringArray(String paramname) throws Exception {
 		String valstr = props.getProperty(paramname);
 		if (valstr == null) {
@@ -387,6 +400,20 @@ public class ConfigReader {
 		}
 		
 		return retarray;
+	}
+	
+	
+	/**
+	 * @return Array of available keys
+	 */
+	public ArrayList<String> getKeys() {
+		ArrayList<String> keys = new ArrayList<String>();
+		
+		Enumeration<Object> enuKeys = props.keys();
+		while(enuKeys.hasMoreElements())
+			keys.add((String) enuKeys.nextElement()); 
+		
+		return keys;
 	}
 	
 }

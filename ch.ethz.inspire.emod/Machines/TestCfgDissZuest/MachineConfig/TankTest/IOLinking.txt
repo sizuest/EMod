@@ -1,0 +1,10 @@
+FlowOut.FluidIn = Tank.FluidOut
+Tank.FluidIn = FlowIn.FluidOut
+FlowIn.TemperatureIn = FluidTemp
+FlowIn.PressureIn = FluidPressure
+FlowOut.PressureIn = AmbPressure
+Tank.TemperatureAmb = AmbTemp
+Tank.PressureAmb = AmbPressure
+FlowOut.TemperatureIn = FluidTemp
+FlowIn.FlowRate = FlowRateIn
+FlowOut.FlowRate = FlowRateOut

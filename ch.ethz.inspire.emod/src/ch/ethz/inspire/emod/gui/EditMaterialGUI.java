@@ -79,7 +79,7 @@ public class EditMaterialGUI {
 	    		shell.close();
 	    		
 	    		//open the edit ComponentEditGUI with the newly created component file
-	    		editMaterialGUI("Material", stringMaterialNameValue);
+	    		editMaterialGUI(stringMaterialNameValue);
 	    	}
 	    	public void widgetDefaultSelected(SelectionEvent event){
 	    		
@@ -106,8 +106,10 @@ public class EditMaterialGUI {
     
  	/**
 	 * Component Edit GUI for editing a existing Component of the Component DB
+ 	 * @param parameter 
 	 */
-    public void editMaterialGUI(String type, String parameter){
+    public void editMaterialGUI(String parameter){
+    	String type = "Material";
     	shell = new Shell(Display.getCurrent());
         shell.setText(LocalizationHandler.getItem("app.gui.matdb.editmat"));
     	shell.setLayout(new GridLayout(2, false));

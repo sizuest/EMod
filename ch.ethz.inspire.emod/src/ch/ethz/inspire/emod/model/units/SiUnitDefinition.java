@@ -120,6 +120,41 @@ public class SiUnitDefinition {
 		return getInstance().unitNames;
 	}
 	
+	public static String getString(SiUnit unit){
+		String out = "";
+		
+		/* Test for simple representation */
+		if(SiUnitDefinition.convMap.containsValue(unit))
+			for(String s:SiUnitDefinition.convMap.keySet()){
+				if(SiUnitDefinition.convMap.get(s).equals(unit)){
+					out = s;
+					break;
+				}
+			}
+		else{
+			double[] exp = unit.get();
+			
+			for(int i=0; i<exp.length; i++)
+				if(0!=exp[i]) {
+					out+=SiUnitDefinition.getBaseUnits()[i];  // Add unit name
+					if(1!=exp[i]){           // Add exponent  if required
+						if(0==exp[i]%1)
+							out+="^"+(int)exp[i];
+						else
+							out+="^"+exp[i];  
+					}
+					out+=" ";
+					
+				}
+				
+			if (out.length()>0)
+				out = out.substring(0, out.length()-1);
+		}
+		
+		
+		return out;
+	}
+	
 	/**
 	 * Converts a SI unit to the SI base units
 	 * E.g.: N -> kg m s^-2

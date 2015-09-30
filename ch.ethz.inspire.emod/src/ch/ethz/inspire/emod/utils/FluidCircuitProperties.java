@@ -33,7 +33,7 @@ public class FluidCircuitProperties {
 	/* Up- and downstream elemente */
 	private FluidCircuitProperties post, pre;
 	/* Cupple in- and out left [default on] */
-	private boolean cuppledInAndOut = true;
+	private boolean coupledInAndOut = true;
 	/* Pressure reference */
 	private FluidContainer pressureReference = null;
 	
@@ -41,7 +41,7 @@ public class FluidCircuitProperties {
 	 * Public constructor
 	 */
 	public FluidCircuitProperties(){
-		cuppledInAndOut = true;
+		coupledInAndOut = true;
 		init();
 	}
 	
@@ -79,7 +79,7 @@ public class FluidCircuitProperties {
 			return true;
 		else if(this.post == null)
 			return false;
-		else if(this.cuppledInAndOut)
+		else if(this.coupledInAndOut)
 			return false;
 		else
 			return this.post.isCircuit(caller);
@@ -118,7 +118,7 @@ public class FluidCircuitProperties {
 			return 0.0;
 		else if(Double.isNaN(this.post.getPressureDrop()))
 			return 0.0;
-		else if(cuppledInAndOut)
+		else if(coupledInAndOut)
 			return this.post.getPressureDrop()+this.post.getPressureFront(caller);
 		else
 			return 0.0;
@@ -167,7 +167,10 @@ public class FluidCircuitProperties {
 	 * @param value
 	 */
 	public void setFlowRateIn(double value){	
-		setFlowRateIn(value, this);
+		setFlowRateIn(value, this, false );
+		
+		if(!isDirectCircuit() & coupledInAndOut)
+			setFlowRateOut(value, this, true);
 	}
 	
 	/**
@@ -175,13 +178,10 @@ public class FluidCircuitProperties {
 	 * @param value
 	 */
 	public void setFlowRateOut(double value){
-		if(cuppledInAndOut)
-			setFlowRateIn(value, this);
-		else {
-			this.flowRateOut = value;
-			if(this.post!=null)
-				this.post.setFlowRateIn(value, this);
-		}
+		setFlowRateOut(value, this, true);
+		
+		if(!isDirectCircuit() & coupledInAndOut)
+			setFlowRateIn(value, this, false);
 	}
 	
 	/**
@@ -192,25 +192,41 @@ public class FluidCircuitProperties {
 		setMaterial(value, this);
 	}
 	
-	private void setFlowRateIn(double flowRate, FluidCircuitProperties caller) {
+	private void setFlowRateIn(double flowRate, FluidCircuitProperties caller, boolean moveDownStream) {
+		flowRateIn = flowRate;
 		
-		this.flowRateIn = flowRate;
-		
-		if(cuppledInAndOut & this.post!=caller & post!=null){
-			this.flowRateOut = this.flowRateIn;
-			this.post.setFlowRateIn(this.flowRateOut, caller);
-		}
-		if(!isDirectCircuit() & pre!=null)
-			this.pre.setFlowRateOut(this.flowRateIn, caller);
+		/* Check if a a pre-element exists. If so, and the
+		 * Procedure is set to upstream, move up!
+		 */
+		if(pre!=null & !moveDownStream)
+			pre.setFlowRateOut(flowRate, caller, moveDownStream);
+		/* Check if in- and outut are coupled, and if we
+		 * are moving downstream, move down!
+		 */
+		else if(coupledInAndOut & moveDownStream & this!=caller)
+			setFlowRateOut(flowRate, caller, moveDownStream);
+		else if(coupledInAndOut & moveDownStream & this==caller)
+			flowRateOut = flowRate;
 	}
 	
-	private void setFlowRateOut(double flowRate, FluidCircuitProperties caller) {	
-		this.flowRateOut = flowRate;
+	private void setFlowRateOut(double flowRate, FluidCircuitProperties caller, boolean moveDownStream) {	
+		flowRateOut = flowRate;
 		
-		if(cuppledInAndOut & this.pre!=caller & this.pre!=null){
-			this.flowRateIn = this.flowRateOut;
-			this.pre.setFlowRateOut(this.flowRateIn, caller);
-		}
+		/* If there is a post element which and if we 
+		 * are moving downstream, change it's input 
+		 * flow rate!
+		 */
+		if(post!=null & moveDownStream)
+			post.setFlowRateIn(flowRate, caller, moveDownStream);
+		/* If there is a pre element which is not the caller,
+		 * and if we are moving upstream, change it's input 
+		 * flow rate!
+		 */
+		else if(coupledInAndOut & !moveDownStream & this!=caller)
+			setFlowRateIn(flowRate, caller, moveDownStream);
+		else if(coupledInAndOut & !moveDownStream & this==caller)
+			flowRateIn = flowRate;
+
 	}
 	
 	private void setMaterial(Material material, FluidCircuitProperties caller) {
@@ -225,7 +241,7 @@ public class FluidCircuitProperties {
 	 * @param c
 	 */
 	public void setCuppledInAndOut(boolean c){
-		cuppledInAndOut = c;
+		coupledInAndOut = c;
 	}
 	
 	/**
@@ -252,6 +268,7 @@ public class FluidCircuitProperties {
 	/**
 	 * getFlowRate()
 	 * @return current flow rate [m³/s]
+	 * @deprecated
 	 */
 	public double getFlowRate(){
 		return getFlowRateIn();
@@ -270,7 +287,7 @@ public class FluidCircuitProperties {
 	 * @return current outlet flow rate [m³/s]
 	 */
 	public double getFlowRateOut(){
-		if(cuppledInAndOut)
+		if(coupledInAndOut)
 			return this.flowRateIn;
 		else
 			return this.flowRateOut;

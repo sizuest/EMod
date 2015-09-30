@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>
+    Model parameter definition
+    ==========================
+      Model : Material
+      Type  : Motorex Gleitbahnöl 86
+    Parameters
+    ----------
+      TemperatureSamples [K]
+      PressureSamples [Pa]
+      ViscositySamples [mPa*s] = [10^-3 Ns/m^2]
+      	Dynamic Viscosity! dynamic Viscosity = density * kinematic Viscosity
+      DensityMatrix [kg/m3]
+	  HeatCapacity [J/kg K]
+	  ThermalConductivity [W/m K]
+  </comment>
+  <entry key="TemperatureSamples">313.15; 373.15</entry>
+  <entry key="PressureSamples">100000</entry>
+  <entry key="ViscositySamples">0.0602; 0.0077</entry>
+  <entry key="DensityMatrix">0.885; 0.885</entry>
+	<entry key="HeatCapacity">1890</entry>
+	<entry key="ThermalConductivity">0.127</entry>
+
+</properties>

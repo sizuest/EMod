@@ -1,24 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-  <comment>
-    Model parameter definition
-    ==========================
-      Model : PumpFluid
-      Type  : Example
-    Parameters
-    ----------
-      PressureSamples [Pa]
-        Array of operation points for the pump
-	  VolumetricFlowSamples [m^3/s]
-		Array of corresponding flow rate to the given pressure samples
-      ElectricalPower [W]
-      	Electrical power of the pump if running
-      
-  </comment>
-  <entry key="PressureSamples">367975 68670</entry>
-  <entry key="FlowRateSamples">0 0.000233</entry>
-  <entry key="PowerSamples">135 135</entry>
-  <entry key="Material">Steel</entry>
-  <entry key="Mass">15</entry>
+<comment>File changed by user: sizuest</comment>
+<entry key="Mass">15</entry>
+<entry key="PowerSamples">1200 1000</entry>
+<entry key="FlowRateSamples">0 0.00001</entry>
+<entry key="Material">Steel</entry>
+<entry key="PressureSamples">367975 68670</entry>
 </properties>

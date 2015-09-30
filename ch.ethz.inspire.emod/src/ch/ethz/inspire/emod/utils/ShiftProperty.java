@@ -20,7 +20,7 @@ package ch.ethz.inspire.emod.utils;
  *
  */
 public class ShiftProperty<T> {
-	private T last, current;
+	private T last=null, current=null;
 	
 	/**
 	 * Creates a new object with current and last property value equal to the argument
@@ -32,10 +32,18 @@ public class ShiftProperty<T> {
 	}
 	
 	/**
+	 * 
+	 */
+	public ShiftProperty(){
+	}
+	
+	/**
 	 * Sets the current value to the argument value
 	 * @param value
 	 */
 	public void set(T value){
+		if(null==last)
+			this.last = value;
 		this.current = value;
 	}
 	

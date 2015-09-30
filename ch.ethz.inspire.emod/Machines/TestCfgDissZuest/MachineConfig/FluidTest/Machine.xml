@@ -8,20 +8,8 @@
             <name>Tank</name>
         </machineComponent>
         <machineComponent>
-            <component xsi:type="pipe" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Schaublin42LV</type>
-            </component>
-            <name>PipeVL</name>
-        </machineComponent>
-        <machineComponent>
-            <component xsi:type="pipe" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Schaublin42LR</type>
-            </component>
-            <name>PipeNL</name>
-        </machineComponent>
-        <machineComponent>
             <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Hyfra_VWK_21_1S</type>
+                <type>Example</type>
             </component>
             <name>Pump</name>
         </machineComponent>
@@ -37,6 +25,30 @@
             </component>
             <name>Cylinder</name>
         </machineComponent>
+        <machineComponent>
+            <component xsi:type="hysteresisControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>SpindleCoolingCompressor</type>
+            </component>
+            <name>SpindleCoolingController</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="heatExchanger" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Hyfra_VWK_21_1S</type>
+            </component>
+            <name>HeatExchanger</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="pipe" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Schaublin42LV</type>
+            </component>
+            <name>Pipe</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="pipe" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Schaublin42LR</type>
+            </component>
+            <name>Pipe_1</name>
+        </machineComponent>
     </machine>
     <simulators>
         <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -47,7 +59,24 @@
             <name>AmbPressure</name>
             <unit>PA</unit>
         </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Velocity</name>
+            <unit>MM_MIN</unit>
+        </simController>
+        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>ZeroPower</name>
+            <unit>WATT</unit>
+        </simController>
+        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>ConstantSimulationControl</name>
+            <unit>NONE</unit>
+        </simController>
     </simulators>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
     <connectionList/>
     <connectionList/>
     <connectionList/>

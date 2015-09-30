@@ -114,6 +114,7 @@ public class ForcedFluidFlow  extends APhysicalComponent implements Floodable{
 		
 		// Flow rate Obj
 		fluidProperties = new FluidCircuitProperties();
+		fluidProperties.setPressureReference(fluidOut);
 		
 		
 		/* ************************************************************************/
@@ -151,7 +152,7 @@ public class ForcedFluidFlow  extends APhysicalComponent implements Floodable{
 		fluidOut.setTemperature(temperatureIn.getValue());
 		fluidOut.setPressure(pressureIn.getValue());
 		// Set flow rate
-		fluidProperties.setFlowRateIn(flowRateCmd.getValue());
+		fluidProperties.setFlowRateOut(flowRateCmd.getValue());
 		// Calculate differences
 		temperatureRaise.setValue(fluidIn.getTemperature()-temperatureIn.getValue());
 		pressureLoss.setValue(pressureIn.getValue()-fluidIn.getPressure());

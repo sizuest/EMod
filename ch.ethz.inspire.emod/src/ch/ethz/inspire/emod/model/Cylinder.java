@@ -26,6 +26,7 @@ import ch.ethz.inspire.emod.utils.FluidCircuitProperties;
 import ch.ethz.inspire.emod.utils.FluidContainer;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
+import ch.ethz.inspire.emod.utils.ShiftProperty;
 
 /**
  * General Cylinder model class.
@@ -93,6 +94,7 @@ public class Cylinder extends APhysicalComponent implements Floodable {
 	private double area;
 	private double connectionDiameter;
 	private double flowRateLeak = 0;
+	private ShiftProperty<Double> flowRate = new ShiftProperty<Double>(0.0);
 	
 	/* Fluid Properties */
 	FluidCircuitProperties fluidProperties;
@@ -284,7 +286,6 @@ public class Cylinder extends APhysicalComponent implements Floodable {
 	public void update() {
 		
 		double pressureDrop = 0,
-		       flowRate,
 		       viscosity,
 		       density,
 		       velocity,
@@ -293,7 +294,7 @@ public class Cylinder extends APhysicalComponent implements Floodable {
 		       deltaTemperature;
 		
 		/* Material properties */
-		viscosity    = fluidProperties.getMaterial().getViscosity(fluidIn.getTemperature(), fluidIn.getPressure());
+		viscosity    = fluidProperties.getMaterial().getViscosityDynamic(fluidIn.getTemperature(), fluidIn.getPressure());
 		density      = fluidProperties.getMaterial().getDensity(fluidIn.getTemperature(), fluidIn.getPressure());
 		heatCapacity = fluidProperties.getMaterial().getHeatCapacity();
 		
@@ -313,7 +314,7 @@ public class Cylinder extends APhysicalComponent implements Floodable {
 		
 		
 		/* Flow Rate */
-		flowRate = Math.abs(velocity)*area;
+		flowRate.update(Math.abs(velocity)*area);
 		
 		/* Pressure drop */
 		if(0==velocity){
@@ -335,17 +336,17 @@ public class Cylinder extends APhysicalComponent implements Floodable {
 				
 		/* Set outputs */
 		pmech.setValue(Math.abs(force.getValue())*Math.abs(velocity));
-		phydr.setValue(pressureDrop*(flowRate+flowRateLeak));
+		phydr.setValue(pressureDrop*((flowRate.getCurrent()+flowRate.getLast())/2+flowRateLeak));
 		ploss.setValue(phydr.getValue()-pmech.getValue());
 		
 		/* Temperature raise */
-		if(flowRate+flowRateLeak>0)
-			deltaTemperature = ploss.getValue() / (flowRate+flowRateLeak) / density / heatCapacity;
+		if((flowRate.getCurrent()+flowRate.getLast())/2+flowRateLeak>0)
+			deltaTemperature = ploss.getValue() / ((flowRate.getCurrent()+flowRate.getLast())/2+flowRateLeak) / density / heatCapacity;
 		else
 			deltaTemperature = 0;
 		
 		/* Fluid properties */
-		fluidProperties.setFlowRateIn(flowRateLeak+flowRate);
+		fluidProperties.setFlowRateIn(flowRateLeak+(flowRate.getCurrent()+flowRate.getLast())/2);
 		fluidProperties.setPressureDrop(pressureDrop);
 		
 		fluidOut.setTemperature(fluidIn.getTemperature()+deltaTemperature);

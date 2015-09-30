@@ -312,7 +312,7 @@ public class Pump extends APhysicalComponent implements Floodable{
 		 * The mechanical power is given by the pressure and the voluminal flow:
 		 * Pmech = pFluid [Pa] * Vdot [m3/s]
 		 */
-		pmech.setValue( fluidProperties.getFlowRate() * fluidProperties.getPressureDrop() );
+		pmech.setValue( fluidProperties.getFlowRateIn() * fluidProperties.getPressureDrop() );
 		
 		/* 
 		 * The Losses are the difference between electrical and mechanical power
@@ -335,9 +335,9 @@ public class Pump extends APhysicalComponent implements Floodable{
 			heat2Fluid = pth.getValue();
 		
 		// Add losses to the fluid
-		if(fluidProperties.getFlowRate()!=0)
+		if(fluidProperties.getFlowRateIn()!=0)
 			fluidOut.setTemperature(fluidIn.getTemperature() + 
-					heat2Fluid/(fluidProperties.getFlowRate()*fluidProperties.getMaterial().getDensity(fluidIn.getTemperature(), fluidIn.getPressure())*fluidProperties.getMaterial().getHeatCapacity()));
+					heat2Fluid/(fluidProperties.getFlowRateIn()*fluidProperties.getMaterial().getDensity(fluidIn.getTemperature(), fluidIn.getPressure())*fluidProperties.getMaterial().getHeatCapacity()));
 		else
 			fluidOut.setTemperature(fluidIn.getTemperature());
 		

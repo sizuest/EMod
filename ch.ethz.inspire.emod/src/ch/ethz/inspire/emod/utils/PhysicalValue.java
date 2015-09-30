@@ -13,6 +13,7 @@
 
 package ch.ethz.inspire.emod.utils;
 
+
 import ch.ethz.inspire.emod.model.units.SiUnit;
 
 /**
@@ -87,7 +88,7 @@ public class PhysicalValue<T> {
 		PhysicalValue<Double> pv = new PhysicalValue<Double>();
 		
 		// Check unit;
-		if(!a.unit.isEqual(b.unit))
+		if(!a.unit.equals(b.unit))
 			throw new Exception("Physical value: add: Units do not match");
 		
 		// New value
@@ -102,7 +103,7 @@ public class PhysicalValue<T> {
 		PhysicalValue<Double> pv = new PhysicalValue<Double>();
 		
 		// Check unit;
-		if(!a.unit.isEqual(b.unit))
+		if(!a.unit.equals(b.unit))
 			throw new Exception("Physical value: subtract: Units do not match");
 		
 		// New value

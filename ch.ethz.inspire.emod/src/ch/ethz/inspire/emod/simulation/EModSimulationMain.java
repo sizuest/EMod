@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import ch.ethz.inspire.emod.Process;
 import ch.ethz.inspire.emod.utils.ConfigReader;
 import ch.ethz.inspire.emod.utils.Defines;
 import ch.ethz.inspire.emod.utils.IOConnection;

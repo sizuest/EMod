@@ -21,6 +21,11 @@ import org.eclipse.swt.widgets.TreeItem;
 
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
+/**
+ * Handler Class for material GUIs
+ * @author sizuest
+ *
+ */
 public class MaterialHandler {
 
  	/**
@@ -28,6 +33,7 @@ public class MaterialHandler {
 	 * @param aTree	tree element to fill
 	 */ 	
 	public static void fillTree(Tree aTree){
+		String matName;
 		
 		//read material db folder from the current path
 		String path = PropertiesHandler.getProperty("app.MaterialDBPathPrefix") + "/";
@@ -38,7 +44,8 @@ public class MaterialHandler {
 		//iterate over existing Materials
 		for (int i = 0; i < subDirsMaterials.length; i++){
 			TreeItem child = new TreeItem(aTree, SWT.NONE);
-			child.setText(subDirsMaterials[i].getName());
+			matName = subDirsMaterials[i].getName().replace("Material_", "").replace(".xml", "");
+			child.setText(matName);
 		}
 	}
 }

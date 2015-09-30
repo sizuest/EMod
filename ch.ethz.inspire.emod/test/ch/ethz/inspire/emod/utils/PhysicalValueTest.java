@@ -1,5 +1,9 @@
 package ch.ethz.inspire.emod.utils;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -45,6 +49,22 @@ public class PhysicalValueTest {
 		System.out.println(res4.unit.toString());
 		System.out.println(res5.unit.toString());
 		
+	}
+	
+	@Test
+	public void rwPhysicalUnit(){
+		PhysicalValue<Double> pvD   = new PhysicalValue<Double>();
+		
+		pvD.set(1.0, "N");
+		
+		try {
+			ComponentConfigReader param = new ComponentConfigReader("Test", "Test");
+			param.setValue("Double", pvD);
+			
+			param.Close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

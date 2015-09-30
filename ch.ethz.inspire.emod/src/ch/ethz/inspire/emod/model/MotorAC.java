@@ -84,7 +84,6 @@ public class MotorAC extends APhysicalComponent{
 	private double opU, opFreq;	// Operational point
 	private double maxU;
 	private double k;
-	private double[] pwmEffCoeff;
 	
 	/**
 	 * Constructor called from XmlUnmarshaller.
@@ -94,6 +93,10 @@ public class MotorAC extends APhysicalComponent{
 		super();
 	}
 	
+	/**
+	 * @param u
+	 * @param parent
+	 */
 	public void afterUnmarshal(Unmarshaller u, Object parent) {
 		//post xml init method (loading physics data)
 		init();
@@ -199,7 +202,7 @@ public class MotorAC extends APhysicalComponent{
 	@Override
 	public void update() {
 		
-		double fs, U, eff, pwmeff=0, pwmloss, RE, Lsigma;
+		double fs, U, eff, pwmloss, RE, Lsigma;
 				
 		if ( (lasttorque == torque.getValue() ) &&
 			 (lastrotspeed == rotspeed.getValue() ) ) {

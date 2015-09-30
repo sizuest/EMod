@@ -52,14 +52,10 @@ public class MaterialDBGUI {
 					text += (String)item.getText();	
 				}
 				event.data = text;
-	    		
-				//split the given string into component name and type
-				String[] split = text.split("_",2);
-				split[1] = split[1].replace(".xml", "");
 				
 				//open window editComponentEditGUI with the selected component
 				EditMaterialGUI materialEditGUI = new EditMaterialGUI();
-				materialEditGUI.editMaterialGUI(split[0], split[1]);
+				materialEditGUI.editMaterialGUI(selection[0].getText().replace(".xml", ""));
 	    	}
 	    	public void widgetDefaultSelected(SelectionEvent event){
 	    		

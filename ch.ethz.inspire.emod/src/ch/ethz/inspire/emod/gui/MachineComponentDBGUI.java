@@ -15,6 +15,11 @@ import org.eclipse.swt.widgets.TreeItem;
 import ch.ethz.inspire.emod.gui.utils.MachineComponentHandler;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
 
+/**
+ * General machine component DB GUI
+ * @author sizuest
+ *
+ */
 public class MachineComponentDBGUI {
 
 	private Shell shell;
@@ -52,14 +57,11 @@ public class MachineComponentDBGUI {
 					text += (String)item.getText();	
 				}
 				event.data = text;
-	    		
-				//split the given string into component name and type
-				String[] split = text.split("_",2);
-				split[1] = split[1].replace(".xml", "");
+	    	
 				
 				//open window editComponentEditGUI with the selected component
 				EditMachineComponentGUI componentEditGUI = new EditMachineComponentGUI();
-				componentEditGUI.editMachineComponentGUI(split[0], split[1]);
+				componentEditGUI.editMachineComponentGUI(selection[0].getParentItem().getText(), text);
 	    	}
 	    	public void widgetDefaultSelected(SelectionEvent event){
 	    		

@@ -1,20 +1,19 @@
 package ch.ethz.inspire.emod.gui;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Enumeration;
-import java.util.Properties;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ControlEditor;
+import org.eclipse.swt.custom.TableCursor;
+import org.eclipse.swt.custom.TableEditor;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Rectangle;
@@ -24,20 +23,31 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
 import ch.ethz.inspire.emod.model.MachineComponent;
+import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
+/**
+ * General GUI to Edit Machine Components
+ * 
+ * @author sizuest
+ *
+ */
 public class EditMachineComponentGUI {
 
     private Shell shell;
+    private static Table tableComponent;
 
-    public EditMachineComponentGUI(){
-    	
-	    }
+    /**
+     * EditMachineComponentGUI
+     */
+    public EditMachineComponentGUI(){}
 
  	/**
 	 * Component Edit GUI for creating a new Component
@@ -132,90 +142,170 @@ public class EditMachineComponentGUI {
     
  	/**
 	 * Component Edit GUI for editing a existing Component of the Component DB
+ 	 * @param type 
+ 	 * @param parameter 
 	 */
     public void editMachineComponentGUI(String type, String parameter){
     	shell = new Shell(Display.getCurrent());
         shell.setText(LocalizationHandler.getItem("app.gui.compdb.editcomp"));
-    	shell.setLayout(new GridLayout(2, false));
-				
-		//Text "Type" of the Component
-		Text textComponentType = new Text(shell, SWT.READ_ONLY);
-		textComponentType.setText(LocalizationHandler.getItem("app.gui.model.type") + ":");
-		textComponentType.setLayoutData(new GridData(SWT.BEGINNING, SWT.TOP, false, true, 1, 1));
-		
-		//Text to show Value of "Type" of the Component
-		Text textComponentTypeValue = new Text(shell, SWT.READ_ONLY);
-		textComponentTypeValue.setText(type);
-		textComponentTypeValue.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, true, 1, 1));
+    	shell.setLayout(new GridLayout(1, false));
     	
- 		//Text model type of the Component
-		Text textComponentModelType = new Text(shell, SWT.READ_ONLY);
-		textComponentModelType.setText(LocalizationHandler.getItem("app.gui.model.param") + ":");
-		textComponentModelType.setLayoutData(new GridData(SWT.BEGINNING, SWT.TOP, false, true, 1, 1));
-		
-		//Combo to let the user select the desired Parameter-set of the Component
-		Text textComponentModelTypeValue = new Text(shell, SWT.READ_ONLY);
-		textComponentModelTypeValue.setText(parameter);
-		textComponentModelTypeValue.setLayoutData(new GridData(SWT.BEGINNING, SWT.TOP, true, true, 1, 1));
-		
-		//path + filename -> link to the .xml file
-		String path = PropertiesHandler.getProperty("app.MachineComponentDBPathPrefix") + "/" + type + "/";
-		String filename = type + "_" + parameter + ".xml";
-		final File file = new File(path + filename);
-		
-		//open Inputstream of the selected file
-		InputStream iostream = null;
-		try {
-			iostream = new FileInputStream(file);
-		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
+    	tableComponent = new Table(shell, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL);
+    	tableComponent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+    	tableComponent.setLinesVisible(true);
+    	tableComponent.setHeaderVisible(true);
+    	
+    	String[] titles =  {LocalizationHandler.getItem("app.gui.compdb.property"),
+    						LocalizationHandler.getItem("app.gui.compdb.value"),
+							" "};
+		for(int i=0; i < titles.length; i++){
+			TableColumn column = new TableColumn(tableComponent, SWT.NULL);
+			column.setText(titles[i]);
 		}
 		
-		//load properties from the file
+		//SOURCE http://www.tutorials.de/threads/in-editierbarer-swt-tabelle-ohne-eingabe-von-enter-werte-aendern.299858/
+	    //create a TableCursor to navigate around the table
+	    final TableCursor cursor = new TableCursor(tableComponent, SWT.NONE);
+	    // create an editor to edit the cell when the user hits "ENTER"
+	    // while over a cell in the table
+	    final ControlEditor editor = new ControlEditor(cursor);
+	    editor.grabHorizontal = true;
+	    editor.grabVertical = true;
+	   
+	    cursor.addKeyListener(new KeyAdapter() {
+	        public void keyPressed(KeyEvent e) {
+	            switch(e.keyCode) {
+		            case SWT.ARROW_UP:
+		            case SWT.ARROW_RIGHT:
+		            case SWT.ARROW_DOWN:
+		            case SWT.ARROW_LEFT:
+		            //an dieser stelle fehlen auch noch alle anderen tasten die
+		            //ignoriert werden sollen...wie F1-12, esc,bsp,....
+		                //System.out.println("Taste ignorieren...");
+		                break;
+		               
+		            default:
+		                //System.out.println("hier jetzt text editieren");
+		                final Text text = new Text(cursor, SWT.NONE);
+		                text.append(String.valueOf(e.character));
+		                text.addKeyListener(new KeyAdapter() {
+		                    public void keyPressed(KeyEvent e) {
+		                        // close the text editor and copy the data over
+		                        // when the user hits "ENTER"
+		                        if (e.character == SWT.CR) {
+		                        	TableItem row = cursor.getRow();
+		                            int column = cursor.getColumn();
+		                        	switch(column){
+		                        	case 1:
+		                        		row.setText(column, text.getText());
+			                        	break;
+		                        	}
+			                        text.dispose();
+		                        }
+		                        // close the text editor when the user hits "ESC"
+		                        if (e.character == SWT.ESC) {
+		                            text.dispose();
+		                        }
+		                    }
+		                });
+		                editor.setEditor(text);
+		                text.setFocus();
+		                break;
+	            }  
+	        }
+	    });
 		
-		//SOURCE for loading properties from xml file:
-		//http://www.avajava.com/tutorials/lessons/how-do-i-read-properties-from-an-xml-file.html
-		final Properties props = new Properties();
+		TableItem itemType = new TableItem(tableComponent, SWT.NONE, 0);
+		itemType.setText(0, LocalizationHandler.getItem("app.gui.model.type") + ":");
+		itemType.setText(1, type);
+		
+		TableItem itemName = new TableItem(tableComponent, SWT.NONE, 1);
+		itemName.setText(0, LocalizationHandler.getItem("app.gui.model.param") + ":");
+		itemName.setText(1, parameter);
+		
+		
+		/* Create Component reader */
+		final ComponentConfigReader props;
+		try {
+			props = new ComponentConfigReader(type, parameter);
+		} catch (Exception e) {
+			System.err.println("Failed to open Parameter set'"+type+":"+parameter+"'");
+			e.printStackTrace();
+			return;
+		}
+		/*
 		try {
 			props.loadFromXML(iostream);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 		
 		//prepare text and styledtext widgets to show the key and values of the properties
-		int length = props.size();
-		Text[] textKey = new Text[length];
-		final Text[] textValue = new Text[length];
 		
-
-		//iterate over all the objects of the properties
-		int i = 0;
-		Enumeration<Object> enuKeys = props.keys();
-		while (enuKeys.hasMoreElements()) {
-			//get the key of the current element and write it to the text widget
-			String key = (String) enuKeys.nextElement();
-			textKey[i] = new Text(shell, SWT.READ_ONLY);
-			textKey[i].setText(key);
-			textKey[i].setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, true, 1, 1));
-
-			//get the value of the current key and write it to the styledtext widget
-			String value = props.getProperty(key);
-			textValue[i] = new Text(shell, SWT.MULTI);
-			textValue[i].setText(value);
-			textValue[i].setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, true, 1, 1));
-
-			//pack the text Value, if size is bigger than (400, 200), then resize to max (400,200)
-			textValue[i].pack();
-			if(textValue[i].getSize().x > 400){
-				textValue[i].setLayoutData(new GridData(400, textValue[i].getSize().y));
-			}
-			if(textValue[i].getSize().y > 200){
-				textValue[i].setLayoutData(new GridData(400, 200));
-			}
+	
+		for(String key: props.getKeys()){
 			
-			i++;
+			try{
+				String value = props.getString(key);
+				
+				int i                    = tableComponent.getItemCount();
+				final TableItem itemProp = new TableItem(tableComponent, SWT.NONE, i);
+				TableEditor editorButton = new TableEditor(tableComponent);
+				
+				itemProp.setText(0, key);
+				itemProp.setText(1, value);
+				
+				/* SPECIAL CASE: Material */
+				if(key.matches("[a-zA-Z]+Material")){
+					final Button selectMaterialButton = new Button(tableComponent, SWT.PUSH);
+					selectMaterialButton.setText("...");
+					selectMaterialButton.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, true, 1, 1));
+					selectMaterialButton.addSelectionListener(new SelectionListener(){
+			        	public void widgetSelected(SelectionEvent event){
+			        		SelectMaterialGUI matGUI = new SelectMaterialGUI();
+			        		matGUI.getSelectionToTable(itemProp, 1);
+			        	}
+			        	public void widgetDefaultSelected(SelectionEvent event){
+			        		
+			        	}
+			        });
+					selectMaterialButton.pack();
+					editorButton.minimumWidth = selectMaterialButton.getSize().x;
+					editorButton.horizontalAlignment = SWT.LEFT;
+			        editorButton.setEditor(selectMaterialButton, itemProp, 2);
+				}
+				/* SPECIAL CASE: Model */
+				else if(key.matches("[a-zA-Z]+Type")){
+					final String mdlType = key.replace("Type", "");
+					final Button selectMaterialButton = new Button(tableComponent, SWT.PUSH);
+					selectMaterialButton.setText("...");
+					selectMaterialButton.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, true, 1, 1));
+					selectMaterialButton.addSelectionListener(new SelectionListener(){
+			        	public void widgetSelected(SelectionEvent event){
+			        		SelectMachineComponentGUI compGUI= new SelectMachineComponentGUI();
+			        		compGUI.getSelectionToTable(mdlType, itemProp, 1);			        		
+			        	}
+			        	public void widgetDefaultSelected(SelectionEvent event){
+			        		
+			        	}
+			        });
+					selectMaterialButton.pack();
+					editorButton.minimumWidth = selectMaterialButton.getSize().x;
+					editorButton.horizontalAlignment = SWT.LEFT;
+			        editorButton.setEditor(selectMaterialButton, itemProp, 2);
+				}
+			}
+			catch(Exception e){
+				System.err.println("Failed to load Property '"+key+"' from '"+type+":"+parameter+"'");
+				e.printStackTrace();
+			}
 		}
+		
+		TableColumn[] columns = tableComponent.getColumns();
+        for (int j = 0; j < columns.length; j++) {
+          columns[j].pack();
+        }
 		
     	//button to save
 		Button buttonSave = new Button(shell, SWT.NONE);
@@ -224,30 +314,16 @@ public class EditMachineComponentGUI {
 		buttonSave.addSelectionListener(new SelectionListener(){
 	    	public void widgetSelected(SelectionEvent event){
 	    		
-	    		//iterate over all the objects of the properties
-	    		int i = 0;
-	    		Enumeration<Object> enuKeys = props.keys();
-	    		while (enuKeys.hasMoreElements()) {
-	    			//get the value of the current key and set it to the property
-	    			String key = (String) enuKeys.nextElement();
-    				props.setProperty(key, textValue[i].getText());
-	    			i++;
-	    		}
+	    		TableItem[] columns = tableComponent.getItems();
 	    		
-	    		//write properties to file
-	    		FileOutputStream fos = null;
-	    		try {
-	    			fos = new FileOutputStream(file);
-	        		//TODO sizuest: comment from original file is lost
-			         props.storeToXML(fos, "File changed by user: " + System.getProperty("user.name"));
-	    		} catch (FileNotFoundException e1) {
-	    			e1.printStackTrace();
-	    		} catch (IOException e) {
-					e.printStackTrace();
-				}
+	    		for(int i=2; i<columns.length; i++){
+	    			props.setValue( columns[i].getText(0), columns[i].getText(1));
+	    		}
 	    		
 	    		//update the component DB on the right hand side of the model gui tabel
 	    		ModelGUI.updateTabCompDB();
+	    		
+	    		props.Close();
 	    		
 	    		shell.close();
 	    	}
@@ -385,8 +461,4 @@ public class EditMachineComponentGUI {
     	shell.close();
     }
     
-    
-    private void setMaterial(Text tb){
-    	
-    }
 }

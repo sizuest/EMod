@@ -13,9 +13,7 @@
 package ch.ethz.inspire.emod.model.thermal;
 
 import ch.ethz.inspire.emod.model.Material;
-import ch.ethz.inspire.emod.model.units.Unit;
-import ch.ethz.inspire.emod.simulation.DynamicState;
-import ch.ethz.inspire.emod.utils.ShiftProperty;
+import ch.ethz.inspire.emod.utils.AThermalIntegrator;
 
 /**
  * General thermal array class
@@ -23,59 +21,33 @@ import ch.ethz.inspire.emod.utils.ShiftProperty;
  * @author simon
  *
  */
-public class ThermalArray {
+public class ThermalArray extends AThermalIntegrator {
 	
-	/* Dynamic state object */
-	protected DynamicState temperatureBulk;
-	/* List of current [k+1] and past [k] node temperatures */
-	//protected double[] temperature;
-	//protected double[] lastTemperature;
-	protected ShiftProperty<double[]> temperature;
 	/* Input and Ambient temperatures */
-	protected double temperatureExt = Double.NaN, temperatureIn = Double.NaN;
-	/* Material of the array */
-	protected Material material;
+	protected double tempAmb = 293.15, tempIn = 293.15;
 	/* Volume of the array */
 	protected double volume;
-	/* Current flow rate [l/min] / pressure [Pa] / th. Resistance [K/W] */
+	/* Current flow rate [m3/s] / pressure [Pa] / th. Resistance [K/W] */
 	protected double flowRate = 0;
-	protected double pressure = 0;
+	protected double massFlowRate = 0;
 	protected double thermalResistance = Double.NaN;
 	/* Internal heat source [W] */
 	protected double heatSource = 0;
-	/* Number of nodes */
-	protected int numElements;
-	/* Static constant C1/2[k] */
-	double lastC1 = Double.NaN, lastC2 = Double.NaN, lastC3 = Double.NaN, lastC4 = Double.NaN;
 	
 	/**
 	 * ThermalElement
 	 * 
 	 * @param materialName
-	 * @param volume
+	 * @param volume 
 	 * @param numElements 
 	 */
 	public ThermalArray(String materialName, double volume, int numElements){
-		this.volume          = volume;
-		this.material        = new Material(materialName);
-		this.temperatureBulk = new DynamicState("Temperature", Unit.KELVIN);
-		this.numElements     = numElements;
-		
+		super(numElements);
+		this.material = new Material(materialName);
+		this.volume = volume;
+		massState.setInitialCondition(volume*material.getDensity(293.15));
 		// Default values
 		flowRate = 0;
-		
-		//this.temperature      = new double[numElements];
-		//this.lastTemperature  = new double[numElements];
-		this.temperature = new ShiftProperty<double[]>(new double[numElements]);
-		
-		// Set the initialization method
-		try {
-			temperatureBulk.setInitialConditionFunction(this.getClass().getDeclaredMethod("setInitialTemperature", double.class), this);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 	}
 	
 	/**
@@ -89,26 +61,13 @@ public class ThermalArray {
 		this.numElements 		= that.numElements;
 		this.pressure 			= that.pressure;
 		this.temperature 		= that.temperature; //TODO copy?
-		this.temperatureBulk 	= that.temperatureBulk; //TODO copy?
-		this.temperatureExt 	= that.temperatureExt;
-		this.temperatureIn 		= that.temperatureIn;
+		this.temperatureState 	= that.temperatureState; //TODO copy?
+		this.tempAmb 	        = that.tempAmb;
+		this.tempIn 		    = that.tempIn;
 		this.thermalResistance 	= that.thermalResistance;
 		this.volume 			= that.volume;
-	}
-	
-	/**
-	 * Sets the temperature vector to the initial value
-	 * @param temperatureInit 
-	 */
-	public void setInitialTemperature(double temperatureInit){
-		double[] temperature = new double[this.numElements];
-		for(int i=0;i<this.numElements;i++) {
-			temperature[i]     = temperatureInit;
-			//lastTemperature[i] = temperatureInit;
-		}
-		// Update twice, so that current and last are set to init. value
-		this.temperature.update(temperature);
-		this.temperature.update(temperature);
+		this.massState          = that.massState;
+		init();
 	}
 	
 	/**
@@ -116,31 +75,15 @@ public class ThermalArray {
 	 * @param temperatureIn
 	 */
 	public void setTemperatureIn(double temperatureIn){
-		this.temperatureIn = temperatureIn;
+		this.tempIn = temperatureIn;
 	}
 	
 	/**
 	 * Sets the ambient temperature [K]
 	 * @param temperatureExt
 	 */
-	public void setTemperatureExternal(double temperatureExt){
-		this.temperatureExt = temperatureExt;
-	}
-	
-	/**
-	 * Sets the fluid pressure
-	 * @param pressure
-	 */
-	public void setPressure(double pressure){
-		this.pressure = pressure;
-	}
-	
-	/**
-	 * gets the fluid pressure
-	 * @return pressure
-	 */
-	public double getPressure(){
-		return pressure;
+	public void setTemperatureAmb(double temperatureExt){
+		this.tempAmb = temperatureExt;
 	}
 	
 	/**
@@ -151,7 +94,7 @@ public class ThermalArray {
 		if(!(Double.isInfinite(thermalResistance) | Double.isNaN(thermalResistance)))
 			this.thermalResistance = thermalResistance;
 		else
-			this.thermalResistance = 1;
+			this.thermalResistance = 0.0;
 	}
 	
 	/**
@@ -160,6 +103,7 @@ public class ThermalArray {
 	 */
 	public void setFlowRate(double flowRate){
 		this.flowRate = flowRate;
+		this.massFlowRate = flowRate*material.getDensity(getTemperatureBulk(), pressure.getCurrent());
 	}
 	/**
 	 * get the flow rate [m^3/s]
@@ -168,40 +112,7 @@ public class ThermalArray {
 	public double getFlowRate(){
 		return flowRate;
 	}	
-	
-	/**
-	 * Set the flow rate according to the mass flow rate
-	 * @param massFlowRate [kg/s]
-	 * @param temperature [K]
-	 * @param pressure [Pa]
-	 * @deprecated better use ThermalArray.setFlowRate()
-	 */
-	public void setMassFlowRate(double massFlowRate, double temperature, double pressure){
-		double rho = material.getDensity(temperature, pressure);
-		//TODO: unit flowRate!
-		//this.flowRate = massFlowRate/rho*1000*60; //flowRate [l/min]
-		this.flowRate = massFlowRate/rho; //flowRate [m^3/s]
-	}
-	
-	/**
-	 * get the mass flow rate according
-	 * @param id 
-	 * @return massFlowRate [kg/s]
-	 * @deprecated better use ThermalArray.getFlowRate() and calculate with density
-	 */
-	public double getMassFlowRate(int id){
-		if(id < numElements){
-			double rho = material.getDensity(temperature.getCurrent()[id], pressure);
-			
-			//TODO: unit flowRate!
-			//return flowRate*rho/1000/60; //flowRate [l/min]
-			return flowRate*rho; //flowRate [m^3/s]
-		}
-		else{
-			return 0.0;
-		}
 
-	}
 	
 	/**
 	 * Set the internal heat sources
@@ -212,34 +123,13 @@ public class ThermalArray {
 			this.heatSource = heatSource;
 	}
 	
-	/**
-	 * Bulk temperature
-	 * @return bulk temperature
-	 */
-	private double getTemperatureBulk(){
-		double m = 0; // Mass
-		double H = 0; // Enthalpy
-		
-		double rho, cp;
-		
-		cp  = material.getHeatCapacity();
-		
-		for(int i=0;i<numElements;i++){
-			rho = material.getDensity(temperature.getCurrent()[i], pressure);
-			
-			m += volume/numElements*rho;
-			H += volume/numElements*rho*cp*temperature.getCurrent()[i];
-		}
-
-		return H/m/cp;
-	}
 	
 	/**
 	 * Output temperature
 	 * @return temperature(end)
 	 */
 	public double getTemperatureOut(){
-		return temperature.getCurrent()[numElements-1];
+		return temperature.get(numElements-1).getCurrent();
 	}
 	
 	/**
@@ -249,101 +139,9 @@ public class ThermalArray {
 		if(thermalResistance==0 | Double.isInfinite(thermalResistance) | Double.isNaN(thermalResistance))
 			return 0;
 		else
-			return (getTemperatureBulk()-temperatureExt)/thermalResistance;
-	}
-		
-	/**
-	 * Perform an integration step of length timestep [s]
-	 * @param timestep
-	 */
-	public void integrate(double timestep){
-		temperatureBulk.setTimestep(timestep);
-		
-		double[] temperature = new double[this.numElements];
-		
-		/* Get fluid properties */
-		double rho      = material.getDensity(getTemperatureBulk(), pressure);
-		double cp       = material.getHeatCapacity();
-		double mass     = volume*rho;
-		
-		//TODO: unit flowRate!
-		//double massFlow = flowRate/1000/60*rho; //flowRate [l/min]
-		double massFlow = flowRate*rho; //flowRate [m^3/s]
-		
-		//TODO sizuest: Adapt comment
-		/* Calculate constantes for the current timestep:
-		 * C1 = N*mDot + 1/Rth/cp
-		 * C2 = T_amb/Rth/cp
-		 * C3 = hsrc/cp
-		 */
-		double C1       = cp*thermalResistance;
-		double C2       = heatSource*thermalResistance+temperatureExt;
-		double C3       = massFlow;
-		double C4       = temperatureIn;
-		// If required initialize past constants
-		if(Double.isNaN(lastC1))
-			lastC1 = C1;
-		if(Double.isNaN(lastC2))
-			lastC2 = C2;
-		if(Double.isNaN(lastC3))
-			lastC3 = C3;
-		if(Double.isNaN(lastC4))
-			lastC4 = C4;
-			
-		
-		/* Bilinear transformation */
-		
-		for(int i=0; i<numElements; i++){
-			if(i==0)
-				temperature[i] = ( timestep * (lastC1*C2+C1*lastC2) +
-						           C1*( timestep*numElements*lastC1 * (lastC3*lastC4+C3*C4-lastC3*this.temperature.getLast()[i]) +
-						               -timestep*this.temperature.getLast()[i] + 2*lastC1*this.temperature.getLast()[i]*mass)) / 
-						         ( lastC1*(timestep+C1*(2*mass+numElements*timestep*C3)) );
-			else
-				temperature[i] = ( timestep * (lastC1*C2+C1*lastC2) +
-						           C1*( timestep*numElements*lastC1 * (lastC3*this.temperature.getLast()[i-1]+C3*temperature[i-1]-lastC3*this.temperature.getLast()[i]) +
-						               -timestep*this.temperature.getLast()[i] + 2*lastC1*this.temperature.getLast()[i]*mass)) / 
-						         ( lastC1*(timestep+C1*(2*mass+numElements*timestep*C3)) );
-		}
-		//System.out.println("ThermalArray.integrate 0: " + temperature[0]);
-		
-		this.temperature.update(temperature);
-		
-		
-		/* State Temperature */
-		temperatureBulk.setValue(getTemperatureBulk());
-		
-		/* Shift new temperatures to old temperatures */
-		//lastTemperature = temperature.clone();
-		
-		/* Shift new C1/2 to old C1/2 */
-		lastC1 = C1;
-		lastC2 = C2;
-		lastC3 = C3;
-		lastC4 = C4;
+			return (getTemperatureBulk()-tempAmb)*thermalResistance;
 	}
 	
-	/**
-	 * Returns the temperature state
-	 * @return {@link DynamicState} temperature
-	 */
-	public DynamicState getTemperature(){
-		return temperatureBulk;
-	}
-	
-	/**
-	 * @param material to set
-	 */
-	public void setMaterial(Material material){
-		this.material = material;
-	}
-	
-	/**
-	 * @return Material
-	 */
-	public Material getMaterial(){
-		return material;
-	}
 	
 	/**
 	 * @param volume to set
@@ -360,7 +158,24 @@ public class ThermalArray {
 	}
 
 	public String toString() {
-		return temperatureExt + " " + temperatureIn + " " + material.toString() + " " + volume + " " + flowRate + " " + pressure + " " + heatSource + " " + numElements;
+		return tempAmb + " " + tempIn + " " + material.toString() + " " + volume + " " + flowRate + " " + pressure + " " + heatSource + " " + numElements;
+	}
+
+	@Override
+	public double getA(int i) {
+		// A[k] = -(mDotIn[k]*cpIn[k]*N - Rth[k])/m[k]/cp[k]
+		double cp   = material.getHeatCapacity();
+		return -(cp*massFlowRate*numElements+thermalResistance)/massState.getValue()/cp;
+	}
+
+	@Override
+	public double getB(int i) {
+		// B[k] = (mDotIn[k]*cpIn[k]*Tin[k] + Tamb[k]*Rth[k]+heatInput[k])/m[k]/cp[k]
+		double cp   = material.getHeatCapacity();
+		double cpIn = material.getHeatCapacity();
+		double tempIn = (0==i)? this.tempIn : temperature.get(i-1).getCurrent();
+		
+		return (cpIn*tempIn*massFlowRate + tempAmb*thermalResistance/numElements+heatSource/numElements)*numElements/massState.getValue()/cp;
 	}
 }
 

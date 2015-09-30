@@ -158,43 +158,29 @@ public class SiUnit {
 	 * @param u Unit to compare against
 	 * @return true if units are equal
 	 */
-	public boolean isEqual(SiUnit u){
-		if (this.L == u.L &
-		    this.M == u.M &
-		    this.T == u.T &
-		    this.I == u.I &
-		    this.theta == u.theta &
-		    this.N == u.N &
-		    this.J == u.J)
-			return true;
-		else
+	public boolean equals(Object o){
+		try{
+			SiUnit u = (SiUnit)o;
+			if (this.L == u.L &
+			    this.M == u.M &
+			    this.T == u.T &
+			    this.I == u.I &
+			    this.theta == u.theta &
+			    this.N == u.N &
+			    this.J == u.J)
+				return true;
+			else
+				return false;
+		}
+		catch(Exception e){
 			return false;
+		}
 	}
 	
 	/**
 	 * @return String representation of the unit
 	 */
-	public String toString(){
-		
-		double[] exp = this.get();
-		String out="";
-		
-		for(int i=0; i<exp.length; i++)
-			if(0!=exp[i]) {
-				out+=SiUnitDefinition.getBaseUnits()[i];  // Add unit name
-				if(1!=exp[i]){           // Add exponent  if required
-					if(0==exp[i]%1)
-						out+="^"+(int)exp[i];
-					else
-						out+="^"+exp[i];  
-				}
-				out+=" ";
-				
-			}
-			
-		if (out.length()>0)
-			out = out.substring(0, out.length()-1);
-		
-		return out;
+	public String toString(){		
+		return SiUnitDefinition.getString(this);
 	}
 }

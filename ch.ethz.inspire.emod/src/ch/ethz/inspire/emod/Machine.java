@@ -440,7 +440,7 @@ public class Machine {
 					if (inmc == null) {
 						Exception ex = new Exception("Undefined input component '" + inObj+ "' in file " + file + " on line " + linenr);
 						ex.printStackTrace();
-						System.exit(-1);
+						continue;
 					}
 
 					//when a fluidconnection is necessary ->
@@ -450,7 +450,7 @@ public class Machine {
 						Exception ex = new Exception("Undefined input '" + inVar+ "' of component '" + inObj 
 								+ "' in file " + file + " on line " + linenr);
 						ex.printStackTrace();
-						System.exit(-1);
+						continue;
 					}
 					
 					//check if source and target can handle a fluidConnection
@@ -480,7 +480,7 @@ public class Machine {
 							Exception ex = new Exception("Undefined output component '" + outObj+ "' in file " 
 											+ file + " on line " + linenr);
 							ex.printStackTrace();
-							System.exit(-1);
+							continue;
 						}
 						
 						tempSource = outmc.getComponent().getOutput(outVar);
@@ -488,7 +488,7 @@ public class Machine {
 							Exception ex = new Exception("Undefined output '" + outVar+ "' of component '" + outObj 
 										+ "' in file " + file + " on line " + linenr);
 							ex.printStackTrace();
-							System.exit(-1);
+							continue;
 						}
 						
 						//when handling a FluidConnection
@@ -509,7 +509,7 @@ public class Machine {
 							Exception ex = new Exception("Undefined simulation object '" + outstruct 
 										+ "' in file " + file + " on line " + linenr);
 							ex.printStackTrace();
-							System.exit(-1);
+							continue;
 						}
 					}
 					
@@ -524,7 +524,7 @@ public class Machine {
 					} catch (Exception e) {
 						System.err.println("Could not add input-output mapping, file " + file + " line " + linenr);
 						e.printStackTrace();
-						//System.exit(-1);
+						continue;
 					}
 				}
 			}
@@ -532,7 +532,6 @@ public class Machine {
 		} catch (Exception e) {
 			Exception ex = new Exception("Parse error in " + file + " on line " + linenr + " : " + e.getMessage());
 			ex.printStackTrace();
-			System.exit(-1);
 		} 
 		
 	}

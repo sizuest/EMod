@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:machine xmlns:ns2="ch.ethz.inspire.emod">
+    <machine>
+        <machineComponent>
+            <component xsi:type="forcedFluidFlow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>FlowIn</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="forcedFluidFlow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>FlowOut</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="tank" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>Tank</name>
+        </machineComponent>
+    </machine>
+    <simulators>
+        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>AmbTemp</name>
+            <unit>KELVIN</unit>
+        </simController>
+        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>AmbPressure</name>
+            <unit>PA</unit>
+        </simController>
+        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>FluidTemp</name>
+            <unit>KELVIN</unit>
+        </simController>
+        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>FluidPressure</name>
+            <unit>PA</unit>
+        </simController>
+        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>FlowRateIn</name>
+            <unit>METERCUBIC_S</unit>
+        </simController>
+        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>FlowRateOut</name>
+            <unit>METERCUBIC_S</unit>
+        </simController>
+    </simulators>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+</ns2:machine>

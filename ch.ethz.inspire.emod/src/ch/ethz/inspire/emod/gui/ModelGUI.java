@@ -147,7 +147,7 @@ public class ModelGUI extends AGUITab {
           columnWidthTableModelView[i] = 0;
         }
         
-		//SOURCE http://www.tutorials.de/threads/in-editierbarer-swt-tabelle-ohne-eingabe-von-enter-werte-aendern.299858/
+        //SOURCE http://www.tutorials.de/threads/in-editierbarer-swt-tabelle-ohne-eingabe-von-enter-werte-aendern.299858/
 	    //create a TableCursor to navigate around the table
 	    final TableCursor cursor = new TableCursor(tableModelView, SWT.NONE);
 	    // create an editor to edit the cell when the user hits "ENTER"
@@ -228,8 +228,7 @@ public class ModelGUI extends AGUITab {
 	            }  
 	        }
 	    });
-        
-	}
+	}        
 
  	/**
 	 * initialize the tab folder on the right side of the Model GUI

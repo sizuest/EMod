@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import javax.xml.bind.Unmarshaller;
 
 import ch.ethz.inspire.emod.LogLevel;
+import ch.ethz.inspire.emod.Process;
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.utils.SamplePeriodConverter;
 import ch.ethz.inspire.emod.utils.SimulationConfigReader;

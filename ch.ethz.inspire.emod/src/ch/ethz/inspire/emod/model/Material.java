@@ -189,7 +189,7 @@ public class Material {
      * @param pressure [Pa]
      * @return viscosity [mPa s]
      */
-    public double getViscosity(double temperature, double pressure) {
+    public double getViscosityDynamic(double temperature, double pressure) {
     	return Algo.logInterpolation(temperature, temperatureSamples, viscositySamples);
     }
     
@@ -199,8 +199,34 @@ public class Material {
      * @param temperature [K]
      * @return viscosity [mPa s]
      */
-    public double getViscosity(double temperature) {
-    	return this.getViscosity(temperature, 100000);
+    public double getViscosityDynamic(double temperature) {
+    	return this.getViscosityDynamic(temperature, 100000);
+    }
+    
+    /**
+     * Viscosity (kin)
+     * 
+     * @param temperature
+     * @param pressure
+     * @return viscosity [m2/s]
+     */
+    public double getViscosityKinematic(double temperature, double pressure){
+    	double rho, eta;
+    	
+    	rho = getDensity(temperature, pressure);
+    	eta = getViscosityDynamic(temperature, pressure)/1000;
+    	
+    	return eta/rho;
+    }
+    
+    /**
+     * Viscosity (kin)  at nominal pressure
+     * 
+     * @param temperature
+     * @return viscosity [m2/s]
+     */
+    public double getViscosityKinematic(double temperature){
+    	return getViscosityKinematic(temperature, 1E5);
     }
     
     /**
@@ -247,6 +273,9 @@ public class Material {
     	return thermalConductivity;
     }
 
+	/**
+	 * @param type
+	 */
 	public void setMaterial(String type) {
 		this.type = type;
 		init();		

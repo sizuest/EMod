@@ -13,8 +13,7 @@
 package ch.ethz.inspire.emod.model.thermal;
 
 import ch.ethz.inspire.emod.model.Material;
-import ch.ethz.inspire.emod.model.units.Unit;
-import ch.ethz.inspire.emod.simulation.DynamicState;
+import ch.ethz.inspire.emod.utils.AThermalIntegrator;
 import ch.ethz.inspire.emod.utils.ShiftProperty;
 
 /**
@@ -23,14 +22,13 @@ import ch.ethz.inspire.emod.utils.ShiftProperty;
  * @author simon
  *
  */
-public class ThermalElement {
+public class ThermalElement extends AThermalIntegrator{
 	
-	protected DynamicState temperature;
-	protected Material material;
-	protected double mass;
-	protected ShiftProperty<Double> heatInput;
-	//protected double heatInput;
-	//protected double lastHeatInput;
+	private double thermalResistance;
+	private double tempAmb;
+	private double tempIn;
+	private ShiftProperty<Double> heatInput = new ShiftProperty<Double>(0.0);
+	
 	
 	/**
 	 * ThermalElement
@@ -39,11 +37,21 @@ public class ThermalElement {
 	 * @param mass
 	 */
 	public ThermalElement(String materialName, double mass){
-		this.mass          = mass;
+		super();
+		this.massState.setInitialCondition(mass);
 		this.material      = new Material(materialName);
-		this.temperature   = new DynamicState("Temperature", Unit.KELVIN);
-		this.heatInput     = new ShiftProperty<Double>(0.0);
-		//this.lastHeatInput = 0;
+	}
+	
+	/**
+	 * ThermalElement
+	 * 
+	 * @param material
+	 * @param mass
+	 */
+	public ThermalElement(Material material, double mass){
+		super();
+		this.material      = material;
+		getMass().setInitialCondition(mass);
 	}
 	
 	/**
@@ -57,55 +65,74 @@ public class ThermalElement {
 			this.heatInput.set(0.0);
 	}
 	
+	
 	/**
 	 * Add to current heat input [W]
 	 * @param heatInput
 	 */
 	public void addHeatInput(double heatInput){
 		if(!(heatInput==0 | Double.isInfinite(heatInput) | Double.isNaN(heatInput)))
-			this.heatInput.set(this.heatInput.getCurrent()+heatInput);
-		
+			setHeatInput(this.heatInput.getCurrent()+heatInput);
 	}
 	
 	/**
-	 * Perform an integration step of length timestep [s]
-	 * @param timestep
+	 * @param volume
 	 */
-	public void integrate(double timestep){
-		this.temperature.setTimestep(timestep);
-		/* Integration step:
-		 * T(k+1) [K] = T(k) [K]+ SampleTime[s]/2*(P_in(k) [W]+P_in(k+1) [W]) / cp [J/kg/K] / m [kg] 
-		 */	
-		this.temperature.addValue((this.heatInput.getCurrent()+this.heatInput.getLast())/2/mass/material.getHeatCapacity()*timestep);
-		
-		// Shift Heat inputs
-		//this.lastHeatInput = this.heatInput;
-		//this.heatInput     = 0;
-		this.heatInput.update(0.0);
-	}
-	
-	/**
-	 * Returns the temperature state
-	 * @return {@link DynamicState} temperature
-	 */
-	public DynamicState getTemperature(){
-		return temperature;
-	}
-
-	public Material getMaterial() {
-		return this.material;
-	}
-
-	public void setMaterial(String type) {
-		this.material.setMaterial(type);
-	}
-	
 	public void setVolume(double volume){
-		this.mass = volume*this.material.getDensity(this.getTemperature().getValue(), 100000);
+		this.massState.setValue(volume*this.material.getDensity(this.getTemperature().getValue(), 100000));
 	}
 	
+	/**
+	 * @param mass
+	 */
 	public void setMass(double mass){
-		this.mass = mass;
+		this.massState.setValue(mass);
+	}
+
+	/**
+	 * @return [m3]
+	 */
+	public double getVolume() {
+		return massState.getValue()/material.getDensity(temperatureState.getValue());
+	}
+
+	@Override
+	public double getA(int i) {
+		// A[k] = -mDotIn[k]/m[k] - Rth[k]/m[k]/cp[k]
+		double cp   = material.getHeatCapacity();
+		return -mDotIn.getCurrent()/massState.getValue()-thermalResistance/massState.getValue()/cp;
+	}
+
+	@Override
+	public double getB(int i) {
+		// B[k] = (mDotIn[k]*cpIn[k]*Tin[k] + Tamb[k]*Rth[k]+heatInput[k])/m[k]/cp[k]
+		double cp   = material.getHeatCapacity();
+		double cpIn = material.getHeatCapacity();
+		return (mDotIn.getCurrent()*cpIn*tempIn + tempAmb*thermalResistance + heatInput.getCurrent()) / massState.getValue()/cp;
+	}
+	
+	/**
+	 * Set inlet temperature
+	 * @param tempIn [K]
+	 */
+	public void setTemperatureIn(double tempIn){
+		this.tempIn = tempIn;
+	}
+	
+	/**
+	 * Set ambient temperature
+	 * @param tempAmb [K]
+	 */
+	public void setTemperatureAmb(double tempAmb){
+		this.tempAmb = tempAmb;
+	}
+	
+	/**
+	 * Set thermal resistance 
+	 * @param thermalResistance [W/K]
+	 */
+	public void setThermalResistance(double thermalResistance){
+		this.thermalResistance = thermalResistance;
 	}
 
 }

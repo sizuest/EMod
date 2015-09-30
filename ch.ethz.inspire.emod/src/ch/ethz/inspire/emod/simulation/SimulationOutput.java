@@ -84,6 +84,10 @@ public class SimulationOutput {
 					else
 						outfile.write(separator + mc.getName() + "-Output-" + (i+1));
 				}
+				if(null!=mc.getComponent().getDynamicStateList())
+					for (int i=0; i<mc.getComponent().getDynamicStateList().size(); i++){
+						outfile.write(separator + mc.getName() +"-State-" + (i+1));
+					}
 			}
 			for(ASimulationControl sc : simlist) {
 				outfile.write(separator + sc.getName() + "-Sim");
@@ -111,6 +115,10 @@ public class SimulationOutput {
 					else
 						outfile.write(separator + mc.getName() + "." + output.getName());
 				}
+				if(null!=mc.getComponent().getDynamicStateList())
+					for (DynamicState state : mc.getComponent().getDynamicStateList()){
+						outfile.write(separator + mc.getName() +"." + state.getName());
+					}
 			}
 			for(ASimulationControl sc : simlist) {
 				outfile.write(separator + sc.getOutput().getName() + " State");
@@ -138,6 +146,10 @@ public class SimulationOutput {
 					else
 						outfile.write(separator + "[" + output.getUnit() + "]");
 				}
+				if(null!=mc.getComponent().getDynamicStateList())
+					for (DynamicState state : mc.getComponent().getDynamicStateList()){
+						outfile.write(separator + "[" + state.getUnit() +"]" );
+					}
 			}
 			for(ASimulationControl sc : simlist) {
 				outfile.write(separator + "       ");
@@ -165,7 +177,7 @@ public class SimulationOutput {
 				for (IOContainer input : mc.getComponent().getInputs()){
 					if(mc.getComponent() instanceof Floodable & input instanceof FluidContainer){
 						outfile.write(separator + ((FluidContainer)input).getTemperature());
-						outfile.write(separator + ((Floodable)mc.getComponent()).getFluidProperties().getFlowRate());
+						outfile.write(separator + ((Floodable)mc.getComponent()).getFluidProperties().getFlowRateIn());
 						outfile.write(separator + ((FluidContainer)input).getPressure());
 					}
 					else
@@ -174,12 +186,16 @@ public class SimulationOutput {
 				for (IOContainer output : mc.getComponent().getOutputs()){
 					if(mc.getComponent() instanceof Floodable & output instanceof FluidContainer){
 						outfile.write(separator + ((FluidContainer)output).getTemperature());
-						outfile.write(separator + ((Floodable)mc.getComponent()).getFluidProperties().getFlowRate());
+						outfile.write(separator + ((Floodable)mc.getComponent()).getFluidProperties().getFlowRateOut());
 						outfile.write(separator + ((FluidContainer)output).getPressure());
 					}
 					else
 						outfile.write(separator + output.getValue());
 				}
+				if(null!=mc.getComponent().getDynamicStateList())
+					for (DynamicState state : mc.getComponent().getDynamicStateList()){
+						outfile.write(separator +state.getValue());
+					}
 			}
 			for(ASimulationControl sc : simlist) {
 				outfile.write(separator + sc.getState().toString());

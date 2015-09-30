@@ -37,10 +37,9 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  * 
  * 
  * Inputlist:
- *   1: RotSpeed      : [rpm] : Actual rotational speed
- *   2: Torque        : [Nm]  : Actual torque
- *   3: TemperatureIn : [K]   : Coolant inlet temperature
- *   4: CoolantFlow   : [kg/s]: Coolant flow rate
+ *   1: State         : [-] : On/Off
+ *   2: RotSpeed      : [rpm] : Actual rotational speed
+ *   3: Torque        : [Nm]  : Actual torque
  * Outputlist:
  *   1: PTotal         : [W]  : Calculated total energy demand
  *   2: PLoss          : [W]  : Calculated power loss
@@ -61,6 +60,7 @@ public class Spindle extends APhysicalComponent implements Floodable{
 	protected String type;
 	
 	// Input parameters:
+	private IOContainer state;
 	private IOContainer rotspeed;
 	private IOContainer torque;
 	// Output parameters:
@@ -128,8 +128,10 @@ public class Spindle extends APhysicalComponent implements Floodable{
 	{
 		/* Define Input parameters */
 		inputs = new ArrayList<IOContainer>();
+		state         = new IOContainer("State",         Unit.NONE, 0, ContainerType.CONTROL);
 		rotspeed      = new IOContainer("RotSpeed",      Unit.RPM, 0, ContainerType.MECHANIC);
 		torque        = new IOContainer("Torque",        Unit.NEWTONMETER, 0, ContainerType.MECHANIC);
+		inputs.add(state);
 		inputs.add(rotspeed);
 		inputs.add(torque);
 		
@@ -254,42 +256,57 @@ public class Spindle extends APhysicalComponent implements Floodable{
 		double frictionTorque = 0;
 		double frictionLosses = 0;
 		
-		// Bearings
-		if(rotspeed.getValue()!=0)
-			for (int i=0; i<bearings.length; i++){
-				bearings[i].getInput("RotSpeed").setValue(rotspeed.getValue());
-				bearings[i].getInput("ForceRadial").setValue(0);//TODO
-				bearings[i].getInput("ForceAxial").setValue(preloadForce[i]);
-				bearings[i].update();
+		if(1==state.getValue()){
+		
+			// Bearings
+			if(rotspeed.getValue()!=0)
+				for (int i=0; i<bearings.length; i++){
+					bearings[i].getInput("RotSpeed").setValue(rotspeed.getValue());
+					bearings[i].getInput("ForceRadial").setValue(0);//TODO
+					bearings[i].getInput("ForceAxial").setValue(preloadForce[i]);
+					bearings[i].getInput("Temperature1").setValue(structure.getTemperature().getValue());
+					bearings[i].getInput("Temperature2").setValue(structure.getTemperature().getValue());
+					bearings[i].update();
+					
+					frictionTorque+=bearings[i].getOutput("Torque").getValue();
+					frictionLosses+=bearings[i].getOutput("PLoss").getValue();
+				}
+			
+			// Air Gap
+			frictionTorque += Math.pow(rotspeed.getValue()/30*Math.PI, agFrictCoeff[0])*agFrictCoeff[1];
+			frictionLosses += Math.pow(rotspeed.getValue()/30*Math.PI, agFrictCoeff[0])*agFrictCoeff[1]*rotspeed.getValue()/30*Math.PI;
+			
+			motor.getInput("RotSpeed").setValue(rotspeed.getValue());
+			motor.getInput("Torque").setValue(frictionTorque+torque.getValue());
+			motor.update();
+			
+			pmech.setValue(rotspeed.getValue()*torque.getValue()*Math.PI/30.0);
+			pel.setValue(motor.getOutput("PTotal").getValue());
+			// ploss.setValue(motor.getOutput("PLoss").getValue()+frictionLosses);
+			ploss.setValue(motor.getOutput("PLoss").getValue()+frictionLosses);
+		}
+		else{
+			motor.getOutput("PUse").setValue(0);
+			motor.getOutput("PLoss").setValue(0);
+			motor.getOutput("PTotal").setValue(0);
+			
+			pmech.setValue(0);
+			pel.setValue(0);
+			// ploss.setValue(motor.getOutput("PLoss").getValue()+frictionLosses);
+			ploss.setValue(0);
+		}
 				
-				frictionTorque+=bearings[i].getOutput("Torque").getValue();
-				frictionLosses+=bearings[i].getOutput("PLoss").getValue();
-			}
-		
-		// Air Gap
-		frictionTorque += Math.pow(rotspeed.getValue()/30*Math.PI, agFrictCoeff[0])*agFrictCoeff[1];
-		frictionLosses += Math.pow(rotspeed.getValue()/30*Math.PI, agFrictCoeff[0])*agFrictCoeff[1]*rotspeed.getValue()/30*Math.PI;
-		
-		motor.getInput("RotSpeed").setValue(rotspeed.getValue());
-		motor.getInput("Torque").setValue(frictionTorque+torque.getValue());
-		motor.update();
-		
-		pmech.setValue(rotspeed.getValue()*torque.getValue()*Math.PI/30.0);
-		pel.setValue(motor.getOutput("PTotal").getValue());
-		// ploss.setValue(motor.getOutput("PLoss").getValue()+frictionLosses);
-		ploss.setValue(0);
 		
 				
 		// Coolant
-		coolant.setThermalResistance(1/alphaCoolant);
-		coolant.setFlowRate(fluidProperties.getFlowRate());
-		coolant.setHeatSource(0);
-		coolant.setPressure(100000); //TODO
-		coolant.setTemperatureExternal(structure.getTemperature().getValue());
+		coolant.setThermalResistance(alphaCoolant);
+		coolant.setFlowRate(fluidProperties.getFlowRateIn());
+		coolant.setHeatSource(0.0);
+		coolant.setTemperatureAmb(structure.getTemperature().getValue());
 		coolant.setTemperatureIn(fluidIn.getTemperature());
 		
 		// Pressure loss
-		fluidProperties.setPressureDrop(0.5*lastPressureDrop+0.5*pressureLossCoeff*Math.pow(fluidProperties.getFlowRate(), 2));
+		fluidProperties.setPressureDrop(0.5*lastPressureDrop+0.5*pressureLossCoeff*Math.pow(fluidProperties.getFlowRateIn(), 2));
 		lastPressureDrop = fluidProperties.getPressureDrop();
 		
 		// Thermal flows
@@ -298,7 +315,8 @@ public class Spindle extends APhysicalComponent implements Floodable{
 				
 		// Update submodels
 		structure.integrate(timestep);
-		coolant.integrate(timestep);
+		//TODO set Pressure!
+		coolant.integrate(timestep, 0, 0, 100000);
 		
 		// Write outputs
 		temperature.setValue(structure.getTemperature().getValue());

@@ -287,24 +287,25 @@ public class Pipe extends APhysicalComponent implements Floodable{
 
 		/* Set fluid obj. boundary positions */
 		fluid.setTemperatureIn(fluidIn.getTemperature());
-		
-		if(fluidIn.getPressure() > 0){
-			fluid.setPressure(fluidIn.getPressure());
-		} else {
-			fluid.setPressure(100000);
-		}
-		fluid.setFlowRate(fluidProperties.getFlowRate());
+		fluid.setFlowRate(fluidProperties.getFlowRateIn());
 		
 		
 		/* Calculate alphaFluid */
-		alphaFluid = Fluid.convectionForcedPipe(fluid.getMaterial(), fluid.getTemperature().getValue(), pipeLength, pipeDiameter, fluid.getFlowRate());
+		if(fluid.getFlowRate()>0)
+			alphaFluid = Fluid.convectionForcedPipe(fluid.getMaterial(), fluid.getTemperature().getValue(), pipeLength, pipeDiameter, fluid.getFlowRate());
+		else
+			alphaFluid = Fluid.convectionFreeCylinderHorz(fluid.getMaterial(), fluid.getTemperature().getValue(), temperatureAmb.getValue(), pipeDiameter);
 		
 		/* Calculate alphaAir */
-		alphaAir = Fluid.convectionFreeCylinderHorz(fluid.getMaterial(), fluid.getTemperature().getValue(), temperatureAmb.getValue(), pipeDiameter);
+		alphaAir = Fluid.convectionFreeCylinderHorz(new Material("Air"), fluid.getTemperature().getValue(), temperatureAmb.getValue(), pipeDiameter);
 		
 		/* Calculate overall thermal Resistance of pipe */
 		//double thermalResistance = 1/(alphaFluid * pipeArea) + 0.03 / (0.25 * pipeArea) + 1/(alphaAir * pipeArea);
 		thermalResistance = 1/(alphaFluid * pipeArea) + 1/(pipeThTransmittance * pipeArea) + 1/(alphaAir * pipeArea);
+		if(Double.isNaN(thermalResistance) | Double.isInfinite(thermalResistance))
+			thermalResistance = 0;
+		else
+			thermalResistance = 1/thermalResistance;
 		
 		/* calculate pressure loss */
 		pressureloss.setValue(Fluid.pressureLossFriction(fluid.getMaterial(), fluid.getTemperature().getValue(), pipeLength, pipeDiameter, fluid.getFlowRate(), pipeRoughness));
@@ -313,12 +314,13 @@ public class Pipe extends APhysicalComponent implements Floodable{
 		// set array boundary conditions
 		fluid.setThermalResistance(thermalResistance);
 		fluid.setHeatSource(pressureloss.getValue()*fluid.getFlowRate() + heatFlowIn.getValue());
-		fluid.setTemperatureExternal(temperatureAmb.getValue());
+		fluid.setTemperatureAmb(temperatureAmb.getValue());
 		
 		/* ************************************************************************/
 		/*         Integration step:                                              */
 		/* ************************************************************************/
-		fluid.integrate(timestep);
+		fluid.integrate(timestep, 0, 0, 100000);
+		// TODO: Pressure
 		
 		/* ************************************************************************/
 		/*         Update outputs, direction of calculation:                      */

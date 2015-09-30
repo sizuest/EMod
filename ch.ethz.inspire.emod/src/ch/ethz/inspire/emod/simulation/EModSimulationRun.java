@@ -1,6 +1,7 @@
 package ch.ethz.inspire.emod.simulation;
 
 import ch.ethz.inspire.emod.Machine;
+import ch.ethz.inspire.emod.Process;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 public class EModSimulationRun {
@@ -44,10 +45,11 @@ public static void EModSimRun(){
 	sim.setInputparamObjectList(Machine.getInstance().getInputObjectList());
 	
 	/* Setup the process */
-	Process process = new Process(PropertiesHandler.getProperty("sim.ProcessName"));
+	Process.loadProcess(PropertiesHandler.getProperty("sim.ProcessName"));
+	//Process process = new Process(PropertiesHandler.getProperty("sim.ProcessName"));
 	
 	/* Set process parameters for simulation */
-	sim.setProcessParamsforSimulation(process);
+	sim.setProcessParamsforSimulation(Process.getInstance());
 	
 	/* Set simulation period for all simulation objects */
 	sim.updateSimulationPeriod();

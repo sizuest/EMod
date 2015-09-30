@@ -7,6 +7,12 @@
             </component>
             <name>Spindle</name>
         </machineComponent>
+        <machineComponent>
+            <component xsi:type="forcedFluidFlow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>GlykolWater_30</type>
+            </component>
+            <name>ForcedFluidFlow</name>
+        </machineComponent>
     </machine>
     <simulators>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -24,6 +30,10 @@
         <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>FlowRate</name>
             <unit>L_MIN</unit>
+        </simController>
+        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>ConstantSimulationControl</name>
+            <unit>METERCUBIC_S</unit>
         </simController>
     </simulators>
     <connectionList/>

@@ -12,6 +12,7 @@
  ***********************************/
 package ch.ethz.inspire.emod.gui;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -41,6 +42,8 @@ import org.eclipse.swt.widgets.Text;
 
 import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.States;
+import ch.ethz.inspire.emod.Process;
+import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.simulation.ASimulationControl;
 import ch.ethz.inspire.emod.simulation.DynamicState;
 import ch.ethz.inspire.emod.simulation.MachineState;
@@ -147,6 +150,9 @@ public class SimGUI extends AGUITab  {
 	}
 	
 	private void updateProcess(){
+		
+		TableItem[] item;
+		
 		tableProcessParam.clearAll();
 		tableProcessParam.setItemCount(0);
 
@@ -156,26 +162,56 @@ public class SimGUI extends AGUITab  {
 		TableColumn column = new TableColumn(tableProcessParam, SWT.NULL);
 		column.setText(LocalizationHandler.getItem("app.gui.sim.inputs.time"));
 		
+		/* Fill the table
+		 * We have two sources
+		 * - Process file: Keys and values exist
+		 * - New Simulators: Keys and values must be added
+		 */
 		
+		// Process File
+		Process.loadProcess();
 		
-		// Title
-		List<ASimulationControl> scList = Machine.getInstance().getVariableInputObjectList();
-		if(scList!=null) {
-			for(int i=0; i < scList.size(); i++){
-				column = new TableColumn(tableProcessParam, SWT.NULL);
-				column.setText(scList.get(i).getName()+ " [" +scList.get(i).getUnit().toString() + "]");
-			}
+		// Simulators
+		ArrayList<String> scNames = new ArrayList<String>();
+		ArrayList<Unit> scUnits = new ArrayList<Unit>();
+		for(ASimulationControl sc : Machine.getInstance().getVariableInputObjectList()){
+			scNames.add(sc.getName());
+			scUnits.add(sc.getUnit());
+			if(!(Process.getVariableNames().contains(sc.getName())))
+				try {
+					Process.addProcessVariable(sc.getName());
+				} catch (Exception e){
+					//TODO
+				}
+						
 		}
 		
+		// Write Heads
+		for(String k : Process.getVariableNames()){
+			column = new TableColumn(tableProcessParam, SWT.NULL);
+			if(scNames.contains(k))
+				column.setText(k+ " ["+scUnits.get(scNames.indexOf(k)).toString()+"]");
+			else
+				column.setText(k+ " [not used]");
+		}
+		
+		// Table items
+		item = new TableItem[Process.getNumberOfTimeStamps()];
+		
+		// Time Data
+		for (int i = 0; i < Process.getNumberOfTimeStamps(); i++) {
+			item[i] = new TableItem(tableProcessParam, SWT.NONE);
+			item[i].setText(0, Double.toString(i*Process.getSamplePeriod()));
+		}
+		
+		// Variable Data
+		for(int j=0; j<Process.getVariableNames().size(); j++){
+			double[] tmp = Process.getProcessVariable(Process.getVariableNames().get(j));
+			for (int i = 0; i < tmp.length; i++) {
+				item[i].setText(j+1, Double.toString(tmp[i]));
+			}
+		}
 			
-        for (int i = 0; i < 10; i++) {
-        	TableItem item = new TableItem(tableProcessParam, SWT.NONE);
-            item.setText(0, "00:00");
-            item.setText(1, "ABC");
-            item.setText(2, "DEF");
-            item.setText(3, "GHI");
-            item.setText(4, "XYZ");
-          }
 		
         //Tabelle packen
         TableColumn[] columns = tableProcessParam.getColumns();
@@ -416,7 +452,7 @@ public class SimGUI extends AGUITab  {
 		tableProcessParam.setHeaderVisible(true);
 		
 		//Titel der Spalten setzen
-		updateProcess();
+		//updateProcess();
 		
 		//Tab for State sequence
 		TabItem tabProcessItem = new TabItem(tabFolder, SWT.NONE);
