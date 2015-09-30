@@ -11,21 +11,47 @@
  *
  ***********************************/
 
-package ch.ethz.inspire.emod.utils;
+package ch.ethz.inspire.emod.model.units;
 
 
-import ch.ethz.inspire.emod.model.units.SiUnit;
 
 /**
  * @author sizuest
  *
  * @param <T> Object type of the value
  */
-public class PhysicalValue<T> {
-	T value;
-	SiUnit unit = new SiUnit();
+public class PhysicalValue {
+	private double value;
+	private SiUnit unit = new SiUnit();
 	
+	/**
+	 * Returns the current value
+	 * @return value <T>
+	 */
+	public double getValue(){
+		return value;
+	}
 	
+	/**
+	 * returns the current unit
+	 * @return unit {@link SiUnit.java}
+	 */
+	public SiUnit getUnit(){
+		return unit;
+	}
+	
+	/**
+	 * Sets a new value
+	 * @param value
+	 */
+	public void setValue(double value){
+		this.value = value;
+	}
+	
+	/**
+	 * Returns the value and unit as String
+	 * @return String
+	 */
 	public String toString(){
 		return value+" "+unit.toString();
 	}
@@ -34,13 +60,13 @@ public class PhysicalValue<T> {
 	 * @param value
 	 * @param unit
 	 */
-	public void set(T value, String unit){
+	public void set(double value, String unit){
 		this.value = value;
 		this.unit.set(unit);
 	}
 	
-	public static PhysicalValue<Double> multiply(PhysicalValue<Double> a, double b){
-		PhysicalValue<Double> pv = new PhysicalValue<Double>();
+	public static PhysicalValue multiply(PhysicalValue a, double b){
+		PhysicalValue pv = new PhysicalValue();
 		
 		// New value
 		pv.value = a.value*b;
@@ -51,8 +77,8 @@ public class PhysicalValue<T> {
 	}
 	
 	
-	public static PhysicalValue<Double> multiply(PhysicalValue<Double> a, PhysicalValue<Double> b){
-		PhysicalValue<Double> pv = new PhysicalValue<Double>();
+	public static PhysicalValue multiply(PhysicalValue a, PhysicalValue b){
+		PhysicalValue pv = new PhysicalValue();
 		
 		// New value
 		pv.value = a.value*b.value;
@@ -62,8 +88,8 @@ public class PhysicalValue<T> {
 		return pv;
 	}
 	
-	public static PhysicalValue<Double> divide(PhysicalValue<Double> a, double b){
-		PhysicalValue<Double> pv = new PhysicalValue<Double>();
+	public static PhysicalValue divide(PhysicalValue a, double b){
+		PhysicalValue pv = new PhysicalValue();
 		
 		// New value
 		pv.value = a.value/b;
@@ -73,8 +99,8 @@ public class PhysicalValue<T> {
 		return pv;
 	}
 	
-	public static PhysicalValue<Double> divide(PhysicalValue<Double> a, PhysicalValue<Double> b){
-		PhysicalValue<Double> pv = new PhysicalValue<Double>();
+	public static PhysicalValue divide(PhysicalValue a, PhysicalValue b){
+		PhysicalValue pv = new PhysicalValue();
 		
 		// New value
 		pv.value = a.value/b.value;
@@ -84,8 +110,8 @@ public class PhysicalValue<T> {
 		return pv;
 	}
 	
-	public static PhysicalValue<Double> add(PhysicalValue<Double> a, PhysicalValue<Double> b) throws Exception {
-		PhysicalValue<Double> pv = new PhysicalValue<Double>();
+	public static PhysicalValue add(PhysicalValue a, PhysicalValue b) throws Exception {
+		PhysicalValue pv = new PhysicalValue();
 		
 		// Check unit;
 		if(!a.unit.equals(b.unit))
@@ -99,8 +125,8 @@ public class PhysicalValue<T> {
 		return pv;
 	}
 	
-	public static PhysicalValue<Double> subtract(PhysicalValue<Double> a, PhysicalValue<Double> b) throws Exception {
-		PhysicalValue<Double> pv = new PhysicalValue<Double>();
+	public static PhysicalValue subtract(PhysicalValue a, PhysicalValue b) throws Exception {
+		PhysicalValue pv = new PhysicalValue();
 		
 		// Check unit;
 		if(!a.unit.equals(b.unit))
@@ -114,8 +140,8 @@ public class PhysicalValue<T> {
 		return pv;
 	}
 	
-	public static PhysicalValue<Double> pow(PhysicalValue<Double> v, double exp){
-		PhysicalValue<Double> pv = new PhysicalValue<Double>();
+	public static PhysicalValue pow(PhysicalValue v, double exp){
+		PhysicalValue pv = new PhysicalValue();
 		
 		// New value
 		pv.value = Math.pow(v.value, exp);

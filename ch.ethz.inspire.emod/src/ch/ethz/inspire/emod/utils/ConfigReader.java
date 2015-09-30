@@ -23,6 +23,7 @@ import java.util.Enumeration;
 import java.util.Properties;
 
 import ch.ethz.inspire.emod.model.Material;
+import ch.ethz.inspire.emod.model.units.PhysicalValue;
 
 public class ConfigReader {
 	
@@ -114,6 +115,27 @@ public class ConfigReader {
 			throw new NumberFormatException("Unknown format of propertiy '" + paramname 
 					+ "' in file '" + fileName + "'\n   " + e.getMessage());
 		}
+	}
+	
+	public PhysicalValue getPhysicalValue(String paramname) throws Exception {
+		String valstr = props.getProperty(paramname);		
+		PhysicalValue out = new PhysicalValue();
+		
+		String unit = "";
+		double value = 0;
+		
+		if (valstr == null) {
+			throw new Exception("No propertiy '" + paramname + "' found in '" + fileName + "'!");
+		}
+		
+		value = Double.parseDouble(valstr.replaceFirst("[a-zA-Z].*$", ""));
+		unit  = valstr.replaceFirst("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?", "");
+		
+		out.set(value, unit);
+		
+		return out;
+		
+		
 	}
 	
 	/**
@@ -244,37 +266,45 @@ public class ConfigReader {
 	public double[][] getDoubleMatrix(String paramname) throws Exception
 	{
 		String valstr = props.getProperty(paramname);
+		double[][] retmatrix = null;
+		
 		if (valstr == null) {
 			throw new Exception("No propertiy '" + paramname + "' found in '" + fileName + "'!");
 		}
-		
-		double[][] retmatrix = null;
-		try {
-			// Remove all CRs and LFs, if exists:
-			String valstr1 = valstr.replace("\n", "").replace("\r", "");
-			// Split to rows:
-			String rows[] = valstr1.trim().split(";");
-
-			// Allocate row of retmatrix:
-			retmatrix = new double[rows.length][];
-			// Proceed row for row:
-			for (int row=0; row<rows.length; row++) {
-				// Change colons to spaces:
-				String rowstr = rows[row].replace(",", " ");
-				// Split at white spaces:
-				String[] rowarray = rowstr.trim().split("\\s+");
-				
-				// Allocate columns of retmatrix:
-				retmatrix[row] = new double[rowarray.length];
-				// Convert string array to double array:
-				for (int col=0; col<rowarray.length; col++) {
-					retmatrix[row][col] = Double.parseDouble(rowarray[col]);
-				}
-			}
+		try{
+			retmatrix = stringToDoubleMatrix(valstr);
 		}
-		catch (Exception e) {
+		catch(Exception e){
 			throw new Exception("Unknown format of propertiy '" + paramname 
 					+ "' in file '" + fileName + "'\n   " + e.getMessage());
+		}
+		
+		return retmatrix;
+	}
+	
+	private double[][] stringToDoubleMatrix(String valstr) {
+		double[][] retmatrix = null;
+
+		// Remove all CRs and LFs, if exists:
+		String valstr1 = valstr.replace("\n", "").replace("\r", "");
+		// Split to rows:
+		String rows[] = valstr1.trim().split(";");
+
+		// Allocate row of retmatrix:
+		retmatrix = new double[rows.length][];
+		// Proceed row for row:
+		for (int row=0; row<rows.length; row++) {
+			// Change colons to spaces:
+			String rowstr = rows[row].replace(",", " ");
+			// Split at white spaces:
+			String[] rowarray = rowstr.trim().split("\\s+");
+			
+			// Allocate columns of retmatrix:
+			retmatrix[row] = new double[rowarray.length];
+			// Convert string array to double array:
+			for (int col=0; col<rowarray.length; col++) {
+				retmatrix[row][col] = Double.parseDouble(rowarray[col]);
+			}
 		}
 		return retmatrix;
 	}
@@ -354,7 +384,7 @@ public class ConfigReader {
 		saveValues();
 	}
 	
-	public void setValue(String name, PhysicalValue<?> value) throws IOException{
+	public void setValue(String name, PhysicalValue value) throws IOException{
 		props.setProperty(name, value.toString());
 		saveValues();
 	}

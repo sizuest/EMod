@@ -29,6 +29,7 @@ public class SiUnitDefinition {
 	private static SiUnitDefinition siDefinition = null;
 	// Conversion Map
 	private static Map<String,SiUnit> convMap = new HashMap<String,SiUnit>();
+	private static Map<Unit,SiUnit> updateMap = new HashMap<Unit,SiUnit>();
 	// Units of the dimensions
 	private String[] unitNames = {"m", 
 			                      "kg", 
@@ -64,6 +65,15 @@ public class SiUnitDefinition {
 		return convMap;
 	}
 	
+	private static void initUpdateMap(){
+		updateMap.put(Unit.KELVIN, (new SiUnit("K")));
+		updateMap.put(Unit.KG    , (new SiUnit("kg")));
+		updateMap.put(Unit.KG_MCUBIC, (new SiUnit("kg m^-3")));
+		updateMap.put(Unit.KG_S, (new SiUnit("kg s^-1")));
+		updateMap.put(Unit.M, (new SiUnit("m")));
+		updateMap.put(Unit.M_S, (new SiUnit("m s^-1")));
+		
+	}
 	
 	private static void initConversionMap(){
 		// Base units
@@ -80,7 +90,7 @@ public class SiUnitDefinition {
 		convMap.put("sr",  (new SiUnit()));
 		convMap.put("Hz",  (new SiUnit("s^-1")));
 		convMap.put("N",   (new SiUnit("m kg s^-2")));
-		convMap.put("Pa",  (new SiUnit("kg m^-1 s^-1")));
+		convMap.put("Pa",  (new SiUnit("kg m^-1 s^-2")));
 		convMap.put("J",   (new SiUnit("m^2 kg s^-2")));
 		convMap.put("W",   (new SiUnit("m^2 kg s^-3")));
 		convMap.put("C",   (new SiUnit("A s")));
@@ -174,7 +184,7 @@ public class SiUnitDefinition {
 		Matcher m = p.matcher(s);
 		
 		// Prepare other search units
-		Pattern pUnit = Pattern.compile("[a-zA-Z]+|\\d");
+		Pattern pUnit = Pattern.compile("[a-zA-Z]+|([-+]?\\d)+");
 		Matcher mUnit;
 		
 		while(m.find()){

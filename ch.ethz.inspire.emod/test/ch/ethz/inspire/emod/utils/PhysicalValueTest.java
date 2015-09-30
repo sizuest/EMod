@@ -1,12 +1,9 @@
 package ch.ethz.inspire.emod.utils;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-
 import org.junit.Test;
+
+import ch.ethz.inspire.emod.model.units.PhysicalValue;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 
 public class PhysicalValueTest {
@@ -14,9 +11,9 @@ public class PhysicalValueTest {
 	@Test
 	public void testPhysicalValue() throws Exception{
 		
-		PhysicalValue<Double> pv1 = new PhysicalValue<Double>();
-		PhysicalValue<Double> pv2 = new PhysicalValue<Double>();
-		PhysicalValue<Double> pv3 = new PhysicalValue<Double>();
+		PhysicalValue pv1 = new PhysicalValue();
+		PhysicalValue pv2 = new PhysicalValue();
+		PhysicalValue pv3 = new PhysicalValue();
 		
 		// Values
 		pv1.set(2.0,"m^2");
@@ -24,47 +21,65 @@ public class PhysicalValueTest {
 		pv3.set(1.0,"m^2");
 		
 		// Test
-		PhysicalValue<Double> res1 = PhysicalValue.add(pv1, pv3);
-		PhysicalValue<Double> res2 = PhysicalValue.subtract(pv1, pv3);
-		PhysicalValue<Double> res3 = PhysicalValue.multiply(pv1, pv2);
-		PhysicalValue<Double> res4 = PhysicalValue.divide(pv2, pv1);
-		PhysicalValue<Double> res5 = PhysicalValue.pow(pv1, 0.5);
+		PhysicalValue res1 = PhysicalValue.add(pv1, pv3);
+		PhysicalValue res2 = PhysicalValue.subtract(pv1, pv3);
+		PhysicalValue res3 = PhysicalValue.multiply(pv1, pv2);
+		PhysicalValue res4 = PhysicalValue.divide(pv2, pv1);
+		PhysicalValue res5 = PhysicalValue.pow(pv1, 0.5);
 		
 		// Check
-		assertEquals("Add", 3, res1.value,0);
-		assertEquals("Sub", 1, res2.value,0);
-		assertEquals("Mul", 6.2, res3.value,0);
-		assertEquals("Div", 1.55, res4.value,0);
-		assertEquals("Pow", Math.pow(2, 0.5), res5.value,0.00001);
+		assertEquals("Add", 3, res1.getValue(),0);
+		assertEquals("Sub", 1, res2.getValue(),0);
+		assertEquals("Mul", 6.2, res3.getValue(),0);
+		assertEquals("Div", 1.55, res4.getValue(),0);
+		assertEquals("Pow", Math.pow(2, 0.5), res5.getValue(),0.00001);
 		
-		assertEquals("AddUnit", "m^2", res1.unit.toString());
-		assertEquals("SubUnit", "m^2", res2.unit.toString());
-		assertEquals("MulUnit", "m^3 kg s^2", res3.unit.toString());
-		assertEquals("DivUnit", "m^-1 kg s^2", res4.unit.toString());
-		assertEquals("PowUnit", "m", res5.unit.toString());
+		assertEquals("AddUnit", "m^2", res1.getUnit().toString());
+		assertEquals("SubUnit", "m^2", res2.getUnit().toString());
+		assertEquals("MulUnit", "m^3 kg s^-2", res3.getUnit().toString());
+		assertEquals("DivUnit", "Pa", res4.getUnit().toString());
+		assertEquals("PowUnit", "m", res5.getUnit().toString());
 		
-		System.out.println(res1.unit.toString());
-		System.out.println(res2.unit.toString());
-		System.out.println(res3.unit.toString());
-		System.out.println(res4.unit.toString());
-		System.out.println(res5.unit.toString());
+		System.out.println(res1.getUnit().toString());
+		System.out.println(res2.getUnit().toString());
+		System.out.println(res3.getUnit().toString());
+		System.out.println(res4.getUnit().toString());
+		System.out.println(res5.getUnit().toString());
 		
 	}
 	
 	@Test
 	public void rwPhysicalUnit(){
-		PhysicalValue<Double> pvD   = new PhysicalValue<Double>();
+		PhysicalValue pvF   = new PhysicalValue();
+		PhysicalValue pvV   = new PhysicalValue();
 		
-		pvD.set(1.0, "N");
+		pvF.set(1.0, "N");
+		pvV.set(5.0, "Pa s");
+		
+		System.out.println(pvF.getUnit().toString());
+		System.out.println(pvV.getUnit().toString());
 		
 		try {
 			ComponentConfigReader param = new ComponentConfigReader("Test", "Test");
-			param.setValue("Double", pvD);
+			// Save
+			param.setValue("Force", pvF);
+			param.setValue("Viscosity", pvV);
+			//Load
+			pvF = param.getPhysicalValue("Force");
+			pvV = param.getPhysicalValue("Viscosity");
 			
 			param.Close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		assertEquals("Value", 1, pvF.getValue(), 0);
+		assertEquals("Unit", "N", pvF.getUnit().toString());
+		
+		assertEquals("Value", 5, pvV.getValue(), 0);
+		assertEquals("Unit", "m^-1 kg s^-1", pvV.getUnit().toString());
+		
+		
 	}
 
 }

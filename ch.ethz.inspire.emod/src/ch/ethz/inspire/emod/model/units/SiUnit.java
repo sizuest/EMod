@@ -27,6 +27,8 @@ public class SiUnit {
 			       theta = 0,	// temperature
 			       N = 0,		// quantity
 			       J = 0;		// light intensity
+	
+	private double scale = 1;	// Scaling if unit is not SI (e.g. l/min)
 
 	
 	public SiUnit(){}
