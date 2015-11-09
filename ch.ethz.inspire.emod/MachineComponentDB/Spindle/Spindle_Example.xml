@@ -11,4 +11,5 @@
 <entry key="CoolantHTC">162</entry>
 <entry key="AirGapFrictionCoeff">1, 0</entry>
 <entry key="PressureLossCoefficient">1.68E13</entry>
+<entry key="StructureDuct">StructureDuct</entry>
 </properties>

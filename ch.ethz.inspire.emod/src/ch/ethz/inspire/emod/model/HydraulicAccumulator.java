@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import ch.ethz.inspire.emod.model.fluid.Fluid;
+import ch.ethz.inspire.emod.model.material.Material;
 import ch.ethz.inspire.emod.model.thermal.ThermalElement;
 import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.simulation.DynamicState;
@@ -126,16 +127,16 @@ public class HydraulicAccumulator extends APhysicalComponent implements Floodabl
 	{
 		/* Define Input parameters */
 		inputs         = new ArrayList<IOContainer>();
-		fluidIn        = new FluidContainer("FluidIn", Unit.NONE, ContainerType.FLUIDDYNAMIC);
-		temperatureAmb = new IOContainer("TemperatureAmb",     Unit.KELVIN,    293.15, ContainerType.THERMAL);
+		fluidIn        = new FluidContainer("FluidIn", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC);
+		temperatureAmb = new IOContainer("TemperatureAmb",     new SiUnit(Unit.KELVIN),    293.15, ContainerType.THERMAL);
 		inputs.add(fluidIn);
 		inputs.add(temperatureAmb);
 		
 		/* Define output parameters */
 		outputs     = new ArrayList<IOContainer>();
-		fluidOut    = new FluidContainer("FluidOut", Unit.NONE, ContainerType.FLUIDDYNAMIC);
-		content     = new IOContainer("Content",     Unit.METERCUBIC,    0, ContainerType.FLUIDDYNAMIC);
-		pfluid      = new IOContainer("State",       Unit.NONE,  0, ContainerType.CONTROL);
+		fluidOut    = new FluidContainer("FluidOut", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC);
+		content     = new IOContainer("Content",     new SiUnit(Unit.METERCUBIC),    0, ContainerType.FLUIDDYNAMIC);
+		pfluid      = new IOContainer("State",       new SiUnit(Unit.NONE),  0, ContainerType.CONTROL);
 		outputs.add(fluidOut);
 		outputs.add(content);
 		outputs.add(pfluid);

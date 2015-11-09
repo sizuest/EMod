@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment/>
+<entry key="CoolantVolume">.005</entry>
+<entry key="AirGapFrictionCoeff">1, 0</entry>
+<entry key="PreloadForce">40,40,40,40</entry>
+<entry key="StructureMass">30</entry>
+<entry key="MotorType">E+A-mW15-9-4-48a-74ar0</entry>
+<entry key="BearingType">SLF-B7010C.2RSD.T.P4S.UL, SLF-B7010C.T.P4S.UL, SLF-B71910C.2RSD.T.P4S.UL  , SLF-B71910C.T.P4S.UL</entry>
+<entry key="PressureLossCoefficient">1.68E13</entry>
+<entry key="CoolantHTC">162</entry>
+<entry key="StructureMaterial">Steel</entry>
+<entry key="StructureDuct">StructureDuct</entry>
+</properties>

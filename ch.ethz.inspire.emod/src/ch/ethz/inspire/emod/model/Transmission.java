@@ -104,18 +104,18 @@ public class Transmission extends APhysicalComponent{
 	{
 		/* Define Input parameters */
 		inputs     = new ArrayList<IOContainer>();
-		rotSpeedIn = new IOContainer("RotSpeed", Unit.RPM,         0, ContainerType.MECHANIC);
-		torqueIn   = new IOContainer("Torque",   Unit.NEWTONMETER, 0, ContainerType.MECHANIC);
+		rotSpeedIn = new IOContainer("RotSpeed", new SiUnit(Unit.REVOLUTIONS_S),         0, ContainerType.MECHANIC);
+		torqueIn   = new IOContainer("Torque",   new SiUnit(Unit.NEWTONMETER), 0, ContainerType.MECHANIC);
 		inputs.add(rotSpeedIn);
 		inputs.add(torqueIn);
 		
 		/* Define output parameters */
 		outputs     = new ArrayList<IOContainer>();
-		rotSpeedOut = new IOContainer("RotSpeed", Unit.RPM,         0, ContainerType.MECHANIC);
-		torqueOut   = new IOContainer("Torque",   Unit.NEWTONMETER, 0, ContainerType.MECHANIC);
-		ptotal      = new IOContainer("PTotal",   Unit.WATT,        0, ContainerType.MECHANIC);
-		puse        = new IOContainer("PUse",     Unit.WATT,        0, ContainerType.MECHANIC);
-		ploss       = new IOContainer("PLoss",    Unit.WATT,        0, ContainerType.THERMAL);
+		rotSpeedOut = new IOContainer("RotSpeed", new SiUnit(Unit.REVOLUTIONS_S),         0, ContainerType.MECHANIC);
+		torqueOut   = new IOContainer("Torque",   new SiUnit(Unit.NEWTONMETER), 0, ContainerType.MECHANIC);
+		ptotal      = new IOContainer("PTotal",   new SiUnit(Unit.WATT),        0, ContainerType.MECHANIC);
+		puse        = new IOContainer("PUse",     new SiUnit(Unit.WATT),        0, ContainerType.MECHANIC);
+		ploss       = new IOContainer("PLoss",    new SiUnit(Unit.WATT),        0, ContainerType.THERMAL);
 		outputs.add(rotSpeedOut);
 		outputs.add(torqueOut);
 		outputs.add(ptotal);
@@ -194,8 +194,8 @@ public class Transmission extends APhysicalComponent{
 		 * PTotal [W] = omegaIn [rpm] * 2*pi/60 [rad/s/rpm] * TIn [N]
 		 * PLoss [W] = PTotal [W] - PUse [W];
 		 */
-		puse.setValue(rotSpeedIn.getValue()*torqueIn.getValue()*2*Math.PI/60);
-		ptotal.setValue(rotSpeedOut.getValue()*torqueOut.getValue()*2*Math.PI/60);
+		puse.setValue(rotSpeedIn.getValue()*torqueIn.getValue()*2*Math.PI);
+		ptotal.setValue(rotSpeedOut.getValue()*torqueOut.getValue()*2*Math.PI);
 		ploss.setValue(ptotal.getValue()-puse.getValue());
 		
 	}

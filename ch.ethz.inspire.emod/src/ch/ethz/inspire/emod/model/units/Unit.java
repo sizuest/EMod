@@ -38,20 +38,11 @@ public enum Unit {
 	 */
 	NEWTONMETER, 
 	/**
-	 * RPM [rpm]
+	 * Rev. per second [rpm]
 	 * rotational speed
 	 */
-	RPM,          // rotations per minute
-	/**
-	 * MM_MIN [mm/min]
-	 * translational speed
-	 */
-	MM_MIN,       // mm/min
-	/**
-	 * MM [mm]
-	 * distance
-	 */
-	MM,
+	REVOLUTIONS_S,          // rotations per minute
+	RPM,
 	/**
 	 * M [m]
 	 * distance
@@ -62,11 +53,6 @@ public enum Unit {
 	 * translational speed
 	 */
 	M_S,		  // m/s
-	/**
-	 * MMSQUARE_S [mm²/s]
-	 * viscosity
-	 */
-	MMSQUARE_S,
 	/**
 	 * METERCUBIC [m³]
 	 * volume
@@ -88,11 +74,6 @@ public enum Unit {
 	 */
 	METERCUBIC_S,
 	/**
-	 * L_MIN [l/min]
-	 * voluminal flow
-	 */
-	L_MIN,
-	/**
 	 * KG_MCUBIC [kg/m³]
 	 * density
 	 */
@@ -107,11 +88,6 @@ public enum Unit {
 	 * pressure
 	 */
 	PA,
-	/**
-	 * L_S [l/s]
-	 * voluminal flow
-	 */
-	L_S,
 	/**
 	 * NONE [-]
 	 * control signals

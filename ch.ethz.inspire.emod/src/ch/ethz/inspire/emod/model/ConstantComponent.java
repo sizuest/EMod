@@ -72,11 +72,11 @@ public class ConstantComponent extends APhysicalComponent {
 	private void init() {
 		//input
 		inputs = new ArrayList<IOContainer>();
-		level = new IOContainer("level", Unit.NONE, 0, ContainerType.CONTROL);
+		level = new IOContainer("level", new SiUnit(Unit.NONE), 0, ContainerType.CONTROL);
 		inputs.add(level);
 		//output
 		outputs = new ArrayList<IOContainer>();
-		ptotal = new IOContainer("ptotal", Unit.WATT, 0, ContainerType.ELECTRIC);
+		ptotal = new IOContainer("ptotal", new SiUnit(Unit.WATT), 0, ContainerType.ELECTRIC);
 		outputs.add(ptotal);
 		
 		ComponentConfigReader configReader = null;

@@ -13,7 +13,6 @@
 package ch.ethz.inspire.emod.gui;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Pattern;
 
 import org.eclipse.swt.SWT;
@@ -43,7 +42,7 @@ import org.eclipse.swt.widgets.Text;
 import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.States;
 import ch.ethz.inspire.emod.Process;
-import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.simulation.ASimulationControl;
 import ch.ethz.inspire.emod.simulation.DynamicState;
 import ch.ethz.inspire.emod.simulation.MachineState;
@@ -173,7 +172,7 @@ public class SimGUI extends AGUITab  {
 		
 		// Simulators
 		ArrayList<String> scNames = new ArrayList<String>();
-		ArrayList<Unit> scUnits = new ArrayList<Unit>();
+		ArrayList<SiUnit> scUnits = new ArrayList<SiUnit>();
 		for(ASimulationControl sc : Machine.getInstance().getVariableInputObjectList()){
 			scNames.add(sc.getName());
 			scUnits.add(sc.getUnit());

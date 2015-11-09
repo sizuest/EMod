@@ -23,7 +23,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
 import ch.ethz.inspire.emod.gui.utils.ConsumerData;
-import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.model.units.SiUnit;
 
 /**
  * abstract class for guis, containing logic to read sim data files.
@@ -125,7 +125,7 @@ public abstract class AEvaluationGUI extends AGUITab {
 		ioName = ioName.substring(1);
 		data.addName(ioName);
 		String unit = lines.get(2)[col].replace("[", "").replace("]", "");
-		data.addUnit(Unit.valueOf(unit));
+		data.addUnit(new SiUnit(unit));
 		double[] values = new double[lines.size()-3];
 		for(int i = 3;i<lines.size();i++)
 			values[i-3] = Double.parseDouble(lines.get(i)[col]);
@@ -151,7 +151,7 @@ public abstract class AEvaluationGUI extends AGUITab {
 		ioName = ioName.substring(1);
 		temp.addName(ioName);
 		String unit = lines.get(2)[col].replace("[", "").replace("]", "");
-		temp.addUnit(Unit.valueOf(unit));
+		temp.addUnit(new SiUnit(unit));
 		double[] values = new double[lines.size()-3];
 		for(int i = 3;i<lines.size();i++)
 			values[i-3] = Double.parseDouble(lines.get(i)[col]);

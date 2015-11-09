@@ -13,11 +13,16 @@
 
 package ch.ethz.inspire.emod.model.units;
 
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * SI unit class
  * @author sizuest
  *
  */
+@XmlRootElement
 public class SiUnit {
 	// Exponents of the dimensions
 	private double L = 0,		// length
@@ -27,11 +32,15 @@ public class SiUnit {
 			       theta = 0,	// temperature
 			       N = 0,		// quantity
 			       J = 0;		// light intensity
-	
-	private double scale = 1;	// Scaling if unit is not SI (e.g. l/min)
-
+	@XmlElement
+	private String unitText = "";
 	
 	public SiUnit(){}
+	
+	public SiUnit(Unit u){
+		SiUnit su = SiUnitDefinition.getUpdateMap().get(u);
+		this.set(su.get());
+	}
 	
 	
 	public SiUnit(String s){
@@ -40,6 +49,10 @@ public class SiUnit {
 	
 	public SiUnit(double[] e){
 		this.set(e);
+	}
+	
+	public void afterUnmarshal(Unmarshaller u, Object parent) {
+		this.set(this.unitText);
 	}
 	
 	public SiUnit(double L, double M, double T, double I, double theta, double N, double J){
@@ -66,6 +79,8 @@ public class SiUnit {
 		this.theta = theta;
 		this.N = N;
 		this.J = J;
+		
+		this.unitText = toString();
 	}
 	
 	/**
@@ -92,6 +107,8 @@ public class SiUnit {
 		this.theta = u[4];
 		this.N     = u[5];
 		this.J     = u[6];;
+		
+		this.unitText = toString();
 	}
 	
 	/**

@@ -19,6 +19,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import ch.ethz.inspire.emod.model.units.ContainerType;
+import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 import ch.ethz.inspire.emod.utils.Floodable;
@@ -92,24 +93,24 @@ public class ForcedFluidFlow  extends APhysicalComponent implements Floodable{
 	private void init()	{
 		//add inputs
 		inputs = new ArrayList<IOContainer>();
-		temperatureIn = new IOContainer("TemperatureIn",Unit.KELVIN, 293.15, ContainerType.THERMAL);
-		pressureIn    = new IOContainer("PressureIn",Unit.PA, 0, ContainerType.FLUIDDYNAMIC);
-		flowRateCmd      = new IOContainer("FlowRate", Unit.METERCUBIC_S, 0, ContainerType.FLUIDDYNAMIC);
+		temperatureIn = new IOContainer("TemperatureIn",new SiUnit(Unit.KELVIN), 293.15, ContainerType.THERMAL);
+		pressureIn    = new IOContainer("PressureIn",   new SiUnit(Unit.PA), 0, ContainerType.FLUIDDYNAMIC);
+		flowRateCmd      = new IOContainer("FlowRate",  new SiUnit(Unit.METERCUBIC_S), 0, ContainerType.FLUIDDYNAMIC);
 		inputs.add(temperatureIn);
 		inputs.add(pressureIn);
 		inputs.add(flowRateCmd);
 		
 		//add outputs
 		outputs = new ArrayList<IOContainer>();
-		temperatureRaise = new IOContainer("TemperatureRaise", Unit.KELVIN, 0, ContainerType.THERMAL);
-		pressureLoss     = new IOContainer("PressureLoss", Unit.PA, 0, ContainerType.FLUIDDYNAMIC);
+		temperatureRaise = new IOContainer("TemperatureRaise", new SiUnit(Unit.KELVIN), 0, ContainerType.THERMAL);
+		pressureLoss     = new IOContainer("PressureLoss",     new SiUnit(Unit.PA), 0, ContainerType.FLUIDDYNAMIC);
 		outputs.add(temperatureRaise);
 		outputs.add(pressureLoss);
 		
 		//add fluid In/Output
-		fluidIn        = new FluidContainer("FluidIn", Unit.NONE, ContainerType.FLUIDDYNAMIC);
+		fluidIn        = new FluidContainer("FluidIn", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC);
 		inputs.add(fluidIn);
-		fluidOut        = new FluidContainer("FluidOut", Unit.NONE, ContainerType.FLUIDDYNAMIC);
+		fluidOut        = new FluidContainer("FluidOut", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC);
 		outputs.add(fluidOut);
 		
 		// Flow rate Obj
@@ -161,7 +162,7 @@ public class ForcedFluidFlow  extends APhysicalComponent implements Floodable{
 	@Override
 	public void setType(String type) {
 		this.type = type;
-		init();
+		//init();
 	}
 
 

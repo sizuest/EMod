@@ -52,21 +52,28 @@ public class PhysicalValueTest {
 	public void rwPhysicalUnit(){
 		PhysicalValue pvF   = new PhysicalValue();
 		PhysicalValue pvV   = new PhysicalValue();
+		PhysicalValue pvQ   = new PhysicalValue();
 		
-		pvF.set(1.0, "N");
-		pvV.set(5.0, "Pa s");
+		double[] Q = {.001, .002};
+		
+		pvF.set(1.0,  "N");
+		pvV.set(5.0,  "Pa s");
+		pvQ.set( Q, "m³/s");
 		
 		System.out.println(pvF.getUnit().toString());
 		System.out.println(pvV.getUnit().toString());
+		System.out.println(pvQ.getUnit().toString());
 		
 		try {
 			ComponentConfigReader param = new ComponentConfigReader("Test", "Test");
 			// Save
 			param.setValue("Force", pvF);
 			param.setValue("Viscosity", pvV);
+			param.setValue("FlowRate", pvQ);
 			//Load
 			pvF = param.getPhysicalValue("Force");
 			pvV = param.getPhysicalValue("Viscosity");
+			pvQ = param.getPhysicalValue("FlowRate");
 			
 			param.Close();
 		} catch (Exception e) {

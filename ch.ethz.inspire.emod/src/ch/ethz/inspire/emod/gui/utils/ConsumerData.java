@@ -15,7 +15,7 @@ package ch.ethz.inspire.emod.gui.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.model.units.SiUnit;
 
 /**
  * holds data read from simulation output file.
@@ -27,7 +27,7 @@ public class ConsumerData {
 
 	private String consumer;
 	private List<String> names; // i/o names
-	private List<Unit> units;
+	private List<SiUnit> units;
 	private List<double[]> values; // the values
 	private List<Boolean> active; // which values are plotted
 	private List<Double> energy; // integrated energy. use only for io
@@ -44,7 +44,7 @@ public class ConsumerData {
 	public ConsumerData(String consumerName) {
 		consumer = consumerName;
 		names = new ArrayList<String>();
-		units = new ArrayList<Unit>();
+		units = new ArrayList<SiUnit>();
 		values = new ArrayList<double[]>();
 		active = new ArrayList<Boolean>();
 		energy = new ArrayList<Double>();
@@ -150,7 +150,7 @@ public class ConsumerData {
 	/**
 	 * @return the inputUnits
 	 */
-	public List<Unit> getUnits() {
+	public List<SiUnit> getUnits() {
 		return units;
 	}
 
@@ -159,7 +159,7 @@ public class ConsumerData {
 	 * 
 	 * @param unit
 	 */
-	public void addUnit(Unit unit) {
+	public void addUnit(SiUnit unit) {
 		units.add(unit);
 	}
 

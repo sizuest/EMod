@@ -3,7 +3,7 @@
 <properties>
 <comment>File changed by user: sizuest</comment>
 <entry key="samplePeriod">1</entry>
-<entry key="ON">0.000093333</entry>
+<entry key="ON">0.00009666666</entry>
 <entry key="STANDBY_state">ON</entry>
 <entry key="CONTROLLED">0</entry>
 <entry key="READY_state">ON</entry>

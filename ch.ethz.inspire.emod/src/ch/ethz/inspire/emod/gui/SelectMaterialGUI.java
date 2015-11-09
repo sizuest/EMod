@@ -1,5 +1,7 @@
 package ch.ethz.inspire.emod.gui;
 
+import java.lang.reflect.Method;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -44,10 +46,12 @@ public class SelectMaterialGUI {
 	}
 	
 	/**
+	 * @param fun 
+	 * @param funObj 
 	 * @param item
 	 * @param index
 	 */
-	public void getSelectionToTable(final TableItem item, final int index){
+	public void getSelectionToTable(final Method fun, final Object funObj){
 
 		/* New GUI */
 		init();
@@ -58,8 +62,12 @@ public class SelectMaterialGUI {
 		selectMaterialButton.pack();
 		selectMaterialButton.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, false, false, 1, 1));
 		selectMaterialButton.addSelectionListener(new SelectionListener(){
-        	public void widgetSelected(SelectionEvent event){     		
-        		item.setText(index, treeMaterialDBView.getSelection()[0].getText());
+        	public void widgetSelected(SelectionEvent event){     
+        		try {
+    				fun.invoke(funObj, treeMaterialDBView.getSelection()[0].getText());
+    			} catch (Throwable e) {
+    				e.printStackTrace();
+    			}
         		shell.close();
         	}
         	public void widgetDefaultSelected(SelectionEvent event){

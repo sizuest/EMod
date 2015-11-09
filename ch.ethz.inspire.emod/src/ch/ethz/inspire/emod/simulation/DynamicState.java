@@ -15,7 +15,7 @@ package ch.ethz.inspire.emod.simulation;
 
 import java.lang.reflect.Method;
 
-import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.utils.ConfigReader;
 import ch.ethz.inspire.emod.utils.Defines;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
@@ -31,7 +31,7 @@ public class DynamicState {
 	private double value, lastValue;
 	private double initialValue;
 	private double timestep;
-	private Unit unit;
+	private SiUnit unit;
 	private String parent;
 	private Method initFnct;
 	private Object initFnctObj;
@@ -41,7 +41,7 @@ public class DynamicState {
 	 * @param name	Name of the initial condition
 	 * @param unit  Unit
 	 */
-	public DynamicState(String name, Unit unit) {
+	public DynamicState(String name, SiUnit unit) {
 		this.name = name;
 		this.value = Double.NaN;
 		this.lastValue = Double.NaN;
@@ -170,7 +170,7 @@ public class DynamicState {
 	/**
 	 * @return initial condition unit
 	 */
-	public Unit getUnit(){
+	public SiUnit getUnit(){
 		return this.unit;
 	}
 	

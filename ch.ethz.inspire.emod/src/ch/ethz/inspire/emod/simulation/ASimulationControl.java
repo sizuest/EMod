@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import ch.ethz.inspire.emod.LogLevel;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.SimulationConfigReader;
-import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.model.units.SiUnit;
 
 /**
  * generic simulation control object. 
@@ -43,7 +43,7 @@ public abstract class ASimulationControl {
 	@XmlElement(name="name")
 	protected String name;
 	@XmlElement
-	protected Unit unit;
+	protected SiUnit unit;
 	
 	protected double simulationPeriod;
 	protected IOContainer simulationOutput;
@@ -58,7 +58,7 @@ public abstract class ASimulationControl {
 	 * @param unit
 	 * @param configFile maps machine states to simulator states.
 	 */
-	public ASimulationControl(String name, Unit unit) {
+	public ASimulationControl(String name, SiUnit unit) {
 		this.name = name;
 		this.unit = unit;
 		
@@ -127,7 +127,7 @@ public abstract class ASimulationControl {
 		this.state = stateMap.get(state);
 	}
 	
-	public void setUnit(Unit unit) {
+	public void setUnit(SiUnit unit) {
 		this.unit = unit;
 	}
 	
@@ -139,7 +139,7 @@ public abstract class ASimulationControl {
 		return this.name;
 	}
 	
-	public Unit getUnit() {
+	public SiUnit getUnit() {
 		return this.unit;
 	}
 	

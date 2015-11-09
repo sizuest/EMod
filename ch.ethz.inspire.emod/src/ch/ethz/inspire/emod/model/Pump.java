@@ -19,6 +19,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import ch.ethz.inspire.emod.model.material.Material;
 import ch.ethz.inspire.emod.model.thermal.ThermalElement;
 import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.simulation.DynamicState;
@@ -146,17 +147,17 @@ public class Pump extends APhysicalComponent implements Floodable{
 	{
 		/* Define Input parameters */
 		inputs      = new ArrayList<IOContainer>();
-		pumpCtrl       = new IOContainer("State", Unit.NONE, 0, ContainerType.CONTROL);
-		temperatureAmb = new IOContainer("TemperatureAmb", Unit.KELVIN, temperatureInit, ContainerType.THERMAL);
+		pumpCtrl       = new IOContainer("State", new SiUnit(Unit.NONE), 0, ContainerType.CONTROL);
+		temperatureAmb = new IOContainer("TemperatureAmb", new SiUnit(Unit.KELVIN), temperatureInit, ContainerType.THERMAL);
 		inputs.add(pumpCtrl);
 		inputs.add(temperatureAmb);
 		
 		/* Define output parameters */
 		outputs    = new ArrayList<IOContainer>();
-		pel        = new IOContainer("PTotal",     Unit.WATT, 0.00, ContainerType.ELECTRIC);
-		pth        = new IOContainer("PLoss",      Unit.WATT, 0.00, ContainerType.THERMAL);
-		pmech      = new IOContainer("PUse",       Unit.WATT, 0.00, ContainerType.FLUIDDYNAMIC);
-		temperaturePump = new IOContainer("TemperaturePump", Unit.KELVIN, temperatureInit, ContainerType.THERMAL);
+		pel        = new IOContainer("PTotal",     new SiUnit(Unit.WATT), 0.00, ContainerType.ELECTRIC);
+		pth        = new IOContainer("PLoss",      new SiUnit(Unit.WATT), 0.00, ContainerType.THERMAL);
+		pmech      = new IOContainer("PUse",       new SiUnit(Unit.WATT), 0.00, ContainerType.FLUIDDYNAMIC);
+		temperaturePump = new IOContainer("TemperaturePump", new SiUnit(Unit.KELVIN), temperatureInit, ContainerType.THERMAL);
 		outputs.add(pel);
 		outputs.add(pth);
 		outputs.add(pmech);
@@ -227,11 +228,11 @@ public class Pump extends APhysicalComponent implements Floodable{
 		}
 		
 		/* Define FluidIn parameter */
-		fluidIn        = new FluidContainer("FluidIn", Unit.NONE, ContainerType.FLUIDDYNAMIC);
+		fluidIn        = new FluidContainer("FluidIn", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC);
 		inputs.add(fluidIn);
 
 		/* Define FluidOut parameter */
-		fluidOut        = new FluidContainer("FluidOut", Unit.NONE, ContainerType.FLUIDDYNAMIC);
+		fluidOut        = new FluidContainer("FluidOut", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC);
 		outputs.add(fluidOut);
 		
 		/* Define FlowRate */
@@ -377,5 +378,11 @@ public class Pump extends APhysicalComponent implements Floodable{
 	@Override
 	public FluidCircuitProperties getFluidProperties() {
 		return fluidProperties;
+	}
+
+	public double getPressure(double flowRate) {
+		if(flowRate<flowRateSamples[0] | flowRate>flowRateSamples[flowRateSamples.length-1])
+			return 0;
+		return Algo.linearInterpolation(flowRate, flowRateSamples, pressureSamples);
 	}
 }

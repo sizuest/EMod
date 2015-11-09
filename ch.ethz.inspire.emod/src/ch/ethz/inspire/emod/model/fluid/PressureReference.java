@@ -3,8 +3,9 @@ package ch.ethz.inspire.emod.model.fluid;
 import java.util.ArrayList;
 
 import ch.ethz.inspire.emod.model.APhysicalComponent;
-import ch.ethz.inspire.emod.model.Material;
+import ch.ethz.inspire.emod.model.material.Material;
 import ch.ethz.inspire.emod.model.units.ContainerType;
+import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.utils.Floodable;
 import ch.ethz.inspire.emod.utils.FluidCircuitProperties;
@@ -38,11 +39,11 @@ public class PressureReference extends APhysicalComponent implements Floodable{
 		outputs        = new ArrayList<IOContainer>();
 		
 		/* Define FluidIn parameter */
-		fluidIn        = new FluidContainer("FluidIn", Unit.NONE, ContainerType.FLUIDDYNAMIC);
+		fluidIn        = new FluidContainer("FluidIn", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC);
 		inputs.add(fluidIn);
 
 		/* Define FluidOut parameter */
-		fluidOut        = new FluidContainer("FluidOut", Unit.NONE, ContainerType.FLUIDDYNAMIC);
+		fluidOut        = new FluidContainer("FluidOut", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC);
 		outputs.add(fluidOut);
 		
 		/* Define FlowRate */

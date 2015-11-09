@@ -121,18 +121,18 @@ public class MotorAC extends APhysicalComponent{
 	{
 		/* Define Input parameters */
 		inputs = new ArrayList<IOContainer>();
-		rotspeed = new IOContainer("RotSpeed", Unit.RPM, 0, ContainerType.MECHANIC);
+		rotspeed = new IOContainer("RotSpeed", new SiUnit(Unit.REVOLUTIONS_S), 0, ContainerType.MECHANIC);
 		inputs.add(rotspeed);
-		torque = new IOContainer("Torque", Unit.NEWTONMETER, 0);
+		torque = new IOContainer("Torque", new SiUnit(Unit.NEWTONMETER), 0);
 		inputs.add(torque);
 		
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		pmech      = new IOContainer("PUse",       Unit.WATT, 0, ContainerType.MECHANIC);
-		ploss      = new IOContainer("PLoss",      Unit.WATT, 0, ContainerType.THERMAL);
-		pel        = new IOContainer("PTotal",     Unit.WATT, 0, ContainerType.ELECTRIC);
-		efficiency = new IOContainer("Efficiency", Unit.NONE, 0, ContainerType.INFORMATION);
-		debug      = new IOContainer("Debug",      Unit.NONE, 0, ContainerType.INFORMATION);
+		pmech      = new IOContainer("PUse",       new SiUnit(Unit.WATT), 0, ContainerType.MECHANIC);
+		ploss      = new IOContainer("PLoss",      new SiUnit(Unit.WATT), 0, ContainerType.THERMAL);
+		pel        = new IOContainer("PTotal",     new SiUnit(Unit.WATT), 0, ContainerType.ELECTRIC);
+		efficiency = new IOContainer("Efficiency", new SiUnit(Unit.NONE), 0, ContainerType.INFORMATION);
+		debug      = new IOContainer("Debug",      new SiUnit(Unit.NONE), 0, ContainerType.INFORMATION);
 		outputs.add(pel);
 		outputs.add(ploss);
 		outputs.add(pmech);
@@ -211,7 +211,7 @@ public class MotorAC extends APhysicalComponent{
 		}
 		
 		lasttorque   = torque.getValue();
-		lastrotspeed = rotspeed.getValue();
+		lastrotspeed = rotspeed.getValue()*60;
 				
 		pmech.setValue(lastrotspeed * lasttorque * Math.PI/ 30.0);
 		
@@ -255,7 +255,7 @@ public class MotorAC extends APhysicalComponent{
 		/* PWM Losses */
 		Lsigma  = Ls + Lr*Lm/(Lr+Lm);
 		RE      = Rs + Rr*Lm/(Lr+Lm);
-		pwmloss = Math.pow(maxU/20000/Lsigma,2) * RE / 72 * (1 - 3/4*Math.pow(U/maxU,2) - 2/3/Math.PI*Math.pow(U/maxU,3) + 9/16*Math.pow(U/maxU, 4));
+		pwmloss = Math.pow(maxU/8000/Lsigma,2) * RE / 72 * (1 - 3/4*Math.pow(U/maxU,2) - 2/3/Math.PI*Math.pow(U/maxU,3) + 9/16*Math.pow(U/maxU, 4));
 
 		/* Efficiency */
 		if (lastrotspeed==0 || fs<=1)

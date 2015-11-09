@@ -11,4 +11,5 @@
 <entry key="PressureLossCoefficient">8.179E12</entry>
 <entry key="CoolantHTC">200</entry>
 <entry key="StructureMaterial">Steel</entry>
+<entry key="StructureDuct">StructureDuct</entry>
 </properties>

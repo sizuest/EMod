@@ -220,12 +220,12 @@ public class HomogStorage extends APhysicalComponent{
 		inputs   = new ArrayList<IOContainer>();
 		thIn     = new ArrayList<IOContainer>();
 		thOut    = new ArrayList<IOContainer>();
-		pressure = new IOContainer("Pressure", Unit.PA, 1E5, ContainerType.FLUIDDYNAMIC);
+		pressure = new IOContainer("Pressure", new SiUnit(Unit.PA), 1E5, ContainerType.FLUIDDYNAMIC);
 		inputs.add(pressure);
 		
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		temperatureOut     = new IOContainer("Temperature", Unit.KELVIN, 0, ContainerType.THERMAL);
+		temperatureOut     = new IOContainer("Temperature", new SiUnit(Unit.KELVIN), 0, ContainerType.THERMAL);
 		outputs.add(temperatureOut);
 		
 		
@@ -247,7 +247,7 @@ public class HomogStorage extends APhysicalComponent{
 		dynamicStates = new ArrayList<DynamicState>();
 		dynamicStates.add(thermalElement.getTemperature());
 		
-		//temperature   = newDynamicState("Temperature", Unit.KELVIN);
+		//temperature   = newDynamicState("Temperature", new SiUnit(Unit.KELVIN));
 			
 		// Fluid object
 		// material = new Material(materialType);
@@ -291,12 +291,12 @@ public class HomogStorage extends APhysicalComponent{
 		 * If the initialization has not been done, create a output with same unit as input
 		 */
 		if(name.matches("In")) {
-			temp = new IOContainer("In"+(thIn.size()+1), Unit.WATT, 0, ContainerType.THERMAL);
+			temp = new IOContainer("In"+(thIn.size()+1), new SiUnit(Unit.WATT), 0, ContainerType.THERMAL);
 			inputs.add(temp);
 			thIn.add(temp);
 		}
 		else if(name.matches("Out")) {
-			temp = new IOContainer("Out"+(thOut.size()+1), Unit.WATT, 0, ContainerType.THERMAL);
+			temp = new IOContainer("Out"+(thOut.size()+1), new SiUnit(Unit.WATT), 0, ContainerType.THERMAL);
 			inputs.add(temp);
 			thOut.add(temp);
 		}

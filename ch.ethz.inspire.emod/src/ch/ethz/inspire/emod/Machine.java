@@ -36,6 +36,7 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 import ch.ethz.inspire.emod.model.*;
 import ch.ethz.inspire.emod.model.math.*;
 import ch.ethz.inspire.emod.model.thermal.*;
+import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.model.control.*;
 import ch.ethz.inspire.emod.utils.IOContainer;
@@ -65,7 +66,7 @@ import java.lang.reflect.*;
 @XmlSeeAlso({MachineComponent.class, APhysicalComponent.class, Motor.class, MotorAC.class, LinAxis.class,
 	ClampTest.class, ServoMotor.class, Revolver.class, Fan.class, HydraulicAccumulator.class, HeatExchanger.class, 
 	Transmission.class, CompressedFluid.class, Amplifier.class, ConstantComponent.class, 
-	Cylinder.class, Valve.class, Pipe.class, HydraulicOil.class, 
+	Cylinder.class, Valve.class, Pipe.class,
 	MovingMass.class, Bearing.class, Spindle.class, Tank.class, Pump.class, ForcedFluidFlow.class,
 	HysteresisControl.class, SwitchControl.class, Sum.class, Gain.class,
 	HomogStorage.class, LayerStorage.class, ForcedHeatTransfere.class, FreeHeatTransfere.class,
@@ -834,7 +835,7 @@ public class Machine {
 	 * @param unit Simulator unit
 	 * @return {@link ASimulationControl} with the simulator 
 	 */
-	public static ASimulationControl addNewInputObject(String name, Unit unit) {
+	public static ASimulationControl addNewInputObject(String name, SiUnit unit) {
 		
 		Object simulator = null;
 		
@@ -842,7 +843,7 @@ public class Machine {
 		try {
 			// Get class and constructor objects
 			Class<?>        cl = Class.forName("ch.ethz.inspire.emod.simulation."+name);
-			Constructor<?>  co = cl.getConstructor(String.class, Unit.class);
+			Constructor<?>  co = cl.getConstructor(String.class, SiUnit.class);
 			
 			
 			System.out.println("*** Machine.addNewInputObject: " + cl.toString() + " " + co.toString());
@@ -1111,7 +1112,7 @@ public class Machine {
 	 * @param unit {@link Unit} Unit of the outputs
 	 * @return {@link IOContainer} List of all components and simulators outputs with the declared unit
 	 */
-	public static ArrayList<String> getOutputList(Unit unit) {
+	public static ArrayList<String> getOutputList(SiUnit unit) {
 		return getOutputList(null, unit);
 	}
 	
@@ -1122,7 +1123,7 @@ public class Machine {
 	 * @param unit  	{@link Unit} of the desired outputs
 	 * @return List of	{@link IOContainer}
 	 */
-	public static ArrayList<String> getOutputList(MachineComponent mc_excl, Unit unit) {
+	public static ArrayList<String> getOutputList(MachineComponent mc_excl, SiUnit unit) {
 		ArrayList<String> outputs = new ArrayList<String>();
 		
 		// Get all machine components
@@ -1135,13 +1136,30 @@ public class Machine {
 			for(MachineComponent mc : components)
 				if(!mc.equals(mc_excl))
 					for(IOContainer ic : mc.getComponent().getOutputs())
-						if(!ic.equals(null) & (ic.getUnit().equals(unit) | null==unit))
+						if(!ic.equals(null) & (ic.getUnit().equals(unit) | null==unit )  & !(ic instanceof FluidContainer))
 							outputs.add(mc.getName()+"."+ic.getName());
 
 		if(null!=simulators)
 			for(ASimulationControl sc : simulators)
 				if(sc.getOutput().getUnit().equals(unit) | null==unit)
 						outputs.add(sc.getName());
+		
+		return outputs;
+	}
+	
+	public static ArrayList<String> getFluidOutputList(MachineComponent mc_excl){
+		ArrayList<String> outputs = new ArrayList<String>();
+		
+		// Get all machine components
+		ArrayList<MachineComponent> components = getInstance().getMachineComponentList();
+		
+		// Fetch all outputs
+		if(null!=components)
+			for(MachineComponent mc : components)
+				if(!mc.equals(mc_excl))
+					for(IOContainer ic : mc.getComponent().getOutputs())
+						if(ic instanceof FluidContainer)
+							outputs.add(mc.getName()+"."+ic.getName());
 		
 		return outputs;
 	}

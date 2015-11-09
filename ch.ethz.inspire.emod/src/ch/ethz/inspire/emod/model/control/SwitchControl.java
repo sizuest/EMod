@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import ch.ethz.inspire.emod.model.APhysicalComponent;
+import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.utils.IOContainer;
 
@@ -108,12 +109,12 @@ public class SwitchControl extends APhysicalComponent{
 		inputs   = new ArrayList<IOContainer>();
 		
 		/* Define output parameters */
-		inSignal  = new IOContainer("Input",   Unit.valueOf(signalUnit),  0);
-		control   = new IOContainer("Control", Unit.valueOf(controlUnit), 0);
+		inSignal  = new IOContainer("Input",   new SiUnit(signalUnit),  0);
+		control   = new IOContainer("Control", new SiUnit(controlUnit), 0);
 		inputs.add(inSignal);
 		inputs.add(control);
 		
-		outSignal = new IOContainer("Output", Unit.valueOf(signalUnit), 0);
+		outSignal = new IOContainer("Output", new SiUnit(signalUnit), 0);
 		outputs.add(outSignal);
 	}
 	

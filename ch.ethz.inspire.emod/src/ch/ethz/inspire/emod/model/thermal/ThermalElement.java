@@ -12,7 +12,7 @@
  ***********************************/
 package ch.ethz.inspire.emod.model.thermal;
 
-import ch.ethz.inspire.emod.model.Material;
+import ch.ethz.inspire.emod.model.material.Material;
 import ch.ethz.inspire.emod.utils.AThermalIntegrator;
 import ch.ethz.inspire.emod.utils.ShiftProperty;
 

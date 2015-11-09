@@ -17,29 +17,42 @@
     <simulators>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>RotSpeed</name>
-            <unit>RPM</unit>
+            <unit>
+                <unitText>Hz</unitText>
+            </unit>
         </simController>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>Torque</name>
-            <unit>NEWTONMETER</unit>
+            <unit>
+                <unitText>Nm</unitText>
+            </unit>
         </simController>
         <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>TemperatureIn</name>
-            <unit>KELVIN</unit>
+            <unit>
+                <unitText>K</unitText>
+            </unit>
         </simController>
         <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>PressureIn</name>
-            <unit>PA</unit>
+            <unit>
+                <unitText>Pa</unitText>
+            </unit>
         </simController>
         <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>FlowRate</name>
-            <unit>METERCUBIC_S</unit>
+            <unit>
+                <unitText>m³/s</unitText>
+            </unit>
         </simController>
         <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>MachineState</name>
-            <unit>NONE</unit>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
         </simController>
     </simulators>
+    <connectionList/>
     <connectionList/>
     <connectionList/>
     <connectionList/>

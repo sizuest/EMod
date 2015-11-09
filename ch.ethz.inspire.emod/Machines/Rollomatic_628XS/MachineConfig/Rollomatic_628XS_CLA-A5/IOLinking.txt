@@ -1,0 +1,7 @@
+Spindle.FluidIn = ForcedFluidFlow.FluidOut
+ForcedFluidFlow.TemperatureIn = TemperatureIn
+ForcedFluidFlow.PressureIn = PressureIn
+ForcedFluidFlow.FluidIn = Spindle.FluidOut
+Spindle.State = State
+Spindle.RotSpeed = Speed
+ForcedFluidFlow.FlowRate = FlowRate

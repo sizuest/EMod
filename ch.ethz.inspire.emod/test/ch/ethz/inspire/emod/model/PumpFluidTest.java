@@ -17,6 +17,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import ch.ethz.inspire.emod.model.fluid.PressureReference;
+import ch.ethz.inspire.emod.model.material.Material;
 import ch.ethz.inspire.emod.utils.Floodable;
 import ch.ethz.inspire.emod.utils.FluidConnection;
 import ch.ethz.inspire.emod.utils.FluidContainer;

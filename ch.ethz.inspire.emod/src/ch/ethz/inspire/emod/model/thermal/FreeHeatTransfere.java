@@ -114,15 +114,15 @@ public class FreeHeatTransfere extends APhysicalComponent{
 	{		
 		/* Define Input parameters */
 		inputs   = new ArrayList<IOContainer>();
-		temp1    = new IOContainer("Temperature1", Unit.KELVIN, 273, ContainerType.THERMAL);
-		temp2    = new IOContainer("Temperature2", Unit.KELVIN, 273, ContainerType.THERMAL);
+		temp1    = new IOContainer("Temperature1", new SiUnit(Unit.KELVIN), 273, ContainerType.THERMAL);
+		temp2    = new IOContainer("Temperature2", new SiUnit(Unit.KELVIN), 273, ContainerType.THERMAL);
 		inputs.add(temp1);
 		inputs.add(temp2);
 		
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		pth12   = new IOContainer("PThermal12", Unit.WATT, 0, ContainerType.THERMAL);
-		pth21   = new IOContainer("PThermal21", Unit.WATT, 0, ContainerType.THERMAL);
+		pth12   = new IOContainer("PThermal12", new SiUnit(Unit.WATT), 0, ContainerType.THERMAL);
+		pth21   = new IOContainer("PThermal21", new SiUnit(Unit.WATT), 0, ContainerType.THERMAL);
 		outputs.add(pth12);
 		outputs.add(pth21);
 		

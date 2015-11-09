@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:machine xmlns:ns2="ch.ethz.inspire.emod">
+    <machine>
+        <machineComponent>
+            <component xsi:type="spindle" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Renaud-175-170200-DIA25</type>
+            </component>
+            <name>Spindle</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="forcedFluidFlow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>GlykolWater_30</type>
+            </component>
+            <name>ForcedFluidFlow</name>
+        </machineComponent>
+    </machine>
+    <simulators>
+        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>TemperatureIn</name>
+            <unit>
+                <unitText>K</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>PressureIn</name>
+            <unit>
+                <unitText>Pa</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>State</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Speed</name>
+            <unit>
+                <unitText>Hz</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>FlowRate</name>
+            <unit>
+                <unitText>m³/s</unitText>
+            </unit>
+        </simController>
+    </simulators>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+</ns2:machine>

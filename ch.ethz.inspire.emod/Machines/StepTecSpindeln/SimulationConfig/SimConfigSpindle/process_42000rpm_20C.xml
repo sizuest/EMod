@@ -18,6 +18,6 @@
       FlowRate      [l/min]       : Coolant flow rate
   </comment>
   <entry key="SamplePeriod">1</entry>
-  <entry key="RotSpeed">42000</entry>
+  <entry key="RotSpeed">700</entry>
   <entry key="Torque">0</entry>
 </properties>

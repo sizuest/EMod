@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 
-import ch.ethz.inspire.emod.model.Material;
+import ch.ethz.inspire.emod.model.material.Material;
 import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 import ch.ethz.inspire.emod.utils.Defines;
@@ -106,17 +106,17 @@ public class ForcedHeatTransfere extends APhysicalComponent{
 	{		
 		/* Define Input parameters */
 		inputs   = new ArrayList<IOContainer>();
-		temp1    = new IOContainer("Temperature1", Unit.KELVIN, 273, ContainerType.THERMAL);
-		temp2    = new IOContainer("Temperature2", Unit.KELVIN, 273, ContainerType.THERMAL);
-		massFlow = new IOContainer("MassFlow",     Unit.KG_S,   0,   ContainerType.FLUIDDYNAMIC);
+		temp1    = new IOContainer("Temperature1", new SiUnit(Unit.KELVIN), 273, ContainerType.THERMAL);
+		temp2    = new IOContainer("Temperature2", new SiUnit(Unit.KELVIN), 273, ContainerType.THERMAL);
+		massFlow = new IOContainer("MassFlow",     new SiUnit(Unit.KG_S),   0,   ContainerType.FLUIDDYNAMIC);
 		inputs.add(temp1);
 		inputs.add(temp2);
 		inputs.add(massFlow);
 		
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		pth12   = new IOContainer("PThermal12", Unit.WATT, 0, ContainerType.THERMAL);
-		pth21   = new IOContainer("PThermal21", Unit.WATT, 0, ContainerType.THERMAL);
+		pth12   = new IOContainer("PThermal12", new SiUnit(Unit.WATT), 0, ContainerType.THERMAL);
+		pth21   = new IOContainer("PThermal21", new SiUnit(Unit.WATT), 0, ContainerType.THERMAL);
 		outputs.add(pth12);
 		outputs.add(pth21);
 		

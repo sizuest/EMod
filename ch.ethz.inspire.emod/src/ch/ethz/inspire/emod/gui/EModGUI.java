@@ -180,6 +180,15 @@ public class EModGUI {
 			MenuItem matDBOpenItem = new MenuItem(matDBMenu, SWT.PUSH);
 			matDBOpenItem.setImage(new Image(Display.getDefault(), "src/resources/Open16.gif"));
 			matDBOpenItem.setText(LocalizationHandler.getItem("app.gui.menu.matDB.open"));
+		
+		//create "Duct Design" tab and items
+		MenuItem ductDesignMenuHeader = new MenuItem(menuBar, SWT.CASCADE);
+		ductDesignMenuHeader.setText("Duct Designer");
+		Menu ductMenu = new Menu(shell, SWT.DROP_DOWN);
+		ductDesignMenuHeader.setMenu(ductMenu);
+			MenuItem ductDesignTestItem = new MenuItem(ductMenu, SWT.PUSH);
+			ductDesignTestItem.setText("Test");
+			
 			
 		//create "Help" tab and items
 		MenuItem helpMenuHeader = new MenuItem(menuBar, SWT.CASCADE);
@@ -207,6 +216,8 @@ public class EModGUI {
 		matDBOpenItem.addSelectionListener(new matDBOpenItemListener());
 		
 		helpAboutItem.addSelectionListener(new helpAboutItemListener());
+		
+		ductDesignTestItem.addSelectionListener(new ductDesignTestItemListener());
 		
 		shell.setMenuBar(menuBar);
 	}
@@ -567,6 +578,22 @@ public class EModGUI {
 			messageBox.setText(LocalizationHandler.getItem("app.gui.menu.help.about"));
 			messageBox.setMessage(LocalizationHandler.getItem("app.gui.menu.help.about.message"));
 			messageBox.open();
+		}
+		
+		public void widgetDefaultSelected(SelectionEvent event){
+
+		}
+	}
+	
+	/**
+	 * menu item action listener for help about item
+	 * 
+	 * @author manick
+	 *
+	 */
+	class ductDesignTestItemListener implements SelectionListener {
+		public void widgetSelected(SelectionEvent event){
+			(new DuctDesignGUI()).editDuctGUI("Test");
 		}
 		
 		public void widgetDefaultSelected(SelectionEvent event){

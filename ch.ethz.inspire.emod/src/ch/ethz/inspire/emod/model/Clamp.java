@@ -94,12 +94,12 @@ public class Clamp extends APhysicalComponent{
 	{
 		/* Define Input parameters */
 		inputs    = new ArrayList<IOContainer>();
-		position  = new IOContainer("Position", Unit.MM, 0, ContainerType.MECHANIC);
+		position  = new IOContainer("Position", new SiUnit(Unit.M), 0, ContainerType.MECHANIC);
 		inputs.add(position);
 		
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		force   = new IOContainer("Force", Unit.NEWTONMETER, 0, ContainerType.MECHANIC);
+		force   = new IOContainer("Force", new SiUnit(Unit.NEWTONMETER), 0, ContainerType.MECHANIC);
 		outputs.add(force);
 		
 		/* ************************************************************************/
@@ -162,7 +162,7 @@ public class Clamp extends APhysicalComponent{
 			// Input values did not change, nothing to do.
 			return;
 		}
-		lastposition = position.getValue(); // [mm]
+		lastposition = position.getValue(); // [m]
 		
 		/* Clamping force
 		 * If the clamp is close enough, calculate a clamping force

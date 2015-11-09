@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import ch.ethz.inspire.emod.model.units.ContainerType;
+import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 import ch.ethz.inspire.emod.utils.IOContainer;
@@ -110,14 +111,14 @@ public class Revolver extends APhysicalComponent{
 	{
 		/* Define Input parameters */
 		inputs = new ArrayList<IOContainer>();
-		n      = new IOContainer("Tool", Unit.NONE, 0, ContainerType.CONTROL);
+		n      = new IOContainer("Tool", new SiUnit(Unit.NONE), 0, ContainerType.CONTROL);
 		inputs.add(n);
 		
 		/* Define output parameters */
 		outputs  = new ArrayList<IOContainer>();
-		torque   = new IOContainer("Torque",   Unit.NEWTONMETER, 0, ContainerType.MECHANIC);
-		rotspeed = new IOContainer("RotSpeed", Unit.RPM,         0, ContainerType.MECHANIC);
-		nReal    = new IOContainer("ToolReal", Unit.NONE,        1, ContainerType.INFORMATION);
+		torque   = new IOContainer("Torque",   new SiUnit(Unit.NEWTONMETER),   0, ContainerType.MECHANIC);
+		rotspeed = new IOContainer("RotSpeed", new SiUnit(Unit.REVOLUTIONS_S), 0, ContainerType.MECHANIC);
+		nReal    = new IOContainer("ToolReal", new SiUnit(Unit.NONE),          1, ContainerType.INFORMATION);
 		outputs.add(torque);
 		outputs.add(rotspeed);
 		outputs.add(nReal);
@@ -241,7 +242,7 @@ public class Revolver extends APhysicalComponent{
 		
 		/* Set new torque/speed */
 		torque.setValue(torqueCurr);
-		rotspeed.setValue(rotVelCurr*30/Math.PI);
+		rotspeed.setValue(rotVelCurr/Math.PI/2);
 		
 	}
 

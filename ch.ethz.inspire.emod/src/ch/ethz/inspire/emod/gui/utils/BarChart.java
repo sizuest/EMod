@@ -25,6 +25,7 @@ import org.swtchart.IBarSeries;
 import org.swtchart.ISeries;
 import org.swtchart.ISeries.SeriesType;
 
+import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
 
@@ -61,7 +62,7 @@ public class BarChart {
 		List<String> xs = new ArrayList<String>();
 		for(ConsumerData cd:data){
 			for(int i=0;i<cd.getActive().size();i++){
-				if(/*cd.getActive().get(i) &&*/ cd.getUnits().get(i)==Unit.WATT) {
+				if(/*cd.getActive().get(i) &&*/ cd.getUnits().get(i).equals(new SiUnit(Unit.WATT))) {
 					s.add(cd.getEnergy().get(i));
 					xs.add(cd.getConsumer()+"."+cd.getNames().get(i));
 				}

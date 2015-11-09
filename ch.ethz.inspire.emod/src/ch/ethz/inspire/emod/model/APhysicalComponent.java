@@ -17,7 +17,7 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.simulation.DynamicState;
 import ch.ethz.inspire.emod.utils.IOContainer;
 
@@ -142,7 +142,7 @@ public abstract class APhysicalComponent {
 	 * @param unit
 	 * @return the created {@link DynamicState}
 	 */
-	public DynamicState newDynamicState(String name, Unit unit){
+	public DynamicState newDynamicState(String name, SiUnit unit){
 		DynamicState ic = new DynamicState(name, unit);
 		dynamicStates.add(ic);
 		

@@ -20,7 +20,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import ch.ethz.inspire.emod.LogLevel;
-import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.utils.SimulationConfigReader;
 import ch.ethz.inspire.emod.utils.SamplePeriodConverter;
 
@@ -42,7 +42,7 @@ public class StaticSimulationControl extends ASimulationControl {
 	 * @param name
 	 * @param unit
 	 */
-	public StaticSimulationControl(String name, Unit unit) {
+	public StaticSimulationControl(String name, SiUnit unit) {
 		super(name, unit);
 		simulationStep   = 0;
 		simulationPeriod = -1;

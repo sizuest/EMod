@@ -23,7 +23,7 @@ import ch.ethz.inspire.emod.model.units.*;
 public class IOContainer {
 
 	private String name;
-	private Unit unit;
+	private SiUnit unit;
 	
 	private double value;
 	
@@ -34,7 +34,7 @@ public class IOContainer {
 	 * @param unit
 	 * @param value
 	 */
-	public IOContainer(String name, Unit unit, double value) {
+	public IOContainer(String name, SiUnit unit, double value) {
 		super();
 		this.name  = name;
 		this.unit  = unit;
@@ -47,7 +47,7 @@ public class IOContainer {
 	 * @param value
 	 * @param type
 	 */
-	public IOContainer(String name, Unit unit, double value, ContainerType type) {
+	public IOContainer(String name, SiUnit unit, double value, ContainerType type) {
 		super();
 		this.name  = name;
 		this.unit  = unit;
@@ -80,7 +80,7 @@ public class IOContainer {
 	/**
 	 * @return the unit
 	 */
-	public Unit getUnit() {
+	public SiUnit getUnit() {
 		return unit;
 	}
 	/**

@@ -12,5 +12,4 @@
 <entry key="RatedRotSpeed">1500</entry>
 <entry key="MaxVoltage">295</entry>
 <entry key="ResistanceRotor">0.627</entry>
-<entry key="PWMEffCoeff">0.35, 1.429e-5</entry>
 </properties>

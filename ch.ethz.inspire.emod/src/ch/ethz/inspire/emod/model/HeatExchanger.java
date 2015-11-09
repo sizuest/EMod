@@ -94,13 +94,13 @@ public class HeatExchanger extends APhysicalComponent{
 	{
 		/* Define Input parameters */
 		inputs   = new ArrayList<IOContainer>();
-		level    = new IOContainer("level",    Unit.NONE, 0, ContainerType.CONTROL);
+		level    = new IOContainer("level",    new SiUnit(Unit.NONE), 0, ContainerType.CONTROL);
 		inputs.add(level);
 		
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		ptotal  = new IOContainer("PTotal",   Unit.WATT, 0, ContainerType.ELECTRIC);
-		pth_out = new IOContainer("PThermal", Unit.WATT, 0, ContainerType.THERMAL);
+		ptotal  = new IOContainer("PTotal",   new SiUnit(Unit.WATT), 0, ContainerType.ELECTRIC);
+		pth_out = new IOContainer("PThermal", new SiUnit(Unit.WATT), 0, ContainerType.THERMAL);
 		outputs.add(ptotal);
 		outputs.add(pth_out);
 		

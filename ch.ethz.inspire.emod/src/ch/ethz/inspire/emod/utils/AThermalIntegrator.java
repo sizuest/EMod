@@ -14,7 +14,8 @@ package ch.ethz.inspire.emod.utils;
 
 import java.util.ArrayList;
 
-import ch.ethz.inspire.emod.model.Material;
+import ch.ethz.inspire.emod.model.material.Material;
+import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.simulation.DynamicState;
 
@@ -77,8 +78,8 @@ public abstract class AThermalIntegrator {
 		mDotOut  = new ShiftProperty<Double>(0.0);
 		pressure  = new ShiftProperty<Double>(0.0);
 		
-		massState        = new DynamicState("Mass", Unit.KG);
-		temperatureState = new DynamicState("Temperature", Unit.KELVIN);
+		massState        = new DynamicState("Mass", new SiUnit(Unit.KG));
+		temperatureState = new DynamicState("Temperature", new SiUnit(Unit.KELVIN));
 		try {
 			temperatureState.setInitialConditionFunction(this.getClass().getMethod("setInitialTemperature", double.class), this);
 		} catch (Exception e) {

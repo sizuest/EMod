@@ -171,11 +171,11 @@ public class LayerStorage extends APhysicalComponent{
 	{		
 		/* Define Input parameters */
 		inputs    = new ArrayList<IOContainer>();
-		tempIn    = new IOContainer("TemperatureIn",  Unit.KELVIN, 293, ContainerType.THERMAL);
-		tempAmb   = new IOContainer("TemperatureAmb", Unit.KELVIN, 293, ContainerType.THERMAL);
-		mDotIn    = new IOContainer("MassFlow",       Unit.KG_S,     0, ContainerType.FLUIDDYNAMIC);
-		heatSrc   = new IOContainer("HeatSource",     Unit.WATT,     0, ContainerType.THERMAL);
-		pressure  = new IOContainer("Pressure",       Unit.PA,     1E5, ContainerType.FLUIDDYNAMIC);
+		tempIn    = new IOContainer("TemperatureIn",  new SiUnit(Unit.KELVIN), 293, ContainerType.THERMAL);
+		tempAmb   = new IOContainer("TemperatureAmb", new SiUnit(Unit.KELVIN), 293, ContainerType.THERMAL);
+		mDotIn    = new IOContainer("MassFlow",       new SiUnit(Unit.KG_S),     0, ContainerType.FLUIDDYNAMIC);
+		heatSrc   = new IOContainer("HeatSource",     new SiUnit(Unit.WATT),     0, ContainerType.THERMAL);
+		pressure  = new IOContainer("Pressure",       new SiUnit(Unit.PA),     1E5, ContainerType.FLUIDDYNAMIC);
 		inputs.add(tempIn);
 		inputs.add(tempAmb);
 		inputs.add(mDotIn);
@@ -184,9 +184,9 @@ public class LayerStorage extends APhysicalComponent{
 		
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		tempOut = new IOContainer("TemperatureOut", Unit.KELVIN, 0, ContainerType.THERMAL);
-		tempAvg = new IOContainer("TemperatureAvg", Unit.KELVIN, 0, ContainerType.THERMAL);
-		ploss   = new IOContainer("PLoss",          Unit.WATT,   0, ContainerType.THERMAL);
+		tempOut = new IOContainer("TemperatureOut", new SiUnit(Unit.KELVIN), 0, ContainerType.THERMAL);
+		tempAvg = new IOContainer("TemperatureAvg", new SiUnit(Unit.KELVIN), 0, ContainerType.THERMAL);
+		ploss   = new IOContainer("PLoss",          new SiUnit(Unit.WATT),   0, ContainerType.THERMAL);
 		outputs.add(tempOut);
 		outputs.add(tempAvg);
 		outputs.add(ploss);

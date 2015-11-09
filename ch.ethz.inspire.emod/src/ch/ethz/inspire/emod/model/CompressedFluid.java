@@ -101,18 +101,18 @@ public class CompressedFluid extends APhysicalComponent{
 	{
 		/* Define Input parameters */
 		inputs    = new ArrayList<IOContainer>();
-		vFlowDot  = new IOContainer("Flow",           Unit.L_S,    0,      ContainerType.FLUIDDYNAMIC);
-		tempAmb   = new IOContainer("TemperatureAmb", Unit.KELVIN, 0,      ContainerType.THERMAL);
-		pAmb      = new IOContainer("PressureAmb",    Unit.PA,     100000, ContainerType.FLUIDDYNAMIC);
+		vFlowDot  = new IOContainer("Flow",           new SiUnit(Unit.METERCUBIC_S),    0,      ContainerType.FLUIDDYNAMIC);
+		tempAmb   = new IOContainer("TemperatureAmb", new SiUnit(Unit.KELVIN), 0,      ContainerType.THERMAL);
+		pAmb      = new IOContainer("PressureAmb",    new SiUnit(Unit.PA),     100000, ContainerType.FLUIDDYNAMIC);
 		inputs.add(vFlowDot);
 		inputs.add(tempAmb);
 		inputs.add(pAmb);
 		
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		ptotal  = new IOContainer("PTotal", Unit.WATT, 0, ContainerType.ELECTRIC);
-		puse    = new IOContainer("PUse",   Unit.WATT, 0, ContainerType.FLUIDDYNAMIC);
-		ploss   = new IOContainer("PLoss",  Unit.WATT, 0, ContainerType.THERMAL);
+		ptotal  = new IOContainer("PTotal", new SiUnit(Unit.WATT), 0, ContainerType.ELECTRIC);
+		puse    = new IOContainer("PUse",   new SiUnit(Unit.WATT), 0, ContainerType.FLUIDDYNAMIC);
+		ploss   = new IOContainer("PLoss",  new SiUnit(Unit.WATT), 0, ContainerType.THERMAL);
 		outputs.add(ptotal);
 		outputs.add(puse);
 		outputs.add(ploss);
@@ -194,13 +194,13 @@ public class CompressedFluid extends APhysicalComponent{
 			return;
 		}
 		/* Calculate power required to generate the flow
-		 * PTotal [W] = cp [J/Kg/K] * Tamb [K] * [ (psupply [Pa] /pamb [Pa] )^{(kappa-1)/kappa} ] * rho [kg/m3] * Vdot [l/s] / 1000 [l/m3]
+		 * PTotal [W] = cp [J/Kg/K] * Tamb [K] * [ (psupply [Pa] /pamb [Pa] )^{(kappa-1)/kappa} ] * rho [kg/m3] * Vdot [m³/s] / 1000 [l/m3]
 		 */
-		ptotal.setValue(cp*tempAmb.getValue()*(Math.pow(psupply/pAmb.getValue(), gamma-1)-1)*rho*vFlowDot.getValue()/1000);
+		ptotal.setValue(cp*tempAmb.getValue()*(Math.pow(psupply/pAmb.getValue(), gamma-1)-1)*rho*vFlowDot.getValue());
 		/* Calculate power flow trough fluid
-		 * PUse [W] = psupply [Pa]  * Vdot [l/s] / 1000 [l/m3]
+		 * PUse [W] = psupply [Pa]  * Vdot [m³/s]
 		 */
-		puse.setValue(psupply*vFlowDot.getValue()/1000);
+		puse.setValue(psupply*vFlowDot.getValue());
 		/* Calculate power loss during the generation
 		 * PLoss [W] = PTotal-PUse
 		 */

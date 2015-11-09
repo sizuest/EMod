@@ -20,6 +20,7 @@ import javax.xml.bind.Unmarshaller;
 
 import ch.ethz.inspire.emod.LogLevel;
 import ch.ethz.inspire.emod.Process;
+import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.utils.SamplePeriodConverter;
 import ch.ethz.inspire.emod.utils.SimulationConfigReader;
@@ -53,7 +54,7 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 	 * @throws Exception 
 	 */
 	public GeometricKienzleSimulationControl(String name, Unit unit) throws Exception {
-		super(name, Unit.NEWTONMETER);
+		super(name, new SiUnit(Unit.NEWTONMETER));
 		this.simulationPeriod = -1;
 		if (!unit.equals(Unit.NEWTON))
 			throw new Exception("Kienzle unit violation: unit must be NEWTON");
@@ -73,7 +74,7 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 	 * @throws Exception 
 	 */
 	public GeometricKienzleSimulationControl(String name, double[] n, double[] f, double[] ap, double[] d) throws Exception {
-		super(name, Unit.NEWTONMETER);
+		super(name, new SiUnit(Unit.NEWTONMETER));
 		if(n.length!=f.length || n.length!=ap.length || n.length!=d.length)
 			throw new Exception("input violation: params must have same length");
 		readConfigFromFile();

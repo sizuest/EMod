@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:duct xmlns:ns2="ch.ethz.inspire.emod">
+    <material>
+        <type>GlykolWater_30</type>
+    </material>
+    <name>Test</name>
+    <elements>
+        <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Test</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.0025</radius>
+            </profile>
+            <length>0.05</length>
+            <count>2.0</count>
+        </elements>
+        <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <isolation>
+                <thickness>0.005</thickness>
+                <type>PUR</type>
+            </isolation>
+            <name>Sinkleitung_1</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.0025</radius>
+            </profile>
+            <length>0.2</length>
+            <count>2.0</count>
+        </elements>
+        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Fitting_Sinkleitung_1-Statorkühlung</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.005108695652173913</radius>
+            </profile>
+        </elements>
+        <elements xsi:type="ductHelix" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Statorkühlung</name>
+            <profile xsi:type="hpRectangular">
+                <height>0.02</height>
+                <width>0.003</width>
+            </profile>
+            <radius>0.1</radius>
+            <height>0.2</height>
+            <distance>0.03</distance>
+        </elements>
+        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Fitting_Statorkühlung-Steigleitung</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.005108695652173913</radius>
+            </profile>
+        </elements>
+        <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Steigleitung</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.0025</radius>
+            </profile>
+            <length>0.05</length>
+            <count>2.0</count>
+        </elements>
+    </elements>
+</ns2:duct>

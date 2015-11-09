@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Properties;
 
-import ch.ethz.inspire.emod.model.Material;
+import ch.ethz.inspire.emod.model.material.Material;
 import ch.ethz.inspire.emod.model.units.PhysicalValue;
 
 public class ConfigReader {
@@ -122,13 +122,13 @@ public class ConfigReader {
 		PhysicalValue out = new PhysicalValue();
 		
 		String unit = "";
-		double value = 0;
+		double value[];
 		
 		if (valstr == null) {
 			throw new Exception("No propertiy '" + paramname + "' found in '" + fileName + "'!");
 		}
-		
-		value = Double.parseDouble(valstr.replaceFirst("[a-zA-Z].*$", ""));
+
+		value = parseDoubleArray(valstr.replaceFirst("[a-zA-Z].*$", ""));
 		unit  = valstr.replaceFirst("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?", "");
 		
 		out.set(value, unit);
@@ -220,20 +220,9 @@ public class ConfigReader {
 			throw new Exception("No property '" + paramname + "' found in '" + fileName + "'!");
 		}
 		
-		double[] retarray = null;
+		double[] retarray;
 		try {
-			// Remove semicolon at the end, if exists:
-			String valstr1 = valstr.replace(";", "");
-			// Change colons to spaces:
-			String valstr2 = valstr1.replace(",", " ");
-			// Split at white spaces:
-			String[] strarray = valstr2.trim().split("\\s+");
-		
-			// Convert string array to double array:
-			retarray = new double[strarray.length];
-			for (int i=0; i<strarray.length; i++) {
-				retarray[i] = Double.parseDouble(strarray[i]);
-			}
+			retarray = parseDoubleArray(valstr);
 		}
 		catch (Exception e) {
 			throw new Exception("Unknown format of propertiy '" + paramname 
@@ -343,9 +332,11 @@ public class ConfigReader {
 	 * Sets the property "name" to "value"
 	 * @param name
 	 * @param value
+	 * @throws IOException 
 	 */
-	public void setValue(String name, String value) {
+	public void setValue(String name, String value) throws IOException {
 		props.setProperty(name, value);
+		saveValues();
 	}
 	
 	/**
@@ -427,6 +418,25 @@ public class ConfigReader {
 		catch (NumberFormatException e) {
 			throw new NumberFormatException("Unknown format of propertiy '" + paramname 
 					+ "' in file '" + fileName + "'\n   " + e.getMessage());
+		}
+		
+		return retarray;
+	}
+	
+	private double[] parseDoubleArray(String valstr){
+		double[] retarray = null;
+		
+		// Remove semicolon at the end, if exists:
+		String valstr1 = valstr.replace(";", "");
+		// Change colons to spaces:
+		String valstr2 = valstr1.replace(",", " ");
+		// Split at white spaces:
+		String[] strarray = valstr2.trim().split("\\s+");
+	
+		// Convert string array to double array:
+		retarray = new double[strarray.length];
+		for (int i=0; i<strarray.length; i++) {
+			retarray[i] = Double.parseDouble(strarray[i]);
 		}
 		
 		return retarray;

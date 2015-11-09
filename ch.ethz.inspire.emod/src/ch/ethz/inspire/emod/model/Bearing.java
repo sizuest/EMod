@@ -19,6 +19,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import ch.ethz.inspire.emod.model.material.Material;
 import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.utils.Algo;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
@@ -120,11 +121,11 @@ public class Bearing extends APhysicalComponent{
 	{
 		/* Define Input parameters */
 		inputs       = new ArrayList<IOContainer>();
-		forceAxial   = new IOContainer("ForceAxial",   Unit.NEWTON, 0,      ContainerType.MECHANIC);
-		forceRadial  = new IOContainer("ForceRadial",  Unit.NEWTON, 0,      ContainerType.MECHANIC);
-		rotSpeed     = new IOContainer("RotSpeed",     Unit.RPM,    0,      ContainerType.MECHANIC);
-		temperature1 = new IOContainer("Temperature1", Unit.KELVIN, 293.15, ContainerType.THERMAL);
-		temperature2 = new IOContainer("Temperature2", Unit.KELVIN, 293.15, ContainerType.THERMAL);
+		forceAxial   = new IOContainer("ForceAxial",   new SiUnit(Unit.NEWTON), 		0,      ContainerType.MECHANIC);
+		forceRadial  = new IOContainer("ForceRadial",  new SiUnit(Unit.NEWTON), 		0,      ContainerType.MECHANIC);
+		rotSpeed     = new IOContainer("RotSpeed",     new SiUnit(Unit.REVOLUTIONS_S),  0,      ContainerType.MECHANIC);
+		temperature1 = new IOContainer("Temperature1", new SiUnit(Unit.KELVIN), 		293.15, ContainerType.THERMAL);
+		temperature2 = new IOContainer("Temperature2", new SiUnit(Unit.KELVIN), 		293.15, ContainerType.THERMAL);
 		inputs.add(forceAxial);
 		inputs.add(forceRadial);
 		inputs.add(rotSpeed);
@@ -134,10 +135,10 @@ public class Bearing extends APhysicalComponent{
 		
 		/* Define output parameters */
 		outputs   = new ArrayList<IOContainer>();
-		torque    = new IOContainer("Torque",   Unit.NEWTONMETER, 0, ContainerType.MECHANIC);
-		ploss     = new IOContainer("PLoss",    Unit.WATT,        0, ContainerType.THERMAL);
-		heatFlux1 = new IOContainer("HeatFlux", Unit.WATT,        0, ContainerType.THERMAL);
-		heatFlux2 = new IOContainer("HeatFlux", Unit.WATT,        0, ContainerType.THERMAL);
+		torque    = new IOContainer("Torque",   new SiUnit(Unit.NEWTONMETER), 0, ContainerType.MECHANIC);
+		ploss     = new IOContainer("PLoss",    new SiUnit(Unit.WATT),        0, ContainerType.THERMAL);
+		heatFlux1 = new IOContainer("HeatFlux", new SiUnit(Unit.WATT),        0, ContainerType.THERMAL);
+		heatFlux2 = new IOContainer("HeatFlux", new SiUnit(Unit.WATT),        0, ContainerType.THERMAL);
 		outputs.add(torque);
 		outputs.add(ploss);
 		outputs.add(heatFlux1);
@@ -284,16 +285,16 @@ public class Bearing extends APhysicalComponent{
 		f1 = bearingZ*Math.pow( (P0/bearingC0), bearingY );
 		
 		// load torque
-		Tl = f1*P1*bearingRm*2 * 0.113;
+		Tl = f1*P1*bearingRm*2/.0254 * 0.113;
 		
 		// viscous torque
 		if (rotSpeed.getValue() == 0)
 			Tv = 0;
-		else if ( rotSpeed.getValue() * nu * 1e6 < 2000 )
+		else if ( rotSpeed.getValue() * 60 * nu * 1e6 < 2000 )
 			Tv = 3.492E-3 * bearingF0 * Math.pow(bearingRm*2/.0254, 3) * 0.113;
 		else
 			Tv = 1.42E-5 * bearingF0 * Math.pow(bearingRm*2/.0254, 3) * 0.113 * 
-			     Math.pow( Math.abs(rotSpeed.getValue()) * nu * 1E6, 2.0/3);	
+			     Math.pow( Math.abs(rotSpeed.getValue()) * 60 * nu * 1E6, 2.0/3);	
 		
 		/* END OF Harris */
 		
@@ -301,7 +302,7 @@ public class Bearing extends APhysicalComponent{
 		torque.setValue(Tl+Tv);
 		
 		// PLoss [W] = | rotSpeed [rpm] * Pi/30 [rad/rpm] * torque [Nm] |
-		ploss.setValue( Math.abs( rotSpeed.getValue()*Math.PI/30*torque.getValue() ) );
+		ploss.setValue( Math.abs( rotSpeed.getValue()*Math.PI*2*torque.getValue() ) );
 		
 		// heatFlux1 [W] = lambda [W/K] * (temperature2-temperature1) [K] + PLoss [W] / 2
 		heatFlux1.setValue(getThermalResistance(rotSpeed.getValue()) * (temperature2.getValue()-temperature1.getValue()) + ploss.getValue()/2 );

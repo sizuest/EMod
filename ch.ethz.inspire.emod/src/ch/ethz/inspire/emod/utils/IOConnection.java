@@ -13,9 +13,6 @@
 
 package ch.ethz.inspire.emod.utils;
 
-import java.util.logging.Logger;
-
-import ch.ethz.inspire.emod.EModMain;
 import ch.ethz.inspire.emod.utils.IOContainer;
 
 /**
@@ -30,8 +27,6 @@ import ch.ethz.inspire.emod.utils.IOContainer;
 public class IOConnection {
 	protected IOContainer source;
 	protected IOContainer target;
-	
-	private static Logger logger = Logger.getLogger(EModMain.class.getName());
 	
 	public IOConnection(){
 		

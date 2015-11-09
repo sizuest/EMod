@@ -14,10 +14,12 @@
 package ch.ethz.inspire.emod.utils;
 
 import java.util.Arrays;
+
 import org.ejml.data.Complex64F;
 import org.ejml.data.DenseMatrix64F;
 import org.ejml.factory.DecompositionFactory;
 import org.ejml.interfaces.decomposition.EigenDecomposition;
+import org.ejml.simple.SimpleMatrix;
 
 import ch.ethz.inspire.emod.utils.ArrayIndexComparator;
 
@@ -158,6 +160,36 @@ public class Algo {
 	}
 	
 	/**
+	 * Numerically derivates the given series y=f(x) at aa specified point x0:
+	 * 
+	 * f'(x0) = ( f(x[i+1])-f(x[i]) ) / ( x[i+1]-x[i] )    where
+	 * x[i]<=x0<x[i+1]
+	 * 
+	 * @param x        Value at which the derivate shall be calculated
+	 * @param xsamples Samples on the x axis. Must be sorted (lowest value at first position).
+	 * @param yvals    Samples on the y axis.
+	 * @return 		   Estimated derivative unit: [y]/[x]
+	 */
+	public static double numericalDerivative(double x, double[] xsamples, double[] yvals){
+		
+		int index = findInterval(x, xsamples);
+		int low, high;
+		
+		
+		if(index == xsamples.length-1){
+			high = index;
+			low  = index-1;
+		}
+		else{
+			high = index+1;
+			low  = index;
+		}
+		
+					
+		return (yvals[high]-yvals[low])/(xsamples[high]-xsamples[low]);
+	}
+	
+	/**
 	 * A function is given by a set of (x,y) points. The y-value belonging to
 	 * a given x value is determined by linear interpolation.
 	 * 
@@ -292,5 +324,38 @@ public class Algo {
 
         return roots;
     }
+	
+	/**
+	 * Solves the given least squares problem and returns the parameters
+	 * 
+	 * Given: 
+	 *   y = H * p
+	 * Solution:
+	 *   p = (H'H)^-1 H' y
+	 * 
+	 * @param Hin
+	 * @param yin
+	 * @return p
+	 */
+	public static double[] findLeastSquares(double[][] Hin, double[] yin){
+		SimpleMatrix H = new SimpleMatrix(Hin);
+		SimpleMatrix y = new SimpleMatrix(yin.length, 1);
+		SimpleMatrix p = new SimpleMatrix(H.numCols(),1);
+		
+		double[] out = new double[H.numCols()];
+		
+		for(int i=0; i<yin.length; i++)
+			y.set(i, yin[i]);
+		
+		/*
+		 * Solve LS problem
+		 */
+		p = H.transpose().mult(H).invert().mult(H.transpose()).mult(y);
+		
+		for(int i=0; i<p.numRows(); i++)
+			out[i] = p.get(i);
+		
+		return out;
+	}
 
 }

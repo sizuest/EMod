@@ -16,7 +16,6 @@ package ch.ethz.inspire.emod.gui;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.CopyOption;
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -53,6 +52,8 @@ import org.eclipse.swt.widgets.TreeItem;
 import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.gui.utils.MachineComponentHandler;
 import ch.ethz.inspire.emod.model.MachineComponent;
+import ch.ethz.inspire.emod.model.units.SiUnit;
+import ch.ethz.inspire.emod.model.units.SiUnitDefinition;
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.simulation.ASimulationControl;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
@@ -131,9 +132,9 @@ public class ModelGUI extends AGUITab {
 		String[] titles =  {LocalizationHandler.getItem("app.gui.model.name"),
 							LocalizationHandler.getItem("app.gui.model.type"),
 							LocalizationHandler.getItem("app.gui.model.param"),
-							"",//LocalizationHandler.getItem("app.gui.model.editcomp"),
+							"        ",//LocalizationHandler.getItem("app.gui.model.editcomp"),
 							//LocalizationHandler.getItem("app.gui.model.editlink"),
-							""};//LocalizationHandler.getItem("app.gui.model.delcomp")};
+							"        "};//LocalizationHandler.getItem("app.gui.model.delcomp")};
 		for(int i=0; i < titles.length; i++){
 			TableColumn column = new TableColumn(tableModelView, SWT.NULL);
 			column.setText(titles[i]);
@@ -361,7 +362,8 @@ public class ModelGUI extends AGUITab {
 			public void dragSetData(DragSourceEvent event){
 				String text = "";
 				for(TreeItem item:selection){
-					text += (String)item.getText();	
+					
+					text += (String)item.getParentItem().getText()+"_"+(String)item.getText();	
 				}
 				event.data = text;
 			}
@@ -442,7 +444,7 @@ public class ModelGUI extends AGUITab {
 					}
 		        	
 		        	
-					final ASimulationControl sc = Machine.addNewInputObject(string, Unit.NONE);
+					final ASimulationControl sc = Machine.addNewInputObject(string, new SiUnit(Unit.NONE));
 					
 					//add the machine component to the table
 					addTableItem(sc, index);
@@ -495,10 +497,12 @@ public class ModelGUI extends AGUITab {
         TableEditor editor = new TableEditor(tableModelView);
         final CCombo comboEditInputUnit = new CCombo(tableModelView, SWT.PUSH);
         
-        String[] items = new String[Unit.values().length];
+        String[] items = new String[SiUnitDefinition.getConversionMap().keySet().size()]; 
+        SiUnitDefinition.getConversionMap().keySet().toArray(items);
+        /*String[] items = new String[Unit.values().length];        
         for(int i=0; i<items.length; i++){
         	items[i] = Unit.values()[i].toString();
-        }
+        }*/
         comboEditInputUnit.setItems(items);
         comboEditInputUnit.setText(sc.getUnit().toString());
         comboEditInputUnit.addSelectionListener(new SelectionListener(){
@@ -506,7 +510,7 @@ public class ModelGUI extends AGUITab {
 				//disable comboMachineConfigName to prevent argument null for updatecomboMachineConfigName
 				comboEditInputUnit.setEnabled(false);
     		
-				sc.setUnit(Unit.valueOf(comboEditInputUnit.getText()));
+				sc.setUnit(new SiUnit(comboEditInputUnit.getText()));
 				//System.out.println("***comboEditInputUnit: " + sc.getName() + " " + sc.getUnit().toString());
     			//enable comboMachineConfigName after update
 				comboEditInputUnit.setEnabled(true);

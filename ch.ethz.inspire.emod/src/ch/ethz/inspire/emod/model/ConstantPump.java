@@ -137,11 +137,11 @@ public class ConstantPump extends APhysicalComponent{
 	{
 		/* Define Input parameters */
 		inputs       	 = new ArrayList<IOContainer>();
-		massFlowOut 	 = new IOContainer("MassFlowOut",      Unit.KG_S,      0,    ContainerType.FLUIDDYNAMIC);
-		density			 = new IOContainer("Density",          Unit.KG_MCUBIC, 1000, ContainerType.FLUIDDYNAMIC);
-		pumpCtrl		 = new IOContainer("PumpCtrl",         Unit.NONE,      0,    ContainerType.CONTROL);
-		rotSpeed		 = new IOContainer("RotSpeed",         Unit.RPM,       0,    ContainerType.MECHANIC);
-		demandedPressure = new IOContainer("DemandedPressure", Unit.PA,        0,    ContainerType.FLUIDDYNAMIC);
+		massFlowOut 	 = new IOContainer("MassFlowOut",      new SiUnit(Unit.KG_S),      		0,    ContainerType.FLUIDDYNAMIC);
+		density			 = new IOContainer("Density",          new SiUnit(Unit.KG_MCUBIC), 		1000, ContainerType.FLUIDDYNAMIC);
+		pumpCtrl		 = new IOContainer("PumpCtrl",         new SiUnit(Unit.NONE),      		0,    ContainerType.CONTROL);
+		rotSpeed		 = new IOContainer("RotSpeed",         new SiUnit(Unit.REVOLUTIONS_S),  0,    ContainerType.MECHANIC);
+		demandedPressure = new IOContainer("DemandedPressure", new SiUnit(Unit.PA),        		0,    ContainerType.FLUIDDYNAMIC);
 		inputs.add(massFlowOut);
 		inputs.add(density);
 		inputs.add(pumpCtrl);
@@ -150,13 +150,13 @@ public class ConstantPump extends APhysicalComponent{
 		
 		/* Define output parameters */
 		outputs    	   = new ArrayList<IOContainer>();
-		pressureOut    = new IOContainer("PressureOut",    Unit.PA,   0, ContainerType.FLUIDDYNAMIC);
-		pel        	   = new IOContainer("PTotal",         Unit.WATT, 0, ContainerType.ELECTRIC);
-		pbypass    	   = new IOContainer("PBypass",        Unit.WATT, 0, ContainerType.INFORMATION);
-		phydr      	   = new IOContainer("PUse",           Unit.WATT, 0, ContainerType.FLUIDDYNAMIC);
-		pth		   	   = new IOContainer("PThermal",       Unit.WATT, 0, ContainerType.INFORMATION);
-		ploss	   	   = new IOContainer("PLoss",          Unit.WATT, 0, ContainerType.THERMAL);
-		massFlowBypass = new IOContainer("MassFlowBypass", Unit.KG_S, 0, ContainerType.FLUIDDYNAMIC);
+		pressureOut    = new IOContainer("PressureOut",    new SiUnit(Unit.PA),   0, ContainerType.FLUIDDYNAMIC);
+		pel        	   = new IOContainer("PTotal",         new SiUnit(Unit.WATT), 0, ContainerType.ELECTRIC);
+		pbypass    	   = new IOContainer("PBypass",        new SiUnit(Unit.WATT), 0, ContainerType.INFORMATION);
+		phydr      	   = new IOContainer("PUse",           new SiUnit(Unit.WATT), 0, ContainerType.FLUIDDYNAMIC);
+		pth		   	   = new IOContainer("PThermal",       new SiUnit(Unit.WATT), 0, ContainerType.INFORMATION);
+		ploss	   	   = new IOContainer("PLoss",          new SiUnit(Unit.WATT), 0, ContainerType.THERMAL);
+		massFlowBypass = new IOContainer("MassFlowBypass", new SiUnit(Unit.KG_S), 0, ContainerType.FLUIDDYNAMIC);
 		outputs.add(pressureOut);
 		outputs.add(pel);
 		outputs.add(pbypass);
@@ -305,7 +305,7 @@ public class ConstantPump extends APhysicalComponent{
 	    lastpressure = pressureOut.getValue();
 		lastmassflow = massFlowOut.getValue();
 		lastpumpCtrl = pumpCtrl.getValue();
-		lastrotspeed = rotSpeed.getValue();
+		lastrotspeed = rotSpeed.getValue()*60;
 	
 
 		//Pump ON

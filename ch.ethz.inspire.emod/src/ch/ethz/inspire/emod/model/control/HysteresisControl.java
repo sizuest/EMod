@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import ch.ethz.inspire.emod.model.APhysicalComponent;
+import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.utils.Defines;
 import ch.ethz.inspire.emod.utils.IOContainer;
@@ -148,11 +149,11 @@ public class HysteresisControl extends APhysicalComponent{
 		}
 		
 		/* Define input parameters */
-		inpSignal = new IOContainer("Input", Unit.valueOf(unitIn), 0);
+		inpSignal = new IOContainer("Input", new SiUnit(unitIn), 0);
 		inputs.add(inpSignal);
 		
 		/* Define output parameters */
-		outSignal = new IOContainer("Output", Unit.valueOf(unitOut), outLow);
+		outSignal = new IOContainer("Output", new SiUnit(unitOut), outLow);
 		outputs.add(outSignal);
 	}
 	

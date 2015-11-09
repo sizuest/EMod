@@ -17,7 +17,7 @@ import java.util.Random;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.model.units.SiUnit;
 
 /**
  * Testclass with random input samples
@@ -32,7 +32,7 @@ public class RandomSimulationControl extends ASimulationControl {
 	 * @param name
 	 * @param unit
 	 */
-	public RandomSimulationControl(String name, Unit unit) {
+	public RandomSimulationControl(String name, SiUnit unit) {
 		super(name, unit);
 	}
 	

@@ -1,7 +1,8 @@
+Spindle.State = MachineState
 Spindle.RotSpeed = RotSpeed
 Spindle.Torque = Torque
 Spindle.FluidIn = ForcedFluidFlow.FluidOut
 ForcedFluidFlow.TemperatureIn = TemperatureIn
 ForcedFluidFlow.PressureIn = PressureIn
 ForcedFluidFlow.FlowRate = FlowRate
-Spindle.State = MachineState
+ForcedFluidFlow.FluidIn = Spindle.FluidOut

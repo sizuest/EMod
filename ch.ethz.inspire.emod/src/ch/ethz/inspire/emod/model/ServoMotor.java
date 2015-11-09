@@ -113,18 +113,18 @@ public class ServoMotor extends APhysicalComponent{
 	{
 		/* Define Input parameters */
 		inputs   = new ArrayList<IOContainer>();
-		rotspeed = new IOContainer("RotSpeed", Unit.RPM,         0, ContainerType.MECHANIC);
-		torque   = new IOContainer("Torque",   Unit.NEWTONMETER, 0, ContainerType.MECHANIC);
+		rotspeed = new IOContainer("RotSpeed", new SiUnit(Unit.REVOLUTIONS_S),         0, ContainerType.MECHANIC);
+		torque   = new IOContainer("Torque",   new SiUnit(Unit.NEWTONMETER), 0, ContainerType.MECHANIC);
 		//inputs.add(brake);
 		inputs.add(rotspeed);
 		inputs.add(torque);
 		
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		pel     = new IOContainer("PTotal", Unit.WATT, 0, ContainerType.ELECTRIC);
-		ploss   = new IOContainer("PLoss",  Unit.WATT, 0, ContainerType.THERMAL);
-		pmech   = new IOContainer("PUse",   Unit.WATT, 0, ContainerType.MECHANIC);
-		efficiency = new IOContainer("Efficiency", Unit.NONE, 0, ContainerType.INFORMATION);
+		pel     = new IOContainer("PTotal", new SiUnit(Unit.WATT), 0, ContainerType.ELECTRIC);
+		ploss   = new IOContainer("PLoss",  new SiUnit(Unit.WATT), 0, ContainerType.THERMAL);
+		pmech   = new IOContainer("PUse",   new SiUnit(Unit.WATT), 0, ContainerType.MECHANIC);
+		efficiency = new IOContainer("Efficiency", new SiUnit(Unit.NONE), 0, ContainerType.INFORMATION);
 		outputs.add(pel);
 		outputs.add(ploss);
 		outputs.add(pmech);
@@ -243,7 +243,7 @@ public class ServoMotor extends APhysicalComponent{
 			return;
 		}
 		lasttorque   = Math.abs(torque.getValue());
-		lastrotspeed = Math.abs(rotspeed.getValue());
+		lastrotspeed = Math.abs(rotspeed.getValue())*60;
 		
 		/* Check if component is running. If not, set 
 		 * all to 0 and exit.

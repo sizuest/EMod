@@ -12,7 +12,7 @@
  ***********************************/
 package ch.ethz.inspire.emod.utils;
 
-import ch.ethz.inspire.emod.model.Material;
+import ch.ethz.inspire.emod.model.material.Material;
 
 /**
  * General implementation of the properties of a component within a fluid circuit.

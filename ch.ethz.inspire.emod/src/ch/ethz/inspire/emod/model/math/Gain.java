@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlElement;
 
 
 import ch.ethz.inspire.emod.model.APhysicalComponent;
-import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.utils.IOContainer;
 
 /**
@@ -54,9 +54,6 @@ public class Gain extends APhysicalComponent{
 	
 	// Output parameters:
 	private IOContainer out;
-	
-	// Unit of the element 
-	private Unit unitName;
 
 	
 	/**
@@ -78,7 +75,7 @@ public class Gain extends APhysicalComponent{
 	 * @param unit
 	 * @param gain
 	 */
-	public Gain(Unit unit, double gain) {
+	public Gain(SiUnit unit, double gain) {
 		super();
 		
 		this.unit = unit.toString();
@@ -91,17 +88,15 @@ public class Gain extends APhysicalComponent{
 	 * Called from constructor or after unmarshaller.
 	 */
 	private void init()
-	{
-		unitName = Unit.valueOf(unit.toUpperCase());
-		
+	{		
 		/* Define Input parameters */
 		inputs   = new ArrayList<IOContainer>();
-		in       = new IOContainer("Input", unitName, 0);
+		in       = new IOContainer("Input", new SiUnit(unit), 0);
 		inputs.add(in);
 		
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		out     = new IOContainer("Output", unitName, 0);
+		out     = new IOContainer("Output", new SiUnit(unit), 0);
 		outputs.add(out);
 		
 		// Validate the parameters:

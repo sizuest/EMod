@@ -14,6 +14,7 @@ package ch.ethz.inspire.emod;
 
 
 import java.io.*;
+import java.util.Locale;
 import java.util.logging.FileHandler;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
@@ -37,6 +38,8 @@ public class EModMain {
 	
 	public static void main(String[] args) {
 		Display disp = new Display();
+		
+		Locale.setDefault(new Locale("de", "CH"));
 		
 		// init logging
 		LogManager logManager = LogManager.getLogManager();

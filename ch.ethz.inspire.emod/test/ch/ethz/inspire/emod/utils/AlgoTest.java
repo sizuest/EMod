@@ -119,5 +119,16 @@ public class AlgoTest {
 		assertEquals("Root 3", 3, roots[2], 0.0001);
 		
 	}
+	
+	@Test
+	public void testLeastSquares(){
+		double[][] H = {{1, 1}, {1, 2}};
+		double[]   y = {0,1};
+		
+		double[]   p = Algo.findLeastSquares(H, y);
+		
+		assertEquals("y0", -1, p[0], 0.000001);
+		assertEquals("m",   1, p[1], 0.000001);
+	}
 
 }

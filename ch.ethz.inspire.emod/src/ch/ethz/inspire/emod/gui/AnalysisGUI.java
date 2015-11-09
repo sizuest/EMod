@@ -18,8 +18,6 @@ import java.util.logging.Logger;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
-import org.eclipse.swt.custom.CTabFolder2Adapter;
-import org.eclipse.swt.custom.CTabFolderEvent;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -71,9 +69,9 @@ public class AnalysisGUI extends AEvaluationGUI {
 	public void init() {
 		aTabFolder = new CTabFolder(this, SWT.NONE);
 		aTabFolder.setBorderVisible(true);
-		aTabFolder.addCTabFolder2Listener(new CTabFolder2Adapter() {
+		/*aTabFolder.addCTabFolder2Listener(new CTabFolder2Adapter() {
 			public void itemClosed(CTabFolderEvent event) {}
-		});
+		});*/
 		aTabFolder.setSelectionBackground(new Color[] {
 				getDisplay().getSystemColor(SWT.COLOR_WIDGET_DARK_SHADOW),
 		        getDisplay().getSystemColor(SWT.COLOR_WIDGET_NORMAL_SHADOW),

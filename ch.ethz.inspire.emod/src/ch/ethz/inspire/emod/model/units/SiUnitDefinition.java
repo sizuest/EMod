@@ -28,8 +28,8 @@ public class SiUnitDefinition {
 	// SI definition object
 	private static SiUnitDefinition siDefinition = null;
 	// Conversion Map
-	private static Map<String,SiUnit> convMap = new HashMap<String,SiUnit>();
-	private static Map<Unit,SiUnit> updateMap = new HashMap<Unit,SiUnit>();
+	private  Map<String,SiUnit> convMap = new HashMap<String,SiUnit>();
+	private  Map<Unit,SiUnit> updateMap = new HashMap<Unit,SiUnit>();
 	// Units of the dimensions
 	private String[] unitNames = {"m", 
 			                      "kg", 
@@ -52,7 +52,8 @@ public class SiUnitDefinition {
 	public static SiUnitDefinition getInstance(){
 		if(siDefinition == null){
 			siDefinition = new SiUnitDefinition();
-			initConversionMap();
+			getInstance().initConversionMap();
+			getInstance().initUpdateMap();
 		}
 		return siDefinition;
 		
@@ -62,20 +63,36 @@ public class SiUnitDefinition {
 	 * @return instance of the conversion map
 	 */
 	public static Map<String,SiUnit> getConversionMap(){
-		return convMap;
+		return getInstance().convMap;
 	}
 	
-	private static void initUpdateMap(){
-		updateMap.put(Unit.KELVIN, (new SiUnit("K")));
-		updateMap.put(Unit.KG    , (new SiUnit("kg")));
-		updateMap.put(Unit.KG_MCUBIC, (new SiUnit("kg m^-3")));
-		updateMap.put(Unit.KG_S, (new SiUnit("kg s^-1")));
-		updateMap.put(Unit.M, (new SiUnit("m")));
-		updateMap.put(Unit.M_S, (new SiUnit("m s^-1")));
-		
+	/**
+	 * @return instance of the conversion map
+	 */
+	public static Map<Unit,SiUnit> getUpdateMap(){
+		return getInstance().updateMap;
 	}
 	
-	private static void initConversionMap(){
+	private void initUpdateMap(){
+		updateMap.put(Unit.KELVIN,    		(new SiUnit("K")));
+		updateMap.put(Unit.KG    ,    		(new SiUnit("kg")));
+		updateMap.put(Unit.KG_MCUBIC, 		(new SiUnit("kg m^-3")));
+		updateMap.put(Unit.KG_S,      		(new SiUnit("kg s^-1")));
+		updateMap.put(Unit.M,   	  		(new SiUnit("m")));
+		updateMap.put(Unit.M_S, 			(new SiUnit("m s^-1")));
+		updateMap.put(Unit.METERCUBIC, 		(new SiUnit("m^3")));
+		updateMap.put(Unit.METERCUBIC_S, 	(new SiUnit("m^3 s^-1")));
+		updateMap.put(Unit.NEWTON, 			(new SiUnit("N")));
+		updateMap.put(Unit.NEWTONMETER, 	(new SiUnit("Nm")));
+		updateMap.put(Unit.NONE, 			(new SiUnit("")));
+		updateMap.put(Unit.PA, 				(new SiUnit("Pa")));
+		updateMap.put(Unit.S, 				(new SiUnit("s")));
+		updateMap.put(Unit.WATT, 			(new SiUnit("W")));
+		updateMap.put(Unit.REVOLUTIONS_S,	(new SiUnit("Hz")));
+		updateMap.put(Unit.RPM,	            (new SiUnit("Hz")));
+	}
+	
+	private void initConversionMap(){
 		// Base units
 		// Have to be stated at very first in exponential representation!
 		convMap.put("m",   (new SiUnit(1,0,0,0,0,0,0)));
@@ -86,12 +103,18 @@ public class SiUnitDefinition {
 		convMap.put("mol", (new SiUnit(0,0,0,0,0,1,0)));
 		convMap.put("cd",  (new SiUnit(0,0,0,0,0,0,1)));
 		// Additional SI units
+		convMap.put("none",(new SiUnit()));
 		convMap.put("rad", (new SiUnit()));
 		convMap.put("sr",  (new SiUnit()));
 		convMap.put("Hz",  (new SiUnit("s^-1")));
 		convMap.put("N",   (new SiUnit("m kg s^-2")));
 		convMap.put("Pa",  (new SiUnit("kg m^-1 s^-2")));
-		convMap.put("J",   (new SiUnit("m^2 kg s^-2")));
+		convMap.put("Nm",  (new SiUnit("N m")));
+		convMap.put("m/s", (new SiUnit("m s^-1")));
+		convMap.put("m³/s",(new SiUnit("m^3 s^-1")));
+		convMap.put("m²",  (new SiUnit("m^2")));
+		convMap.put("W/K", (new SiUnit("W K^-1")));
+		convMap.put("W/m²/K",(new SiUnit("W m^-2 K^-1")));
 		convMap.put("W",   (new SiUnit("m^2 kg s^-3")));
 		convMap.put("C",   (new SiUnit("A s")));
 		convMap.put("V",   (new SiUnit("m^2 kg s^-3 A^-1")));
@@ -107,6 +130,7 @@ public class SiUnitDefinition {
 		convMap.put("Gy",  (new SiUnit("m^2 s^-2")));
 		convMap.put("Sv",  (new SiUnit("m^2 s^-2")));
 		convMap.put("kat", (new SiUnit("mol s^-1")));
+
 	}
 	
 	private String getRegexPattern(){
@@ -114,9 +138,11 @@ public class SiUnitDefinition {
 		
 		String[] u = getConversionMap().keySet().toArray(new String[0]);
 		
-		out = "(("+u[0]+"\\s)|("+u[0]+"$)|("+u[0]+".?-?\\d+))";
+		u[0] = u[0].replaceAll("/", "\\\\/");
+		out = "(("+u[0]+"\\s)|("+u[0]+"$)|("+u[0]+"\\^-?\\d+))";
 		for(int i=1; i<u.length; i++){
-			out = out+"|(("+u[i]+"\\s)|("+u[i]+"$)|("+u[i]+".?[-]?\\d+))";
+			u[i] = u[i].replaceAll("/", "\\\\/");
+			out = out+"|(("+u[i]+"\\s)|("+u[i]+"$)|("+u[i]+"\\^[-]?\\d+))";
 		}
 
 		return out;
@@ -133,10 +159,17 @@ public class SiUnitDefinition {
 	public static String getString(SiUnit unit){
 		String out = "";
 		
+		/* Simplest case */
+		boolean allZero = (0==unit.get()[0]);
+		for(int i=1; i<unit.get().length; i++)
+			allZero = allZero & (0==unit.get()[i]);
+		if(allZero)
+			return "none";
+		
 		/* Test for simple representation */
-		if(SiUnitDefinition.convMap.containsValue(unit))
-			for(String s:SiUnitDefinition.convMap.keySet()){
-				if(SiUnitDefinition.convMap.get(s).equals(unit)){
+		if(getInstance().convMap.containsValue(unit))
+			for(String s:getInstance().convMap.keySet()){
+				if(getInstance().convMap.get(s).equals(unit)){
 					out = s;
 					break;
 				}
@@ -184,7 +217,7 @@ public class SiUnitDefinition {
 		Matcher m = p.matcher(s);
 		
 		// Prepare other search units
-		Pattern pUnit = Pattern.compile("[a-zA-Z]+|([-+]?\\d)+");
+		Pattern pUnit = Pattern.compile("[a-zA-Z\\/¹²³]+|([-+]?\\d)+");
 		Matcher mUnit;
 		
 		while(m.find()){
@@ -194,7 +227,8 @@ public class SiUnitDefinition {
 			mUnit.find();
 						
 			// Get the corresponding base unit
-			expInner = convMap.get(mUnit.group()).get();
+			String tmp = mUnit.group();
+			expInner = getInstance().convMap.get(tmp).get();
 			
 			// Check if an exponent exists
 			if(mUnit.find())

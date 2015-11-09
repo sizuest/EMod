@@ -1,1 +1,0 @@
-Amplifier.PDmd = Motor.PTotal

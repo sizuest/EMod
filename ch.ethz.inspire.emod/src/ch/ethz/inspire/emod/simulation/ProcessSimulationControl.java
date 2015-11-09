@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 import javax.xml.bind.Unmarshaller;
 
 import ch.ethz.inspire.emod.LogLevel;
-import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.SamplePeriodConverter;
 import ch.ethz.inspire.emod.utils.SimulationConfigReader;
@@ -48,7 +48,7 @@ public class ProcessSimulationControl extends ASimulationControl {
 	 * @param name
 	 * @param unit
 	 */
-	public ProcessSimulationControl(String name, Unit unit) {
+	public ProcessSimulationControl(String name, SiUnit unit) {
 		this.name = name;
 		this.unit = unit;
 		

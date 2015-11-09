@@ -1,5 +1,8 @@
 package ch.ethz.inspire.emod.gui;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -47,41 +50,41 @@ public class SelectMachineComponentGUI {
 	 * @param item
 	 * @param index
 	 */
-	public void getSelectionToTable(String type, final TableItem item, final int index){
+	public void getSelectionToTable(String type, final Method fun, final Object funObj, final Object... args){
 
 		/* New GUI */
 		init(type);		
 		
 		/* Add Button */
 		final Button addComponentButton = new Button(shell, SWT.PUSH);
-		addComponentButton.setText("Add");
+		addComponentButton.setText("Select");
 		addComponentButton.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1));
 		addComponentButton.addSelectionListener(new SelectionListener(){
         	public void widgetSelected(SelectionEvent event){
         		if(!(getSelectionToString().matches("")))
-        			if(item.getText().matches(""))
-        				item.setText(index, getSelectionToString());
-        			else
-        				item.setText(index, item.getText(index)+", "+getSelectionToString());
+					try {
+						if(0==args.length)
+							fun.invoke(funObj, getSelectionToString());
+						else
+							fun.invoke(funObj, getSelectionToString(), args);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+        		shell.close();
         	}
-        	public void widgetDefaultSelected(SelectionEvent event){
-        		
-        	}
+        	public void widgetDefaultSelected(SelectionEvent event){}
         });
 		addComponentButton.pack();
 		
 		/* Select Button */
 		final Button selectComponentButton = new Button(shell, SWT.PUSH);
-		selectComponentButton.setText("Select");
+		selectComponentButton.setText("Close");
 		selectComponentButton.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, false, false, 1, 1));
 		selectComponentButton.addSelectionListener(new SelectionListener(){
         	public void widgetSelected(SelectionEvent event){     		
-        		item.setText(index, getSelectionToString());
         		shell.close();
         	}
-        	public void widgetDefaultSelected(SelectionEvent event){
-        		
-        	}
+        	public void widgetDefaultSelected(SelectionEvent event){}
         });
 		selectComponentButton.pack();
 		

@@ -17,19 +17,58 @@ package ch.ethz.inspire.emod.model.units;
 
 /**
  * @author sizuest
- *
- * @param <T> Object type of the value
  */
 public class PhysicalValue {
-	private double value;
+	private double[] value;
 	private SiUnit unit = new SiUnit();
 	
+	/**
+	 * 
+	 */
+	public PhysicalValue(){}
+	
+	/**
+	 * @param value
+	 * @param unit
+	 */
+	public PhysicalValue(double value, SiUnit unit){
+		this.unit = unit;
+		this.value = new double[1];
+		this.value[0] = value;
+	}
+	
+	/**
+	 * @param value
+	 * @param unit
+	 */
+	public PhysicalValue(double[] value, SiUnit unit) {
+		this.unit = unit;
+		this.value = value;
+	}
+
 	/**
 	 * Returns the current value
 	 * @return value <T>
 	 */
 	public double getValue(){
-		return value;
+		return getValue(0);
+	}
+	
+	/**
+	 * @param idx
+	 * @return value
+	 */
+	public double getValue(int idx){
+		if(null==this.value)
+			return Double.NaN;
+		return this.value[idx];
+	}
+	
+	/**
+	 * @return values
+	 */
+	public double[] getValues(){
+		return this.value;
 	}
 	
 	/**
@@ -45,6 +84,16 @@ public class PhysicalValue {
 	 * @param value
 	 */
 	public void setValue(double value){
+		setValue(0, value);
+	}
+	
+	public void setValue(int idx, double value){
+		if(null==this.value)
+			this.value = new double[idx+1];
+		this.value[idx] = value;
+	}
+	
+	public void setValue(double[] value){
 		this.value = value;
 	}
 	
@@ -53,7 +102,14 @@ public class PhysicalValue {
 	 * @return String
 	 */
 	public String toString(){
-		return value+" "+unit.toString();
+		if(1==getValues().length)
+			return getValue()+" "+unit.toString();
+		
+		String out=""+getValue(0);
+		for(int i=0; i<getValues().length; i++)
+			out +=", "+getValue(i);
+		
+		return out+" "+unit.toString();
 	}
 	
 	/**
@@ -61,51 +117,73 @@ public class PhysicalValue {
 	 * @param unit
 	 */
 	public void set(double value, String unit){
-		this.value = value;
+		setValue(value);
 		this.unit.set(unit);
+	}
+	
+	public void set(double[] value, String unit){
+		setValue(value);
+		this.unit.set(unit);
+	}
+	
+	public void set(double[] value, SiUnit unit){
+		setValue(value);
+		this.unit= unit;
 	}
 	
 	public static PhysicalValue multiply(PhysicalValue a, double b){
 		PhysicalValue pv = new PhysicalValue();
-		
-		// New value
-		pv.value = a.value*b;
-		// New unit
-		pv.unit  = a.unit;
+		double[] value = a.getValues().clone();
+
+		for(int i=0; i<value.length; i++)
+			value[i] = a.getValue(i)*b;
+
+		pv.set(value, a.unit.toString());
 		
 		return pv;
 	}
 	
 	
-	public static PhysicalValue multiply(PhysicalValue a, PhysicalValue b){
+	public static PhysicalValue multiply(PhysicalValue a, PhysicalValue b) throws Exception{
 		PhysicalValue pv = new PhysicalValue();
 		
-		// New value
-		pv.value = a.value*b.value;
-		// New unit
-		pv.unit  = SiUnit.multiply(a.unit, b.unit);
+		if(a.getValues().length!=b.getValues().length)
+			throw new Exception("Physical value: multiply: Arrays do not match!");
+		
+		double[] value = a.getValues().clone();
+
+		for(int i=0; i<value.length; i++)
+			value[i] = a.getValue(i)*b.getValue(i);
+
+		pv.set(value, SiUnit.multiply(a.getUnit(), b.getUnit()));
 		
 		return pv;
 	}
 	
 	public static PhysicalValue divide(PhysicalValue a, double b){
 		PhysicalValue pv = new PhysicalValue();
-		
-		// New value
-		pv.value = a.value/b;
-		// New unit
-		pv.unit  = a.unit;
+		double[] value = a.getValues();
+
+		for(int i=0; i<value.length; i++)
+			value[i] = a.getValue(i)/b;
+
+		pv.set(value, a.unit.toString());
 		
 		return pv;
 	}
 	
-	public static PhysicalValue divide(PhysicalValue a, PhysicalValue b){
+	public static PhysicalValue divide(PhysicalValue a, PhysicalValue b) throws Exception{
 		PhysicalValue pv = new PhysicalValue();
+
+		if(a.getValues().length!=b.getValues().length)
+			throw new Exception("Physical value: divide: Arrays do not match!");
 		
-		// New value
-		pv.value = a.value/b.value;
-		// New unit
-		pv.unit  = SiUnit.divide(a.unit, b.unit);
+		double[] value = a.getValues().clone();
+
+		for(int i=0; i<value.length; i++)
+			value[i] = a.getValue(i)/b.getValue(i);
+
+		pv.set(value, SiUnit.divide(a.getUnit(), b.getUnit()));
 		
 		return pv;
 	}
@@ -117,10 +195,15 @@ public class PhysicalValue {
 		if(!a.unit.equals(b.unit))
 			throw new Exception("Physical value: add: Units do not match");
 		
-		// New value
-		pv.value = a.value+b.value;
-		// New unit
-		pv.unit  = a.unit;
+		if(a.getValues().length!=b.getValues().length)
+			throw new Exception("Physical value: add: Arrays do not match!");
+		
+		double[] value = a.getValues().clone();
+
+		for(int i=0; i<value.length; i++)
+			value[i] = a.getValue(i)+b.getValue(i);
+
+		pv.set(value, a.unit.toString());
 		
 		return pv;
 	}
@@ -132,21 +215,27 @@ public class PhysicalValue {
 		if(!a.unit.equals(b.unit))
 			throw new Exception("Physical value: subtract: Units do not match");
 		
-		// New value
-		pv.value = a.value-b.value;
-		// New unit
-		pv.unit  = a.unit;
+		if(a.getValues().length!=b.getValues().length)
+			throw new Exception("Physical value: subtract: Arrays do not match!");
+		
+		double[] value = a.getValues().clone();
+
+		for(int i=0; i<value.length; i++)
+			value[i] = a.getValue(i)-b.getValue(i);
+
+		pv.set(value, a.unit.toString());
 		
 		return pv;
 	}
 	
 	public static PhysicalValue pow(PhysicalValue v, double exp){
 		PhysicalValue pv = new PhysicalValue();
+		double[] value = v.getValues().clone();
 		
-		// New value
-		pv.value = Math.pow(v.value, exp);
-		// New unit
-		pv.unit  = SiUnit.pow(v.unit, exp);
+		for(int i=0; i<value.length; i++)
+			value[i] = Math.pow(v.getValue(i),exp);
+
+		pv.set(value, SiUnit.pow(v.getUnit(), exp).toString());
 		
 		return pv;
 	}

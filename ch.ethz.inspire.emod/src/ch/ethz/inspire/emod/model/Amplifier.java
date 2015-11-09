@@ -116,18 +116,18 @@ public class Amplifier extends APhysicalComponent{
 	{		
 		/* Define Input parameters */
 		inputs = new ArrayList<IOContainer>();
-		level = new IOContainer("State", Unit.NONE, 0, ContainerType.CONTROL);
-		pdmd  = new IOContainer("PDmd",  Unit.WATT, 0, ContainerType.ELECTRIC);
+		level = new IOContainer("State", new SiUnit(Unit.NONE), 0, ContainerType.CONTROL);
+		pdmd  = new IOContainer("PDmd",  new SiUnit(Unit.WATT), 0, ContainerType.ELECTRIC);
 		inputs.add(level);
 		inputs.add(pdmd);
 		
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		pel        = new IOContainer("PTotal",     Unit.WATT, 0, ContainerType.ELECTRIC);
-		ploss      = new IOContainer("PLoss",      Unit.WATT, 0, ContainerType.THERMAL);
-		pamp       = new IOContainer("PAmp",       Unit.WATT, 0, ContainerType.ELECTRIC);
-		pctrl      = new IOContainer("PUse",       Unit.WATT, 0, ContainerType.ELECTRIC);
-		efficiency = new IOContainer("Efficiency", Unit.NONE, 0, ContainerType.INFORMATION);
+		pel        = new IOContainer("PTotal",     new SiUnit(Unit.WATT), 0, ContainerType.ELECTRIC);
+		ploss      = new IOContainer("PLoss",      new SiUnit(Unit.WATT), 0, ContainerType.THERMAL);
+		pamp       = new IOContainer("PAmp",       new SiUnit(Unit.WATT), 0, ContainerType.ELECTRIC);
+		pctrl      = new IOContainer("PUse",       new SiUnit(Unit.WATT), 0, ContainerType.ELECTRIC);
+		efficiency = new IOContainer("Efficiency", new SiUnit(Unit.NONE), 0, ContainerType.INFORMATION);
 		outputs.add(pel);
 		outputs.add(ploss);
 		outputs.add(pamp);

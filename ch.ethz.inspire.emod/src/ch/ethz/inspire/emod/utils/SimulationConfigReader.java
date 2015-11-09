@@ -13,7 +13,6 @@
 package ch.ethz.inspire.emod.utils;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import ch.ethz.inspire.emod.simulation.ComponentState;
@@ -59,10 +58,10 @@ public class SimulationConfigReader extends ConfigReader {
 		String fname = path+"/"+type+"_"+component+".xml";
 		 
 		try {
-			@SuppressWarnings("unused")
 			InputStream iostream = new FileInputStream(fname);
+			iostream.close();
 		}
-		catch (FileNotFoundException e) {
+		catch (Exception e) {
 			return false;
 		}
 		return true;

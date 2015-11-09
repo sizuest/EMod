@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import ch.ethz.inspire.emod.model.fluid.Fluid;
+import ch.ethz.inspire.emod.model.material.Material;
 import ch.ethz.inspire.emod.model.thermal.ThermalArray;
 import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.simulation.DynamicState;
@@ -177,16 +178,16 @@ public class Pipe extends APhysicalComponent implements Floodable{
 	{
 		/* Define Input parameters */
 		inputs         = new ArrayList<IOContainer>();
-		temperatureAmb = new IOContainer("TemperatureAmb", Unit.KELVIN, temperatureInit, ContainerType.THERMAL);
-		heatFlowIn     = new IOContainer("HeatFlowIn", Unit.WATT, 0.00, ContainerType.THERMAL);
+		temperatureAmb = new IOContainer("TemperatureAmb", new SiUnit(Unit.KELVIN), temperatureInit, ContainerType.THERMAL);
+		heatFlowIn     = new IOContainer("HeatFlowIn", new SiUnit(Unit.WATT), 0.00, ContainerType.THERMAL);
 		inputs.add(temperatureAmb);
 		inputs.add(heatFlowIn);
 		
 		/* Define output parameters */
 		outputs        = new ArrayList<IOContainer>();
-		ploss          = new IOContainer("PLoss",        Unit.WATT,    0.00, ContainerType.THERMAL);
-		pressureloss   = new IOContainer("PressureLoss", Unit.PA,      0.00, ContainerType.FLUIDDYNAMIC);
-		temperaturePipe= new IOContainer("Temperature",  Unit.KELVIN, temperatureInit, ContainerType.THERMAL);
+		ploss          = new IOContainer("PLoss",        new SiUnit(Unit.WATT),    0.00, ContainerType.THERMAL);
+		pressureloss   = new IOContainer("PressureLoss", new SiUnit(Unit.PA),      0.00, ContainerType.FLUIDDYNAMIC);
+		temperaturePipe= new IOContainer("Temperature",  new SiUnit(Unit.KELVIN), temperatureInit, ContainerType.THERMAL);
 		outputs.add(ploss);
 		outputs.add(pressureloss);
 		outputs.add(temperaturePipe);
@@ -242,9 +243,9 @@ public class Pipe extends APhysicalComponent implements Floodable{
 		
 		
 		/* add fluid In/Output */
-		fluidIn        = new FluidContainer("FluidIn", Unit.NONE, ContainerType.FLUIDDYNAMIC);
+		fluidIn        = new FluidContainer("FluidIn", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC);
 		inputs.add(fluidIn);
-		fluidOut        = new FluidContainer("FluidOut", Unit.NONE, ContainerType.FLUIDDYNAMIC);
+		fluidOut        = new FluidContainer("FluidOut", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC);
 		outputs.add(fluidOut);
 		
 		dynamicStates = new ArrayList<DynamicState>();
@@ -308,7 +309,7 @@ public class Pipe extends APhysicalComponent implements Floodable{
 			thermalResistance = 1/thermalResistance;
 		
 		/* calculate pressure loss */
-		pressureloss.setValue(Fluid.pressureLossFriction(fluid.getMaterial(), fluid.getTemperature().getValue(), pipeLength, pipeDiameter, fluid.getFlowRate(), pipeRoughness));
+		pressureloss.setValue(Fluid.pressureLossFrictionPipe(fluid.getMaterial(), fluid.getTemperature().getValue(), pipeLength, pipeDiameter, fluid.getFlowRate(), pipeRoughness));
 		fluidProperties.setPressureDrop(pressureloss.getValue());
 		
 		// set array boundary conditions

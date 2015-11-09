@@ -24,6 +24,7 @@ import ch.ethz.inspire.emod.utils.Floodable;
 import ch.ethz.inspire.emod.utils.FluidContainer;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.model.MachineComponent;
+import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.model.units.Unit;
 
 /**
@@ -130,30 +131,30 @@ public class SimulationOutput {
 			for(MachineComponent mc : mclist) {
 				for (IOContainer input : mc.getComponent().getInputs()) {
 					if(mc.getComponent() instanceof Floodable & input instanceof FluidContainer){
-						outfile.write(separator + "[" + Unit.KELVIN + "]");
-						outfile.write(separator + "[" + Unit.METERCUBIC_S + "]");
-						outfile.write(separator + "[" + Unit.PA + "]");
+						outfile.write(separator + "[" + (new SiUnit(Unit.KELVIN)).toString() + "]");
+						outfile.write(separator + "[" + (new SiUnit(Unit.METERCUBIC_S)).toString() + "]");
+						outfile.write(separator + "[" + (new SiUnit(Unit.PA)).toString() + "]");
 					}
 					else
-						outfile.write(separator + "[" + input.getUnit() + "]");
+						outfile.write(separator + "[" + input.getUnit().toString() + "]");
 				}
 				for (IOContainer output : mc.getComponent().getOutputs()) {
 					if(mc.getComponent() instanceof Floodable & output instanceof FluidContainer){
-						outfile.write(separator + "[" + Unit.KELVIN + "]");
-						outfile.write(separator + "[" + Unit.METERCUBIC_S + "]");
-						outfile.write(separator + "[" + Unit.PA + "]");
+						outfile.write(separator + "[" + (new SiUnit(Unit.KELVIN)).toString() + "]");
+						outfile.write(separator + "[" + (new SiUnit(Unit.METERCUBIC_S)).toString() + "]");
+						outfile.write(separator + "[" + (new SiUnit(Unit.PA)).toString() + "]");
 					}
 					else
-						outfile.write(separator + "[" + output.getUnit() + "]");
+						outfile.write(separator + "[" + output.getUnit().toString() + "]");
 				}
 				if(null!=mc.getComponent().getDynamicStateList())
 					for (DynamicState state : mc.getComponent().getDynamicStateList()){
-						outfile.write(separator + "[" + state.getUnit() +"]" );
+						outfile.write(separator + "[" + state.getUnit().toString() +"]" );
 					}
 			}
 			for(ASimulationControl sc : simlist) {
 				outfile.write(separator + "       ");
-				outfile.write(separator + "[" + sc.getOutput().getUnit() + "]");
+				outfile.write(separator + "[" + sc.getOutput().getUnit().toString() + "]");
 			}
 			outfile.write("\n");
 			

@@ -12,7 +12,8 @@
  ***********************************/
 package ch.ethz.inspire.emod.model.fluid;
 
-import ch.ethz.inspire.emod.model.Material;
+import ch.ethz.inspire.emod.model.material.Material;
+import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.simulation.DynamicState;
 import ch.ethz.inspire.emod.utils.ShiftProperty;
@@ -39,7 +40,7 @@ public class FluidElement {
 	 */
 	public FluidElement(String materialName, double mass){
 		this.material  = new Material(materialName);
-		this.mass      = new DynamicState("Mass", Unit.KG);
+		this.mass      = new DynamicState("Mass", new SiUnit(Unit.KG));
 		this.massInput = new ShiftProperty<Double>(0.0);
 	}
 	
@@ -51,7 +52,7 @@ public class FluidElement {
 	 */
 	public FluidElement(Material material, double mass){
 		this.material  = material;
-		this.mass      = new DynamicState("Mass", Unit.KG);
+		this.mass      = new DynamicState("Mass", new SiUnit(Unit.KG));
 		this.massInput = new ShiftProperty<Double>(0.0);
 	}
 	

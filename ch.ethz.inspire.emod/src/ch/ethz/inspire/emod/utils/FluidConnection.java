@@ -1,7 +1,7 @@
 package ch.ethz.inspire.emod.utils;
 
 import ch.ethz.inspire.emod.model.APhysicalComponent;
-import ch.ethz.inspire.emod.model.Material;
+import ch.ethz.inspire.emod.model.material.Material;
 
 /**
  * class to extend IOConnection to perform with fluids

@@ -139,19 +139,19 @@ public class Cylinder extends APhysicalComponent implements Floodable {
 	{
 		/* Define Input parameters */
 		inputs    = new ArrayList<IOContainer>();
-		force     = new IOContainer("Force",     Unit.NEWTON,     0, ContainerType.MECHANIC);
-		velocity  = new IOContainer("Velocity",  Unit.MM_MIN,     0, ContainerType.MECHANIC);
-		fluidIn   = new FluidContainer("FluidIn", Unit.NONE, ContainerType.FLUIDDYNAMIC);
+		force     = new IOContainer("Force",     new SiUnit(Unit.NEWTON),     0, ContainerType.MECHANIC);
+		velocity  = new IOContainer("Velocity",  new SiUnit(Unit.M_S),     0, ContainerType.MECHANIC);
+		fluidIn   = new FluidContainer("FluidIn", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC);
 		inputs.add(force);
 		inputs.add(velocity);
 		inputs.add(fluidIn);
 		
 		/* Define output parameters */
 		outputs     = new ArrayList<IOContainer>();
-		pmech       = new IOContainer("PUse",       Unit.WATT, 0, ContainerType.MECHANIC);
-		ploss       = new IOContainer("PLoss",      Unit.WATT, 0, ContainerType.THERMAL);
-		phydr       = new IOContainer("PTotal",     Unit.WATT, 0, ContainerType.FLUIDDYNAMIC);
-		fluidOut    = new FluidContainer("FluidOut", Unit.NONE, ContainerType.FLUIDDYNAMIC);
+		pmech       = new IOContainer("PUse",       new SiUnit(Unit.WATT), 0, ContainerType.MECHANIC);
+		ploss       = new IOContainer("PLoss",      new SiUnit(Unit.WATT), 0, ContainerType.THERMAL);
+		phydr       = new IOContainer("PTotal",     new SiUnit(Unit.WATT), 0, ContainerType.FLUIDDYNAMIC);
+		fluidOut    = new FluidContainer("FluidOut", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC);
 		
 		outputs.add(pmech);
 		outputs.add(ploss);
@@ -159,7 +159,7 @@ public class Cylinder extends APhysicalComponent implements Floodable {
 		outputs.add(fluidOut);
 		
 		/* Define state */
-		position = new DynamicState("Position", Unit.M);
+		position = new DynamicState("Position", new SiUnit(Unit.M));
 		dynamicStates = new ArrayList<DynamicState>();
 		dynamicStates.add(position);
 		
@@ -294,7 +294,7 @@ public class Cylinder extends APhysicalComponent implements Floodable {
 		       deltaTemperature;
 		
 		/* Material properties */
-		viscosity    = fluidProperties.getMaterial().getViscosityDynamic(fluidIn.getTemperature(), fluidIn.getPressure());
+		viscosity    = fluidProperties.getMaterial().getViscosityDynamic(fluidIn.getTemperature());
 		density      = fluidProperties.getMaterial().getDensity(fluidIn.getTemperature(), fluidIn.getPressure());
 		heatCapacity = fluidProperties.getMaterial().getHeatCapacity();
 		

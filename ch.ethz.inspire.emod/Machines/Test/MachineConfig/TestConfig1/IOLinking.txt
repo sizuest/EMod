@@ -1,2 +1,0 @@
-Amplifier_1.PDmd = Amplifier.PTotal
-Amplifier.PDmd = ProcessSimulationControl

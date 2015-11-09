@@ -118,17 +118,17 @@ public class Motor extends APhysicalComponent{
 	{
 		/* Define Input parameters */
 		inputs = new ArrayList<IOContainer>();
-		rotspeed = new IOContainer("RotSpeed", Unit.RPM, 0, ContainerType.MECHANIC);
+		rotspeed = new IOContainer("RotSpeed", new SiUnit(Unit.REVOLUTIONS_S), 0, ContainerType.MECHANIC);
 		inputs.add(rotspeed);
-		torque = new IOContainer("Torque", Unit.NEWTONMETER, 0);
+		torque = new IOContainer("Torque", new SiUnit(Unit.NEWTONMETER), 0);
 		inputs.add(torque);
 		
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		pmech      = new IOContainer("PUse",       Unit.WATT, 0, ContainerType.MECHANIC);
-		ploss      = new IOContainer("PLoss",      Unit.WATT, 0, ContainerType.THERMAL);
-		pel        = new IOContainer("PTotal",     Unit.WATT, 0, ContainerType.ELECTRIC);
-		efficiency = new IOContainer("Efficiency", Unit.NONE, 0, ContainerType.INFORMATION);
+		pmech      = new IOContainer("PUse",       new SiUnit(Unit.WATT), 0, ContainerType.MECHANIC);
+		ploss      = new IOContainer("PLoss",      new SiUnit(Unit.WATT), 0, ContainerType.THERMAL);
+		pel        = new IOContainer("PTotal",     new SiUnit(Unit.WATT), 0, ContainerType.ELECTRIC);
+		efficiency = new IOContainer("Efficiency", new SiUnit(Unit.NONE), 0, ContainerType.INFORMATION);
 		outputs.add(pel);
 		outputs.add(ploss);
 		outputs.add(pmech);
@@ -230,7 +230,7 @@ public class Motor extends APhysicalComponent{
 		}
 		
 		lasttorque   = torque.getValue();
-		lastrotspeed = rotspeed.getValue();
+		lastrotspeed = rotspeed.getValue()*60;
 				
 		/* The mechanical power is equal to the product of rotational speed
 		 * and torque. */

@@ -104,15 +104,15 @@ public class Fan extends APhysicalComponent{
 	{
 		/* Define Input parameters */
 		inputs   = new ArrayList<IOContainer>();
-		u    = new IOContainer("level", Unit.NONE, 0, ContainerType.CONTROL);
+		u    = new IOContainer("level", new SiUnit(Unit.NONE), 0, ContainerType.CONTROL);
 		inputs.add(u);
 		
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		pel     = new IOContainer("PTotal",   Unit.WATT, 0, ContainerType.ELECTRIC);
-		ploss   = new IOContainer("PLoss",    Unit.WATT, 0, ContainerType.THERMAL);
-		pmech   = new IOContainer("PUse",     Unit.WATT, 0, ContainerType.FLUIDDYNAMIC);
-		mdot    = new IOContainer("MassFlow", Unit.KG_S, 0, ContainerType.FLUIDDYNAMIC);
+		pel     = new IOContainer("PTotal",   new SiUnit(Unit.WATT), 0, ContainerType.ELECTRIC);
+		ploss   = new IOContainer("PLoss",    new SiUnit(Unit.WATT), 0, ContainerType.THERMAL);
+		pmech   = new IOContainer("PUse",     new SiUnit(Unit.WATT), 0, ContainerType.FLUIDDYNAMIC);
+		mdot    = new IOContainer("MassFlow", new SiUnit(Unit.KG_S), 0, ContainerType.FLUIDDYNAMIC);
 		outputs.add(pel);
 		outputs.add(ploss);
 		outputs.add(pmech);

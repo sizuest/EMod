@@ -100,17 +100,17 @@ public class MovingMass extends APhysicalComponent{
 	{
 		/* Define Input parameters */
 		inputs = new ArrayList<IOContainer>();
-		speed  = new IOContainer("Speed", Unit.MM_MIN, 0, ContainerType.MECHANIC);
+		speed  = new IOContainer("Speed", new SiUnit(Unit.M_S), 0, ContainerType.MECHANIC);
 		inputs.add(speed);
 		
 		
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		force   = new IOContainer("Force", Unit.NEWTON, 0, ContainerType.MECHANIC);
+		force   = new IOContainer("Force", new SiUnit(Unit.NEWTON), 0, ContainerType.MECHANIC);
 		outputs.add(force);
 		
 		/* State */
-		position = new DynamicState("Position", Unit.M);
+		position = new DynamicState("Position", new SiUnit(Unit.M));
 		
 		dynamicStates = new ArrayList<DynamicState>();
 		dynamicStates.add(position);
@@ -147,8 +147,8 @@ public class MovingMass extends APhysicalComponent{
 	@Override
 	public void update() {
 		
-		// Get required speed in m/s (source:mm/min)
-		double curspeed = speed.getValue()/60/1000;
+		// Get required speed in m/s 
+		double curspeed = speed.getValue();
 		
 		position.addValue(curspeed*timestep);
 		

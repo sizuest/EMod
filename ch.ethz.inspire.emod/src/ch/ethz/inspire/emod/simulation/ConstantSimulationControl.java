@@ -16,7 +16,7 @@ import java.util.EnumMap;
 
 import javax.xml.bind.Unmarshaller;
 
-import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.SimulationConfigReader;
 
@@ -28,7 +28,7 @@ public class ConstantSimulationControl extends ASimulationControl{
 	 * @param name
 	 * @param unit
 	 */
-	public ConstantSimulationControl(String name, Unit unit) {
+	public ConstantSimulationControl(String name, SiUnit unit) {
 		this.name = name;
 		this.unit = unit;
 		

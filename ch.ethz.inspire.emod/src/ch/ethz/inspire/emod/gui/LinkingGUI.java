@@ -31,6 +31,7 @@ import org.eclipse.swt.widgets.Text;
 import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.model.MachineComponent;
 import ch.ethz.inspire.emod.simulation.ASimulationControl;
+import ch.ethz.inspire.emod.utils.FluidContainer;
 import ch.ethz.inspire.emod.utils.IOConnection;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
@@ -72,7 +73,7 @@ public class LinkingGUI {
 			//get List of current Machine Components and IOLinkList
 			ArrayList<MachineComponent> components = Machine.getInstance().getMachineComponentList();
 			List<ASimulationControl> mdlInputs     = Machine.getInstance().getInputObjectList();
-			List<IOConnection> linking = Machine.getInstance().getIOLinkList();
+			List<IOConnection> linking             = Machine.getInstance().getIOLinkList();
 						
 			//if one or zero components are added to the machine, output warning and return to main shell
 			if (components.size()+mdlInputs.size()<2){
@@ -107,7 +108,11 @@ public class LinkingGUI {
 		    	//iterate a second time, over the inputs of the current component
 		    	for(IOContainer io:inputs){
 		    		//get the outputs, that can be linked to the current input (from other component, same unit)
-		    		ArrayList<String> outputs = Machine.getOutputList(mc, io.getUnit());	
+		    		ArrayList<String> outputs;
+		    		if(io instanceof FluidContainer)
+		    			outputs = Machine.getFluidOutputList(mc);
+		    		else
+		    			outputs = Machine.getOutputList(mc, io.getUnit());	
 		    		
 		    		//create a textfield to show the name of the component
 		    		textName[i] = new Text(shell, SWT.READ_ONLY | SWT.BORDER);

@@ -19,6 +19,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import ch.ethz.inspire.emod.model.fluid.Fluid;
+import ch.ethz.inspire.emod.model.material.Material;
 import ch.ethz.inspire.emod.model.thermal.ThermalElement;
 import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.simulation.DynamicState;
@@ -139,16 +140,16 @@ public class Tank extends APhysicalComponent implements Floodable {
 	{
 		/* Define Input parameters */
 		inputs         = new ArrayList<IOContainer>();
-		temperatureAmb = new IOContainer("TemperatureAmb", Unit.KELVIN, temperatureInit, ContainerType.THERMAL);
-		pressureAmb    = new IOContainer("PressureAmb", Unit.PA, 0.00, ContainerType.FLUIDDYNAMIC);
-		heatExchangerOut= new IOContainer("HeatExchangerOut", Unit.WATT, 0.00, ContainerType.THERMAL);
+		temperatureAmb = new IOContainer("TemperatureAmb",    new SiUnit(Unit.KELVIN), temperatureInit, ContainerType.THERMAL);
+		pressureAmb    = new IOContainer("PressureAmb",       new SiUnit(Unit.PA), 0.00, ContainerType.FLUIDDYNAMIC);
+		heatExchangerOut= new IOContainer("HeatExchangerOut", new SiUnit(Unit.WATT), 0.00, ContainerType.THERMAL);
 		inputs.add(temperatureAmb);
 		inputs.add(pressureAmb);
 		inputs.add(heatExchangerOut);
 		
 		/* Define output parameters */
 		outputs         = new ArrayList<IOContainer>();		
-		temperatureTank = new IOContainer("TemperatureTank", Unit.KELVIN, temperatureInit, ContainerType.THERMAL);
+		temperatureTank = new IOContainer("TemperatureTank", new SiUnit(Unit.KELVIN), temperatureInit, ContainerType.THERMAL);
 		outputs.add(temperatureTank);
 		
 	
@@ -211,10 +212,10 @@ public class Tank extends APhysicalComponent implements Floodable {
 		}
 		
 		//TODO manick: test for Fluid
-		fluidIn        = new FluidContainer("FluidIn", Unit.NONE, ContainerType.FLUIDDYNAMIC);
+		fluidIn        = new FluidContainer("FluidIn", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC);
 		inputs.add(fluidIn);
 		//TODO manick: test for Fluid
-		fluidOut        = new FluidContainer("FluidOut", Unit.NONE, ContainerType.FLUIDDYNAMIC);
+		fluidOut        = new FluidContainer("FluidOut", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC);
 		outputs.add(fluidOut);
 
 		/* Dynamic state */

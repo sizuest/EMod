@@ -4,7 +4,7 @@ import java.util.List;
 
 import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.model.units.ContainerType;
-import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.model.units.SiUnit;
 
 /**
  * Implementation of a fluid interface on a component
@@ -23,7 +23,7 @@ public class FluidContainer extends IOContainer {
 	 * @param unit
 	 * @param type
 	 */
-	public FluidContainer(String name, Unit unit, ContainerType type){
+	public FluidContainer(String name, SiUnit unit, ContainerType type){
 		super(name, unit, 0.00, type);
 		this.temperature = 293;
 		this.pressure    = 0;

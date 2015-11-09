@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import ch.ethz.inspire.emod.model.Material;
+import ch.ethz.inspire.emod.model.material.Material;
 
 public class FluidTest {
 	
@@ -37,7 +37,7 @@ public class FluidTest {
 		k = 4.286E-5;
 		
 		// Pressure Loss
-		dp = Fluid.pressureLossFriction( new Material("Water"), 293.15, L, D, Q, k);
+		dp = Fluid.pressureLossFrictionPipe( new Material("Water"), 293.15, L, D, Q, k);
 		
 		assertEquals("Pressure loss", 0.038*1000*L/D/2*Math.pow(Q/(Math.pow(D, 2)/4*Math.PI),2), dp, 0.002*1000*L/D/2*Math.pow(Q/(Math.pow(D, 2)/4*Math.PI),2));
 	}

@@ -18,6 +18,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.model.units.Unit;
 
 public class StaticSimulationControlTest {
@@ -26,7 +27,7 @@ public class StaticSimulationControlTest {
 	
 	@Before
 	public void init() {
-		tester = new StaticSimulationControl("test", Unit.NONE);
+		tester = new StaticSimulationControl("test", new SiUnit(Unit.NONE));
 		tester.setSimulationPeriod( 0.2);
 	}
 	

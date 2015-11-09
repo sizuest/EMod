@@ -109,18 +109,18 @@ public class LinAxis extends APhysicalComponent{
 	{
 		/* Define Input parameters */
 		inputs = new ArrayList<IOContainer>();
-		speed  = new IOContainer("Speed",        Unit.MM_MIN, 0, ContainerType.MECHANIC);	
-		force  = new IOContainer("ProcessForce", Unit.NEWTON, 0, ContainerType.MECHANIC);
+		speed  = new IOContainer("Speed",        new SiUnit(Unit.M_S), 0, ContainerType.MECHANIC);	
+		force  = new IOContainer("ProcessForce", new SiUnit(Unit.NEWTON), 0, ContainerType.MECHANIC);
 		inputs.add(speed);
 		inputs.add(force);
 		
 		/* Define output parameters */
 		outputs  = new ArrayList<IOContainer>();
-		torque   = new IOContainer("Torque",   Unit.NEWTONMETER, 0, ContainerType.MECHANIC);
-		rotspeed = new IOContainer("RotSpeed", Unit.RPM,         0, ContainerType.MECHANIC);
-		puse     = new IOContainer("PUse",     Unit.WATT,        0, ContainerType.MECHANIC);
-		ploss    = new IOContainer("PLoss",    Unit.WATT,        0, ContainerType.THERMAL);
-		ptotal   = new IOContainer("PTotal",   Unit.WATT,        0, ContainerType.MECHANIC);
+		torque   = new IOContainer("Torque",   new SiUnit(Unit.NEWTONMETER),   0, ContainerType.MECHANIC);
+		rotspeed = new IOContainer("RotSpeed", new SiUnit(Unit.REVOLUTIONS_S), 0, ContainerType.MECHANIC);
+		puse     = new IOContainer("PUse",     new SiUnit(Unit.WATT),          0, ContainerType.MECHANIC);
+		ploss    = new IOContainer("PLoss",    new SiUnit(Unit.WATT),          0, ContainerType.THERMAL);
+		ptotal   = new IOContainer("PTotal",   new SiUnit(Unit.WATT),          0, ContainerType.MECHANIC);
 		outputs.add(torque);
 		outputs.add(rotspeed);
 		outputs.add(puse);
@@ -195,27 +195,27 @@ public class LinAxis extends APhysicalComponent{
 	@Override
 	public void update() {
 		
-		lastspeed = speed.getValue(); // [mm/min]
+		lastspeed = speed.getValue(); // [m/s]
 		lastforce = force.getValue(); // [N]
 		
 		/* Rotation speed
 		 * The requested rotational speed is given by the transmission
 		 */
-		rotspeed.setValue(lastspeed/transmission);
+		rotspeed.setValue(lastspeed*1000/transmission);
 		
 		/* Torque
 		 * The absolute torque needed to overcome the friction is given as
 		 * T = k*(Fp-m*g*cos alpha)
 		 * 
-		 * Remark: transmission is [mm/rev]
+		 * Remark: transmission is [m/rev]
 		 */
-		torque.setValue(transmission/1000 * ( lastforce - mass*9.81*Math.cos(alpha*Math.PI/180) ) );
+		torque.setValue(transmission * ( lastforce - mass*9.81*Math.cos(alpha*Math.PI/180) ) );
 		/* Powers
-		 * PUse [W] = v [mm/min] * 1000/60 [min*m/mm/s] * F [N]
+		 * PUse [W] = v [m/s] * F [N]
 		 * PTotal [W] = omega [rpm] * 2*pi/60 [rad/s/rpm] * T [N]
 		 * PLoss [W] = PTotal [W] - PUse [W];
 		 */
-		puse.setValue(lastspeed*lastforce*1000/60);
+		puse.setValue(lastspeed*2*Math.PI*lastforce);
 		ptotal.setValue(rotspeed.getValue()*torque.getValue()*2*Math.PI/60);
 		ploss.setValue(ptotal.getValue()-puse.getValue());
 	}

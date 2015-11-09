@@ -7,6 +7,7 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 
 import ch.ethz.inspire.emod.model.*;
+import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.simulation.ASimulationControl;
 import ch.ethz.inspire.emod.utils.FluidConnection;
@@ -38,8 +39,8 @@ public class MachineTest {
 		
 		Machine.clearMachine();
 		
-		ASimulationControl sc1 = Machine.addNewInputObject("ProcessSimulationControl", Unit.WATT);
-		ASimulationControl sc2 = Machine.addNewInputObject("ProcessSimulationControl", Unit.WATT);
+		ASimulationControl sc1 = Machine.addNewInputObject("ProcessSimulationControl", new SiUnit(Unit.WATT));
+		ASimulationControl sc2 = Machine.addNewInputObject("ProcessSimulationControl", new SiUnit(Unit.WATT));
 
 		try {
 			assertEquals("get component by name", sc2, Machine.getInputObject("ProcessSimulationControl_1"));
@@ -58,7 +59,7 @@ public class MachineTest {
 		MachineComponent mc1 = Machine.addNewMachineComponent("Amplifier", "Example");
 		MachineComponent mc2 = Machine.addNewMachineComponent("Amplifier", "Example");
 		MachineComponent mc3 = Machine.addNewMachineComponent("Amplifier", "Example");
-		ASimulationControl sc1 = Machine.addNewInputObject("ProcessSimulationControl", Unit.WATT);
+		ASimulationControl sc1 = Machine.addNewInputObject("ProcessSimulationControl", new SiUnit(Unit.WATT));
 		
 		// Add some connections
 		Machine.addIOLink(mc1.getComponent().getOutput("PTotal"), mc2.getComponent().getInput("PDmd"));
@@ -89,7 +90,7 @@ public class MachineTest {
 		
 		MachineComponent mc1 = Machine.addNewMachineComponent("Amplifier", "Example");
 		MachineComponent mc2 = Machine.addNewMachineComponent("Amplifier", "Example");
-		ASimulationControl sc1 = Machine.addNewInputObject("ProcessSimulationControl", Unit.WATT);
+		ASimulationControl sc1 = Machine.addNewInputObject("ProcessSimulationControl", new SiUnit(Unit.WATT));
 		
 		// Add some connections
 		Machine.addIOLink(mc1.getComponent().getOutput("PTotal"), mc2.getComponent().getInput("PDmd"));
@@ -111,7 +112,7 @@ public class MachineTest {
 		Machine.clearMachine();
 		
 		MachineComponent mc1 = Machine.addNewMachineComponent("Motor", "Siemens_1FE1115-6WT11");
-		ASimulationControl sc1 = Machine.addNewInputObject("ProcessSimulationControl", Unit.WATT);
+		ASimulationControl sc1 = Machine.addNewInputObject("ProcessSimulationControl", new SiUnit(Unit.WATT));
 		
 		Machine.renameMachineComponent("Motor", "Spindel");
 		Machine.renameInputObject("ProcessSimulationControl", "Leistung");
@@ -131,12 +132,12 @@ public class MachineTest {
 		MachineComponent mc;
 		
 		mc = Machine.addNewMachineComponent("Motor", "Siemens_1FE1115-6WT11");
-		Machine.addNewInputObject("ProcessSimulationControl", Unit.WATT);
+		Machine.addNewInputObject("ProcessSimulationControl", new SiUnit(Unit.WATT));
 		
 		try {
 			assertEquals("number of outputs", 5, Machine.getOutputList().size());
-			assertEquals("number of outputs in WATT", 4, Machine.getOutputList(Unit.WATT).size());
-			assertEquals("number of outputs in WATT without the motor", 1, Machine.getOutputList(mc, Unit.WATT).size());
+			assertEquals("number of outputs in WATT", 4, Machine.getOutputList(new SiUnit(Unit.WATT)).size());
+			assertEquals("number of outputs in WATT without the motor", 1, Machine.getOutputList(mc, new SiUnit(Unit.WATT)).size());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -150,7 +151,7 @@ public class MachineTest {
 		// Add some components
 		MachineComponent mc1 = Machine.addNewMachineComponent("Amplifier", "Example");
 		MachineComponent mc2 = Machine.addNewMachineComponent("Amplifier", "Example");
-		ASimulationControl sc1 = Machine.addNewInputObject("ProcessSimulationControl", Unit.WATT);
+		ASimulationControl sc1 = Machine.addNewInputObject("ProcessSimulationControl", new SiUnit(Unit.WATT));
 		
 		// Add some connections
 		Machine.addIOLink(mc1.getComponent().getOutput("PTotal"), mc2.getComponent().getInput("PDmd"));

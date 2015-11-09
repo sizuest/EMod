@@ -145,7 +145,7 @@ public class EditMachineComponentGUI {
  	 * @param type 
  	 * @param parameter 
 	 */
-    public void editMachineComponentGUI(String type, String parameter){
+    public void editMachineComponentGUI(final String type, final String parameter){
     	shell = new Shell(Display.getCurrent());
         shell.setText(LocalizationHandler.getItem("app.gui.compdb.editcomp"));
     	shell.setLayout(new GridLayout(1, false));
@@ -157,7 +157,8 @@ public class EditMachineComponentGUI {
     	
     	String[] titles =  {LocalizationHandler.getItem("app.gui.compdb.property"),
     						LocalizationHandler.getItem("app.gui.compdb.value"),
-							" "};
+    						LocalizationHandler.getItem("app.gui.compdb.unit"),
+							LocalizationHandler.getItem("app.gui.compdb.description")};
 		for(int i=0; i < titles.length; i++){
 			TableColumn column = new TableColumn(tableComponent, SWT.NULL);
 			column.setText(titles[i]);
@@ -257,14 +258,19 @@ public class EditMachineComponentGUI {
 				itemProp.setText(1, value);
 				
 				/* SPECIAL CASE: Material */
-				if(key.matches("[a-zA-Z]+Material")){
+				if(key.matches("[a-zA-Z]*Material")){
 					final Button selectMaterialButton = new Button(tableComponent, SWT.PUSH);
 					selectMaterialButton.setText("...");
 					selectMaterialButton.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, true, 1, 1));
 					selectMaterialButton.addSelectionListener(new SelectionListener(){
 			        	public void widgetSelected(SelectionEvent event){
 			        		SelectMaterialGUI matGUI = new SelectMaterialGUI();
-			        		matGUI.getSelectionToTable(itemProp, 1);
+			        		try{
+			        			matGUI.getSelectionToTable(itemProp.getClass().getDeclaredMethod("setText", String.class), itemProp);
+			        		}
+			        		catch (Exception e){
+			        			e.printStackTrace();
+			        		}
 			        	}
 			        	public void widgetDefaultSelected(SelectionEvent event){
 			        		
@@ -283,8 +289,7 @@ public class EditMachineComponentGUI {
 					selectMaterialButton.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, true, 1, 1));
 					selectMaterialButton.addSelectionListener(new SelectionListener(){
 			        	public void widgetSelected(SelectionEvent event){
-			        		SelectMachineComponentGUI compGUI= new SelectMachineComponentGUI();
-			        		compGUI.getSelectionToTable(mdlType, itemProp, 1);			        		
+			        		openModelSelectGUI(type, itemProp);
 			        	}
 			        	public void widgetDefaultSelected(SelectionEvent event){
 			        		
@@ -294,6 +299,27 @@ public class EditMachineComponentGUI {
 					editorButton.minimumWidth = selectMaterialButton.getSize().x;
 					editorButton.horizontalAlignment = SWT.LEFT;
 			        editorButton.setEditor(selectMaterialButton, itemProp, 2);
+				}
+				
+				/* SPECIAL CASE: Duct */
+				else if(key.matches("[a-zA-Z]+Duct")){
+					final String name = value;
+					final Button editDuctButton = new Button(tableComponent, SWT.PUSH);
+					editDuctButton.setText("...");
+					editDuctButton.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, true, 1, 1));
+					editDuctButton.addSelectionListener(new SelectionListener(){
+			        	public void widgetSelected(SelectionEvent event){
+			        		DuctDesignGUI ductGUI= new DuctDesignGUI();
+			        		ductGUI.editDuctGUI(type, parameter,  name);			        		
+			        	}
+			        	public void widgetDefaultSelected(SelectionEvent event){
+			        		
+			        	}
+			        });
+					editDuctButton.pack();
+					editorButton.minimumWidth = editDuctButton.getSize().x;
+					editorButton.horizontalAlignment = SWT.LEFT;
+			        editorButton.setEditor(editDuctButton, itemProp, 2);
 				}
 			}
 			catch(Exception e){
@@ -316,8 +342,13 @@ public class EditMachineComponentGUI {
 	    		
 	    		TableItem[] columns = tableComponent.getItems();
 	    		
-	    		for(int i=2; i<columns.length; i++){
-	    			props.setValue( columns[i].getText(0), columns[i].getText(1));
+	    		try {
+		    		for(int i=2; i<columns.length; i++){
+		    			props.setValue( columns[i].getText(0), columns[i].getText(1));
+		    		}
+	    		}
+	    		catch(Exception e){
+	    			System.err.println("Failed to write parameter file");
 	    		}
 	    		
 	    		//update the component DB on the right hand side of the model gui tabel
@@ -453,6 +484,22 @@ public class EditMachineComponentGUI {
 	        //open the new shell
 			shell.open();
 	}
+    
+    public void openModelSelectGUI(String type, TableItem item){
+    	SelectMachineComponentGUI compGUI= new SelectMachineComponentGUI();		        		
+		try {
+			compGUI.getSelectionToTable(type, this.getClass().getDeclaredMethod("setModelType", String.class, TableItem.class, boolean.class), this, item);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    }
+    
+    public void setModelType(String type, TableItem item){
+    	if(item.getText().matches(""))
+			item.setText(1, type);
+		else
+			item.setText(1, item.getText(1)+", "+type);
+    }
     
  	/**
 	 * closes the MachineComponentGUI

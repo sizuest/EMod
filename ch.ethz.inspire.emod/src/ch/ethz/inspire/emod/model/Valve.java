@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import ch.ethz.inspire.emod.model.units.ContainerType;
+import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.utils.Algo;
 import ch.ethz.inspire.emod.utils.Floodable;
@@ -129,11 +130,11 @@ public class Valve extends APhysicalComponent implements Floodable{
 	{
 		/* Define Input parameters */
 		inputs       = new ArrayList<IOContainer>();
-		pressureOut  = new IOContainer("PressureOut",  Unit.PA,           0, ContainerType.FLUIDDYNAMIC);
-		massflowOut  = new IOContainer("MassFlowOut",  Unit.KG_S,         0, ContainerType.FLUIDDYNAMIC);
-		density		 = new IOContainer("Density",      Unit.KG_MCUBIC, 1000, ContainerType.FLUIDDYNAMIC);
-		valveCtrl	 = new IOContainer("ValveCtrl",    Unit.NONE,         1, ContainerType.CONTROL);
-		pumpPressure = new IOContainer("PumpPressure", Unit.PA,           0, ContainerType.FLUIDDYNAMIC);
+		pressureOut  = new IOContainer("PressureOut",  new SiUnit(Unit.PA),           0, ContainerType.FLUIDDYNAMIC);
+		massflowOut  = new IOContainer("MassFlowOut",  new SiUnit(Unit.KG_S),         0, ContainerType.FLUIDDYNAMIC);
+		density		 = new IOContainer("Density",      new SiUnit(Unit.KG_MCUBIC), 1000, ContainerType.FLUIDDYNAMIC);
+		valveCtrl	 = new IOContainer("ValveCtrl",    new SiUnit(Unit.NONE),         1, ContainerType.CONTROL);
+		pumpPressure = new IOContainer("PumpPressure", new SiUnit(Unit.PA),           0, ContainerType.FLUIDDYNAMIC);
 		inputs.add(pressureOut);
 		inputs.add(massflowOut);
 		inputs.add(density);
@@ -142,11 +143,11 @@ public class Valve extends APhysicalComponent implements Floodable{
 		
 		/* Define output parameters */
 		outputs   = new ArrayList<IOContainer>();
-		pressureIn  = new IOContainer("PressureIn",   Unit.PA,   0, ContainerType.FLUIDDYNAMIC);
-		massflowIn  = new IOContainer("MassFlowIn",   Unit.KG_S, 0, ContainerType.FLUIDDYNAMIC);
-		ploss       = new IOContainer("PLoss",        Unit.WATT, 0, ContainerType.THERMAL);
-		pressureloss= new IOContainer("PressureLoss", Unit.PA,   0, ContainerType.FLUIDDYNAMIC);
-		pel			= new IOContainer("PTotal",	      Unit.WATT, 0, ContainerType.ELECTRIC);
+		pressureIn  = new IOContainer("PressureIn",   new SiUnit(Unit.PA),   0, ContainerType.FLUIDDYNAMIC);
+		massflowIn  = new IOContainer("MassFlowIn",   new SiUnit(Unit.KG_S), 0, ContainerType.FLUIDDYNAMIC);
+		ploss       = new IOContainer("PLoss",        new SiUnit(Unit.WATT), 0, ContainerType.THERMAL);
+		pressureloss= new IOContainer("PressureLoss", new SiUnit(Unit.PA),   0, ContainerType.FLUIDDYNAMIC);
+		pel			= new IOContainer("PTotal",	      new SiUnit(Unit.WATT), 0, ContainerType.ELECTRIC);
 		outputs.add(pressureIn);
 		outputs.add(massflowIn);
 		outputs.add(ploss);
