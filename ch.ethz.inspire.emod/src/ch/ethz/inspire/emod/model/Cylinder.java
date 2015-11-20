@@ -137,11 +137,14 @@ public class Cylinder extends APhysicalComponent implements Floodable {
 	 */
 	private void init()
 	{
+		/* Fluid Properties */
+		fluidProperties = new FluidCircuitProperties();
+		
 		/* Define Input parameters */
 		inputs    = new ArrayList<IOContainer>();
 		force     = new IOContainer("Force",     new SiUnit(Unit.NEWTON),     0, ContainerType.MECHANIC);
 		velocity  = new IOContainer("Velocity",  new SiUnit(Unit.M_S),     0, ContainerType.MECHANIC);
-		fluidIn   = new FluidContainer("FluidIn", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC);
+		fluidIn   = new FluidContainer("FluidIn", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidProperties);
 		inputs.add(force);
 		inputs.add(velocity);
 		inputs.add(fluidIn);
@@ -151,7 +154,7 @@ public class Cylinder extends APhysicalComponent implements Floodable {
 		pmech       = new IOContainer("PUse",       new SiUnit(Unit.WATT), 0, ContainerType.MECHANIC);
 		ploss       = new IOContainer("PLoss",      new SiUnit(Unit.WATT), 0, ContainerType.THERMAL);
 		phydr       = new IOContainer("PTotal",     new SiUnit(Unit.WATT), 0, ContainerType.FLUIDDYNAMIC);
-		fluidOut    = new FluidContainer("FluidOut", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC);
+		fluidOut    = new FluidContainer("FluidOut", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidProperties);
 		
 		outputs.add(pmech);
 		outputs.add(ploss);
@@ -163,8 +166,7 @@ public class Cylinder extends APhysicalComponent implements Floodable {
 		dynamicStates = new ArrayList<DynamicState>();
 		dynamicStates.add(position);
 		
-		/* Fluid Properties */
-		fluidProperties = new FluidCircuitProperties();
+		
 
 			
 		/* ************************************************************************/
@@ -310,6 +312,7 @@ public class Cylinder extends APhysicalComponent implements Floodable {
 		}
 		
 		position.addValue(deltaPosition);
+		position.setTimestep(timestep);
 		velocity = position.getTimeDerivate();
 		
 		
@@ -368,9 +371,10 @@ public class Cylinder extends APhysicalComponent implements Floodable {
 	}
 
 	@Override
-	public FluidCircuitProperties getFluidProperties() {
-		// TODO Auto-generated method stub
-		return fluidProperties;
+	public ArrayList<FluidCircuitProperties> getFluidPropertiesList() {
+		ArrayList<FluidCircuitProperties> out = new ArrayList<FluidCircuitProperties>();
+		out.add(fluidProperties);
+		return out;
 	}
 	
 }

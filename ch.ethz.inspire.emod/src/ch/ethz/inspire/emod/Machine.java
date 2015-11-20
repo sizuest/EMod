@@ -318,6 +318,10 @@ public class Machine {
 		}
 	}
 	
+	public static void loadIOLinking(String file){
+		makeInputOutputLinkList(file);
+	}
+	
 	/**
 	 * Saves the component linking
 	 * @param file
@@ -351,17 +355,17 @@ public class Machine {
 				target = "";
 				// Simulators
 				for (ASimulationControl sc : simulators){
-					if(sc.getOutput().equals(io.getSource())){
+					if(sc.getOutput().equals(io.getSource().getReference())){
 						source = sc.getName();
 						break;
 					}
 				}
 				// Components
 				for (MachineComponent mc : components){
-					if(mc.getComponent().getInputs().contains(io.getTarget()))
-						target = mc.getName()+"."+io.getTarget().getName();
-					if(mc.getComponent().getOutputs().contains(io.getSource()))
-						source = mc.getName()+"."+io.getSource().getName();
+					if(mc.getComponent().getInputs().contains(io.getTarget().getReference()))
+						target = mc.getName()+"."+io.getTarget().getReference().getName();
+					if(mc.getComponent().getOutputs().contains(io.getSource().getReference()))
+						source = mc.getName()+"."+io.getSource().getReference().getName();
 					if(!source.isEmpty() & !target.isEmpty())
 						break;
 				}
@@ -459,7 +463,8 @@ public class Machine {
 					boolean sourceFluid = false;
 					
 					//when handling a FluidConnection
-					if(tempTar.getName().equals("FluidIn")){
+					//if(tempTar.getName().equals("FluidIn")){
+					if(tempTar instanceof FluidContainer){
 						targetFluid = true;
 					}
 					
@@ -493,7 +498,8 @@ public class Machine {
 						}
 						
 						//when handling a FluidConnection
-						if(tempSource.getName().equals("FluidOut")){
+						//if(tempSource.getName().equals("FluidOut")){
+						if(tempSource instanceof FluidContainer){
 							sourceFluid = true;
 						}
 						
@@ -517,7 +523,8 @@ public class Machine {
 					try {
 						if(targetFluid && sourceFluid){//create a FluidConnection
 							//Machine.getInstance().connectionList.add(new FluidConnection(inmc.getComponent(), outmc.getComponent()));
-							Machine.getInstance().connectionList.add(new FluidConnection(outmc.getComponent(), inmc.getComponent()));
+							//Machine.getInstance().connectionList.add(new FluidConnection(outmc.getComponent(), inmc.getComponent()));
+							Machine.getInstance().connectionList.add(new FluidConnection((FluidContainer)tempSource, (FluidContainer)tempTar));
 						} 
 						else {//create a IOConnection
 							Machine.getInstance().connectionList.add(new IOConnection(tempSource, tempTar));
@@ -1199,7 +1206,7 @@ public class Machine {
 		
 		for(MachineComponent mc : getInstance().getMachineComponentList()){
 			for(IOContainer io : mc.getComponent().getOutputs()){
-				if(io.equals(container)){
+				if(io.equals(container.getReference())){
 					out = mc.getName()+"."+io.getName();
 					break;
 				}
@@ -1210,7 +1217,7 @@ public class Machine {
 		
 		if(out==null)
 			for(ASimulationControl sc : getInstance().getInputObjectList()){
-				if(sc.getOutput().equals(container)){
+				if(sc.getOutput().equals(container.getReference())){
 					out = sc.getName();
 					break;
 				}

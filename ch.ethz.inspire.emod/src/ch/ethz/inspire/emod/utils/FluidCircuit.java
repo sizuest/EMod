@@ -28,12 +28,23 @@ public class FluidCircuit {
 	 * used in FluidConnection to flood the components following a tank
 	 * @param source 
 	 * @param target 
+	 * @deprecated
 	 */
 	public static void floodCircuit(APhysicalComponent source, APhysicalComponent target){
 		// Set Fluid properties
 		if(source instanceof Floodable & target instanceof Floodable){
-			((Floodable)source).getFluidProperties().setPost(((Floodable)target).getFluidProperties());
+			((Floodable)source).getFluidPropertiesList().get(0).setPost(((Floodable)target).getFluidPropertiesList().get(0));
 		}		
+	}
+	
+	/**
+	 * used in FluidConnection to flood the components following a tank
+	 * @param source 
+	 * @param target
+	 */
+	public static void floodCircuit(FluidContainer source, FluidContainer target){
+		// Set Fluid properties
+		source.getFluidCircuitProperties().setPost(target.getFluidCircuitProperties());
 	}
 	
 	

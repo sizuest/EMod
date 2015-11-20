@@ -30,7 +30,7 @@ public class PressureReference extends APhysicalComponent implements Floodable{
 	 */
 	public PressureReference(double pressureDrop){
 		init();
-		this.getFluidProperties().setPressureDrop(pressureDrop);
+		this.getFluidPropertiesList().get(0).setPressureDrop(pressureDrop);
 	}
 	
 	private void init()
@@ -38,24 +38,26 @@ public class PressureReference extends APhysicalComponent implements Floodable{
 		inputs         = new ArrayList<IOContainer>();
 		outputs        = new ArrayList<IOContainer>();
 		
-		/* Define FluidIn parameter */
-		fluidIn        = new FluidContainer("FluidIn", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC);
-		inputs.add(fluidIn);
-
-		/* Define FluidOut parameter */
-		fluidOut        = new FluidContainer("FluidOut", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC);
-		outputs.add(fluidOut);
-		
 		/* Define FlowRate */
 		fluidProperties = new FluidCircuitProperties();
 		fluidProperties.setMaterial(new Material("Example"));
+		
+		/* Define FluidIn parameter */
+		fluidIn        = new FluidContainer("FluidIn", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidProperties);
+		inputs.add(fluidIn);
+
+		/* Define FluidOut parameter */
+		fluidOut        = new FluidContainer("FluidOut", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidProperties);
+		outputs.add(fluidOut);
+		
+
 	}
 	
 	/**
 	 * @param pressureDrop [Pa]
 	 */
 	public void setPressureDrop(double pressureDrop){
-		this.getFluidProperties().setPressureDrop(pressureDrop);
+		this.getFluidPropertiesList().get(0).setPressureDrop(pressureDrop);
 	}
 
 	@Override
@@ -77,9 +79,10 @@ public class PressureReference extends APhysicalComponent implements Floodable{
 	}
 
 	@Override
-	public FluidCircuitProperties getFluidProperties() {
-		// TODO Auto-generated method stub
-		return fluidProperties;
+	public ArrayList<FluidCircuitProperties> getFluidPropertiesList() {
+		ArrayList<FluidCircuitProperties> out = new ArrayList<FluidCircuitProperties>();
+		out.add(fluidProperties);
+		return out;
 	}
 
 }

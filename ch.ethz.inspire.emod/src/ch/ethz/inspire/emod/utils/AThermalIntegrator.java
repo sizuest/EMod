@@ -45,7 +45,8 @@ import ch.ethz.inspire.emod.simulation.DynamicState;
 public abstract class AThermalIntegrator {
 	private ArrayList<ShiftProperty<Double>> A, B;
 	protected ArrayList<ShiftProperty<Double>> temperature;
-	protected ShiftProperty<Double> mDotIn, mDotOut, pressure;
+	protected ShiftProperty<Double> mDotIn, mDotOut; 
+	protected ShiftProperty<Double> pressure;
 	protected DynamicState massState, temperatureState;
 	protected Material material;
 	protected int numElements = 1;
@@ -64,7 +65,6 @@ public abstract class AThermalIntegrator {
 	 * Constructor
 	 */
 	public AThermalIntegrator(){
-		this.numElements = 1;
 		init();
 	}
 	
@@ -74,8 +74,9 @@ public abstract class AThermalIntegrator {
 		
 		temperature = new ArrayList<ShiftProperty<Double>>();
 		
-		mDotIn   = new ShiftProperty<Double>(0.0);
-		mDotOut  = new ShiftProperty<Double>(0.0);
+		mDotIn  = new ShiftProperty<Double>(0.0);
+		mDotOut = new ShiftProperty<Double>(0.0);
+		
 		pressure  = new ShiftProperty<Double>(0.0);
 		
 		massState        = new DynamicState("Mass", new SiUnit(Unit.KG));
@@ -195,6 +196,10 @@ public abstract class AThermalIntegrator {
 		 * 
 		 *  m[k+1] = m[k] + Ts/2*(mDotIn[k]+mDotIn[k+1]-mDotOut[k]-mDotOut[k+1])
 		 */
+		ShiftProperty<Double> mDotIn, mDotOut;
+		mDotIn  = getMassFlowIn();
+		mDotOut = getMassFlowOut();
+		
 		massState.setValue(massState.getValue() + timestep/2*(mDotIn.getCurrent()+mDotIn.getLast()-mDotOut.getCurrent()-mDotOut.getLast()));
 		
 		/*
@@ -213,6 +218,14 @@ public abstract class AThermalIntegrator {
 		/* Bulk temperature as system state */
 		temperatureState.setValue(getTemperatureBulk());
 		
+	}
+	
+	protected ShiftProperty<Double> getMassFlowIn(){
+		return mDotIn;
+	}
+	
+	protected ShiftProperty<Double> getMassFlowOut(){
+		return mDotOut;
 	}
 	
 	/**

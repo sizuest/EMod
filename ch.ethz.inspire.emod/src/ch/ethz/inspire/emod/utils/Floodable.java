@@ -12,6 +12,8 @@
  ***********************************/
 package ch.ethz.inspire.emod.utils;
 
+import java.util.ArrayList;
+
 /**
  * Interface to define common methods of Floodable Machine Components, such as:
  * - Pipe, Tank, Pump
@@ -24,15 +26,13 @@ package ch.ethz.inspire.emod.utils;
  *
  */
 public interface Floodable {
-	
 
 	/**
 	 * method to get the fluidtype of a floodable component
 	 * needs to be overriden by the component
 	 * @return fluidType
 	 */
-	public FluidCircuitProperties getFluidProperties();	
-	
+	public ArrayList<FluidCircuitProperties> getFluidPropertiesList();
 
 
 }

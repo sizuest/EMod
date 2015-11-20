@@ -26,9 +26,9 @@ public class TankTest {
 		//tank1.getInput("PressureAmb").setValue(105000);
 		
 		//set ambient temperature and fluidin/fluidout values (8.65 l/min equals 0.000144166667 m^3/s)
-		((FluidContainer)tank1.getInput("FluidIn")).  setValues(293, 1);
+		((FluidContainer)tank1.getInput("FluidIn")).setValues(293, 1);
 		((FluidContainer)tank1.getOutput("FluidOut")).setValues(293, 1);
-		tank1.getFluidProperties().setFlowRateIn(0.000144);
+		((FluidContainer)tank1.getInput("FluidIn")).getFluidCircuitProperties().setFlowRateIn(0.000144);
 		
 		//tank1.getInput("HeatFlowIn").setValue(100);
 		
@@ -47,7 +47,7 @@ public class TankTest {
 		
 		((FluidContainer)tank.getInput("FluidIn")).setValues(304, 100000);
 		((FluidContainer)tank.getOutput("FluidOut")).setValues(303, 100000);
-		tank.getFluidProperties().setFlowRateIn(0.00014);
+		((FluidContainer)tank.getInput("FluidIn")).getFluidCircuitProperties().setFlowRateIn(0.00014);
 		
 		//tank.getInput("HeatFlowIn").setValue(1);
 		

@@ -80,7 +80,7 @@ public class AnalysisGUI extends AEvaluationGUI {
 		aTabFolder.setUnselectedCloseVisible(false);
 		aTabFolder.setSimple(false);
 		
-		update();
+		//update();
 	}
 	
 	@Override

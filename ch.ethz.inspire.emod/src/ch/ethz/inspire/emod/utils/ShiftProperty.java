@@ -32,6 +32,16 @@ public class ShiftProperty<T> {
 	}
 	
 	/**
+	 * Creates a new object with current and last property value equal to the arguments
+	 * @param value
+	 * @param lastvalue 
+	 */
+	public ShiftProperty(T value, T lastvalue){
+		this.last    = value;
+		this.current = lastvalue;
+	}
+	
+	/**
 	 * 
 	 */
 	public ShiftProperty(){

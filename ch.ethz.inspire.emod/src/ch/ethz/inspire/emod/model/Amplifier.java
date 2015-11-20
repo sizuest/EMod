@@ -67,7 +67,10 @@ public class Amplifier extends APhysicalComponent{
 	
 	// Input parameters:
 	private IOContainer pdmd;
-	private IOContainer level;
+	private IOContainer state;
+	
+	private ArrayList<IOContainer> inputsDyn;
+	
 	// Output parameters:
 	private IOContainer ploss;
 	private IOContainer pel;
@@ -115,10 +118,11 @@ public class Amplifier extends APhysicalComponent{
 	private void init()
 	{		
 		/* Define Input parameters */
-		inputs = new ArrayList<IOContainer>();
-		level = new IOContainer("State", new SiUnit(Unit.NONE), 0, ContainerType.CONTROL);
+		inputs    = new ArrayList<IOContainer>();
+		inputsDyn = new ArrayList<IOContainer>();
+		state = new IOContainer("State", new SiUnit(Unit.NONE), 0, ContainerType.CONTROL);
 		pdmd  = new IOContainer("PDmd",  new SiUnit(Unit.WATT), 0, ContainerType.ELECTRIC);
-		inputs.add(level);
+		inputs.add(state);
 		inputs.add(pdmd);
 		
 		/* Define output parameters */
@@ -199,6 +203,23 @@ public class Amplifier extends APhysicalComponent{
 				}
 		}
 	}
+    
+    @Override
+    public IOContainer getInput(String name){
+    	IOContainer temp = null;
+    	if(name.equals(pdmd.getName())){
+    		temp = new IOContainer(pdmd.getName()+(inputsDyn.size()+1), pdmd);
+    		inputsDyn.add(temp);
+    		inputs.add(temp);
+    	}
+    	else
+    		for(IOContainer io:inputs)
+    			if(name.equals(io.getName()))
+    				temp = io;
+    	
+    	return temp;
+    	
+    }
 	
 
 	/* (non-Javadoc)
@@ -206,9 +227,13 @@ public class Amplifier extends APhysicalComponent{
 	 */
 	@Override
 	public void update() {
+    		
+		double psum = 0; 
+		for(IOContainer io: inputsDyn)
+			psum+=io.getValue();
+		pdmd.setValue(psum);
 		
-		
-		if (0!=level.getValue()){
+		if (0!=state.getValue()){
 			pctrl.setValue(powerCtrl);
 			/*
 			 * Get efficiency from the configured sample values by linear interpolation.

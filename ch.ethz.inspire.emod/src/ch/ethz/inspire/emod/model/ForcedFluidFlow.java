@@ -91,6 +91,10 @@ public class ForcedFluidFlow  extends APhysicalComponent implements Floodable{
 	}
 	
 	private void init()	{
+		// Flow rate Obj
+		fluidProperties = new FluidCircuitProperties();
+		fluidProperties.setPressureReference(fluidOut);
+		
 		//add inputs
 		inputs = new ArrayList<IOContainer>();
 		temperatureIn = new IOContainer("TemperatureIn",new SiUnit(Unit.KELVIN), 293.15, ContainerType.THERMAL);
@@ -108,14 +112,12 @@ public class ForcedFluidFlow  extends APhysicalComponent implements Floodable{
 		outputs.add(pressureLoss);
 		
 		//add fluid In/Output
-		fluidIn        = new FluidContainer("FluidIn", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC);
+		fluidIn        = new FluidContainer("FluidIn", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidProperties);
 		inputs.add(fluidIn);
-		fluidOut        = new FluidContainer("FluidOut", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC);
+		fluidOut        = new FluidContainer("FluidOut", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidProperties);
 		outputs.add(fluidOut);
 		
-		// Flow rate Obj
-		fluidProperties = new FluidCircuitProperties();
-		fluidProperties.setPressureReference(fluidOut);
+		
 		
 		
 		/* ************************************************************************/
@@ -167,8 +169,10 @@ public class ForcedFluidFlow  extends APhysicalComponent implements Floodable{
 
 
 	@Override
-	public FluidCircuitProperties getFluidProperties() {
-		return this.fluidProperties;
+	public ArrayList<FluidCircuitProperties> getFluidPropertiesList() {
+		ArrayList<FluidCircuitProperties> out = new ArrayList<FluidCircuitProperties>();
+		out.add(fluidProperties);
+		return out;
 	}
 
 

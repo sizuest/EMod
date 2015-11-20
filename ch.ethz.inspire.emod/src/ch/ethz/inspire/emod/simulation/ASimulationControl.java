@@ -129,6 +129,7 @@ public abstract class ASimulationControl {
 	
 	public void setUnit(SiUnit unit) {
 		this.unit = unit;
+		simulationOutput.setUnit(unit);
 	}
 	
 	public ComponentState getState() {

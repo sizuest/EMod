@@ -295,9 +295,9 @@ public class Valve extends APhysicalComponent implements Floodable{
 	}
 
 	@Override
-	public FluidCircuitProperties getFluidProperties() {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<FluidCircuitProperties> getFluidPropertiesList() {
+		ArrayList<FluidCircuitProperties> out = new ArrayList<FluidCircuitProperties>();
+		return out;
 	}
 
 	

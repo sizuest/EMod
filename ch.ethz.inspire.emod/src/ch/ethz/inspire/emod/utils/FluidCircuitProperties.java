@@ -41,7 +41,6 @@ public class FluidCircuitProperties {
 	 * Public constructor
 	 */
 	public FluidCircuitProperties(){
-		coupledInAndOut = true;
 		init();
 	}
 	

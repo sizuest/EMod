@@ -100,7 +100,7 @@ public class ThermalElement extends AThermalIntegrator{
 	public double getA(int i) {
 		// A[k] = -mDotIn[k]/m[k] - Rth[k]/m[k]/cp[k]
 		double cp   = material.getHeatCapacity();
-		return -mDotIn.getCurrent()/massState.getValue()-thermalResistance/massState.getValue()/cp;
+		return -getMassFlowIn().getCurrent()/massState.getValue()-thermalResistance/massState.getValue()/cp;
 	}
 
 	@Override
@@ -108,7 +108,7 @@ public class ThermalElement extends AThermalIntegrator{
 		// B[k] = (mDotIn[k]*cpIn[k]*Tin[k] + Tamb[k]*Rth[k]+heatInput[k])/m[k]/cp[k]
 		double cp   = material.getHeatCapacity();
 		double cpIn = material.getHeatCapacity();
-		return (mDotIn.getCurrent()*cpIn*tempIn + tempAmb*thermalResistance + heatInput.getCurrent()) / massState.getValue()/cp;
+		return (getMassFlowIn().getCurrent()*cpIn*tempIn + tempAmb*thermalResistance + heatInput.getCurrent()) / massState.getValue()/cp;
 	}
 	
 	/**

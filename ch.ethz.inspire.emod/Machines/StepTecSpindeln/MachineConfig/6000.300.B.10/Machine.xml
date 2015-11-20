@@ -46,13 +46,12 @@
             </unit>
         </simController>
         <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>MachineState</name>
+            <name>State</name>
             <unit>
                 <unitText>none</unitText>
             </unit>
         </simController>
     </simulators>
-    <connectionList/>
     <connectionList/>
     <connectionList/>
     <connectionList/>

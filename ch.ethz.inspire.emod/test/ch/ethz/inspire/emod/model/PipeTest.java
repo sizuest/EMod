@@ -38,7 +38,7 @@ public class PipeTest {
 		//set pressure needed out of pipe2
 		((FluidContainer)pip.getInput("FluidIn")).setPressure(2000000);
 		//set flowrate needed out of pipe2
-		pip.getFluidProperties().setFlowRateIn(0.0001);
+		pip.getFluidPropertiesList().get(0).setFlowRateIn(0.0001);
 
 		pip.getInput("TemperatureAmb").setValue(293);
 		for(int i= 0; i < 100; i++){
@@ -66,7 +66,7 @@ public class PipeTest {
 		//set pressure of fluid flowing into pipe1 (after pump)
 		((FluidContainer)pip1.getInput("FluidIn")).setPressure(2000000);
 		//set flowrate needed out of pipe2
-		pip2.getFluidProperties().setFlowRateIn(0.0001);
+		pip2.getFluidPropertiesList().get(0).setFlowRateIn(0.0001);
 		
 		pip1.getInput("TemperatureAmb").setValue(293);
 		

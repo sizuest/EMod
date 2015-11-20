@@ -23,9 +23,11 @@ import ch.ethz.inspire.emod.model.material.Material;
 import ch.ethz.inspire.emod.model.thermal.ThermalElement;
 import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.simulation.DynamicState;
+import ch.ethz.inspire.emod.utils.ArrayOperations;
 import ch.ethz.inspire.emod.utils.Floodable;
 import ch.ethz.inspire.emod.utils.FluidCircuitProperties;
 import ch.ethz.inspire.emod.utils.FluidContainer;
+import ch.ethz.inspire.emod.utils.IOConnection;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 
@@ -69,17 +71,19 @@ public class Tank extends APhysicalComponent implements Floodable {
 	private FluidContainer fluidIn;
 	private IOContainer temperatureAmb;
 	private IOContainer pressureAmb;
-	//private IOContainer heatFlowIn;
-	
-
 	private IOContainer heatExchangerOut;
 		
 	// Output parameters:
 	private FluidContainer fluidOut;
 	private IOContainer temperatureTank;
 	
+	// Dynamic In- and outputs
+	private ArrayList<FluidContainer> inputsDyn;
+	private ArrayList<FluidContainer> outputsDyn;
+	
 	// Fluid Properties
 	FluidCircuitProperties fluidProperties;
+	ArrayList<FluidCircuitProperties> fluidPropertiesDyn;
 	
 	// Parameters used by the model.
 	private double volume, surface;
@@ -138,6 +142,15 @@ public class Tank extends APhysicalComponent implements Floodable {
 	 */
 	private void init()
 	{
+		
+		fluidProperties = new FluidCircuitProperties();
+		fluidProperties.setCuppledInAndOut(false);
+		
+		/* Dynamic in-/output Lists */
+		inputsDyn       = new ArrayList<FluidContainer>();
+		outputsDyn      = new ArrayList<FluidContainer>();
+		fluidPropertiesDyn = new ArrayList<FluidCircuitProperties>();
+		
 		/* Define Input parameters */
 		inputs         = new ArrayList<IOContainer>();
 		temperatureAmb = new IOContainer("TemperatureAmb",    new SiUnit(Unit.KELVIN), temperatureInit, ContainerType.THERMAL);
@@ -212,10 +225,10 @@ public class Tank extends APhysicalComponent implements Floodable {
 		}
 		
 		//TODO manick: test for Fluid
-		fluidIn        = new FluidContainer("FluidIn", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC);
+		fluidIn        = new FluidContainer("FluidIn", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidProperties);
 		inputs.add(fluidIn);
 		//TODO manick: test for Fluid
-		fluidOut        = new FluidContainer("FluidOut", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC);
+		fluidOut        = new FluidContainer("FluidOut", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidProperties);
 		outputs.add(fluidOut);
 
 		/* Dynamic state */
@@ -224,8 +237,6 @@ public class Tank extends APhysicalComponent implements Floodable {
 		dynamicStates.add(fluid.getMass());
 		
 		/* FlowRate */
-		fluidProperties = new FluidCircuitProperties();
-		fluidProperties.setCuppledInAndOut(false);
 		fluidProperties.setPressureReference(fluidOut);
 		fluidProperties.setMaterial(fluid.getMaterial());
 
@@ -242,7 +253,75 @@ public class Tank extends APhysicalComponent implements Floodable {
 			throw new Exception("Tank, type: " + type + ": Non physical value: Variable 'volume' must be bigger than zero!");
 		}
 	}
+    
+    
+    @Override
+    public IOContainer getInput(String name) {
+		IOContainer temp=null;
+		
+		if(name.equals(fluidIn.getName())){
+			FluidCircuitProperties fp = new FluidCircuitProperties();
+			fp.setCuppledInAndOut(false);
+			fp.setMaterial(this.fluid.getMaterial());
+			fluidPropertiesDyn.add(fp);
+			
+			temp = new FluidContainer("FluidIn-"+(inputsDyn.size()+1), fluidIn, fp);
+			inputs.add(temp);
+			inputsDyn.add((FluidContainer)temp);
+		}
+		else
+		{
+			for(FluidContainer ioc:inputsDyn){
+				if(ioc.getName().equals(name)) {
+					temp=ioc;
+					break;
+				}
+			}
+			
+			if(null==temp)
+				for(IOContainer ioc:inputs){
+					if(ioc.getName().equals(name)) {
+						temp=ioc;
+						break;
+					}
+				}
+		}
+		
+		
+		return temp;
+	}
 	
+    @Override
+	public IOContainer getOutput(String name) {
+    	IOContainer temp=null;
+    	if(name.equals(fluidOut.getName())){
+			FluidCircuitProperties fp = new FluidCircuitProperties();
+			fp.setCuppledInAndOut(false);
+			fp.setMaterial(this.fluid.getMaterial());
+			fluidPropertiesDyn.add(fp);
+			
+			temp = new FluidContainer("FluidIOut-"+(outputsDyn.size()+1), fluidOut, fp);
+			outputsDyn.add((FluidContainer)temp);
+		}
+    	else {
+			for(FluidContainer ioc:outputsDyn){
+				if(ioc.getName().equals(name)) {
+					temp=ioc;
+					break;
+				}
+			}
+			
+			if(null==temp)
+				for(IOContainer ioc:outputs){
+					if(ioc.getName().equals(name)) {
+						temp=ioc;
+						break;
+					}
+				}
+    	}
+		
+		return temp;
+	}
 
 	/* (non-Javadoc)
 	 * @see ch.ethz.inspire.emod.model.APhysicalComponent#update()
@@ -252,15 +331,32 @@ public class Tank extends APhysicalComponent implements Floodable {
 		double alphaFluid, 
 		       thermalResistance;
 		
+		double flowRateIn=0, flowRateOut=0, avgTemperatureIn=0;
 		
-		if(!materialSet)
-			fluidProperties.setMaterial(fluid.getMaterial());
+		
+		if(!materialSet){
+			for(FluidCircuitProperties fp: fluidPropertiesDyn)
+				fp.setMaterial(fluid.getMaterial());
+			materialSet = true;
+		}
+			
 		
 		/* ************************************************************************/
 		/*         Calculate and set fluid values:                                */
 		/*         TemperatureIn, Pressure, FlowRate, ThermalResistance,          */
 		/*         HeatSource, TemperatureExternal                                */
 		/* ************************************************************************/
+		
+		/* Mass flows */
+		for(FluidCircuitProperties fp: fluidPropertiesDyn){
+			flowRateIn +=fp.getFlowRateIn();
+			flowRateOut+=fp.getFlowRateOut();
+		}
+		
+		/* Average temperature */
+		for(FluidContainer c: inputsDyn)
+			avgTemperatureIn+=c.getTemperature()*c.getFluidCircuitProperties().getFlowRateIn();
+		avgTemperatureIn/=flowRateIn;
 		
 		/* Convection */
 		alphaFluid = Fluid.convectionFreeCuboid(new Material("Air"), fluid.getTemperature().getValue(), temperatureAmb.getValue(), length, width, height, false);
@@ -270,15 +366,19 @@ public class Tank extends APhysicalComponent implements Floodable {
 		fluid.setHeatInput(-heatExchangerOut.getValue());	
 		
 		/* Integrate temperature and mass flows */
-		fluid.setTemperatureIn(fluidIn.getTemperature());
+		fluid.setTemperatureIn(avgTemperatureIn);
 		fluid.setTemperatureAmb(temperatureAmb.getValue());
 		fluid.setThermalResistance(thermalResistance);
-		fluid.integrate(timestep, fluidProperties.getFlowRateIn(), fluidProperties.getFlowRateOut(), pressureAmb.getValue());
+		fluid.integrate(timestep, flowRateIn, flowRateOut, pressureAmb.getValue());
 		
 		// Outlet temperature is equal to the bulk temperature of the tank
 		fluidOut.setTemperature(fluid.getTemperature().getValue());
 		fluidOut.setPressure(pressureAmb.getValue());
 		fluidIn.setPressure(pressureAmb.getValue());
+		fluidIn.setTemperature(avgTemperatureIn);
+		
+		fluidProperties.setFlowRateIn(flowRateIn);
+		fluidProperties.setFlowRateOut(flowRateOut);
 		
 		temperatureTank.setValue(fluid.getTemperature().getValue());
 		
@@ -314,7 +414,7 @@ public class Tank extends APhysicalComponent implements Floodable {
 	}
 
 	@Override
-	public FluidCircuitProperties getFluidProperties() {
-		return this.fluidProperties;
+	public ArrayList<FluidCircuitProperties> getFluidPropertiesList() {
+		return null;
 	}
 }

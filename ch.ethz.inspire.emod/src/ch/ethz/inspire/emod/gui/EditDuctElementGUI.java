@@ -19,6 +19,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
+import ch.ethz.inspire.emod.gui.utils.TableUtils;
 import ch.ethz.inspire.emod.model.fluid.ADuctElement;
 import ch.ethz.inspire.emod.model.fluid.Isolation;
 
@@ -57,7 +58,7 @@ public class EditDuctElementGUI {
 			column.setText(titles[i]);
 			column.setWidth(32);
 		}
-		
+				
 		//SOURCE http://www.tutorials.de/threads/in-editierbarer-swt-tabelle-ohne-eingabe-von-enter-werte-aendern.299858/
 	    //create a TableCursor to navigate around the table
 	    final TableCursor cursor = new TableCursor(tableProperties, SWT.NONE);

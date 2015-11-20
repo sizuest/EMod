@@ -472,6 +472,8 @@ public class DuctTestingGUI extends AGUITab{
 	
 	private void updateChartTesting(){
 		
+		if(duct.getElements().size()==0)
+			return;
 		
 		double[] pressure, position1, htc, position2;
 		

@@ -35,6 +35,8 @@ public class FluidConnection extends IOConnection {
 	 */
 	public FluidConnection(FluidContainer source, FluidContainer target) throws Exception{
 		super((IOContainer)source, (IOContainer)target);
+		
+		FluidCircuit.floodCircuit(source,target);
 	}
 	
 	

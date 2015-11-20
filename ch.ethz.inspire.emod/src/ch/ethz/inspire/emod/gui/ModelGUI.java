@@ -69,7 +69,7 @@ public class ModelGUI extends AGUITab {
 	private Text textModelTitel;
 	private static Table tableModelView;
 	private TabFolder tabFolder;
-	private static Tree treeComponentDBView, treeInputsDBView;
+	private static Tree treeComponentDBView, treeInputsDBView, treeMathDBView;
 	private Button buttonEditLinking;
 	private static int[] columnWidthTableModelView;
 	
@@ -105,6 +105,7 @@ public class ModelGUI extends AGUITab {
 		
 		initTabCompDB(tabFolder);
 		initTabInputs(tabFolder);
+		initTabMath(tabFolder);
 		
 		//set button to edit linking on the buttom of the tab
 		buttonEditLinking = new Button(this, SWT.NONE);
@@ -281,6 +282,17 @@ public class ModelGUI extends AGUITab {
 		tabInputsItem.setText(LocalizationHandler.getItem("app.gui.model.inputs"));
 		tabInputsItem.setToolTipText(LocalizationHandler.getItem("app.gui.model.inputstooltip"));
 		tabInputsItem.setControl(treeInputsDBView);
+	}
+	
+	private void initTabMath(TabFolder tabFolder){
+		treeMathDBView = new Tree(tabFolder, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
+		
+		
+		
+		TabItem tabMathItem = new TabItem(tabFolder, SWT.NONE);
+		tabMathItem.setText(LocalizationHandler.getItem("app.gui.model.math"));
+		tabMathItem.setToolTipText(LocalizationHandler.getItem("app.gui.model.mathtooltip"));
+		tabMathItem.setControl(treeMathDBView);
 	}
 	
 	/**
@@ -689,6 +701,32 @@ public class ModelGUI extends AGUITab {
         editor.grabHorizontal = true;
         editor.horizontalAlignment = SWT.LEFT;
         editor.setEditor(comboComponentType, item, 2);
+        
+        //create button to edit component
+        editor = new TableEditor(tableModelView);
+        final Button buttonEditComponent = new Button(tableModelView, SWT.PUSH);
+        Image imageEdit = new Image(Display.getDefault(), "src/resources/Edit16.gif");
+        buttonEditComponent.setImage(imageEdit);
+        buttonEditComponent.addSelectionListener(new SelectionListener(){
+        	public void widgetSelected(SelectionEvent event){
+        		//open tab Simulation --> inputs
+        		//EModGUI.tabFolder.setSelection(1);
+        		//SimGUI.tabFolder.setSelection(3);
+        		
+        		String model = item.getText(1);
+        		String type  = item.getText(2);
+        		//open window editComponentEditGUI with the selected component
+        		EditMachineComponentGUI compGUI = new EditMachineComponentGUI();
+        		compGUI.editMachineComponentGUI(model, type);
+        	}
+        	public void widgetDefaultSelected(SelectionEvent event){
+        		
+        	}
+        });
+        buttonEditComponent.pack();
+        editor.minimumWidth = buttonEditComponent.getSize().x;
+        editor.horizontalAlignment = SWT.LEFT;
+        editor.setEditor(buttonEditComponent, item, 3);
         
         //create button to delete component in last column
         editor = new TableEditor(tableModelView);

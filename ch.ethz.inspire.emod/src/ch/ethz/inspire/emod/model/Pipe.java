@@ -241,19 +241,21 @@ public class Pipe extends APhysicalComponent implements Floodable{
 			e.printStackTrace();
 		}
 		
+		/* Fluid circuit parameters */
+		fluidProperties = new FluidCircuitProperties();
+		fluidProperties.setMaterial(fluid.getMaterial());
+		
 		
 		/* add fluid In/Output */
-		fluidIn        = new FluidContainer("FluidIn", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC);
+		fluidIn        = new FluidContainer("FluidIn", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidProperties);
 		inputs.add(fluidIn);
-		fluidOut        = new FluidContainer("FluidOut", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC);
+		fluidOut        = new FluidContainer("FluidOut", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidProperties);
 		outputs.add(fluidOut);
 		
 		dynamicStates = new ArrayList<DynamicState>();
 		dynamicStates.add(fluid.getTemperature());
 		
-		/* Fluid circuit parameters */
-		fluidProperties = new FluidCircuitProperties();
-		fluidProperties.setMaterial(fluid.getMaterial());
+		
 		
 	}
 	
@@ -359,7 +361,9 @@ public class Pipe extends APhysicalComponent implements Floodable{
 
 
 	@Override
-	public FluidCircuitProperties getFluidProperties() {
-		return fluidProperties;
+	public ArrayList<FluidCircuitProperties> getFluidPropertiesList() {
+		ArrayList<FluidCircuitProperties> out = new ArrayList<FluidCircuitProperties>();
+		out.add(fluidProperties);
+		return out;
 	}
 }

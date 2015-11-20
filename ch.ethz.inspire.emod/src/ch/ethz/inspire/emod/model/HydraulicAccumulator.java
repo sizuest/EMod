@@ -125,16 +125,18 @@ public class HydraulicAccumulator extends APhysicalComponent implements Floodabl
 	 */
 	private void init()
 	{
+		fluidCircuitProperties = new FluidCircuitProperties();
+		
 		/* Define Input parameters */
 		inputs         = new ArrayList<IOContainer>();
-		fluidIn        = new FluidContainer("FluidIn", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC);
+		fluidIn        = new FluidContainer("FluidIn", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidCircuitProperties);
 		temperatureAmb = new IOContainer("TemperatureAmb",     new SiUnit(Unit.KELVIN),    293.15, ContainerType.THERMAL);
 		inputs.add(fluidIn);
 		inputs.add(temperatureAmb);
 		
 		/* Define output parameters */
 		outputs     = new ArrayList<IOContainer>();
-		fluidOut    = new FluidContainer("FluidOut", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC);
+		fluidOut    = new FluidContainer("FluidOut", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidCircuitProperties);
 		content     = new IOContainer("Content",     new SiUnit(Unit.METERCUBIC),    0, ContainerType.FLUIDDYNAMIC);
 		pfluid      = new IOContainer("State",       new SiUnit(Unit.NONE),  0, ContainerType.CONTROL);
 		outputs.add(fluidOut);
@@ -173,7 +175,6 @@ public class HydraulicAccumulator extends APhysicalComponent implements Floodabl
 			
 			/* Define fluid circuit properties
 			 * In this case, the element leads to a non-direct connected in- and outlet! */
-			fluidCircuitProperties = new FluidCircuitProperties();
 			fluidCircuitProperties.setCuppledInAndOut(false);
 			fluidCircuitProperties.setPressureReference(fluidOut);
 			fluidCircuitProperties.setMaterial(fluid.getMaterial());
@@ -309,8 +310,10 @@ public class HydraulicAccumulator extends APhysicalComponent implements Floodabl
 	}
 
 	@Override
-	public FluidCircuitProperties getFluidProperties() {
-		return fluidCircuitProperties;
+	public ArrayList<FluidCircuitProperties> getFluidPropertiesList() {
+		ArrayList<FluidCircuitProperties> out = new ArrayList<FluidCircuitProperties>();
+		out.add(fluidCircuitProperties);
+		return out;
 	}
 	
 }

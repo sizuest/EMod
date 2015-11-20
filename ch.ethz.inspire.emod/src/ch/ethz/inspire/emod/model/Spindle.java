@@ -128,6 +128,8 @@ public class Spindle extends APhysicalComponent implements Floodable{
 	 */
 	private void init()
 	{
+		fluidProperties = new FluidCircuitProperties();
+		
 		/* Define Input parameters */
 		inputs = new ArrayList<IOContainer>();
 		state         = new IOContainer("State",         new SiUnit(Unit.NONE), 0, ContainerType.CONTROL);
@@ -151,9 +153,9 @@ public class Spindle extends APhysicalComponent implements Floodable{
 		outputs.add(temperature);
 		
 		/* Define fluid in-/outputs */
-		fluidIn        = new FluidContainer("FluidIn", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC);
+		fluidIn        = new FluidContainer("CoolantIn", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidProperties);
 		inputs.add(fluidIn);
-		fluidOut        = new FluidContainer("FluidOut", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC);
+		fluidOut        = new FluidContainer("CoolantOut", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC,fluidProperties);
 		outputs.add(fluidOut);
 		
 		/* ************************************************************************/
@@ -209,7 +211,6 @@ public class Spindle extends APhysicalComponent implements Floodable{
 			dynamicStates.add(1, coolant.getTemperature());
 			
 			/* Fluid circuit parameters */
-			fluidProperties = new FluidCircuitProperties();
 			fluidProperties.setMaterial(coolant.getMaterial());
 			coolingDuct.setMaterial(fluidProperties.getMaterial());
 			
@@ -307,7 +308,7 @@ public class Spindle extends APhysicalComponent implements Floodable{
 				fluidProperties.getPressureBack(), 
 				coolant.getTemperature().getValue(), 
 				structure.getTemperature().getValue());
-		
+				
 		// PressureLoss
 		pressureLoss = coolingDuct.getPressureDrop(fluidProperties.getFlowRateIn(),
 				fluidProperties.getPressureBack(), 
@@ -358,8 +359,10 @@ public class Spindle extends APhysicalComponent implements Floodable{
 	}
 
 	@Override
-	public FluidCircuitProperties getFluidProperties() {
-		return this.fluidProperties;
+	public ArrayList<FluidCircuitProperties> getFluidPropertiesList() {
+		ArrayList<FluidCircuitProperties> out = new ArrayList<FluidCircuitProperties>();
+		out.add(fluidProperties);
+		return out;
 	}
 	
 }

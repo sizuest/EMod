@@ -1,0 +1,10 @@
+\contentsline {section}{\numberline {1}IMPORANT}{2}
+\contentsline {section}{\numberline {2}Introduction}{2}
+\contentsline {section}{\numberline {3}Data Structures and Algorithms}{3}
+\contentsline {section}{\numberline {4}Examples}{4}
+\contentsline {subsection}{\numberline {4.1}KalmanFilterSimple.java}{4}
+\contentsline {subsection}{\numberline {4.2}KalmanFilterOps.java}{4}
+\contentsline {subsection}{\numberline {4.3}KalmanFilterAlg.java}{5}
+\contentsline {subsection}{\numberline {4.4}Notes}{5}
+\contentsline {section}{\numberline {A}Design Philosophy}{5}
+\contentsline {subsection}{\numberline {A.1}Why multiple implementations?}{6}

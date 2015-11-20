@@ -383,9 +383,7 @@ public class EModGUI {
 		 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
 		 */
 		@Override
-		public void widgetDefaultSelected(SelectionEvent event) {
-			
-		}
+		public void widgetDefaultSelected(SelectionEvent event) {}
 	}
 	
 	/**

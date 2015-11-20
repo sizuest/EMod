@@ -25,6 +25,8 @@ public class IOContainer {
 	private String name;
 	private SiUnit unit;
 	
+	private IOContainer reference;
+	
 	private double value;
 	
 	private ContainerType type;
@@ -40,6 +42,7 @@ public class IOContainer {
 		this.unit  = unit;
 		this.value = value;
 		this.type  = ContainerType.NONE;
+		this.reference = this;
 	}
 	/**
 	 * @param name
@@ -53,7 +56,24 @@ public class IOContainer {
 		this.unit  = unit;
 		this.value = value;
 		this.type  = type;
+		this.reference = this;
 	}	
+	
+	/**
+	 * @param name
+	 * @param reference
+	 * @param unit
+	 * @param value
+	 * @param type
+	 */
+	public IOContainer(String name, IOContainer reference) {
+		super();
+		this.name  = name;
+		this.unit  = reference.unit;
+		this.value = reference.value;
+		this.type  = reference.type;
+		this.reference = reference;
+	}
 	
 	public IOContainer() {
 		
@@ -69,6 +89,13 @@ public class IOContainer {
 	 */
 	public void setValue(double value) {
 		this.value = value;
+	}
+	
+	/**
+	 * @return the reference
+	 */
+	public IOContainer getReference(){
+		return reference;
 	}
 	
 	/**
@@ -97,5 +124,9 @@ public class IOContainer {
 	}	
 	public String toString() {
 		return name + " " + value + " " + unit + " " + type;
+	}
+	
+	public void setUnit(SiUnit unit) {
+		this.unit = unit;
 	}
 }

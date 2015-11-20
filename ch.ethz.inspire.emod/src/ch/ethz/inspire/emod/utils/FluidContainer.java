@@ -16,17 +16,36 @@ public class FluidContainer extends IOContainer {
 	/* Values for temperature [K], pressure [Pa] */
 	protected double temperature;
 	protected double pressure;
+	/* FluidCircuitProperties */
+	protected FluidCircuitProperties fluidCircuitProperties;
 
 	/**
 	 * constructor, set name, unit and type (used in IOContainer)
 	 * @param name
 	 * @param unit
 	 * @param type
+	 * @param fluidCircuitProperties 
 	 */
-	public FluidContainer(String name, SiUnit unit, ContainerType type){
+	public FluidContainer(String name, SiUnit unit, ContainerType type, FluidCircuitProperties fluidCircuitProperties){
 		super(name, unit, 0.00, type);
 		this.temperature = 293;
 		this.pressure    = 0;
+		this.fluidCircuitProperties = fluidCircuitProperties;
+	}
+	
+	/**
+	 * constructor, set name, unit and type (used in IOContainer)
+	 * @param name
+	 * @param reference 
+	 * @param unit
+	 * @param type
+	 * @param fluidCircuitProperties 
+	 */
+	public FluidContainer(String name, FluidContainer reference, FluidCircuitProperties fluidCircuitProperties){
+		super(name, reference);
+		this.temperature = 293;
+		this.pressure    = 0;
+		this.fluidCircuitProperties = fluidCircuitProperties;
 	}
 	
 	/**
@@ -84,6 +103,14 @@ public class FluidContainer extends IOContainer {
 	 */
 	public double getPressure(){
 		return pressure;
+	}
+	
+	/**
+	 * get the linked fluid circuit properties
+	 * @return {@link FluidCircuitProperties}
+	 */
+	public FluidCircuitProperties getFluidCircuitProperties(){
+		return fluidCircuitProperties;
 	}
 	
 	/**

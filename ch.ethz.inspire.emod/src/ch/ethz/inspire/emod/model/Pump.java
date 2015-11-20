@@ -227,17 +227,19 @@ public class Pump extends APhysicalComponent implements Floodable{
 		    System.exit(-1);
 		}
 		
-		/* Define FluidIn parameter */
-		fluidIn        = new FluidContainer("FluidIn", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC);
-		inputs.add(fluidIn);
-
-		/* Define FluidOut parameter */
-		fluidOut        = new FluidContainer("FluidOut", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC);
-		outputs.add(fluidOut);
-		
 		/* Define FlowRate */
 		fluidProperties = new FluidCircuitProperties();
 		fluidProperties.setMaterial(new Material("Example"));
+		
+		/* Define FluidIn parameter */
+		fluidIn        = new FluidContainer("FluidIn", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidProperties);
+		inputs.add(fluidIn);
+
+		/* Define FluidOut parameter */
+		fluidOut        = new FluidContainer("FluidOut", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidProperties);
+		outputs.add(fluidOut);
+		
+		
 	}
 	
 	/**
@@ -376,8 +378,10 @@ public class Pump extends APhysicalComponent implements Floodable{
 	
 
 	@Override
-	public FluidCircuitProperties getFluidProperties() {
-		return fluidProperties;
+	public ArrayList<FluidCircuitProperties> getFluidPropertiesList() {
+		ArrayList<FluidCircuitProperties> out = new ArrayList<FluidCircuitProperties>();
+		out.add(fluidProperties);
+		return out;
 	}
 
 	public double getPressure(double flowRate) {

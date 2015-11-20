@@ -2,7 +2,14 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <comment/>
+<entry key="InitialValue_PumpHydraulics_Temperature">NaN</entry>
+<entry key="InitialValue_Tank_Mass">1.0</entry>
+<entry key="InitialValue_HydraulicPump_Temperature">NaN</entry>
+<entry key="InitialValue_CoolantPump_Temperature">NaN</entry>
+<entry key="InitialValue_PumpCoolant_Temperature">NaN</entry>
+<entry key="InitialValue_Spindle_TemperatureStructure">NaN</entry>
 <entry key="simulationPeriod">1</entry>
-<entry key="InitialValue_Spindle_TemperatureStructure">293.15</entry>
-<entry key="InitialValue_Spindle_TemperatureCoolant">293.15</entry>
+<entry key="InitialValue_PumpHE_Temperature">NaN</entry>
+<entry key="InitialValue_Spindle_TemperatureCoolant">NaN</entry>
+<entry key="InitialValue_Tank_Temperature">NaN</entry>
 </properties>

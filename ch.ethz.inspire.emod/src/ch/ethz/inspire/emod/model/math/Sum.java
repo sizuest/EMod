@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlElement;
 
 
 import ch.ethz.inspire.emod.model.APhysicalComponent;
+import ch.ethz.inspire.emod.model.units.ContainerType;
 import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.utils.IOContainer;
@@ -51,6 +52,8 @@ public class Sum extends APhysicalComponent{
 	// Input Lists
 	private ArrayList<IOContainer> plus;
 	private ArrayList<IOContainer> minus;
+	
+	private IOContainer add, sub;
 	
 	// Output parameters:
 	private IOContainer sum;
@@ -93,6 +96,9 @@ public class Sum extends APhysicalComponent{
 		inputs   = new ArrayList<IOContainer>();
 		plus     = new ArrayList<IOContainer>();
 		minus    = new ArrayList<IOContainer>();
+		
+		add      = new IOContainer("Plus",  new SiUnit(unit), 0);
+		sub      = new IOContainer("Minus", new SiUnit(unit), 0);
 		
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
@@ -137,13 +143,13 @@ public class Sum extends APhysicalComponent{
 		/* 
 		 * If the initialization has not been done, create a output with same unit as input
 		 */
-		if(name.matches("Plus")) {
-			temp = new IOContainer("Plus"+(plus.size()+1), new SiUnit(unit), 0);
+		if(name.matches(add.getName())) {
+			temp = new IOContainer(add.getName()+(plus.size()+1), add);
 			inputs.add(temp);
 			plus.add(temp);
 		}
-		else if(name.matches("Minus")) {
-			temp = new IOContainer("Minus"+(minus.size()+1), new SiUnit(unit), 0);
+		else if(name.matches(sub.getName())) {
+			temp = new IOContainer(sub.getName()+(minus.size()+1), sub);
 			inputs.add(temp);
 			minus.add(temp);
 		}

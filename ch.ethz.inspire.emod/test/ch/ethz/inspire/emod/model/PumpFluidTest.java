@@ -33,13 +33,13 @@ public class PumpFluidTest {
 		
 		pump.getInput("TemperatureAmb").setValue(293);
 		pump.getInput("State").setValue(0);
-		pump.getFluidProperties().setMaterial(new Material("Example"));
+		pump.getFluidPropertiesList().get(0).setMaterial(new Material("Example"));
 		
 		fc.init(293, 100000);
 		
 		// Set pressure out to pressure_amb
 		//pump.getInput("PressureOut").setValue(0);
-		((Floodable)pump).getFluidProperties().setFlowRateIn(0.0);
+		((Floodable)pump).getFluidPropertiesList().get(0).setFlowRateIn(0.0);
 		for(int i=0; i<4; i++){
 			pump.update();
 			pref.update();
@@ -47,7 +47,7 @@ public class PumpFluidTest {
 		}
 		
 		assertEquals("Pump power if off", 0, pump.getOutput("PTotal").getValue(),     0);
-		assertEquals("Flow if off",       0, pump.getFluidProperties().getFlowRate(), 0);
+		assertEquals("Flow if off",       0, pump.getFluidPropertiesList().get(0).getFlowRate(), 0);
 		assertEquals("Pressure if off",   0, ((FluidContainer)pump.getOutput("FluidOut")).getPressure(),   100000);
 		
 		// Set pressure out to 2 bar
@@ -59,8 +59,8 @@ public class PumpFluidTest {
 			fc.update();
 		}
 		
-		assertEquals("Pump power after ",   135, pump.getOutput("PTotal").getValue(),      0);
-		assertEquals("Flow if on",          0.00013, ((Floodable)pump).getFluidProperties().getFlowRate(),  0.000001);
+		assertEquals("Pump power after ",   1088, pump.getOutput("PTotal").getValue(),      1);
+		assertEquals("Flow if on",          5.6E-6, ((Floodable)pump).getFluidPropertiesList().get(0).getFlowRateIn(),  .1E-6);
 	}
 
 	@Test
@@ -69,9 +69,9 @@ public class PumpFluidTest {
 		
 		pump.getInput("TemperatureAmb").setValue(293);
 		
-		pump.getFluidProperties().setMaterial(new Material("Monoethylenglykol_34"));
+		pump.getFluidPropertiesList().get(0).setMaterial(new Material("Monoethylenglykol_34"));
 		
-		pump.getFluidProperties().setFlowRateIn(0.00014);
+		pump.getFluidPropertiesList().get(0).setFlowRateIn(0.00014);
 		for(int i=0; i<1000; i++){
 			pump.update();
 		}

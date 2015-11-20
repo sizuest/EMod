@@ -13,6 +13,90 @@
             </component>
             <name>ForcedFluidFlow</name>
         </machineComponent>
+        <machineComponent>
+            <component xsi:type="tank" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Schaublin42L</type>
+            </component>
+            <name>Tank</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>PumpHydraulics</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>PumpCoolant</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>PumpHE</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>AmpSpindle</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>AmpAxes</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="servoMotor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>AxisXMotor</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="servoMotor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>AxisYMotor</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="servoMotor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>AxisZMotor</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="servoMotor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>AxisAMotor</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="servoMotor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>AxisBMotor</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="servoMotor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>AxisCMotor</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>AmpAxesXYZ</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>AmpAxesABC</name>
+        </machineComponent>
     </machine>
     <simulators>
         <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -45,7 +129,34 @@
                 <unitText>m³/s</unitText>
             </unit>
         </simController>
+        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>TemperatureAmb</name>
+            <unit>
+                <unitText>K</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>PressureAmb</name>
+            <unit>
+                <unitText>Pa</unitText>
+            </unit>
+        </simController>
     </simulators>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
     <connectionList/>
     <connectionList/>
     <connectionList/>
