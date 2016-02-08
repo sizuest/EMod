@@ -37,14 +37,14 @@ public class CylinderTest {
 		cyl.setSimulationTimestep(1);
 		cyl.update();
 		
-		assertEquals("No Force/movement", 0, ((FluidContainer)cyl.getOutput("FluidOut")).getFluidCircuitProperties().getFlowRateIn(), 0);
+		assertEquals("No Force/movement", 0, ((FluidContainer)cyl.getOutput("FluidOut")).getFluidCircuitProperties().getFlowRate(), 0);
 		
 		cyl.getInput("Force").setValue(1000);
 		cyl.getInput("Velocity").setValue(0);
 		cyl.update();
 		
 		assertEquals("Clamping", 606419, ((FluidContainer)cyl.getOutput("FluidOut")).getFluidCircuitProperties().getPressureDrop(), 1000);
-		assertEquals("Clamping", 0, ((FluidContainer)cyl.getOutput("FluidOut")).getFluidCircuitProperties().getFlowRateIn(), 1E-6);
+		assertEquals("Clamping", 0, ((FluidContainer)cyl.getOutput("FluidOut")).getFluidCircuitProperties().getFlowRate(), 1E-6);
 		
 	}
 

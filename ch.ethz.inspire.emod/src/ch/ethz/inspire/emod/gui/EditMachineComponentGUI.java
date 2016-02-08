@@ -28,6 +28,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
+import ch.ethz.inspire.emod.gui.dd.DuctDesignGUI;
 import ch.ethz.inspire.emod.model.MachineComponent;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;

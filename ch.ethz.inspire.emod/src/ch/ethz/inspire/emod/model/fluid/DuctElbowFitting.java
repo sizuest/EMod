@@ -48,7 +48,7 @@ public class DuctElbowFitting extends ADuctElement{
 
 	@Override
 	public double getPressureDrop(double flowRate, double pressure,
-			double temperatureFluid, double temperatureWall) {
+			double temperatureFluid) {
 		return Fluid.pressureLossTElement(getMaterial(), temperatureFluid, getProfile(), flowRate/count);
 	}
 

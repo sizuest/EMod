@@ -134,8 +134,8 @@ public abstract class ADuctElement implements Parameterizable {
 	 * @param temperatureWall	[K]
 	 * @return [Pa]
 	 */
-	public double getPressureOut(double flowRate, double pressureIn, double temperatureFluid, double temperatureWall){
-		return pressureIn - getPressureDrop(flowRate, pressureIn, temperatureFluid, temperatureWall);
+	public double getPressureOut(double flowRate, double pressureIn, double temperatureFluid){
+		return pressureIn - getPressureDrop(flowRate, pressureIn, temperatureFluid);
 	}
 	
 	/**
@@ -158,7 +158,7 @@ public abstract class ADuctElement implements Parameterizable {
 	 * @param temperatureWall	[K]
 	 * @return [Pa]
 	 */
-	public abstract double getPressureDrop(double flowRate, double pressure, double temperatureFluid, double temperatureWall);
+	public abstract double getPressureDrop(double flowRate, double pressure, double temperatureFluid);
 
 	/**
 	 * Returns the hydraulic profile object

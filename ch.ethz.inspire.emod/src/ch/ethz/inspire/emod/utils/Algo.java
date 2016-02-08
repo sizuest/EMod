@@ -180,6 +180,10 @@ public class Algo {
 			high = index;
 			low  = index-1;
 		}
+		else if(index == -1){
+			high = 0;
+			low  = 1;
+		}
 		else{
 			high = index+1;
 			low  = index;

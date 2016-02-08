@@ -12,7 +12,11 @@
  ***********************************/
 package ch.ethz.inspire.emod.utils;
 
+import java.util.ArrayList;
+
+import ch.ethz.inspire.emod.model.fluid.AFluidElementCharacteristic;
 import ch.ethz.inspire.emod.model.material.Material;
+import ch.ethz.inspire.emod.simulation.DynamicState;
 
 /**
  * General implementation of the properties of a component within a fluid circuit.
@@ -22,66 +26,48 @@ import ch.ethz.inspire.emod.model.material.Material;
  *
  */
 public class FluidCircuitProperties {
-	/* Flow rate to the component in [m³/s] */
-	private double flowRateIn;
-	/* Flow rate out of the component in [m³/s] */
-	private double flowRateOut;
-	/* Pressure drop over the component in [Pa] */
-	private double pressureDrop;
+	/* Flow rate [kg/s] */
+	private double[] flowRateIn = {0.0};
+	/* Inlet and outlet pressures [Pa] */
+	private double pressureIn = 0, pressureOut = 1;
+	/* Temperature */
+	private DynamicState temperature = null, temperatureIn = null;
 	/* Material of the fluid flowing through the component {@link Material} */ 
 	private Material material;
-	/* Up- and downstream elemente */
-	private FluidCircuitProperties post, pre;
-	/* Cupple in- and out left [default on] */
-	private boolean coupledInAndOut = true;
+	/* Up- and downstream elements */
+	private ArrayList<FluidCircuitProperties> post, pre;
 	/* Pressure reference */
-	private FluidContainer pressureReference = null;
+	private IOContainer pressureReferenceIn = null, pressureReferenceOut = null;
+	/* Characteristics */
+	private AFluidElementCharacteristic characteristic;
+	/* Last flow rate in */
+	private double[] lastFlowRateIn;
 	
 	/**
 	 * Public constructor
+	 * @param characteristic 
+	 * @param temperature 
 	 */
-	public FluidCircuitProperties(){
+	public FluidCircuitProperties(AFluidElementCharacteristic characteristic, DynamicState temperature){
+		this.characteristic = characteristic;
+		this.temperature    = temperature;
+		init();
+	}
+	
+	/**
+	 * Public constructor
+	 * @param characteristic 
+	 * @param temperature 
+	 */
+	public FluidCircuitProperties(AFluidElementCharacteristic characteristic){
+		this.characteristic = characteristic;
 		init();
 	}
 	
 	private void init(){
-		flowRateIn = 0;
-		pressureDrop = 0;
 		material = new Material("Example");
-		post = null;
-		pre  = null;
-	}
-	
-	/**
-	 * Checks if the objects is part of a closed fluid circle
-	 * @return true/false
-	 */
-	public boolean isCircuit(){
-		return isCircuit(this);
-	}
-	
-	private boolean isCircuit(FluidCircuitProperties caller){
-		if(this.post == caller)
-			return true;
-		else if(this.post == null)
-			return false;
-		else
-			return this.post.isCircuit(caller);
-					
-	}
-	
-	private boolean isDirectCircuit(){
-		return isDirectCircuit(this);
-	}
-	private boolean isDirectCircuit(FluidCircuitProperties caller){
-		if(this.post == caller)
-			return true;
-		else if(this.post == null)
-			return false;
-		else if(this.coupledInAndOut)
-			return false;
-		else
-			return this.post.isCircuit(caller);
+		post     = new ArrayList<FluidCircuitProperties>();
+		pre      = new ArrayList<FluidCircuitProperties>();
 	}
 	
 	
@@ -92,95 +78,63 @@ public class FluidCircuitProperties {
 	 * @param post {@link FluidCircuitProperties} Down-stream element
 	 */
 	public void setPost(FluidCircuitProperties post){
-		this.post = post;
-		this.post.setPre(this);
+		if(!this.post.contains(post)){
+			this.post.add(post);
+			post.setPre(this);
+		}
 	}
 	
 	/**
-	 * Calculates the pressure drops of all down-stream elements, until
-	 * - A pressure reference is reached
-	 * - The caller is reached again (circle), or
-	 * - A pressure drop of NaN occurs,  or
-	 * - Null occurs as leave in the tree (end of line)
-	 * @return Down-stream pressure drop
+	 * Set the upstream-stream element
+	 * @param post {@link FluidCircuitProperties} Up-stream element
 	 */
-	public Double getPressureFront(){
-		return getPressureFront(this);
-	}
-	
-	private Double getPressureFront(FluidCircuitProperties caller){
-		if(null!=this.pressureReference)
-			return this.pressureReference.getPressure();
-		if(this.post == caller)
-			return 0.0;
-		else if(null==this.post)
-			return 0.0;
-		else if(Double.isNaN(this.post.getPressureDrop()))
-			return 0.0;
-		else if(coupledInAndOut)
-			return this.post.getPressureDrop()+this.post.getPressureFront(caller);
-		else
-			return 0.0;
-	}
-	
-	/**
-	 * Calculates the pressure resulting from all up-stream elements, until
-	 * - A pressure reference is reached
-	 * - The caller is reached again (circle), or
-	 * - A pressure drop of NaN occurs,  or
-	 * - Null occurs as leave in the tree (end of line)
-	 * @return Down-stream pressure drop
-	 */
-	public Double getPressureBack(){
-		return getPressureBack(this);
-	}
-	
-	private Double getPressureBack(FluidCircuitProperties caller){
-		
-		if(this.pre == caller)
-			return 0.0;
-		else if(null==this.pre)
-			return 0.0;
-		else if(null!=this.pre.pressureReference)
-			return this.pre.pressureReference.getPressure();
-		else if(Double.isNaN(pressureDrop))
-			return 0.0;
-		else 
-			return this.pre.getPressureDrop()+this.pre.getPressureBack(caller);
-	}
-	
 	private void setPre(FluidCircuitProperties pre){
-		this.pre = pre;
-	}
-	
-	/**
-	 * Set the pressure drop according to the input value [Pa]
-	 * @param value
-	 */
-	public void setPressureDrop(double value){
-		this.pressureDrop = value;
+		if(!this.pre.contains(pre)){
+			this.pre.add(pre);
+		}
 	}
 	
 	/**
 	 * Set the inlet flow rate according to the value [m³/s]
 	 * @param value
 	 */
-	public void setFlowRateIn(double value){	
-		setFlowRateIn(value, this, false );
-		
-		if(!isDirectCircuit() & coupledInAndOut)
-			setFlowRateOut(value, this, true);
+	public void setFlowRatesIn(double[] value){	
+		this.flowRateIn = value;
 	}
 	
-	/**
-	 * Set the outlet flow rate according to the value [m³/s]
-	 * @param value
-	 */
-	public void setFlowRateOut(double value){
-		setFlowRateOut(value, this, true);
-		
-		if(!isDirectCircuit() & coupledInAndOut)
-			setFlowRateIn(value, this, false);
+	public double getTemperatureOut(){
+		if(null==temperature)
+			return getTemperatureIn();
+		else
+			return temperature.getValue();
+	}
+	
+	public double getTemperatureIn(){
+		double out = 0, flowRate = 0;
+		if(null==temperatureIn){
+			if(0!=getFlowRate())
+				lastFlowRateIn = getFlowRates();
+			else if(0==getFlowRate() & null==lastFlowRateIn){
+				lastFlowRateIn = new double[pre.size()];
+				for(int i=0; i<lastFlowRateIn.length; i++)
+					lastFlowRateIn[i] = 1;
+			}
+			
+			for(int i=0; i<lastFlowRateIn.length; i++)
+				flowRate+=lastFlowRateIn[i];
+			
+			for(int i=0; i<pre.size(); i++)
+				if(Double.isNaN(getFlowRates()[i]) & !Double.isNaN(pre.get(i).getTemperatureOut()))
+					out+=pre.get(i).getTemperatureOut()/lastFlowRateIn.length;
+				else if(Double.isNaN(pre.get(i).getTemperatureOut()))
+					out+=293.15/lastFlowRateIn.length;
+				else
+					out+=pre.get(i).getTemperatureOut()*lastFlowRateIn[i]/flowRate;
+			
+			return out;
+		}
+		else
+			return temperatureIn.getValue();
 	}
 	
 	/**
@@ -188,109 +142,100 @@ public class FluidCircuitProperties {
 	 * @param value
 	 */
 	public void setMaterial(Material value){
-		setMaterial(value, this);
-	}
-	
-	private void setFlowRateIn(double flowRate, FluidCircuitProperties caller, boolean moveDownStream) {
-		flowRateIn = flowRate;
-		
-		/* Check if a a pre-element exists. If so, and the
-		 * Procedure is set to upstream, move up!
-		 */
-		if(pre!=null & !moveDownStream)
-			pre.setFlowRateOut(flowRate, caller, moveDownStream);
-		/* Check if in- and outut are coupled, and if we
-		 * are moving downstream, move down!
-		 */
-		else if(coupledInAndOut & moveDownStream & this!=caller)
-			setFlowRateOut(flowRate, caller, moveDownStream);
-		else if(coupledInAndOut & moveDownStream & this==caller)
-			flowRateOut = flowRate;
-	}
-	
-	private void setFlowRateOut(double flowRate, FluidCircuitProperties caller, boolean moveDownStream) {	
-		flowRateOut = flowRate;
-		
-		/* If there is a post element which and if we 
-		 * are moving downstream, change it's input 
-		 * flow rate!
-		 */
-		if(post!=null & moveDownStream)
-			post.setFlowRateIn(flowRate, caller, moveDownStream);
-		/* If there is a pre element which is not the caller,
-		 * and if we are moving upstream, change it's input 
-		 * flow rate!
-		 */
-		else if(coupledInAndOut & !moveDownStream & this!=caller)
-			setFlowRateIn(flowRate, caller, moveDownStream);
-		else if(coupledInAndOut & !moveDownStream & this==caller)
-			flowRateIn = flowRate;
-
-	}
-	
-	private void setMaterial(Material material, FluidCircuitProperties caller) {
-		this.material = material;
-		if(this.post!=caller & post!=null){
-			this.post.setMaterial(material, caller);
-		}
-	}
-	
-	/**
-	 * Set the coupplet in- and output label (true/false)
-	 * @param c
-	 */
-	public void setCuppledInAndOut(boolean c){
-		coupledInAndOut = c;
+		for(FluidCircuitProperties fp: getAllConnectedElements(this))
+			fp.material = material;
 	}
 	
 	/**
 	 * Set the pressure reference
 	 * @param p
 	 */
-	public void setPressureReference(FluidContainer p){
-		pressureReference = p;
+	public void setPressureReferenceOut(IOContainer p){
+		pressureReferenceOut = p;
+	}
+	
+	/**
+	 * Set the pressure reference
+	 * @param p
+	 */
+	public void setPressureReferenceIn(IOContainer p){
+		pressureReferenceIn = p;
+	}
+	
+	/**
+	 * Set the pressure reference
+	 * @param p
+	 */
+	public void setPressureReferencIn(FluidContainer p){
+		pressureReferenceIn = p;
+	}
+	
+	public double getPressureIn(){
+		return this.pressureIn;
+	}
+	
+	public double getPressureOut(){
+		return this.pressureOut;
+	}
+	
+	
+	/**
+	 * Returns the pressure reference in Pa
+	 * @return [Pa]
+	 */
+	public double getPressureReferenceOut(){
+		if(null==pressureReferenceOut)
+			return Double.NaN;
+		else
+			if(pressureReferenceOut instanceof FluidContainer)
+				return ((FluidContainer) pressureReferenceOut).getPressure();
+			else
+				return pressureReferenceOut.getValue();
 	}
 	
 	/**
 	 * Returns the pressure reference in Pa
 	 * @return [Pa]
 	 */
-	public double getPressureReference(){
-		if(null==pressureReference)
+	public double getPressureReferenceIn(){
+		if(null==pressureReferenceIn)
 			return Double.NaN;
 		else
-			return pressureReference.getPressure();
+			if(pressureReferenceIn instanceof FluidContainer)
+				return ((FluidContainer) pressureReferenceIn).getPressure();
+			else
+				return pressureReferenceIn.getValue();
 	}
 	
+	public void setPressureIn(double pressureIn){
+		this.pressureIn = pressureIn;
+	}
 	
+	public void setPressureOut(double pressureOut){
+		this.pressureOut = pressureOut;
+	}
 	
 	/**
 	 * getFlowRate()
 	 * @return current flow rate [m³/s]
-	 * @deprecated
 	 */
-	public double getFlowRate(){
-		return getFlowRateIn();
-	}
-	
-	/**
-	 * getFlowRateIn()
-	 * @return current inlet flow rate [m³/s]
-	 */
-	public double getFlowRateIn(){
-		return this.flowRateIn;
+	public double getFlowRate(){		
+		double ret = 0;
+		
+		for(int i=0; i<this.flowRateIn.length; i++)
+			ret+=this.flowRateIn[i];
+		
+		return ret;
 	}
 	
 	/**
 	 * getFlowRate()
-	 * @return current outlet flow rate [m³/s]
+	 * @return current flow rate [m³/s]
 	 */
-	public double getFlowRateOut(){
-		if(coupledInAndOut)
-			return this.flowRateIn;
-		else
-			return this.flowRateOut;
+	public double[] getFlowRates(){
+		return this.flowRateIn;
 	}
+	
 	
 	/**
 	 * getMaterial()
@@ -305,6 +250,54 @@ public class FluidCircuitProperties {
 	 * @return Current pressure drop [Pa]
 	 */
 	public double getPressureDrop(){
-		return this.pressureDrop;
+		return this.pressureIn-this.pressureOut;
+	}
+	
+	public ArrayList<FluidCircuitProperties> getPre(){
+		return this.pre;
+	}
+	
+	public ArrayList<FluidCircuitProperties> getPost(){
+		return this.post;
+	}
+	
+	public static ArrayList<FluidCircuitProperties> getAllConnectedElements(FluidCircuitProperties start){
+		ArrayList<FluidCircuitProperties> list = new ArrayList<FluidCircuitProperties>(), 
+				                          candidates = new ArrayList<FluidCircuitProperties>();
+		
+		list.add(start);
+		
+		// Build list of candidates
+		candidates.addAll(start.post);
+		for(FluidCircuitProperties fp: start.pre)
+			if(!list.contains(fp))
+				candidates.add(fp);
+		
+		while(0!=candidates.size()){
+			if(!list.contains(candidates.get(0))){
+				list.add(candidates.get(0));
+				for(FluidCircuitProperties fp: candidates.get(0).post)
+					if(!list.contains(fp))
+						candidates.add(fp);
+				for(FluidCircuitProperties fp: candidates.get(0).pre)
+					if(!list.contains(fp))
+						candidates.add(fp);
+				candidates.remove(0);
+			}
+		}
+		
+		return list;
+	}
+
+	public AFluidElementCharacteristic getCharacterisitc() {		
+		return characteristic;
+	}
+
+	public void setTemperature(DynamicState temperature) {
+		this.temperature = temperature;
+	}
+
+	public double getPressure() {
+		return (pressureOut+pressureIn)/2;
 	}
 }

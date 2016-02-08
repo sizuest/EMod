@@ -20,6 +20,7 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseMoveListener;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.swtchart.Chart;
 import org.swtchart.IBarSeries;
 import org.swtchart.ISeries;
@@ -62,7 +63,7 @@ public class BarChart {
 		List<String> xs = new ArrayList<String>();
 		for(ConsumerData cd:data){
 			for(int i=0;i<cd.getActive().size();i++){
-				if(/*cd.getActive().get(i) &&*/ cd.getUnits().get(i).equals(new SiUnit(Unit.WATT))) {
+				if(cd.getUnits().get(i).equals(new SiUnit(Unit.WATT))) {
 					s.add(cd.getEnergy().get(i));
 					xs.add(cd.getConsumer()+"."+cd.getNames().get(i));
 				}
@@ -79,10 +80,18 @@ public class BarChart {
 		chart.getAxisSet().getXAxis(0).setCategorySeries(xss);
 		chart.getAxisSet().getXAxis(0).enableCategory(true);
 		chart.getAxisSet().getXAxis(0).getTick().setTickLabelAngle(45);
+		chart.getAxisSet().getXAxis(0).getTick().setForeground(Display.getDefault().getSystemColor(0));
+		chart.getAxisSet().getXAxis(0).getTitle().setForeground(Display.getDefault().getSystemColor(0));
 		chart.getAxisSet().adjustRange();
 		chart.getTitle().setText(LocalizationHandler.getItem("app.gui.analysis.barchart.title"));
 		chart.getAxisSet().getXAxis(0).getTitle().setText("");
-		chart.getAxisSet().getYAxis(0).getTitle().setText(LocalizationHandler.getItem("app.gui.analysis.barchart.yaxistitle"));
+		
+		chart.getAxisSet().getYAxis(0).getTitle().setText("["+(new SiUnit("J")).toString()+"]");
+		chart.getAxisSet().getYAxis(0).getTick().setForeground(Display.getDefault().getSystemColor(0));
+		chart.getAxisSet().getYAxis(0).getTitle().setForeground(Display.getDefault().getSystemColor(0));
+		
+		chart.getTitle().setVisible(false);
+		
 		
 		chart.getPlotArea().addMouseMoveListener(new MouseMoveListener() {
             public void mouseMove(MouseEvent e) {

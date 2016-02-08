@@ -1,4 +1,5 @@
-Spindle.RotSpeed = RotSpeed
-Spindle.Torque = Torque
-Spindle.FluidIn = ForcedFluidFlow.FluidOut
-ForcedFluidFlow.TemperatureIn = InletTemperature
+Spindle.State = State
+Spindle.CoolantIn = ForcedFluidFlow.FluidOut
+ForcedFluidFlow.TemperatureIn = Spindle.Temperature
+ForcedFluidFlow.PressureIn = Pressure
+ForcedFluidFlow.FluidIn = Spindle.CoolantOut

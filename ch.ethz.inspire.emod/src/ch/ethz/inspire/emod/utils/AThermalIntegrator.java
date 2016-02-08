@@ -47,7 +47,7 @@ public abstract class AThermalIntegrator {
 	protected ArrayList<ShiftProperty<Double>> temperature;
 	protected ShiftProperty<Double> mDotIn, mDotOut; 
 	protected ShiftProperty<Double> pressure;
-	protected DynamicState massState, temperatureState;
+	protected DynamicState massState, temperatureState, temperatureOutState;
 	protected Material material;
 	protected int numElements = 1;
 	
@@ -79,8 +79,9 @@ public abstract class AThermalIntegrator {
 		
 		pressure  = new ShiftProperty<Double>(0.0);
 		
-		massState        = new DynamicState("Mass", new SiUnit(Unit.KG));
-		temperatureState = new DynamicState("Temperature", new SiUnit(Unit.KELVIN));
+		massState           = new DynamicState("Mass", new SiUnit(Unit.KG));
+		temperatureState    = new DynamicState("Temperature", new SiUnit(Unit.KELVIN));
+		temperatureOutState = new DynamicState("TemperatureOut", new SiUnit(Unit.KELVIN));
 		try {
 			temperatureState.setInitialConditionFunction(this.getClass().getMethod("setInitialTemperature", double.class), this);
 		} catch (Exception e) {
@@ -114,6 +115,8 @@ public abstract class AThermalIntegrator {
 			this.temperature.get(i).update(temperatureInit);
 			this.temperature.get(i).update(temperatureInit);
 		}
+		
+		temperatureOutState.setInitialCondition(temperatureInit);
 	}
 	
 	/**
@@ -149,6 +152,14 @@ public abstract class AThermalIntegrator {
 	 */
 	public DynamicState getTemperature(){
 		return temperatureState;
+	}
+	
+	/**
+	 * Temperature of the last element
+	 * @return {@link DynamicState.java}
+	 */
+	public DynamicState getTemperatureOut(){
+		return temperatureOutState;
 	}
 	
 	/**
@@ -217,7 +228,7 @@ public abstract class AThermalIntegrator {
 
 		/* Bulk temperature as system state */
 		temperatureState.setValue(getTemperatureBulk());
-		
+		temperatureOutState.setValue(temperature.get(temperature.size()-1).getCurrent());
 	}
 	
 	protected ShiftProperty<Double> getMassFlowIn(){

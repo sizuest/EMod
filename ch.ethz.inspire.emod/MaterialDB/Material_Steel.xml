@@ -23,7 +23,7 @@
   </comment>
   <entry key="TemperatureSamples">273; </entry>
   <entry key="PressureSamples">100000</entry>
-  <entry key="ViscositySamples">10000000</entry>
+  <entry key="ViscositySamples">NaN</entry>
   <entry key="DensityMatrix">7860;</entry>
   <entry key="HeatCapacity">480</entry>
   <entry key="ThermalConductivity">50</entry>

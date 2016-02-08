@@ -178,7 +178,7 @@ public class SimulationOutput {
 				for (IOContainer input : mc.getComponent().getInputs()){
 					if(mc.getComponent() instanceof Floodable & input instanceof FluidContainer){
 						outfile.write(separator + ((FluidContainer)input).getTemperature());
-						outfile.write(separator + ((FluidContainer)input).getFluidCircuitProperties().getFlowRateIn());
+						outfile.write(separator + ((FluidContainer)input).getFluidCircuitProperties().getFlowRate());
 						outfile.write(separator + ((FluidContainer)input).getPressure());
 					}
 					else
@@ -187,7 +187,7 @@ public class SimulationOutput {
 				for (IOContainer output : mc.getComponent().getOutputs()){
 					if(mc.getComponent() instanceof Floodable & output instanceof FluidContainer){
 						outfile.write(separator + ((FluidContainer)output).getTemperature());
-						outfile.write(separator + ((FluidContainer)output).getFluidCircuitProperties().getFlowRateOut());
+						outfile.write(separator + ((FluidContainer)output).getFluidCircuitProperties().getFlowRate());
 						outfile.write(separator + ((FluidContainer)output).getPressure());
 					}
 					else

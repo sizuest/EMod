@@ -104,7 +104,7 @@ public class DuctDrilling extends ADuctElement {
 
 	@Override
 	public double getPressureDrop(double flowRate, double pressure,
-			double temperatureFluid, double temperatureWall) {
+			double temperatureFluid) {
 		return Fluid.pressureLossFrictionPipe(getMaterial(), temperatureFluid, length, getDiameter(), flowRate/this.count, .5E-3);
 	}
 

@@ -189,10 +189,10 @@ public class DynamicState {
 	public void loadInitialCondition() throws Exception{
 		
 		if(this.parent.equals("")) 
-			throw new Exception("Can't load initial condition: No parent set!" + this.toString());
+			throw new Exception("Dynamic state '"+ this.toString()+"': Can't load initial condition: No parent set!" + this.toString());
 		
 		try {
-			System.out.println("Loaded initial condition: " + this.toString());
+			System.out.println("Dynamic state '"+ this.toString()+"': Loaded initial condition");
 			ConfigReader initCond = new ConfigReader( configPath() );
 			setInitialCondition(initCond.getDoubleValue(getInitialConditionName()));
 			initCond.Close();
@@ -211,7 +211,7 @@ public class DynamicState {
 	public void saveInitialCondition() throws Exception{
 		
 		if(this.parent.equals(""))
-			throw new Exception("Can't save initial condition: No parent set!");
+			throw new Exception("Dynamic state '"+name+"': Can't save initial condition: No parent set!");
 		
 		try {
 			ConfigReader initCond = new ConfigReader( configPath() );
@@ -237,6 +237,10 @@ public class DynamicState {
 	 */
 	public double getLastValue() {
 		return this.lastValue;
+	}
+	
+	public String toString(){
+		return this.getInitialConditionName();
 	}
 	
 }

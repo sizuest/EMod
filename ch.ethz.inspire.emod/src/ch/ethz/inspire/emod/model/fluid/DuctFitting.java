@@ -84,7 +84,7 @@ public class DuctFitting extends ADuctElement{
 
 	@Override
 	public double getPressureDrop(double flowRate, double pressure,
-			double temperatureFluid, double temperatureWall) {
+			double temperatureFluid) {
 		return Fluid.pressureLossFitting(getMaterial(), temperatureFluid, getLength(), p1, p2, flowRate);
 	}
 	

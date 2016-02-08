@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-<comment>File changed by user: sizuest</comment>
+<comment/>
 <entry key="Mass">15</entry>
-<entry key="PowerSamples">1200 1000</entry>
-<entry key="FlowRateSamples">0 0.00001</entry>
+<entry key="PowerSamples">100 210 460</entry>
+<entry key="FlowRateSamples">0 0.00025 0.0005</entry>
 <entry key="Material">Steel</entry>
-<entry key="PressureSamples">367975 68670</entry>
+<entry key="PressureSamples">370000 300000 250000</entry>
+<entry key="EfficiencySamples">0 .4 .3</entry>
 </properties>

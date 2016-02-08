@@ -177,7 +177,6 @@ public abstract class APhysicalComponent {
 	 */
 	public void setDynamicStateParent(String parent){
 		if(null == parent){
-			System.err.println("Cannot set Dynamic state parent if null");
 			return;
 		}
 		if(dynamicStates!=null)

@@ -23,7 +23,7 @@ import org.eclipse.swt.widgets.Composite;
  */
 public abstract class AGUITab extends Composite  {
 	
-	AGUITab(Composite parent, int i){
+	protected AGUITab(Composite parent, int i){
 		super(parent, i);
 	}
 	

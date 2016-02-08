@@ -103,7 +103,7 @@ public class DuctFlowAround extends ADuctElement{
 
 	@Override
 	public double getPressureDrop(double flowRate, double pressure,
-			double temperatureFluid, double temperatureWall) {		
+			double temperatureFluid) {		
 		return Fluid.pressureLossFrictionCoil(getMaterial(), temperatureFluid, length, profile, 2*radius, 0, flowRate/2);
 	}
 	

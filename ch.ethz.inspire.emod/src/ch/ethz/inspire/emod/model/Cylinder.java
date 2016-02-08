@@ -19,6 +19,9 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import ch.ethz.inspire.emod.model.fluid.FECForcedFlow;
+import ch.ethz.inspire.emod.model.fluid.Fluid;
+import ch.ethz.inspire.emod.model.thermal.ThermalElement;
 import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.simulation.DynamicState;
 import ch.ethz.inspire.emod.utils.Floodable;
@@ -26,7 +29,6 @@ import ch.ethz.inspire.emod.utils.FluidCircuitProperties;
 import ch.ethz.inspire.emod.utils.FluidContainer;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
-import ch.ethz.inspire.emod.utils.ShiftProperty;
 
 /**
  * General Cylinder model class.
@@ -78,6 +80,7 @@ public class Cylinder extends APhysicalComponent implements Floodable {
 	private IOContainer pmech;
 	private IOContainer ploss;
 	private IOContainer phydr;
+	private IOContainer flowRate;
 	private FluidContainer fluidOut;
 	
 	// Parameters used by the model. 
@@ -89,18 +92,20 @@ public class Cylinder extends APhysicalComponent implements Floodable {
 	private double efficiency;
 	private double pistonRodDiameter;
 	private double k = 0.5;				//Geometric loss koefficient
-	private double pmax;
-	private int cylinderType;
 	private double area;
 	private double connectionDiameter;
 	private double flowRateLeak = 0;
-	private ShiftProperty<Double> flowRate = new ShiftProperty<Double>(0.0);
+	private double structureMass = 1;
+	private String structureMaterial = "Steel";
 	
 	/* Fluid Properties */
-	FluidCircuitProperties fluidProperties;
+	private FluidCircuitProperties fluidProperties;
 	
 	/* Position */
-	DynamicState position;
+	private DynamicState position;
+	
+	/* Thermal elements */
+	private ThermalElement structure, fluid;
 
 	
 	/**
@@ -137,34 +142,25 @@ public class Cylinder extends APhysicalComponent implements Floodable {
 	 */
 	private void init()
 	{
-		/* Fluid Properties */
-		fluidProperties = new FluidCircuitProperties();
-		
+
 		/* Define Input parameters */
 		inputs    = new ArrayList<IOContainer>();
 		force     = new IOContainer("Force",     new SiUnit(Unit.NEWTON),     0, ContainerType.MECHANIC);
 		velocity  = new IOContainer("Velocity",  new SiUnit(Unit.M_S),     0, ContainerType.MECHANIC);
-		fluidIn   = new FluidContainer("FluidIn", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidProperties);
 		inputs.add(force);
 		inputs.add(velocity);
-		inputs.add(fluidIn);
 		
 		/* Define output parameters */
 		outputs     = new ArrayList<IOContainer>();
 		pmech       = new IOContainer("PUse",       new SiUnit(Unit.WATT), 0, ContainerType.MECHANIC);
 		ploss       = new IOContainer("PLoss",      new SiUnit(Unit.WATT), 0, ContainerType.THERMAL);
-		phydr       = new IOContainer("PTotal",     new SiUnit(Unit.WATT), 0, ContainerType.FLUIDDYNAMIC);
-		fluidOut    = new FluidContainer("FluidOut", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidProperties);
-		
+		phydr       = new IOContainer("PTotal",     new SiUnit(Unit.WATT), 0, ContainerType.FLUIDDYNAMIC);		
 		outputs.add(pmech);
 		outputs.add(ploss);
 		outputs.add(phydr);
-		outputs.add(fluidOut);
+
 		
-		/* Define state */
-		position = new DynamicState("Position", new SiUnit(Unit.M));
-		dynamicStates = new ArrayList<DynamicState>();
-		dynamicStates.add(position);
+
 		
 		
 
@@ -189,9 +185,9 @@ public class Cylinder extends APhysicalComponent implements Floodable {
 			stroke				= params.getDoubleValue("CylinderStroke");
 			efficiency			= params.getDoubleValue("Efficiency");
 			pistonRodDiameter	= params.getDoubleValue("PistonRodDiameter");
-			pmax				= params.getDoubleValue("PMax");
-			cylinderType		= params.getIntValue("CylinderType");
 			connectionDiameter  = params.getDoubleValue("ConnectionDiameter");
+			structureMass       = params.getDoubleValue("StructuralMass");
+			structureMaterial   = params.getString("StructurMaterial");
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -209,10 +205,7 @@ public class Cylinder extends APhysicalComponent implements Floodable {
 		}
 		
 		/* Area */
-		if(cylinderType == 1)
-			area = Math.PI/4*(Math.pow(pistonDiameter,2));
-		else if(cylinderType == 2)
-			area = Math.PI/4*(Math.pow(pistonDiameter, 2)-Math.pow(pistonRodDiameter, 2));
+		area = Math.PI/4*(Math.pow(pistonDiameter, 2)-Math.pow(pistonRodDiameter, 2));
 		
 		
 		/* Choosing of the fitting according to the piston diameter */
@@ -239,6 +232,34 @@ public class Cylinder extends APhysicalComponent implements Floodable {
 			H_7 = 17.5*Math.pow(10,-6);
 			h_6 = 11*Math.pow(10,-6);
 		}
+		
+		/* Thermal elements */
+		structure = new ThermalElement(structureMaterial, structureMass);
+		fluid     = new ThermalElement("Example", 1);
+		
+		structure.getTemperature().setName("TemperatureStructure");
+		fluid.getTemperature().setName("TemperatureFluid");
+		fluid.getTemperature().setInitialCondition(293.15);
+		fluid.setVolume(area*stroke);
+		
+		/* Define state */
+		position = new DynamicState("Position", new SiUnit(Unit.M));
+		dynamicStates = new ArrayList<DynamicState>();
+		dynamicStates.add(position);
+		dynamicStates.add(structure.getTemperature());
+		dynamicStates.add(fluid.getTemperature());
+		
+		/* Fluid Properties */
+		flowRate  = new IOContainer("FlowRate", new SiUnit("m^3/s"), 0);
+		fluidProperties = new FluidCircuitProperties(new FECForcedFlow(flowRate),  fluid.getTemperature());
+		
+		fluid.setMaterial(fluidProperties.getMaterial());
+		
+		fluidIn   = new FluidContainer("FluidIn",  new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidProperties);
+		fluidOut  = new FluidContainer("FluidOut", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidProperties);
+		
+		inputs.add(fluidIn);
+		outputs.add(fluidOut);
 	}
 	
 	/**
@@ -266,18 +287,7 @@ public class Cylinder extends APhysicalComponent implements Floodable {
 		if(0>pistonRodDiameter){
 			throw new Exception("Cylinder, type:" +type+
 					": Non physical value: Variable 'PistonRodDiameter' must be bigger than zero!");
-		}
-		
-		if(0>pmax){
-			throw new Exception("Cylinder, type:" +type+
-					": Non physical value: Variable 'PMax' must be bigger than zero!");
-		}
-		
-		if(cylinderType != 1 && cylinderType != 2){
-			throw new Exception("Cylinder, type:" +type+
-					": Non physical value: Variable 'PMax' must be 1 or 2!");
-		}
-				
+		}				
 	}
 	
 
@@ -291,14 +301,13 @@ public class Cylinder extends APhysicalComponent implements Floodable {
 		       viscosity,
 		       density,
 		       velocity,
-		       heatCapacity, 
 		       deltaPosition,
-		       deltaTemperature;
+		       heat2Fluid,
+		       fluidRth;
 		
 		/* Material properties */
-		viscosity    = fluidProperties.getMaterial().getViscosityDynamic(fluidIn.getTemperature());
-		density      = fluidProperties.getMaterial().getDensity(fluidIn.getTemperature(), fluidIn.getPressure());
-		heatCapacity = fluidProperties.getMaterial().getHeatCapacity();
+		viscosity    = fluid.getMaterial().getViscosityDynamic(fluidIn.getTemperature());
+		density      = fluid.getMaterial().getDensity(fluidIn.getTemperature(), fluidIn.getPressure());
 		
 		/* Position */
 		velocity = this.velocity.getValue();
@@ -316,44 +325,41 @@ public class Cylinder extends APhysicalComponent implements Floodable {
 		velocity = position.getTimeDerivate();
 		
 		
-		/* Flow Rate */
-		flowRate.update(Math.abs(velocity)*area);
-		
 		/* Pressure drop */
-		if(0==velocity){
+		if(0==velocity)
 			pressureDrop = Math.abs(force.getValue())/(Math.PI/4*(Math.pow(pistonDiameter,2)-Math.pow(pistonRodDiameter, 2)));
-		}
-		else {
-			if(1==cylinderType && 0<velocity)
-				pressureDrop = Math.abs(force.getValue()) / (efficiency*area) +    (Math.pow(velocity, 2)*Math.pow(Math.PI/4*(Math.pow(pistonDiameter,2)-Math.pow(pistonRodDiameter, 2)), 2)+ Math.pow(flowRateLeak, 2)*density)/(2*Math.pow(Math.PI/4*Math.pow(connectionDiameter,2)*k, 2))*Math.pow(pistonDiameter, 2)-Math.pow(pistonRodDiameter, 2)/Math.pow(pistonDiameter, 2);
-			else if(2==cylinderType)
-				pressureDrop = Math.abs(force.getValue()) / (efficiency*area) + 875*Math.pow(velocity, 2)*Math.pow(Math.PI/4*(Math.pow(pistonDiameter,2)-Math.pow(pistonRodDiameter, 2)), 2)/(2*Math.pow(Math.PI/4*k*Math.pow(0.01, 2), 2));
-			else
-				pressureDrop = fluidProperties.getPressureBack()-fluidProperties.getPressureFront();
-		}
+		else 
+			pressureDrop = Math.abs(force.getValue()) / (efficiency*area) + 875*Math.pow(velocity, 2)*Math.pow(Math.PI/4*(Math.pow(pistonDiameter,2)-Math.pow(pistonRodDiameter, 2)), 2)/(2*Math.pow(Math.PI/4*k*Math.pow(0.01, 2), 2));
 
 		/* Leak flow */
 		flowRateLeak = Math.PI * pressureDrop *Math.pow(pistonDiameter/2+H_7-(pistonDiameter/2-h_6), 3)*(pistonDiameter/2+H_7+pistonDiameter/2-h_6)/(12*viscosity*Math.pow(10,-6)*pistonThickness)/density;
 		
+		/* Flow Rate */
+		flowRate.setValue(flowRateLeak+Math.abs(velocity*area));
 		
-				
-		/* Set outputs */
+		/* Powers */
 		pmech.setValue(Math.abs(force.getValue())*Math.abs(velocity));
-		phydr.setValue(pressureDrop*((flowRate.getCurrent()+flowRate.getLast())/2+flowRateLeak));
+		phydr.setValue((fluidProperties.getPressureIn()-fluidProperties.getPressureOut())*flowRate.getValue());
 		ploss.setValue(phydr.getValue()-pmech.getValue());
 		
-		/* Temperature raise */
-		if((flowRate.getCurrent()+flowRate.getLast())/2+flowRateLeak>0)
-			deltaTemperature = ploss.getValue() / ((flowRate.getCurrent()+flowRate.getLast())/2+flowRateLeak) / density / heatCapacity;
+		/* Heat Flux */
+		double surface = Math.PI*pistonDiameter*stroke;
+		if(velocity==0)
+			fluidRth   = surface*Fluid.convectionFreeCylinderHorz(fluid.getMaterial(), structure.getTemperature().getValue(), fluid.getTemperature().getValue(), pistonDiameter);
 		else
-			deltaTemperature = 0;
+			fluidRth   = surface*Fluid.convectionForcedPipe(fluid.getMaterial(), fluid.getTemperature().getValue(), stroke, pistonDiameter, flowRate.getValue());
 		
-		/* Fluid properties */
-		fluidProperties.setFlowRateIn(flowRateLeak+(flowRate.getCurrent()+flowRate.getLast())/2);
-		fluidProperties.setPressureDrop(pressureDrop);
+		heat2Fluid = fluidRth*(structure.getTemperature().getValue()-fluid.getTemperature().getValue());
+		structure.setHeatInput(-heat2Fluid);
+			
+		fluid.setHeatInput(heat2Fluid+0*ploss.getValue());
+		fluid.setTemperatureIn(fluidProperties.getTemperatureIn());
 		
-		fluidOut.setTemperature(fluidIn.getTemperature()+deltaTemperature);
-		fluidIn.setPressure(fluidOut.getPressure()+pressureDrop);
+		fluid.integrate(timestep, flowRate.getValue(), flowRate.getValue(), fluidProperties.getPressure());
+		structure.integrate(timestep);
+				
+		
+		
 	
 	}
 

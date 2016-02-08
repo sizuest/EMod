@@ -3,13 +3,19 @@
 <properties>
 <comment/>
 <entry key="InitialValue_PumpHydraulics_Temperature">NaN</entry>
-<entry key="InitialValue_Tank_Mass">1.0</entry>
+<entry key="InitialValue_PumpHE_TemperatureFluid">293.0</entry>
+<entry key="InitialValue_Tank_Mass">50.0</entry>
 <entry key="InitialValue_HydraulicPump_Temperature">NaN</entry>
 <entry key="InitialValue_CoolantPump_Temperature">NaN</entry>
 <entry key="InitialValue_PumpCoolant_Temperature">NaN</entry>
-<entry key="InitialValue_Spindle_TemperatureStructure">NaN</entry>
+<entry key="InitialValue_PumpHydraulics_TemperatureFluid">293.0</entry>
 <entry key="simulationPeriod">1</entry>
+<entry key="InitialValue_Spindle_TemperatureStructure">293.0</entry>
 <entry key="InitialValue_PumpHE_Temperature">NaN</entry>
-<entry key="InitialValue_Spindle_TemperatureCoolant">NaN</entry>
-<entry key="InitialValue_Tank_Temperature">NaN</entry>
+<entry key="InitialValue_PumpHydraulics_TemperatureStructure">293.0</entry>
+<entry key="InitialValue_Spindle_TemperatureCoolant">293.0</entry>
+<entry key="InitialValue_PumpCoolant_TemperatureStructure">293.0</entry>
+<entry key="InitialValue_Tank_Temperature">293.0</entry>
+<entry key="InitialValue_PumpCoolant_TemperatureFluid">293.0</entry>
+<entry key="InitialValue_PumpHE_TemperatureStructure">293.0</entry>
 </properties>

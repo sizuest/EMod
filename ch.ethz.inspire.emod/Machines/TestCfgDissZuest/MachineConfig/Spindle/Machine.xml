@@ -3,7 +3,7 @@
     <machine>
         <machineComponent>
             <component xsi:type="spindle" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
+                <type>StepTec-6000.300.B.10</type>
             </component>
             <name>Spindle</name>
         </machineComponent>
@@ -17,25 +17,48 @@
     <simulators>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>RotSpeed</name>
-            <unit>RPM</unit>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
         </simController>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>Torque</name>
-            <unit>NEWTONMETER</unit>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
         </simController>
         <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>InletTemperature</name>
-            <unit>KELVIN</unit>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
         </simController>
         <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>FlowRate</name>
-            <unit>L_MIN</unit>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
         </simController>
         <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>ConstantSimulationControl</name>
-            <unit>METERCUBIC_S</unit>
+            <name>State</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>FlowRate</name>
+            <unit>
+                <unitText>m³/s</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Pressure</name>
+            <unit>
+                <unitText>Pa</unitText>
+            </unit>
         </simController>
     </simulators>
+    <connectionList/>
     <connectionList/>
     <connectionList/>
     <connectionList/>

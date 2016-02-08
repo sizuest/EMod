@@ -13,6 +13,7 @@
 package ch.ethz.inspire.emod.gui;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import org.eclipse.swt.SWT;
@@ -39,12 +40,14 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
+import ch.ethz.inspire.emod.LogLevel;
 import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.States;
 import ch.ethz.inspire.emod.Process;
 import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.simulation.ASimulationControl;
 import ch.ethz.inspire.emod.simulation.DynamicState;
+import ch.ethz.inspire.emod.simulation.EModSimulationRun;
 import ch.ethz.inspire.emod.simulation.MachineState;
 import ch.ethz.inspire.emod.simulation.SimulationState;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
@@ -57,11 +60,16 @@ import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 public class SimGUI extends AGUITab  {
 	
+	private static Logger logger = Logger.getLogger(EModGUI.class.getName());
+	
 	protected static TabFolder tabFolder;
 	
+	private Table simConfig;
 	private Table tableSimParam;
 	private Table tableProcessParam;
 	private Table tableStateSequence;
+	
+	private Button buttonCheckCfg, buttonRunSim;
 	
 	// fields used in the Table for the State Sequences
 	private String[] stateList;
@@ -248,6 +256,27 @@ public class SimGUI extends AGUITab  {
 		//set the composite to the tab and show it
 		tabGenerlItem.setControl(composite);
 		tabFolder.pack();
+		
+		buttonCheckCfg = new Button(composite, SWT.NONE);
+		buttonCheckCfg.setText(LocalizationHandler.getItem("app.gui.sim.general.checkcfg"));
+		buttonCheckCfg.setEnabled(false);
+		
+		buttonRunSim = new Button(composite, SWT.NONE);
+		buttonRunSim.setText(LocalizationHandler.getItem("app.gui.sim.general.runsim"));
+		buttonRunSim.setEnabled(true);
+		buttonRunSim.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				runSimulation();
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 	
 	public void initTabInitialConditions(TabFolder tabFolder){		
@@ -602,6 +631,16 @@ public class SimGUI extends AGUITab  {
 			}
         });
         tableStateSequence.setRedraw(true);
+	}
+	
+	private void runSimulation(){
+		System.out.println("Simulation start initialization: Saving Machine and IOLinking");
+		// Save all
+		Machine.saveMachine(PropertiesHandler.getProperty("sim.MachineName"), PropertiesHandler.getProperty("sim.MachineConfigName"));
+		States.saveStates(PropertiesHandler.getProperty("sim.MachineName"), PropertiesHandler.getProperty("sim.SimulationConfigName"));
+		// manick: EModSimRun contains all the necessary commands to run a simulation
+		EModSimulationRun.EModSimRun();
+		logger.log(LogLevel.DEBUG, "simulation run");
 	}
 }
 

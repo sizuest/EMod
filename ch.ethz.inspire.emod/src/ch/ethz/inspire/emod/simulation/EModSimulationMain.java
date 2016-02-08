@@ -16,13 +16,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.Process;
 import ch.ethz.inspire.emod.utils.ConfigReader;
 import ch.ethz.inspire.emod.utils.Defines;
+import ch.ethz.inspire.emod.utils.Floodable;
+import ch.ethz.inspire.emod.utils.FluidCircuitProperties;
 import ch.ethz.inspire.emod.utils.IOConnection;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
 import ch.ethz.inspire.emod.gui.utils.ProgressbarGUI;
 import ch.ethz.inspire.emod.model.MachineComponent;
+import ch.ethz.inspire.emod.model.fluid.FluidCircuitSolver;
 import ch.ethz.inspire.emod.simulation.ProcessSimulationControl;
 
 /**
@@ -138,6 +142,7 @@ public class EModSimulationMain {
 		double time; 
 		ProgressbarGUI pg = new ProgressbarGUI("app.gui.analysis.progressbar");
 		pg.updateProgressbar(0);
+		FluidCircuitSolver fluidSolver;
 		
 		/* Check if all lists are defined: */
 		if ( (simulators == null) || 
@@ -168,7 +173,14 @@ public class EModSimulationMain {
 		for(MachineComponent mc : machineComponentList)
 			mc.getComponent().preSimulation();
 		
+		/* Create solver for fluid circuits */
+		ArrayList<FluidCircuitProperties> fluidPropertyList = new ArrayList<FluidCircuitProperties>();
+		for(MachineComponent mc: Machine.getInstance().getFloodableMachineComponentList())
+			fluidPropertyList.addAll(((Floodable) (mc.getComponent())).getFluidPropertiesList());
+		fluidSolver = new FluidCircuitSolver(fluidPropertyList, Machine.getInstance().getFluidConnectionList());
+		
 		logger.info("starting simulation");
+		
 		
 
 		/* Time 0.0 s:
@@ -190,6 +202,7 @@ public class EModSimulationMain {
 			
 			/* Set the inputs of all component models. */
 			setInputs();
+
 			
 			/* Iterate all models. The outputs of all component models are updated.*/
 			for(MachineComponent mc : machineComponentList)
@@ -198,6 +211,16 @@ public class EModSimulationMain {
 				} catch (Exception e){
 					System.out.println("EModSimulationMain.runSimulation(): update component not working for: " + mc.getComponent().toString());
 				}
+			
+			/* Solve fluid circuits */
+			try {
+				fluidSolver.solve();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			
+			
 			/*	Log data of the actual time sample */
 			simoutput.logData(time);
 			

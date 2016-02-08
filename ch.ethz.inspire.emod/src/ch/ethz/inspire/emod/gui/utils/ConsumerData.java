@@ -70,42 +70,29 @@ public class ConsumerData {
 	 * calculate variance, peak and average power.
 	 */
 	public void calculate() {
-		int pmech = 0, ploss = 0, ptotal = 0;
+		int ptotal = 0;
 		double peak = 0, avg = 0;
-		boolean calcPTotal = false;
 		for (int i = 0; i < values.size(); i++) {
-			if (names.get(i).equals("Pmech"))
-				pmech = i;
-			if (names.get(i).equals("Ploss"))
-				ploss = i;
-			if (names.get(i).equals("ptotal") || names.get(i).equals("Ptotal")
+			if (names.get(i).equals("PTotal")
 					|| names.get(i).equals("Pel"))
 				ptotal = i;
 		}
-		if (pmech == ploss && ploss == 0) {
-			if (ptotal != 0)
-				pTotal = values.get(ptotal);
-			else {
-				/*
-				 * No power consumption available set values to zero and return
-				 * @author sizuest
-				 */
-				pTotal       = new double[values.get(ploss).length];
-				variance     = 0;
-				averagePower = 0;
-				peakPower    = 0;
-				return;
-			}
+		if (ptotal != 0)
+			pTotal = values.get(ptotal);
+		else {
+			/*
+			 * No power consumption available set values to zero and return
+			 * @author sizuest
+			 */
+			pTotal       = new double[values.get(0).length];
+			variance     = Double.NaN;
+			averagePower = Double.NaN;
+			peakPower    = Double.NaN;
+			return;
 		}
-		if (pTotal == null) {
-			pTotal = new double[values.get(ploss).length];
-			calcPTotal = true;
-		}
+		
 
-		for (int j = 0; j < values.get(ploss).length; j++) {
-			// calc the total power consumption
-			if (calcPTotal)
-				pTotal[j] = values.get(ploss)[j] + values.get(pmech)[j];
+		for (int j = 0; j < values.get(ptotal).length; j++) {
 			if (pTotal[j] > peak)
 				peak = pTotal[j];
 			avg += pTotal[j];

@@ -70,8 +70,8 @@ public class FluidConnection extends IOConnection {
 	 * @param pressure
 	 */
 	public void init(double temperature, double pressure){
-		((FluidContainer)source).setValues(temperature, pressure);
-		((FluidContainer)target).setValues(temperature, pressure);
+		((FluidContainer)this.source).setValuesAsOutput();
+		((FluidContainer)this.target).setValuesAsInput();
 	}
 	
 	/**
@@ -82,10 +82,10 @@ public class FluidConnection extends IOConnection {
 	public void update(){
 		/* direction of calculation
 		 * temperature [K]    : source --> target
-		 * pressure    [Pa]   : source --> target
+		 * pressure    [Pa]   : from fluid circuit solver
 		 */
-		((FluidContainer)this.target).setTemperature(((FluidContainer)this.source).getTemperature());
-		((FluidContainer)this.target).setPressure(((FluidContainer)this.source).getPressure());
+		((FluidContainer)this.source).setValuesAsOutput();
+		((FluidContainer)this.target).setValuesAsInput();
 	}
 }
 

@@ -123,15 +123,6 @@ public class ThermalArray extends AThermalIntegrator {
 			this.heatSource = heatSource;
 	}
 	
-	
-	/**
-	 * Output temperature
-	 * @return temperature(end)
-	 */
-	public double getTemperatureOut(){
-		return temperature.get(numElements-1).getCurrent();
-	}
-	
 	/**
 	 * @return heat loss to ambient
 	 */

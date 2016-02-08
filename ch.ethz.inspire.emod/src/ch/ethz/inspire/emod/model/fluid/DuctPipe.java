@@ -54,6 +54,20 @@ public class DuctPipe extends ADuctElement {
 		super();
 		this.name     = name;
 	}
+	
+	/**
+	 * Constructor
+	 * 
+	 * @param name
+	 * @param length 
+	 * @param diameter 
+	 */
+	public DuctPipe(double length, double diameter, double roughness){
+		super();
+		this.length    = length;
+		this.profile   = new HPCircular(diameter/2);
+		this.roughness = roughness;
+	}
 		
 	/**
 	 * Constructor for testing
@@ -74,7 +88,7 @@ public class DuctPipe extends ADuctElement {
 	}
 
 	@Override
-	public double getPressureDrop(double flowRate, double pressure, double temperatureFluid, double temperatureWall) {
+	public double getPressureDrop(double flowRate, double pressure, double temperatureFluid) {
 		return Fluid.pressureLossFrictionPipe(material, temperatureFluid, this.length, getDiameter(), flowRate, this.roughness);
 
 	}

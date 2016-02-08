@@ -18,9 +18,11 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import ch.ethz.inspire.emod.model.fluid.FECForcedFlow;
 import ch.ethz.inspire.emod.model.units.ContainerType;
 import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.simulation.DynamicState;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 import ch.ethz.inspire.emod.utils.Floodable;
 import ch.ethz.inspire.emod.utils.FluidCircuitProperties;
@@ -52,6 +54,7 @@ public class ForcedFluidFlow  extends APhysicalComponent implements Floodable{
 
 	// Fluid Properties
 	FluidCircuitProperties fluidProperties;
+	DynamicState temperature;
 	
 	
 	/**
@@ -91,9 +94,7 @@ public class ForcedFluidFlow  extends APhysicalComponent implements Floodable{
 	}
 	
 	private void init()	{
-		// Flow rate Obj
-		fluidProperties = new FluidCircuitProperties();
-		fluidProperties.setPressureReference(fluidOut);
+		;
 		
 		//add inputs
 		inputs = new ArrayList<IOContainer>();
@@ -111,12 +112,18 @@ public class ForcedFluidFlow  extends APhysicalComponent implements Floodable{
 		outputs.add(temperatureRaise);
 		outputs.add(pressureLoss);
 		
+		// Flow rate Obj
+		temperature = new DynamicState("Temperature", new SiUnit("K"));
+		temperature.setInitialCondition(293.15);
+		fluidProperties = new FluidCircuitProperties(new FECForcedFlow(flowRateCmd), temperature);
+		
 		//add fluid In/Output
 		fluidIn        = new FluidContainer("FluidIn", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidProperties);
 		inputs.add(fluidIn);
 		fluidOut        = new FluidContainer("FluidOut", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidProperties);
 		outputs.add(fluidOut);
 		
+		fluidProperties.setPressureReferenceOut(pressureIn);
 		
 		
 		
@@ -152,10 +159,7 @@ public class ForcedFluidFlow  extends APhysicalComponent implements Floodable{
 	@Override
 	public void update() {
 		// Set forced output
-		fluidOut.setTemperature(temperatureIn.getValue());
-		fluidOut.setPressure(pressureIn.getValue());
-		// Set flow rate
-		fluidProperties.setFlowRateOut(flowRateCmd.getValue());
+		temperature.setValue(temperatureIn.getValue());
 		// Calculate differences
 		temperatureRaise.setValue(fluidIn.getTemperature()-temperatureIn.getValue());
 		pressureLoss.setValue(pressureIn.getValue()-fluidIn.getPressure());

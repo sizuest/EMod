@@ -529,7 +529,7 @@ public class Duct {
 			if(null!=e.isolation)
 				htc =  1/(1/htc + 1/e.isolation.getThermalResistance());
 			Rth     += htc;
-			lastp   = e.getPressureOut(flowRate, lastp, temperatureFluid, temperatureWall);
+			lastp   = e.getPressureOut(flowRate, lastp, temperatureFluid);
 		}
 		
 		return Rth;
@@ -540,14 +540,13 @@ public class Duct {
 	}
 	
 	/**
-	 * Returns the current hydraulic resistance
+	 * Returns the current pressure loss
 	 * @param flowRate [m^3/s]
 	 * @param pressureIn [Pa]
 	 * @param temperatureFluid [K]
-	 * @param temperatureWall [K]
 	 * @return [Pa s^2/m^6]
 	 */
-	public double getPressureDrop(double flowRate, double pressureIn, double temperatureFluid, double temperatureWall){
+	public double getPressureDrop(double flowRate, double pressureIn, double temperatureFluid){
 		/*
 		 * Simples case: no flow
 		 */
@@ -557,9 +556,30 @@ public class Duct {
 		double pressureOut = pressureIn;
 		
 		for(ADuctElement e: elements)
-			pressureOut = e.getPressureOut(flowRate, pressureOut, temperatureFluid, temperatureWall);
+			pressureOut = e.getPressureOut(flowRate, pressureOut, temperatureFluid);
 		
 		return (pressureIn-pressureOut);
+	}
+	
+	/**
+	 * Returns the current hydraulic resistance with following assumption:
+	 * p(V) = k*V^2 --> k = p(V)/V²
+	 * 
+	 * @param flowRate [m^3/s]
+	 * @param pressureIn [Pa]
+	 * @param temperatureFluid [K]
+	 * @param temperatureWall [K]
+	 * @return [Pa s^2/m^6]
+	 */
+	public double getPressureLossCoefficient(double flowRate, double pressureIn, double temperatureFluid){
+		return getPressureDrop(flowRate, pressureIn, temperatureFluid)/Math.pow(flowRate, 2);
+	}
+	
+	public double getPressureLossDrivative(double flowRate, double pressureIn, double temperatureFluid){
+		double fac=1.05;
+		if(flowRate == 0)
+			return 0;
+		return (getPressureDrop(flowRate*fac, pressureIn, temperatureFluid)-getPressureDrop(flowRate, pressureIn, temperatureFluid))/fac/flowRate;
 	}
 	
 	/**

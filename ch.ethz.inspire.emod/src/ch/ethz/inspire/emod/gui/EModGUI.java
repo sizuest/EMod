@@ -38,6 +38,8 @@ import org.eclipse.swt.widgets.Monitor;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
+
+import ch.ethz.inspire.emod.gui.dd.DuctDesignGUI;
 import ch.ethz.inspire.emod.gui.utils.ProgressbarGUI;
 import ch.ethz.inspire.emod.model.MachineComponent;
 import ch.ethz.inspire.emod.simulation.EModSimulationRun;
@@ -274,14 +276,14 @@ public class EModGUI {
 					
 				// manick: if tab Analysis is opened -> Run Simulation
 				if (tabFolder.getItem(tabFolder.getSelectionIndex()).equals(tabAnalysisItem))
-		        {
+		        {/*
 					System.out.println("Simulation start initialization: Saving Machine and IOLinking");
 					// Save all
 					Machine.saveMachine(PropertiesHandler.getProperty("sim.MachineName"), PropertiesHandler.getProperty("sim.MachineConfigName"));
 					States.saveStates(PropertiesHandler.getProperty("sim.MachineName"), PropertiesHandler.getProperty("sim.SimulationConfigName"));
 					// manick: EModSimRun contains all the necessary commands to run a simulation
 					EModSimulationRun.EModSimRun();
-					logger.log(LogLevel.DEBUG, "simulation run");
+					logger.log(LogLevel.DEBUG, "simulation run");*/
 					tabAnalysisControl.update();
 		        }
 			}

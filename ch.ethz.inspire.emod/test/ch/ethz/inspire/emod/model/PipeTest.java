@@ -32,13 +32,7 @@ public class PipeTest {
 		
 		pip.setSimulationTimestep(1);
 		pip.getInput("TemperatureAmb").setValue(293);
-		
-		//set temperature of fluid flowing into pipe1
-		((FluidContainer)pip.getInput("FluidIn")).setTemperature(293);
-		//set pressure needed out of pipe2
-		((FluidContainer)pip.getInput("FluidIn")).setPressure(2000000);
-		//set flowrate needed out of pipe2
-		pip.getFluidPropertiesList().get(0).setFlowRateIn(0.0001);
+	
 
 		pip.getInput("TemperatureAmb").setValue(293);
 		for(int i= 0; i < 100; i++){
@@ -60,13 +54,7 @@ public class PipeTest {
 		
 		FluidConnection fc = new FluidConnection(pip1, pip2);
 		fc.init(293, 100000);
-		
-		//set temperature of fluid flowing into pipe1 (after tank)
-		((FluidContainer)pip1.getInput("FluidIn")).setTemperature(293);
-		//set pressure of fluid flowing into pipe1 (after pump)
-		((FluidContainer)pip1.getInput("FluidIn")).setPressure(2000000);
-		//set flowrate needed out of pipe2
-		pip2.getFluidPropertiesList().get(0).setFlowRateIn(0.0001);
+	
 		
 		pip1.getInput("TemperatureAmb").setValue(293);
 		

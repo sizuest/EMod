@@ -134,5 +134,9 @@ public class ThermalElement extends AThermalIntegrator{
 	public void setThermalResistance(double thermalResistance){
 		this.thermalResistance = thermalResistance;
 	}
+	
+	public double getBoundaryHeatFlux(){		
+		return (temperature.get(0).getCurrent()-tempAmb)*thermalResistance;
+	}
 
 }

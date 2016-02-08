@@ -313,7 +313,7 @@ public class Machine {
 				name = ds.getInitialConditionName();
 				ds.loadInitialCondition();
 			} catch (Exception e) {
-				System.err.print("Failed to save initial condition "+name+": "+e.getMessage());
+				System.err.print("Failed to load initial condition "+name+": "+e.getMessage());
 			}
 		}
 	}
@@ -549,6 +549,7 @@ public class Machine {
 	 * 
 	 * 1. Check: Every input of all machine componenets must be set exactly once in the
 	 *           connectionlist.
+	 * 2. Check: Every dynamic state must have a numerical initial condition
 	 */
 	private static void checkMachineConfig()
 	{
@@ -570,14 +571,12 @@ public class Machine {
 							mc.getName() + "." + mcinput.getName() +
 							" is not connected!");
 					System.err.print(ex.getMessage());
-					//ex.printStackTrace();
 				}
 				else if (mc_in_iolist_cnt >= 2) {
 					Exception ex = new Exception("checkMachineConfig: Input " + 
 							mc.getName() + "." + mcinput.getName() +
 							" is linked multiple times!");
 					System.err.print(ex.getMessage());
-					//ex.printStackTrace();
 				}
 			}
 		}

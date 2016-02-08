@@ -19,6 +19,9 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import ch.ethz.inspire.emod.model.fluid.Duct;
+import ch.ethz.inspire.emod.model.fluid.DuctPipe;
+import ch.ethz.inspire.emod.model.fluid.FECDuct;
 import ch.ethz.inspire.emod.model.fluid.Fluid;
 import ch.ethz.inspire.emod.model.material.Material;
 import ch.ethz.inspire.emod.model.thermal.ThermalArray;
@@ -71,7 +74,6 @@ public class Pipe extends APhysicalComponent implements Floodable{
 	
 	// Input parameters:
 	private IOContainer temperatureAmb;
-	private IOContainer heatFlowIn;
 	private FluidContainer fluidIn;
 		
 	// Output parameters:
@@ -92,6 +94,7 @@ public class Pipe extends APhysicalComponent implements Floodable{
 	private double volume;
 	double pipeArea, pipeThTransmittance;
 	private ThermalArray fluid;
+	private Duct duct;
 	
 	// Initial temperature
 	double temperatureInit = 293;
@@ -179,9 +182,7 @@ public class Pipe extends APhysicalComponent implements Floodable{
 		/* Define Input parameters */
 		inputs         = new ArrayList<IOContainer>();
 		temperatureAmb = new IOContainer("TemperatureAmb", new SiUnit(Unit.KELVIN), temperatureInit, ContainerType.THERMAL);
-		heatFlowIn     = new IOContainer("HeatFlowIn", new SiUnit(Unit.WATT), 0.00, ContainerType.THERMAL);
 		inputs.add(temperatureAmb);
-		inputs.add(heatFlowIn);
 		
 		/* Define output parameters */
 		outputs        = new ArrayList<IOContainer>();
@@ -241,9 +242,14 @@ public class Pipe extends APhysicalComponent implements Floodable{
 			e.printStackTrace();
 		}
 		
+		/* Duct */
+		duct = new Duct();
+		duct.addElement(new DuctPipe(pipeLength, pipeDiameter, pipeRoughness));
+		
 		/* Fluid circuit parameters */
-		fluidProperties = new FluidCircuitProperties();
+		fluidProperties = new FluidCircuitProperties(new FECDuct(duct, fluid.getTemperature()), fluid.getTemperatureOut());
 		fluidProperties.setMaterial(fluid.getMaterial());
+		duct.setMaterial(fluidProperties.getMaterial());
 		
 		
 		/* add fluid In/Output */
@@ -290,7 +296,7 @@ public class Pipe extends APhysicalComponent implements Floodable{
 
 		/* Set fluid obj. boundary positions */
 		fluid.setTemperatureIn(fluidIn.getTemperature());
-		fluid.setFlowRate(fluidProperties.getFlowRateIn());
+		fluid.setFlowRate(fluidProperties.getFlowRate());
 		
 		
 		/* Calculate alphaFluid */
@@ -310,13 +316,10 @@ public class Pipe extends APhysicalComponent implements Floodable{
 		else
 			thermalResistance = 1/thermalResistance;
 		
-		/* calculate pressure loss */
-		pressureloss.setValue(Fluid.pressureLossFrictionPipe(fluid.getMaterial(), fluid.getTemperature().getValue(), pipeLength, pipeDiameter, fluid.getFlowRate(), pipeRoughness));
-		fluidProperties.setPressureDrop(pressureloss.getValue());
 		
 		// set array boundary conditions
 		fluid.setThermalResistance(thermalResistance);
-		fluid.setHeatSource(pressureloss.getValue()*fluid.getFlowRate() + heatFlowIn.getValue());
+		fluid.setHeatSource(pressureloss.getValue()*fluid.getFlowRate());
 		fluid.setTemperatureAmb(temperatureAmb.getValue());
 		
 		/* ************************************************************************/
@@ -325,17 +328,8 @@ public class Pipe extends APhysicalComponent implements Floodable{
 		fluid.integrate(timestep, 0, 0, 100000);
 		// TODO: Pressure
 		
-		/* ************************************************************************/
-		/*         Update outputs, direction of calculation:                      */
-		/*         temperature [K]    : fluid   --> fluidOut                      */
-		/*         pressure    [Pa]   : fluid   --> fluidOut                      */
-		fluidOut.setTemperature(fluid.getTemperatureOut());
-		fluidOut.setPressure(fluidIn.getPressure()-fluidProperties.getPressureDrop());
-		
 		ploss.setValue(fluid.getHeatLoss());
 		temperaturePipe.setValue(fluid.getTemperature().getValue());
-		
-		//System.out.println("Pipe: " + fluid.getPressure() + " " + fluid.getFlowRate() + " " + fluid.getTemperature().getValue() + " " + thermalResistance + " " + fluid.getHeatLoss());
 	}
 
 	

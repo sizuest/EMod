@@ -96,8 +96,8 @@ public class DuctTest {
 		
 		double dp1, dp2;
 		
-		dp1 = duct1.getPressureDrop(0, 1E5, 293.15, 293.15);
-		dp2 = duct1.getPressureDrop(1.0/60000, 1E5, 293.15, 293.15);
+		dp1 = duct1.getPressureDrop(0, 1E5, 293.15);
+		dp2 = duct1.getPressureDrop(1.0/60000, 1E5, 293.15);
 		
 		assertEquals("No Flow", 0, dp1, 0);
 		assertEquals("1 l/min", 65E3, dp2, 1E3);

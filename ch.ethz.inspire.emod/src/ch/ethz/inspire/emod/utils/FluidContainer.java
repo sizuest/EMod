@@ -64,21 +64,18 @@ public class FluidContainer extends IOContainer {
 	
 	/**
 	 * set values for temperature, pressure and flowRate all at once
-	 * @param temperature [K]
-	 * @param pressure    [Pa]
-	 * @param flowRate    [m^3/s]
 	 */
-	public void setValues(double temperature, double pressure){
-		this.temperature = temperature;
-		this.pressure = pressure;
+	public void setValuesAsInput(){
+		this.temperature = this.fluidCircuitProperties.getTemperatureIn();
+		this.pressure    = this.fluidCircuitProperties.getPressureIn();
 	}
 	
 	/**
-	 * the temperature to set
-	 * @param temperature [K]
+	 * set values for temperature, pressure and flowRate all at once
 	 */
-	public void setTemperature(double temperature){
-		this.temperature = temperature;
+	public void setValuesAsOutput(){
+		this.temperature = this.fluidCircuitProperties.getTemperatureOut();
+		this.pressure    = this.fluidCircuitProperties.getPressureOut();
 	}
 	
 	/**
@@ -87,14 +84,6 @@ public class FluidContainer extends IOContainer {
 	 */
 	public double getTemperature(){
 		return temperature;
-	}
-
-	/**
-	 * the pressure to set
-	 * @param pressure [Pa]
-	 */
-	public void setPressure(double pressure){
-		this.pressure = pressure;
 	}
 	
 	/**
@@ -122,21 +111,7 @@ public class FluidContainer extends IOContainer {
 	 */
 	@Override
 	public void setValue(double value){
-		//Load the IOConnection List (containing also FluidConnections)
-		List<IOConnection> ioc = Machine.getInstance().getIOLinkList();
-		for(IOConnection io:ioc){
-			//if the target of a connection equals to this FluidContainer, start the update
-			if(io.getTarget().equals(this)){
-				/* direction of calculation
-				 * temperature [K]    : source --> target
-				 * pressure    [Pa]   : source --> target
-				 * flowRate:   [m^3/s]: source <-- target
-				 */
-				//the casting to fluidContainer is necessary in each line
-				((FluidContainer)io.getTarget()).setTemperature(((FluidContainer)io.getSource()).getTemperature());
-				((FluidContainer)io.getTarget()).setPressure(((FluidContainer)io.getSource()).getPressure());
-			};
-		}
+		System.err.println("FluidContainer: setValue(...) called: This must not happen!");
 	}
 	
 	/**

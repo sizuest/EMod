@@ -3,8 +3,8 @@
 <properties>
 <comment/>
 <entry key="simulationPeriod">1</entry>
-<entry key="InitialValue_Spindle_TemperatureStructure">292.15</entry>
-<entry key="InitialValue_Spindle_TemperatureCoolant">292.15</entry>
+<entry key="InitialValue_Spindle_TemperatureStructure">NaN</entry>
+<entry key="InitialValue_Spindle_TemperatureCoolant">NaN</entry>
 <entry key="InitialValue_Tank_Temperature">NaN</entry>
 <entry key="InitialValue_Tank_Mass">NaN</entry>
 <entry key="InitialValue_Pipe_Temperature">NaN</entry>

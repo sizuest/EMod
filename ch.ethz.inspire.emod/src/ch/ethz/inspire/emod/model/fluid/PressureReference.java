@@ -22,6 +22,7 @@ import ch.ethz.inspire.emod.utils.IOContainer;
 public class PressureReference extends APhysicalComponent implements Floodable{
 	
 	private FluidContainer fluidIn, fluidOut;
+	IOContainer pressureDrop;
 	
 	FluidCircuitProperties fluidProperties;
 	
@@ -30,7 +31,7 @@ public class PressureReference extends APhysicalComponent implements Floodable{
 	 */
 	public PressureReference(double pressureDrop){
 		init();
-		this.getFluidPropertiesList().get(0).setPressureDrop(pressureDrop);
+		this.pressureDrop.setValue(pressureDrop);
 	}
 	
 	private void init()
@@ -38,8 +39,10 @@ public class PressureReference extends APhysicalComponent implements Floodable{
 		inputs         = new ArrayList<IOContainer>();
 		outputs        = new ArrayList<IOContainer>();
 		
+		pressureDrop = new IOContainer("Pressure", new SiUnit("Pa"), 0);
+		
 		/* Define FlowRate */
-		fluidProperties = new FluidCircuitProperties();
+		fluidProperties = new FluidCircuitProperties(new FECPressureDrop(pressureDrop));
 		fluidProperties.setMaterial(new Material("Example"));
 		
 		/* Define FluidIn parameter */
@@ -57,7 +60,7 @@ public class PressureReference extends APhysicalComponent implements Floodable{
 	 * @param pressureDrop [Pa]
 	 */
 	public void setPressureDrop(double pressureDrop){
-		this.getFluidPropertiesList().get(0).setPressureDrop(pressureDrop);
+		this.pressureDrop.setValue(pressureDrop);
 	}
 
 	@Override

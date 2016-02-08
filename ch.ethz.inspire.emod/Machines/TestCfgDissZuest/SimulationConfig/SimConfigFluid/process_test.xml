@@ -13,7 +13,7 @@
 
   </comment>
   <entry key="SamplePeriod">60</entry>
-  <entry key="Velocity">20 0 -20 0 </entry>
+  <entry key="Velocity">.1 0 -.1 0 </entry>
 </properties>
 
 

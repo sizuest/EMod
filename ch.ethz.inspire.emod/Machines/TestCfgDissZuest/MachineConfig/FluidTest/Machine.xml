@@ -11,7 +11,7 @@
             <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
-            <name>Pump</name>
+            <name>Pump_1</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="hydraulicAccumulator" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -21,15 +21,9 @@
         </machineComponent>
         <machineComponent>
             <component xsi:type="cylinder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>NDM200</type>
+                <type>Example</type>
             </component>
-            <name>Cylinder</name>
-        </machineComponent>
-        <machineComponent>
-            <component xsi:type="hysteresisControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>SpindleCoolingCompressor</type>
-            </component>
-            <name>SpindleCoolingController</name>
+            <name>Cylinder_1</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="heatExchanger" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -39,39 +33,50 @@
         </machineComponent>
         <machineComponent>
             <component xsi:type="pipe" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Schaublin42LV</type>
+                <type>Schaublin42LR</type>
             </component>
-            <name>Pipe</name>
+            <name>PipeNL_1</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="pipe" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Schaublin42LR</type>
+                <type>Schaublin42LV</type>
             </component>
-            <name>Pipe_1</name>
+            <name>PipeVL_1</name>
         </machineComponent>
     </machine>
     <simulators>
         <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>AmbTemperature</name>
-            <unit>KELVIN</unit>
-        </simController>
-        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>AmbPressure</name>
-            <unit>PA</unit>
+            <unit>
+                <unitText>Pa</unitText>
+            </unit>
         </simController>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>Velocity</name>
-            <unit>MM_MIN</unit>
+            <unit>
+                <unitText>m/s</unitText>
+            </unit>
         </simController>
         <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>ZeroPower</name>
-            <unit>WATT</unit>
+            <unit>
+                <unitText>W</unitText>
+            </unit>
         </simController>
         <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>ConstantSimulationControl</name>
-            <unit>NONE</unit>
+            <name>AmbTemperature</name>
+            <unit>
+                <unitText>K</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Force</name>
+            <unit>
+                <unitText>N</unitText>
+            </unit>
         </simController>
     </simulators>
+    <connectionList/>
     <connectionList/>
     <connectionList/>
     <connectionList/>

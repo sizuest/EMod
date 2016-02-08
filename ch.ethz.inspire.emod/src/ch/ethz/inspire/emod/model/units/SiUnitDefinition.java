@@ -106,6 +106,7 @@ public class SiUnitDefinition {
 		convMap.put("none",(new SiUnit()));
 		convMap.put("rad", (new SiUnit()));
 		convMap.put("sr",  (new SiUnit()));
+		convMap.put("J",   (new SiUnit("W s")));
 		convMap.put("Hz",  (new SiUnit("s^-1")));
 		convMap.put("N",   (new SiUnit("m kg s^-2")));
 		convMap.put("Pa",  (new SiUnit("kg m^-1 s^-2")));

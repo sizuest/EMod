@@ -74,6 +74,9 @@ public class ConstantSimulationControl extends ASimulationControl{
 	}
 	
 	private void readValueFromFile(){
+		if(null==name)
+			return;
+		
 		SimulationConfigReader scr=null;
 		try {
 			scr = new SimulationConfigReader(this.getClass().getSimpleName(), name);

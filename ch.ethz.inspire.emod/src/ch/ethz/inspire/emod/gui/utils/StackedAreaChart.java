@@ -23,6 +23,8 @@ import org.swtchart.ILineSeries;
 import org.swtchart.ILineSeries.PlotSymbolType;
 import org.swtchart.ISeries.SeriesType;
 
+import ch.ethz.inspire.emod.model.units.SiUnit;
+
 
 /**
  * @author dhampl
@@ -47,6 +49,11 @@ public class StackedAreaChart {
 		
 		localdata = new ArrayList<ConsumerData>(data);
 		
+		for(int i=localdata.size()-1; i>=0; i--){
+			if(Double.isNaN(localdata.get(i).getVariance()))
+				localdata.remove(i);
+		}
+		
 		sort();
 		
 		List<double[]> series = createStackedSeries();
@@ -60,6 +67,16 @@ public class StackedAreaChart {
 			lineSeries.enableArea(true);
 			color++; color++; color++;
 		}
+		
+		chart.getAxisSet().getXAxis(0).getTitle().setText("time ["+(new SiUnit("s")).toString()+"]");
+		chart.getAxisSet().getXAxis(0).getTick().setForeground(Display.getDefault().getSystemColor(0));
+		chart.getAxisSet().getXAxis(0).getTitle().setForeground(Display.getDefault().getSystemColor(0));
+		
+		chart.getAxisSet().getYAxis(0).getTitle().setText("["+(new SiUnit("W")).toString()+"]");
+		chart.getAxisSet().getYAxis(0).getTick().setForeground(Display.getDefault().getSystemColor(0));
+		chart.getAxisSet().getYAxis(0).getTitle().setForeground(Display.getDefault().getSystemColor(0));
+		
+		chart.getTitle().setVisible(false);
 		
 		chart.getAxisSet().adjustRange();
 		

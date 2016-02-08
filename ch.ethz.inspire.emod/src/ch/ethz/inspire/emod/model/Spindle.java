@@ -22,6 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.lang.Math;
 
 import ch.ethz.inspire.emod.model.fluid.Duct;
+import ch.ethz.inspire.emod.model.fluid.FECDuct;
 import ch.ethz.inspire.emod.model.thermal.ThermalArray;
 import ch.ethz.inspire.emod.model.thermal.ThermalElement;
 import ch.ethz.inspire.emod.model.units.*;
@@ -84,8 +85,6 @@ public class Spindle extends APhysicalComponent implements Floodable{
 	private double alphaCoolant, volumeCoolant;
 	private double lastTemperatureIn = Double.NaN;
 	private double[] agFrictCoeff;
-	private double 	pressureLoss;
-	private double lastPressureDrop = 0;
 	
 	// Submodels
 	private MotorAC motor;
@@ -128,8 +127,6 @@ public class Spindle extends APhysicalComponent implements Floodable{
 	 */
 	private void init()
 	{
-		fluidProperties = new FluidCircuitProperties();
-		
 		/* Define Input parameters */
 		inputs = new ArrayList<IOContainer>();
 		state         = new IOContainer("State",         new SiUnit(Unit.NONE), 0, ContainerType.CONTROL);
@@ -151,12 +148,7 @@ public class Spindle extends APhysicalComponent implements Floodable{
 		outputs.add(pmech);
 		outputs.add(cairFlow);
 		outputs.add(temperature);
-		
-		/* Define fluid in-/outputs */
-		fluidIn        = new FluidContainer("CoolantIn", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidProperties);
-		inputs.add(fluidIn);
-		fluidOut        = new FluidContainer("CoolantOut", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC,fluidProperties);
-		outputs.add(fluidOut);
+
 		
 		/* ************************************************************************/
 		/*         Read configuration parameters: */
@@ -200,6 +192,15 @@ public class Spindle extends APhysicalComponent implements Floodable{
 			coolingDuct = Duct.buildFromFile(getModelType(), getType(), params.getString("StructureDuct"));
 			
 			volumeCoolant = coolingDuct.getVolume();
+			
+			/* Fluid properties */
+			fluidProperties = new FluidCircuitProperties(new FECDuct(coolingDuct, coolant.getTemperature()), coolant.getTemperature());
+			
+			/* Define fluid in-/outputs */
+			fluidIn        = new FluidContainer("CoolantIn",  new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidProperties);
+			inputs.add(fluidIn);
+			fluidOut       = new FluidContainer("CoolantOut", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC,fluidProperties);
+			outputs.add(fluidOut);
 			
 			// Change state names
 			structure.getTemperature().setName("TemperatureStructure");
@@ -255,7 +256,6 @@ public class Spindle extends APhysicalComponent implements Floodable{
 		if(fluidIn.getTemperature()<=0) {
 			if (Double.isNaN(lastTemperatureIn))
 				lastTemperatureIn = structure.getTemperature().getValue();
-			fluidIn.setTemperature(lastTemperatureIn);
 		}
 		else
 			lastTemperatureIn = fluidIn.getTemperature();
@@ -304,14 +304,8 @@ public class Spindle extends APhysicalComponent implements Floodable{
 		}
 		
 		// Thermal resistance
-		alphaCoolant = coolingDuct.getThermalResistance(fluidProperties.getFlowRateIn(), 
-				fluidProperties.getPressureBack(), 
-				coolant.getTemperature().getValue(), 
-				structure.getTemperature().getValue());
-				
-		// PressureLoss
-		pressureLoss = coolingDuct.getPressureDrop(fluidProperties.getFlowRateIn(),
-				fluidProperties.getPressureBack(), 
+		alphaCoolant = coolingDuct.getThermalResistance(fluidProperties.getFlowRate(), 
+				fluidProperties.getPressureIn(), 
 				coolant.getTemperature().getValue(), 
 				structure.getTemperature().getValue());
 				
@@ -319,14 +313,11 @@ public class Spindle extends APhysicalComponent implements Floodable{
 				
 		// Coolant
 		coolant.setThermalResistance(alphaCoolant);
-		coolant.setFlowRate(fluidProperties.getFlowRateIn());
+		coolant.setFlowRate(fluidProperties.getFlowRate());
 		coolant.setHeatSource(0.0);
 		coolant.setTemperatureAmb(structure.getTemperature().getValue());
 		coolant.setTemperatureIn(fluidIn.getTemperature());
 		
-		// Pressure loss
-		fluidProperties.setPressureDrop(0.5*lastPressureDrop+0.5*pressureLoss);
-		lastPressureDrop = fluidProperties.getPressureDrop();
 		
 		// Thermal flows
 		structure.setHeatInput(motor.getOutput("PLoss").getValue()+frictionLosses);
@@ -339,8 +330,6 @@ public class Spindle extends APhysicalComponent implements Floodable{
 		
 		// Write outputs
 		temperature.setValue(structure.getTemperature().getValue());
-		fluidOut.setTemperature(coolant.getTemperatureOut());
-		fluidOut.setPressure(fluidIn.getPressure()-fluidProperties.getPressureDrop());
 		
 		
 	}

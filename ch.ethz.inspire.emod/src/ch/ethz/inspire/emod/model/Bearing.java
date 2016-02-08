@@ -226,10 +226,12 @@ public class Bearing extends APhysicalComponent{
 	}
 	
 	private double getThermalResistance(double n){
-		double vp;
+		double vp, Rth;
 		vp = bearingRm*n*Math.PI/30;
 		
-		return bearingNumBodies*1/2.4*Math.sqrt(14+2*Math.log(vp)-2*Math.log(bearingRm)*2000)*Math.pow(bearingRm*1000, 2);
+		Rth = bearingNumBodies*1.0/2400.0*Math.sqrt(14+2*Math.log(vp)-2*Math.log(.007))*Math.pow(.007*1000, 2);
+		
+		return Rth;
 		
 	}
 	

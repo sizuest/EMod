@@ -19,12 +19,14 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import ch.ethz.inspire.emod.model.fluid.FECValve;
 import ch.ethz.inspire.emod.model.units.ContainerType;
 import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.utils.Algo;
 import ch.ethz.inspire.emod.utils.Floodable;
 import ch.ethz.inspire.emod.utils.FluidCircuitProperties;
+import ch.ethz.inspire.emod.utils.FluidContainer;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 
@@ -66,32 +68,23 @@ public class Valve extends APhysicalComponent implements Floodable{
 	protected String type;
 	
 	// Input parameters:
-	private IOContainer pressureOut;
-	private IOContainer massflowOut;
-	private IOContainer density;
 	private IOContainer valveCtrl;
-	private IOContainer pumpPressure;
-	
-	//Saving last input values:
-	private double lastpressure  = 0;
-	private double lastmassflow  = 0;
-	private double lastvalveCtrl;
-	private double lastpumppressure;
-	
-
+	private FluidContainer fluidIn;
 	
 	// Output parameters:
-	private IOContainer pressureIn;
-	private IOContainer massflowIn;
 	private IOContainer ploss;
 	private IOContainer pressureloss;
 	private IOContainer pel;
+	private FluidContainer fluidOut;
 	
 	// Parameters used by the model. 
 	private double electricPower;
 	private double adjustedPressure = 0;
 	private double[] pressureSamples;
 	private double[] volflowSamples;
+	
+	// Fluid properties
+	private FluidCircuitProperties fluidProperties;
 	
 	
 	/**
@@ -128,31 +121,31 @@ public class Valve extends APhysicalComponent implements Floodable{
 	 */
 	private void init()
 	{
+		
+		
 		/* Define Input parameters */
-		inputs       = new ArrayList<IOContainer>();
-		pressureOut  = new IOContainer("PressureOut",  new SiUnit(Unit.PA),           0, ContainerType.FLUIDDYNAMIC);
-		massflowOut  = new IOContainer("MassFlowOut",  new SiUnit(Unit.KG_S),         0, ContainerType.FLUIDDYNAMIC);
-		density		 = new IOContainer("Density",      new SiUnit(Unit.KG_MCUBIC), 1000, ContainerType.FLUIDDYNAMIC);
-		valveCtrl	 = new IOContainer("ValveCtrl",    new SiUnit(Unit.NONE),         1, ContainerType.CONTROL);
-		pumpPressure = new IOContainer("PumpPressure", new SiUnit(Unit.PA),           0, ContainerType.FLUIDDYNAMIC);
-		inputs.add(pressureOut);
-		inputs.add(massflowOut);
-		inputs.add(density);
+		inputs    = new ArrayList<IOContainer>();
+		valveCtrl = new IOContainer("ValveCtrl",    new SiUnit(Unit.NONE),         1, ContainerType.CONTROL);
 		inputs.add(valveCtrl);
-		inputs.add(pumpPressure);
+		
+		/* Fluid Properties */
+		fluidProperties = new FluidCircuitProperties(new FECValve(this, valveCtrl));
+		
 		
 		/* Define output parameters */
-		outputs   = new ArrayList<IOContainer>();
-		pressureIn  = new IOContainer("PressureIn",   new SiUnit(Unit.PA),   0, ContainerType.FLUIDDYNAMIC);
-		massflowIn  = new IOContainer("MassFlowIn",   new SiUnit(Unit.KG_S), 0, ContainerType.FLUIDDYNAMIC);
-		ploss       = new IOContainer("PLoss",        new SiUnit(Unit.WATT), 0, ContainerType.THERMAL);
-		pressureloss= new IOContainer("PressureLoss", new SiUnit(Unit.PA),   0, ContainerType.FLUIDDYNAMIC);
-		pel			= new IOContainer("PTotal",	      new SiUnit(Unit.WATT), 0, ContainerType.ELECTRIC);
-		outputs.add(pressureIn);
-		outputs.add(massflowIn);
+		outputs      = new ArrayList<IOContainer>();
+		ploss        = new IOContainer("PLoss",        new SiUnit(Unit.WATT), 0, ContainerType.THERMAL);
+		pressureloss = new IOContainer("PressureLoss", new SiUnit(Unit.PA),   0, ContainerType.FLUIDDYNAMIC);
+		pel			 = new IOContainer("PTotal",	      new SiUnit(Unit.WATT), 0, ContainerType.ELECTRIC);
 		outputs.add(ploss);
 		outputs.add(pressureloss);
 		outputs.add(pel);
+		
+		/* Fluid in- and output */
+		fluidIn  = new FluidContainer("FluidIn",  null, fluidProperties);
+		fluidOut = new FluidContainer("FluidOut", null, fluidProperties);
+		inputs.add(fluidIn);
+		outputs.add(fluidOut);
 
 			
 		/* ************************************************************************/
@@ -247,38 +240,19 @@ public class Valve extends APhysicalComponent implements Floodable{
 	 * @see ch.ethz.inspire.emod.model.APhysicalComponent#update()
 	 */
 	@Override
-	public void update() {
+	public void update() {	
 		
-		if ( lastpressure     == pressureOut.getValue() && 
-			 lastmassflow     == massflowOut.getValue() && 
-			 lastvalveCtrl    == valveCtrl.getValue()   && 
-			 lastpumppressure == pumpPressure.getValue()) {
-				// Input values did not change, nothing to do.
-				return;
-		}
 		
-		lastpressure 	 = pressureOut.getValue();
-		lastmassflow 	 = massflowOut.getValue();
-		lastvalveCtrl	 = valveCtrl.getValue();
-		lastpumppressure = pumpPressure.getValue();
-		
-		if(lastvalveCtrl == 1){		
-			massflowIn.setValue(lastmassflow);
-		
-			pressureloss.setValue(Algo.linearInterpolation(lastmassflow/density.getValue()*60*1000, volflowSamples, pressureSamples));
-			pressureIn.setValue(lastpressure+pressureloss.getValue());
-			
+		if(valveCtrl.getValue() == 1){		
 			pel.setValue(electricPower);
-			ploss.setValue(lastmassflow/density.getValue()*pressureloss.getValue()+pel.getValue());
 		}	
 		else{
-			pressureOut.setValue(0);
-			pressureloss.setValue(0);
 			pel.setValue(0);
-			massflowIn.setValue(0);
-			pressureIn.setValue(0);
 			ploss.setValue(0);
 		}
+		
+		ploss.setValue(fluidProperties.getFlowRate()*fluidProperties.getPressureDrop()+pel.getValue());
+		pressureloss.setValue(fluidProperties.getPressureDrop());
 	}
 
 	/* (non-Javadoc)
@@ -298,6 +272,14 @@ public class Valve extends APhysicalComponent implements Floodable{
 	public ArrayList<FluidCircuitProperties> getFluidPropertiesList() {
 		ArrayList<FluidCircuitProperties> out = new ArrayList<FluidCircuitProperties>();
 		return out;
+	}
+
+	public double getPressureDrivative(double flowRate) {
+		return Algo.numericalDerivative(flowRate, volflowSamples, pressureSamples);
+	}
+
+	public double getPressure(double flowRate) {
+		return Algo.linearInterpolation(flowRate, volflowSamples, pressureSamples);
 	}
 
 	

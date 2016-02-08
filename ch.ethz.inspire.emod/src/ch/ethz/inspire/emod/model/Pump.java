@@ -19,6 +19,8 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import ch.ethz.inspire.emod.model.fluid.FECPump;
+import ch.ethz.inspire.emod.model.fluid.Fluid;
 import ch.ethz.inspire.emod.model.material.Material;
 import ch.ethz.inspire.emod.model.thermal.ThermalElement;
 import ch.ethz.inspire.emod.model.units.*;
@@ -74,18 +76,38 @@ public class Pump extends APhysicalComponent implements Floodable{
 	private IOContainer pth;
 	private IOContainer pmech;
 	private FluidContainer fluidOut;
-	private IOContainer temperaturePump;
+	private IOContainer heatFlowAmbient;
+	private IOContainer heatFlowTank;
+	
 	
 	// Parameters used by the model. 
-	private double[] pressureSamples;  	// Samples of pressure [Pa]
-	private double[] flowRateSamples;   // Samples of flow rate [m^3/s]
-	private double[] powerSamples;		// Samples of power demand [W]
-	private double[] pressureSamplesR, powerSamplesR, flowRateSamplesR;
+	private double[] pressureSamples;  			// Samples of pressure [Pa]
+	private double[] flowRateSamples;   		// Samples of flow rate [m^3/s]
+	private double[] effPumpSamples;			// Samples of the pump eff [-]
+	private double[] effMotorSamples;			// Samples of the motor eff [-]
+	private double[] powerSamples;				// Samples of power demand [W]
+	private double   massFluid       = 3;		// Mass of the fluid in the pump [kg]
+	private double   massMotor       = 29;		// Mass of the motor [kg]
+	private boolean  hasMotorCooling = true;	// Forced convection at the motor
+	private boolean  isSubmerged     = true;	// Submerged Pump (heat flow to tank)
+	private double   diameterPump    = .13;		// Diameter of the pump [m]
+	private double   lengthPump      = .385;	// Length of the pump [m]
+	private double   diameterMotor   = .178;	// Diameter of the motor [m]
+	private double   lengthMotor     = .321;	// Length of the motor [m]
+	private double   rotSpeed    = 2900;		// Nominal rotational speed [rpm]
+	private int      numImpEyes  = 1;			// Number of impeller entries [-]
+	private int      numStages   = 3;			// Number of stages [-]
+	private double   flowRateOpt = 66.7/6e4;	// Nominal flow rate [m^3/s]
+	private double   pressureOpt = 80.1*9810;	// Nominal pressure [Pa]
+	
+	// Corrected efficiency map
+	private double[] powerSamplesV, pressureSamplesV, flowRateSamplesV, effPumpSamplesV;
+	private double lastDensity = 0, lastViscosity = 0; 
 	
 	private double temperatureInit;
-	
+		
 	// Pump Structure
-	private ThermalElement structure;
+	private ThermalElement structure, fluid;
 	
 	
 	// Fluid Properties
@@ -98,7 +120,6 @@ public class Pump extends APhysicalComponent implements Floodable{
 	public Pump() {
 		super();
 		
-		//TODO manick: change init
 		this.type = "Example";
 		this.temperatureInit = 293;
 		init();
@@ -157,11 +178,13 @@ public class Pump extends APhysicalComponent implements Floodable{
 		pel        = new IOContainer("PTotal",     new SiUnit(Unit.WATT), 0.00, ContainerType.ELECTRIC);
 		pth        = new IOContainer("PLoss",      new SiUnit(Unit.WATT), 0.00, ContainerType.THERMAL);
 		pmech      = new IOContainer("PUse",       new SiUnit(Unit.WATT), 0.00, ContainerType.FLUIDDYNAMIC);
-		temperaturePump = new IOContainer("TemperaturePump", new SiUnit(Unit.KELVIN), temperatureInit, ContainerType.THERMAL);
+		heatFlowAmbient = new IOContainer("HeatFlowAmbient", new SiUnit(Unit.WATT)  , 0, ContainerType.THERMAL);
+		heatFlowTank    = new IOContainer("HeatFlowTank",    new SiUnit(Unit.WATT)  , 0, ContainerType.THERMAL);
 		outputs.add(pel);
 		outputs.add(pth);
 		outputs.add(pmech);
-		outputs.add(temperaturePump);
+		outputs.add(heatFlowAmbient);
+		outputs.add(heatFlowTank);
 
 		
 		/* ************************************************************************/
@@ -182,43 +205,34 @@ public class Pump extends APhysicalComponent implements Floodable{
 			pressureSamples = params.getDoubleArray("PressureSamples");
 			flowRateSamples = params.getDoubleArray("FlowRateSamples");
 			powerSamples    = params.getDoubleArray("PowerSamples");
-						
-			/*
-			 * Revert arrays;
-			 */
-			pressureSamplesR = new double[pressureSamples.length];
-			for (int i=0; i<pressureSamples.length; i++) {
-				pressureSamplesR[i] = pressureSamples[pressureSamples.length-1-i];
+			effPumpSamples  = params.getDoubleArray("EfficiencySamples");
+			
+			/* Motor efficiency */
+			effMotorSamples = new double[effPumpSamples.length];
+			for(int i=flowRateSamples.length-1; i>=0; i--){
+				if(0==flowRateSamples[i] & flowRateSamples.length-i>1)
+					effMotorSamples[i] = effMotorSamples[i+1];
+				else
+					effMotorSamples[i] = pressureSamples[i]*flowRateSamples[i]/powerSamples[i]/effPumpSamples[i];
 			}
-			flowRateSamplesR = new double[flowRateSamples.length];
-			for (int i=0; i<flowRateSamples.length; i++) {
-				flowRateSamplesR[i] = flowRateSamples[flowRateSamples.length-1-i];
-			}
-			powerSamplesR = new double[powerSamples.length];
-			for (int i=0; i<powerSamplesR.length; i++) {
-				powerSamplesR[i] = powerSamples[powerSamplesR.length-1-i];
-			}
+
+			pressureSamplesV = new double[pressureSamples.length];
+			flowRateSamplesV = new double[flowRateSamples.length];
+			powerSamplesV    = new double[powerSamples.length];
+			effPumpSamplesV  = new double[effPumpSamples.length];
+			
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			System.exit(-1);
 		}
 		
-		/* Read material parameters */
-		try {
-			structure = new ThermalElement(params.getString("Material"), params.getDoubleValue("Mass"));
-			dynamicStates = new ArrayList<DynamicState>();
-			dynamicStates.add(structure.getTemperature());
-		}
-		catch (Exception e){ 
-			structure = null;
-			System.out.println("Pump type:" +type+ 
-					": No material or mass provided! Assuming zero mass.");
-		}
+		
+		dynamicStates = new ArrayList<DynamicState>();
+		
 		
 		params.Close(); /* Model configuration file not needed anymore. */
 		
-		// Validate the parameters:
+		//* Validate the parameters: */
 		try {
 		    checkConfigParams();
 		}
@@ -227,9 +241,20 @@ public class Pump extends APhysicalComponent implements Floodable{
 		    System.exit(-1);
 		}
 		
+		/* Structure */
+		structure = new ThermalElement(new Material("Motor"), massMotor);
+		structure.getTemperature().setName("TemperatureStructure");
+		dynamicStates.add(structure.getTemperature());
+		
+		/* Fluid */
+		fluid = new ThermalElement(new Material("Example"), massFluid);
+		fluid.getTemperature().setName("TemperatureFluid");
+		dynamicStates.add(fluid.getTemperature());
+		
 		/* Define FlowRate */
-		fluidProperties = new FluidCircuitProperties();
+		fluidProperties = new FluidCircuitProperties(new FECPump(this, pumpCtrl), fluid.getTemperature());
 		fluidProperties.setMaterial(new Material("Example"));
+		fluid.setMaterial(fluidProperties.getMaterial());
 		
 		/* Define FluidIn parameter */
 		fluidIn        = new FluidContainer("FluidIn", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidProperties);
@@ -238,7 +263,7 @@ public class Pump extends APhysicalComponent implements Floodable{
 		/* Define FluidOut parameter */
 		fluidOut        = new FluidContainer("FluidOut", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidProperties);
 		outputs.add(fluidOut);
-		
+		fluidOut.getFluidCircuitProperties().setTemperature(fluid.getTemperature());		
 		
 	}
 	
@@ -260,15 +285,7 @@ public class Pump extends APhysicalComponent implements Floodable{
 			throw new Exception("Pump, type:" +type+ 
 					": Dimension missmatch: Vector 'pressureSamples' must have same dimension as " +
 					"'powertSamples' (" + pressureSamples.length + "!=" + powerSamples.length + ")!");
-		}
-		// Check if sorted:
-		for (int i=1; i<pressureSamplesR.length; i++) {
-			if (pressureSamplesR[i] <= pressureSamplesR[i-1]) {
-				throw new Exception("Pump, type:" +type+ 
-						": Sample vector 'pressureSamples' must be sorted!");
-			}
-		}
-		
+		}		
 		// Check if sorted:
 		for (int i=1; i<flowRateSamples.length; i++) {
 			if (flowRateSamples[i] <= flowRateSamples[i-1]) {
@@ -276,7 +293,6 @@ public class Pump extends APhysicalComponent implements Floodable{
 						": Sample vector 'flowRateSamples' must be sorted!");
 			}
 		}
-		
 		// Check size
 		for(int i=1; i<powerSamples.length;i++)
 			if (powerSamples[i]<=0){
@@ -292,21 +308,25 @@ public class Pump extends APhysicalComponent implements Floodable{
 	@Override
 	public void update() {
 		
-		double heat2Fluid = 0;
+		double heatLossMotor, heatLossFluid;
+		double htcMotor, htcPump;
 		
-		/* Calculate fluid properties */
-		fluidProperties.setPressureDrop(fluidProperties.getPressureFront()-fluidProperties.getPressureBack());
+		/* Check if pump map has to be updated */
+		if(  fluid.getMaterial().getDensity(fluid.getTemperature().getValue()) != lastDensity |
+		     fluid.getMaterial().getViscosityKinematic(fluid.getTemperature().getValue()) != lastViscosity ){
+			lastDensity   = fluid.getMaterial().getDensity(fluid.getTemperature().getValue());
+			lastViscosity = fluid.getMaterial().getViscosityKinematic(fluid.getTemperature().getValue());
+			updatePumpMap(lastDensity, lastViscosity);
+		}
+		
 		
 		
 		/* If pump is running calculate flow rate and power demand */
 		if(pumpCtrl.getValue()>0){
-			// Resulting flow rate
-			fluidProperties.setFlowRateIn(Algo.linearInterpolation(fluidProperties.getPressureDrop(), pressureSamplesR, flowRateSamplesR));
 			// Resulting power demand
-			pel.setValue(Algo.linearInterpolation(fluidProperties.getPressureDrop(), pressureSamplesR, powerSamplesR));
+			pel.setValue(Algo.linearInterpolation(fluidProperties.getFlowRate(), flowRateSamplesV, powerSamplesV));
 		}
 		else{
-			fluidProperties.setFlowRateIn(0.0);
 			pel.setValue(0);
 		}
 			
@@ -315,7 +335,7 @@ public class Pump extends APhysicalComponent implements Floodable{
 		 * The mechanical power is given by the pressure and the voluminal flow:
 		 * Pmech = pFluid [Pa] * Vdot [m3/s]
 		 */
-		pmech.setValue( fluidProperties.getFlowRateIn() * fluidProperties.getPressureDrop() );
+		pmech.setValue( -fluidProperties.getFlowRate() * fluidProperties.getPressureDrop() );
 		
 		/* 
 		 * The Losses are the difference between electrical and mechanical power
@@ -323,31 +343,49 @@ public class Pump extends APhysicalComponent implements Floodable{
 		pth.setValue(pel.getValue()-pmech.getValue());		
 				
 		/* Losses */
-		// Losses go to structure if structure exist
-		if(null != structure){
-			// Motor
-			structure.setHeatInput(pth.getValue());
-			// To Fluid
-			//TODO HTC Model
-			heat2Fluid = 1*(structure.getTemperature().getValue()-fluidIn.getTemperature());
-			structure.addHeatInput(-heat2Fluid);
-			// Integrate
-			structure.integrate(timestep);
+		heatLossMotor = pel.getValue()*(1-Algo.linearInterpolation(fluidProperties.getFlowRate(), flowRateSamplesV, effMotorSamples));
+		heatLossFluid = (pel.getValue()-heatLossMotor)-pmech.getValue();
+		
+		/* Heat fluxes */
+		
+		// HTC estimations
+		if(pumpCtrl.getValue()>0)
+			htcMotor = 100;
+		else
+			htcMotor = Fluid.convectionFreeCylinderVert(new Material("Air"), structure.getTemperature().getValue(), temperatureAmb.getValue(), lengthMotor, diameterMotor);
+		
+		if(isSubmerged)
+			htcPump = Fluid.convectionFreeCylinderVert(fluid.getMaterial(), fluid.getTemperature().getValue(), fluidIn.getTemperature(), lengthPump, diameterPump);
+		else
+			htcPump = Fluid.convectionFreeCylinderVert(new Material("Air"), fluid.getTemperature().getValue(), temperatureAmb.getValue(), lengthPump, diameterPump);
+		
+		// Structure
+		structure.setHeatInput(heatLossMotor);
+		structure.setThermalResistance(htcMotor*lengthMotor*diameterMotor*Math.PI);
+		structure.setTemperatureAmb(temperatureAmb.getValue());
+		
+		// Fluid
+		fluid.setHeatInput(heatLossFluid);
+		fluid.setThermalResistance(htcPump*lengthPump*diameterPump*Math.PI);
+		fluid.setTemperatureIn(fluidIn.getTemperature());
+		if(isSubmerged)
+			fluid.setTemperatureAmb(fluidIn.getTemperature());
+		else
+			fluid.setTemperatureAmb(temperatureAmb.getValue());
+		
+		/* Integrate */
+		structure.integrate(timestep);
+		fluid.integrate(timestep, fluidProperties.getFlowRate(), fluidProperties.getFlowRate(), fluidProperties.getPressure());
+		
+		/* Write outputs */
+		if(isSubmerged){
+			heatFlowAmbient.setValue(structure.getBoundaryHeatFlux());
+			heatFlowTank.setValue(fluid.getBoundaryHeatFlux());
 		}
-		else
-			heat2Fluid = pth.getValue();
-		
-		// Add losses to the fluid
-		if(fluidProperties.getFlowRateIn()!=0)
-			fluidOut.setTemperature(fluidIn.getTemperature() + 
-					heat2Fluid/(fluidProperties.getFlowRateIn()*fluidProperties.getMaterial().getDensity(fluidIn.getTemperature(), fluidIn.getPressure())*fluidProperties.getMaterial().getHeatCapacity()));
-		else
-			fluidOut.setTemperature(fluidIn.getTemperature());
-		
-		
-		temperaturePump.setValue(fluidIn.getTemperature());
-		fluidOut.setPressure(fluidProperties.getPressureFront());
-		fluidIn.setPressure(fluidProperties.getPressureBack());
+		else{
+			heatFlowAmbient.setValue(structure.getBoundaryHeatFlux()+fluid.getBoundaryHeatFlux());
+			heatFlowTank.setValue(0);
+		}
 		
 	}
 
@@ -376,6 +414,62 @@ public class Pump extends APhysicalComponent implements Floodable{
 		return fluidProperties.getMaterial().getType();
 	}
 	
+	
+	/**
+	 * Recalculate pump map for new viscosity
+	 * @param temperature Temperature [K]
+	 */
+	public void updatePumpMap(double temperature){
+		double density   = fluid.getMaterial().getDensity(temperature);
+		double viscosity = fluid.getMaterial().getViscosityKinematic(temperature);
+		updatePumpMap(density, viscosity);
+	}
+	
+	
+	/**
+	 * Recalculate pump map for new viscosity
+	 * @param rho Density [kg/m^3]
+	 * @param nu  Viscosity [m^2/s]
+	 */
+	private void updatePumpMap(double rho, double nu){
+		double Re, ReMod, fHopt, fEta, fQ, fH, omega, omegaS;
+		
+		omega = rotSpeed/30*Math.PI;
+		
+		/* Reynolds number */
+		Re = omega*Math.pow(diameterPump/2,2)/nu;
+		
+		/* Univ. spec. speed */
+		omegaS = omega*Math.sqrt(flowRateOpt/numImpEyes) / Math.pow(pressureOpt/rho/numStages, .75);
+		
+		/* Modified reynolds number */
+		ReMod = Re*Math.pow(omegaS, 1.5)*Math.pow(numImpEyes, 0.75);
+		
+		/* Correction factors */
+		fHopt = Math.pow(ReMod, -6.7/Math.pow(ReMod, .735));
+		
+		fEta  = Math.pow(ReMod, -19.0/Math.pow(ReMod, .705));
+		fQ    = fHopt;
+		
+		/* Update map */
+		for(int i=0; i<flowRateSamples.length; i++){
+			if(0 != flowRateSamples[i]){
+				fH = 1-(1-fHopt)*Math.pow(flowRateSamples[i]/flowRateOpt, .75);
+				
+				flowRateSamplesV[i] = fQ*flowRateSamples[i]; 
+				pressureSamplesV[i] = fH*pressureSamples[i]*rho/1000;
+				effPumpSamplesV[i]  = fEta*effPumpSamples[i];
+				powerSamplesV[i]    = flowRateSamplesV[i]*pressureSamplesV[i]/effPumpSamplesV[i]/effMotorSamples[i];
+			}
+			else{
+				flowRateSamplesV[i] = flowRateSamples[i]; 
+				pressureSamplesV[i] = pressureSamples[i];
+				effPumpSamplesV[i]  = effPumpSamples[i];
+				powerSamplesV[i]    = powerSamples[i];
+			}
+		}	
+	}
+	
 
 	@Override
 	public ArrayList<FluidCircuitProperties> getFluidPropertiesList() {
@@ -385,8 +479,12 @@ public class Pump extends APhysicalComponent implements Floodable{
 	}
 
 	public double getPressure(double flowRate) {
-		if(flowRate<flowRateSamples[0] | flowRate>flowRateSamples[flowRateSamples.length-1])
+		if(flowRate<flowRateSamplesV[0] | flowRate>flowRateSamplesV[flowRateSamplesV.length-1])
 			return 0;
-		return Algo.linearInterpolation(flowRate, flowRateSamples, pressureSamples);
+		return Algo.linearInterpolation(flowRate, flowRateSamplesV, pressureSamplesV);
+	}
+	
+	public double getPressureDrivative(double flowRate) {
+		return Algo.numericalDerivative(flowRate, flowRateSamplesV, pressureSamplesV);
 	}
 }

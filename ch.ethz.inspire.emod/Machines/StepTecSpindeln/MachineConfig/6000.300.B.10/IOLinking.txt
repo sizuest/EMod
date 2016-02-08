@@ -5,3 +5,4 @@ ForcedFluidFlow.PressureIn = PressureIn
 ForcedFluidFlow.FlowRate = FlowRate
 Spindle.CoolantIn = ForcedFluidFlow.FluidOut
 ForcedFluidFlow.FluidIn = Spindle.CoolantOut
+Spindle.State = State

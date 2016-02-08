@@ -324,7 +324,7 @@ public class LayerStorage extends APhysicalComponent{
 		thermalArray.integrate(timestep, 0, 0, pressure.getValue());
 		
 		// Set outputs
-		tempOut.setValue(thermalArray.getTemperatureOut());
+		tempOut.setValue(thermalArray.getTemperatureOut().getValue());
 		ploss.setValue(thermalArray.getHeatLoss());
 		tempAvg.setValue(thermalArray.getTemperature().getValue());
 		
