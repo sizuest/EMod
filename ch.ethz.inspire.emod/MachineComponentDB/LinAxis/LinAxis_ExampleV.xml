@@ -8,14 +8,14 @@
       Type  : Test
     Parameters
     ----------
-      Transmission [mm/rev]
-        Transmission between the motor (rpm) and the translation (mm/min)
+      Transmission [m]
+        Transmission between the motor (rad/s) and the translation (m)
       Mass [kg]
 		Mass in kg
       Alpha [deg]
   		Angle between the axis and the vertical
   </comment>
-  <entry key="Transmission">50</entry>
+  <entry key="Transmission">.050</entry>
   <entry key="Mass">10</entry>
   <entry key="Alpha">0</entry>
 </properties>

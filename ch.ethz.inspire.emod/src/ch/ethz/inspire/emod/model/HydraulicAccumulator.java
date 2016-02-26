@@ -151,6 +151,7 @@ public class HydraulicAccumulator extends APhysicalComponent implements Floodabl
 		outputs.add(pfluid);
 		
 		pGas = new IOContainer("PressureGas",     new SiUnit(Unit.PA),    0, ContainerType.INFORMATION);
+		outputs.add(pGas);
 		
 		fluidCircuitPropertiesOut.setPressureReferenceOut(pGas);
 		fluidCircuitPropertiesIn.setPressureReferenceIn(pGas);
@@ -166,7 +167,6 @@ public class HydraulicAccumulator extends APhysicalComponent implements Floodabl
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			System.exit(-1);
 		}
 		
 		/* Read the config parameter: */
@@ -186,8 +186,7 @@ public class HydraulicAccumulator extends APhysicalComponent implements Floodabl
 			/* Define fluid circuit properties
 			 * In this case, the element leads to a non-direct connected in- and outlet! */
 			
-			fluidCircuitPropertiesOut.setMaterial(fluid.getMaterial());
-			fluidCircuitPropertiesIn.setMaterial(fluid.getMaterial());
+			fluid.setMaterial(fluidCircuitPropertiesIn.getMaterial());
 			
 			/* States */
 			this.dynamicStates = new ArrayList<DynamicState>();
@@ -205,7 +204,6 @@ public class HydraulicAccumulator extends APhysicalComponent implements Floodabl
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			System.exit(-1);
 		}
 		params.Close(); /* Model configuration file not needed anymore. */
 		
@@ -215,7 +213,6 @@ public class HydraulicAccumulator extends APhysicalComponent implements Floodabl
 		}
 		catch (Exception e) {
 		    e.printStackTrace();
-		    System.exit(-1);
 		}
 	}
 	
@@ -256,6 +253,8 @@ public class HydraulicAccumulator extends APhysicalComponent implements Floodabl
 	@Override
 	public void update() {
 		
+		fluid.setMaterial(fluidCircuitPropertiesIn.getMaterial());
+		
 		double thermalResistance;
 		
 		/* Convection */
@@ -273,6 +272,8 @@ public class HydraulicAccumulator extends APhysicalComponent implements Floodabl
 		 * V_gas(t) [m3] = V_gas,0 [m3] + V_fluid,0 [m3] - V(t) [m3]
 		 */
 		volGas   = volGasInit + volFluidInit - volFluid;
+		if(volGas<=0)
+			volGas = .0001*volFluidInit;
 		/*
 		 * New fluid pressure = gas pressure
 		 * p_gas [Pa] = p_gas,0[Pa] * V_gas,0 [m3] / V_gas [m3]
@@ -302,7 +303,6 @@ public class HydraulicAccumulator extends APhysicalComponent implements Floodabl
 	
 	public void setType(String type) {
 		this.type = type;
-		init();
 	}
 
 	@Override
@@ -312,5 +312,8 @@ public class HydraulicAccumulator extends APhysicalComponent implements Floodabl
 		out.add(fluidCircuitPropertiesOut);
 		return out;
 	}
+	
+	@Override
+	public void flood(){/* Not used */}
 	
 }

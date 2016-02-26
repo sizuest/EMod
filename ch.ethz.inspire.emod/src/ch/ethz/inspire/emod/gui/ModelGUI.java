@@ -119,7 +119,7 @@ public class ModelGUI extends AGUITab {
         		linkingGUI.openLinkingGUI();
         	}
         	public void widgetDefaultSelected(SelectionEvent event){
-        		
+        		// Not used
         	}
         });
      }
@@ -331,7 +331,7 @@ public class ModelGUI extends AGUITab {
 			
 			//nothing needs to be done at the end of the drag
 			public void dragFinished(DragSourceEvent event) {
-			
+				// Not used
 			}
 		});
 	}
@@ -382,7 +382,7 @@ public class ModelGUI extends AGUITab {
 			
 			//nothing needs to be done at the end of the drag
 			public void dragFinished(DragSourceEvent event) {
-			
+				// Not used
 			}
 		});
 	}
@@ -411,16 +411,16 @@ public class ModelGUI extends AGUITab {
 				event.detail = DND.DROP_COPY;
 			}
 			public void dragOver(DropTargetEvent event){
-
+				// Not used
 			}
 			public void dragLeave(DropTargetEvent event){
-				
+				// Not used
 			}
 			public void dragOperationChanged(DropTargetEvent event) {
-				
+				// Not used
 			}
 			public void dropAccept(DropTargetEvent event){
-				
+				// Not used
 			}
 			//only action is required when element is dropped
 			public void drop(DropTargetEvent event){
@@ -476,6 +476,9 @@ public class ModelGUI extends AGUITab {
 			        //create new machine component out of component and type
 			        final MachineComponent mc = Machine.addNewMachineComponent(split[0], split[1]);
 			        
+			        if(null == mc)
+			        	return;
+			        
 			        //add the machine component to the table
 			        addTableItem(mc, index);
 		        }
@@ -511,10 +514,7 @@ public class ModelGUI extends AGUITab {
         
         String[] items = new String[SiUnitDefinition.getConversionMap().keySet().size()]; 
         SiUnitDefinition.getConversionMap().keySet().toArray(items);
-        /*String[] items = new String[Unit.values().length];        
-        for(int i=0; i<items.length; i++){
-        	items[i] = Unit.values()[i].toString();
-        }*/
+        
         comboEditInputUnit.setItems(items);
         comboEditInputUnit.setText(sc.getUnit().toString());
         comboEditInputUnit.addSelectionListener(new SelectionListener(){
@@ -528,7 +528,7 @@ public class ModelGUI extends AGUITab {
 				comboEditInputUnit.setEnabled(true);
     		}
     		public void widgetDefaultSelected(SelectionEvent event){
-    		
+    			// Not used
     		}
     	});
         
@@ -565,7 +565,7 @@ public class ModelGUI extends AGUITab {
 				inputGUI.editInputGUI(type, name);
         	}
         	public void widgetDefaultSelected(SelectionEvent event){
-        		
+        		// Not used
         	}
         });
         buttonEditComponent.pack();
@@ -613,7 +613,7 @@ public class ModelGUI extends AGUITab {
 	    		tableModelView.setRedraw(true);
         	}
         	public void widgetDefaultSelected(SelectionEvent event){
-        		
+        		// Not used
         	}
         });
         buttonDeleteComponent.pack();
@@ -686,11 +686,11 @@ public class ModelGUI extends AGUITab {
     		
     			//change the component to the new type, save machine
     			Machine.getMachineComponent(mc.getName()).getComponent().setType(comboComponentType.getText());
-    			Machine.saveMachine(PropertiesHandler.getProperty("sim.MachineName"), PropertiesHandler.getProperty("sim.MachineConfigName"));
+    			//Machine.saveMachine(PropertiesHandler.getProperty("sim.MachineName"), PropertiesHandler.getProperty("sim.MachineConfigName"));
     			comboComponentType.setEnabled(true);
     		}
     		public void widgetDefaultSelected(SelectionEvent event){
-    			
+    			// Not used
     		}
     	});
     	comboComponentType.pack();
@@ -720,7 +720,7 @@ public class ModelGUI extends AGUITab {
         		compGUI.editMachineComponentGUI(model, type);
         	}
         	public void widgetDefaultSelected(SelectionEvent event){
-        		
+        		// Not used
         	}
         });
         buttonEditComponent.pack();
@@ -748,7 +748,7 @@ public class ModelGUI extends AGUITab {
 	        		//dispose the buttons for edit and delete, and dispose the item
         			comboComponentType.dispose();
 	        		buttonDeleteComponent.dispose();
-	        		//buttonEditComponent.dispose();
+	        		buttonEditComponent.dispose();
 	        		item.dispose();
         		}
         		
@@ -757,7 +757,7 @@ public class ModelGUI extends AGUITab {
 	    		tableModelView.setRedraw(true);
         	}
         	public void widgetDefaultSelected(SelectionEvent event){
-        		
+        		// Not used
         	}
         });
         buttonDeleteComponent.pack();

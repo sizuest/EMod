@@ -10,15 +10,34 @@
     ----------
       PressureSamples [Pa]
         Array of operation points for the pump
-	  VolumetricFlowSamples [m^3/s]
+	  FlowRateSamples [m^3/s]
 		Array of corresponding flow rate to the given pressure samples
       ElectricalPower [W]
       	Electrical power of the pump if running
+      Mass [kg]
+      	Structural mass
+      Material [-]
+      	Structural material
+      EfficiencySamples [-]
+      	Pump efficiency samples
       
   </comment>
   <entry key="PressureSamples">827370 779108 723950 655002 565370 475738 358527 241317</entry>
   <entry key="FlowRateSamples">0 0.000188 0.000377 0.000566 0.000754 0.000943 0.00113 0.00132</entry>
   <entry key="PowerSamples">1925 1925 1925 1925 1925 1925 1925 1925</entry>
-  <entry key="Material">Steel</entry>
-  <entry key="Mass">15</entry>
+  <entry key="EfficiencySamples">0 .3 .35 .4 .42 .4 .35 .3</entry>
+
+	<entry key="MassFluid">.5</entry>
+	<entry key="MassMotor">2</entry>
+	<entry key="HasMotorCooling">1</entry>
+	<entry key="IsSubmerged">0</entry>
+	<entry key="DiameterPump">.1</entry>
+	<entry key="LengthPump">.1</entry>
+	<entry key="DiameterMotor">.2</entry>
+	<entry key="LengthMotor">.2</entry>
+	<entry key="NominalRotSpeed">1500</entry>
+	<entry key="NumberImpellerEyes">1</entry>
+	<entry key="NumberStages">1</entry>
+	<entry key="NominalFlowRate">0.000754</entry>
+	<entry key="NominalPressure">565370</entry>
 </properties>

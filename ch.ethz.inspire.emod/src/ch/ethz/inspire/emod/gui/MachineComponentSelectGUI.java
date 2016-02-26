@@ -84,7 +84,7 @@ public class MachineComponentSelectGUI extends AEvaluationGUI {
 
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
-				
+				// Not used
 			}
 		});
 		c.setSize(c.computeSize(SWT.DEFAULT, SWT.DEFAULT));
@@ -105,6 +105,7 @@ public class MachineComponentSelectGUI extends AEvaluationGUI {
 		/**
 		 * @param parent
 		 * @param style
+		 * @param data 
 		 */
 		public MachineComponentComposite(Composite parent, int style, ConsumerData data) {
 			super(parent, SWT.BORDER);
@@ -131,7 +132,7 @@ public class MachineComponentSelectGUI extends AEvaluationGUI {
 				
 				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
-					
+					// Not used
 				}
 			});
 			Label componentLabel = new Label(this, SWT.NONE);

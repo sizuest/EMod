@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-  <comment>
-  </comment>
-  <entry key="SamplePeriod">0.2</entry>
-  </properties>
+<comment/>
+<entry key="ProcClamp">0.1, -0.1, 0.1, 0.0,   0.0,   0.0,   0.0,   0.0,   0.0,   0.0,   0.0,   0.0,   0.0</entry>
+<entry key="ProcAxisCSpeed">0.0, 0.0, 0.1, 0.0,   0.0,   0.0,   0.0,   0.0,   0.0,   0.0,   0.0,   0.0,   0.0</entry>
+<entry key="ProcAxisZSpeed">0.0, 0.0, 0.0, 0.0,   0.0,   0.001, 0.0,   0.0,   0.0,   0.0,   0.0,   0.0,   0.0</entry>
+<entry key="ProcSpindleSpeed">0.0, 0.0, 0.0, 0.0, 0.0,   0.0,   166,   166,   166,   166,   166,   166,   166</entry>
+<entry key="SamplePeriod">100</entry>
+<entry key="ProcAxisASpeed">0.1, 0.0, 0.0, 0.0,   0.0,   0.0,   0.0,   0.0,   0.0,   0.0,   0.0,   0.0,   0.0</entry>
+<entry key="ProcAxisXSpeed">0.0, 0.0, 0.0, 0.001, 0.0,   0.0,   0.0,   0.0,   0.0,   0.0,   0.0,   0.0,   0.0</entry>
+<entry key="ProcAxisYSpeed">0.0, 0.0, 0.0, 0.0,   0.001, 0.0,   0.0,   0.0,   0.0,   0.0,   0.0,   0.0,   0.0</entry>
+<entry key="ProcAxisBSpeed">0.0, 0.1, 0.0, 0.0,   0.0,   0.0,   0.0,   0.0,   0.0,   0.0,   0.0,   0.0,   0.0</entry>
+</properties>

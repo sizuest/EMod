@@ -6,7 +6,7 @@
 <entry key="AirGapFrictionCoeff">1.8, 8.336e-9</entry>
 <entry key="PreloadForce">944,344,600</entry>
 <entry key="StructureMass">26</entry>
-<entry key="MotorType">E+A-10.6-10-4-239d-249dr12g</entry>
+<entry key="MotorType">MotorAC_E+A-10.6-10-4-239d-249dr12g</entry>
 <entry key="BearingType">SKF-7009,SKF-7009,SKF-7009</entry>
 <entry key="CoolantHTC">250</entry>
 <entry key="StructureMaterial">Steel</entry>

@@ -84,7 +84,6 @@ public class Pump extends APhysicalComponent implements Floodable{
 	private double[] pressureSamples;  			// Samples of pressure [Pa]
 	private double[] flowRateSamples;   		// Samples of flow rate [m^3/s]
 	private double[] effPumpSamples;			// Samples of the pump eff [-]
-	private double[] effMotorSamples;			// Samples of the motor eff [-]
 	private double[] powerSamples;				// Samples of power demand [W]
 	private double   massFluid       = 3;		// Mass of the fluid in the pump [kg]
 	private double   massMotor       = 29;		// Mass of the motor [kg]
@@ -100,9 +99,15 @@ public class Pump extends APhysicalComponent implements Floodable{
 	private double   flowRateOpt = 66.7/6e4;	// Nominal flow rate [m^3/s]
 	private double   pressureOpt = 80.1*9810;	// Nominal pressure [Pa]
 	
+	// Parameters calculated by the model
+	private double[] effMotorSamples;			// Samples of the motor eff [-]
+	private double surfaceMotor,				// Surface available for convetion [m2];
+	               surfacePump;
+	
 	// Corrected efficiency map
 	private double[] powerSamplesV, pressureSamplesV, flowRateSamplesV, effPumpSamplesV;
 	private double lastDensity = 0, lastViscosity = 0; 
+	private double htcMotorForced;
 	
 	private double temperatureInit;
 		
@@ -197,7 +202,6 @@ public class Pump extends APhysicalComponent implements Floodable{
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			System.exit(-1);
 		}
 		
 		/* Read the config parameter: */
@@ -207,14 +211,42 @@ public class Pump extends APhysicalComponent implements Floodable{
 			powerSamples    = params.getDoubleArray("PowerSamples");
 			effPumpSamples  = params.getDoubleArray("EfficiencySamples");
 			
+			massFluid       = params.getDoubleValue("MassFluid");
+			massMotor       = params.getDoubleValue("MassMotor");
+			hasMotorCooling = params.getBooleanValue("HasMotorCooling");
+			isSubmerged     = params.getBooleanValue("IsSubmerged");
+			diameterPump    = params.getDoubleValue("DiameterPump");
+			lengthPump      = params.getDoubleValue("LengthPump");
+			diameterMotor   = params.getDoubleValue("DiameterMotor");
+			lengthMotor     = params.getDoubleValue("LengthMotor");
+			rotSpeed        = params.getDoubleValue("NominalRotSpeed");
+			numImpEyes      = params.getIntValue("NumberImpellerEyes");
+			numStages       = params.getIntValue("NumberStages");
+			flowRateOpt     = params.getDoubleValue("NominalFlowRate");
+			pressureOpt     = params.getDoubleValue("NominalPressure");
+			
+			
 			/* Motor efficiency */
 			effMotorSamples = new double[effPumpSamples.length];
 			for(int i=flowRateSamples.length-1; i>=0; i--){
 				if(0==flowRateSamples[i] & flowRateSamples.length-i>1)
 					effMotorSamples[i] = effMotorSamples[i+1];
+				else if(effPumpSamples[i]==0)
+					effMotorSamples[i] = 0;
 				else
 					effMotorSamples[i] = pressureSamples[i]*flowRateSamples[i]/powerSamples[i]/effPumpSamples[i];
 			}
+			
+			/* Surface for convection */
+			surfaceMotor = lengthMotor*diameterMotor*Math.PI;
+			surfacePump  = lengthPump *diameterPump *Math.PI;
+			
+			/* Forced convection on motor */
+			double lossMax = 0;
+			for(int i=0; i<effPumpSamples.length; i++)
+				lossMax = Math.max(powerSamples[i]*(1-effMotorSamples[i]), lossMax);
+			htcMotorForced = lossMax / surfaceMotor / 20;
+			
 
 			pressureSamplesV = new double[pressureSamples.length];
 			flowRateSamplesV = new double[flowRateSamples.length];
@@ -238,7 +270,6 @@ public class Pump extends APhysicalComponent implements Floodable{
 		}
 		catch (Exception e) {
 		    e.printStackTrace();
-		    System.exit(-1);
 		}
 		
 		/* Structure */
@@ -308,6 +339,8 @@ public class Pump extends APhysicalComponent implements Floodable{
 	@Override
 	public void update() {
 		
+		fluid.setMaterial(fluidProperties.getMaterial());
+		
 		double heatLossMotor, heatLossFluid;
 		double htcMotor, htcPump;
 		
@@ -344,13 +377,13 @@ public class Pump extends APhysicalComponent implements Floodable{
 				
 		/* Losses */
 		heatLossMotor = pel.getValue()*(1-Algo.linearInterpolation(fluidProperties.getFlowRate(), flowRateSamplesV, effMotorSamples));
-		heatLossFluid = (pel.getValue()-heatLossMotor)-pmech.getValue();
+		heatLossFluid = pel.getValue()-heatLossMotor-pmech.getValue();
 		
 		/* Heat fluxes */
 		
 		// HTC estimations
-		if(pumpCtrl.getValue()>0)
-			htcMotor = 100;
+		if(pumpCtrl.getValue()>0 & hasMotorCooling)
+			htcMotor = htcMotorForced;
 		else
 			htcMotor = Fluid.convectionFreeCylinderVert(new Material("Air"), structure.getTemperature().getValue(), temperatureAmb.getValue(), lengthMotor, diameterMotor);
 		
@@ -361,12 +394,12 @@ public class Pump extends APhysicalComponent implements Floodable{
 		
 		// Structure
 		structure.setHeatInput(heatLossMotor);
-		structure.setThermalResistance(htcMotor*lengthMotor*diameterMotor*Math.PI);
+		structure.setThermalResistance(htcMotor*surfaceMotor);
 		structure.setTemperatureAmb(temperatureAmb.getValue());
 		
 		// Fluid
 		fluid.setHeatInput(heatLossFluid);
-		fluid.setThermalResistance(htcPump*lengthPump*diameterPump*Math.PI);
+		fluid.setThermalResistance(htcPump*surfacePump);
 		fluid.setTemperatureIn(fluidIn.getTemperature());
 		if(isSubmerged)
 			fluid.setTemperatureAmb(fluidIn.getTemperature());
@@ -403,7 +436,6 @@ public class Pump extends APhysicalComponent implements Floodable{
 	 */
 	public void setType(String type) {
 		this.type = type;
-		init();
 	}
 
 	/**
@@ -434,40 +466,51 @@ public class Pump extends APhysicalComponent implements Floodable{
 	private void updatePumpMap(double rho, double nu){
 		double Re, ReMod, fHopt, fEta, fQ, fH, omega, omegaS;
 		
-		omega = rotSpeed/30*Math.PI;
-		
-		/* Reynolds number */
-		Re = omega*Math.pow(diameterPump/2,2)/nu;
-		
-		/* Univ. spec. speed */
-		omegaS = omega*Math.sqrt(flowRateOpt/numImpEyes) / Math.pow(pressureOpt/rho/numStages, .75);
-		
-		/* Modified reynolds number */
-		ReMod = Re*Math.pow(omegaS, 1.5)*Math.pow(numImpEyes, 0.75);
-		
-		/* Correction factors */
-		fHopt = Math.pow(ReMod, -6.7/Math.pow(ReMod, .735));
-		
-		fEta  = Math.pow(ReMod, -19.0/Math.pow(ReMod, .705));
-		fQ    = fHopt;
-		
-		/* Update map */
-		for(int i=0; i<flowRateSamples.length; i++){
-			if(0 != flowRateSamples[i]){
-				fH = 1-(1-fHopt)*Math.pow(flowRateSamples[i]/flowRateOpt, .75);
-				
-				flowRateSamplesV[i] = fQ*flowRateSamples[i]; 
-				pressureSamplesV[i] = fH*pressureSamples[i]*rho/1000;
-				effPumpSamplesV[i]  = fEta*effPumpSamples[i];
-				powerSamplesV[i]    = flowRateSamplesV[i]*pressureSamplesV[i]/effPumpSamplesV[i]/effMotorSamples[i];
-			}
-			else{
+		if(numImpEyes == 0 | numStages == 0){
+			/* Update map */
+			for(int i=0; i<flowRateSamples.length; i++){
 				flowRateSamplesV[i] = flowRateSamples[i]; 
 				pressureSamplesV[i] = pressureSamples[i];
 				effPumpSamplesV[i]  = effPumpSamples[i];
 				powerSamplesV[i]    = powerSamples[i];
 			}
-		}	
+		}
+		else {
+			omega = rotSpeed/30*Math.PI;
+			
+			/* Reynolds number */
+			Re = omega*Math.pow(diameterPump/2,2)/nu;
+			
+			/* Univ. spec. speed */
+			omegaS = omega*Math.sqrt(flowRateOpt/numImpEyes) / Math.pow(pressureOpt/rho/numStages, .75);
+			
+			/* Modified reynolds number */
+			ReMod = Re*Math.pow(omegaS, 1.5)*Math.pow(numImpEyes, 0.75);
+			
+			/* Correction factors */
+			fHopt = Math.pow(ReMod, -6.7/Math.pow(ReMod, .735));
+			
+			fEta  = Math.pow(ReMod, -19.0/Math.pow(ReMod, .705));
+			fQ    = fHopt;
+		
+			/* Update map */
+			for(int i=0; i<flowRateSamples.length; i++){
+				if(0 != flowRateSamples[i]){
+					fH = 1-(1-fHopt)*Math.pow(flowRateSamples[i]/flowRateOpt, .75);
+					
+					flowRateSamplesV[i] = fQ*flowRateSamples[i]; 
+					pressureSamplesV[i] = fH*pressureSamples[i]*rho/1000;
+					effPumpSamplesV[i]  = fEta*effPumpSamples[i];
+					powerSamplesV[i]    = flowRateSamplesV[i]*pressureSamplesV[i]/effPumpSamplesV[i]/effMotorSamples[i];
+				}
+				else{
+					flowRateSamplesV[i] = flowRateSamples[i]; 
+					pressureSamplesV[i] = pressureSamples[i];
+					effPumpSamplesV[i]  = effPumpSamples[i];
+					powerSamplesV[i]    = powerSamples[i];
+				}
+			}	
+		}
 	}
 	
 
@@ -479,12 +522,15 @@ public class Pump extends APhysicalComponent implements Floodable{
 	}
 
 	public double getPressure(double flowRate) {
-		if(flowRate<flowRateSamplesV[0] | flowRate>flowRateSamplesV[flowRateSamplesV.length-1])
-			return 0;
+		//if(flowRate<flowRateSamplesV[0] | flowRate>flowRateSamplesV[flowRateSamplesV.length-1])
+		//	return 0;
 		return Algo.linearInterpolation(flowRate, flowRateSamplesV, pressureSamplesV);
 	}
 	
 	public double getPressureDrivative(double flowRate) {
 		return Algo.numericalDerivative(flowRate, flowRateSamplesV, pressureSamplesV);
 	}
+	
+	@Override
+	public void flood(){/* Not used */}
 }

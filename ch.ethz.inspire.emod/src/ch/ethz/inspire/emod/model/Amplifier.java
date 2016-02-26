@@ -45,9 +45,9 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  *   1: State       : [-] : On/Off
  *   2: PDmd        : [W] : Actual electrical power demand
  * Outputlist:
- *   1: PTotal      : [W]   : Calculated total energy demand
+ *   1: PSupply     : [W]   : Calculated total energy demand
  *   2: PLoss       : [W]   : Calculated power loss
- *   3: PAmp        : [W]   : Calculated amplifier power
+ *   3: PATotal     : [W]   : Calculated amplifier power
  *   4: PCtrl       : [W]   : Calculated controller power
  *   
  * Config parameters:
@@ -73,9 +73,9 @@ public class Amplifier extends APhysicalComponent{
 	
 	// Output parameters:
 	private IOContainer ploss;
-	private IOContainer pel;
-	private IOContainer pamp;
-	private IOContainer pctrl;
+	private IOContainer psupply;
+	private IOContainer ptotal;
+	private IOContainer puse;
 	private IOContainer efficiency;
 	
 	// Parameters used by the model. 
@@ -127,15 +127,15 @@ public class Amplifier extends APhysicalComponent{
 		
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		pel        = new IOContainer("PTotal",     new SiUnit(Unit.WATT), 0, ContainerType.ELECTRIC);
+		psupply    = new IOContainer("PSupply",    new SiUnit(Unit.WATT), 0, ContainerType.ELECTRIC);
 		ploss      = new IOContainer("PLoss",      new SiUnit(Unit.WATT), 0, ContainerType.THERMAL);
-		pamp       = new IOContainer("PAmp",       new SiUnit(Unit.WATT), 0, ContainerType.ELECTRIC);
-		pctrl      = new IOContainer("PUse",       new SiUnit(Unit.WATT), 0, ContainerType.ELECTRIC);
+		ptotal     = new IOContainer("PTotal",     new SiUnit(Unit.WATT), 0, ContainerType.ELECTRIC);
+		puse       = new IOContainer("PUse",       new SiUnit(Unit.WATT), 0, ContainerType.ELECTRIC);
 		efficiency = new IOContainer("Efficiency", new SiUnit(Unit.NONE), 0, ContainerType.INFORMATION);
-		outputs.add(pel);
+		outputs.add(psupply);
 		outputs.add(ploss);
-		outputs.add(pamp);
-		outputs.add(pctrl);
+		outputs.add(ptotal);
+		outputs.add(puse);
 		outputs.add(efficiency);
 		
 		/* ************************************************************************/
@@ -148,7 +148,6 @@ public class Amplifier extends APhysicalComponent{
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			System.exit(-1);
 		}
 		
 		/* Read the config parameter: */
@@ -159,7 +158,6 @@ public class Amplifier extends APhysicalComponent{
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			System.exit(-1);
 		}
 		params.Close(); /* Model configuration file not needed anymore. */
 		
@@ -169,7 +167,6 @@ public class Amplifier extends APhysicalComponent{
 		}
 		catch (Exception e) {
 		    e.printStackTrace();
-		    System.exit(-1);
 		}
 	}
 	
@@ -196,7 +193,7 @@ public class Amplifier extends APhysicalComponent{
 		}
 		// Check efficiency values:
 		for	(int i=0; i<efficiencyVector.length; i++) {
-			if ( (efficiencyVector[i] <= 0) || 
+			if ( (efficiencyVector[i] < 0) || 
 				 (efficiencyVector[i] > 1.0) ) {
 					throw new Exception("Amplifier, type:" +type+ 
 							": 'Efficiency' must be >0 and <=1!");
@@ -234,26 +231,24 @@ public class Amplifier extends APhysicalComponent{
 		pdmd.setValue(psum);
 		
 		if (0!=state.getValue()){
-			pctrl.setValue(powerCtrl);
+			puse.setValue(0);
 			/*
 			 * Get efficiency from the configured sample values by linear interpolation.
 			 */
 			double eff = Algo.linearInterpolation(pdmd.getValue(), powerSamples, efficiencyVector);
 			
 			/* The power loss depends on the efficiency of the amp for the actual
-			 * working point (actual rotational speed and torque).
-			 * 	P_tot  = P_dmd / eff + P_Ctrl
-			 *  P_loss = P_tot - P_dmd = P_dmd / eff - P_dmd  + P_ctrl = P_dmd (1/eff -1)  + P_ctrl
+			 * working point 
 			 */
-			pamp.setValue(pdmd.getValue() / eff);
-			pel.setValue(pamp.getValue()+pctrl.getValue());
-			ploss.setValue(pamp.getValue() * (1/eff - 1) + pctrl.getValue());
-			efficiency.setValue(eff);
+			ptotal.setValue(pdmd.getValue() * (1/ eff-1) + powerCtrl);
+			psupply.setValue(ptotal.getValue()+pdmd.getValue());
+			ploss.setValue(psupply.getValue() - pdmd.getValue());
+			efficiency.setValue(pdmd.getValue()/psupply.getValue());
 		}
 		else {
-			pctrl.setValue(0);
-			pamp.setValue(0);
-			pel.setValue(0);
+			puse.setValue(0);
+			ptotal.setValue(0);
+			psupply.setValue(0);
 			efficiency.setValue(0);
 			ploss.setValue(0);
 		}
@@ -269,7 +264,6 @@ public class Amplifier extends APhysicalComponent{
 	
 	public void setType(String type) {
 		this.type = type;
-		init();
 	}
 	
 }

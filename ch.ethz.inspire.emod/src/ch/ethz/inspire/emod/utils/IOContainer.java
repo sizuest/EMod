@@ -129,4 +129,8 @@ public class IOContainer {
 	public void setUnit(SiUnit unit) {
 		this.unit = unit;
 	}
+	
+	public boolean hasReference(){
+		return !this.equals(getReference());
+	}
 }

@@ -8,7 +8,7 @@
 <entry key="InitialValue_Pump_TemperatureFluid">293.0</entry>
 <entry key="simulationPeriod">1</entry>
 <entry key="InitialValue_Pump_TemperatureStructure">293.0</entry>
-<entry key="InitialValue_Tank_Mass">60.0</entry>
+<entry key="InitialValue_Tank_Mass">30.0</entry>
 <entry key="InitialValue_Pump_1_TemperatureStructure">293.0</entry>
 <entry key="InitialValue_PipeNL_Temperature">318.72671149441976</entry>
 <entry key="InitialValue_PipeVL_Temperature">303.8639641213973</entry>
@@ -18,7 +18,7 @@
 <entry key="InitialValue_Cylinder_2_Position">NaN</entry>
 <entry key="InitialValue_Cylinder_1_TemperatureStructure">293.0</entry>
 <entry key="InitialValue_Pump_2_TemperatureStructure">NaN</entry>
-<entry key="InitialValue_Cylinder_1_TemperatureFluid">293.0</entry>
+<entry key="InitialValue_Cylinder_1_TemperatureFluid">293.15</entry>
 <entry key="InitialValue_PipeVL_1_Temperature">293.0</entry>
 <entry key="InitialValue_Pipe_Temperature">293.0</entry>
 <entry key="InitialValue_PipeVL_2_Temperature">NaN</entry>

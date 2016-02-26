@@ -14,7 +14,7 @@ public class FECPump extends AFluidElementCharacteristic{
 	}
 
 	@Override
-	public double getA0(double flowRate, double pressure) {
+	public double getA0(double flowRate, double pressureIn, double pressureOut) {
 		if(0==state.getValue())
 			return 0;
 		else
@@ -22,7 +22,7 @@ public class FECPump extends AFluidElementCharacteristic{
 	}
 
 	@Override
-	public double getA1(double flowRate, double pressure) {
+	public double getA1(double flowRate, double pressureIn, double pressureOut) {
 		if(0==state.getValue())
 			return 1;
 		else
@@ -30,7 +30,7 @@ public class FECPump extends AFluidElementCharacteristic{
 	}
 
 	@Override
-	public double getEp(double flowRate, double pressure) {
+	public double getEp(double flowRate, double pressureIn, double pressureOut) {
 		if(0==state.getValue())
 			return 0;
 		else

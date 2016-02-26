@@ -11,17 +11,17 @@ public class FECPressureDrop extends AFluidElementCharacteristic{
 	}
 	
 	@Override
-	public double getA0(double flowRate, double pressure) {
+	public double getA0(double flowRate, double pressureIn, double pressureOut) {
 		return this.pressure.getValue();
 	}
 
 	@Override
-	public double getA1(double flowRate, double pressure) {
+	public double getA1(double flowRate, double pressureIn, double pressureOut) {
 		return 0;
 	}
 
 	@Override
-	public double getEp(double flowRate, double pressure) {
+	public double getEp(double flowRate, double pressureIn, double pressureOut) {
 		return 1;
 	}
 

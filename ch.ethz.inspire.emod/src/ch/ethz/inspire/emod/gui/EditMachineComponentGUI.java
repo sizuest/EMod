@@ -118,7 +118,7 @@ public class EditMachineComponentGUI {
 	    		editMachineComponentGUI(stringCompTypeValue, stringCompParamValue);
 	    	}
 	    	public void widgetDefaultSelected(SelectionEvent event){
-	    		
+	    		// Not used
 	    	}
 	    });
 		buttonContinue.setLayoutData(new GridData(SWT.END, SWT.CENTER, false, true, 2, 1));
@@ -265,16 +265,10 @@ public class EditMachineComponentGUI {
 					selectMaterialButton.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, true, 1, 1));
 					selectMaterialButton.addSelectionListener(new SelectionListener(){
 			        	public void widgetSelected(SelectionEvent event){
-			        		SelectMaterialGUI matGUI = new SelectMaterialGUI();
-			        		try{
-			        			matGUI.getSelectionToTable(itemProp.getClass().getDeclaredMethod("setText", String.class), itemProp);
-			        		}
-			        		catch (Exception e){
-			        			e.printStackTrace();
-			        		}
+			        		openMaterialSelectGUI(itemProp);
 			        	}
 			        	public void widgetDefaultSelected(SelectionEvent event){
-			        		
+			        		// Not used
 			        	}
 			        });
 					selectMaterialButton.pack();
@@ -284,16 +278,16 @@ public class EditMachineComponentGUI {
 				}
 				/* SPECIAL CASE: Model */
 				else if(key.matches("[a-zA-Z]+Type")){
-					final String mdlType = key.replace("Type", "");
+					final String modelClass = key.split("Type")[0];
 					final Button selectMaterialButton = new Button(tableComponent, SWT.PUSH);
 					selectMaterialButton.setText("...");
 					selectMaterialButton.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, true, 1, 1));
 					selectMaterialButton.addSelectionListener(new SelectionListener(){
 			        	public void widgetSelected(SelectionEvent event){
-			        		openModelSelectGUI(type, itemProp);
+			        		openModelSelectGUI(modelClass, itemProp);
 			        	}
 			        	public void widgetDefaultSelected(SelectionEvent event){
-			        		
+			        		// Not used
 			        	}
 			        });
 					selectMaterialButton.pack();
@@ -314,7 +308,7 @@ public class EditMachineComponentGUI {
 			        		ductGUI.editDuctGUI(type, parameter,  name);			        		
 			        	}
 			        	public void widgetDefaultSelected(SelectionEvent event){
-			        		
+			        		// Not used
 			        	}
 			        });
 					editDuctButton.pack();
@@ -360,7 +354,7 @@ public class EditMachineComponentGUI {
 	    		shell.close();
 	    	}
 	    	public void widgetDefaultSelected(SelectionEvent event){
-	    		
+	    		// Not used
 	    	}
 	    });
 		buttonSave.setLayoutData(new GridData(SWT.END, SWT.TOP, true, true, 2, 1));
@@ -464,7 +458,7 @@ public class EditMachineComponentGUI {
 		    		closeMachineComponentGUI();
 		    	}
 		    	public void widgetDefaultSelected(SelectionEvent event){
-		    		
+		    		// Not used
 		    	}
 		    });
 			buttonSave.setLayoutData(new GridData(SWT.END, SWT.TOP, true, true, 2, 1));
@@ -487,12 +481,17 @@ public class EditMachineComponentGUI {
 	}
     
     public void openModelSelectGUI(String type, TableItem item){
-    	SelectMachineComponentGUI compGUI= new SelectMachineComponentGUI();		        		
-		try {
-			compGUI.getSelectionToTable(type, this.getClass().getDeclaredMethod("setModelType", String.class, TableItem.class, boolean.class), this, item);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+    	SelectMachineComponentGUI compGUI= new SelectMachineComponentGUI(shell);		        		
+		String selection = compGUI.open(type);
+		if(selection != "" & selection !=null)
+			item.setText(1, selection);
+    }
+    
+    public void openMaterialSelectGUI(TableItem item){
+    	SelectMaterialGUI matGUI = new SelectMaterialGUI(shell);
+    	String selection = matGUI.open();
+    	if(selection != "" & selection !=null)
+			item.setText(1, selection);
     }
     
     public void setModelType(String type, TableItem item){
@@ -500,6 +499,10 @@ public class EditMachineComponentGUI {
 			item.setText(1, type);
 		else
 			item.setText(1, item.getText(1)+", "+type);
+    }
+    
+    public void setMaterialType(String type, TableItem item){
+    	item.setText(1, type);
     }
     
  	/**

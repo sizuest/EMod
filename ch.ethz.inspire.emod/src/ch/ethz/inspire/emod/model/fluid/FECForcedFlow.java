@@ -12,18 +12,18 @@ public class FECForcedFlow extends AFluidElementCharacteristic{
 	}
 	
 	@Override
-	public double getA0(double flowRate, double pressure) {
+	public double getA0(double flowRate, double pressureIn, double pressureOut) {
 		// TODO Auto-generated method stub
 		return -this.flowRate.getValue();
 	}
 
 	@Override
-	public double getA1(double flowRate, double pressure) {
+	public double getA1(double flowRate, double pressureIn, double pressureOut) {
 		return 1;
 	}
 
 	@Override
-	public double getEp(double flowRate, double pressure) {
+	public double getEp(double flowRate, double pressureIn, double pressureOut) {
 		return 0;
 	}
 

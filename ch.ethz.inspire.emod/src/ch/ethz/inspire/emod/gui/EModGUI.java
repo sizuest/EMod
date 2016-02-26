@@ -42,7 +42,6 @@ import org.eclipse.swt.widgets.TabItem;
 import ch.ethz.inspire.emod.gui.dd.DuctDesignGUI;
 import ch.ethz.inspire.emod.gui.utils.ProgressbarGUI;
 import ch.ethz.inspire.emod.model.MachineComponent;
-import ch.ethz.inspire.emod.simulation.EModSimulationRun;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
 import ch.ethz.inspire.emod.LogLevel;
@@ -363,7 +362,7 @@ public class EModGUI {
 			startup.createNewMachineGUI();
 		}
 		public void widgetDefaultSelected(SelectionEvent event) {
-			
+			// Not used
 		}
 	}
 	
@@ -385,7 +384,9 @@ public class EModGUI {
 		 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
 		 */
 		@Override
-		public void widgetDefaultSelected(SelectionEvent event) {}
+		public void widgetDefaultSelected(SelectionEvent event) {
+			// Not used
+		}
 	}
 	
 	/**
@@ -416,7 +417,7 @@ public class EModGUI {
 		 */
 		@Override
 		public void widgetDefaultSelected(SelectionEvent event) {
-			
+			// Not used
 		}
 	}
 	
@@ -457,7 +458,7 @@ public class EModGUI {
 		 */
 		@Override
 		public void widgetDefaultSelected(SelectionEvent event) {
-			
+			// Not used
 		}
 	}
 
@@ -473,7 +474,7 @@ public class EModGUI {
 			new PropertiesGUI();
 		}
 		public void widgetDefaultSelected(SelectionEvent event) {
-			
+			// Not used
 		}
 	}
 	
@@ -512,7 +513,7 @@ public class EModGUI {
 			componentEditGUI.newMachineComponentGUI();
 		}
 		public void widgetDefaultSelected(SelectionEvent event){
-
+			// Not used
 		}
 	}
 	
@@ -528,7 +529,7 @@ public class EModGUI {
 			new MachineComponentDBGUI();
 		}
 		public void widgetDefaultSelected(SelectionEvent event){
-
+			// Not used
 		}
 	}
 	
@@ -544,7 +545,7 @@ public class EModGUI {
 			materialEditGUI.newMaterialGUI();
 		}
 		public void widgetDefaultSelected(SelectionEvent event){
-
+			// Not used
 		}
 	}
 	
@@ -560,7 +561,7 @@ public class EModGUI {
 			new MaterialDBGUI();
 		}
 		public void widgetDefaultSelected(SelectionEvent event){
-
+			// Not used
 		}
 	}
 	
@@ -581,7 +582,7 @@ public class EModGUI {
 		}
 		
 		public void widgetDefaultSelected(SelectionEvent event){
-
+			// Not used
 		}
 	}
 	
@@ -597,7 +598,7 @@ public class EModGUI {
 		}
 		
 		public void widgetDefaultSelected(SelectionEvent event){
-
+			// Not used
 		}
 	}
 
@@ -605,6 +606,7 @@ public class EModGUI {
 	 * returns the position of the shell (used to center new windows on current position)
 	 * 
 	 * @author manick
+	 * @return shell position
 	 *
 	 */
 

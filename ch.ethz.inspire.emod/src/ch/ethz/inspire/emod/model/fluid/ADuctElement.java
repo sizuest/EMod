@@ -135,7 +135,7 @@ public abstract class ADuctElement implements Parameterizable {
 	 * @return [Pa]
 	 */
 	public double getPressureOut(double flowRate, double pressureIn, double temperatureFluid){
-		return pressureIn - getPressureDrop(flowRate, pressureIn, temperatureFluid);
+		return pressureIn - Math.signum(flowRate)*getPressureDrop(Math.abs(flowRate), pressureIn, temperatureFluid);
 	}
 	
 	/**

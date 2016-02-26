@@ -253,7 +253,9 @@ public class DuctTestingGUI extends AGUITab{
 			public void widgetSelected(SelectionEvent e) {
 				saveChartCC(chartCC);
 			}
-			public void widgetDefaultSelected(SelectionEvent e) {}
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// Not used
+			}
 		});
 		
 		MenuItem itemAddPump = new MenuItem(menuChartCC, SWT.NONE);
@@ -262,7 +264,9 @@ public class DuctTestingGUI extends AGUITab{
 			public void widgetSelected(SelectionEvent e) {
 				openModelSelectGUI();
 			}
-			public void widgetDefaultSelected(SelectionEvent e) {}
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// Not used
+			}
 		});
 
 		
@@ -276,7 +280,9 @@ public class DuctTestingGUI extends AGUITab{
 			public void widgetSelected(SelectionEvent e) {
 				saveChartCC(chartTesting);
 			}
-			public void widgetDefaultSelected(SelectionEvent e) {}
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// Not used
+			}
 		});
 
 		
@@ -289,9 +295,10 @@ public class DuctTestingGUI extends AGUITab{
 	}
 	
 	private void openModelSelectGUI(){
-		SelectMachineComponentGUI compGUI= new SelectMachineComponentGUI();		        		
+		SelectMachineComponentGUI compGUI= new SelectMachineComponentGUI(this.getShell());		
+		String selection = compGUI.open("Pump");
 		try {
-			compGUI.getSelectionToTable("Pump", this.getClass().getDeclaredMethod("addPump", String.class), this);
+			addPump(selection);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -371,7 +378,9 @@ public class DuctTestingGUI extends AGUITab{
 				case 4:
 					duct.setMaterial(new Material(tableOpPoint.getItem(i).getText(1)));
 				}
-			} catch(Exception e){}
+			} catch(Exception e){
+				// Not used
+			}
 			
 	}
 
@@ -422,7 +431,7 @@ public class DuctTestingGUI extends AGUITab{
         		openMaterialGUI();
         	}
 			public void widgetDefaultSelected(SelectionEvent event){
-        		
+				// Not used
         	}
         });
     	buttonEditMaterial.pack();
@@ -445,11 +454,10 @@ public class DuctTestingGUI extends AGUITab{
 	}
 	
 	private void openMaterialGUI(){
-		try {
-			(new SelectMaterialGUI()).getSelectionToTable(this.getClass().getDeclaredMethod("setMaterial", String.class), this);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		SelectMaterialGUI matGUI = new SelectMaterialGUI(this.getShell());
+    	String selection = matGUI.open();
+    	if(selection != "" & selection !=null)
+			setMaterial(selection);
 	}
 	
 	private void updateTestingTable(){
@@ -575,7 +583,9 @@ public class DuctTestingGUI extends AGUITab{
 	public void addPump(String type){
 		try{
 			addPump(new Pump(type));
-		} catch(Exception e2){}
+		} catch(Exception e2){
+			// Not used
+		}
 	}
 	
 	private void addPump(final Pump pump){
@@ -585,6 +595,7 @@ public class DuctTestingGUI extends AGUITab{
 				return;
 		
 		pump.getFluidPropertiesList().get(0).setMaterial(this.material);
+		pump.updatePumpMap(temperatureF);
 		
 		// Add Pump to array
 		this.pumps.add(pump);
@@ -606,7 +617,9 @@ public class DuctTestingGUI extends AGUITab{
 			public void widgetSelected(SelectionEvent e) {
 				removePump(pump.getType());
 			}
-			public void widgetDefaultSelected(SelectionEvent e) {}
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// Not used
+			}
 		});
 		
 		

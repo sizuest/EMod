@@ -10,19 +10,35 @@
     ----------
       PressureSamples [Pa]
         Array of operation points for the pump
-      MassFlowSamples [kg/s]
-        Array of corresponding mass floes to the given pressure
-        samples
-        MassFlow in Liter/min * 0.001/60 * DensityFluid
-      DensityFluid [kg/m3]
-        desity of the pumped fluid
-      ElectricalPowerSamples [W]
-      	Array of Electrical power to given mass flow
+	  FlowRateSamples [m^3/s]
+		Array of corresponding flow rate to the given pressure samples
+      ElectricalPower [W]
+      	Electrical power of the pump if running
+      Mass [kg]
+      	Structural mass
+      Material [-]
+      	Structural material
+      EfficiencySamples [-]
+      	Pump efficiency samples
       
   </comment>
   <entry key="PressureSamples">320000 319500 315000 311500 303000 298000 283000 270000</entry>
-  <entry key="MassFlowSamples">1.47 1.957 2.443 2.943 3.429 3.915 4.415 4.9</entry>
+  <entry key="FlowRateSamples">.00147 .001957 .002443 .002943 .003429 .003915 .004415 .0049</entry>
   <entry key="PowerSamples">1700 1850 2050 2250 2400 2550 2750 2850</entry>
-  <entry key="Material">Steel</entry>
-  <entry key="Mass">15</entry>
+  <entry key="EfficiencySamples">0 .3 .35 .4 .42 .4 .35 .3</entry>
+  
+  
+<entry key="MassFluid">3</entry>
+<entry key="MassMotor">15</entry>
+<entry key="HasMotorCooling">1</entry>
+<entry key="IsSubmerged">0</entry>
+<entry key="DiameterPump">.1</entry>
+<entry key="LengthPump">.1</entry>
+<entry key="DiameterMotor">.2</entry>
+<entry key="LengthMotor">.2</entry>
+<entry key="NominalRotSpeed">1500</entry>
+<entry key="NumberImpellerEyes">1</entry>
+<entry key="NumberStages">1</entry>
+<entry key="NominalFlowRate">0.003915</entry>
+<entry key="NominalPressure">298000</entry>
 </properties>

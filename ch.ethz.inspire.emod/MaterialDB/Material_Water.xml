@@ -1,30 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-  <comment>
-    Model parameter definition
-    ==========================
-      Model : Material
-      Type  : Water
-    Parameters
-    ----------
-      TemperatureSamples [K]
-        TODO
-      PressureSamples [Pa]
-        TODO
-      ViscositySamples [mPa*s] = [10^-3 Ns/m^2]
-      	Dynamic Viscosity! dynamic Viscosity = density * kinematic Viscosity
-      DensityMatrix [kg/m3]
-      	TODO
-	  HeatCapacity [J/kg K]
-	    TODO
-	  ThermalConductivity [W/m K]
-      	TODO
-  </comment>
-  <entry key="TemperatureSamples"> 273.15, 293.15, 303.15, 313.15, 323.15, 333.15, 343.15</entry>
-  <entry key="PressureSamples">    100000</entry>
-  <entry key="ViscositySamples">   1.791,  1.001,  0.797,  0.652,  0.546,  0.466,  0.403</entry>
-  <entry key="DensityMatrix">      999,    998,    995,    992,    988,    983,    977</entry>
-  <entry key="HeatCapacity">       4180</entry>
-  <entry key="ThermalConductivity">0.6</entry>
+<comment>File changed by user: sizuest</comment>
+<entry key="TemperatureSamples"> 273.15, 293.15, 303.15, 313.15, 323.15, 333.15, 343.15</entry>
+<entry key="ThermalConductivity">0.6</entry>
+<entry key="ViscositySamples">1.791,  1.001,  0.797,  0.652,  0.546,  0.466,  0.403</entry>
+<entry key="PressureSamples">100000</entry>
+<entry key="DensityMatrix">999,    998,    995,    992,    988,    983,    977</entry>
+<entry key="HeatCapacity">4180</entry>
 </properties>

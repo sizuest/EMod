@@ -82,7 +82,7 @@ public class EditMaterialGUI {
 	    		editMaterialGUI(stringMaterialNameValue);
 	    	}
 	    	public void widgetDefaultSelected(SelectionEvent event){
-	    		
+	    		// Not used
 	    	}
 	    });
 		buttonContinue.setLayoutData(new GridData(SWT.END, SWT.CENTER, false, true, 2, 1));
@@ -213,7 +213,7 @@ public class EditMaterialGUI {
 	    		shell.close();
 	    	}
 	    	public void widgetDefaultSelected(SelectionEvent event){
-	    		
+	    		// Not used
 	    	}
 	    });
 		buttonSave.setLayoutData(new GridData(SWT.END, SWT.TOP, true, true, 2, 1));

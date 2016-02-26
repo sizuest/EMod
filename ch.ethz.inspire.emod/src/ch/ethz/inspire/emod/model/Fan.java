@@ -222,6 +222,5 @@ public class Fan extends APhysicalComponent{
 	
 	public void setType(String type) {
 		this.type = type;
-		init();
 	}
 }

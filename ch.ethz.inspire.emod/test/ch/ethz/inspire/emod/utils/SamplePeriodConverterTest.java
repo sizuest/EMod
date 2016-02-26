@@ -33,7 +33,7 @@ public class SamplePeriodConverterTest {
 		double[] expresult = {1, 1.8, 2.6, 3.4, 4.2, 5, 4.6, 4.2, 3.8, 3.4, 3, 3.8, 4.6, 5.4, 6.2, 7, 7, 7, 7, 7};
 		double[] result=null;
 		try {
-			result = SamplePeriodConverter.convertSamples(originalPeriod, targetPeriod, samples);
+			result = SamplePeriodConverter.convertSamples(originalPeriod, targetPeriod, samples, true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -43,7 +43,7 @@ public class SamplePeriodConverterTest {
 		}
 		
 		try {
-			result = SamplePeriodConverter.convertSamples(targetPeriod, originalPeriod, result);
+			result = SamplePeriodConverter.convertSamples(targetPeriod, originalPeriod, result, true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -55,7 +55,7 @@ public class SamplePeriodConverterTest {
 		targetPeriod = 0.3333;
 		double[] expectedresult = {1, 2.333, 3.666, 5, 4.3333, 3.6666, 3, 4.333, 5.666, 7, 7, 7};
 		try {
-			result = SamplePeriodConverter.convertSamples(originalPeriod, targetPeriod, samples);
+			result = SamplePeriodConverter.convertSamples(originalPeriod, targetPeriod, samples, true);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

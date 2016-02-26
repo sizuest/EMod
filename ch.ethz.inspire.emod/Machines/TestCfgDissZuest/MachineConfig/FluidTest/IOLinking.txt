@@ -1,4 +1,3 @@
-Tank.HeatExchangerOut = HeatExchanger.PThermal
 Pump_1.State = PumpAccumulator.State
 Tank.TemperatureAmb = AmbTemperature
 Tank.PressureAmb = AmbPressure

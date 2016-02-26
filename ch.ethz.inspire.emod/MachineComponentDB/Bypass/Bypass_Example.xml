@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>
+    Model parameter definition
+    ==========================
+      Model : Bypass 
+      Type  : Example
+    Parameters
+    ----------
+      PressureMax [Pa]
+        TODO
+      PressureLossCoefficient [-]
+        TODO
+  </comment>
+  <entry key="PressureMax">15</entry>
+  <entry key="PressureLossCoefficient">1E9</entry>
+</properties>

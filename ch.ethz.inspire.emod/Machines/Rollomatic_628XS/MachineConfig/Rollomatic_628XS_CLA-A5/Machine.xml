@@ -9,25 +9,25 @@
         </machineComponent>
         <machineComponent>
             <component xsi:type="forcedFluidFlow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>GlykolWater_30</type>
+                <type>Water</type>
             </component>
-            <name>ForcedFluidFlow</name>
+            <name>Water</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="tank" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Schaublin42L</type>
+                <type>Rollomatic_628XS_CF</type>
             </component>
             <name>Tank</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
+                <type>Parker-PGP502-2.1CC</type>
             </component>
             <name>PumpHydraulics</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
+                <type>Grundfos_CRK-4-100-10</type>
             </component>
             <name>PumpCoolant</name>
         </machineComponent>
@@ -39,96 +39,138 @@
         </machineComponent>
         <machineComponent>
             <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
+                <type>Emerson_SK2402</type>
             </component>
-            <name>AmpSpindle</name>
+            <name>CtrlSpindle</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
+                <type>Fanuc-PS5.5-A06B-6140-H006</type>
             </component>
             <name>AmpAxes</name>
         </machineComponent>
         <machineComponent>
-            <component xsi:type="servoMotor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <component xsi:type="motorDC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
-            <name>AxisXMotor</name>
+            <name>MotorX</name>
         </machineComponent>
         <machineComponent>
-            <component xsi:type="servoMotor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <component xsi:type="motorDC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
-            <name>AxisYMotor</name>
+            <name>MotorY</name>
         </machineComponent>
         <machineComponent>
-            <component xsi:type="servoMotor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <component xsi:type="motorDC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
-            <name>AxisZMotor</name>
+            <name>MotorZ</name>
         </machineComponent>
         <machineComponent>
-            <component xsi:type="servoMotor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <component xsi:type="motorDC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
-            <name>AxisAMotor</name>
+            <name>MotorA</name>
         </machineComponent>
         <machineComponent>
-            <component xsi:type="servoMotor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <component xsi:type="motorDC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
-            <name>AxisBMotor</name>
+            <name>MotorB</name>
         </machineComponent>
         <machineComponent>
-            <component xsi:type="servoMotor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <component xsi:type="motorDC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
-            <name>AxisCMotor</name>
-        </machineComponent>
-        <machineComponent>
-            <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
-            </component>
-            <name>AmpAxesXYZ</name>
+            <name>MotorC</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Fanuc-SV20-20-20-A06B-6117-H303</type>
+            </component>
+            <name>CtrlAxesLin</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Fanuc-SV20-20-20-A06B-6117-H303</type>
+            </component>
+            <name>CtrlAxesRot</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="heatExchanger" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Marksa_GH-810</type>
+            </component>
+            <name>HeatExchanger</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="linAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>ExampleH</type>
+            </component>
+            <name>AxisX</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="linAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>ExampleV</type>
+            </component>
+            <name>AxisY</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="linAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>ExampleV</type>
+            </component>
+            <name>AxisZ</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="rotAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
-            <name>AmpAxesABC</name>
+            <name>AxisA</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="rotAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>AxisB</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="rotAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>AxisC</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>ValveCoolant</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="cylinder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>Cylinder</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="tank" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Rollomatic_628XS_Hydraulic</type>
+            </component>
+            <name>TankHydraulic</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="bypass" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Girmatic-506820</type>
+            </component>
+            <name>Bypass</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Rollomatic_CF_Nozzle</type>
+            </component>
+            <name>CFNozzle</name>
         </machineComponent>
     </machine>
     <simulators>
-        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>TemperatureIn</name>
-            <unit>
-                <unitText>K</unitText>
-            </unit>
-        </simController>
-        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>PressureIn</name>
-            <unit>
-                <unitText>Pa</unitText>
-            </unit>
-        </simController>
-        <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>State</name>
-            <unit>
-                <unitText>none</unitText>
-            </unit>
-        </simController>
-        <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>Speed</name>
-            <unit>
-                <unitText>Hz</unitText>
-            </unit>
-        </simController>
-        <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>FlowRate</name>
-            <unit>
-                <unitText>m³/s</unitText>
-            </unit>
-        </simController>
         <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>TemperatureAmb</name>
             <unit>
@@ -141,7 +183,147 @@
                 <unitText>Pa</unitText>
             </unit>
         </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>ProcSpindleSpeed</name>
+            <unit>
+                <unitText>Hz</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>ProcAxisXSpeed</name>
+            <unit>
+                <unitText>m/s</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>CtrlHydraulics</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>ProcAxisYSpeed</name>
+            <unit>
+                <unitText>m/s</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>ProcAxisZSpeed</name>
+            <unit>
+                <unitText>m/s</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>ProcAxisASpeed</name>
+            <unit>
+                <unitText>Hz</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>ProcAxisBSpeed</name>
+            <unit>
+                <unitText>Hz</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>ProcAxisCSpeed</name>
+            <unit>
+                <unitText>Hz</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>CtrlHeatExchanger</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>CtrlSpindle</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>CtrlCNC</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>CtrlCoolant</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>WaterFlowRate</name>
+            <unit>
+                <unitText>m³/s</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>WaterPressure</name>
+            <unit>
+                <unitText>Pa</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>WaterTemperature</name>
+            <unit>
+                <unitText>K</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>ProcClamp</name>
+            <unit>
+                <unitText>m/s</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>CtrlCFNozzle</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+        </simController>
     </simulators>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
     <connectionList/>
     <connectionList/>
     <connectionList/>

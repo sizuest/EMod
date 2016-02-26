@@ -128,8 +128,14 @@ public abstract class AEvaluationGUI extends AGUITab {
 		data.addUnit(new SiUnit(unit));
 		double[] values = new double[lines.size()-3];
 		for(int i = 3;i<lines.size();i++)
-			values[i-3] = Double.parseDouble(lines.get(i)[col]);
-		data.addInputValues(values);
+			try{
+				values[i-3] = Double.parseDouble(lines.get(i)[col]);
+			}
+			catch(Exception e){
+				System.err.print("Result file: Could not parse entier result file. Line "+i+" failed due to bad format.");
+				e.printStackTrace();
+			}
+			data.addInputValues(values);
 		availableConsumers.add(data);
 	}
 	
@@ -154,7 +160,13 @@ public abstract class AEvaluationGUI extends AGUITab {
 		temp.addUnit(new SiUnit(unit));
 		double[] values = new double[lines.size()-3];
 		for(int i = 3;i<lines.size();i++)
-			values[i-3] = Double.parseDouble(lines.get(i)[col]);
+			try{
+					values[i-3] = Double.parseDouble(lines.get(i)[col]);
+			}
+			catch(Exception e){
+				System.err.print("Result file: Could not parse entier result file. Line "+i+" failed due to bad format.");
+				e.printStackTrace();
+			}
 		temp.addInputValues(values);
 	}
 	

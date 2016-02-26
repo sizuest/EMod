@@ -23,7 +23,6 @@ import ch.ethz.inspire.emod.model.fluid.FECValve;
 import ch.ethz.inspire.emod.model.units.ContainerType;
 import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.model.units.Unit;
-import ch.ethz.inspire.emod.utils.Algo;
 import ch.ethz.inspire.emod.utils.Floodable;
 import ch.ethz.inspire.emod.utils.FluidCircuitProperties;
 import ch.ethz.inspire.emod.utils.FluidContainer;
@@ -41,22 +40,18 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  * 
  * 
  * Inputlist:
- *   1: PressureOut : [Pa]  
- *   2: Massflow    : [kg/s]  : Oil flow through the valve
- *   3: Density     : [kg/m3] : Hydraulic oil`s density
- *   4: State		:			ON/OFF position of the valve. 1 means ON, 0 means OFF. Only needed for magnetic valves
+ *   1: ValveCtrl   : [-]	ON/OFF position of the valve. 1 means ON, 0 means OFF. Only needed for magnetic valves
+ *   2: FluidIn     : [-]  
  
  * Outputlist:
- *   1: PressureIn  : [Pa]   : Pressure in the cylinder chamber
- *   2: MassFlow    : [kg/s] : Massflow into the cylinder chamber
- *   3: PLoss		: [W]	 : Power loss
- *   4: PressureLoss: [Pa]	 : Pressuredifference over the valve
- *   5: PTotal    	: [W]	 : Needed electrical power to open and hold the valve
+ *   1: PLoss		: [W]	 : Power loss
+ *   2: PTotal    	: [W]	 : Needed electrical power to open and hold the valve
+ *   3: FluidOut    : [-]	
  *   
  * Config parameters:
- *   ElectricPower    : [W] 
- *   PressureSamples  : [Pa]
- *   VolflowSamples   : [l/min]: Unit [l/min] is chosen because of easier handling for the user. Manufacturer data always given in [l/min]. From [kg/s] to [l/min], the factor 60*1000/density must be taken.
+ *   ElectricPower            : [W] 
+ *   PressureLossCoefficient  : [-]
+ *   Area                     : [m2]
  * 
  * @author kraandre
  *
@@ -73,15 +68,13 @@ public class Valve extends APhysicalComponent implements Floodable{
 	
 	// Output parameters:
 	private IOContainer ploss;
-	private IOContainer pressureloss;
 	private IOContainer pel;
 	private FluidContainer fluidOut;
 	
 	// Parameters used by the model. 
 	private double electricPower;
-	private double adjustedPressure = 0;
-	private double[] pressureSamples;
-	private double[] volflowSamples;
+	private double zeta;
+	private double area;
 	
 	// Fluid properties
 	private FluidCircuitProperties fluidProperties;
@@ -125,25 +118,23 @@ public class Valve extends APhysicalComponent implements Floodable{
 		
 		/* Define Input parameters */
 		inputs    = new ArrayList<IOContainer>();
-		valveCtrl = new IOContainer("ValveCtrl",    new SiUnit(Unit.NONE),         1, ContainerType.CONTROL);
+		valveCtrl = new IOContainer("ValveCtrl",    new SiUnit(Unit.NONE),        0, ContainerType.CONTROL);
 		inputs.add(valveCtrl);
 		
 		/* Fluid Properties */
-		fluidProperties = new FluidCircuitProperties(new FECValve(this, valveCtrl));
+		fluidProperties = new FluidCircuitProperties(new FECValve(this));
 		
 		
 		/* Define output parameters */
 		outputs      = new ArrayList<IOContainer>();
 		ploss        = new IOContainer("PLoss",        new SiUnit(Unit.WATT), 0, ContainerType.THERMAL);
-		pressureloss = new IOContainer("PressureLoss", new SiUnit(Unit.PA),   0, ContainerType.FLUIDDYNAMIC);
 		pel			 = new IOContainer("PTotal",	      new SiUnit(Unit.WATT), 0, ContainerType.ELECTRIC);
 		outputs.add(ploss);
-		outputs.add(pressureloss);
 		outputs.add(pel);
 		
 		/* Fluid in- and output */
-		fluidIn  = new FluidContainer("FluidIn",  null, fluidProperties);
-		fluidOut = new FluidContainer("FluidOut", null, fluidProperties);
+		fluidIn  = new FluidContainer("FluidIn",  new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidProperties);
+		fluidOut = new FluidContainer("FluidOut", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidProperties);
 		inputs.add(fluidIn);
 		outputs.add(fluidOut);
 
@@ -163,14 +154,12 @@ public class Valve extends APhysicalComponent implements Floodable{
 		
 		/* Read the config parameter: */
 		try {
-			electricPower    = params.getDoubleValue("ElectricPower");
-			pressureSamples  = params.getDoubleArray("PressureSamples");
-			volflowSamples	 = params.getDoubleArray("VolFlowSamples");
-			adjustedPressure = params.getDoubleValue("AdjustedPressure");
+			electricPower = params.getDoubleValue("ElectricPower");
+			zeta          = params.getDoubleValue("PressureLossCoefficient");
+			area          = params.getDoubleValue("Area");
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			System.exit(-1);
 		}
 		params.Close(); /* Model configuration file not needed anymore. */
 		
@@ -180,7 +169,6 @@ public class Valve extends APhysicalComponent implements Floodable{
 		}
 		catch (Exception e) {
 		    e.printStackTrace();
-		    System.exit(-1);
 		}
 	}
 	
@@ -190,48 +178,19 @@ public class Valve extends APhysicalComponent implements Floodable{
 	 * @throws Exception
 	 */
     private void checkConfigParams() throws Exception
-	{				
-		//Check dimensions
-		if(pressureSamples.length != volflowSamples.length)
+	{			
+		if(zeta <= 0)
 			throw new Exception("Valve, type:" +type+
-					": PressureSamples and MassFlowSamples must have the same dimensions!");
+					": Pressure loss coefficient must be greater than zero");
 		
-		//Check if sorted
+		if(area <= 0)
+			throw new Exception("Valve, type:" +type+
+					": Area must be greater than zero");
 		
-		for (int i=1; i<pressureSamples.length; i++) {
-			if (pressureSamples[i] <= pressureSamples[i-1]) {
-				throw new Exception("Valve, type:" +type+ 
-						": Sample vector 'PressureSamples' must be sorted!");
-			}
-		}
-		for (int i=1; i<volflowSamples.length; i++) {
-			if (volflowSamples[i] <= volflowSamples[i-1]) {
-				throw new Exception("Valve, type:" +type+ 
-						": Sample vector 'VolumetricflowSamples' must be sorted!");
-			}
-		}
+		if(electricPower < 0)
+			throw new Exception("Valve, type:" +type+
+					": Electric power must be geq zero");
 		
-		//Check physical value
-		for(int i=0; i<pressureSamples.length; i++) {
-			if(pressureSamples[i]<0) {
-				throw new Exception("Valve, type:" +type+": Pressure must be bigger than zero!");
-				}
-		}
-		if(0>electricPower){
-			throw new Exception("Valve, type:" +type+ 
-					": Non physical value: Variable 'ElectricPower' must be bigger than zero!");
-		}
-		
-		if(0>adjustedPressure){
-			throw new Exception("Valve, type:" +type+ 
-					": Non physical value: Variable 'AdjustedPressure' must be bigger than zero!");
-		}
-		
-		for(int i=0; i<volflowSamples.length; i++) {
-			if(volflowSamples[i]<0) {
-				throw new Exception("Valve, type:" +type+": Volumetric flow must be bigger than zero!");
-			}
-		}
 		
 	}
 	
@@ -248,11 +207,9 @@ public class Valve extends APhysicalComponent implements Floodable{
 		}	
 		else{
 			pel.setValue(0);
-			ploss.setValue(0);
 		}
 		
 		ploss.setValue(fluidProperties.getFlowRate()*fluidProperties.getPressureDrop()+pel.getValue());
-		pressureloss.setValue(fluidProperties.getPressureDrop());
 	}
 
 	/* (non-Javadoc)
@@ -265,22 +222,35 @@ public class Valve extends APhysicalComponent implements Floodable{
 	
 	public void setType(String type) {
 		this.type = type;
-		init();
 	}
 
 	@Override
 	public ArrayList<FluidCircuitProperties> getFluidPropertiesList() {
 		ArrayList<FluidCircuitProperties> out = new ArrayList<FluidCircuitProperties>();
+		out.add(fluidProperties);
 		return out;
 	}
 
-	public double getPressureDrivative(double flowRate) {
-		return Algo.numericalDerivative(flowRate, volflowSamples, pressureSamples);
-	}
-
 	public double getPressure(double flowRate) {
-		return Algo.linearInterpolation(flowRate, volflowSamples, pressureSamples);
+		return Math.pow(flowRate, 2) * getPressureLossCoefficient();
 	}
+	
+	public double getPressureLossCoefficient(){
+		double rho = fluidProperties.getMaterial().getDensity(fluidProperties.getTemperatureIn()),
+			   u   = Math.max(1E-3, valveCtrl.getValue());
+		
+		return zeta * rho / 2 / Math.pow(u*area, 2);
+	}
+	
+	public boolean isClosed(){
+		if(valveCtrl.getValue() == 0)
+			return true;
+		else
+			return false;
+	}
+	
+	@Override
+	public void flood(){/* Not used */}
 
 	
 }

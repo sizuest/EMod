@@ -64,7 +64,7 @@ public class MachineComponentDBGUI {
 				componentEditGUI.editMachineComponentGUI(selection[0].getParentItem().getText(), text);
 	    	}
 	    	public void widgetDefaultSelected(SelectionEvent event){
-	    		
+	    		// Not used
 	    	}
 	    });
 		
@@ -78,7 +78,7 @@ public class MachineComponentDBGUI {
 	    		shell.close();
 	    	}
 	    	public void widgetDefaultSelected(SelectionEvent event){
-	    		
+	    		// Not used
 	    	}
 	    });
 			

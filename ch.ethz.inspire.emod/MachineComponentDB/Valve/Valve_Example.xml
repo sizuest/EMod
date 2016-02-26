@@ -10,15 +10,12 @@
     ----------
       ElectricPower [W]
         TODO
-      MVolflowSamples [l/min]
+      PressureLossCoefficient [-]
         TODO
-      PressureSamples [Pa]
+      Area [m2]
         TODO
   </comment>
   <entry key="ElectricPower">0</entry>
-  <entry key="AdjustedPressure">0</entry>
-  <entry key="VolFlowSamples">0; 10; 20; 30</entry>
-  <entry key="PressureSamples">0; 100000; 600000; 1250000</entry>
-  <entry key="thermal.Mass">1</entry>
-  <entry key="thermal.HeatCapacity">480</entry>
+  <entry key="PressureLossCoefficient">0.1</entry>
+  <entry key="Area">100E-6</entry>
 </properties>

@@ -138,7 +138,9 @@ public class EditDuctProfileGUI {
         		updateProfile();
         		caller.update();
         	}
-        	public void widgetDefaultSelected(SelectionEvent event){}
+        	public void widgetDefaultSelected(SelectionEvent event){
+        		// Not used
+        	}
 		});
 		
 		closeButton = new Button(shell, SWT.NONE);
@@ -148,7 +150,9 @@ public class EditDuctProfileGUI {
         	public void widgetSelected(SelectionEvent event){
         		shell.dispose();
         	}
-        	public void widgetDefaultSelected(SelectionEvent event){}
+        	public void widgetDefaultSelected(SelectionEvent event){
+        		// Not used
+        	}
 		});
         
         shell.pack();
@@ -192,7 +196,7 @@ public class EditDuctProfileGUI {
     			//enable comboMachineConfigName after update
     		}
     		public void widgetDefaultSelected(SelectionEvent event){
-    		
+    			// Not used
     		}
     	});
         

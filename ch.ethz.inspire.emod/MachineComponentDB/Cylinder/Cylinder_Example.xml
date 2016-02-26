@@ -25,5 +25,5 @@
   <entry key="CylinderType">1</entry>
   <entry key="ConnectionDiameter">.02</entry>
   <entry key="StructuralMass">10</entry>
-  <entry key="StructurMaterial">Steel</entry>
+  <entry key="StructureMaterial">Steel</entry>
 </properties>

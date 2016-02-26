@@ -6,7 +6,7 @@
 <entry key="AirGapFrictionCoeff">0, 0</entry>
 <entry key="PreloadForce">0</entry>
 <entry key="StructureMass">26</entry>
-<entry key="MotorType">Kessler_000101561</entry>
+<entry key="MotorType">MotorAC_Kessler_000101561</entry>
 <entry key="BearingType">Example</entry>
 <entry key="PressureLossCoefficient">8.179E12</entry>
 <entry key="CoolantHTC">200</entry>

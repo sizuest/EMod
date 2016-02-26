@@ -579,7 +579,7 @@ public class Duct {
 		double fac=1.05;
 		if(flowRate == 0)
 			return 0;
-		return (getPressureDrop(flowRate*fac, pressureIn, temperatureFluid)-getPressureDrop(flowRate, pressureIn, temperatureFluid))/fac/flowRate;
+		return (getPressureDrop(flowRate*fac, pressureIn, temperatureFluid)-getPressureDrop(flowRate, pressureIn, temperatureFluid))/(fac-1)/flowRate;
 	}
 	
 	/**

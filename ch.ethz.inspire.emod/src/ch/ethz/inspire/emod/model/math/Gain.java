@@ -114,9 +114,8 @@ public class Gain extends APhysicalComponent{
 	 * 
 	 * @throws Exception
 	 */
-    private void checkConfigParams() throws Exception
-	{		
-		
+    private void checkConfigParams() throws Exception {		
+    	// Not used
 	}
 	
 

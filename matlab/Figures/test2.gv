@@ -1,0 +1,30 @@
+digraph test {
+   node [margin="0.01" shape=plaintext];
+   rankdir="LR";
+
+"Table1" [label =<
+<table border="1" cellborder="0" cellpadding="3" bgcolor="white">
+    <TR>
+    <TD bgcolor="black" align="center" colspan="2"><font color="white">
+    Table1</font></TD>
+    </TR><TR>
+    <TD align="left" port="f1">Field1 </TD>
+    </TR><TR>
+    <TD align="left" port="f2">Field2 </TD>
+    </TR>
+</table>> ];
+
+"Table2" [ label =<<table border="1" cellborder="0" cellpadding="3" bgcolor="white">
+    <TR>
+    <TD bgcolor="black" align="center" colspan="2"><font color="white">
+    Table2</font></TD>
+    </TR><TR>
+    <TD align="left" port="f1">Field1 </TD>
+    </TR><TR>
+    <TD align="left" port="f2">Field2 </TD>
+    </TR>
+</table>> ];
+
+Table1:f1 -> Table2:f2;
+
+}

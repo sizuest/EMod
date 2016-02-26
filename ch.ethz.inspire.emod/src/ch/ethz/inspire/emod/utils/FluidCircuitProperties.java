@@ -91,7 +91,9 @@ public class FluidCircuitProperties {
 	private void setPre(FluidCircuitProperties pre){
 		if(!this.pre.contains(pre)){
 			this.pre.add(pre);
+			flowRateIn = new double[this.pre.size()];
 		}
+
 	}
 	
 	/**
@@ -142,8 +144,9 @@ public class FluidCircuitProperties {
 	 * @param value
 	 */
 	public void setMaterial(Material value){
+		this.material = value;
 		for(FluidCircuitProperties fp: getAllConnectedElements(this))
-			fp.material = material;
+			fp.material.setMaterial(this.material);
 	}
 	
 	/**
@@ -229,11 +232,35 @@ public class FluidCircuitProperties {
 	}
 	
 	/**
+	 * getMassFlowRate()
+	 * @return current flow rate [kg/s]
+	 */
+	public double getMassFlowRate(){		
+		double rho;
+		
+		rho = getMaterial().getDensity(getTemperature(), getPressure());
+		
+		return getFlowRate()*rho;
+	}
+	
+	private double getTemperature() {
+		return (getTemperatureIn()+getTemperatureOut())/2;
+	}
+
+	/**
 	 * getFlowRate()
 	 * @return current flow rate [m³/s]
 	 */
 	public double[] getFlowRates(){
 		return this.flowRateIn;
+	}
+	
+	/**
+	 * getHeatLoss()
+	 * @return current heat loss [W]
+	 */
+	public double getHeatLoss(){
+		return getPressureDrop()*getFlowRate();
 	}
 	
 	
@@ -284,6 +311,8 @@ public class FluidCircuitProperties {
 						candidates.add(fp);
 				candidates.remove(0);
 			}
+			else
+				candidates.remove(0);
 		}
 		
 		return list;

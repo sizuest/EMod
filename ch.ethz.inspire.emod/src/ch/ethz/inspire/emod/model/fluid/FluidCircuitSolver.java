@@ -1,7 +1,9 @@
 package ch.ethz.inspire.emod.model.fluid;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.ejml.data.DenseMatrix64F;
 import org.ejml.factory.LinearSolverFactory;
@@ -22,6 +24,11 @@ public class FluidCircuitSolver {
 			                   postE  = new ArrayList<Integer>(),
 			                   bcinE  = new ArrayList<Integer>(),
 			                   bcoutE = new ArrayList<Integer>();
+	private Map<Integer,ArrayList<Integer>> preIndexes  = new HashMap<Integer,ArrayList<Integer>>(),
+			                                postIndexes = new HashMap<Integer,ArrayList<Integer>>();
+	
+	double flowRateLim = 1E-9;
+	
 	
 	public FluidCircuitSolver(ArrayList<FluidCircuitProperties> fluidPropertyList, List<FluidConnection> connections){
 		this.fluidPropertyList = fluidPropertyList;
@@ -143,6 +150,28 @@ public class FluidCircuitSolver {
 		// Boundary conditions (Pressure)
 		H.insertIntoThis(numE+numCPre+numCPost+2*numC,           numE, Mbcin);
 		H.insertIntoThis(numE+numCPre+numCPost+2*numC+numBCIn, 2*numE, Mbcout);		
+		
+		
+		/* Build index map */
+		for(int i=0; i<numE; i++){
+			ArrayList<Integer> idx = getPreIndexes(fluidPropertyList.get(i));
+			
+			for(int j=0; j<idx.size(); j++){
+				idx.set(j, fluidPropertyList.indexOf(((FluidContainer) connections.get(idx.get(j)).getSource()).getFluidCircuitProperties()));
+			}
+			
+			preIndexes.put(i, idx);
+		}
+		
+		for(int i=0; i<numE; i++){
+			ArrayList<Integer> idx = getPostIndexes(fluidPropertyList.get(i));
+			
+			for(int j=0; j<idx.size(); j++){
+				idx.set(j, fluidPropertyList.indexOf(((FluidContainer) connections.get(idx.get(j)).getTarget()).getFluidCircuitProperties()));
+			}
+			
+			postIndexes.put(i, idx);
+		}
 	}
 	
 	public void solve() throws Exception{
@@ -164,13 +193,13 @@ public class FluidCircuitSolver {
 		int iteration = 0;
 		double relChange = Double.POSITIVE_INFINITY;
 		
-		while(iteration<10 & relChange>1E-4){
+		while(iteration<20 & relChange>1E-4){
 			
 			// Read new op
 			for(int i=0; i<numE; i++){			
-				a0[i] = fluidPropertyList.get(i).getCharacterisitc().getA0(fluidPropertyList.get(i).getFlowRate(), fluidPropertyList.get(i).getPressureIn());
-				a1[i] = fluidPropertyList.get(i).getCharacterisitc().getA1(fluidPropertyList.get(i).getFlowRate(), fluidPropertyList.get(i).getPressureIn());
-				e[i]  = fluidPropertyList.get(i).getCharacterisitc().getEp(fluidPropertyList.get(i).getFlowRate(), fluidPropertyList.get(i).getPressureIn());
+				a0[i] = fluidPropertyList.get(i).getCharacterisitc().getA0(fluidPropertyList.get(i).getFlowRate(), fluidPropertyList.get(i).getPressureIn(), fluidPropertyList.get(i).getPressureOut());
+				a1[i] = fluidPropertyList.get(i).getCharacterisitc().getA1(fluidPropertyList.get(i).getFlowRate(), fluidPropertyList.get(i).getPressureIn(), fluidPropertyList.get(i).getPressureOut());
+				e[i]  = fluidPropertyList.get(i).getCharacterisitc().getEp(fluidPropertyList.get(i).getFlowRate(), fluidPropertyList.get(i).getPressureIn(), fluidPropertyList.get(i).getPressureOut());
 			}
 		
 		
@@ -180,12 +209,9 @@ public class FluidCircuitSolver {
 			// Get avg. rel. change:
 			relChange = 0;
 			double cand = 0;
-			double flowRateLim = 1E-9;
 			for(int i=0; i<numE; i++){
-				if(sol.get(i)<=flowRateLim)
-					sol.set(i,0);
-				if( (sol.get(i)<=flowRateLim & fluidPropertyList.get(i).getFlowRate()> flowRateLim) | 
-					(sol.get(i)> flowRateLim & fluidPropertyList.get(i).getFlowRate()<=flowRateLim))
+				
+				if( (sol.get(i)<=flowRateLim & fluidPropertyList.get(i).getFlowRate()> flowRateLim))
 					cand = 1;
 				else if(sol.get(i)<=flowRateLim & fluidPropertyList.get(i).getFlowRate()<=flowRateLim) 
 					cand = 0;
@@ -199,24 +225,39 @@ public class FluidCircuitSolver {
 			
 			// Write back data
 			for(int i=0; i<numE; i++){
-				fluidPropertyList.get(i).setPressureIn(sol.get(i+numE));
-				fluidPropertyList.get(i).setPressureOut(sol.get(i+2*numE));
+				fluidPropertyList.get(i).setPressureIn(Math.round(sol.get(i+numE)));
+				fluidPropertyList.get(i).setPressureOut(Math.round(sol.get(i+2*numE)));
 				
-				ArrayList<Integer> idx = getPreIndexes(fluidPropertyList.get(i));
+				double[] flowRates;
+				ArrayList<Integer> idx = preIndexes.get(i);
+				
 				if(idx.size()==0){
-					double[] flowRates = {sol.get(i)};
-					fluidPropertyList.get(i).setFlowRatesIn(flowRates);
+					double flowRatesSum = 0;
+					idx = postIndexes.get(i);
+					
+					for(int j=0; j<idx.size(); j++)
+						flowRatesSum += sol.get(idx.get(j));
+					
+					flowRates = new double[1];
+					flowRates[0] = flowRatesSum;
+				}
+				else if(idx.size()==1){
+					flowRates = new double[1];
+					flowRates[0] = sol.get(i);
 				}
 				else{
-					double[] flowRates = new double[idx.size()];
+					flowRates = new double[idx.size()];
 					for(int j=0; j<idx.size(); j++)
 						flowRates[j] = sol.get(idx.get(j));
-					fluidPropertyList.get(i).setFlowRatesIn(flowRates);
+					
 				}
+				
+				fluidPropertyList.get(i).setFlowRatesIn(flowRates);
+
 			}
 		}
 		
-		if(iteration>=10){
+		if(iteration>=20){
 			System.out.println("Warning: Fluid circuit solution didn't coverged. Max change rate: "+relChange);
 		}
 	}
@@ -245,10 +286,10 @@ public class FluidCircuitSolver {
 			y.set(i, -a0[i]);
 		
 		for(int i=0; i<numBCIn; i++)
-			y.set(i+numE+4*numC, pBCIn[i]);
+			y.set(i+numE+2*numC+numCPre+numCPost, pBCIn[i]);
 		
 		for(int i=0; i<numBCOut; i++)
-			y.set(i+numE+4*numC+numBCIn, pBCOut[i]);
+			y.set(i+numE+2*numC+numCPre+numCPost+numBCIn, pBCOut[i]);
 		
 		//H.print("%e");
 		//y.print("%e");

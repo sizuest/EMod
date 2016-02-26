@@ -93,7 +93,6 @@ public class Cylinder extends APhysicalComponent implements Floodable {
 	private double pistonRodDiameter;
 	private double k = 0.5;				//Geometric loss koefficient
 	private double area;
-	private double connectionDiameter;
 	private double flowRateLeak = 0;
 	private double structureMass = 1;
 	private String structureMaterial = "Steel";
@@ -185,9 +184,9 @@ public class Cylinder extends APhysicalComponent implements Floodable {
 			stroke				= params.getDoubleValue("CylinderStroke");
 			efficiency			= params.getDoubleValue("Efficiency");
 			pistonRodDiameter	= params.getDoubleValue("PistonRodDiameter");
-			connectionDiameter  = params.getDoubleValue("ConnectionDiameter");
+			params.getDoubleValue("ConnectionDiameter");
 			structureMass       = params.getDoubleValue("StructuralMass");
-			structureMaterial   = params.getString("StructurMaterial");
+			structureMaterial   = params.getString("StructureMaterial");
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -201,7 +200,6 @@ public class Cylinder extends APhysicalComponent implements Floodable {
 		}
 		catch (Exception e) {
 		    e.printStackTrace();
-		    System.exit(-1);
 		}
 		
 		/* Area */
@@ -297,6 +295,8 @@ public class Cylinder extends APhysicalComponent implements Floodable {
 	@Override
 	public void update() {
 		
+		fluid.setMaterial(fluidProperties.getMaterial());
+		
 		double pressureDrop = 0,
 		       viscosity,
 		       density,
@@ -373,7 +373,6 @@ public class Cylinder extends APhysicalComponent implements Floodable {
 	
 	public void setType(String type) {
 		this.type = type;
-		init();
 	}
 
 	@Override
@@ -382,5 +381,8 @@ public class Cylinder extends APhysicalComponent implements Floodable {
 		out.add(fluidProperties);
 		return out;
 	}
+	
+	@Override
+	public void flood(){/* Not used */}
 	
 }

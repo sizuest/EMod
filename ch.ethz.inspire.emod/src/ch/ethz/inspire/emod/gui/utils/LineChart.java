@@ -19,18 +19,12 @@ import java.util.Map;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.swtchart.Chart;
-import org.swtchart.IAxis;
 import org.swtchart.ILineSeries;
 import org.swtchart.ILineSeries.PlotSymbolType;
-import org.swtchart.ISeries;
 import org.swtchart.ISeries.SeriesType;
-import org.swtchart.LineStyle;
-
-import ch.ethz.inspire.emod.model.units.SiUnit;
 
 
 /**
@@ -65,7 +59,6 @@ public class LineChart {
 			for(int i=0;i<cd.getNames().size();i++){
 				if(cd.getActive().get(i)) {
 					int axId;
-					Color lineColor;
 					// Check for axis
 					if(axisMap.containsKey(cd.getUnits().get(i).toString())){
 						axId = axisMap.get(cd.getUnits().get(i).toString());
@@ -84,7 +77,7 @@ public class LineChart {
 						chart.getAxisSet().getYAxis(axId).getTick().setForeground(Display.getDefault().getSystemColor(color));
 						chart.getAxisSet().getYAxis(axId).getTitle().setForeground(Display.getDefault().getSystemColor(color));
 						
-						color++; color++; color++;
+						color++;
 					}
 					
 					ILineSeries lineSeries = (ILineSeries) chart.getSeriesSet().createSeries(SeriesType.LINE, cd.getConsumer()+"."+cd.getNames().get(i));
@@ -99,26 +92,38 @@ public class LineChart {
 				}
 			}
 			
-			/* Adjust colors */
-			for(int i=0; i<unitCounter.size(); i++)
-				colorCounter.add(i, 0);
+			if(unitCounter.size() > 1){
 			
-			for(ILineSeries l: lines){
-				int axId = l.getYAxisId(), r, g, b;
-				Color lineColor = chart.getAxisSet().getYAxis(axId).getTick().getForeground();
+				/* Adjust colors */
+				for(int i=0; i<unitCounter.size(); i++)
+					colorCounter.add(i, 0);
 				
-				r  = (int)(lineColor.getRed()  *(1-.75/unitCounter.get(axId)*colorCounter.get(axId)));
-				g  = (int)(lineColor.getGreen()*(1-.75/unitCounter.get(axId)*colorCounter.get(axId)));
-				b  = (int)(lineColor.getBlue() *(1-.75/unitCounter.get(axId)*colorCounter.get(axId)));
-				
-				colorCounter.set(axId, colorCounter.get(axId)+1);
-				
-				l.setLineColor(new Color(Display.getCurrent(), r, g, b));
+				for(ILineSeries l: lines){
+					int axId = l.getYAxisId(), r, g, b;
+					Color lineColor = chart.getAxisSet().getYAxis(axId).getTick().getForeground();
+					
+					r  = (int)(lineColor.getRed()  *(1-.75/unitCounter.get(axId)*colorCounter.get(axId)));
+					g  = (int)(lineColor.getGreen()*(1-.75/unitCounter.get(axId)*colorCounter.get(axId)));
+					b  = (int)(lineColor.getBlue() *(1-.75/unitCounter.get(axId)*colorCounter.get(axId)));
+					
+					colorCounter.set(axId, colorCounter.get(axId)+1);
+					
+					l.setLineColor(new Color(Display.getCurrent(), r, g, b));
+				}
+			}
+			else{
+				color = 3;
+				for(ILineSeries l: lines){
+					l.setLineColor(Display.getDefault().getSystemColor(color));
+					color++; 
+				}
+				chart.getAxisSet().getYAxis(0).getTick().setForeground(Display.getDefault().getSystemColor(0));
+				chart.getAxisSet().getYAxis(0).getTitle().setForeground(Display.getDefault().getSystemColor(0));
 			}
 		}
 		
 		/* Format time axis */
-		chart.getAxisSet().getXAxis(0).getTitle().setText("time ["+(new SiUnit("s")).toString()+"]");
+		chart.getAxisSet().getXAxis(0).getTitle().setText("time [s]");
 		chart.getAxisSet().getXAxis(0).getTick().setForeground(Display.getDefault().getSystemColor(0));
 		chart.getAxisSet().getXAxis(0).getTitle().setForeground(Display.getDefault().getSystemColor(0));
 		

@@ -49,17 +49,19 @@ public class MovingMass extends APhysicalComponent{
 	@XmlElement
 	protected double mass;
 	@XmlElement
+	protected double inertia;
+	@XmlElement
 	protected double angle;
 	
 	// Input parameters:
-	private IOContainer speed;
+	private IOContainer speedLin, speedRot;
 	// Output parameters:
-	private IOContainer force;
+	private IOContainer force, torque;
 	
 	// Save last input values
-	private double lastspeed = 0;
+	private double lastspeedLin = 0, lastspeedRot = 0;
 	
-	private DynamicState position;
+	private DynamicState positionLin, positionAng;
 	
 	/**
 	 * Constructor called from XmlUnmarshaller.
@@ -81,15 +83,17 @@ public class MovingMass extends APhysicalComponent{
 	/**
 	 * Linear Motor constructor
 	 * @param mass 
+	 * @param inertia 
 	 * @param angle 
 	 * 
 	 * @param type
 	 */
-	public MovingMass(double mass, double angle) {
+	public MovingMass(double mass, double inertia, double angle) {
 		super();
 		
-		this.angle=angle;
-		this.mass =mass;
+		this.angle   = angle;
+		this.mass    = mass;
+		this.inertia = inertia;
 		init();
 	}
 	
@@ -100,20 +104,25 @@ public class MovingMass extends APhysicalComponent{
 	{
 		/* Define Input parameters */
 		inputs = new ArrayList<IOContainer>();
-		speed  = new IOContainer("Speed", new SiUnit(Unit.M_S), 0, ContainerType.MECHANIC);
-		inputs.add(speed);
+		speedLin  = new IOContainer("SpeedLin", new SiUnit(Unit.M_S), 0, ContainerType.MECHANIC);
+		speedRot  = new IOContainer("SpeedRot", new SiUnit(Unit.REVOLUTIONS_S), 0, ContainerType.MECHANIC);
+		inputs.add(speedLin);
+		inputs.add(speedRot);
 		
 		
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
 		force   = new IOContainer("Force", new SiUnit(Unit.NEWTON), 0, ContainerType.MECHANIC);
+		torque  = new IOContainer("Torque", new SiUnit(Unit.NEWTONMETER), 0, ContainerType.MECHANIC);
 		outputs.add(force);
 		
 		/* State */
-		position = new DynamicState("Position", new SiUnit(Unit.M));
+		positionLin = new DynamicState("Position", new SiUnit(Unit.M));
+		positionAng = new DynamicState("Angle",    new SiUnit(""));
 		
 		dynamicStates = new ArrayList<DynamicState>();
-		dynamicStates.add(position);
+		dynamicStates.add(positionLin);
+		dynamicStates.add(positionAng);
 		
 		// Validate the parameters:
 		try {
@@ -138,6 +147,12 @@ public class MovingMass extends APhysicalComponent{
 			throw new Exception("MovingMass, mass:" +mass+ 
 					": Negative value: Mass must be non negative" );
 		}
+		
+		// Check dimensions:
+		if (inertia <= 0) {
+			throw new Exception("MovingMass, inertia:" +inertia+ 
+					": Negative value: Inertia must be non negative" );
+		}
 	}
 	
 
@@ -148,9 +163,13 @@ public class MovingMass extends APhysicalComponent{
 	public void update() {
 		
 		// Get required speed in m/s 
-		double curspeed = speed.getValue();
+		double curspeedLin = speedLin.getValue(),
+			   curspeedRot = speedRot.getValue();
 		
-		position.addValue(curspeed*timestep);
+		
+		positionLin.addValue( (curspeedLin+lastspeedLin)/2*timestep);
+		positionAng.addValue( (curspeedRot+lastspeedRot)/2*timestep);
+		
 		
 		/*
 		 * Force is calculated by
@@ -158,11 +177,13 @@ public class MovingMass extends APhysicalComponent{
 		 * where the Acceleration is estimated by the velocity change:
 		 * Acceleration = (v(t)-v(t-Ts))/Ts
 		 */
-		force.setValue( ( (curspeed-lastspeed)/timestep + Math.sin(angle*Math.PI/180)*9.81 ) * mass );
+		force.setValue(  ( (curspeedLin-lastspeedLin)/timestep + Math.sin(angle*Math.PI/180)*9.81 ) * mass );
+		torque.setValue( (curspeedRot-lastspeedRot)/timestep * inertia );
 		
 				
 		// Update last speed
-		lastspeed = curspeed;
+		lastspeedLin = curspeedLin;
+		lastspeedRot = curspeedRot;
 	}
 
 	/* (non-Javadoc)

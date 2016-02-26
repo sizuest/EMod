@@ -182,7 +182,8 @@ public class ForcedHeatTransfere extends APhysicalComponent{
 	 * 
 	 * @throws Exception
 	 */
-    private void checkConfigParams() throws Exception{		   	
+    private void checkConfigParams() throws Exception{		
+    	// Not used
 	}
 
 	/* (non-Javadoc)

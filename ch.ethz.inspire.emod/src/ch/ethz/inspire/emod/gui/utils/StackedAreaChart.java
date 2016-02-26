@@ -58,14 +58,14 @@ public class StackedAreaChart {
 		
 		List<double[]> series = createStackedSeries();
 		
-		for(int i=0;i<localdata.size();i++) {
+		for(int i=localdata.size()-1;i>=0;i--) {
 			ILineSeries lineSeries = (ILineSeries) chart.getSeriesSet().createSeries(SeriesType.LINE, localdata.get(i).getConsumer());
 			lineSeries.setYSeries(series.get(i));
 			lineSeries.setSymbolType(PlotSymbolType.NONE);
 					
 			lineSeries.setLineColor(Display.getDefault().getSystemColor(color));
 			lineSeries.enableArea(true);
-			color++; color++; color++;
+			color++;
 		}
 		
 		chart.getAxisSet().getXAxis(0).getTitle().setText("time ["+(new SiUnit("s")).toString()+"]");

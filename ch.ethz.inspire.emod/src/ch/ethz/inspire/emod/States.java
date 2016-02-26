@@ -131,7 +131,7 @@ public class States {
 		} catch (Exception e) {
 			System.err.println("Format error in file '" + file + "' line " + linenr);
 			e.printStackTrace();
-			System.exit(-1);
+			//System.exit(-1);
 		} 
 	}
 	

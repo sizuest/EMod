@@ -4,15 +4,12 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ControlEditor;
 import org.eclipse.swt.custom.TableCursor;
 import org.eclipse.swt.custom.TableEditor;
-import org.eclipse.swt.events.KeyAdapter;
-import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
@@ -22,7 +19,6 @@ import org.eclipse.swt.widgets.Text;
 
 import ch.ethz.inspire.emod.gui.SelectMaterialGUI;
 import ch.ethz.inspire.emod.gui.utils.TableUtils;
-import ch.ethz.inspire.emod.model.fluid.ADuctElement;
 import ch.ethz.inspire.emod.model.fluid.Isolation;
 import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.utils.ParameterSet;
@@ -140,7 +136,9 @@ public class EditDuctIsolationGUI {
         		setIsolation(iso);
         		caller.update();
         	}
-        	public void widgetDefaultSelected(SelectionEvent event){}
+        	public void widgetDefaultSelected(SelectionEvent event){
+        		// Not used
+        	}
 		});
 		
 		closeButton = new Button(shell, SWT.NONE);
@@ -150,7 +148,9 @@ public class EditDuctIsolationGUI {
         	public void widgetSelected(SelectionEvent event){
         		shell.dispose();
         	}
-        	public void widgetDefaultSelected(SelectionEvent event){}
+        	public void widgetDefaultSelected(SelectionEvent event){
+        		// Not used
+        	}
 		});
 		
 		
@@ -166,7 +166,9 @@ public class EditDuctIsolationGUI {
     		parameters.setParameter(row.getText(0), Double.parseDouble(text.getText()), new SiUnit(row.getText(2)));
     		isolation.setParameterSet(parameters);
 		}
-		catch(Exception ex){}
+		catch(Exception ex){
+			// Not used
+		}
         updatePropertyTable();
 	}
 	
@@ -202,7 +204,7 @@ public class EditDuctIsolationGUI {
         		openMaterialGUI();
         	}
 			public void widgetDefaultSelected(SelectionEvent event){
-        		
+				// Not used
         	}
         });
     	buttonEditMaterial.pack();
@@ -234,16 +236,10 @@ public class EditDuctIsolationGUI {
 	}
 	
 	private void openMaterialGUI(){
-		SelectMaterialGUI matGUI = new SelectMaterialGUI();
-		if(null==isolation)
-			isolation = new Isolation();
-		
-		try{
-			matGUI.getSelectionToTable(this.getClass().getDeclaredMethod("setMaterial", String.class), this);
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
+		SelectMaterialGUI matGUI = new SelectMaterialGUI(shell);
+    	String selection = matGUI.open();
+    	if(selection != "" & selection !=null)
+    		setMaterial(selection);
 	}
 
 }

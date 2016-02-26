@@ -15,9 +15,8 @@ package ch.ethz.inspire.emod.gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.TestFailure;
-
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
@@ -29,7 +28,6 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
@@ -54,7 +52,7 @@ public class LinkingGUI {
 	int intNumberOfInputs = 0;
     private String[] stringLinkFrom, stringLinkTo;
     private Table linkingTable;
-    private Combo[] comboLinkTo;
+    private CCombo[] comboLinkTo;
     private Button[] buttonDelete;
     private TableEditor[] editorCombo;
     private Text textFilter;
@@ -93,7 +91,9 @@ public class LinkingGUI {
 			}
 			
 			@Override
-			public void keyPressed(KeyEvent e) {}
+			public void keyPressed(KeyEvent e) {
+				// Not used
+			}
 		});
 		
 		linkingTable = new Table(shell, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL);
@@ -160,7 +160,9 @@ public class LinkingGUI {
 	    		System.out.println("Linking saved");
 	    		update();
 	    	}
-	    	public void widgetDefaultSelected(SelectionEvent event){}
+	    	public void widgetDefaultSelected(SelectionEvent event){
+	    		// Not used
+	    	}
 	    });
 		
 		//Button to save the linking
@@ -172,7 +174,9 @@ public class LinkingGUI {
 	    	public void widgetSelected(SelectionEvent event){		
 	    		shell.close();
 	    	}
-	    	public void widgetDefaultSelected(SelectionEvent event){}
+	    	public void widgetDefaultSelected(SelectionEvent event){
+	    		// Not used
+	    	}
 	    });
 		
 	    shell.pack();
@@ -193,8 +197,8 @@ public class LinkingGUI {
     	
 		//get List of current Machine Components and IOLinkList
 		components = Machine.getInstance().getMachineComponentList();
-		mdlInputs     = Machine.getInstance().getInputObjectList();
-		linking             = Machine.getInstance().getIOLinkList();
+		mdlInputs  = Machine.getInstance().getInputObjectList();
+		linking    = Machine.getInstance().getIOLinkList();
 					
 		//if one or zero components are added to the machine, output warning and return to main shell
 		if (components.size()+mdlInputs.size()<2){
@@ -210,11 +214,21 @@ public class LinkingGUI {
 		for(MachineComponent mc:components){
 			intNumberOfInputs += mc.getComponent().getInputs().size();
 		}
+		
+		// Clear existing combos
+		if(null!=comboLinkTo)
+			for(int i=0; i<intNumberOfInputs; i++){
+				if(null!=comboLinkTo[i]){
+					comboLinkTo[i].dispose();
+					buttonDelete[i].dispose();
+					editorCombo[i].dispose();
+				}
+			}
 
 		//The values of the combo then will be written to the stringLinkTo
 		stringLinkFrom = new String[intNumberOfInputs];
 		stringLinkTo   = new String[intNumberOfInputs];
-		comboLinkTo    = new Combo[intNumberOfInputs];
+		comboLinkTo    = new CCombo[intNumberOfInputs];
 		buttonDelete   = new Button[intNumberOfInputs];
 		editorCombo    = new TableEditor[intNumberOfInputs];
 
@@ -225,17 +239,11 @@ public class LinkingGUI {
 	private void redraw(){
 		int widthCombo = 10;
 		
+		for(TableItem ti: linkingTable.getItems())
+			ti.dispose();
 		
 		linkingTable.clearAll();
 		linkingTable.setItemCount(0);
-		
-		for(int i=0; i<intNumberOfInputs; i++){
-			if(null!=comboLinkTo[i]){
-				comboLinkTo[i].dispose();
-				buttonDelete[i].dispose();
-				editorCombo[i].dispose();
-			}
-		}
 		
 		//iterate over all possible connections, i.e. first iterate over machine components
 		int i = 0;
@@ -244,7 +252,7 @@ public class LinkingGUI {
 	    	//for each existing component, get the list of inputs
 	    	List<IOContainer> inputs = mc.getComponent().getInputs();
 	    	
-	    	// Check if component machtes filter string. If not, skipp
+	    	// Check if component matches filter string. If not, skip
 	    	if(!(mc.getName().toLowerCase().contains(textFilter.getText().toLowerCase()))){
 	    		i+=inputs.size();
 	    		continue;
@@ -252,7 +260,7 @@ public class LinkingGUI {
 	    	
 	    	TableItem componentLine  = new TableItem(linkingTable, SWT.NONE, linkingTable.getItemCount());
 	    	componentLine.setText(0, mc.getName());
-	    	componentLine.setFont(new Font(componentLine.getDisplay(), "Arial", 10, SWT.BOLD));
+	    	componentLine.setFont(new Font(componentLine.getDisplay(), componentLine.getFont().getFontData()[0].getName(), componentLine.getFont().getFontData()[0].getHeight(), SWT.BOLD));
 	    	
 	    	//iterate a second time, over the inputs of the current component
 	    	for(IOContainer io:inputs){
@@ -271,7 +279,7 @@ public class LinkingGUI {
 	    		
 	    		/* Output */
 	    		editorCombo[i] = new TableEditor(linkingTable);
-	    		comboLinkTo[i] = new Combo(linkingTable, SWT.DROP_DOWN | SWT.BORDER);
+	    		comboLinkTo[i] = new CCombo(linkingTable, SWT.DROP_DOWN);
 	    		comboLinkTo[i].setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, true, 1, 1));
 	    		String[] items = outputs.toArray(new String[outputs.size()]);
 	    		comboLinkTo[i].setItems(items);
@@ -282,6 +290,12 @@ public class LinkingGUI {
 						break;
 					}
 				}
+	    		String tmp = comboLinkTo[i].getText(); 
+	    		if(tmp.equals(""))
+	    			comboLinkTo[i].setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_YELLOW));
+	    		else
+	    			comboLinkTo[i].setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
+	    		
 	    		//needed to get the value of i inside the selection listener
 	    		final int k = i;
 	    		//combo Selection Listener
@@ -291,9 +305,11 @@ public class LinkingGUI {
 	    				//when a output was selected in the combo -> write it to the stringLinkTo in the current position
 	    				String string = comboLinkTo[k].getText();
 	    				stringLinkTo[k] = string;
-	    				//update();
+	    				comboLinkTo[k].setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
 	    			}
-	    			public void widgetDefaultSelected(SelectionEvent event){}
+	    			public void widgetDefaultSelected(SelectionEvent event){
+	    				// Not used
+	    			}
 	    		});
 	    		comboLinkTo[i].pack();
 	    		editorCombo[i].minimumWidth = comboLinkTo[i].getSize().x;
@@ -315,7 +331,9 @@ public class LinkingGUI {
 		        		comboLinkTo[k].setText("");
 		        		Machine.removeIOLink(target);
 		        	}
-		        	public void widgetDefaultSelected(SelectionEvent event){}
+		        	public void widgetDefaultSelected(SelectionEvent event){
+		        		// Not used
+		        	}
 		        });
 		        buttonDelete[i].pack();
 				editorButton.minimumWidth = buttonDelete[i].getSize().x;

@@ -16,7 +16,7 @@ package ch.ethz.inspire.emod.model;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
-import ch.ethz.inspire.emod.model.HeatExchanger;;
+import ch.ethz.inspire.emod.model.Cooler;;
 
 public class HeatExchangerTest {
 	
@@ -25,7 +25,7 @@ public class HeatExchangerTest {
 	 */
 	@Test
 	public void testHeatExchangerOff(){
-		HeatExchanger element = new HeatExchanger("Example");
+		Cooler element = new Cooler("Example");
 		
 		// Turn element off
 		element.getInput("level").setValue(0);
@@ -38,7 +38,7 @@ public class HeatExchangerTest {
 	
 	@Test
 	public void testHeatExchangerOn(){
-		HeatExchanger element = new HeatExchanger("Example");
+		Cooler element = new Cooler("Example");
 		
 		// Turn element on, no heat flow
 		element.getInput("level").setValue(1);
@@ -50,7 +50,7 @@ public class HeatExchangerTest {
 	
 	@Test
 	public void testHeatExchangerHyfra(){
-		HeatExchanger heex = new HeatExchanger("Hyfra_VWK_21_1S");
+		Cooler heex = new Cooler("Hyfra_VWK_21_1S");
 		
 		heex.getInput("level").setValue(1);
 		heex.update();

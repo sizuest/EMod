@@ -13,13 +13,14 @@
 package ch.ethz.inspire.emod.gui;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Logger;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -29,14 +30,14 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.ExpandBar;
-import org.eclipse.swt.widgets.ExpandItem;
-import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeItem;
 
 import ch.ethz.inspire.emod.LogLevel;
 import ch.ethz.inspire.emod.gui.utils.BarChart;
@@ -53,10 +54,9 @@ public class AnalysisGUI extends AEvaluationGUI {
 
 	private static Logger logger = Logger.getLogger(AnalysisGUI.class.getName());
 	
-	List<MachineComponentComposite> mcclist;
-	List<ExpandBar> barlist;
 	Composite graphComp;
-	ExpandBar chooseBar;
+	Tree chooseTree;
+	ArrayList<TreeItem> consumerTreeItems;
 	Text textFilter;
 	private TabFolder aTabFolder;
 	private TabItem ptChartItem, varChartItem, energyChartItem;
@@ -126,21 +126,38 @@ public class AnalysisGUI extends AEvaluationGUI {
 		// composite containing the elements
 		final SashForm c = new SashForm(aTabFolder2, SWT.NONE);
 		c.setLayout(new GridLayout(2, false));
-		c.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
+		c.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true));
 		c.setBackground(getBackground());
 
 		// Left hand composite
 		Composite cl = new Composite(c, SWT.BORDER);
-		cl.setLayout(new GridLayout(1, false));
-		cl.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
+		cl.setLayout(new GridLayout(2, false));
+		cl.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true));
 		cl.setBackground(getBackground());
 		
 		
 		
 		// Text field for Filtering
-		textFilter = new Text(cl, SWT.BORDER | SWT.SINGLE);
-		textFilter.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
+		textFilter = new Text(cl, SWT.BORDER | SWT.SEARCH  | SWT.ICON_CANCEL);
+		textFilter.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 2, 1));
 		textFilter.setMessage("Filter");
+		textFilter.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseUp(MouseEvent e) {
+				redrawConsumerList(textFilter.getText());
+			}
+			
+			@Override
+			public void mouseDown(MouseEvent e) {
+				// Not used
+			}
+			
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+				// Not used
+			}
+		});
 		textFilter.addKeyListener(new KeyListener() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -148,21 +165,69 @@ public class AnalysisGUI extends AEvaluationGUI {
 			}
 			
 			@Override
-			public void keyPressed(KeyEvent e) {}
+			public void keyPressed(KeyEvent e) {
+				// Not used
+			}
 		});
 		
-		chooseBar = new ExpandBar(cl, SWT.V_SCROLL | SWT.BORDER);
-		chooseBar.setLayout(new GridLayout(1, false));
-		chooseBar.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true,1,1));
-		chooseBar.setBackground(getBackground());
+		chooseTree = new Tree(cl, SWT.V_SCROLL);
+		chooseTree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));	
 		
+		chooseTree.addListener(SWT.MouseDoubleClick, new Listener() {
+			
+			@Override
+			public void handleEvent(Event event) {
+				for(TreeItem ti: chooseTree.getSelection()){
+					String consumer;
+					String signal   = ti.getText();
+					if(null==ti.getParentItem())
+						consumer = signal;
+					else
+						consumer = ti.getParentItem().getText();
+					
+					toggleConsumerData(consumer, signal);
+				}
+				
+				redrawConsumerList(textFilter.getText());
+				redrawGraph();
+			}
+		});
+		
+		consumerTreeItems = new ArrayList<TreeItem>();
+		for(ConsumerData cd : availableConsumers) {
+			TreeItem item = new TreeItem(chooseTree, SWT.NONE);
+			item.setText(cd.getConsumer());
+			consumerTreeItems.add(item);
+		}
 		
 		// Consumer List
 		redrawConsumerList("");
 		
+		// button to clear the graph
+		Button clear = new Button(cl, SWT.PUSH);
+		clear.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, false, 1, 1));
+		clear.setText(LocalizationHandler.getItem("app.gui.analysis.button.clear"));
+		clear.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				for(ConsumerData cd: availableConsumers)
+					for(int i=0; i< cd.getActive().size(); i++)
+						cd.getActive().set(i,  false);
+				
+				redrawGraph();
+				redrawConsumerList(textFilter.getText());
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// Not used
+			}
+		});
+		
 		// button to draw the graph
 		Button calc = new Button(cl, SWT.PUSH);
-		calc.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
+		calc.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, true, false, 1, 1));
 		calc.setText(LocalizationHandler.getItem("app.gui.analysis.button.show"));
 		calc.addSelectionListener(new SelectionListener() {
 			
@@ -172,7 +237,9 @@ public class AnalysisGUI extends AEvaluationGUI {
 			}
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {}
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// Not used
+			}
 		});
 		
 		
@@ -187,6 +254,8 @@ public class AnalysisGUI extends AEvaluationGUI {
 		redrawGraph();
 		redrawConsumerList("");
 		
+		c.setWeights(new int[] {1, 3});
+		
 		c.pack();
 		c.redraw();
 		
@@ -196,132 +265,68 @@ public class AnalysisGUI extends AEvaluationGUI {
 	public void redrawGraph(){
 		graphComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		LineChart.createChart(graphComp, getConsumerDataList());
-		
-		graphComp.layout();
-		graphComp.redraw();
-		
-		graphComp.getParent().layout();
-		graphComp.getParent().redraw();
 	}
 	
 	public void redrawConsumerList(String filter){
 		maxWidth=0;
-		
-		for(ExpandItem ei: chooseBar.getItems()) 
-			ei.dispose();
 			
-		for(Control c: chooseBar.getChildren())
-			c.dispose();
-		
-		
-		// create the consumer groups
-		mcclist = new ArrayList<MachineComponentComposite>();
-		
-		
 		for(ConsumerData cd : availableConsumers) {
-			final ExpandItem item = new ExpandItem(chooseBar, SWT.NONE);
-			item.setText(cd.getConsumer());
-			//item.setExpanded(true);
+			TreeItem itemTop = consumerTreeItems.get(availableConsumers.indexOf(cd));
+			boolean wasExpanded = itemTop.getExpanded();
 			
-			final MachineComponentComposite temp = new MachineComponentComposite(chooseBar, SWT.NONE, cd, filter);
-			item.setControl(temp);
-			item.setHeight(temp.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
-			item.setExpanded(true);
-						
-			if(temp.getSize().x>maxWidth)
-				maxWidth = temp.getSize().x;
-			mcclist.add(temp);
-		}
-		
-		for(MachineComponentComposite mcc : mcclist) {
-			mcc.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		}
-		
-		//bar.setSpacing(8);
-		chooseBar.layout();
-		chooseBar.redraw();
-	}
-	
-	/**
-	 * inner class with the actual composites
-	 * 
-	 * @author dhampl
-	 *
-	 */
-	class MachineComponentComposite extends Composite {
-
-		ConsumerData comp;
-		Button complete;
-		List<Button> outputs;
-		ArrayList<Integer> filtOutputs;
-		String filter;
-		/**
-		 * @param parent
-		 * @param style
-		 */
-		public MachineComponentComposite(Composite parent, int style, ConsumerData data, String filter) {
-			super(parent, SWT.BORDER);
-			this.comp = data;
-			this.filter = filter;
-			outputs = new ArrayList<Button>();
-			filtOutputs = new ArrayList<Integer>();
-			init();			
-		}
-		
-		private void init() {
-			setLayout(new GridLayout(2,false));
-
-			complete = new Button(this,SWT.CHECK);
-			complete.setSelection(true);
-			for(int i=0;i<comp.getNames().size();i++)
-				if(!(comp.getActive().get(i)))
-					complete.setSelection(false);
+			for(TreeItem ti: itemTop.getItems())
+				ti.dispose();
 			
-			complete.addSelectionListener(new SelectionListener() {
-				
-				@Override
-				public void widgetSelected(SelectionEvent e) {
-					for(int i=0;i<comp.getNames().size();i++)
-						comp.getActive().set(i, complete.getSelection());
-					
-					redrawConsumerList(textFilter.getText());
-					redrawGraph();
-					
-				}
-				
-				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {}
-			});
-			Label componentLabel = new Label(this, SWT.NONE);
-			componentLabel.setText("All");
-			componentLabel.setFont(new Font(Display.getCurrent(), "Arial", 10, SWT.ITALIC));
-			for(int i=0;i<comp.getNames().size();i++) {
+			consumerTreeItems.get(availableConsumers.indexOf(cd));
+			
+			for(int i=0;i<cd.getNames().size();i++) {
 				if(  "" == filter | 
-				     comp.getNames().get(i).toLowerCase().contains(filter.toLowerCase()) |
-				     ("["+comp.getUnits().get(i).toString()+"]").contains(filter)) {
-					final Button b = new Button(this,SWT.CHECK);
-					final int idx = i;
-					b.setSelection(comp.getActive().get(i));
-					b.addSelectionListener(new SelectionListener() {
-						
-						@Override
-						public void widgetSelected(SelectionEvent e) {
-							comp.getActive().set(idx, b.getSelection());
-							redrawGraph();
-						}
-						
-						@Override
-						public void widgetDefaultSelected(SelectionEvent e) {}
-					});
+				     cd.getNames().get(i).toLowerCase().contains(filter.toLowerCase()) |
+				     ("["+cd.getUnits().get(i).toString()+"]").contains(filter)) {
+					final TreeItem item = new TreeItem(itemTop, SWT.NONE);
+					item.setText(cd.getNames().get(i)+" ["+cd.getUnits().get(i)+"]");
 					
-					filtOutputs.add(i);
-					Label l = new Label(this, SWT.NONE);
-					l.setText(comp.getNames().get(i)+" ["+comp.getUnits().get(i)+"]");
+					if(cd.getActive().get(i))
+						item.setFont(new Font(Display.getCurrent(), item.getFont().getFontData()[0].getName(), item.getFont().getFontData()[0].getHeight(), SWT.BOLD));
 				}
 			}
-			setSize(computeSize(SWT.DEFAULT, SWT.DEFAULT));
-			layout(true);
-			this.pack();
+			
+			itemTop.setExpanded(wasExpanded);
+			
 		}		
+
+	}
+	
+	private void toggleConsumerData(String consumerName, String signalName){
+		ConsumerData consumer = null;
+		
+		for(ConsumerData cd: availableConsumers)
+			if(cd.getConsumer().equals(consumerName))
+				consumer = cd;
+		
+		if(null==consumer)
+			return;
+		
+		if(consumerName.equals(signalName)){
+			boolean active = true;
+			if(consumer.getActive().get(0))
+				active = false;
+			
+			for(int i=0; i<consumer.getActive().size(); i++)
+				consumer.getActive().set(i, active);
+			
+			return;
+		}
+		
+		int idx = 0;
+		
+		while(idx<consumer.getNames().size() & !signalName.equals(consumer.getNames().get(idx)+" ["+consumer.getUnits().get(idx)+"]"))
+			idx++;
+		
+		if(idx>=consumer.getNames().size())
+			return;
+		
+		consumer.getActive().set(idx, !consumer.getActive().get(idx));
+			
 	}
 }

@@ -19,6 +19,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import ch.ethz.inspire.emod.model.fluid.FECForcedFlow;
+import ch.ethz.inspire.emod.model.material.Material;
 import ch.ethz.inspire.emod.model.units.ContainerType;
 import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.model.units.Unit;
@@ -55,7 +56,9 @@ public class ForcedFluidFlow  extends APhysicalComponent implements Floodable{
 	// Fluid Properties
 	FluidCircuitProperties fluidProperties;
 	DynamicState temperature;
+	Material material;
 	
+	boolean fluidSet = false;
 	
 	/**
 	 * Constructor called from XmlUnmarshaller.
@@ -65,7 +68,8 @@ public class ForcedFluidFlow  extends APhysicalComponent implements Floodable{
 		super();
 		this.type = "Example";
 		init();
-		fluidProperties.getMaterial().setMaterial("Monoethylenglykol_34");
+		material = new Material("Monoethylenglykol_34");
+		fluidProperties.setMaterial(material);
 	}
 	
 	/**
@@ -137,7 +141,6 @@ public class ForcedFluidFlow  extends APhysicalComponent implements Floodable{
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			System.exit(-1);
 		}
 		
 		/* Read the config parameter: */
@@ -146,7 +149,6 @@ public class ForcedFluidFlow  extends APhysicalComponent implements Floodable{
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			System.exit(-1);
 		}
 		params.Close(); /* Model configuration file not needed anymore. */
 	}
@@ -158,6 +160,11 @@ public class ForcedFluidFlow  extends APhysicalComponent implements Floodable{
 
 	@Override
 	public void update() {
+		if(!fluidSet){
+			fluidProperties.setMaterial(fluidProperties.getMaterial());
+			fluidSet = true;
+		}
+		
 		// Set forced output
 		temperature.setValue(temperatureIn.getValue());
 		// Calculate differences
@@ -168,7 +175,6 @@ public class ForcedFluidFlow  extends APhysicalComponent implements Floodable{
 	@Override
 	public void setType(String type) {
 		this.type = type;
-		//init();
 	}
 
 
@@ -179,5 +185,9 @@ public class ForcedFluidFlow  extends APhysicalComponent implements Floodable{
 		return out;
 	}
 
+	@Override
+	public void flood(){
+		fluidProperties.setMaterial(this.material);
+	}
 
 }

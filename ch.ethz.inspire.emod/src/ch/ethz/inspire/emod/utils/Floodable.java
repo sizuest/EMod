@@ -34,5 +34,9 @@ public interface Floodable {
 	 */
 	public ArrayList<FluidCircuitProperties> getFluidPropertiesList();
 
+	/**
+	 * Method to be called pre-simulation
+	 */
+	public void flood();
 
 }

@@ -17,24 +17,27 @@ public abstract class AFluidElementCharacteristic {
 	/**
 	 * Returns the 0th order coefficient of f(V)
 	 * @param flowRate
-	 * @param pressure 
+	 * @param pressureIn 
+	 * @param pressureOut 
 	 * @return 
 	 */
-	public abstract double getA0(double flowRate, double pressure);
+	public abstract double getA0(double flowRate, double pressureIn, double pressureOut);
 	
 	/**
 	 * Returns the 1st order coefficient of f(V)
 	 * @param flowRate
-	 * @param pressure  
+	 * @param pressureIn 
+	 * @param pressureOut 
 	 * @return 
 	 */
-	public abstract double getA1(double flowRate, double pressure);
+	public abstract double getA1(double flowRate, double pressureIn, double pressureOut);
 	
 	/**
 	 * Returns the elements of the pressure difference matrix
 	 * @param flowRate
-	 * @param pressure 
+	 * @param pressureIn 
+	 * @param pressureOut  
 	 * @return 
 	 */
-	public abstract double getEp(double flowRate, double pressure);
+	public abstract double getEp(double flowRate, double pressureIn, double pressureOut);
 }

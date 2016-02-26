@@ -87,5 +87,8 @@ public class PressureReference extends APhysicalComponent implements Floodable{
 		out.add(fluidProperties);
 		return out;
 	}
+	
+	@Override
+	public void flood(){/* Not used */}
 
 }

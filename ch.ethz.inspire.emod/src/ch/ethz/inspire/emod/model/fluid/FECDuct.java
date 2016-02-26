@@ -1,3 +1,15 @@
+/** $Id$
+ *
+ * $URL$
+ * $Author$
+ * $Date$
+ * $Rev$
+ *
+ * Copyright (c) 2011 by Inspire AG, ETHZ
+ * All rights reserved
+ *
+ ***********************************/
+
 package ch.ethz.inspire.emod.model.fluid;
 
 import ch.ethz.inspire.emod.simulation.DynamicState;
@@ -14,27 +26,20 @@ public class FECDuct extends AFluidElementCharacteristic{
 	}
 
 	@Override
-	public double getA0(double flowRate, double pressure) {		
-		double a0 = duct.getPressureDrop(flowRate, pressure, temperature.getValue());
+	public double getA0(double flowRate, double pressureIn, double pressureOut) {		
+		double a0 = duct.getPressureDrop(flowRate, (pressureIn+pressureOut)/2, temperature.getValue())-flowRate*duct.getPressureLossDrivative(flowRate, pressureIn, temperature.getValue());
 		return a0;
 	}
 
 	@Override
-	public double getA1(double flowRate, double pressure) {
+	public double getA1(double flowRate, double pressureIn, double pressureOut) {
 		double a1;
-		double flowRateCrit = 1E-9;
-		/*if(flowRateCrit>flowRate)
-			a1 = -getA0(flowRateCrit, pressure)/flowRateCrit;
-		else
-			//a1 = -2*getA0(flowRate, pressure)/flowRate;
-			a1 = 2*6E10;*/
-		//flowRate = Math.max(flowRate, flowRateCrit);
-		a1 = duct.getPressureLossDrivative(flowRate, pressure, temperature.getValue());
+		a1 = duct.getPressureLossDrivative(flowRate, (pressureIn+pressureOut)/2, temperature.getValue());
 		return a1;
 	}
 
 	@Override
-	public double getEp(double flowRate, double pressure) {
+	public double getEp(double flowRate, double pressureIn, double pressureOut) {
 		return 1;
 	}
 

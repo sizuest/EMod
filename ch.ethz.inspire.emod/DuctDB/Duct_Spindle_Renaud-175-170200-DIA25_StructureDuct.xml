@@ -1,125 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ns2:duct xmlns:ns2="ch.ethz.inspire.emod">
     <material>
-        <type>HLP46</type>
+        <type>Vascomill-22</type>
     </material>
     <name>Spindle_Renaud-175-170200-DIA25_StructureDuct</name>
     <elements>
-        <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>Drilling</name>
-            <profile xsi:type="hpCircular">
-                <radius>0.003</radius>
+        <elements xsi:type="ductHelix" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Helix</name>
+            <profile xsi:type="hpRectangular">
+                <height>0.002</height>
+                <width>0.008</width>
             </profile>
-            <length>0.075</length>
-            <count>1.0</count>
-        </elements>
-        <elements xsi:type="ductElbowFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>ElbowFitting</name>
-            <profile xsi:type="hpCircular">
-                <radius>0.003</radius>
-            </profile>
-            <count>1.0</count>
-        </elements>
-        <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>Drilling_1</name>
-            <profile xsi:type="hpCircular">
-                <radius>0.003</radius>
-            </profile>
-            <length>0.01</length>
-            <count>1.0</count>
-        </elements>
-        <elements xsi:type="ductElbowFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>ElbowFitting_1</name>
-            <profile xsi:type="hpCircular">
-                <radius>0.003</radius>
-            </profile>
-            <count>1.0</count>
-        </elements>
-        <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>Drilling_2</name>
-            <profile xsi:type="hpCircular">
-                <radius>0.003</radius>
-            </profile>
-            <length>0.015</length>
-            <count>1.0</count>
-        </elements>
-        <elements xsi:type="ductElbowFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>ElbowFitting_2</name>
-            <profile xsi:type="hpCircular">
-                <radius>0.003</radius>
-            </profile>
-            <count>1.0</count>
-        </elements>
-        <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>Drilling_3</name>
-            <profile xsi:type="hpCircular">
-                <radius>0.003</radius>
-            </profile>
-            <length>0.015</length>
-            <count>1.0</count>
-        </elements>
-        <elements xsi:type="ductElbowFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>ElbowFitting_3</name>
-            <profile xsi:type="hpCircular">
-                <radius>0.003</radius>
-            </profile>
-            <count>1.0</count>
-        </elements>
-        <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>Drilling_4</name>
-            <profile xsi:type="hpCircular">
-                <radius>0.003</radius>
-            </profile>
-            <length>0.2</length>
-            <count>1.0</count>
-        </elements>
-        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>Fitting_Drilling_4-ElbowFitting_4</name>
-            <profile xsi:type="hpCircular">
-                <radius>0.012999999999999998</radius>
-            </profile>
-        </elements>
-        <elements xsi:type="ductElbowFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>ElbowFitting_4</name>
-            <profile xsi:type="hpCircular">
-                <radius>0.01</radius>
-            </profile>
-            <count>1.0</count>
-        </elements>
-        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>Fitting_ElbowFitting_4-Drilling_5</name>
-            <profile xsi:type="hpCircular">
-                <radius>0.012999999999999998</radius>
-            </profile>
-        </elements>
-        <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>Drilling_5</name>
-            <profile xsi:type="hpCircular">
-                <radius>0.003</radius>
-            </profile>
-            <length>0.025</length>
-            <count>1.0</count>
-        </elements>
-        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>Fitting_Drilling_5-ElbowFitting_5</name>
-            <profile xsi:type="hpCircular">
-                <radius>0.012999999999999998</radius>
-            </profile>
-        </elements>
-        <elements xsi:type="ductElbowFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>ElbowFitting_5</name>
-            <profile xsi:type="hpCircular">
-                <radius>0.003</radius>
-            </profile>
-            <count>1.0</count>
-        </elements>
-        <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>Drilling_6</name>
-            <profile xsi:type="hpCircular">
-                <radius>0.003</radius>
-            </profile>
-            <length>0.01</length>
-            <count>1.0</count>
+            <radius>0.1</radius>
+            <height>0.2</height>
+            <distance>0.025</distance>
         </elements>
     </elements>
 </ns2:duct>

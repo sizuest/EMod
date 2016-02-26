@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
-<properties>
-<comment/>
-<entry key="Double">1.0 N</entry>
-<entry key="Force">1.0 N</entry>
-<entry key="FlowRate">0.001, 0.001, 0.002 m³/s</entry>
-<entry key="Viscosity">5.0 m^-1 kg s^-1</entry>
-</properties>

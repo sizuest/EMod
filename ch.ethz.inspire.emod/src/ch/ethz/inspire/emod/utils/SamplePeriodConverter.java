@@ -31,10 +31,11 @@ public class SamplePeriodConverter {
 	 * @param originalPeriod sample period of the samples param double array
 	 * @param targetPeriod sample period of the returned array
 	 * @param samples double[] sample values
+	 * @param interp
 	 * @return new samples with period = targetPeriod
 	 * @throws Exception 
 	 */
-	public static double[] convertSamples(double originalPeriod, double targetPeriod, double[] samples) throws Exception {
+	public static double[] convertSamples(double originalPeriod, double targetPeriod, double[] samples, boolean interp) throws Exception {
 		oldSamples = samples;
 		if(targetPeriod <= 0) {
 			throw new Exception("Invalid target period (<=0)");
@@ -48,9 +49,15 @@ public class SamplePeriodConverter {
 		if(newNumberOfSamples<1)
 			newNumberOfSamples=1; // smaller than 1 values result in empty arrays and out of bounds exceptions in sim ctrl update
 		newSamples = new double[(int)newNumberOfSamples];
-		for(int i=0;i<(int)newNumberOfSamples;i++) {
-			newSamples[i] = Algo.linearInterpolation(i*targetPeriod, originaltimesamples, oldSamples);
-		}
+		
+		if(interp)
+			for(int i=0;i<(int)newNumberOfSamples;i++) {
+				newSamples[i] = Algo.linearInterpolation(i*targetPeriod, originaltimesamples, oldSamples);
+			}
+		else
+			for(int i=0;i<(int)newNumberOfSamples;i++) {
+				newSamples[i] = oldSamples[Algo.findInterval(i*targetPeriod, originaltimesamples)];
+			}
 		return newSamples;
 	}
 	

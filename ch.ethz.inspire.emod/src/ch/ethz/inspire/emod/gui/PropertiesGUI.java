@@ -69,7 +69,7 @@ public class PropertiesGUI {
 	    		shell.close();
 	    	}
 	    	public void widgetDefaultSelected(SelectionEvent event){
-	    		
+	    		// Not used
 	    	}
 	    });
 		buttonSave.setLayoutData(new GridData(SWT.END, SWT.CENTER, false, true, 2, 1));		

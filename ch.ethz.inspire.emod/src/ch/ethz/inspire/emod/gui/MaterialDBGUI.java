@@ -58,7 +58,7 @@ public class MaterialDBGUI {
 				materialEditGUI.editMaterialGUI(selection[0].getText().replace(".xml", ""));
 	    	}
 	    	public void widgetDefaultSelected(SelectionEvent event){
-	    		
+	    		// Not used
 	    	}
 	    });
 		
@@ -72,7 +72,7 @@ public class MaterialDBGUI {
 	    		shell.close();
 	    	}
 	    	public void widgetDefaultSelected(SelectionEvent event){
-	    		
+	    		// Not used
 	    	}
 	    });
 			

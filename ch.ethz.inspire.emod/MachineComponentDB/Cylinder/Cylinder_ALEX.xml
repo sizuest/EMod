@@ -23,8 +23,7 @@
   <entry key="CylinderStroke">0.05</entry>
   <entry key="Efficiency">0.95</entry>
   <entry key="PistonRodDiameter">0.02</entry>
-  <entry key="thermal.Mass">10</entry>
-  <entry key="thermal.HeatCapacity">480</entry>
-  <entry key="PMax">4000000</entry>
+  <entry key="StructuralMass">10</entry>
+  <entry key="StructureMaterial">Steel</entry>
   <entry key="ConnectionDiameter">.02</entry>
 </properties>

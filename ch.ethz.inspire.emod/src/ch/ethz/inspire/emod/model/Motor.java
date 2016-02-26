@@ -62,7 +62,7 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  *
  */
 @XmlRootElement
-public class Motor extends APhysicalComponent{
+public class Motor extends AMotor{
 
 	@XmlElement
 	protected String type;
@@ -275,7 +275,6 @@ public class Motor extends APhysicalComponent{
 	
 	public void setType(String type) {
 		this.type = type;
-		init();
 	}
 	
 }

@@ -1,8 +1,6 @@
 package ch.ethz.inspire.emod.utils;
 
-import java.util.List;
 
-import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.model.units.ContainerType;
 import ch.ethz.inspire.emod.model.units.SiUnit;
 
@@ -99,7 +97,7 @@ public class FluidContainer extends IOContainer {
 	 * @return {@link FluidCircuitProperties}
 	 */
 	public FluidCircuitProperties getFluidCircuitProperties(){
-		return fluidCircuitProperties;
+		return ((FluidContainer) getReference()).fluidCircuitProperties;
 	}
 	
 	/**

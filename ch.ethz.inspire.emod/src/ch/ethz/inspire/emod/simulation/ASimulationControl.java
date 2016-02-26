@@ -122,6 +122,7 @@ public abstract class ASimulationControl {
 	/**
 	 * sets the state. the state is mapped through the stateMap to valid states for 
 	 * the simulator.
+	 * @param state 
 	 */
 	public void setState(MachineState state) {
 		this.state = stateMap.get(state);

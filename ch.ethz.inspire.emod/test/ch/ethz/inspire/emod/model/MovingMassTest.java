@@ -26,7 +26,7 @@ public class MovingMassTest {
 	@Test
 	public void testMovingMass() {
 		// New Mass with 75kg, moving at an 90° angle
-		MovingMass mm = new MovingMass(75,90);
+		MovingMass mm = new MovingMass(75,1,90);
 		
 		// Set time step to 1s
 		mm.setSimulationTimestep(1);

@@ -69,7 +69,7 @@ public class ConfigReader {
 	 * Close
 	 */
 	public void Close() {
-		
+		//TODO
 	}
 	
 	/**
@@ -77,6 +77,7 @@ public class ConfigReader {
 	 * 
 	 * @param paramname Name of property
 	 * @return Value of property
+	 * @throws Exception 
 	 */
 	public String getString(String paramname) throws Exception
 	{

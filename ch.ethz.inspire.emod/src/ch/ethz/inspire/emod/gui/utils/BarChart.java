@@ -59,24 +59,58 @@ public class BarChart {
 		if(0==data.size())
 			return chart;
 		
-		List<Double> s = new ArrayList<Double>();
-		List<String> xs = new ArrayList<String>();
+		ArrayList<String> consumers = new ArrayList<String>();
+		
 		for(ConsumerData cd:data){
 			for(int i=0;i<cd.getActive().size();i++){
 				if(cd.getUnits().get(i).equals(new SiUnit(Unit.WATT))) {
-					s.add(cd.getEnergy().get(i));
-					xs.add(cd.getConsumer()+"."+cd.getNames().get(i));
+					consumers.add(cd.getConsumer());
+					break;
 				}
 			}
 		}
 		
-		double[] serie = new double[s.size()];
-		for(int i=0;i<serie.length;i++)
-			serie[i] = s.get(i);
-		IBarSeries series = (IBarSeries) chart.getSeriesSet().createSeries(SeriesType.BAR, "Energy per consumer");
-		series.setYSeries(serie);
-		String[] xss=new String[xs.size()];
-		xs.toArray(xss);
+		double[] ptotal = new double[consumers.size()];
+		double[] ploss  = new double[consumers.size()];
+		double[] puse   = new double[consumers.size()];
+		//double[] xs = new ArrayList<String>();
+		
+		int idx = 0;
+		for(ConsumerData cd:data){
+			for(int i=0;i<cd.getActive().size();i++){
+				if(cd.getUnits().get(i).equals(new SiUnit(Unit.WATT))) {
+					idx = consumers.indexOf(cd.getConsumer());
+					switch(cd.getNames().get(i)){
+						case "PTotal":
+							ptotal[idx] = cd.getEnergy().get(i);
+							break;
+						case "PUse":
+							puse[idx] = cd.getEnergy().get(i);
+							break;
+						case "PLoss":
+							ploss[idx] = cd.getEnergy().get(i);
+							break;
+					}
+					
+				}
+			}
+		}
+		
+		
+		IBarSeries seriesTotal = (IBarSeries) chart.getSeriesSet().createSeries(SeriesType.BAR, "Electric energy");
+		IBarSeries seriesUse   = (IBarSeries) chart.getSeriesSet().createSeries(SeriesType.BAR, "Usefull energy");
+		IBarSeries seriesLoss  = (IBarSeries) chart.getSeriesSet().createSeries(SeriesType.BAR, "Losses");
+		
+		seriesTotal.setYSeries(ptotal);
+		seriesUse.setYSeries(puse);
+		seriesLoss.setYSeries(ploss);
+		
+		seriesTotal.setBarColor(Display.getCurrent().getSystemColor(SWT.COLOR_BLUE));
+		seriesUse.setBarColor(Display.getCurrent().getSystemColor(SWT.COLOR_GREEN));
+		seriesLoss.setBarColor(Display.getCurrent().getSystemColor(SWT.COLOR_RED));
+
+		String[] xss=new String[consumers.size()];
+		consumers.toArray(xss);
 		chart.getAxisSet().getXAxis(0).setCategorySeries(xss);
 		chart.getAxisSet().getXAxis(0).enableCategory(true);
 		chart.getAxisSet().getXAxis(0).getTick().setTickLabelAngle(45);

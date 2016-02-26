@@ -82,7 +82,7 @@ public class Tank extends APhysicalComponent implements Floodable {
 	private ArrayList<FluidContainer> outputsDyn;
 	
 	// Fluid Properties
-	FluidCircuitProperties fluidPropertiesIn, fluidPropertiesOut;
+	private FluidCircuitProperties fluidPropertiesIn, fluidPropertiesOut;
 	
 	// Parameters used by the model.
 	private double volume, surface;
@@ -91,6 +91,8 @@ public class Tank extends APhysicalComponent implements Floodable {
 	private double height = 0.00;
 	private ThermalElement fluid;
 	double temperatureInit = 293.00;
+	
+	private boolean materialSet = false;
 		
 	/**
 	 * Constructor called from XmlUnmarshaller.
@@ -206,7 +208,7 @@ public class Tank extends APhysicalComponent implements Floodable {
 		try {
 			
 			/* Thermal Element */
-			fluid.setMaterial(new Material("Example"));
+			fluid.setMaterial(new Material(params.getString("Material")));
 			fluid.setMass(volume/fluid.getMaterial().getDensity(293.15));
 
 			
@@ -237,12 +239,9 @@ public class Tank extends APhysicalComponent implements Floodable {
 		dynamicStates.add(fluid.getTemperature());
 		dynamicStates.add(fluid.getMass());
 		
-		fluidPropertiesOut.setTemperature(fluid.getTemperature());
-		fluidPropertiesIn.setTemperature(fluid.getTemperature());
-		
 		/* FlowRate */
-		fluidPropertiesOut.setPressureReferenceIn(pressureAmb);
-		fluidPropertiesIn.setPressureReferenceOut(pressureAmb);
+		fluidPropertiesOut.setPressureReferenceOut(pressureAmb);
+		fluidPropertiesIn.setPressureReferenceIn(pressureAmb);
 		fluidPropertiesOut.setMaterial(fluid.getMaterial());
 		fluidPropertiesIn.setMaterial(fluid.getMaterial());
 
@@ -295,6 +294,7 @@ public class Tank extends APhysicalComponent implements Floodable {
     @Override
 	public IOContainer getOutput(String name) {
     	IOContainer temp=null;
+    	
     	if(name.equals(fluidOut.getName())){			
 			temp = new FluidContainer("FluidIOut-"+(outputsDyn.size()+1), fluidOut, fluidPropertiesOut);
 			outputsDyn.add((FluidContainer)temp);
@@ -324,6 +324,14 @@ public class Tank extends APhysicalComponent implements Floodable {
 	 */
 	@Override
 	public void update() {
+		
+		if(!materialSet){
+			fluidPropertiesIn.setMaterial(fluid.getMaterial());
+			fluidPropertiesOut.setMaterial(fluid.getMaterial());
+			
+			materialSet = true;
+		}
+		
 		double alphaFluid, 
 		       thermalResistance;
 		
@@ -395,5 +403,11 @@ public class Tank extends APhysicalComponent implements Floodable {
 		out.add(fluidPropertiesIn);
 		out.add(fluidPropertiesOut);
 		return out;
+	}
+	
+	@Override
+	public void flood(){
+		fluidPropertiesIn.setMaterial(fluid.getMaterial());
+		fluidPropertiesOut.setMaterial(fluid.getMaterial());
 	}
 }

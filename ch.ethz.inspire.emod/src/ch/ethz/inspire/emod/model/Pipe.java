@@ -221,7 +221,6 @@ public class Pipe extends APhysicalComponent implements Floodable{
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			System.exit(-1);
 		}
 		params.Close(); /* Model configuration file not needed anymore. */
 		
@@ -231,7 +230,6 @@ public class Pipe extends APhysicalComponent implements Floodable{
 		}
 		catch (Exception e) {
 		    e.printStackTrace();
-		    System.exit(-1);
 		}
 
 		try{
@@ -288,6 +286,8 @@ public class Pipe extends APhysicalComponent implements Floodable{
 	 */
 	@Override
 	public void update() {
+		duct.setMaterial(fluidProperties.getMaterial());
+		
 		/* Local variables */
 		double	alphaFluid,
 				alphaAir,
@@ -360,4 +360,7 @@ public class Pipe extends APhysicalComponent implements Floodable{
 		out.add(fluidProperties);
 		return out;
 	}
+	
+	@Override
+	public void flood(){/* Not used */}
 }

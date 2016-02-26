@@ -127,9 +127,9 @@ public class ProcessSimulationControl extends ASimulationControl {
 	/**
 	 * Set the process samples
 	 * @param samps Process samples
+	 * @param samplePeriod 
 	 */
-	public void setProcessSamples(double[] samps, double samplePeriod)
-	{
+	public void setProcessSamples(double[] samps, double samplePeriod)	{
 		processsamples = samps;
 		simulationPeriod = samplePeriod;
 	}
@@ -143,7 +143,7 @@ public class ProcessSimulationControl extends ASimulationControl {
 		if(simulationPeriod != periodLength) {
 			logger.log(LogLevel.DEBUG, "Resamling from"+simulationPeriod+" to "+periodLength);
 			try {
-				processsamples = SamplePeriodConverter.convertSamples(simulationPeriod, periodLength, processsamples);
+				processsamples = SamplePeriodConverter.convertSamples(simulationPeriod, periodLength, processsamples, false);
 			}
 			catch (Exception ex) {
 				ex.printStackTrace();

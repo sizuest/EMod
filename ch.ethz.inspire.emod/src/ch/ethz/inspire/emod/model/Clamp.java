@@ -184,6 +184,5 @@ public class Clamp extends APhysicalComponent{
 	
 	public void setType(String type) {
 		this.type = type;
-		init();
 	}
 }

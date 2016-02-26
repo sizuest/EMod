@@ -22,6 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 import ch.ethz.inspire.emod.utils.IOContainer;
+import ch.ethz.inspire.emod.simulation.DynamicState;
 
 /**
  * General linear axis model class.
@@ -33,8 +34,8 @@ import ch.ethz.inspire.emod.utils.IOContainer;
  * The inertia of mass and frictional forces are negligible
  * 
  * Inputlist:
- *   1: Speed       : [mm/min] : Actual translational speed
- *   2: ProcessForce: [N]      : Actual process force along the axis
+ *   1: Speed       : [m/s]  : Actual translational speed
+ *   2: ProcessForce: [N]    : Actual process force along the axis
  * Outputlist:
  *   1: Torque      : [Nm]   : Calculated torque
  *   2: RotSpeed	: [rpm]  : Requested rotational speed
@@ -43,7 +44,7 @@ import ch.ethz.inspire.emod.utils.IOContainer;
  *   5: PLoss       : [W]    : Output power (losses)
  *   
  * Config parameters:
- *   Transmission         : [mm/rev]   : Transmission between the motor (rpm) 
+ *   Transmission         : [m]    : Transmission between the motor (rpm) 
  *   								 and the translation (mm_min)
  *   Mass				  : [kg]   : Mass of the moving part
  *   Alpha				  : [deg]  : Angle between the axis and the vertical 
@@ -74,8 +75,12 @@ public class LinAxis extends APhysicalComponent{
 	
 	// Parameters used by the model. 
 	private double transmission;	// [mm/rev] Transmission ratio
-	private double mass;            // [kg]     Moved mass
+	private double massValue;       // [kg]     Moved mass
 	private double alpha;           // [deg]    Angle
+	
+	// Submodel
+	private MovingMass mass;
+	
 	
 	/**
 	 * Constructor called from XmlUnmarshaller.
@@ -143,12 +148,11 @@ public class LinAxis extends APhysicalComponent{
 		/* Read the config parameter: */
 		try {
 			transmission = params.getDoubleValue("Transmission");
-			mass         = params.getDoubleValue("Mass");
+			massValue         = params.getDoubleValue("Mass");
 			alpha        = params.getDoubleValue("Alpha");
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			System.exit(-1);
 		}
 		params.Close(); /* Model configuration file not needed anymore. */
 		
@@ -158,8 +162,13 @@ public class LinAxis extends APhysicalComponent{
 		}
 		catch (Exception e) {
 		    e.printStackTrace();
-		    System.exit(-1);
 		}
+		
+		/* Initialize sub-model */
+		mass = new MovingMass(massValue, 1, alpha);
+		
+		dynamicStates = new ArrayList<DynamicState>();
+		dynamicStates.add(mass.getDynamicStateList().get(0));
 	}
 	
 	/**
@@ -171,13 +180,13 @@ public class LinAxis extends APhysicalComponent{
 	{		
 		// Check model parameters:
 		// Parameter must be non negative
-    	if (mass < 0) {
+    	if (massValue < 0) {
     		throw new Exception("LinearAxis, type:" + type +
     				": Negative value: Mass must be non negative");
     	}
-    	if (alpha > 360 || alpha < -360) {
+    	if (alpha > 90 || alpha < 0) {
     		throw new Exception("LinearAxis, type:" + type +
-    				": Value: Alpha must be between 360 and -360 degrees");
+    				": Value: Alpha must be between 0 and 90 degrees");
     	}
     	
 		// Transmission must be non zero
@@ -195,13 +204,17 @@ public class LinAxis extends APhysicalComponent{
 	@Override
 	public void update() {
 		
-		lastspeed = speed.getValue(); // [m/s]
-		lastforce = force.getValue(); // [N]
+		/* Update sub model */
+		mass.getInput("SpeedLin").setValue(speed.getValue());
+		mass.update();
+		
+		lastspeed = speed.getValue();                                    // [m/s]
+		lastforce = force.getValue()+mass.getOutput("Force").getValue(); // [N]
 		
 		/* Rotation speed
 		 * The requested rotational speed is given by the transmission
 		 */
-		rotspeed.setValue(lastspeed*1000/transmission);
+		rotspeed.setValue(lastspeed/transmission);
 		
 		/* Torque
 		 * The absolute torque needed to overcome the friction is given as
@@ -209,14 +222,14 @@ public class LinAxis extends APhysicalComponent{
 		 * 
 		 * Remark: transmission is [m/rev]
 		 */
-		torque.setValue(transmission * ( lastforce - mass*9.81*Math.cos(alpha*Math.PI/180) ) );
+		torque.setValue(transmission * ( lastforce - massValue*9.81*Math.cos(alpha*Math.PI/180) ) );
 		/* Powers
 		 * PUse [W] = v [m/s] * F [N]
 		 * PTotal [W] = omega [rpm] * 2*pi/60 [rad/s/rpm] * T [N]
 		 * PLoss [W] = PTotal [W] - PUse [W];
 		 */
 		puse.setValue(lastspeed*2*Math.PI*lastforce);
-		ptotal.setValue(rotspeed.getValue()*torque.getValue()*2*Math.PI/60);
+		ptotal.setValue(rotspeed.getValue()*torque.getValue());
 		ploss.setValue(ptotal.getValue()-puse.getValue());
 	}
 
@@ -230,7 +243,6 @@ public class LinAxis extends APhysicalComponent{
 	
 	public void setType(String type) {
 		this.type = type;
-		init();
 	}
 	
 }

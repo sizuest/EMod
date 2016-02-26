@@ -152,7 +152,7 @@ public class EditInputGUI {
 	    		shell.close();
 	    	}
 	    	public void widgetDefaultSelected(SelectionEvent event){
-	    		
+	    		// Not used
 	    	}
 	    });
 		buttonSave.setLayoutData(new GridData(SWT.END, SWT.TOP, true, true, 2, 1));

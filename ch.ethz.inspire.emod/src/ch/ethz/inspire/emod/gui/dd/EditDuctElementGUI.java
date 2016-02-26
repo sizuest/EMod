@@ -19,7 +19,6 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
-import ch.ethz.inspire.emod.gui.utils.TableUtils;
 import ch.ethz.inspire.emod.model.fluid.ADuctElement;
 import ch.ethz.inspire.emod.model.fluid.Isolation;
 
@@ -84,7 +83,6 @@ public class EditDuctElementGUI {
 		                //System.out.println("hier jetzt text editieren");
 		                final Text text = new Text(cursor, SWT.NONE);
 		                final TableItem row = cursor.getRow();
-		                int column = cursor.getColumn();
 		                text.append(String.valueOf(e.character));
 		                text.addKeyListener(new KeyAdapter() {
 		                    public void keyPressed(KeyEvent e) {
@@ -97,7 +95,9 @@ public class EditDuctElementGUI {
 		                        		try{
 			                        		parameters.setParameter(row.getText(0), Double.parseDouble(text.getText()), new SiUnit(row.getText(2)));
 		                        		}
-		                        		catch(Exception ex){}
+		                        		catch(Exception ex){
+		                        			// Not used
+		                        		}
 			                        	updatePropertyTable();
 			                        	break;
 		                        	}
@@ -127,7 +127,9 @@ public class EditDuctElementGUI {
         		element.setParameterSet(parameters);
         		caller.update();
         	}
-        	public void widgetDefaultSelected(SelectionEvent event){}
+        	public void widgetDefaultSelected(SelectionEvent event){
+        		// Not used
+        	}
 		});
 		
 		closeButton = new Button(shell, SWT.NONE);
@@ -137,7 +139,9 @@ public class EditDuctElementGUI {
         	public void widgetSelected(SelectionEvent event){
         		shell.dispose();
         	}
-        	public void widgetDefaultSelected(SelectionEvent event){}
+        	public void widgetDefaultSelected(SelectionEvent event){
+        		// Not used
+        	}
 		});
 		
 		
@@ -172,7 +176,7 @@ public class EditDuctElementGUI {
         		editDuctProfile(element);
         	}
 			public void widgetDefaultSelected(SelectionEvent event){
-        		
+				// Not used
         	}
         });
     	buttonEditProfile.pack();
@@ -202,7 +206,7 @@ public class EditDuctElementGUI {
         		editDuctIsolation(element.getIsolation());
         	}
 			public void widgetDefaultSelected(SelectionEvent event){
-        		
+				// Not used
         	}
         });
     	buttonEditIsolation.pack();
@@ -221,7 +225,7 @@ public class EditDuctElementGUI {
         		update();
         	}
 			public void widgetDefaultSelected(SelectionEvent event){
-        		
+				// Not used
         	}
         });
     	buttonDeleteIsolation.pack();

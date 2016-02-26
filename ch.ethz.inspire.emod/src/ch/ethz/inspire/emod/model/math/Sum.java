@@ -20,7 +20,6 @@ import javax.xml.bind.annotation.XmlElement;
 
 
 import ch.ethz.inspire.emod.model.APhysicalComponent;
-import ch.ethz.inspire.emod.model.units.ContainerType;
 import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.utils.IOContainer;
@@ -120,9 +119,8 @@ public class Sum extends APhysicalComponent{
 	 * 
 	 * @throws Exception
 	 */
-    private void checkConfigParams() throws Exception
-	{		
-		
+    private void checkConfigParams() throws Exception{		
+    	// Not used
 	}
     
     /**

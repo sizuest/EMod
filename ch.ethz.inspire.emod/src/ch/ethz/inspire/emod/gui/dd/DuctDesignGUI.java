@@ -1,10 +1,8 @@
 package ch.ethz.inspire.emod.gui.dd;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.ControlEditor;
 import org.eclipse.swt.custom.TableCursor;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.dnd.DND;
@@ -16,11 +14,8 @@ import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.DropTargetListener;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
-import org.eclipse.swt.events.KeyAdapter;
-import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
@@ -46,7 +41,6 @@ import ch.ethz.inspire.emod.model.fluid.DuctFlowAround;
 import ch.ethz.inspire.emod.model.fluid.DuctHelix;
 import ch.ethz.inspire.emod.model.fluid.DuctPipe;
 import ch.ethz.inspire.emod.model.fluid.DuctElbowFitting;
-import ch.ethz.inspire.emod.model.material.Material;
 import ch.ethz.inspire.emod.model.units.SiUnit;
 
 
@@ -104,7 +98,9 @@ public class DuctDesignGUI {
         	public void widgetSelected(SelectionEvent event){
         		duct.save();
         	}
-        	public void widgetDefaultSelected(SelectionEvent event){}
+        	public void widgetDefaultSelected(SelectionEvent event){
+        		// Not used
+        	}
 		});
 		
 		closeButton = new Button(shell, SWT.NONE);
@@ -114,7 +110,9 @@ public class DuctDesignGUI {
         	public void widgetSelected(SelectionEvent event){
         		shell.dispose();
         	}
-        	public void widgetDefaultSelected(SelectionEvent event){}
+        	public void widgetDefaultSelected(SelectionEvent event){
+        		// Not used
+        	}
 		});
 		
 		treeDuctDBView = new Tree(tabFolderDesign, SWT.NONE);
@@ -267,7 +265,7 @@ public class DuctDesignGUI {
 	        		updateDuctStatisticTable();
 	        	}
 	        	public void widgetDefaultSelected(SelectionEvent event){
-	        		
+	        		// Not used
 	        	}
 	        });
 	        editElementButton.pack();
@@ -290,7 +288,7 @@ public class DuctDesignGUI {
 		        		updateDuctStatisticTable();
 		        	}
 		        	public void widgetDefaultSelected(SelectionEvent event){
-		        		
+		        		// Not used
 		        	}
 		        });
 		        moveElementUpButton.pack();
@@ -314,7 +312,7 @@ public class DuctDesignGUI {
 		        		updateDuctStatisticTable();
 		        	}
 		        	public void widgetDefaultSelected(SelectionEvent event){
-		        		
+		        		// Not used
 		        	}
 		        });
 		        moveElementDownButton.pack();
@@ -337,7 +335,7 @@ public class DuctDesignGUI {
 	        		updateDuctStatisticTable();
 	        	}
 	        	public void widgetDefaultSelected(SelectionEvent event){
-	        		
+	        		// Not used
 	        	}
 	        });
 	        removeElementButton.pack();
@@ -392,7 +390,7 @@ public class DuctDesignGUI {
 			
 			//nothing needs to be done at the end of the drag
 			public void dragFinished(DragSourceEvent event) {
-			
+				// Not used
 			}
 		});
 	}
@@ -417,16 +415,16 @@ public class DuctDesignGUI {
 				event.detail = DND.DROP_COPY;
 			}
 			public void dragOver(DropTargetEvent event){
-
+				// Not used
 			}
 			public void dragLeave(DropTargetEvent event){
-				
+				// Not used
 			}
 			public void dragOperationChanged(DropTargetEvent event) {
-				
+				// Not used
 			}
 			public void dropAccept(DropTargetEvent event){
-				
+				// Not used
 			}
 			//only action is required when element is dropped
 			public void drop(DropTargetEvent event){

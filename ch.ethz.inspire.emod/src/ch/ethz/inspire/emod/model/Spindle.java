@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import java.lang.Math;
+import java.lang.reflect.Constructor;
 
 import ch.ethz.inspire.emod.model.fluid.Duct;
 import ch.ethz.inspire.emod.model.fluid.FECDuct;
@@ -87,7 +88,7 @@ public class Spindle extends APhysicalComponent implements Floodable{
 	private double[] agFrictCoeff;
 	
 	// Submodels
-	private MotorAC motor;
+	private AMotor motor;
 	private Bearing[] bearings;
 	private ThermalElement structure;
 	private ThermalArray coolant;
@@ -170,15 +171,23 @@ public class Spindle extends APhysicalComponent implements Floodable{
 			preloadForce      = params.getDoubleArray("PreloadForce");
 			bearingType       = params.getStringArray("BearingType");
 			massStructure     = params.getDoubleValue("StructureMass");
-			//volumeCoolant     = params.getDoubleValue("CoolantVolume");
-			//alphaCoolant      = params.getDoubleValue("CoolantHTC");
 			agFrictCoeff      = params.getDoubleArray("AirGapFrictionCoeff");
-			//pressureLossCoeff = params.getDoubleValue("PressureLossCoefficient");
 			
 			
+			String[] mdlType = motorType.split("_");
 			
 			// Create Sub Elements
-			motor = new MotorAC(motorType);
+			try {
+				// Get class and constructor objects
+				Class<?>        cl = Class.forName("ch.ethz.inspire.emod.model."+mdlType[0]);
+				Constructor<?>  co = cl.getConstructor(String.class);
+				// initialize new component
+				motor = (AMotor) co.newInstance(mdlType[1]);
+			} catch (Exception e) {
+				Exception ex = new Exception("Unable to create component "+mdlType[0]+"("+mdlType[1]+")"+" : " + e.getMessage());
+				ex.printStackTrace();
+				motor = null;
+			} 
 			
 			bearings = new Bearing[bearingType.length];
 			for (int i=0; i<bearingType.length; i++)
@@ -187,11 +196,11 @@ public class Spindle extends APhysicalComponent implements Floodable{
 			// = new HomogStorage(materialStructure, massStructure);
 			//bearingLosses = structure.getInput("In");
 			//coilLosses    = structure.getInput("In");
+			coolingDuct = Duct.buildFromFile(getModelType(), getType(), params.getString("StructureDuct"));
+			volumeCoolant = coolingDuct.getVolume();
 			structure = new ThermalElement(params.getString("StructureMaterial"), massStructure);
 			coolant = new ThermalArray("Example", volumeCoolant, 20);
-			coolingDuct = Duct.buildFromFile(getModelType(), getType(), params.getString("StructureDuct"));
 			
-			volumeCoolant = coolingDuct.getVolume();
 			
 			/* Fluid properties */
 			fluidProperties = new FluidCircuitProperties(new FECDuct(coolingDuct, coolant.getTemperature()), coolant.getTemperature());
@@ -212,14 +221,13 @@ public class Spindle extends APhysicalComponent implements Floodable{
 			dynamicStates.add(1, coolant.getTemperature());
 			
 			/* Fluid circuit parameters */
-			fluidProperties.setMaterial(coolant.getMaterial());
+			coolant.setMaterial(fluidProperties.getMaterial());
 			coolingDuct.setMaterial(fluidProperties.getMaterial());
 			
 			
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			System.exit(-1);
 		}
 		params.Close(); /* Model configuration file not needed anymore. */
 		
@@ -229,7 +237,6 @@ public class Spindle extends APhysicalComponent implements Floodable{
 		}
 		catch (Exception e) {
 		    e.printStackTrace();
-		    System.exit(-1);
 		}
 	}
 	
@@ -344,7 +351,6 @@ public class Spindle extends APhysicalComponent implements Floodable{
 	
 	public void setType(String type) {
 		this.type = type;
-		init();
 	}
 
 	@Override
@@ -353,5 +359,8 @@ public class Spindle extends APhysicalComponent implements Floodable{
 		out.add(fluidProperties);
 		return out;
 	}
+	
+	@Override
+	public void flood(){/* Not used */}
 	
 }

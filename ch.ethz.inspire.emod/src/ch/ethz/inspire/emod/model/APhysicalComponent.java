@@ -19,6 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.simulation.DynamicState;
+import ch.ethz.inspire.emod.utils.Floodable;
 import ch.ethz.inspire.emod.utils.IOContainer;
 
 /**
@@ -98,6 +99,7 @@ public abstract class APhysicalComponent {
 	 * To be executed before Simulation
 	 */
 	public void preSimulation(){
+		/* Initizalize dynamic states */
 		if(null==dynamicStates)
 			return;
 		for(DynamicState ic : dynamicStates)
@@ -106,6 +108,10 @@ public abstract class APhysicalComponent {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		
+		/* Flood circuit */
+		if(this instanceof Floodable)
+			((Floodable) this).flood();
 	}
 	
 	/**

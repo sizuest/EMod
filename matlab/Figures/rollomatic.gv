@@ -1,0 +1,164 @@
+digraph g {
+rankdir=LR;
+splines=true;
+overlap=scale;
+node [shape=plaintext];
+Spindle [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="CoolantIn" ALIGN="left"><FONT COLOR="black">CoolantIn</FONT></TD></TR><TR><TD PORT="RotSpeed" ALIGN="left"><FONT COLOR="black">RotSpeed</FONT></TD></TR><TR><TD PORT="State" ALIGN="left"><FONT COLOR="black">State</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">Spindle</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="CoolantOut" ALIGN="right"><FONT COLOR="black">CoolantOut</FONT></TD></TR><TR><TD PORT="PTotal" ALIGN="right"><FONT COLOR="black">PTotal</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: spindle</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Renaud-175-170200-DIA25</FONT></TD></TR></TABLE>
+> ];
+Water [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FlowRate" ALIGN="left"><FONT COLOR="black">FlowRate</FONT></TD></TR><TR><TD PORT="FluidIn" ALIGN="left"><FONT COLOR="black">FluidIn</FONT></TD></TR><TR><TD PORT="PressureIn" ALIGN="left"><FONT COLOR="black">PressureIn</FONT></TD></TR><TR><TD PORT="TemperatureIn" ALIGN="left"><FONT COLOR="black">TemperatureIn</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">Water</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidOut" ALIGN="right"><FONT COLOR="black">FluidOut</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: forcedFluidFlow</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Water</FONT></TD></TR></TABLE>
+> ];
+Tank [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidIn" ALIGN="left"><FONT COLOR="black">FluidIn</FONT></TD></TR><TR><TD PORT="HeatFlowIn" ALIGN="left"><FONT COLOR="black">HeatFlowIn</FONT></TD></TR><TR><TD PORT="PressureAmb" ALIGN="left"><FONT COLOR="black">PressureAmb</FONT></TD></TR><TR><TD PORT="TemperatureAmb" ALIGN="left"><FONT COLOR="black">TemperatureAmb</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">Tank</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidOut" ALIGN="right"><FONT COLOR="black">FluidOut</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: tank</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Rollomatic_628XS_CF</FONT></TD></TR></TABLE>
+> ];
+PumpHydraulics [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidIn" ALIGN="left"><FONT COLOR="black">FluidIn</FONT></TD></TR><TR><TD PORT="State" ALIGN="left"><FONT COLOR="black">State</FONT></TD></TR><TR><TD PORT="TemperatureAmb" ALIGN="left"><FONT COLOR="black">TemperatureAmb</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">PumpHydraulics</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidOut" ALIGN="right"><FONT COLOR="black">FluidOut</FONT></TD></TR><TR><TD PORT="HeatFlowTank" ALIGN="right"><FONT COLOR="black">HeatFlowTank</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: pump</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Parker-PGP502-2.1CC</FONT></TD></TR></TABLE>
+> ];
+PumpCoolant [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidIn" ALIGN="left"><FONT COLOR="black">FluidIn</FONT></TD></TR><TR><TD PORT="State" ALIGN="left"><FONT COLOR="black">State</FONT></TD></TR><TR><TD PORT="TemperatureAmb" ALIGN="left"><FONT COLOR="black">TemperatureAmb</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">PumpCoolant</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidOut" ALIGN="right"><FONT COLOR="black">FluidOut</FONT></TD></TR><TR><TD PORT="HeatFlowTank" ALIGN="right"><FONT COLOR="black">HeatFlowTank</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: pump</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Grundfos_CRK-4-100-10</FONT></TD></TR></TABLE>
+> ];
+PumpHE [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidIn" ALIGN="left"><FONT COLOR="black">FluidIn</FONT></TD></TR><TR><TD PORT="State" ALIGN="left"><FONT COLOR="black">State</FONT></TD></TR><TR><TD PORT="TemperatureAmb" ALIGN="left"><FONT COLOR="black">TemperatureAmb</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">PumpHE</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidOut" ALIGN="right"><FONT COLOR="black">FluidOut</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: pump</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+CtrlSpindle [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PDmd" ALIGN="left"><FONT COLOR="black">PDmd</FONT></TD></TR><TR><TD PORT="State" ALIGN="left"><FONT COLOR="black">State</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">CtrlSpindle</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PTotal" ALIGN="right"><FONT COLOR="black">PTotal</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: amplifier</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Emerson_SK2402</FONT></TD></TR></TABLE>
+> ];
+AmpAxes [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PDmd" ALIGN="left"><FONT COLOR="black">PDmd</FONT></TD></TR><TR><TD PORT="State" ALIGN="left"><FONT COLOR="black">State</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">AmpAxes</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PTotal" ALIGN="right"><FONT COLOR="black">PTotal</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: amplifier</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Fanuc-PS5.5-A06B-6140-H006</FONT></TD></TR></TABLE>
+> ];
+MotorX [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="RotSpeed" ALIGN="left"><FONT COLOR="black">RotSpeed</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">MotorX</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PTotal" ALIGN="right"><FONT COLOR="black">PTotal</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: motorDC</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+MotorY [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="RotSpeed" ALIGN="left"><FONT COLOR="black">RotSpeed</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">MotorY</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PTotal" ALIGN="right"><FONT COLOR="black">PTotal</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: motorDC</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+MotorZ [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="RotSpeed" ALIGN="left"><FONT COLOR="black">RotSpeed</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">MotorZ</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PTotal" ALIGN="right"><FONT COLOR="black">PTotal</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: motorDC</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+MotorA [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="RotSpeed" ALIGN="left"><FONT COLOR="black">RotSpeed</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">MotorA</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PTotal" ALIGN="right"><FONT COLOR="black">PTotal</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: motorDC</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+MotorB [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="RotSpeed" ALIGN="left"><FONT COLOR="black">RotSpeed</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">MotorB</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PTotal" ALIGN="right"><FONT COLOR="black">PTotal</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: motorDC</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+MotorC [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="RotSpeed" ALIGN="left"><FONT COLOR="black">RotSpeed</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">MotorC</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PTotal" ALIGN="right"><FONT COLOR="black">PTotal</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: motorDC</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+CtrlAxesLin [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PDmd" ALIGN="left"><FONT COLOR="black">PDmd</FONT></TD></TR><TR><TD PORT="State" ALIGN="left"><FONT COLOR="black">State</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">CtrlAxesLin</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PSupply" ALIGN="right"><FONT COLOR="black">PSupply</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: amplifier</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Fanuc-SV20-20-20-A06B-6117-H303</FONT></TD></TR></TABLE>
+> ];
+CtrlAxesRot [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PDmd" ALIGN="left"><FONT COLOR="black">PDmd</FONT></TD></TR><TR><TD PORT="State" ALIGN="left"><FONT COLOR="black">State</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">CtrlAxesRot</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PSupply" ALIGN="right"><FONT COLOR="black">PSupply</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: amplifier</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Fanuc-SV20-20-20-A06B-6117-H303</FONT></TD></TR></TABLE>
+> ];
+HeatExchanger [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Fluid1In" ALIGN="left"><FONT COLOR="black">Fluid1In</FONT></TD></TR><TR><TD PORT="Fluid2In" ALIGN="left"><FONT COLOR="black">Fluid2In</FONT></TD></TR><TR><TD PORT="State" ALIGN="left"><FONT COLOR="black">State</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">HeatExchanger</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Fluid1Out" ALIGN="right"><FONT COLOR="black">Fluid1Out</FONT></TD></TR><TR><TD PORT="Fluid2Out" ALIGN="right"><FONT COLOR="black">Fluid2Out</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: heatExchanger</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Marksa_GH-810</FONT></TD></TR></TABLE>
+> ];
+AxisX [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Speed" ALIGN="left"><FONT COLOR="black">Speed</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">AxisX</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="RotSpeed" ALIGN="right"><FONT COLOR="black">RotSpeed</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: linAxis</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: ExampleH</FONT></TD></TR></TABLE>
+> ];
+AxisY [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Speed" ALIGN="left"><FONT COLOR="black">Speed</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">AxisY</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="RotSpeed" ALIGN="right"><FONT COLOR="black">RotSpeed</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: linAxis</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: ExampleV</FONT></TD></TR></TABLE>
+> ];
+AxisZ [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Speed" ALIGN="left"><FONT COLOR="black">Speed</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">AxisZ</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="RotSpeed" ALIGN="right"><FONT COLOR="black">RotSpeed</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: linAxis</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: ExampleV</FONT></TD></TR></TABLE>
+> ];
+AxisA [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Speed" ALIGN="left"><FONT COLOR="black">Speed</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">AxisA</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="RotSpeed" ALIGN="right"><FONT COLOR="black">RotSpeed</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: rotAxis</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+AxisB [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Speed" ALIGN="left"><FONT COLOR="black">Speed</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">AxisB</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="RotSpeed" ALIGN="right"><FONT COLOR="black">RotSpeed</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: rotAxis</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+AxisC [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="Speed" ALIGN="left"><FONT COLOR="black">Speed</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">AxisC</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="RotSpeed" ALIGN="right"><FONT COLOR="black">RotSpeed</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: rotAxis</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+ValveCoolant [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidIn" ALIGN="left"><FONT COLOR="black">FluidIn</FONT></TD></TR><TR><TD PORT="ValveCtrl" ALIGN="left"><FONT COLOR="black">ValveCtrl</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">ValveCoolant</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidOut" ALIGN="right"><FONT COLOR="black">FluidOut</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: valve</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+Cylinder [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidIn" ALIGN="left"><FONT COLOR="black">FluidIn</FONT></TD></TR><TR><TD PORT="Velocity" ALIGN="left"><FONT COLOR="black">Velocity</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">Cylinder</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidOut" ALIGN="right"><FONT COLOR="black">FluidOut</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: cylinder</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+TankHydraulic [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidIn" ALIGN="left"><FONT COLOR="black">FluidIn</FONT></TD></TR><TR><TD PORT="HeatFlowIn" ALIGN="left"><FONT COLOR="black">HeatFlowIn</FONT></TD></TR><TR><TD PORT="PressureAmb" ALIGN="left"><FONT COLOR="black">PressureAmb</FONT></TD></TR><TR><TD PORT="TemperatureAmb" ALIGN="left"><FONT COLOR="black">TemperatureAmb</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">TankHydraulic</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidOut" ALIGN="right"><FONT COLOR="black">FluidOut</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: tank</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Rollomatic_628XS_Hydraulic</FONT></TD></TR></TABLE>
+> ];
+Bypass [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidIn" ALIGN="left"><FONT COLOR="black">FluidIn</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">Bypass</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidOut" ALIGN="right"><FONT COLOR="black">FluidOut</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: bypass</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Girmatic-506820</FONT></TD></TR></TABLE>
+> ];
+TemperatureAmb [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="green"><B>TemperatureAmb</B></FONT></TD></TR><TR><TD><I><FONT COLOR="green">constantSimulationControl</FONT></I></TD></TR></TABLE>> ];
+PressureAmb [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="green"><B>PressureAmb</B></FONT></TD></TR><TR><TD><I><FONT COLOR="green">constantSimulationControl</FONT></I></TD></TR></TABLE>> ];
+ProcSpindleSpeed [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="green"><B>ProcSpindleSpeed</B></FONT></TD></TR><TR><TD><I><FONT COLOR="green">processSimulationControl</FONT></I></TD></TR></TABLE>> ];
+ProcAxisXSpeed [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="green"><B>ProcAxisXSpeed</B></FONT></TD></TR><TR><TD><I><FONT COLOR="green">processSimulationControl</FONT></I></TD></TR></TABLE>> ];
+CtrlHydraulics [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="green"><B>CtrlHydraulics</B></FONT></TD></TR><TR><TD><I><FONT COLOR="green">staticSimulationControl</FONT></I></TD></TR></TABLE>> ];
+ProcAxisYSpeed [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="green"><B>ProcAxisYSpeed</B></FONT></TD></TR><TR><TD><I><FONT COLOR="green">processSimulationControl</FONT></I></TD></TR></TABLE>> ];
+ProcAxisZSpeed [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="green"><B>ProcAxisZSpeed</B></FONT></TD></TR><TR><TD><I><FONT COLOR="green">processSimulationControl</FONT></I></TD></TR></TABLE>> ];
+ProcAxisASpeed [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="green"><B>ProcAxisASpeed</B></FONT></TD></TR><TR><TD><I><FONT COLOR="green">processSimulationControl</FONT></I></TD></TR></TABLE>> ];
+ProcAxisBSpeed [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="green"><B>ProcAxisBSpeed</B></FONT></TD></TR><TR><TD><I><FONT COLOR="green">processSimulationControl</FONT></I></TD></TR></TABLE>> ];
+ProcAxisCSpeed [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="green"><B>ProcAxisCSpeed</B></FONT></TD></TR><TR><TD><I><FONT COLOR="green">processSimulationControl</FONT></I></TD></TR></TABLE>> ];
+CtrlHeatExchanger [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="green"><B>CtrlHeatExchanger</B></FONT></TD></TR><TR><TD><I><FONT COLOR="green">staticSimulationControl</FONT></I></TD></TR></TABLE>> ];
+CtrlSpindle [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="green"><B>CtrlSpindle</B></FONT></TD></TR><TR><TD><I><FONT COLOR="green">staticSimulationControl</FONT></I></TD></TR></TABLE>> ];
+CtrlCNC [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="green"><B>CtrlCNC</B></FONT></TD></TR><TR><TD><I><FONT COLOR="green">staticSimulationControl</FONT></I></TD></TR></TABLE>> ];
+CtrlCoolant [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="green"><B>CtrlCoolant</B></FONT></TD></TR><TR><TD><I><FONT COLOR="green">staticSimulationControl</FONT></I></TD></TR></TABLE>> ];
+WaterFlowRate [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="green"><B>WaterFlowRate</B></FONT></TD></TR><TR><TD><I><FONT COLOR="green">constantSimulationControl</FONT></I></TD></TR></TABLE>> ];
+WaterPressure [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="green"><B>WaterPressure</B></FONT></TD></TR><TR><TD><I><FONT COLOR="green">constantSimulationControl</FONT></I></TD></TR></TABLE>> ];
+WaterTemperature [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="green"><B>WaterTemperature</B></FONT></TD></TR><TR><TD><I><FONT COLOR="green">constantSimulationControl</FONT></I></TD></TR></TABLE>> ];
+ProcClamp [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="green"><B>ProcClamp</B></FONT></TD></TR><TR><TD><I><FONT COLOR="green">processSimulationControl</FONT></I></TD></TR></TABLE>> ];
+CtrlSpindle-> Spindle:State[color="green", style="solid"]
+ProcSpindleSpeed-> Spindle:RotSpeed[color="green", style="solid"]
+ValveCoolant:FluidOut -> Spindle:CoolantIn[color="blue", style="solid"]
+TemperatureAmb-> Tank:TemperatureAmb[color="green", style="dashed"]
+PressureAmb-> Tank:PressureAmb[color="green", style="solid"]
+WaterTemperature-> Water:TemperatureIn[color="green", style="dashed"]
+WaterPressure-> Water:PressureIn[color="green", style="solid"]
+WaterFlowRate-> Water:FlowRate[color="green", style="solid"]
+CtrlHydraulics-> PumpHydraulics:State[color="green", style="solid"]
+TemperatureAmb-> PumpHydraulics:TemperatureAmb[color="green", style="dashed"]
+CtrlCoolant-> PumpCoolant:State[color="green", style="solid"]
+TemperatureAmb-> PumpCoolant:TemperatureAmb[color="green", style="dashed"]
+Tank:FluidOut -> PumpCoolant:FluidIn[color="blue", style="solid"]
+CtrlHeatExchanger-> PumpHE:State[color="green", style="solid"]
+TemperatureAmb-> PumpHE:TemperatureAmb[color="green", style="dashed"]
+Tank:FluidOut -> PumpHE:FluidIn[color="blue", style="solid"]
+CtrlSpindle-> CtrlSpindle:State[color="green", style="solid"]
+AxisX:RotSpeed -> MotorX:RotSpeed[color="black", style="solid"]
+AxisA:RotSpeed -> MotorA:RotSpeed[color="black", style="solid"]
+AxisB:RotSpeed -> MotorB:RotSpeed[color="black", style="solid"]
+AxisC:RotSpeed -> MotorC:RotSpeed[color="black", style="solid"]
+ProcAxisXSpeed-> AxisX:Speed[color="green", style="solid"]
+ProcAxisZSpeed-> AxisZ:Speed[color="green", style="solid"]
+ProcAxisBSpeed-> AxisB:Speed[color="green", style="solid"]
+ProcAxisCSpeed-> AxisC:Speed[color="green", style="solid"]
+PumpCoolant:FluidOut -> ValveCoolant:FluidIn[color="blue", style="solid"]
+TankHydraulic:FluidOut -> PumpHydraulics:FluidIn[color="blue", style="solid"]
+TemperatureAmb-> TankHydraulic:TemperatureAmb[color="green", style="dashed"]
+PressureAmb-> TankHydraulic:PressureAmb[color="green", style="solid"]
+Cylinder:FluidOut -> TankHydraulic:FluidIn[color="blue", style="solid"]
+Spindle:CoolantOut -> Tank:FluidIn[color="blue", style="solid"]
+Spindle:PTotal -> CtrlSpindle:PDmd[color="black", style="solid"]
+ProcAxisASpeed-> AxisA:Speed[color="green", style="solid"]
+ProcAxisYSpeed-> AxisY:Speed[color="green", style="solid"]
+PumpHydraulics:FluidOut -> Cylinder:FluidIn[color="blue", style="solid"]
+Bypass:FluidOut -> TankHydraulic:FluidIn[color="blue", style="solid"]
+PumpHydraulics:FluidOut -> Bypass:FluidIn[color="blue", style="solid"]
+AxisY:RotSpeed -> MotorY:RotSpeed[color="black", style="solid"]
+AxisZ:RotSpeed -> MotorZ:RotSpeed[color="black", style="solid"]
+ProcClamp-> Cylinder:Velocity[color="green", style="solid"]
+CtrlCNC-> AmpAxes:State[color="green", style="solid"]
+CtrlAxesLin:PSupply -> AmpAxes:PDmd[color="black", style="solid"]
+CtrlCNC-> CtrlAxesLin:State[color="green", style="solid"]
+MotorX:PTotal -> CtrlAxesLin:PDmd[color="black", style="solid"]
+CtrlCNC-> CtrlAxesRot:State[color="green", style="solid"]
+MotorA:PTotal -> CtrlAxesRot:PDmd[color="black", style="solid"]
+CtrlAxesRot:PSupply -> AmpAxes:PDmd[color="black", style="solid"]
+MotorY:PTotal -> CtrlAxesLin:PDmd[color="black", style="solid"]
+MotorB:PTotal -> CtrlAxesRot:PDmd[color="black", style="solid"]
+MotorZ:PTotal -> CtrlAxesLin:PDmd[color="black", style="solid"]
+MotorC:PTotal -> CtrlAxesRot:PDmd[color="black", style="solid"]
+HeatExchanger:Fluid2Out -> Water:FluidIn[color="blue", style="solid"]
+HeatExchanger:Fluid1Out -> Tank:FluidIn[color="blue", style="solid"]
+CtrlHeatExchanger-> HeatExchanger:State[color="green", style="solid"]
+PumpHE:FluidOut -> HeatExchanger:Fluid1In[color="blue", style="solid"]
+Water:FluidOut -> HeatExchanger:Fluid2In[color="blue", style="solid"]
+CtrlSpindle-> ValveCoolant:ValveCtrl[color="green", style="solid"]
+PumpCoolant:HeatFlowTank -> Tank:HeatFlowIn[color="red", style="solid"]
+PumpHydraulics:HeatFlowTank -> TankHydraulic:HeatFlowIn[color="red", style="solid"]
+}

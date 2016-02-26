@@ -160,8 +160,8 @@ linkingFile = strcat(linkSources, '->', linkTargets);%regexprep( linkingFile, '(
 
 
 % do foo.bla -> "foo":bla
-linkingFile = regexprep( linkingFile, '->([\S]+)\.([\S]+)', '-> "$1":$2');
-linkingFile = regexprep( linkingFile, '([\S]+)\.([\S]+)->', '"$1":$2 ->');
+linkingFile = regexprep( linkingFile, '->([\S]+)\.([\S]+)', '-> $1:$2');
+linkingFile = regexprep( linkingFile, '([\S]+)\.([\S]+)->', '$1:$2 ->');
 
 % Create cell with one line per element
 linksText = regexp(linkingFile, '[^\n]+','match')';
@@ -190,8 +190,11 @@ col.thermal.edge   = 'red';
 col.elmech.node    = 'black';
 col.elmech.edge    = 'black';
 
-col.sim.node       = 'blue';
-col.sim.edge       = 'blue';
+col.sim.node       = 'green';
+col.sim.edge       = 'green';
+
+col.fluid.node       = 'blue';
+col.fluid.edge       = 'blue';
 
 % EOCONF -----------------------------------
 
@@ -274,13 +277,15 @@ end
 
 for i=1:length(linksText)
     
-    if isempty(regexp(linksText{i}{1}, '[\S]+":[\S]+ ->', 'ONCE'))
+    if isempty(regexp(linksText{i}{1}, '[\S]+:[\S]+ ->', 'ONCE'))
         tmp = col.sim.edge;
     elseif ~isempty(regexp(linksText{i}{1}, 'Thermal_[\S]+":[\S]+ ->', 'ONCE')) || ...
             ~isempty(regexp(linksText{i}{1}, ':PLoss', 'ONCE')) || ...
-            ~isempty(regexp(linksText{i}{1}, 'HeatLoss', 'ONCE'))|| ...
+            ~isempty(regexp(linksText{i}{1}, 'HeatFlow', 'ONCE'))|| ...
             ~isempty(regexp(linksText{i}{1}, ':PThermal', 'ONCE'))
         tmp = col.thermal.edge;
+    elseif ~isempty(regexp(linksText{i}{1}, ':Fluid', 'ONCE'))
+        tmp = col.fluid.edge;
     else
         tmp = col.elmech.edge;
     end
@@ -291,7 +296,8 @@ for i=1:length(linksText)
         style = 'solid';
     end
     
-    gv_out = strcat(gv_out, [linksText{i}{1} '[headport=w, tailport=e, color="' tmp '", style="' style '"]\n']);
+    gv_out = strcat(gv_out, [linksText{i}{1} '[color="' tmp '", style="' style '"]\n']);
+%     gv_out = strcat(gv_out, [linksText{i}{1} '\n']);
 end
 
 

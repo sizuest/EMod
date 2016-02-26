@@ -61,6 +61,7 @@ public class DuctPipe extends ADuctElement {
 	 * @param name
 	 * @param length 
 	 * @param diameter 
+	 * @param roughness 
 	 */
 	public DuctPipe(double length, double diameter, double roughness){
 		super();

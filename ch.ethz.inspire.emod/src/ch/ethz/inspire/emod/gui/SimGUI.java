@@ -64,7 +64,6 @@ public class SimGUI extends AGUITab  {
 	
 	protected static TabFolder tabFolder;
 	
-	private Table simConfig;
 	private Table tableSimParam;
 	private Table tableProcessParam;
 	private Table tableStateSequence;
@@ -126,12 +125,10 @@ public class SimGUI extends AGUITab  {
 				item.setText(3, s.getUnit().toString());
 			}
 		}
-		catch(Exception e){}
-        /*for (int i = 0; i < 10; i++) {
-            TableItem item = new TableItem(tableSimParam, SWT.NONE);
-            item.setText(0, "Parameter " + i);
-            item.setText(1, "Initial Value");
-        }*/
+		catch(Exception e){
+			System.err.println("Failed to display initial states.");
+			e.printStackTrace();
+		}
 		
         //Tabelle packen
         TableColumn[] columns = tableSimParam.getColumns();
@@ -245,13 +242,6 @@ public class SimGUI extends AGUITab  {
 		Text valueStepSize = new Text(composite, SWT.NONE);
 		valueStepSize.setLayoutData(new GridData(SWT.BEGINNING, SWT.FILL, false, false, 1, 1));
 		valueStepSize.setText("TODO: let user change step size here");
-		//TODO: write actual stepsize to field, let the user change the step size here and then change stepsize for the simulation
-		
-		//TODO: added some additional fields for visualization
-		for(int i= 0; i< 6; i++){
-			new Text(composite, SWT.READ_ONLY).setText("Value to change");
-			new Text(composite, SWT.NONE).setText("new Value");
-		}
 		
 		//set the composite to the tab and show it
 		tabGenerlItem.setControl(composite);
@@ -554,7 +544,7 @@ public class SimGUI extends AGUITab  {
         		States.setState(id, duration, MachineState.valueOf(comboEditState.getText()));
         	}
         	public void widgetDefaultSelected(SelectionEvent event){
-        		
+        		// Not used
         	}
         });
         
@@ -583,7 +573,7 @@ public class SimGUI extends AGUITab  {
                		updateStateSequence();
             	}
             	public void widgetDefaultSelected(SelectionEvent event){
-            		
+            		// Not used
             	}
             });
             //pack the button and set it into the cell
@@ -604,7 +594,7 @@ public class SimGUI extends AGUITab  {
             		updateStateSequence();
             	}
             	public void widgetDefaultSelected(SelectionEvent event){
-            		
+            		// Not used
             	}
             });
             //pack the button and set it into the cell

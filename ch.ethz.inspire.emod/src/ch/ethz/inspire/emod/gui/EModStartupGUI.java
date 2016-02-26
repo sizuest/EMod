@@ -98,7 +98,7 @@ public class EModStartupGUI {
 				comboProcName.setEnabled(true);
     		}
     		public void widgetDefaultSelected(SelectionEvent event){
-    		
+    			// Not used
     		}
     	});
 
@@ -144,7 +144,7 @@ public class EModStartupGUI {
     			comboProcName.setEnabled(true);
     		}
     		public void widgetDefaultSelected(SelectionEvent event){
-    		
+    			// Not used
     		}
 		});
 		
@@ -192,7 +192,7 @@ public class EModStartupGUI {
 				shell.close();
 			}
     		public void widgetDefaultSelected(SelectionEvent event){
-    		
+    			// Not used
     		}
     	});
 	
@@ -210,7 +210,7 @@ public class EModStartupGUI {
 
     		}
     		public void widgetDefaultSelected(SelectionEvent event){
-   		
+    			// Not used
     		}
     	});
     	
@@ -277,7 +277,7 @@ public class EModStartupGUI {
 				shellCreateMachine.close();
     		}
     		public void widgetDefaultSelected(SelectionEvent event){
-    		
+    			// Not used
     		}
     	});
 		
@@ -308,21 +308,34 @@ public class EModStartupGUI {
 		//clear machine and table
 		ModelGUI.clearTable();		
 		
+		// TODO
+		String simconfig = "SimConfig",
+			   process   = "default";
+		
 		//create the according folders and files (machine.xml, iolinking.txt)
 		String path = PropertiesHandler.getProperty("app.MachineDataPathPrefix") + "/";
-		File machinexml = new File(path + machine + "/MachineConfig/" + config + "/Machine.xml");
-		File iolinking = new File(path + machine + "/MachineConfig/" + config + "/IOLinking.txt");
+		File machinexml  = new File(path + machine + "/MachineConfig/" + config + "/Machine.xml");
+		File iolinking   = new File(path + machine + "/MachineConfig/" + config + "/IOLinking.txt");
+		File simxml      = new File(path + machine + "/SimulationConfig/" + simconfig + "/Simulation.xml");
+		File processxml  = new File(path + machine + "/SimulationConfig/" + simconfig + "/process_" + process + ".xml");
+		File stateseq    = new File(path + machine + "/SimulationConfig/" + simconfig + "/MachineStateSequence.xml");
 		try {
 			machinexml.getParentFile().mkdirs();
+			simxml.getParentFile().mkdirs();
 			machinexml.createNewFile();
 			iolinking.createNewFile();
+			simxml.createNewFile();
+			processxml.createNewFile();
+			stateseq.createNewFile();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 			
 		//set machinename and machinconfigname to app.config file to restore at next run
 		PropertiesHandler.setProperty("sim.MachineName", machine);
-		PropertiesHandler.setProperty("sim.MachineConfigName", config);		
+		PropertiesHandler.setProperty("sim.MachineConfigName", config);
+		PropertiesHandler.setProperty("sim.ProcessName", process);	
+		PropertiesHandler.setProperty("sim.SimulationConfigName", simconfig);	
 	}
 
  	/**

@@ -300,6 +300,14 @@ public class Material {
 	}
 	
 	/**
+	 * @param material
+	 */
+	public void setMaterial(Material material) {
+		this.type = material.getType();
+		init();		
+	}
+	
+	/**
 	 * Compares to materials, return true if the same type is used
 	 * @param material
 	 * @return true/false

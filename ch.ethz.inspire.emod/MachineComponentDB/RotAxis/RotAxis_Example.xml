@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>
+    Model parameter definition
+    ==========================
+      Model : RotAxis 
+      Type  : Example
+    Parameters
+    ----------
+      Transmission [-]
+        Transmission between the motor (rad/s) and the rotation (rad/s)
+      Inertia [kg m^2]
+		Inertia
+  </comment>
+  <entry key="Transmission">1</entry>
+  <entry key="Inertia">1</entry>
+</properties>

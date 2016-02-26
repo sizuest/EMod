@@ -26,12 +26,6 @@
             <name>Cylinder_1</name>
         </machineComponent>
         <machineComponent>
-            <component xsi:type="heatExchanger" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Hyfra_VWK_21_1S</type>
-            </component>
-            <name>HeatExchanger</name>
-        </machineComponent>
-        <machineComponent>
             <component xsi:type="pipe" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Schaublin42LR</type>
             </component>
@@ -76,7 +70,6 @@
             </unit>
         </simController>
     </simulators>
-    <connectionList/>
     <connectionList/>
     <connectionList/>
     <connectionList/>

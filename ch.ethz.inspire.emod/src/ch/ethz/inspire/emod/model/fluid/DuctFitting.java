@@ -94,6 +94,8 @@ public class DuctFitting extends ADuctElement{
 	}
 
 	@XmlTransient
-	public void setParameterSet(ParameterSet ps) {}
+	public void setParameterSet(ParameterSet ps) {
+		// Not used
+	}
 
 }

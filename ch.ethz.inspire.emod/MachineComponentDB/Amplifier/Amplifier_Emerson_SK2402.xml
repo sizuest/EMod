@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>
+    Model parameter definition
+    ==========================
+      Model : Amplifier 
+      Type  : Example
+    Parameters
+    ----------
+      PowerSamples [W]
+        Vector of power samples
+      Efficency [-]
+        Vector of corresponding efficencies
+      PowerLossStatic [W]
+	    Static power demand if no electrical power is consumed
+  </comment>
+  <entry key="PowerSamples">0 1375 2750 4125 5500 6875 8250 9625 11000</entry>
+  <entry key="Efficiency">0.00 0.91 0.95 0.96 0.97 0.97 0.97 0.97 0.98</entry>
+  <entry key="PowerCtrl">20</entry>
+</properties>

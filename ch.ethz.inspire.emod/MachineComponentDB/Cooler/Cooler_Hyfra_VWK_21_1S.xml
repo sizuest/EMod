@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>
+    Model parameter definition
+    ==========================
+      Model : HeatExchanger 
+      Type  : Hyfra VWK 21/1S
+    Parameters
+    ----------
+      CompressorPower [W]
+        installed electrical compressor power
+	  EERCooling [-]
+	    Energy efficency ratio of the cooling circle
+	    
+  </comment>
+  <entry key="CompressorPower">1000</entry>
+  <entry key="EERCooling">3.14</entry>
+  <entry key="TemperatureLow">293</entry>
+  <entry key="TemperatureHigh">294.5</entry>
+</properties>

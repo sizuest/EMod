@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-  <comment>
+    <comment>
     Model parameter definition
     ==========================
       Model : Valve 
@@ -10,15 +10,12 @@
     ----------
       ElectricPower [W]
         TODO
-      VolflowSamples [l/min]
+      PressureLossCoefficient [-]
         TODO
-      PressureSamples [Pa]
+      Area [m2]
         TODO
   </comment>
   <entry key="ElectricPower">8</entry>
-  <entry key="AdjustedPressure">0</entry>
-  <entry key="VolFlowSamples"> 0; 10;    20;     30;     40;     60</entry>
-  <entry key="PressureSamples">0; 25000; 110000; 235000; 395000; 770000</entry>
-  <entry key="thermal.Mass">1.5</entry>
-  <entry key="thermal.HeatCapacity">480</entry>
+  <entry key="PressureLossCoefficient">0.1</entry>
+  <entry key="Area">100E-6</entry>
 </properties>

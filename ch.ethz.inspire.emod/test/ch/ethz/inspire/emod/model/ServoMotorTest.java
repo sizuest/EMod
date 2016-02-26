@@ -16,13 +16,13 @@ package ch.ethz.inspire.emod.model;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
-import ch.ethz.inspire.emod.model.ServoMotor;
+import ch.ethz.inspire.emod.model.MotorDC;
 
 public class ServoMotorTest {
 	
 	@Test
 	public void testServoMotor(){
-		ServoMotor servo = new ServoMotor("Example");
+		MotorDC servo = new MotorDC("Example");
 
 		// Disable apply torque and speed
 		servo.getInput("Torque").setValue(10);

@@ -1,7 +1,6 @@
 package ch.ethz.inspire.emod.utils;
 
 import ch.ethz.inspire.emod.model.APhysicalComponent;
-import ch.ethz.inspire.emod.model.material.Material;
 
 /**
  * class to extend IOConnection to perform with fluids
@@ -10,8 +9,6 @@ import ch.ethz.inspire.emod.model.material.Material;
  *
  */
 public class FluidConnection extends IOConnection {
-	
-	protected Material material;
 	
 	/**
 	 * create FluidConnection with two components, source has to have output "FluidOut", target has to have input "FluidIn"
@@ -22,9 +19,6 @@ public class FluidConnection extends IOConnection {
 	public FluidConnection(APhysicalComponent source, APhysicalComponent target) throws Exception{
 		// connect if source has "FluidOut" and target has "FluidIn"
 		super(source.getOutput("FluidOut"), target.getInput("FluidIn"));
-
-		// flood the target component with the same fluid as the source component
-		FluidCircuit.floodCircuit(source,target);
 	}
 	
 	/**
@@ -48,21 +42,6 @@ public class FluidConnection extends IOConnection {
 	public FluidConnection(IOConnection io) throws Exception{
 		super(io.getSource(), io.getTarget());
 	}
-	
-	/**
-	 * @param material to set
-	 * @throws Exception
-	 */
-	public void setMaterial(Material material) throws Exception{
-		this.material = material;
-	}
-	
-	/**
-	 * @return get material
-	 */
-	public Material getMaterial(){
-		return material;
-	}
 
 	/**
 	 * init a fluidconnection with values for temperature/pressure/flowRate
@@ -76,14 +55,9 @@ public class FluidConnection extends IOConnection {
 	
 	/**
 	 * update from source to target or vice versa according to the direction of calculation
-	 * obsolete? updating value happens with getValue/setValue method of FluidContainer!
 	 */
 	@Override
 	public void update(){
-		/* direction of calculation
-		 * temperature [K]    : source --> target
-		 * pressure    [Pa]   : from fluid circuit solver
-		 */
 		((FluidContainer)this.source).setValuesAsOutput();
 		((FluidContainer)this.target).setValuesAsInput();
 	}
