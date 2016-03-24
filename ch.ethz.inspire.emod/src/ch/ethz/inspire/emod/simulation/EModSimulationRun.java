@@ -49,7 +49,7 @@ public static void EModSimRun(){
 	//Process process = new Process(PropertiesHandler.getProperty("sim.ProcessName"));
 	
 	/* Set process parameters for simulation */
-	sim.setProcessParamsforSimulation(Process.getInstance());
+	sim.setProcessParamsforSimulation();
 	
 	/* Set simulation period for all simulation objects */
 	sim.updateSimulationPeriod();

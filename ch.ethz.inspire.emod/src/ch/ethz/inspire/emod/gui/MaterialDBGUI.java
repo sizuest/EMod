@@ -54,8 +54,7 @@ public class MaterialDBGUI {
 				event.data = text;
 				
 				//open window editComponentEditGUI with the selected component
-				EditMaterialGUI materialEditGUI = new EditMaterialGUI();
-				materialEditGUI.editMaterialGUI(selection[0].getText().replace(".xml", ""));
+				EditMaterialGUI.editMaterialGUI(selection[0].getText().replace(".xml", ""));
 	    	}
 	    	public void widgetDefaultSelected(SelectionEvent event){
 	    		// Not used

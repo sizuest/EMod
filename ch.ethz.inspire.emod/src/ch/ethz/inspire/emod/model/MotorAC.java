@@ -149,7 +149,6 @@ public class MotorAC extends AMotor{
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			System.exit(-1);
 		}
 		
 		/* Read the config parameter: */
@@ -169,7 +168,6 @@ public class MotorAC extends AMotor{
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			System.exit(-1);
 		}
 		params.Close(); /* Model configuration file not needed anymore. */
 		

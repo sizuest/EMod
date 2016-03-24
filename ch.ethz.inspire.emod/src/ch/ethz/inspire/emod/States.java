@@ -208,6 +208,13 @@ public class States {
 	}
 	
 	/**
+	 * 
+	 */
+	public static void removeAllStates(){
+		getInstance().timeStateMap.clear();
+	}
+	
+	/**
 	 * @param duration
 	 * @param state
 	 */

@@ -50,38 +50,38 @@
             <name>AmpAxes</name>
         </machineComponent>
         <machineComponent>
-            <component xsi:type="motorDC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
+            <component xsi:type="servodrive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>FanucAlphaiS4_5000</type>
             </component>
             <name>MotorX</name>
         </machineComponent>
         <machineComponent>
-            <component xsi:type="motorDC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
+            <component xsi:type="servodrive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>FanucAlphaiS4_5000_Breake</type>
             </component>
             <name>MotorY</name>
         </machineComponent>
         <machineComponent>
-            <component xsi:type="motorDC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
+            <component xsi:type="servodrive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>FanucAlphaiS4_5000</type>
             </component>
             <name>MotorZ</name>
         </machineComponent>
         <machineComponent>
-            <component xsi:type="motorDC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
+            <component xsi:type="servodrive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>FanucAlphaiF2_5000_Breake</type>
             </component>
             <name>MotorA</name>
         </machineComponent>
         <machineComponent>
-            <component xsi:type="motorDC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
+            <component xsi:type="servodrive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>FanucAlphaiF2_5000</type>
             </component>
             <name>MotorB</name>
         </machineComponent>
         <machineComponent>
-            <component xsi:type="motorDC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
+            <component xsi:type="servodrive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>FanucAlphaiF2_5000</type>
             </component>
             <name>MotorC</name>
         </machineComponent>
@@ -286,6 +286,18 @@
             </unit>
         </simController>
     </simulators>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
     <connectionList/>
     <connectionList/>
     <connectionList/>

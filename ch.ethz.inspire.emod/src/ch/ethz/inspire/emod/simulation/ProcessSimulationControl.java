@@ -20,6 +20,7 @@ import javax.xml.bind.Unmarshaller;
 
 import ch.ethz.inspire.emod.LogLevel;
 import ch.ethz.inspire.emod.model.units.SiUnit;
+import ch.ethz.inspire.emod.utils.Algo;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.SamplePeriodConverter;
 import ch.ethz.inspire.emod.utils.SimulationConfigReader;
@@ -127,11 +128,11 @@ public class ProcessSimulationControl extends ASimulationControl {
 	/**
 	 * Set the process samples
 	 * @param samps Process samples
-	 * @param samplePeriod 
+	 * @param time 
 	 */
-	public void setProcessSamples(double[] samps, double samplePeriod)	{
-		processsamples = samps;
-		simulationPeriod = samplePeriod;
+	public void setProcessSamples(double[] samps, double[] time)	{
+		simulationPeriod = Algo.greatestCommonDivisor(Algo.getIncrements(time));
+		processsamples   = SamplePeriodConverter.convertSamples(simulationPeriod, time, samps);
 	}
 	/* (non-Javadoc)
 	 * @see ch.ethz.inspire.emod.simulation.ASimulationControl#setSimulationPeriod(double)
@@ -147,7 +148,6 @@ public class ProcessSimulationControl extends ASimulationControl {
 			}
 			catch (Exception ex) {
 				ex.printStackTrace();
-				System.exit(-1);
 			}
 			simulationPeriod = periodLength;
 		}

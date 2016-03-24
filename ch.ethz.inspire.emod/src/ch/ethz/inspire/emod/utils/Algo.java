@@ -361,5 +361,123 @@ public class Algo {
 		
 		return out;
 	}
+	
+	/**
+	 * Returns the greatest common divisor
+	 * 
+	 * {@link https://en.wikipedia.org/wiki/Euclidean_algorithm}
+	 * 
+	 * @param value1
+	 * @param value2
+	 * @return gcd
+	 */
+	public static int greatestCommonDivisor(int value1, int value2){
+		int tmp;
+		while(value2>0){
+			tmp    = value2;
+			value2 = value1%value2;
+			value1 = tmp;
+		}
+		
+		return value1;
+	}
+	
+	/**
+	 * Returns the greatest common divisor
+	 * 
+	 * @param values array of values
+	 * @return gcd
+	 */
+	public static int greatestCommonDivisor(int[] values){
+		int ret = values[0];
+		
+		for(int i=1; i<values.length; i++)
+			ret = greatestCommonDivisor(ret, values[i]);
+		
+		return ret;
+	}
+	
+	/**
+	 * Returns the greatest common divisor
+	 * @param valuesIn 
+	 * @return gcd
+	 */
+	public static int greatestCommonDivisor(double[] valuesIn){
+		int[] values = new int[valuesIn.length];
+		for(int i=0; i<values.length; i++)
+			values[i] = (int) valuesIn[i];
+		
+		int ret = values[0];
+		
+		for(int i=1; i<values.length; i++)
+			ret = greatestCommonDivisor(ret, values[i]);
+		
+		return ret;
+	}
+	
+	/**
+	 * Returns the least common multiple
+	 * 
+	 * {@link https://en.wikipedia.org/wiki/Least_common_multiple#Reduction_by_the_greatest_common_divisor}
+	 * @param value1 
+	 * @param value2 
+	 * @return lcm
+	 * 
+	 * 
+	 */
+	public static int leastCommonMultiple(int value1, int value2)
+	{
+	    return value1 * (value2 / greatestCommonDivisor(value1, value2));
+	}
+
+	/**
+	 * Returns the least common multiple
+	 * @param values 
+	 * @return lcm
+	 * 
+	 * 
+	 * 
+	 */
+	public static int leastCommonMultiple(int[] values){
+		int ret = values[0];
+	    for(int i = 1; i < values.length; i++) 
+	    	ret = leastCommonMultiple(ret, values[i]);
+	    
+	    return ret;
+	}
+
+	/**
+	 * Returns the increments of the input vector
+	 * @param time
+	 * @return
+	 */
+	public static double[] getIncrements(double[] time) {
+		double[] ret = new double[time.length-1];
+		
+		for(int i=0; i<ret.length; i++)
+			ret[i] = time[i+1]-time[i];
+			
+		return null;
+	}
+	
+	public static double getMinimum(double[] values){
+		double ret = values[0];
+		
+		for(int i=1; i<values.length; i++)
+			if(ret>values[i])
+				ret = values[i];
+		
+		return ret;
+	}
+	
+	public static double getMaximum(double[] values){
+		double ret = values[0];
+		
+		for(int i=1; i<values.length; i++)
+			if(ret<values[i])
+				ret = values[i];
+		
+		return ret;
+	}
 
 }

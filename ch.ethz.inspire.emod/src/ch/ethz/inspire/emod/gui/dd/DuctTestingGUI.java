@@ -4,7 +4,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.TableCursor;
+import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -34,7 +34,6 @@ import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.swt.widgets.Text;
 import org.swtchart.Chart;
 import org.swtchart.IAxis;
 import org.swtchart.ILineSeries;
@@ -54,6 +53,7 @@ import ch.ethz.inspire.emod.model.units.SiUnit;
 
 public class DuctTestingGUI extends AGUITab{
 
+	private SashForm form;
 	private Duct duct;
 	private ArrayList<Pump> pumps = new ArrayList<Pump>();
     private static Table tableTesting;
@@ -96,8 +96,12 @@ public class DuctTestingGUI extends AGUITab{
 	@Override
 	public void init() {
 		
+		form = new SashForm(this, SWT.FILL | SWT.VERTICAL);
+		form.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		form.setLayout(new GridLayout(1, false));
+		
 		/* OP Table */
-		tableOpPoint = new Table(this, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
+		tableOpPoint = new Table(form, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
 		tableOpPoint.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		tableOpPoint.setLinesVisible(true);
 		tableOpPoint.setHeaderVisible(true);
@@ -111,8 +115,8 @@ public class DuctTestingGUI extends AGUITab{
 		}
 		
 		/* Tabs */
-		tabMain = new TabFolder(this, SWT.NONE);
-		tabMain.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		tabMain = new TabFolder(form, SWT.NONE);
+		tabMain.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 4));
 		
 		/* Testing Table */
 		tableTesting = new Table(tabMain, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
@@ -235,7 +239,7 @@ public class DuctTestingGUI extends AGUITab{
 		
 		/* Add editor and cp */
 		try {
-			TableUtils.addCellEditor(tableOpPoint, this.getClass().getDeclaredMethod("setOperationalPoint", TableCursor.class, Text.class), this);
+			TableUtils.addCellEditor(tableOpPoint, this.getClass().getDeclaredMethod("setOperationalPoint"), this, new int[] {1});
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -338,13 +342,7 @@ public class DuctTestingGUI extends AGUITab{
 		//this.getParent().pack();
 	}
 	
-	public void setOperationalPoint(TableCursor cursor, Text text){
-		TableItem row = cursor.getRow();
-        int column = cursor.getColumn();
-        if(1==column){
-        	row.setText(1, text.getText());
-        }
-	
+	public void setOperationalPoint(){
 		readOPTable();
 		update();
 	}

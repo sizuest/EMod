@@ -20,28 +20,10 @@
             <name>Pump</name>
         </machineComponent>
         <machineComponent>
-            <component xsi:type="forcedFluidFlow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Water</type>
+            <component xsi:type="cooler" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Hyfra_VWK_21_1S</type>
             </component>
-            <name>ForcedFluidFlow</name>
-        </machineComponent>
-        <machineComponent>
-            <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>SpandauVogel_PV80_180</type>
-            </component>
-            <name>Pump_1</name>
-        </machineComponent>
-        <machineComponent>
-            <component xsi:type="heatExchanger" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
-            </component>
-            <name>HeatExchanger</name>
-        </machineComponent>
-        <machineComponent>
-            <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
-            </component>
-            <name>Valve</name>
+            <name>Cooler</name>
         </machineComponent>
     </machine>
     <simulators>
@@ -75,35 +57,7 @@
                 <unitText>Hz</unitText>
             </unit>
         </simController>
-        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>FlowRateExternal</name>
-            <unit>
-                <unitText>m³/s</unitText>
-            </unit>
-        </simController>
-        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>CoolantPressure</name>
-            <unit>
-                <unitText>Pa</unitText>
-            </unit>
-        </simController>
-        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>ConstantSimulationControl</name>
-            <unit>
-                <unitText>K</unitText>
-            </unit>
-        </simController>
     </simulators>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
     <connectionList/>
     <connectionList/>
     <connectionList/>

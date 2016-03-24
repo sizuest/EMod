@@ -205,6 +205,7 @@ public class LinAxis extends APhysicalComponent{
 	public void update() {
 		
 		/* Update sub model */
+		mass.setSimulationTimestep(timestep);
 		mass.getInput("SpeedLin").setValue(speed.getValue());
 		mass.update();
 		
@@ -228,8 +229,8 @@ public class LinAxis extends APhysicalComponent{
 		 * PTotal [W] = omega [rpm] * 2*pi/60 [rad/s/rpm] * T [N]
 		 * PLoss [W] = PTotal [W] - PUse [W];
 		 */
-		puse.setValue(lastspeed*2*Math.PI*lastforce);
-		ptotal.setValue(rotspeed.getValue()*torque.getValue());
+		puse.setValue(Math.abs(lastspeed*2*Math.PI*lastforce));
+		ptotal.setValue(Math.abs(rotspeed.getValue()*torque.getValue())*2*Math.PI);
 		ploss.setValue(ptotal.getValue()-puse.getValue());
 	}
 

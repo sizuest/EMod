@@ -44,10 +44,9 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
  * Config parameters:
  *   StaticFriction       : [Nm]   : Static friction of the motor
  *   KappaA               : [Nm/A] : Motor torque constant
- *   KappaI               : [V/rmp]: Motor speed constant. 
+ *   KappaI               : [V/rpm]: Motor speed constant. 
  *   ArmatureResistance   : [Ohm]  : Internal resistance of the motor
  *   PolePairs            : [-]    : Number of pole pairs
- *   BrakePower			  : [W]    : Electrical power needed to release the brake, 0 if no break is avaiable
  * 
  * @author simon
  *
@@ -113,8 +112,8 @@ public class MotorDC extends AMotor{
 	{
 		/* Define Input parameters */
 		inputs   = new ArrayList<IOContainer>();
-		rotspeed = new IOContainer("RotSpeed", new SiUnit(Unit.REVOLUTIONS_S),         0, ContainerType.MECHANIC);
-		torque   = new IOContainer("Torque",   new SiUnit(Unit.NEWTONMETER), 0, ContainerType.MECHANIC);
+		rotspeed = new IOContainer("RotSpeed", new SiUnit(Unit.REVOLUTIONS_S), 0, ContainerType.MECHANIC);
+		torque   = new IOContainer("Torque",   new SiUnit(Unit.NEWTONMETER),   0, ContainerType.MECHANIC);
 		//inputs.add(brake);
 		inputs.add(rotspeed);
 		inputs.add(torque);
@@ -154,7 +153,6 @@ public class MotorDC extends AMotor{
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			System.exit(-1);
 		}
 		params.Close(); /* Model configuration file not needed anymore. */
 		
@@ -164,7 +162,6 @@ public class MotorDC extends AMotor{
 		}
 		catch (Exception e) {
 		    e.printStackTrace();
-		    System.exit(-1);
 		}
 	}
 	

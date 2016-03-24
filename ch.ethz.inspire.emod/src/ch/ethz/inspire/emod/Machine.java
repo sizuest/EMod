@@ -65,7 +65,7 @@ import java.lang.reflect.*;
 @XmlRootElement(namespace = "ch.ethz.inspire.emod")
 @XmlSeeAlso({MachineComponent.class, APhysicalComponent.class, Motor.class, MotorAC.class, LinAxis.class, RotAxis.class,
 	ClampTest.class, MotorDC.class, Revolver.class, Fan.class, HydraulicAccumulator.class, Cooler.class, 
-	Transmission.class, CompressedFluid.class, Amplifier.class, ConstantComponent.class, 
+	Transmission.class, CompressedFluid.class, Amplifier.class, ConstantComponent.class, Servodrive.class,
 	Cylinder.class, Valve.class, Pipe.class, HeatExchanger.class, Bypass.class,
 	MovingMass.class, Bearing.class, Spindle.class, Tank.class, Pump.class, ForcedFluidFlow.class,
 	HysteresisControl.class, SwitchControl.class, Sum.class, Gain.class,

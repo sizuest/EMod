@@ -60,5 +60,15 @@ public class SamplePeriodConverter {
 			}
 		return newSamples;
 	}
+
+	public static double[] convertSamples(double simulationPeriod, double[] time, double[] samps) {
+		int numSamples = (int) (Math.ceil(time[time.length-1]/simulationPeriod));
+		double[] newSamples = new double[numSamples];
+		
+		for(int i=0; i<numSamples; i++)
+			newSamples[i] = samps[Algo.findInterval(i*simulationPeriod, time)];
+		
+		return newSamples;
+	}
 	
 }

@@ -15,7 +15,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.swt.widgets.Text;
 
 import ch.ethz.inspire.emod.gui.SelectMaterialGUI;
 import ch.ethz.inspire.emod.gui.utils.TableUtils;
@@ -61,69 +60,16 @@ public class EditDuctIsolationGUI {
 			column.setWidth(32);
 		}
 		
-		//SOURCE http://www.tutorials.de/threads/in-editierbarer-swt-tabelle-ohne-eingabe-von-enter-werte-aendern.299858/
-	    //create a TableCursor to navigate around the table
 	    final TableCursor cursor = new TableCursor(tableProperties, SWT.NONE);
-	    // create an editor to edit the cell when the user hits "ENTER"
-	    // while over a cell in the table
 	    final ControlEditor editor = new ControlEditor(cursor);
 	    editor.grabHorizontal = true;
 	    editor.grabVertical = true;
 	    
 	    try {
-			TableUtils.addCellEditor(tableProperties, this.getClass().getDeclaredMethod("setIsolationThickness", TableCursor.class, Text.class), this);
+			TableUtils.addCellEditor(tableProperties, this.getClass().getDeclaredMethod("setIsolationThickness"), this, new int[] {1});
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	   
-	    /*cursor.addKeyListener(new KeyAdapter() {
-	        public void keyPressed(KeyEvent e) {
-	            switch(e.keyCode) {
-		            case SWT.ARROW_UP:
-		            case SWT.ARROW_RIGHT:
-		            case SWT.ARROW_DOWN:
-		            case SWT.ARROW_LEFT:
-		            //an dieser stelle fehlen auch noch alle anderen tasten die
-		            //ignoriert werden sollen...wie F1-12, esc,bsp,....
-		                //System.out.println("Taste ignorieren...");
-		                break;
-		               
-		            default:
-		                //System.out.println("hier jetzt text editieren");
-		                final Text text = new Text(cursor, SWT.NONE);
-		                final TableItem row = cursor.getRow();
-		                int column = cursor.getColumn();
-		                text.append(String.valueOf(e.character));
-		                text.addKeyListener(new KeyAdapter() {
-		                    public void keyPressed(KeyEvent e) {
-		                        // close the text editor and copy the data over
-		                        // when the user hits "ENTER"
-		                        if (e.character == SWT.CR) {
-		                            int column = cursor.getColumn();
-		                        	switch(column){
-		                        	case 1:
-		                        		try{
-			                        		parameters.setParameter(row.getText(0), Double.parseDouble(text.getText()), new SiUnit(row.getText(2)));
-			                        		isolation.setParameterSet(parameters);
-		                        		}
-		                        		catch(Exception ex){}
-			                        	updatePropertyTable();
-			                        	break;
-		                        	}
-			                        text.dispose();
-		                        }
-		                        // close the text editor when the user hits "ESC"
-		                        if (e.character == SWT.ESC) {
-		                            text.dispose();
-		                        }
-		                    }
-		                });
-		                editor.setEditor(text);
-		                text.setFocus();
-		                    break;
-	            }  
-	        }
-	    });*/
 	    
 	    updatePropertyTable();
         
@@ -160,10 +106,9 @@ public class EditDuctIsolationGUI {
 		shell.open();
 	}
 	
-	public void setIsolationThickness(TableCursor cursor, Text text){
-		final TableItem row = cursor.getRow();
+	public void setIsolationThickness(){
 		try{
-    		parameters.setParameter(row.getText(0), Double.parseDouble(text.getText()), new SiUnit(row.getText(2)));
+			parameters.setParameter(tableProperties.getItem(1).getText(0), Double.parseDouble(tableProperties.getItem(1).getText(1)), new SiUnit(tableProperties.getItem(1).getText(2)));
     		isolation.setParameterSet(parameters);
 		}
 		catch(Exception ex){

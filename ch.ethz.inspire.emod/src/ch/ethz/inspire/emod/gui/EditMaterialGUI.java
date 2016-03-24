@@ -1,46 +1,179 @@
+/***********************************
+ * $Id$
+ *
+ * $URL$
+ * $Author$
+ * $Date$
+ * $Rev$
+ *
+ * Copyright (c) 2011 by Inspire AG, ETHZ
+ * All rights reserved
+ *
+ ***********************************/
 package ch.ethz.inspire.emod.gui;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Enumeration;
-import java.util.Properties;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.TabItem;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
+import org.swtchart.Chart;
+import org.swtchart.ILineSeries;
+import org.swtchart.ILineSeries.PlotSymbolType;
+import org.swtchart.ISeries.SeriesType;
+import org.swtchart.Range;
 
+import ch.ethz.inspire.emod.gui.utils.TableUtils;
+import ch.ethz.inspire.emod.utils.Algo;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
+import ch.ethz.inspire.emod.utils.MaterialConfigReader;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
-public class EditMaterialGUI {
+public class EditMaterialGUI extends AConfigGUI {
+	
+	private MaterialConfigReader material;
+	private Table tableMaterialProperties;
+	private Chart chart;
+	
+	private Color colorDensity   = new Color(getDisplay(), new RGB(0, 0, 255)),
+				  colorHeatCap   = new Color(getDisplay(), new RGB(255, 0, 0)),
+				  colorViscosity = new Color(getDisplay(), new RGB(0, 100, 0));
+	
+	private ILineSeries lineDensity, lineHeatCap, lineViscosity;
+	
+	
+	private TabFolder tabFolder;
 
-    private Shell shell;
-
-    public EditMaterialGUI(){
+    public EditMaterialGUI(Composite parent, int style, String materialName){
+    	super(parent, style, true);
     	
-	    }
+    	try {
+			material = new MaterialConfigReader("Material", materialName);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	
+    	this.getContent().setLayout(new GridLayout(1, true));
+    	
+    	tabFolder = new TabFolder(this.getContent(), SWT.FILL);
+    	tabFolder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+    	tabFolder.setLayout(new GridLayout(1, true));
+    	
+    	tableMaterialProperties = new Table(tabFolder, SWT.FILL | SWT.SINGLE | SWT.V_SCROLL);
+    	tableMaterialProperties.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+    	tableMaterialProperties.setLinesVisible(true);
+    	tableMaterialProperties.setHeaderVisible(true);
+    	
+    	
+    	String[] titles =  {LocalizationHandler.getItem("app.gui.compdb.property"),
+    						LocalizationHandler.getItem("app.gui.compdb.value"),
+    						LocalizationHandler.getItem("app.gui.compdb.unit"),
+							LocalizationHandler.getItem("app.gui.compdb.description")};
+		for(int i=0; i < titles.length; i++){
+			TableColumn column = new TableColumn(tableMaterialProperties, SWT.NULL);
+			column.setText(titles[i]);
+		}
+		
+		try {
+			TableUtils.addCellEditor(tableMaterialProperties, this, new int[] {1});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		chart = new Chart(tabFolder, SWT.FILL);
+		chart.getAxisSet().getXAxis(0).getTitle().setText("[K]");
+		chart.getAxisSet().getXAxis(0).getTitle().setForeground(Display.getDefault().getSystemColor(0));
+		chart.getAxisSet().getXAxis(0).getTick().setForeground(Display.getDefault().getSystemColor(0));
+		chart.getTitle().setVisible(false);
+		chart.getAxisSet().getYAxis(0).getTitle().setText("[kg/m³]");
+		chart.getAxisSet().getYAxis(0).getTitle().setForeground(colorDensity);
+		chart.getAxisSet().getYAxis(0).getTick().setForeground(colorDensity);
+		chart.getAxisSet().createYAxis();
+		chart.getAxisSet().getYAxis(1).getTitle().setText("[J/kg/K]");
+		chart.getAxisSet().getYAxis(1).getTitle().setForeground(colorHeatCap);
+		chart.getAxisSet().getYAxis(1).getTick().setForeground(colorHeatCap);
+		chart.getAxisSet().createYAxis();
+		chart.getAxisSet().getYAxis(2).getTitle().setText("mPa s");
+		chart.getAxisSet().getYAxis(2).getTitle().setForeground(colorViscosity);
+		chart.getAxisSet().getYAxis(2).getTick().setForeground(colorViscosity);
+		
+		lineDensity   = (ILineSeries) chart.getSeriesSet().createSeries(SeriesType.LINE, "Density");
+		lineHeatCap   = (ILineSeries) chart.getSeriesSet().createSeries(SeriesType.LINE, "Heat Capacity");
+		lineViscosity = (ILineSeries) chart.getSeriesSet().createSeries(SeriesType.LINE, "Viscosity");
+		lineDensity.setYAxisId(0);
+		lineHeatCap.setYAxisId(1);
+		lineViscosity.setYAxisId(2);
+		lineDensity.setLineColor(colorDensity);
+		lineHeatCap.setLineColor(colorHeatCap);
+		lineViscosity.setLineColor(colorViscosity);
+		lineDensity.setSymbolType(PlotSymbolType.CIRCLE);
+		lineHeatCap.setSymbolType(PlotSymbolType.CROSS);
+		lineViscosity.setSymbolType(PlotSymbolType.PLUS);
+		lineDensity.setSymbolColor(colorDensity);
+		lineHeatCap.setSymbolColor(colorHeatCap);
+		lineViscosity.setSymbolColor(colorViscosity);
+		
+		TabItem tabDuctDBItem = new TabItem(tabFolder, SWT.NONE);
+		tabDuctDBItem.setText("Input");
+		tabDuctDBItem.setToolTipText("Input");
+		tabDuctDBItem.setControl(tableMaterialProperties); 
+
+		TabItem tabStatisticsItem = new TabItem(tabFolder, SWT.NONE);
+		tabStatisticsItem.setText("Plot");
+		tabStatisticsItem.setToolTipText("Plot");
+		tabStatisticsItem.setControl(chart); 
+		
+    	update();
+	}
+    
+    public static void editMaterialGUI(String type) {
+		final Shell shell = new Shell(Display.getCurrent());
+		shell.setLayout(new FillLayout());
+		EditMaterialGUI gui = new EditMaterialGUI(shell, SWT.NONE, type);
+		
+		shell.setText("Edit Material: "+type);
+		
+		shell.pack();
+		
+		shell.layout();
+		shell.redraw();
+		shell.open();
+		gui.addDisposeListener(new DisposeListener() {
+			@Override
+			public void widgetDisposed(DisposeEvent e) {
+				shell.dispose();
+			}
+		});
+	}
 
  	/**
 	 * Component Edit GUI for creating a new Material
 	 */
-    public void newMaterialGUI(){
-    	shell = new Shell(Display.getCurrent());
+    public static void newMaterialGUI(){
+    	final Shell shell = new Shell(Display.getCurrent());
         shell.setText(LocalizationHandler.getItem("app.gui.matdb.newmat"));
     	shell.setLayout(new GridLayout(2, false));
 
@@ -79,7 +212,7 @@ public class EditMaterialGUI {
 	    		shell.close();
 	    		
 	    		//open the edit ComponentEditGUI with the newly created component file
-	    		editMaterialGUI(stringMaterialNameValue);
+	    		EditMaterialGUI.editMaterialGUI(stringMaterialNameValue);
 	    	}
 	    	public void widgetDefaultSelected(SelectionEvent event){
 	    		// Not used
@@ -104,142 +237,91 @@ public class EditMaterialGUI {
 		shell.open();
     }
     
- 	/**
-	 * Component Edit GUI for editing a existing Component of the Component DB
- 	 * @param parameter 
-	 */
-    public void editMaterialGUI(String parameter){
-    	String type = "Material";
-    	shell = new Shell(Display.getCurrent());
-        shell.setText(LocalizationHandler.getItem("app.gui.matdb.editmat"));
-    	shell.setLayout(new GridLayout(2, false));
-	
- 		//Text model type of the Component
-		Text textComponentModelType = new Text(shell, SWT.READ_ONLY);
-		textComponentModelType.setText(LocalizationHandler.getItem("app.gui.model.param") + ":");
-		textComponentModelType.setLayoutData(new GridData(SWT.BEGINNING, SWT.TOP, false, true, 1, 1));
-		
-		//Combo to let the user select the desired Parameter-set of the Component
-		Text textComponentModelTypeValue = new Text(shell, SWT.READ_ONLY);
-		textComponentModelTypeValue.setText(parameter);
-		textComponentModelTypeValue.setLayoutData(new GridData(SWT.BEGINNING, SWT.TOP, true, true, 1, 1));
-		
-		//path + filename -> link to the .xml file
-		String path = PropertiesHandler.getProperty("app.MaterialDBPathPrefix") + "/";
-		String filename = type + "_" + parameter + ".xml";
-		final File file = new File(path + filename);
-		
-		//open Inputstream of the selected file
-		InputStream iostream = null;
-		try {
-			iostream = new FileInputStream(file);
-		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
-		}
-		
-		//load properties from the file
-		
-		//SOURCE for loading properties from xml file:
-		//http://www.avajava.com/tutorials/lessons/how-do-i-read-properties-from-an-xml-file.html
-		final Properties props = new Properties();
-		try {
-			props.loadFromXML(iostream);
-		}
-		catch (Exception e) {
+    @Override
+    public void update(){
+    	tableMaterialProperties.setItemCount(0);
+    	
+    	for(String key: material.getKeys()){
+    		TableItem item = new TableItem(tableMaterialProperties, SWT.NONE);
+    		item.setText(0, key);
+    		try {
+				item.setText(1, material.getString(key));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+    	}
+    	
+    	TableColumn[] columns = tableMaterialProperties.getColumns();
+        for (int j = 0; j < columns.length; j++) {
+          columns[j].pack();
+        }
+    	
+    	try {
+			lineDensity.setXSeries(material.getDoubleArray("TemperatureSamples"));
+			lineDensity.setYSeries(material.getDoubleArray("DensityMatrix"));
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-			
-		//prepare text and styledtext widgets to show the key and values of the properties
-		int length = props.size();
-		Text[] textKey = new Text[length];
-		final Text[] textValue = new Text[length];
+    	
+    	try {
+			lineHeatCap.setXSeries(material.getDoubleArray("TemperatureSamples"));
+			double[] cp = new double[material.getDoubleArray("TemperatureSamples").length];
+			if(material.getDoubleArray("HeatCapacity").length<cp.length)
+				for(int i=0; i<cp.length; i++)
+					cp[i] = material.getDoubleArray("HeatCapacity")[0];
+			else
+				cp = material.getDoubleArray("HeatCapacity");
+					
+			lineHeatCap.setYSeries(cp);		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	
+    	try {
+			lineViscosity.setXSeries(material.getDoubleArray("TemperatureSamples"));
+			lineViscosity.setYSeries(material.getDoubleArray("ViscositySamples"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	
+    	chart.getAxisSet().adjustRange();
+    	try {
+			chart.getAxisSet().getXAxis(0).setRange(new Range(Algo.getMinimum(material.getDoubleArray("TemperatureSamples")), Algo.getMaximum(material.getDoubleArray("TemperatureSamples"))));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	chart.redraw();
+    }
 
-		//iterate over all the objects of the properties
-		int i = 0;
-		Enumeration<Object> enuKeys = props.keys();
-		while (enuKeys.hasMoreElements()) {
-			//get the key of the current element and write it to the text widget
-			String key = (String) enuKeys.nextElement();
-			textKey[i] = new Text(shell, SWT.READ_ONLY);
-			textKey[i].setText(key);
-			textKey[i].setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, true, 1, 1));
-
-			//get the value of the current key and write it to the styledtext widget
-			String value = props.getProperty(key);
-			textValue[i] = new Text(shell, SWT.MULTI);
-			textValue[i].setText(value);
-			textValue[i].setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, true, 1, 1));
-
-			//pack the text Value, if size is bigger than (400, 200), then resize to max (400,200)
-			textValue[i].pack();
-			if(textValue[i].getSize().x > 400){
-				textValue[i].setLayoutData(new GridData(400, textValue[i].getSize().y));
+	@Override
+	public void save() {
+		
+		for(TableItem ti: tableMaterialProperties.getItems()){
+    		try {
+				material.setValue(ti.getText(0), ti.getText(1));
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-			if(textValue[i].getSize().y > 200){
-				textValue[i].setLayoutData(new GridData(400, 200));
-			}
-			
-			i++;
+    	}
+		
+		try {
+			material.saveValues();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		
-    	//button to save
-		Button buttonSave = new Button(shell, SWT.NONE);
-		buttonSave.setText(LocalizationHandler.getItem("app.gui.save"));
-		//selection Listener for the button, actions when button is pressed
-		buttonSave.addSelectionListener(new SelectionListener(){
-	    	public void widgetSelected(SelectionEvent event){
-	    		
-	    		//iterate over all the objects of the properties
-	    		int i = 0;
-	    		Enumeration<Object> enuKeys = props.keys();
-	    		while (enuKeys.hasMoreElements()) {
-	    			//get the value of the current key and set it to the property
-	    			String key = (String) enuKeys.nextElement();
-    				props.setProperty(key, textValue[i].getText());
-	    			i++;
-	    		}
-	    		
-	    		//write properties to file
-	    		FileOutputStream fos = null;
-	    		try {
-	    			fos = new FileOutputStream(file);
-	        		//TODO sizuest: comment from original file is lost
-			         props.storeToXML(fos, "File changed by user: " + System.getProperty("user.name"));
-	    		} catch (FileNotFoundException e1) {
-	    			e1.printStackTrace();
-	    		} catch (IOException e) {
-					e.printStackTrace();
-				}	    		
-	    		shell.close();
-	    	}
-	    	public void widgetDefaultSelected(SelectionEvent event){
-	    		// Not used
-	    	}
-	    });
-		buttonSave.setLayoutData(new GridData(SWT.END, SWT.TOP, true, true, 2, 1));
+		update();
 		
-		shell.pack();
+	}
 
-		//width and height of the shell
-		Rectangle rect = shell.getBounds();
-		int[] size = {0, 0};
-		size[0] = rect.width;
-		size[1] = rect.height;
+	@Override
+	public void reset() {
+		try {
+			material = new MaterialConfigReader(material.getPath());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
-		//position the shell into the middle of the last window
-        int[] position;
-        position = EModGUI.shellPosition();
-        shell.setLocation(position[0]-size[0]/2, position[1]-size[1]/2);
-		
-        //open the new shell
-		shell.open();
-    }
-    
-    
- 	/**
-	 * closes the MachineComponentGUI
-	 */	
-    public void closeMaterialGUI(){
-    	shell.close();
-    }
+		update();
+	}
 }

@@ -72,6 +72,10 @@ public class ConfigReader {
 		//TODO
 	}
 	
+	public String getPath(){
+		return fileName;
+	}
+	
 	/**
 	 * Get property as string.
 	 * 
@@ -337,7 +341,6 @@ public class ConfigReader {
 	 */
 	public void setValue(String name, String value) throws IOException {
 		props.setProperty(name, value);
-		saveValues();
 	}
 	
 	/**
@@ -348,7 +351,6 @@ public class ConfigReader {
 	 */
 	public void setValue(String name, double value) throws IOException {
 		props.setProperty(name, Double.toString(value));
-		saveValues();
 	}
 	
 	/**
@@ -359,7 +361,6 @@ public class ConfigReader {
 	 */
 	public void setValue(String name, boolean value) throws IOException {
 		props.setProperty(name, Boolean.toString(value));
-		saveValues();
 	}
 	
 	/**
@@ -373,12 +374,14 @@ public class ConfigReader {
 		for(double v : value)
 			valueAsString += Double.toString(v)+",";
 		props.setProperty(name,  valueAsString);
-		saveValues();
 	}
 	
 	public void setValue(String name, PhysicalValue value) throws IOException{
 		props.setProperty(name, value.toString());
-		saveValues();
+	}
+	
+	public void deleteValue(String name) throws IOException{
+		props.remove(name);
 	}
 	
 	/**
@@ -450,9 +453,11 @@ public class ConfigReader {
 	public ArrayList<String> getKeys() {
 		ArrayList<String> keys = new ArrayList<String>();
 		
-		Enumeration<Object> enuKeys = props.keys();
-		while(enuKeys.hasMoreElements())
-			keys.add((String) enuKeys.nextElement()); 
+		if(null!=props){		
+			Enumeration<Object> enuKeys = props.keys();
+			while(enuKeys.hasMoreElements())
+				keys.add((String) enuKeys.nextElement());
+		}
 		
 		return keys;
 	}

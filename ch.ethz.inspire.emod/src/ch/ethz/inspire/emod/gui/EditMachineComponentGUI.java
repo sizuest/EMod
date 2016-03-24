@@ -1,3 +1,15 @@
+/***********************************
+ * $Id$
+ *
+ * $URL$
+ * $Author$
+ * $Date$
+ * $Rev$
+ *
+ * Copyright (c) 2011 by Inspire AG, ETHZ
+ * All rights reserved
+ *
+ ***********************************/
 package ch.ethz.inspire.emod.gui;
 
 import java.io.File;
@@ -9,18 +21,18 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.ControlEditor;
-import org.eclipse.swt.custom.TableCursor;
 import org.eclipse.swt.custom.TableEditor;
-import org.eclipse.swt.events.KeyAdapter;
-import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
@@ -29,7 +41,7 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
 import ch.ethz.inspire.emod.gui.dd.DuctDesignGUI;
-import ch.ethz.inspire.emod.model.MachineComponent;
+import ch.ethz.inspire.emod.gui.utils.TableUtils;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
@@ -40,21 +52,62 @@ import ch.ethz.inspire.emod.utils.PropertiesHandler;
  * @author sizuest
  *
  */
-public class EditMachineComponentGUI {
+public class EditMachineComponentGUI extends AConfigGUI{
 
-    private Shell shell;
     private static Table tableComponent;
+    private ComponentConfigReader component;
+    String type, parameter;
 
     /**
      * EditMachineComponentGUI
+     * @param parent 
+     * @param style 
+     * @param type 
+     * @param parameter 
      */
-    public EditMachineComponentGUI(){}
+    public EditMachineComponentGUI(Composite parent, int style, String type, String parameter){
+    	super(parent, style, true);
+    	
+    	this.type = type;
+    	this.parameter = parameter;
+    	
+    	try {
+			component = new ComponentConfigReader(type, parameter);
+		} catch (Exception e) {
+			System.err.println("Failed to open Parameter set'"+type+":"+parameter+"'");
+			e.printStackTrace();
+		}
+    	
+    	this.getContent().setLayout(new GridLayout(1, true));
+    	
+    	tableComponent = new Table(this.getContent(), SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL);
+    	tableComponent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+    	tableComponent.setLinesVisible(true);
+    	tableComponent.setHeaderVisible(true);
+    	
+    	String[] titles =  {LocalizationHandler.getItem("app.gui.compdb.property"),
+    						LocalizationHandler.getItem("app.gui.compdb.value"),
+    						LocalizationHandler.getItem("app.gui.compdb.unit"),
+							LocalizationHandler.getItem("app.gui.compdb.description")};
+		for(int i=0; i < titles.length; i++){
+			TableColumn column = new TableColumn(tableComponent, SWT.NULL);
+			column.setText(titles[i]);
+		}
+		
+		try {
+			TableUtils.addCellEditor(tableComponent, this, new int[]{1});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	
+    	update();
+    }
 
  	/**
 	 * Component Edit GUI for creating a new Component
 	 */
-    public void newMachineComponentGUI(){
-    	shell = new Shell(Display.getCurrent());
+    public static void newMachineComponentGUI(){
+    	final Shell shell = new Shell(Display.getCurrent());
         shell.setText(LocalizationHandler.getItem("app.gui.compdb.newcomp"));
     	shell.setLayout(new GridLayout(2, false));
 
@@ -115,7 +168,7 @@ public class EditMachineComponentGUI {
 	    		shell.close();
 	    		
 	    		//open the edit ComponentEditGUI with the newly created component file
-	    		editMachineComponentGUI(stringCompTypeValue, stringCompParamValue);
+	    		EditMachineComponentGUI.editMachineComponentGUI(stringCompTypeValue, stringCompParamValue);
 	    	}
 	    	public void widgetDefaultSelected(SelectionEvent event){
 	    		// Not used
@@ -146,110 +199,59 @@ public class EditMachineComponentGUI {
  	 * @param type 
  	 * @param parameter 
 	 */
-    public void editMachineComponentGUI(final String type, final String parameter){
-    	shell = new Shell(Display.getCurrent());
+    public static void editMachineComponentGUI(final String type, final String parameter){
+    	final Shell shell = new Shell(Display.getCurrent());
         shell.setText(LocalizationHandler.getItem("app.gui.compdb.editcomp"));
-    	shell.setLayout(new GridLayout(1, false));
+        shell.setLayout(new FillLayout());
     	
-    	tableComponent = new Table(shell, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL);
-    	tableComponent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-    	tableComponent.setLinesVisible(true);
-    	tableComponent.setHeaderVisible(true);
-    	
-    	String[] titles =  {LocalizationHandler.getItem("app.gui.compdb.property"),
-    						LocalizationHandler.getItem("app.gui.compdb.value"),
-    						LocalizationHandler.getItem("app.gui.compdb.unit"),
-							LocalizationHandler.getItem("app.gui.compdb.description")};
-		for(int i=0; i < titles.length; i++){
-			TableColumn column = new TableColumn(tableComponent, SWT.NULL);
-			column.setText(titles[i]);
-		}
+    	EditMachineComponentGUI gui = new EditMachineComponentGUI(shell, SWT.NONE, type, parameter);
 		
-		//SOURCE http://www.tutorials.de/threads/in-editierbarer-swt-tabelle-ohne-eingabe-von-enter-werte-aendern.299858/
-	    //create a TableCursor to navigate around the table
-	    final TableCursor cursor = new TableCursor(tableComponent, SWT.NONE);
-	    // create an editor to edit the cell when the user hits "ENTER"
-	    // while over a cell in the table
-	    final ControlEditor editor = new ControlEditor(cursor);
-	    editor.grabHorizontal = true;
-	    editor.grabVertical = true;
-	   
-	    cursor.addKeyListener(new KeyAdapter() {
-	        public void keyPressed(KeyEvent e) {
-	            switch(e.keyCode) {
-		            case SWT.ARROW_UP:
-		            case SWT.ARROW_RIGHT:
-		            case SWT.ARROW_DOWN:
-		            case SWT.ARROW_LEFT:
-		            //an dieser stelle fehlen auch noch alle anderen tasten die
-		            //ignoriert werden sollen...wie F1-12, esc,bsp,....
-		                //System.out.println("Taste ignorieren...");
-		                break;
-		               
-		            default:
-		                //System.out.println("hier jetzt text editieren");
-		                final Text text = new Text(cursor, SWT.NONE);
-		                text.append(String.valueOf(e.character));
-		                text.addKeyListener(new KeyAdapter() {
-		                    public void keyPressed(KeyEvent e) {
-		                        // close the text editor and copy the data over
-		                        // when the user hits "ENTER"
-		                        if (e.character == SWT.CR) {
-		                        	TableItem row = cursor.getRow();
-		                            int column = cursor.getColumn();
-		                        	switch(column){
-		                        	case 1:
-		                        		row.setText(column, text.getText());
-			                        	break;
-		                        	}
-			                        text.dispose();
-		                        }
-		                        // close the text editor when the user hits "ESC"
-		                        if (e.character == SWT.ESC) {
-		                            text.dispose();
-		                        }
-		                    }
-		                });
-		                editor.setEditor(text);
-		                text.setFocus();
-		                break;
-	            }  
-	        }
-	    });
+    	shell.pack();
 		
-		TableItem itemType = new TableItem(tableComponent, SWT.NONE, 0);
-		itemType.setText(0, LocalizationHandler.getItem("app.gui.model.type") + ":");
-		itemType.setText(1, type);
+		shell.layout();
+		shell.redraw();
+		shell.open();
 		
-		TableItem itemName = new TableItem(tableComponent, SWT.NONE, 1);
-		itemName.setText(0, LocalizationHandler.getItem("app.gui.model.param") + ":");
-		itemName.setText(1, parameter);
-		
-		
-		/* Create Component reader */
-		final ComponentConfigReader props;
-		try {
-			props = new ComponentConfigReader(type, parameter);
-		} catch (Exception e) {
-			System.err.println("Failed to open Parameter set'"+type+":"+parameter+"'");
-			e.printStackTrace();
-			return;
-		}
-		/*
-		try {
-			props.loadFromXML(iostream);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}*/
-		
-		//prepare text and styledtext widgets to show the key and values of the properties
-		
+		gui.addDisposeListener(new DisposeListener() {
+			@Override
+			public void widgetDisposed(DisposeEvent e) {
+				shell.dispose();
+			}
+		});
+    }
+    
+    public void openModelSelectGUI(String type, TableItem item){
+    	SelectMachineComponentGUI compGUI= new SelectMachineComponentGUI(this.getShell());		        		
+		String selection = compGUI.open(type);
+		if(selection != "" & selection !=null)
+			item.setText(1, selection);
+    }
+    
+    public void openMaterialSelectGUI(TableItem item){
+    	SelectMaterialGUI matGUI = new SelectMaterialGUI(this.getShell());
+    	String selection = matGUI.open();
+    	if(selection != "" & selection !=null)
+			item.setText(1, selection);
+    }
+    
+    public void setModelType(String type, TableItem item){
+    	if(item.getText().matches(""))
+			item.setText(1, type);
+		else
+			item.setText(1, item.getText(1)+", "+type);
+    }
+    
+    public void setMaterialType(String type, TableItem item){
+    	item.setText(1, type);
+    }
+    
+    public void update(){
+    	tableComponent.setItemCount(0);		
 	
-		for(String key: props.getKeys()){
+		for(String key: component.getKeys()){
 			
 			try{
-				String value = props.getString(key);
+				String value = component.getString(key);
 				
 				int i                    = tableComponent.getItemCount();
 				final TableItem itemProp = new TableItem(tableComponent, SWT.NONE, i);
@@ -304,8 +306,7 @@ public class EditMachineComponentGUI {
 					editDuctButton.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, true, 1, 1));
 					editDuctButton.addSelectionListener(new SelectionListener(){
 			        	public void widgetSelected(SelectionEvent event){
-			        		DuctDesignGUI ductGUI= new DuctDesignGUI();
-			        		ductGUI.editDuctGUI(type, parameter,  name);			        		
+			        		DuctDesignGUI.editDuctGUI(type, parameter,  name);			        		
 			        	}
 			        	public void widgetDefaultSelected(SelectionEvent event){
 			        		// Not used
@@ -327,189 +328,36 @@ public class EditMachineComponentGUI {
         for (int j = 0; j < columns.length; j++) {
           columns[j].pack();
         }
-		
-    	//button to save
-		Button buttonSave = new Button(shell, SWT.NONE);
-		buttonSave.setText(LocalizationHandler.getItem("app.gui.save"));
-		//selection Listener for the button, actions when button is pressed
-		buttonSave.addSelectionListener(new SelectionListener(){
-	    	public void widgetSelected(SelectionEvent event){
-	    		
-	    		TableItem[] columns = tableComponent.getItems();
-	    		
-	    		try {
-		    		for(int i=2; i<columns.length; i++){
-		    			props.setValue( columns[i].getText(0), columns[i].getText(1));
-		    		}
-	    		}
-	    		catch(Exception e){
-	    			System.err.println("Failed to write parameter file");
-	    		}
-	    		
-	    		//update the component DB on the right hand side of the model gui tabel
-	    		ModelGUI.updateTabCompDB();
-	    		
-	    		props.Close();
-	    		
-	    		shell.close();
-	    	}
-	    	public void widgetDefaultSelected(SelectionEvent event){
-	    		// Not used
-	    	}
-	    });
-		buttonSave.setLayoutData(new GridData(SWT.END, SWT.TOP, true, true, 2, 1));
-		
-		shell.pack();
-
-		//width and height of the shell
-		Rectangle rect = shell.getBounds();
-		int[] size = {0, 0};
-		size[0] = rect.width;
-		size[1] = rect.height;
-		
-		//position the shell into the middle of the last window
-        int[] position;
-        position = EModGUI.shellPosition();
-        shell.setLocation(position[0]-size[0]/2, position[1]-size[1]/2);
-		
-        //open the new shell
-		shell.open();
     }
-    
- 	/**
-	 * open Component Edit GUI for Component, that already exists in the machine configuration 
-	 * 
-	 * @param mc	Machine component which should be edited
-	 * @param item	table item in which the machine component is stored
-	 */
-    public void openMachineComponentGUI(final MachineComponent mc, final TableItem item){
-        	shell = new Shell(Display.getCurrent());
-	        shell.setText(LocalizationHandler.getItem("app.gui.compdb.editcomp"));
-	    	shell.setLayout(new GridLayout(2, false));
 
-	    	//Text "Name" of the Component
-			Text textComponentName = new Text(shell, SWT.READ_ONLY);
-			textComponentName.setText(LocalizationHandler.getItem("app.gui.model.name") + ":");
-			textComponentName.setLayoutData(new GridData(SWT.BEGINNING, SWT.TOP, true, true, 1, 1));;
-			
-			//Textfield to enter the Name of the Component
-			final Text textComponentNameValue = new Text(shell, SWT.NONE);
-			textComponentNameValue.setText(mc.getName());
-			textComponentNameValue.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, true, 1, 1));
-			
-			//Text "Type" of the Component
-			Text textComponentType = new Text(shell, SWT.READ_ONLY);
-			textComponentType.setText(LocalizationHandler.getItem("app.gui.model.type") + ":");
-			textComponentType.setLayoutData(new GridData(SWT.BEGINNING, SWT.TOP, true, true, 1, 1));
-			
-			//Text Value of "Type" of the Component
-			Text textCompTypeValue = new Text(shell, SWT.READ_ONLY);
-			textCompTypeValue.setText(mc.getComponent().getClass().toString().replace("class ch.ethz.inspire.emod.model.",""));
-			textCompTypeValue.setLayoutData(new GridData(SWT.BEGINNING, SWT.TOP, true, true, 1, 1));
-			
-			//Text model type of the Component
-			Text textComponentModelType = new Text(shell, SWT.READ_ONLY);
-			textComponentModelType.setText(LocalizationHandler.getItem("app.gui.model.param") + ":");
-			textComponentModelType.setLayoutData(new GridData(SWT.BEGINNING, SWT.TOP, true, true, 1, 1));
-			
-			//Combo to let the user select the desired Parameter-set of the Component
-			final Combo comboComponentModelTypeValue = new Combo(shell, SWT.NONE);
-			comboComponentModelTypeValue.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, true, 1, 1));
-			
-			//according to the given component, get the path for the parameter sets
-			String path = PropertiesHandler.getProperty("app.MachineComponentDBPathPrefix") + "/" + mc.getComponent().getModelType() + "/";
-			File subdir = new File(path);
-	    	
-	    	//check if the directory exists, then show possible parameter sets to select
-	    	if(subdir.exists()){
-	    		String[] subitems = subdir.list();
-	    		
-	    		//remove the "Type_" and the ".xml" part of the filename
-	    		for(int i=0; i < subitems.length; i++){
-	    			subitems[i] = subitems[i].replace(mc.getComponent().getModelType() + "_", "");
-	    			subitems[i] = subitems[i].replace(".xml", "");
-	    		}   
-	    		
-	    		//set the possible parameter sets to the combo
-	    		comboComponentModelTypeValue.setItems(subitems);
-	    		comboComponentModelTypeValue.setText(mc.getComponent().getType());
-	    	}
-	    				
-	    	//button to save the selection
-			Button buttonSave = new Button(shell, SWT.NONE);
-			buttonSave.setText(LocalizationHandler.getItem("app.gui.save"));
-			//selection Listener for the button, actions when button is pressed
-			buttonSave.addSelectionListener(new SelectionListener(){
-		    	public void widgetSelected(SelectionEvent event){
-		    		//get the entered name in the textfield and set it to the MachineComponents name
-		    		mc.setName(textComponentNameValue.getText());
-		    		//set the Name into the table item
-		    		item.setText(0, mc.getName());
-		    		
-		    		//get the selected name of the parameter in the combo and set it to the MachineComponent
-		    		mc.getComponent().setType(comboComponentModelTypeValue.getText());
-		    		//set the name into the table item
-		    		item.setText(2, mc.getComponent().getType());
-
-		    		//update the table in the modelGUI
-		    		ModelGUI.updateTable();
-		    		
-		    		//close the Component Edit GUI
-		    		closeMachineComponentGUI();
-		    	}
-		    	public void widgetDefaultSelected(SelectionEvent event){
-		    		// Not used
-		    	}
-		    });
-			buttonSave.setLayoutData(new GridData(SWT.END, SWT.TOP, true, true, 2, 1));
-			
-			shell.pack();
-
-			//width and height of the shell
-			Rectangle rect = shell.getBounds();
-			int[] size = {0, 0};
-			size[0] = rect.width;
-			size[1] = rect.height;
-			
-			//position the shell into the middle of the last window
-	        int[] position;
-	        position = EModGUI.shellPosition();
-	        shell.setLocation(position[0]-size[0]/2, position[1]-size[1]/2);
-			
-	        //open the new shell
-			shell.open();
+	@Override
+	public void save() {
+		for(TableItem ti: tableComponent.getItems()){
+    		try {
+				component.setValue(ti.getText(0), ti.getText(1));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+    	}
+		
+		try {
+			component.saveValues();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		update();
 	}
-    
-    public void openModelSelectGUI(String type, TableItem item){
-    	SelectMachineComponentGUI compGUI= new SelectMachineComponentGUI(shell);		        		
-		String selection = compGUI.open(type);
-		if(selection != "" & selection !=null)
-			item.setText(1, selection);
-    }
-    
-    public void openMaterialSelectGUI(TableItem item){
-    	SelectMaterialGUI matGUI = new SelectMaterialGUI(shell);
-    	String selection = matGUI.open();
-    	if(selection != "" & selection !=null)
-			item.setText(1, selection);
-    }
-    
-    public void setModelType(String type, TableItem item){
-    	if(item.getText().matches(""))
-			item.setText(1, type);
-		else
-			item.setText(1, item.getText(1)+", "+type);
-    }
-    
-    public void setMaterialType(String type, TableItem item){
-    	item.setText(1, type);
-    }
-    
- 	/**
-	 * closes the MachineComponentGUI
-	 */	
-    public void closeMachineComponentGUI(){
-    	shell.close();
-    }
+
+	@Override
+	public void reset() {
+		try {
+			component = new ComponentConfigReader(type, parameter);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		update();
+	}
     
 }

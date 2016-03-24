@@ -6,7 +6,7 @@
     <name>Test</name>
     <elements>
         <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>Test</name>
+            <name>Test2</name>
             <profile xsi:type="hpCircular">
                 <radius>0.0025</radius>
             </profile>

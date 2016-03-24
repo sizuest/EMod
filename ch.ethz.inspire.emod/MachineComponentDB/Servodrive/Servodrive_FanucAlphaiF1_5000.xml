@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment/>
+<entry key="StructureMaterial">Motor</entry>
+<entry key="BreakePower">0</entry>
+<entry key="StructureMass">2.8</entry>
+<entry key="MotorType">MotorDC_FanucAlphaiF1_5000</entry>
+</properties>

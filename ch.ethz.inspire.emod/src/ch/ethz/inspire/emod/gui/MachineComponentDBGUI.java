@@ -60,8 +60,7 @@ public class MachineComponentDBGUI {
 	    	
 				
 				//open window editComponentEditGUI with the selected component
-				EditMachineComponentGUI componentEditGUI = new EditMachineComponentGUI();
-				componentEditGUI.editMachineComponentGUI(selection[0].getParentItem().getText(), text);
+				EditMachineComponentGUI.editMachineComponentGUI(selection[0].getParentItem().getText(), text);
 	    	}
 	    	public void widgetDefaultSelected(SelectionEvent event){
 	    		// Not used

@@ -110,26 +110,25 @@ public class EModSimulationMain {
 	 * 
 	 * @param process Actual process
 	 */
-	public void setProcessParamsforSimulation(Process process) {
+	public void setProcessParamsforSimulation() {
 		for (ASimulationControl sc: simulators) {
 			if (sc.getClass() == ProcessSimulationControl.class) {
 				/* Set samples for process parameters */
 				double[] samples = null;
 				try {
-					samples =	process.getDoubleArray(sc.getName());
-					((ProcessSimulationControl) sc).setProcessSamples(samples, process.getDoubleValue("SamplePeriod"));
+					samples =	Process.getInstance().getDoubleArray(sc.getName());
+					((ProcessSimulationControl) sc).setProcessSamples(samples, Process.getTime());
 				}
 				catch (Exception ex) {
 					Exception e = new Exception("Error for process parameter '" + sc.getName()+ "'\n" 
 							+ ex.getMessage());
 					e.printStackTrace();
-					System.exit(-1);
 				}
 				
 			}
 			else if (sc.getClass() == GeometricKienzleSimulationControl.class) {
 				/* Set and calculate the process moments for the Kienzle simulators */
-				((GeometricKienzleSimulationControl) sc).installKienzleInputParameters(process);
+				((GeometricKienzleSimulationControl) sc).installKienzleInputParameters(Process.getInstance());
 			}
 		}
 	}

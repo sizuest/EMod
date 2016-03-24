@@ -183,12 +183,13 @@ public class EModGUI {
 			matDBOpenItem.setText(LocalizationHandler.getItem("app.gui.menu.matDB.open"));
 		
 		//create "Duct Design" tab and items
+			/*
 		MenuItem ductDesignMenuHeader = new MenuItem(menuBar, SWT.CASCADE);
 		ductDesignMenuHeader.setText("Duct Designer");
 		Menu ductMenu = new Menu(shell, SWT.DROP_DOWN);
 		ductDesignMenuHeader.setMenu(ductMenu);
 			MenuItem ductDesignTestItem = new MenuItem(ductMenu, SWT.PUSH);
-			ductDesignTestItem.setText("Test");
+			ductDesignTestItem.setText("Test"); */
 			
 			
 		//create "Help" tab and items
@@ -218,7 +219,7 @@ public class EModGUI {
 		
 		helpAboutItem.addSelectionListener(new helpAboutItemListener());
 		
-		ductDesignTestItem.addSelectionListener(new ductDesignTestItemListener());
+		//ductDesignTestItem.addSelectionListener(new ductDesignTestItemListener());
 		
 		shell.setMenuBar(menuBar);
 	}
@@ -509,8 +510,7 @@ public class EModGUI {
 	 */
 	class compDBNewItemListener implements SelectionListener {
 		public void widgetSelected(SelectionEvent event){
-			EditMachineComponentGUI componentEditGUI = new EditMachineComponentGUI();
-			componentEditGUI.newMachineComponentGUI();
+			EditMachineComponentGUI.newMachineComponentGUI();
 		}
 		public void widgetDefaultSelected(SelectionEvent event){
 			// Not used
@@ -541,8 +541,7 @@ public class EModGUI {
 	 */
 	class matDBNewItemListener implements SelectionListener {
 		public void widgetSelected(SelectionEvent event){
-			EditMaterialGUI materialEditGUI = new EditMaterialGUI();
-			materialEditGUI.newMaterialGUI();
+			EditMaterialGUI.newMaterialGUI();
 		}
 		public void widgetDefaultSelected(SelectionEvent event){
 			// Not used
@@ -594,7 +593,7 @@ public class EModGUI {
 	 */
 	class ductDesignTestItemListener implements SelectionListener {
 		public void widgetSelected(SelectionEvent event){
-			(new DuctDesignGUI()).editDuctGUI("Test");
+			DuctDesignGUI.editDuctGUI("Test");
 		}
 		
 		public void widgetDefaultSelected(SelectionEvent event){

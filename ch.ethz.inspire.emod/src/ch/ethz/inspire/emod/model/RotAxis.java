@@ -197,6 +197,7 @@ public class RotAxis extends APhysicalComponent{
 	public void update() {
 		
 		/* Update sub model */
+		mass.setSimulationTimestep(timestep);
 		mass.getInput("SpeedRot").setValue(speed.getValue());
 		mass.update();
 		
@@ -218,8 +219,8 @@ public class RotAxis extends APhysicalComponent{
 		 * PTotal [W] = omega [rpm] * 2*pi/60 [rad/s/rpm] * T [N]
 		 * PLoss [W] = PTotal [W] - PUse [W];
 		 */
-		puse.setValue(lastspeed*2*Math.PI*lasttorque);
-		ptotal.setValue(rotspeed.getValue()*torqueOut.getValue());
+		puse.setValue(Math.abs(lastspeed*2*Math.PI*lasttorque));
+		ptotal.setValue(Math.abs(rotspeed.getValue()*torqueOut.getValue())*2*Math.PI);
 		ploss.setValue(ptotal.getValue()-puse.getValue());
 	}
 

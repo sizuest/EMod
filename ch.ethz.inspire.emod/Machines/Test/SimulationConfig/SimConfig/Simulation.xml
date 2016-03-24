@@ -4,16 +4,16 @@
 <comment/>
 <entry key="InitialValue_Pipe_RL_Temperature">293.0</entry>
 <entry key="InitialValue_HeatExchanger_Mass1">5.0</entry>
-<entry key="InitialValue_Tank_Mass">30.0</entry>
+<entry key="InitialValue_Tank_Mass">50.0</entry>
 <entry key="InitialValue_HeatExchanger_Temperature">NaN</entry>
-<entry key="InitialValue_Pump_1_TemperatureStructure">293.0</entry>
+<entry key="InitialValue_Pump_1_TemperatureStructure">NaN</entry>
 <entry key="InitialValue_Pump_TemperatureFluid">293.0</entry>
 <entry key="simulationPeriod">1</entry>
 <entry key="InitialValue_Pump_TemperatureStructure">293.0</entry>
 <entry key="InitialValue_Spindle_TemperatureStructure">293.0</entry>
-<entry key="InitialValue_HeatExchanger_Temperature2">287.0</entry>
-<entry key="InitialValue_Pump_1_TemperatureFluid">293.0</entry>
-<entry key="InitialValue_HeatExchanger_Temperature1">293.0</entry>
+<entry key="InitialValue_HeatExchanger_Temperature2">NaN</entry>
+<entry key="InitialValue_Pump_1_TemperatureFluid">NaN</entry>
+<entry key="InitialValue_HeatExchanger_Temperature1">NaN</entry>
 <entry key="InitialValue_Spindle_TemperatureCoolant">293.0</entry>
 <entry key="InitialValue_Tank_Temperature">293.0</entry>
 <entry key="InitialValue_Pipe_VL_Temperature">293.0</entry>

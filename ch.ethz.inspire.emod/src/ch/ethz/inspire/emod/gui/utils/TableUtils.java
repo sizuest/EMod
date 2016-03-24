@@ -15,6 +15,8 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.TextTransfer;
 
+import ch.ethz.inspire.emod.gui.AConfigGUI;
+
 /**
  * Implements general table functions for SWT Tables
  * @author sizuest
@@ -26,11 +28,47 @@ public class TableUtils {
 	 * Adds following key-event related functions: Edit cell
 	 * 
 	 * @param table
+	 * @param idx 
+	 * @throws Exception 
+	 */
+	public static void addCellEditor(Table table, int[] idx) throws Exception{
+		addCellEditor(table, null, null, idx);
+	}
+	
+	public static void changeTableEntry(TableCursor cursor, Text text){
+		TableItem row = cursor.getRow();
+		int column = cursor.getColumn();
+    	row.setText(column, text.getText());		
+        text.dispose();
+	}
+	
+	public static void addCellEditor(Table table, AConfigGUI gui, int[] idx) throws Exception{
+		addCellEditor(table, AConfigGUI.class.getMethod("wasEdited"), gui, idx);
+	}
+	
+	/**
+	 * Adds following key-event related functions: Edit cell
+	 * 
+	 * @param table
 	 * @param fun
 	 * @param funObj
-	 * @return
+	 * @param idx 
 	 */
 	public static void addCellEditor(Table table, final Method fun, final Object funObj){
+		addCellEditor(table, fun, funObj, null);
+	}
+	
+	
+	
+	/**
+	 * Adds following key-event related functions: Edit cell
+	 * 
+	 * @param table
+	 * @param fun
+	 * @param funObj
+	 * @param idx 
+	 */
+	public static void addCellEditor(Table table, final Method fun, final Object funObj, final int[] idx){
 		//SOURCE http://www.tutorials.de/threads/in-editierbarer-swt-tabelle-ohne-eingabe-von-enter-werte-aendern.299858/
 	    //create a TableCursor to navigate around the table
 	    final TableCursor cursor = new TableCursor(table, SWT.NONE);
@@ -42,6 +80,15 @@ public class TableUtils {
 	   
 	    cursor.addKeyListener(new KeyAdapter() {
 	        public void keyPressed(KeyEvent e) {
+	        	
+	        	if(null!=idx)
+		        	for(int i=0; i<idx.length; i++){
+		    	    	if(cursor.getColumn() == idx[i])
+		    	    		break;
+		    	    	if(i==idx.length-1)
+		    	    		return;
+		    	    }
+	        	
 	            switch(e.keyCode) {
 		            case SWT.ARROW_UP:
 		            case SWT.ARROW_RIGHT:
@@ -53,7 +100,6 @@ public class TableUtils {
 		                break;
 		               
 		            default:
-		                //System.out.println("hier jetzt text editieren");
 		                final Text text = new Text(cursor, SWT.NONE);
 		                text.append(String.valueOf(e.character));
 		                text.addKeyListener(new KeyAdapter() {
@@ -61,11 +107,14 @@ public class TableUtils {
 		                        // close the text editor and copy the data over
 		                        // when the user hits "ENTER"
 		                        if (e.character == SWT.CR) {
-		                        	try{
-		                        		fun.invoke(funObj, cursor, text);
-		                        	} catch(Exception e2){
-		                        		System.err.print("Failed to call update function for table editor");
-		                        	}
+		                        	changeTableEntry(cursor, text);
+		                        	if(null!=fun)
+		                        		
+			                        	try{
+			                        		fun.invoke(funObj);
+			                        	} catch(Exception e2){
+			                        		System.err.print("Failed to call update function for table editor");
+			                        	}
 			                        text.dispose();
 		                        }
 		                        // close the text editor when the user hits "ESC"
@@ -81,6 +130,7 @@ public class TableUtils {
 	        }
 	    });
 	}
+	
 
 	public static void addCopyToClipboard(final Table table){
 	    table.addKeyListener(new KeyAdapter() {

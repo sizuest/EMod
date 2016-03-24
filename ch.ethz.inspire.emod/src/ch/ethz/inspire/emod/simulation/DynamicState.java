@@ -216,6 +216,7 @@ public class DynamicState {
 		try {
 			ConfigReader initCond = new ConfigReader( configPath() );
 			initCond.setValue(getInitialConditionName(), this.initialValue);
+			initCond.saveValues();
 			initCond.Close();
 		}
 		catch (Exception e) {

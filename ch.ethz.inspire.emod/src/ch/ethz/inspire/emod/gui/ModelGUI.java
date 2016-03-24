@@ -561,8 +561,7 @@ public class ModelGUI extends AGUITab {
         		String type = item.getText(1).replace("Input ", "");
         		String name = item.getText(0);
         		//open window editComponentEditGUI with the selected component
-				EditInputGUI inputGUI = new EditInputGUI();
-				inputGUI.editInputGUI(type, name);
+				EditInputGUI.editInputGUI(type, name);
         	}
         	public void widgetDefaultSelected(SelectionEvent event){
         		// Not used
@@ -716,8 +715,7 @@ public class ModelGUI extends AGUITab {
         		String model = item.getText(1);
         		String type  = item.getText(2);
         		//open window editComponentEditGUI with the selected component
-        		EditMachineComponentGUI compGUI = new EditMachineComponentGUI();
-        		compGUI.editMachineComponentGUI(model, type);
+        		EditMachineComponentGUI.editMachineComponentGUI(model, type);
         	}
         	public void widgetDefaultSelected(SelectionEvent event){
         		// Not used

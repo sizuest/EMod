@@ -3,7 +3,7 @@ package ch.ethz.inspire.emod.gui.dd;
 import java.util.ArrayList;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.TableCursor;
+import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DragSource;
@@ -14,13 +14,17 @@ import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.DropTargetListener;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
@@ -28,28 +32,27 @@ import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
+import ch.ethz.inspire.emod.gui.AConfigGUI;
 import ch.ethz.inspire.emod.gui.utils.TableUtils;
 import ch.ethz.inspire.emod.model.fluid.ADuctElement;
 import ch.ethz.inspire.emod.model.fluid.Duct;
 import ch.ethz.inspire.emod.model.fluid.DuctDrilling;
+import ch.ethz.inspire.emod.model.fluid.DuctElbowFitting;
 import ch.ethz.inspire.emod.model.fluid.DuctFitting;
 import ch.ethz.inspire.emod.model.fluid.DuctFlowAround;
 import ch.ethz.inspire.emod.model.fluid.DuctHelix;
 import ch.ethz.inspire.emod.model.fluid.DuctPipe;
-import ch.ethz.inspire.emod.model.fluid.DuctElbowFitting;
 import ch.ethz.inspire.emod.model.units.SiUnit;
 
 
-public class DuctDesignGUI {
-	private Shell shell;
+public class DuctDesignGUI extends AConfigGUI{
+	private SashForm form;
     private static Table tableDuctElements;
     private static Table tableDuctStatistics;
     private static Tree treeDuctDBView;
-    private static Button saveButton, closeButton;
     private DuctTestingGUI ductTestingGUI;
     private TabFolder tabFolderDesign;
     private Duct duct;
@@ -57,20 +60,30 @@ public class DuctDesignGUI {
     private ArrayList<Button> buttons = new ArrayList<Button>();
     
     private ADuctElement[] ductElementSelection = { new DuctDrilling(), new DuctFlowAround(), new DuctHelix(), new DuctPipe(), new DuctElbowFitting()};
+    
+    private ArrayList<String> elementNames = new ArrayList<String>();
+    
+    String name;
 
     /**
      * EditMachineComponentGUI
+     * @param parent 
+     * @param style 
+     * @param name 
      */
-    public DuctDesignGUI(){}
-    
-    public void editDuctGUI(String name){
-	    shell = new Shell(Display.getCurrent());
-	    shell.setText("Duct design test");
-		shell.setLayout(new GridLayout(3, false));
+    public DuctDesignGUI(Composite parent, int style, String name){
+    	super(parent, style);
+    	
+    	this.getContent().setLayout(new GridLayout(1, true));
+	    form = new SashForm(this.getContent(), SWT.FILL);
+	    form.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		form.setLayout(new GridLayout(3, false));
 		
-		duct = Duct.buildFromFile(name);
+		this.name = name;
 		
-		tableDuctElements = new Table(shell, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL);
+		duct = Duct.buildFromFile(this.name);
+		
+		tableDuctElements = new Table(form, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL);
 		tableDuctElements.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 		tableDuctElements.setLinesVisible(true);
 		tableDuctElements.setHeaderVisible(true);
@@ -88,32 +101,8 @@ public class DuctDesignGUI {
 			column.setWidth(32);
 		}
 		
-		tabFolderDesign = new TabFolder(shell, SWT.NONE);
+		tabFolderDesign = new TabFolder(form, SWT.NONE);
 		tabFolderDesign.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-		
-		saveButton = new Button(shell, SWT.NONE);
-		saveButton.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false, 1, 1));
-		saveButton.setText("Save");
-		saveButton.addSelectionListener(new SelectionListener(){
-        	public void widgetSelected(SelectionEvent event){
-        		duct.save();
-        	}
-        	public void widgetDefaultSelected(SelectionEvent event){
-        		// Not used
-        	}
-		});
-		
-		closeButton = new Button(shell, SWT.NONE);
-		closeButton.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false, 1, 1));
-		closeButton.setText("Close");
-		closeButton.addSelectionListener(new SelectionListener(){
-        	public void widgetSelected(SelectionEvent event){
-        		shell.dispose();
-        	}
-        	public void widgetDefaultSelected(SelectionEvent event){
-        		// Not used
-        	}
-		});
 		
 		treeDuctDBView = new Tree(tabFolderDesign, SWT.NONE);
 		for(ADuctElement e: ductElementSelection){
@@ -158,7 +147,7 @@ public class DuctDesignGUI {
 		
 		// Add editor and cp
 		try {
-			TableUtils.addCellEditor(tableDuctElements, this.getClass().getDeclaredMethod("editDuctElementName", TableCursor.class, Text.class), this);
+			TableUtils.addCellEditor(tableDuctElements, this.getClass().getDeclaredMethod("editDuctElementName"), this, new int[] {0});
 			TableUtils.addCopyToClipboard(tableDuctStatistics);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -166,24 +155,15 @@ public class DuctDesignGUI {
 		    
 	    initDropTarget(tableDuctElements);
 	    initElementDragSource(treeDuctDBView);
-		
-		shell.pack();
-		
-		shell.open();
-		
     }
     
-    public void editDuctElementName(TableCursor cursor, Text text){
-    	
-        TableItem row = cursor.getRow();
-        int column = cursor.getColumn();
-        final String oldName = row.getText(column);
-        switch(column){
-        	case 0:
-            	duct.setElementName(oldName, text.getText());
-                updateDuctElementTable();
-                break;
+    public void editDuctElementName(){
+        
+        for(int i=0; i<elementNames.size(); i++){
+	        String newName = tableDuctElements.getItem(i).getText(0);
+        	duct.setElementName(elementNames.get(i), newName);
         }
+        updateDuctElementTable();
     }
     
     public void editDuctElementGUI(ADuctElement e){
@@ -224,13 +204,17 @@ public class DuctDesignGUI {
         	columns[j].pack();
         }
         
-        shell.pack();
+        form.redraw();
+        form.pack();
+        
     	
     }
     
     private void updateDuctElementTable(){
     	tableDuctElements.clearAll();
     	tableDuctElements.setItemCount(0);
+    	
+    	elementNames.clear();
     	
     	for(Button b: buttons)
     		b.dispose();
@@ -241,6 +225,8 @@ public class DuctDesignGUI {
     	for(final ADuctElement e: duct.getElements()){
     		if(e instanceof DuctFitting)
     			continue;
+    		
+    		elementNames.add(e.getName());
     		
 			int i                    = tableDuctElements.getItemCount();
 			final TableItem itemProp = new TableItem(tableDuctElements, SWT.NONE, i);
@@ -349,13 +335,17 @@ public class DuctDesignGUI {
         	columns[j].pack();
         }
         
-        shell.pack();
+        form.layout();
     }
     
     public void update(){
     	updateDuctElementTable();
     	updateDuctStatisticTable();
     	updateDuctTestingTable();
+    	
+    	this.redraw();
+    	this.pack();
+    	this.layout();
     }
     
     private void initElementDragSource(final Tree treeElementDBView){
@@ -449,9 +439,42 @@ public class DuctDesignGUI {
 		});	
 	}
 
-	public void editDuctGUI(String type, String parameter, String name) {
+	public static void editDuctGUI(String type, String parameter, String name) {
 		editDuctGUI(type+"_"+parameter+"_"+name);
 	}
+	
+	public static void editDuctGUI(String type) {
+		final Shell shell = new Shell(Display.getCurrent());
+		shell.setLayout(new FillLayout());
+		DuctDesignGUI gui = new DuctDesignGUI(shell, SWT.NONE, type);
+		
+		shell.setText("DuctDesigner: "+type);
+		
+		shell.pack();
+		
+		shell.layout();
+		shell.redraw();
+		shell.open();
+		gui.addDisposeListener(new DisposeListener() {
+			@Override
+			public void widgetDisposed(DisposeEvent e) {
+				shell.dispose();
+			}
+		});
+	}
+
+	@Override
+	public void save() {
+		duct.save();
+	}
+
+	@Override
+	public void reset() {
+		duct = Duct.buildFromFile(this.name);
+		update();
+	}
+	
+	
 		
 		
 }
