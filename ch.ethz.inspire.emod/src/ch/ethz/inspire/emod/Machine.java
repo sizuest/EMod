@@ -1006,6 +1006,9 @@ public class Machine {
 	 */
 	public static void renameMachineComponent(String name, String newname) {
 		
+		// Make new name name save
+		newname.replaceAll("[\\D&&\\W]", "");
+		
 		MachineComponent mc = getMachineComponent(name);
 		
 		if(null==mc) {
