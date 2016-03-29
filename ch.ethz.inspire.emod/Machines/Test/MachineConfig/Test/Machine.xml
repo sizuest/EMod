@@ -5,7 +5,7 @@
             <component xsi:type="tank" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Schaublin42L</type>
             </component>
-            <name>Tank</name>
+            <name>Test</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="spindle" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">

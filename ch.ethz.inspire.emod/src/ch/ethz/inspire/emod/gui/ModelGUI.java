@@ -188,7 +188,7 @@ public class ModelGUI extends AGUITab {
 		                        		row.setText(column, text.getText());
 		                        		if(row.getText(1).contains("Input")){ //when handling a simulator
 		                        			//change name of the simulator in the machine
-		                        			Machine.getInputObject(oldName).setName(text.getText());
+		                        			Machine.renameInputObject(oldName, text.getText());
 		                        			
 		                        			//change the name of file that belongs to the given simulator
 		                        			String prefix = PropertiesHandler.getProperty("app.MachineDataPathPrefix") + "/" +
@@ -211,7 +211,7 @@ public class ModelGUI extends AGUITab {
 		                					}
 
 		                        		} else { //when handling a machine component
-		                        			Machine.getMachineComponent(oldName).setName(text.getText());
+		                        			Machine.renameMachineComponent(oldName, text.getText());
 		                        		}
 			                        	break;
 		                        	}
