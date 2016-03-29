@@ -1,0 +1,13 @@
+Unit1.PDmd = Unit2.PTotal
+Unit2.PDmd = Spindle.PTotal
+Unit3.PDmd = x-Axis-Motor.PTotal
+Unit1.PDmd = Unit3.PTotal
+Unit4.PDmd = y1-Axis-Motor.PTotal
+Unit4.PDmd = y2-Axis-Motor.PTotal
+Unit5.PDmd = z1-Axis-Motor.PTotal
+Unit5.PDmd = z2-Axis-Motor.PTotal
+Unit6.PDmd = c-Axis.PTotal
+Unit6.PDmd = b-Axis.PTotal
+Spindle.CoolantIn = Pipe.FluidOut
+Pipe.FluidIn = Valve.FluidOut
+Tank.FluidIn = Spindle.CoolantOut
