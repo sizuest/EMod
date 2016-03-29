@@ -418,7 +418,19 @@ public class Machine {
 			System.exit(-1);
 		}
 		
+		/* Clear old conncetions */
 		Machine.getInstance().connectionList = new ArrayList<IOConnection>();
+		
+		/* Remove all inputs / outputs with reference */
+		for(MachineComponent mc: Machine.getInstance().componentList){
+			for(int i=mc.getComponent().getInputs().size()-1; i>=0; i--)
+				if(mc.getComponent().getInputs().get(i).hasReference())
+					mc.getComponent().getInputs().remove(i);
+			
+			for(int i=mc.getComponent().getOutputs().size()-1; i>=0; i--)
+				if(mc.getComponent().getOutputs().get(i).hasReference())
+					mc.getComponent().getOutputs().remove(i);
+		}
 		
 		/* Read file: line by line */
 		int linenr=0;

@@ -115,8 +115,7 @@ public class ModelGUI extends AGUITab {
         buttonEditLinking.addSelectionListener(new SelectionListener(){
         	public void widgetSelected(SelectionEvent event){
         		//open window to set the IO linking
-        		LinkingGUI linkingGUI = new LinkingGUI();
-        		linkingGUI.openLinkingGUI();
+        		LinkingGUI.openLinkingGUI();
         	}
         	public void widgetDefaultSelected(SelectionEvent event){
         		// Not used
