@@ -22,6 +22,8 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Font;
@@ -30,6 +32,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
@@ -66,9 +69,26 @@ public class LinkingGUI extends AConfigGUI{
     	
     	this.getContent().setLayout(new GridLayout(1, true));
     	
-    	textFilter = new Text(this.getContent(), SWT.BORDER | SWT.SINGLE);
+    	textFilter = new Text(this.getContent(), SWT.BORDER | SWT.SEARCH  | SWT.ICON_CANCEL);
 		textFilter.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 2, 1));
 		textFilter.setMessage("Filter");
+		textFilter.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseUp(MouseEvent e) {
+				redraw();
+			}
+			
+			@Override
+			public void mouseDown(MouseEvent e) {
+				// Not used
+			}
+			
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+				// Not used
+			}
+		});
 		
 		textFilter.addKeyListener(new KeyListener() {
 			@Override
@@ -176,6 +196,9 @@ public class LinkingGUI extends AConfigGUI{
 		
 		for(TableItem ti: linkingTable.getItems())
 			ti.dispose();
+		
+		for(Control c: linkingTable.getChildren())
+			c.dispose();
 		
 		linkingTable.clearAll();
 		linkingTable.setItemCount(0);
