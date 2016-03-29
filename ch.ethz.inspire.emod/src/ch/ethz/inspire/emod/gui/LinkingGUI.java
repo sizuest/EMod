@@ -28,6 +28,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -65,11 +66,16 @@ public class LinkingGUI extends AConfigGUI{
 	List<IOConnection> linking;
 
     public LinkingGUI(Composite parent, int style){
-    	super(parent, style);
+    	super(parent, style, true);
     	
     	this.getContent().setLayout(new GridLayout(1, true));
     	
-    	textFilter = new Text(this.getContent(), SWT.BORDER | SWT.SEARCH  | SWT.ICON_CANCEL);
+    	Composite cl = new Composite(this.getContent(), SWT.NONE);
+		cl.setLayout(new GridLayout(2, false));
+		cl.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true));
+		cl.setBackground(getBackground());
+    	
+    	textFilter = new Text(cl, SWT.BORDER | SWT.SEARCH  | SWT.ICON_CANCEL);
 		textFilter.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 2, 1));
 		textFilter.setMessage("Filter");
 		textFilter.addMouseListener(new MouseListener() {
@@ -102,8 +108,8 @@ public class LinkingGUI extends AConfigGUI{
 			}
 		});
 		
-		linkingTable = new Table(this.getContent(), SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL);
-		linkingTable.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, true, 2, 1));
+		linkingTable = new Table(cl, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL);
+		linkingTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 		linkingTable.setLinesVisible(true);
 		linkingTable.setHeaderVisible(true);
 		
@@ -130,7 +136,7 @@ public class LinkingGUI extends AConfigGUI{
 	public static void openLinkingGUI(){
 			final Shell shell = new Shell(Display.getCurrent());
 	        shell.setText(LocalizationHandler.getItem("app.gui.linking.title"));
-	    	shell.setLayout(new GridLayout(2, false));
+	    	shell.setLayout(new FillLayout());
 	    	
 	    	LinkingGUI gui = new LinkingGUI(shell, SWT.NONE);
 	    	
@@ -317,6 +323,9 @@ public class LinkingGUI extends AConfigGUI{
         	columns[j].pack();
         }
         columns[2].setWidth(widthCombo);
+        
+        this.getShell().pack();
+        this.getShell().layout();
 	}
 
 	@Override

@@ -68,7 +68,7 @@ public abstract class AConfigGUI extends Composite{
 	private void init(boolean showCancel){
 		this.setLayout(new GridLayout(3, true));
 		
-		content = new Composite(this, SWT.FILL );
+		content = new Composite(this, SWT.NONE );
 		if(showCancel){
 			this.setLayout(new GridLayout(3, true));
 			content.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
