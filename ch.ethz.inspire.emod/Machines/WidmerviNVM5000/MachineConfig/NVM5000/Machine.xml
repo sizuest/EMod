@@ -5,97 +5,97 @@
             <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
-            <name>Unit1</name>
+            <name>Einheit1</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
-            <name>Unit2</name>
+            <name>Einheit2</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="spindle" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
-            <name>Spindle</name>
+            <name>Spindel</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
-            <name>Unit3</name>
+            <name>Einheit3</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="motorDC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
-            <name>WG-Axis-Motor</name>
+            <name>WGAchseMotor</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="motorDC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
-            <name>x-Axis-Motor</name>
+            <name>XAchseMotor</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
-            <name>Unit4</name>
+            <name>Einheit4</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="motorDC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
-            <name>y1-Axis-Motor</name>
+            <name>Y1AchseMotor</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="motorDC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
-            <name>y2-Axis-Motor</name>
+            <name>Y2AchseMotor</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
-            <name>Unit5</name>
+            <name>Einheit5</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="motorDC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
-            <name>z1-Axis-Motor</name>
+            <name>Z1AchseMotor</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="motorDC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
-            <name>z2-Axis-Motor</name>
+            <name>Z2AchseMotor</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
-            <name>Unit6</name>
+            <name>Einheit6</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="motor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
-            <name>c-Axis</name>
+            <name>CAchseMotor</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="motor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
-            <name>b-Axis</name>
+            <name>BAchseMotor</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="tank" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
-            <name>Tank</name>
+            <name>TankKühlmittel</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -107,7 +107,7 @@
             <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
-            <name>Pump_1</name>
+            <name>PumpeTrommelfilter</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -119,25 +119,25 @@
             <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
-            <name>P.f.Kühlmittelz.entf.v.Spänen</name>
+            <name>PumpeSpäneEntfernen</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
-            <name>Pump_4</name>
+            <name>PumpeSpindelinnenkühlung</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
-            <name>Valve</name>
+            <name>DreiwegeventilSpindelkühlung</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="pipe" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
-            <name>Pipe</name>
+            <name>KabelträgerxyzAchseSpindelkühlung</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="cooler" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -149,7 +149,7 @@
             <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
-            <name>Spindelkühlmittel</name>
+            <name>DüseSpindelkühlmittel</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="pipe" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -163,8 +163,135 @@
             </component>
             <name>Pipe_2</name>
         </machineComponent>
+        <machineComponent>
+            <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>ValveTrommelfilter</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="pipe" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>LeitungEntfernenSpänen</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>DüseSpäne1</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>DüseSpäne2</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>DüseSpäne3</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="tank" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>TankKühlöl</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>PumpeÖltemperaturregler</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="linAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Test</type>
+            </component>
+            <name>KühlungKernY1Achse</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="linAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Test</type>
+            </component>
+            <name>KühlungKernY2Achse</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="linAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Test</type>
+            </component>
+            <name>KühlungKernXAchse</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="linAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Test</type>
+            </component>
+            <name>KühlungKernZ2Achse</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="linAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Test</type>
+            </component>
+            <name>KühlungKernZ1Achse</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="rotAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>KühlungCAchse</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="rotAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>KühlungBAchse</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="heatExchangerAir" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>KühlmitteleinheitWärmetauscher</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="heatExchangerAir" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>Hochdruckkühlmitteleinheit</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="pipe" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>KabelträgerxyzAchseSpindelinnenkühlung1</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>DüseSpindelinnenKühlung</name>
+        </machineComponent>
     </machine>
     <simulators/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
     <connectionList/>
     <connectionList/>
     <connectionList/>
