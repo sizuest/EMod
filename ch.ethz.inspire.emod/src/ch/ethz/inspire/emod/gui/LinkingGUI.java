@@ -200,6 +200,11 @@ public class LinkingGUI extends AConfigGUI{
 	public void redraw(){
 		int widthCombo = 10;
 		
+		int lastScrolPos = linkingTable.getVerticalBar().getSelection();
+		
+		// Disable
+		linkingTable.setEnabled(false);
+		
 		for(TableItem ti: linkingTable.getItems())
 			ti.dispose();
 		
@@ -324,8 +329,11 @@ public class LinkingGUI extends AConfigGUI{
         }
         columns[2].setWidth(widthCombo);
         
-        this.getShell().pack();
-        this.getShell().layout();
+        // Set old scroll position
+        linkingTable.getVerticalBar().setSelection((int) Math.min(lastScrolPos, linkingTable.getVerticalBar().getMaximum()));
+        
+        // Enable
+        linkingTable.setEnabled(true);
 	}
 
 	@Override
