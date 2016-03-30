@@ -1019,7 +1019,7 @@ public class Machine {
 	public static void renameMachineComponent(String name, String newname) {
 		
 		// Make new name name save
-		newname.replaceAll("[\\000]*", "");
+		newname = newname.replaceAll("[\\000]", "");
 		
 		MachineComponent mc = getMachineComponent(name);
 		
@@ -1044,7 +1044,7 @@ public class Machine {
 	public static void renameInputObject(String name, String newname) {
 		
 		// Make new name name save
-		newname.replaceAll("[\\000]", "");
+		newname = newname.replaceAll("[\\000]", "");
 		
 		ASimulationControl sc = getInputObject(name);
 		

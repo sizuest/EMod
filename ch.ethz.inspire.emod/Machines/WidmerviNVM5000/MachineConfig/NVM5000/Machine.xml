@@ -119,7 +119,7 @@
             <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
-            <name>Pump_3</name>
+            <name>P.f.Kühlmittelz.entf.v.Spänen</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -139,8 +139,36 @@
             </component>
             <name>Pipe</name>
         </machineComponent>
+        <machineComponent>
+            <component xsi:type="cooler" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>Cooler</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>Spindelkühlmittel</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="pipe" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>Späne entfernen</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="pipe" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>Pipe_2</name>
+        </machineComponent>
     </machine>
     <simulators/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
     <connectionList/>
     <connectionList/>
     <connectionList/>
