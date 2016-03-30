@@ -256,12 +256,22 @@ public class FluidCircuitProperties {
 	}
 	
 	/**
-	 * getHeatLoss()
+	 * getInternalLoss()
 	 * @return current heat loss [W]
 	 */
-	public double getHeatLoss(){
+	public double getInternalLoss(){
 		return getPressureDrop()*getFlowRate();
 	}
+	
+	/**
+	 * getEnthalpyChange()
+	 * @return current heat loss [W]
+	 */
+	public double getEnthalpyChange(){
+		return (getTemperatureIn()-getTemperatureOut()) * getMassFlowRate() * getMaterial().getHeatCapacity();
+	}
+	
+	
 	
 	
 	/**

@@ -66,7 +66,7 @@ import java.lang.reflect.*;
 @XmlSeeAlso({MachineComponent.class, APhysicalComponent.class, Motor.class, MotorAC.class, LinAxis.class, RotAxis.class,
 	ClampTest.class, MotorDC.class, Revolver.class, Fan.class, HydraulicAccumulator.class, Cooler.class, 
 	Transmission.class, CompressedFluid.class, Amplifier.class, ConstantComponent.class, Servodrive.class,
-	Cylinder.class, Valve.class, Pipe.class, HeatExchanger.class, Bypass.class,
+	Cylinder.class, Valve.class, Pipe.class, HeatExchanger.class, Bypass.class, HeatExchangerAir.class,
 	MovingMass.class, Bearing.class, Spindle.class, Tank.class, Pump.class, ForcedFluidFlow.class,
 	HysteresisControl.class, SwitchControl.class, Sum.class, Gain.class,
 	HomogStorage.class, LayerStorage.class, ForcedHeatTransfere.class, FreeHeatTransfere.class,

@@ -220,27 +220,45 @@ public class HeatExchanger extends APhysicalComponent implements Floodable{
 		if(!isInitialized){
 			fluid1.getMass().setInitialCondition(volume1*fluid1.getMaterial().getDensity(fluid1.getTemperature().getValue()));
 			fluid2.getMass().setInitialCondition(volume2*fluid2.getMaterial().getDensity(fluid2.getTemperature().getValue()));
-			isInitialized = false;
+			isInitialized = true;
 		}
 		
 		
 		if(level.getValue() == 1){
-			ptotal.setValue(power);
-			ploss.setValue(power);
-			
-			if( (wasCooling & fluidProperties1.getTemperatureIn()<tempOff) |
-				(!wasCooling & fluidProperties1.getTemperatureIn()>=tempOn) ){
-				wasCooling = true;
-				htc = this.htc;
+			/* Controlled Temperature: tempOff=tempOn */
+			if(tempOff==tempOn){
+				double heatFlux;
+				
+				heatFlux = Math.max(0, (fluid1In.getTemperature()-tempOn) * fluidProperties1.getMassFlowRate() * fluidProperties1.getMaterial().getHeatCapacity());
+				
+				fluid1.setHeatInput(-heatFlux);
+				fluid2.setHeatInput(-heatFlux);
+				
+				ptotal.setValue(power);
+				ploss.setValue(power);
+			}
+			else {
+				
+				ptotal.setValue(power);
+				ploss.setValue(power);
+				
+				if( (wasCooling & fluidProperties1.getTemperatureIn()>tempOff) |
+					(!wasCooling & fluidProperties1.getTemperatureIn()>=tempOn) ){
+					wasCooling = true;
+					htc = this.htc;
+					
+				}
+				else
+					wasCooling = false;
 				
 			}
-			else
-				wasCooling = false;
 		}
 		else{
 			wasCooling = false;
 			ptotal.setValue(0);
 			ploss.setValue(0);
+			fluid1.setHeatInput(0);
+			fluid2.setHeatInput(0);
 		}
 		
 		fluid1.setThermalResistance(htc);

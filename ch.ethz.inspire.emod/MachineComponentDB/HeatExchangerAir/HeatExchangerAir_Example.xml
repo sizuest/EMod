@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment/>
+<entry key="Power">800</entry>
+<entry key="TemperatureHigh">293</entry>
+<entry key="PressureLossCoefficient">620E9</entry>
+<entry key="Volume">0.005</entry>
+<entry key="TemperatureLow">293</entry>
+<entry key="HeatTransferCoefficient">1500</entry>
+</properties>

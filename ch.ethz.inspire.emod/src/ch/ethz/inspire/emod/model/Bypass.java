@@ -193,7 +193,7 @@ public class Bypass extends APhysicalComponent implements Floodable{
 		//Adjust temperature out
 		temperature.setInitialCondition(fluidProperties.getTemperatureIn());
 		if(fluidProperties.getFlowRate()!=0)
-			temperature.addValue(fluidProperties.getHeatLoss()/(fluidProperties.getMaterial().getHeatCapacity()*fluidProperties.getMassFlowRate()));
+			temperature.addValue(fluidProperties.getInternalLoss()/(fluidProperties.getMaterial().getHeatCapacity()*fluidProperties.getMassFlowRate()));
 	
 	}
 

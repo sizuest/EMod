@@ -5,7 +5,7 @@
             <component xsi:type="tank" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Schaublin42L</type>
             </component>
-            <name>Test</name>
+            <name>Tank</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="spindle" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -20,10 +20,10 @@
             <name>Pump</name>
         </machineComponent>
         <machineComponent>
-            <component xsi:type="cooler" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Hyfra_VWK_21_1S</type>
+            <component xsi:type="heatExchangerAir" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
             </component>
-            <name>Cooler</name>
+            <name>HeatExchangerAir</name>
         </machineComponent>
     </machine>
     <simulators>
