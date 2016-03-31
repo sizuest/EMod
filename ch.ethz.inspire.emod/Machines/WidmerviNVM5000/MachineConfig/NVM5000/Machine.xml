@@ -220,7 +220,7 @@
             </unit>
         </simController>
         <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>PumpenKühlölKühlmittel</name>
+            <name>PumpenKühlölKühlmittelControl</name>
             <unit>
                 <unitText>none</unitText>
             </unit>
@@ -232,7 +232,7 @@
             </unit>
         </simController>
         <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>Einheiten123456</name>
+            <name>Einheiten123456Control</name>
             <unit>
                 <unitText>none</unitText>
             </unit>
@@ -240,31 +240,31 @@
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>XAchseControl</name>
             <unit>
-                <unitText>none</unitText>
+                <unitText>m/s</unitText>
             </unit>
         </simController>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>CAchseControl</name>
             <unit>
-                <unitText>none</unitText>
+                <unitText>Hz</unitText>
             </unit>
         </simController>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>ZAchseControl</name>
             <unit>
-                <unitText>none</unitText>
+                <unitText>m/s</unitText>
             </unit>
         </simController>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>YAchseControl</name>
             <unit>
-                <unitText>none</unitText>
+                <unitText>m/s</unitText>
             </unit>
         </simController>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>BAchseControl</name>
             <unit>
-                <unitText>none</unitText>
+                <unitText>Hz</unitText>
             </unit>
         </simController>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -279,7 +279,29 @@
                 <unitText>none</unitText>
             </unit>
         </simController>
+        <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>CNCOnControl</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>SpindelRotControl</name>
+            <unit>
+                <unitText>Hz</unitText>
+            </unit>
+        </simController>
     </simulators>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
     <connectionList/>
     <connectionList/>
     <connectionList/>
