@@ -98,28 +98,10 @@
             <name>KabelträgerxyzAchseSpindelkühlung</name>
         </machineComponent>
         <machineComponent>
-            <component xsi:type="cooler" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
-            </component>
-            <name>Cooler</name>
-        </machineComponent>
-        <machineComponent>
             <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
             <name>DüseSpindelkühlmittel</name>
-        </machineComponent>
-        <machineComponent>
-            <component xsi:type="pipe" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
-            </component>
-            <name>Späne entfernen</name>
-        </machineComponent>
-        <machineComponent>
-            <component xsi:type="pipe" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
-            </component>
-            <name>Pipe_2</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -232,18 +214,117 @@
     </machine>
     <simulators>
         <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>ConstantSimulationControl</name>
+            <name>AmbientTemperature</name>
+            <unit>
+                <unitText>K</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>PumpenKühlölKühlmittel</name>
             <unit>
                 <unitText>none</unitText>
             </unit>
         </simController>
+        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>AmbientPressure</name>
+            <unit>
+                <unitText>Pa</unitText>
+            </unit>
+        </simController>
         <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>StaticSimulationControl</name>
+            <name>Einheiten123456</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>XAchseControl</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>CAchseControl</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>ZAchseControl</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>YAchseControl</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>BAchseControl</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>VentilTrommelfilterConctrol</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>VentileKühlmittelSpindelundKammerControl</name>
             <unit>
                 <unitText>none</unitText>
             </unit>
         </simController>
     </simulators>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
     <connectionList/>
     <connectionList/>
     <connectionList/>
