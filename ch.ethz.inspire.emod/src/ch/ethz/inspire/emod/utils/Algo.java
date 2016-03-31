@@ -457,7 +457,7 @@ public class Algo {
 		for(int i=0; i<ret.length; i++)
 			ret[i] = time[i+1]-time[i];
 			
-		return null;
+		return ret;
 	}
 	
 	public static double getMinimum(double[] values){

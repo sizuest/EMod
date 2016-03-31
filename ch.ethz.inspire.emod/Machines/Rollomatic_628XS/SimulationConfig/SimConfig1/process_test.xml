@@ -2,13 +2,13 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <comment/>
-<entry key="ProcClamp">0.1,-0.1,0.1,0.0,0.0,0.0,0.0,0.0,0.0,</entry>
-<entry key="ProcAxisCSpeed">0.0,0.0,0.1,0.0,0.0,0.0,0.0,0.0,0.0,</entry>
-<entry key="ProcAxisZSpeed">0.0,0.0,0.0,0.0,0.0,0.001,0.0,0.0,0.0,</entry>
-<entry key="ProcSpindleSpeed">0.0,0.0,0.0,0.0,0.0,0.0,166.0,166.0,0.0,</entry>
-<entry key="Time">0.0,100.0,200.0,300.0,400.0,500.0,600.0,1400.0,1500.0,</entry>
-<entry key="ProcAxisASpeed">0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,</entry>
-<entry key="ProcAxisXSpeed">0.0,0.0,0.0,0.001,0.0,0.0,0.0,0.0,0.0,</entry>
-<entry key="ProcAxisYSpeed">0.0,0.0,0.0,0.0,0.001,0.0,0.0,0.0,0.0,</entry>
-<entry key="ProcAxisBSpeed">0.0,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,</entry>
+<entry key="ProcClamp">0.1,-0.1,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,</entry>
+<entry key="ProcAxisCSpeed">0.0,0.0,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,</entry>
+<entry key="ProcAxisZSpeed">0.0,0.0,0.0,0.0,0.0,0.001,0.0,0.0,0.0,0.0,</entry>
+<entry key="ProcSpindleSpeed">0.0,0.0,0.0,0.0,0.0,0.0,166.0,166.0,0.0,0.0,</entry>
+<entry key="Time">0.0,100.0,200.0,300.0,400.0,500.0,600.0,1400.0,1500.0,1600.0,</entry>
+<entry key="ProcAxisASpeed">0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,</entry>
+<entry key="ProcAxisXSpeed">0.0,0.0,0.0,0.001,0.0,0.0,0.0,0.0,0.0,0.0,</entry>
+<entry key="ProcAxisYSpeed">0.0,0.0,0.0,0.0,0.001,0.0,0.0,0.0,0.0,0.0,</entry>
+<entry key="ProcAxisBSpeed">0.0,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,</entry>
 </properties>

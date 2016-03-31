@@ -18,4 +18,8 @@
   <entry key="Transmission">.010</entry>
   <entry key="Mass">35</entry>
   <entry key="Alpha">35.6</entry>
+  <entry key="MotorType">MotorDC_Example</entry>
+  <entry key="StructureMass">100</entry>
+  <entry key="StructureDuct">StructureDuct</entry>
+  <entry key="StructureMaterial">Steel</entry>
 </properties>

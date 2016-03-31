@@ -171,7 +171,7 @@ public class EModSimulationMain {
 		/* Init machine component objects */
 		for(MachineComponent mc : machineComponentList)
 			mc.getComponent().preSimulation();
-		
+				
 		/* Create solver for fluid circuits */
 		ArrayList<FluidCircuitProperties> fluidPropertyList = new ArrayList<FluidCircuitProperties>();
 		for(MachineComponent mc: Machine.getInstance().getFloodableMachineComponentList())
