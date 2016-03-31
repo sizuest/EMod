@@ -32,28 +32,10 @@
             <name>WGAchseMotor</name>
         </machineComponent>
         <machineComponent>
-            <component xsi:type="motorDC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
-            </component>
-            <name>XAchseMotor</name>
-        </machineComponent>
-        <machineComponent>
             <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
             <name>Einheit4</name>
-        </machineComponent>
-        <machineComponent>
-            <component xsi:type="motorDC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
-            </component>
-            <name>Y1AchseMotor</name>
-        </machineComponent>
-        <machineComponent>
-            <component xsi:type="motorDC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
-            </component>
-            <name>Y2AchseMotor</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -62,34 +44,10 @@
             <name>Einheit5</name>
         </machineComponent>
         <machineComponent>
-            <component xsi:type="motorDC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
-            </component>
-            <name>Z1AchseMotor</name>
-        </machineComponent>
-        <machineComponent>
-            <component xsi:type="motorDC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
-            </component>
-            <name>Z2AchseMotor</name>
-        </machineComponent>
-        <machineComponent>
             <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
             <name>Einheit6</name>
-        </machineComponent>
-        <machineComponent>
-            <component xsi:type="motor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
-            </component>
-            <name>CAchseMotor</name>
-        </machineComponent>
-        <machineComponent>
-            <component xsi:type="motor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
-            </component>
-            <name>BAchseMotor</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="tank" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -272,7 +230,35 @@
             <name>DüseSpindelinnenKühlung</name>
         </machineComponent>
     </machine>
-    <simulators/>
+    <simulators>
+        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>ConstantSimulationControl</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>StaticSimulationControl</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+        </simController>
+    </simulators>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
     <connectionList/>
     <connectionList/>
     <connectionList/>
