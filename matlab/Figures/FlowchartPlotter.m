@@ -83,7 +83,13 @@ for i=1:length(MACHINECOMPONENTS)
     tmp.inputs = {};
     tmp.outputs = {};
     
-    machineComponent.(tmp.name) = tmp;
+    
+    fieldname = strrep(tmp.name, 'ü', 'ue');
+    fieldname = strrep(fieldname, 'ö', 'oe');
+    fieldname = strrep(fieldname, 'Ö', 'Oe');
+    fieldname = strrep(fieldname, 'ä', 'ae');
+    fieldname = strrep(fieldname, ' ', '');
+    machineComponent.(fieldname) = tmp;
 end
 
 % Get Simulators, same as above
@@ -110,6 +116,11 @@ fprintf('[+] %d simulation controllers added\n', length(simController));
 % remove all comments and empty lines
 linkingFile = regexprep( linkingFile, '\#[^\n]+\n', '\n');
 linkingFile = regexprep( linkingFile, '[\s]+\n', '\n');
+linkingFile = strrep(linkingFile, 'ü', 'ue');
+linkingFile = strrep(linkingFile, 'ö', 'oe');
+linkingFile = strrep(linkingFile, 'Ö', 'Oe');
+linkingFile = strrep(linkingFile, 'ä', 'ae');
+linkingFile = strrep(linkingFile, ' ', '');
 
 % remove .Plus, .Sum, .Minus
 % linkingFile = regexprep( linkingFile, {'\.Plus', '\.Sum', '\.Minus' }, '');
@@ -284,7 +295,8 @@ for i=1:length(linksText)
             ~isempty(regexp(linksText{i}{1}, 'HeatFlow', 'ONCE'))|| ...
             ~isempty(regexp(linksText{i}{1}, ':PThermal', 'ONCE'))
         tmp = col.thermal.edge;
-    elseif ~isempty(regexp(linksText{i}{1}, ':Fluid', 'ONCE'))
+    elseif ~isempty(regexp(linksText{i}{1}, ':Fluid', 'ONCE')) || ...
+           ~isempty(regexp(linksText{i}{1}, ':Coolant', 'ONCE'))
         tmp = col.fluid.edge;
     else
         tmp = col.elmech.edge;

@@ -202,7 +202,6 @@ public class Tank extends APhysicalComponent implements Floodable {
 			catch (Exception ee){
 				e.printStackTrace();
 				ee.printStackTrace();
-				//System.exit(-1);
 			}
 		}
 		try {

@@ -2,7 +2,8 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <comment/>
-<entry key="Air">Water</entry>
-<entry key="Volume">1</entry>
+<entry key="Length">.32</entry>
+<entry key="Width">.28</entry>
+<entry key="Height">.15</entry>
 <entry key="Material">HLP46</entry>
 </properties>

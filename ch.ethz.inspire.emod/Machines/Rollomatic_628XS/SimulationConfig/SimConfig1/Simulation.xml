@@ -8,7 +8,7 @@
 <entry key="InitialValue_Tank_Temperature">293.0</entry>
 <entry key="InitialValue_AxisX_TemperatureCoolant">293.0</entry>
 <entry key="InitialValue_AxisA_TemperatureStructure">293.0</entry>
-<entry key="InitialValue_Tank_Mass">50.0</entry>
+<entry key="InitialValue_Tank_Mass">250</entry>
 <entry key="InitialValue_Spindle_TemperatureCoolant">293.0</entry>
 <entry key="InitialValue_AxisZ_TemperatureCoolant">293.0</entry>
 <entry key="InitialValue_AxisY_TemperatureStructure">293.0</entry>
@@ -33,7 +33,7 @@
 <entry key="InitialValue_PumpCoolant_TemperatureFluid">293.0</entry>
 <entry key="InitialValue_AxisC_TemperatureCoolant">293.0</entry>
 <entry key="InitialValue_AxisZ_Position">0.0</entry>
-<entry key="InitialValue_TankHydraulic_Mass">5.0</entry>
+<entry key="InitialValue_TankHydraulic_Mass">13</entry>
 <entry key="InitialValue_AxisY_TemperatureCoolant">293.0</entry>
 <entry key="InitialValue_AxisX_TemperatureStructure">293.0</entry>
 <entry key="InitialValue_PumpHydraulics_TemperatureStructure">293.0</entry>

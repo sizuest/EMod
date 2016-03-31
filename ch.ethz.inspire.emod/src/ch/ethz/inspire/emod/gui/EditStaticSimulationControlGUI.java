@@ -35,7 +35,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import ch.ethz.inspire.emod.gui.utils.TableUtils;
-import ch.ethz.inspire.emod.simulation.MachineState;
+import ch.ethz.inspire.emod.simulation.ComponentState;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
 
 
@@ -137,9 +137,9 @@ public class EditStaticSimulationControlGUI extends EditInputGUI {
 				TableEditor editor = new TableEditor(tableStateStateMap);
 		        final CCombo comboState = new CCombo(tableStateStateMap, SWT.PUSH);
 		        
-		        String[] items = new String[MachineState.values().length];
+		        String[] items = new String[ComponentState.values().length];
 		        for(int i=0; i<items.length; i++)
-		        	items[i] = MachineState.values()[i].toString();
+		        	items[i] = ComponentState.values()[i].toString();
 		        comboState.setItems(items);
 				
 				try {

@@ -21,5 +21,5 @@ package ch.ethz.inspire.emod.simulation;
  *
  */
 public enum ComponentState {
-	ON, OFF, STANDBY, PERIODIC, CONTROLLED;
+	ON, OFF, STANDBY, READY, PERIODIC, CONTROLLED;
 }
