@@ -193,18 +193,10 @@ public class EditStaticSimulationControlGUI extends EditInputGUI {
 	@Override
 	public void save() {
 		for(TableItem ti: tableStateStateMap.getItems())
-			try {
-				input.setValue(ti.getText(0)+"_state", ti.getText(1));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			input.setValue(ti.getText(0)+"_state", ti.getText(1));
 		
 		for(TableItem ti: tableStateOutputMap.getItems())
-			try {
-				input.setValue(ti.getText(0), ti.getText(1));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			input.setValue(ti.getText(0), ti.getText(1));
 		
 		try {
 			input.saveValues();

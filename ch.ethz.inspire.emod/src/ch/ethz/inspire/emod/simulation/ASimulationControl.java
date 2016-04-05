@@ -100,7 +100,6 @@ public abstract class ASimulationControl {
 					stateMap.put(ms, scr.getComponentState(ms.name()));
 			} catch(Exception e) {
 				e.printStackTrace();
-				System.exit(-1);
 			}
 		}
 	}

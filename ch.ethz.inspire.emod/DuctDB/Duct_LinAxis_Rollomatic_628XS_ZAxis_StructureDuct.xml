@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:duct xmlns:ns2="ch.ethz.inspire.emod">
+    <material>
+        <type>GlykolWater_30</type>
+    </material>
+    <name>LinAxis_Rollomatic_628XS_ZAxis_StructureDuct</name>
+    <elements>
+        <elements xsi:type="ductPipe" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Einlass</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.001</radius>
+            </profile>
+            <roughness>0.0</roughness>
+            <length>1.0</length>
+        </elements>
+        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Fitting_Einlass-Sockel</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.10038271604938272</radius>
+            </profile>
+        </elements>
+        <elements xsi:type="ductPipe" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Sockel</name>
+            <profile xsi:type="hpRectangular">
+                <height>0.23</height>
+                <width>0.175</width>
+            </profile>
+            <roughness>0.0</roughness>
+            <length>0.378</length>
+        </elements>
+        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Fitting_Sockel-Auslass</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.10138271604938272</radius>
+            </profile>
+        </elements>
+        <elements xsi:type="ductPipe" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Auslass</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.002</radius>
+            </profile>
+            <roughness>0.0</roughness>
+            <length>1.0</length>
+        </elements>
+    </elements>
+</ns2:duct>

@@ -30,6 +30,8 @@ import ch.ethz.inspire.emod.utils.ParameterSet;
 public class DuctPipe extends ADuctElement {
 	@XmlElement
 	private double roughness;
+	@XmlElement
+	private double length;
 	
 	/**
 	 * Constructor called from XmlUnmarshaller.
@@ -43,7 +45,7 @@ public class DuctPipe extends ADuctElement {
 	 * @param parent
 	 */
 	public void afterUnmarshal(final Unmarshaller u, final Object parent) {
-		//todo
+		init();
 	}
 	
 	/**
@@ -53,6 +55,7 @@ public class DuctPipe extends ADuctElement {
 	public DuctPipe(String name){
 		super();
 		this.name     = name;
+		init();
 	}
 	
 	/**
@@ -68,6 +71,7 @@ public class DuctPipe extends ADuctElement {
 		this.length    = length;
 		this.profile   = new HPCircular(diameter/2);
 		this.roughness = roughness;
+		init();
 	}
 		
 	/**
@@ -81,6 +85,14 @@ public class DuctPipe extends ADuctElement {
 		super();
 		this.name     = name;
 		this.profile = diameter;
+		init();
+	}
+	
+	/**
+	 * Initializes the elemtn
+	 */
+	private void init(){
+		super.length = this.length;
 	}
 
 	@Override
@@ -97,13 +109,15 @@ public class DuctPipe extends ADuctElement {
 	@Override
 	public ParameterSet getParameterSet() {
 		ParameterSet ps = new ParameterSet(this.name);
-		
+		ps.setParameter("Length", this.length, new SiUnit("m"));
 		ps.setParameter("Wall Roughness", this.roughness/1000, new SiUnit("m"));
 		return ps;
 	}
 
 	@XmlTransient
 	public void setParameterSet(ParameterSet ps) {
+		this.length    = ps.getParameter("Length").getValue();
+		super.length   = this.length;
 		this.roughness = ps.getParameter("Wall Roughness").getValue()*1000;
 	}
 

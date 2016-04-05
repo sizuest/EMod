@@ -33,6 +33,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
@@ -92,12 +93,6 @@ public class EditMachineComponentGUI extends AConfigGUI{
 		for(int i=0; i < titles.length; i++){
 			TableColumn column = new TableColumn(tableComponent, SWT.NULL);
 			column.setText(titles[i]);
-		}
-		
-		try {
-			TableUtils.addCellEditor(tableComponent, this, new int[]{1});
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
     	
     	update();
@@ -246,6 +241,18 @@ public class EditMachineComponentGUI extends AConfigGUI{
     }
     
     public void update(){
+    	if(null==component)
+    		return;
+    	
+    	for(Control c: tableComponent.getChildren())
+    		c.dispose();
+    	
+    	try {
+			TableUtils.addCellEditor(tableComponent, this, new int[]{1});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	
     	tableComponent.setItemCount(0);		
 	
 		for(String key: component.getKeys()){
@@ -268,6 +275,7 @@ public class EditMachineComponentGUI extends AConfigGUI{
 					selectMaterialButton.addSelectionListener(new SelectionListener(){
 			        	public void widgetSelected(SelectionEvent event){
 			        		openMaterialSelectGUI(itemProp);
+			        		wasEdited();
 			        	}
 			        	public void widgetDefaultSelected(SelectionEvent event){
 			        		// Not used
@@ -287,6 +295,7 @@ public class EditMachineComponentGUI extends AConfigGUI{
 					selectMaterialButton.addSelectionListener(new SelectionListener(){
 			        	public void widgetSelected(SelectionEvent event){
 			        		openModelSelectGUI(modelClass, itemProp);
+			        		wasEdited();
 			        	}
 			        	public void widgetDefaultSelected(SelectionEvent event){
 			        		// Not used
@@ -306,7 +315,8 @@ public class EditMachineComponentGUI extends AConfigGUI{
 					editDuctButton.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, true, 1, 1));
 					editDuctButton.addSelectionListener(new SelectionListener(){
 			        	public void widgetSelected(SelectionEvent event){
-			        		DuctDesignGUI.editDuctGUI(type, parameter,  name);			        		
+			        		DuctDesignGUI.editDuctGUI(type, parameter,  name);	
+			        		wasEdited();
 			        	}
 			        	public void widgetDefaultSelected(SelectionEvent event){
 			        		// Not used
@@ -333,11 +343,7 @@ public class EditMachineComponentGUI extends AConfigGUI{
 	@Override
 	public void save() {
 		for(TableItem ti: tableComponent.getItems()){
-    		try {
-				component.setValue(ti.getText(0), ti.getText(1));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+    		component.setValue(ti.getText(0), ti.getText(1));
     	}
 		
 		try {

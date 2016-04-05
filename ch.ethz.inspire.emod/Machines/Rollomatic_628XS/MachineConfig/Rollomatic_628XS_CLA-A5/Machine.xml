@@ -33,7 +33,7 @@
         </machineComponent>
         <machineComponent>
             <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
+                <type>Grundfos_SPK-4-5-5</type>
             </component>
             <name>PumpHE</name>
         </machineComponent>
@@ -69,37 +69,37 @@
         </machineComponent>
         <machineComponent>
             <component xsi:type="linAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>ExampleH</type>
+                <type>Rollomatic_628XS_XAxis</type>
             </component>
             <name>AxisX</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="linAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>ExampleV</type>
+                <type>Rollomatic_628XS_YAxis</type>
             </component>
             <name>AxisY</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="linAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>ExampleV</type>
+                <type>Rollomatic_628XS_ZAxis</type>
             </component>
             <name>AxisZ</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="rotAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
+                <type>Rollomatic_628XS_AAxis</type>
             </component>
             <name>AxisA</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="rotAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
+                <type>Rollomatic_628XS_BAxis</type>
             </component>
             <name>AxisB</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="rotAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
+                <type>Rollomatic_628XS_CAxis</type>
             </component>
             <name>AxisC</name>
         </machineComponent>
@@ -250,6 +250,8 @@
             </unit>
         </simController>
     </simulators>
+    <connectionList/>
+    <connectionList/>
     <connectionList/>
     <connectionList/>
     <connectionList/>

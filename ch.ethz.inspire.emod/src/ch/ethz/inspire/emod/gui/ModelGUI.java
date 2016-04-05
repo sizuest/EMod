@@ -20,6 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
@@ -671,6 +672,9 @@ public class ModelGUI extends AGUITab {
     			subitems[i] = subitems[i].replace(mc.getComponent().getModelType() + "_", "");
     			subitems[i] = subitems[i].replace(".xml", "");
     		}   
+    		
+    		//sort by name
+    		Arrays.sort(subitems);
     		
     		//set the possible parameter sets to the combo
     		comboComponentType.setItems(subitems);

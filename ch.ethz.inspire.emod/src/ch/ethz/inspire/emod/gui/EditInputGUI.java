@@ -126,11 +126,7 @@ public class EditInputGUI extends AConfigGUI {
 	@Override
 	public void save() {
 		for(TableItem ti: tableInputProperties.getItems())
-			try {
-				input.setValue(ti.getText(0), ti.getText(1));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			input.setValue(ti.getText(0), ti.getText(1));
 		
 		try {
 			input.saveValues();

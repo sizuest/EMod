@@ -115,6 +115,8 @@ public class MovingMass extends APhysicalComponent{
 		force   = new IOContainer("Force", new SiUnit(Unit.NEWTON), 0, ContainerType.MECHANIC);
 		torque  = new IOContainer("Torque", new SiUnit(Unit.NEWTONMETER), 0, ContainerType.MECHANIC);
 		outputs.add(force);
+		outputs.add(torque);
+
 		
 		/* State */
 		positionLin = new DynamicState("Position", new SiUnit(Unit.M));
@@ -177,7 +179,7 @@ public class MovingMass extends APhysicalComponent{
 		 * where the Acceleration is estimated by the velocity change:
 		 * Acceleration = (v(t)-v(t-Ts))/Ts
 		 */
-		force.setValue(  ( (curspeedLin-lastspeedLin)/timestep + Math.sin(angle*Math.PI/180)*9.81 ) * mass );
+		force.setValue(  ( (curspeedLin-lastspeedLin)/timestep + Math.cos(angle*Math.PI/180)*9.81 ) * mass );
 		torque.setValue( (curspeedRot-lastspeedRot)/timestep * inertia );
 		
 				

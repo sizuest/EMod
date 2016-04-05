@@ -60,3 +60,5 @@ CtrlAxesLin.PDmd = AxisZ.PTotal
 AxisX.State = CtrlCNC
 AxisY.State = CtrlCNC
 AxisZ.State = CtrlCNC
+Tank.FluidIn = AxisZ.CoolantOut
+AxisZ.CoolantIn = ValveCoolant.FluidOut

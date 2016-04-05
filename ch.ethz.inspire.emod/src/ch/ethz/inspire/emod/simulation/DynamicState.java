@@ -213,6 +213,9 @@ public class DynamicState {
 		if(this.parent.equals(""))
 			throw new Exception("Dynamic state '"+name+"': Can't save initial condition: No parent set!");
 		
+		if(Double.isNaN(this.initialValue))
+			return;
+		
 		try {
 			ConfigReader initCond = new ConfigReader( configPath() );
 			initCond.setValue(getInitialConditionName(), this.initialValue);

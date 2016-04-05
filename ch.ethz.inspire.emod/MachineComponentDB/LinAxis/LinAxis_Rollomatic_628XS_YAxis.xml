@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment/>
+<entry key="Alpha">0</entry>
+<entry key="Transmission">.050</entry>
+<entry key="PowerBreakOff">0.0</entry>
+<entry key="StructureMass">5.3</entry>
+<entry key="MotorType">MotorDC_FanucAlphaiS4_5000</entry>
+<entry key="StructureDuct">StructureDuct</entry>
+<entry key="PowerBreakOn">0.0</entry>
+<entry key="StructureMaterial">Motor</entry>
+<entry key="Mass">104</entry>
+</properties>

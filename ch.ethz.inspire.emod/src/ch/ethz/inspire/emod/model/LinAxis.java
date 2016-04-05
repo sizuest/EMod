@@ -91,6 +91,7 @@ public class LinAxis extends APhysicalComponent implements Floodable{
 	private double massValue;       // [kg]     Moved mass
 	private double alpha;           // [deg]    Angle
 	private String motorType;
+	private double powerBreakOn, powerBreakOff;
 	
 	// Submodel
 	private AMotor motor;
@@ -170,9 +171,11 @@ public class LinAxis extends APhysicalComponent implements Floodable{
 			massValue    = params.getDoubleValue("Mass");
 			alpha        = params.getDoubleValue("Alpha");
 			motorType    = params.getString("MotorType");
+			powerBreakOn = params.getValue("PowerBreakOn", 0.0);
+			powerBreakOff= params.getValue("PowerBreakOff", 0.0);
 			
 			/* Sub Model Motor */
-			String[] mdlType = motorType.split("_");
+			String[] mdlType = motorType.split("_", 2);
 			
 			// Create Sub Elements
 			try {
@@ -286,14 +289,11 @@ public class LinAxis extends APhysicalComponent implements Floodable{
 			 * 
 			 * Remark: transmission is [m/rev]
 			 */
-			motor.getInput("Torque").setValue(transmission * ( lastforce - massValue*9.81*Math.cos(alpha*Math.PI/180) ) );
-			/* Powers
-			 * PUse [W] = v [m/s] * F [N]
-			 * PTotal [W] = omega [rpm] * 2*pi/60 [rad/s/rpm] * T [N]
-			 * PLoss [W] = PTotal [W] - PUse [W];
-			 */
+			motor.getInput("Torque").setValue(transmission * lastforce / 2 / Math.PI);
+			motor.update();
+			/* Powers */
 			puse.setValue(Math.abs(lastspeed*2*Math.PI*lastforce));
-			ptotal.setValue(motor.getOutput("PTotal").getValue());
+			ptotal.setValue(motor.getOutput("PTotal").getValue()+powerBreakOff);
 			ploss.setValue(ptotal.getValue()-puse.getValue());
 			
 		}
@@ -303,8 +303,8 @@ public class LinAxis extends APhysicalComponent implements Floodable{
 			motor.getOutput("PTotal").setValue(0);
 			
 			puse.setValue(0);
-			ptotal.setValue(0);
-			ploss.setValue(0);
+			ptotal.setValue(powerBreakOn);
+			ploss.setValue(powerBreakOn);
 		}
 		
 		if(coolantConnected) {

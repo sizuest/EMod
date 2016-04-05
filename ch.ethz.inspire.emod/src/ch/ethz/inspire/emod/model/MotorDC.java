@@ -140,7 +140,6 @@ public class MotorDC extends AMotor{
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			System.exit(-1);
 		}
 		
 		/* Read the config parameter: */
@@ -254,14 +253,14 @@ public class MotorDC extends AMotor{
 		 *	     (kappa_i [V/rmp] * omega [rpm] + (T_m [Nm] + T_f [Nm])/kappa_a [Nm/A] * R_a [Ohm])
 		 *		  + P_brake [W]
 		 */
-		pel.setValue( p*(lasttorque+frictionTorque)/kappa_a * 
-					  ( kappa_i*lastrotspeed + (lasttorque+frictionTorque)*armatureResistance / kappa_a  ) );
+		pel.setValue( p*(lasttorque+frictionTorque*Math.abs(Math.signum(lastrotspeed)))/kappa_a * 
+					  ( kappa_i*lastrotspeed + (lasttorque+frictionTorque*Math.abs(Math.signum(lastrotspeed)))*armatureResistance / kappa_a  ) );
 		
 		/* The heat loss is equal to the power by the resistor power plus 
 		 * the amplifier loss 
 		 * pel =  ((T_m [Nm] + T_f [Nm])/kappa_a [Nm/A] )^2 * R_a [Ohm] +P_th_amp [W] 
 		 */
-		ploss.setValue( p*Math.pow(((lasttorque+frictionTorque)/kappa_a),2) * armatureResistance );
+		ploss.setValue( p*Math.pow(((lasttorque+frictionTorque*Math.abs(Math.signum(lastrotspeed)))/kappa_a),2) * armatureResistance );
 		
 		/* The mechanical power is given by the rotational speed and the torque:
 		 * pmech = T_m [Nm] * omega [rpm] * pi/30 [rad/rpm]

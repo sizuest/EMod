@@ -106,7 +106,7 @@ public class ConfigReader {
 	 * @throws Exception if the property could not be found or if the value could
 	 *         not be converted to a double value.
 	 */
-	public double getDoubleValue(String paramname) throws Exception
+	public Double getDoubleValue(String paramname) throws Exception
 	{
 		String valstr = props.getProperty(paramname);
 		if (valstr == null) {
@@ -157,7 +157,7 @@ public class ConfigReader {
 	 * @throws Exception if the property could not be found or if the value could
 	 *         not be converted to a integer value.
 	 */
-	public int getIntValue(String paramname) throws Exception
+	public Integer getIntValue(String paramname) throws Exception
 	{
 		String valstr = props.getProperty(paramname);
 		if (valstr == null) {
@@ -187,7 +187,7 @@ public class ConfigReader {
 	 * @throws Exception if the property could not be found or if the value could
 	 *         not be converted to a boolean value.
 	 */
-	public boolean getBooleanValue(String paramname) throws Exception
+	public Boolean getBooleanValue(String paramname) throws Exception
 	{
 		String valstr = props.getProperty(paramname);
 		if (valstr == null) {
@@ -339,7 +339,17 @@ public class ConfigReader {
 	 * @param value
 	 * @throws IOException 
 	 */
-	public void setValue(String name, String value) throws IOException {
+	public void setValue(String name, Object value) {
+		props.setProperty(name, value.toString());
+	}
+	
+	/**
+	 * Sets the property "name" to "value"
+	 * @param name
+	 * @param value
+	 * @throws IOException 
+	 */
+	public void setValue(String name, String value) {
 		props.setProperty(name, value);
 	}
 	
@@ -349,7 +359,7 @@ public class ConfigReader {
 	 * @param value
 	 * @throws IOException 
 	 */
-	public void setValue(String name, double value) throws IOException {
+	public void setValue(String name, double value) {
 		props.setProperty(name, Double.toString(value));
 	}
 	
@@ -359,7 +369,7 @@ public class ConfigReader {
 	 * @param value
 	 * @throws IOException 
 	 */
-	public void setValue(String name, boolean value) throws IOException {
+	public void setValue(String name, boolean value) {
 		props.setProperty(name, Boolean.toString(value));
 	}
 	
@@ -369,18 +379,18 @@ public class ConfigReader {
 	 * @param value
 	 * @throws IOException 
 	 */
-	public void setValue(String name, double[] value) throws IOException{
+	public void setValue(String name, double[] value) {
 		String valueAsString = "";
 		for(double v : value)
 			valueAsString += Double.toString(v)+",";
 		props.setProperty(name,  valueAsString);
 	}
 	
-	public void setValue(String name, PhysicalValue value) throws IOException{
+	public void setValue(String name, PhysicalValue value) {
 		props.setProperty(name, value.toString());
 	}
 	
-	public void deleteValue(String name) throws IOException{
+	public void deleteValue(String name) {
 		props.remove(name);
 	}
 	
@@ -460,6 +470,56 @@ public class ConfigReader {
 		}
 		
 		return keys;
+	}
+	
+	/**
+	 * Reading values with error handling
+	 * @param paramname 
+	 * @param defVal 
+	 * @return 
+	 * @return 
+	 * @throws Exception 
+	 */
+	@SuppressWarnings("unchecked")
+	public <T> T getValue(String paramname, T defVal) throws Exception{
+		
+		T value = defVal;
+		
+		try{
+			if(value instanceof String)
+				value = (T) getString(paramname);
+			else if(value instanceof Double)
+				value = (T) getDoubleValue(paramname);
+			else if(value instanceof PhysicalValue)
+				value = (T) getPhysicalValue(paramname);
+			else if(value instanceof Integer)
+				value = (T) getIntValue(paramname);
+			else if(value instanceof Boolean)
+				value = (T) getBooleanValue(paramname);
+			else if(value instanceof Double[])
+				value = (T) getDoubleArray(paramname);
+			else if(value instanceof Double[][])
+				value = (T) getDoubleMatrix(paramname);
+			else if(value instanceof Material)
+				value = (T) getMaterial(paramname);
+			else if(value instanceof String[])
+				value = (T) getStringArray(paramname);
+			else
+				throw new Exception("ConfigReader: No action defined for type "+defVal.getClass().getSimpleName());
+		}
+		catch(Exception e){
+			System.err.println(e.getMessage());
+			System.out.println("ConfigReader: "+fileName+": Creating new parameter '"+paramname+"' with value '"+defVal+"'");
+			
+			setValue(paramname, defVal);
+			try {
+				saveValues();
+			} catch (IOException e1) {
+				throw e1;
+			}
+		}
+		
+		return value;
 	}
 	
 }

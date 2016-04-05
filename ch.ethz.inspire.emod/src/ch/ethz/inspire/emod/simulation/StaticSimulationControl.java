@@ -89,12 +89,18 @@ public class StaticSimulationControl extends ASimulationControl {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		try {
-			
-			// loop over all machine states
-			for(ComponentState cs : ComponentState.values()) {
+		
+		
+		// loop over all machine states
+		for(ComponentState cs : ComponentState.values()) {
+			try {	
 				samples.add(scr.getDoubleArray(cs.name()));
+			} catch(Exception e) {
+				samples.add(new double[]{0});
 			}
+		}
+		
+		try {
 			simulationPeriod = scr.getDoubleValue("samplePeriod");
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -130,7 +136,6 @@ public class StaticSimulationControl extends ASimulationControl {
 			}
 			catch (Exception ex) {
 				ex.printStackTrace();
-				System.exit(-1);
 			}
 			simulationPeriod = periodLength;
 		}

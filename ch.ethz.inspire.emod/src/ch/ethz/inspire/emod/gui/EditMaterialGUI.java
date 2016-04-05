@@ -297,11 +297,7 @@ public class EditMaterialGUI extends AConfigGUI {
 	public void save() {
 		
 		for(TableItem ti: tableMaterialProperties.getItems()){
-    		try {
-				material.setValue(ti.getText(0), ti.getText(1));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+    		material.setValue(ti.getText(0), ti.getText(1));
     	}
 		
 		try {

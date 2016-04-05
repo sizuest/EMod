@@ -582,13 +582,13 @@ public class Machine {
 					Exception ex = new Exception("checkMachineConfig: Input " + 
 							mc.getName() + "." + mcinput.getName() +
 							" is not connected!");
-					System.err.print(ex.getMessage());
+					System.out.println(ex.getMessage());
 				}
 				else if (mc_in_iolist_cnt >= 2) {
 					Exception ex = new Exception("checkMachineConfig: Input " + 
 							mc.getName() + "." + mcinput.getName() +
 							" is linked multiple times!");
-					System.err.print(ex.getMessage());
+					System.err.println(ex.getMessage());
 				}
 			}
 		}

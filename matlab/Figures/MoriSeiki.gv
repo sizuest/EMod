@@ -1,0 +1,230 @@
+digraph g {
+rankdir=LR;
+splines=true;
+overlap=scale;
+node [shape=plaintext];
+Einheit1 [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PDmd" ALIGN="left"><FONT COLOR="black">PDmd</FONT></TD></TR><TR><TD PORT="State" ALIGN="left"><FONT COLOR="black">State</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">Einheit1</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PTotal" ALIGN="right"><FONT COLOR="black">PTotal</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: amplifier</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+Einheit2 [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PDmd" ALIGN="left"><FONT COLOR="black">PDmd</FONT></TD></TR><TR><TD PORT="State" ALIGN="left"><FONT COLOR="black">State</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">Einheit2</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PTotal" ALIGN="right"><FONT COLOR="black">PTotal</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: amplifier</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+Spindel [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="CoolantIn" ALIGN="left"><FONT COLOR="black">CoolantIn</FONT></TD></TR><TR><TD PORT="RotSpeed" ALIGN="left"><FONT COLOR="black">RotSpeed</FONT></TD></TR><TR><TD PORT="State" ALIGN="left"><FONT COLOR="black">State</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">Spindel</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="CoolantOut" ALIGN="right"><FONT COLOR="black">CoolantOut</FONT></TD></TR><TR><TD PORT="PTotal" ALIGN="right"><FONT COLOR="black">PTotal</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: spindle</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+Einheit3 [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PDmd" ALIGN="left"><FONT COLOR="black">PDmd</FONT></TD></TR><TR><TD PORT="State" ALIGN="left"><FONT COLOR="black">State</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">Einheit3</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PTotal" ALIGN="right"><FONT COLOR="black">PTotal</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: amplifier</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+WGAchseMotor [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"></TABLE></TD><TD><B><FONT COLOR="black">WGAchseMotor</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PTotal" ALIGN="right"><FONT COLOR="black">PTotal</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: motorDC</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+Einheit4 [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PDmd" ALIGN="left"><FONT COLOR="black">PDmd</FONT></TD></TR><TR><TD PORT="State" ALIGN="left"><FONT COLOR="black">State</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">Einheit4</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PTotal" ALIGN="right"><FONT COLOR="black">PTotal</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: amplifier</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+Einheit5 [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PDmd" ALIGN="left"><FONT COLOR="black">PDmd</FONT></TD></TR><TR><TD PORT="State" ALIGN="left"><FONT COLOR="black">State</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">Einheit5</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PTotal" ALIGN="right"><FONT COLOR="black">PTotal</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: amplifier</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+Einheit6 [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PDmd" ALIGN="left"><FONT COLOR="black">PDmd</FONT></TD></TR><TR><TD PORT="State" ALIGN="left"><FONT COLOR="black">State</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">Einheit6</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="PTotal" ALIGN="right"><FONT COLOR="black">PTotal</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: amplifier</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+TankKuehlmittel [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidIn" ALIGN="left"><FONT COLOR="black">FluidIn</FONT></TD></TR><TR><TD PORT="PressureAmb" ALIGN="left"><FONT COLOR="black">PressureAmb</FONT></TD></TR><TR><TD PORT="TemperatureAmb" ALIGN="left"><FONT COLOR="black">TemperatureAmb</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">TankKuehlmittel</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidOut" ALIGN="right"><FONT COLOR="black">FluidOut</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: tank</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+Spindelkuehlmittelpumpe1 [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidIn" ALIGN="left"><FONT COLOR="black">FluidIn</FONT></TD></TR><TR><TD PORT="State" ALIGN="left"><FONT COLOR="black">State</FONT></TD></TR><TR><TD PORT="TemperatureAmb" ALIGN="left"><FONT COLOR="black">TemperatureAmb</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">Spindelkuehlmittelpumpe1</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidOut" ALIGN="right"><FONT COLOR="black">FluidOut</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: pump</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+PumpeTrommelfilter [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidIn" ALIGN="left"><FONT COLOR="black">FluidIn</FONT></TD></TR><TR><TD PORT="State" ALIGN="left"><FONT COLOR="black">State</FONT></TD></TR><TR><TD PORT="TemperatureAmb" ALIGN="left"><FONT COLOR="black">TemperatureAmb</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">PumpeTrommelfilter</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidOut" ALIGN="right"><FONT COLOR="black">FluidOut</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: pump</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+PumpefuerKuehlmitteleinheit3 [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidIn" ALIGN="left"><FONT COLOR="black">FluidIn</FONT></TD></TR><TR><TD PORT="State" ALIGN="left"><FONT COLOR="black">State</FONT></TD></TR><TR><TD PORT="TemperatureAmb" ALIGN="left"><FONT COLOR="black">TemperatureAmb</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">PumpefuerKuehlmitteleinheit3</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidOut" ALIGN="right"><FONT COLOR="black">FluidOut</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: pump</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+PumpeSpaeneEntfernen [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidIn" ALIGN="left"><FONT COLOR="black">FluidIn</FONT></TD></TR><TR><TD PORT="State" ALIGN="left"><FONT COLOR="black">State</FONT></TD></TR><TR><TD PORT="TemperatureAmb" ALIGN="left"><FONT COLOR="black">TemperatureAmb</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">PumpeSpaeneEntfernen</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidOut" ALIGN="right"><FONT COLOR="black">FluidOut</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: pump</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+PumpeSpindelinnenkuehlung [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidIn" ALIGN="left"><FONT COLOR="black">FluidIn</FONT></TD></TR><TR><TD PORT="State" ALIGN="left"><FONT COLOR="black">State</FONT></TD></TR><TR><TD PORT="TemperatureAmb" ALIGN="left"><FONT COLOR="black">TemperatureAmb</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">PumpeSpindelinnenkuehlung</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidOut" ALIGN="right"><FONT COLOR="black">FluidOut</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: pump</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+DreiwegeventilSpindelkuehlung [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidIn" ALIGN="left"><FONT COLOR="black">FluidIn</FONT></TD></TR><TR><TD PORT="ValveCtrl" ALIGN="left"><FONT COLOR="black">ValveCtrl</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">DreiwegeventilSpindelkuehlung</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidOut" ALIGN="right"><FONT COLOR="black">FluidOut</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: valve</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+KabeltraegerxyzAchseSpindelkuehlung [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidIn" ALIGN="left"><FONT COLOR="black">FluidIn</FONT></TD></TR><TR><TD PORT="TemperatureAmb" ALIGN="left"><FONT COLOR="black">TemperatureAmb</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">KabeltraegerxyzAchseSpindelkuehlung</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidOut" ALIGN="right"><FONT COLOR="black">FluidOut</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: pipe</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+DueseSpindelkuehlmittel [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidIn" ALIGN="left"><FONT COLOR="black">FluidIn</FONT></TD></TR><TR><TD PORT="ValveCtrl" ALIGN="left"><FONT COLOR="black">ValveCtrl</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">DueseSpindelkuehlmittel</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidOut" ALIGN="right"><FONT COLOR="black">FluidOut</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: valve</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+ValveTrommelfilter [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidIn" ALIGN="left"><FONT COLOR="black">FluidIn</FONT></TD></TR><TR><TD PORT="ValveCtrl" ALIGN="left"><FONT COLOR="black">ValveCtrl</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">ValveTrommelfilter</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidOut" ALIGN="right"><FONT COLOR="black">FluidOut</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: valve</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+LeitungEntfernenSpaenen [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidIn" ALIGN="left"><FONT COLOR="black">FluidIn</FONT></TD></TR><TR><TD PORT="TemperatureAmb" ALIGN="left"><FONT COLOR="black">TemperatureAmb</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">LeitungEntfernenSpaenen</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidOut" ALIGN="right"><FONT COLOR="black">FluidOut</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: pipe</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+DueseSpaene1 [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidIn" ALIGN="left"><FONT COLOR="black">FluidIn</FONT></TD></TR><TR><TD PORT="ValveCtrl" ALIGN="left"><FONT COLOR="black">ValveCtrl</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">DueseSpaene1</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidOut" ALIGN="right"><FONT COLOR="black">FluidOut</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: valve</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+DueseSpaene2 [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidIn" ALIGN="left"><FONT COLOR="black">FluidIn</FONT></TD></TR><TR><TD PORT="ValveCtrl" ALIGN="left"><FONT COLOR="black">ValveCtrl</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">DueseSpaene2</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidOut" ALIGN="right"><FONT COLOR="black">FluidOut</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: valve</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+DueseSpaene3 [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidIn" ALIGN="left"><FONT COLOR="black">FluidIn</FONT></TD></TR><TR><TD PORT="ValveCtrl" ALIGN="left"><FONT COLOR="black">ValveCtrl</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">DueseSpaene3</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidOut" ALIGN="right"><FONT COLOR="black">FluidOut</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: valve</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+TankKuehloel [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidIn" ALIGN="left"><FONT COLOR="black">FluidIn</FONT></TD></TR><TR><TD PORT="PressureAmb" ALIGN="left"><FONT COLOR="black">PressureAmb</FONT></TD></TR><TR><TD PORT="TemperatureAmb" ALIGN="left"><FONT COLOR="black">TemperatureAmb</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">TankKuehloel</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidOut" ALIGN="right"><FONT COLOR="black">FluidOut</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: tank</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+PumpeOeltemperaturregler [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidIn" ALIGN="left"><FONT COLOR="black">FluidIn</FONT></TD></TR><TR><TD PORT="State" ALIGN="left"><FONT COLOR="black">State</FONT></TD></TR><TR><TD PORT="TemperatureAmb" ALIGN="left"><FONT COLOR="black">TemperatureAmb</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">PumpeOeltemperaturregler</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidOut" ALIGN="right"><FONT COLOR="black">FluidOut</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: pump</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+KuehlungKernY1Achse [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="CoolantIn" ALIGN="left"><FONT COLOR="black">CoolantIn</FONT></TD></TR><TR><TD PORT="Speed" ALIGN="left"><FONT COLOR="black">Speed</FONT></TD></TR><TR><TD PORT="State" ALIGN="left"><FONT COLOR="black">State</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">KuehlungKernY1Achse</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="CoolantOut" ALIGN="right"><FONT COLOR="black">CoolantOut</FONT></TD></TR><TR><TD PORT="PTotal" ALIGN="right"><FONT COLOR="black">PTotal</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: linAxis</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Test</FONT></TD></TR></TABLE>
+> ];
+KuehlungKernY2Achse [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="CoolantIn" ALIGN="left"><FONT COLOR="black">CoolantIn</FONT></TD></TR><TR><TD PORT="Speed" ALIGN="left"><FONT COLOR="black">Speed</FONT></TD></TR><TR><TD PORT="State" ALIGN="left"><FONT COLOR="black">State</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">KuehlungKernY2Achse</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="CoolantOut" ALIGN="right"><FONT COLOR="black">CoolantOut</FONT></TD></TR><TR><TD PORT="PTotal" ALIGN="right"><FONT COLOR="black">PTotal</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: linAxis</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Test</FONT></TD></TR></TABLE>
+> ];
+KuehlungKernXAchse [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="CoolantIn" ALIGN="left"><FONT COLOR="black">CoolantIn</FONT></TD></TR><TR><TD PORT="Speed" ALIGN="left"><FONT COLOR="black">Speed</FONT></TD></TR><TR><TD PORT="State" ALIGN="left"><FONT COLOR="black">State</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">KuehlungKernXAchse</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="CoolantOut" ALIGN="right"><FONT COLOR="black">CoolantOut</FONT></TD></TR><TR><TD PORT="PTotal" ALIGN="right"><FONT COLOR="black">PTotal</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: linAxis</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Test</FONT></TD></TR></TABLE>
+> ];
+KuehlungKernZ2Achse [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="CoolantIn" ALIGN="left"><FONT COLOR="black">CoolantIn</FONT></TD></TR><TR><TD PORT="Speed" ALIGN="left"><FONT COLOR="black">Speed</FONT></TD></TR><TR><TD PORT="State" ALIGN="left"><FONT COLOR="black">State</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">KuehlungKernZ2Achse</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="CoolantOut" ALIGN="right"><FONT COLOR="black">CoolantOut</FONT></TD></TR><TR><TD PORT="PTotal" ALIGN="right"><FONT COLOR="black">PTotal</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: linAxis</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Test</FONT></TD></TR></TABLE>
+> ];
+KuehlungKernZ1Achse [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="CoolantIn" ALIGN="left"><FONT COLOR="black">CoolantIn</FONT></TD></TR><TR><TD PORT="Speed" ALIGN="left"><FONT COLOR="black">Speed</FONT></TD></TR><TR><TD PORT="State" ALIGN="left"><FONT COLOR="black">State</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">KuehlungKernZ1Achse</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="CoolantOut" ALIGN="right"><FONT COLOR="black">CoolantOut</FONT></TD></TR><TR><TD PORT="PTotal" ALIGN="right"><FONT COLOR="black">PTotal</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: linAxis</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Test</FONT></TD></TR></TABLE>
+> ];
+KuehlungCAchse [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="CoolantIn" ALIGN="left"><FONT COLOR="black">CoolantIn</FONT></TD></TR><TR><TD PORT="Speed" ALIGN="left"><FONT COLOR="black">Speed</FONT></TD></TR><TR><TD PORT="State" ALIGN="left"><FONT COLOR="black">State</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">KuehlungCAchse</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="CoolantOut" ALIGN="right"><FONT COLOR="black">CoolantOut</FONT></TD></TR><TR><TD PORT="PTotal" ALIGN="right"><FONT COLOR="black">PTotal</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: rotAxis</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+KuehlungBAchse [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="CoolantIn" ALIGN="left"><FONT COLOR="black">CoolantIn</FONT></TD></TR><TR><TD PORT="Speed" ALIGN="left"><FONT COLOR="black">Speed</FONT></TD></TR><TR><TD PORT="State" ALIGN="left"><FONT COLOR="black">State</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">KuehlungBAchse</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="CoolantOut" ALIGN="right"><FONT COLOR="black">CoolantOut</FONT></TD></TR><TR><TD PORT="PTotal" ALIGN="right"><FONT COLOR="black">PTotal</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: rotAxis</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+KuehlmitteleinheitWaermetauscher [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidIn" ALIGN="left"><FONT COLOR="black">FluidIn</FONT></TD></TR><TR><TD PORT="State" ALIGN="left"><FONT COLOR="black">State</FONT></TD></TR><TR><TD PORT="TemperatureAmb" ALIGN="left"><FONT COLOR="black">TemperatureAmb</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">KuehlmitteleinheitWaermetauscher</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidOut" ALIGN="right"><FONT COLOR="black">FluidOut</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: heatExchangerAir</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+Hochdruckkuehlmitteleinheit [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidIn" ALIGN="left"><FONT COLOR="black">FluidIn</FONT></TD></TR><TR><TD PORT="State" ALIGN="left"><FONT COLOR="black">State</FONT></TD></TR><TR><TD PORT="TemperatureAmb" ALIGN="left"><FONT COLOR="black">TemperatureAmb</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">Hochdruckkuehlmitteleinheit</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidOut" ALIGN="right"><FONT COLOR="black">FluidOut</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: heatExchangerAir</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+KabeltraegerxyzAchseSpindelinnenkuehlung1 [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidIn" ALIGN="left"><FONT COLOR="black">FluidIn</FONT></TD></TR><TR><TD PORT="TemperatureAmb" ALIGN="left"><FONT COLOR="black">TemperatureAmb</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">KabeltraegerxyzAchseSpindelinnenkuehlung1</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidOut" ALIGN="right"><FONT COLOR="black">FluidOut</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: pipe</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+DueseSpindelinnenKuehlung [ label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE COLOR="black" BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidIn" ALIGN="left"><FONT COLOR="black">FluidIn</FONT></TD></TR><TR><TD PORT="ValveCtrl" ALIGN="left"><FONT COLOR="black">ValveCtrl</FONT></TD></TR></TABLE></TD><TD><B><FONT COLOR="black">DueseSpindelinnenKuehlung</FONT></B></TD><TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD PORT="FluidOut" ALIGN="right"><FONT COLOR="black">FluidOut</FONT></TD></TR></TABLE></TD></TR></TABLE></TD></TR><TR><TD><FONT COLOR="black"><I>model: valve</I></FONT></TD></TR><TR><TD><FONT COLOR="black">type: Example</FONT></TD></TR></TABLE>
+> ];
+AmbientTemperature [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="green"><B>AmbientTemperature</B></FONT></TD></TR><TR><TD><I><FONT COLOR="green">constantSimulationControl</FONT></I></TD></TR></TABLE>> ];
+PumpenKühlölKühlmittelControl [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="green"><B>PumpenKühlölKühlmittelControl</B></FONT></TD></TR><TR><TD><I><FONT COLOR="green">staticSimulationControl</FONT></I></TD></TR></TABLE>> ];
+AmbientPressure [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="green"><B>AmbientPressure</B></FONT></TD></TR><TR><TD><I><FONT COLOR="green">constantSimulationControl</FONT></I></TD></TR></TABLE>> ];
+Einheiten123456Control [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="green"><B>Einheiten123456Control</B></FONT></TD></TR><TR><TD><I><FONT COLOR="green">staticSimulationControl</FONT></I></TD></TR></TABLE>> ];
+XAchseControl [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="green"><B>XAchseControl</B></FONT></TD></TR><TR><TD><I><FONT COLOR="green">processSimulationControl</FONT></I></TD></TR></TABLE>> ];
+CAchseControl [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="green"><B>CAchseControl</B></FONT></TD></TR><TR><TD><I><FONT COLOR="green">processSimulationControl</FONT></I></TD></TR></TABLE>> ];
+ZAchseControl [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="green"><B>ZAchseControl</B></FONT></TD></TR><TR><TD><I><FONT COLOR="green">processSimulationControl</FONT></I></TD></TR></TABLE>> ];
+YAchseControl [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="green"><B>YAchseControl</B></FONT></TD></TR><TR><TD><I><FONT COLOR="green">processSimulationControl</FONT></I></TD></TR></TABLE>> ];
+BAchseControl [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="green"><B>BAchseControl</B></FONT></TD></TR><TR><TD><I><FONT COLOR="green">processSimulationControl</FONT></I></TD></TR></TABLE>> ];
+VentilTrommelfilterConctrol [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="green"><B>VentilTrommelfilterConctrol</B></FONT></TD></TR><TR><TD><I><FONT COLOR="green">processSimulationControl</FONT></I></TD></TR></TABLE>> ];
+VentileKühlmittelSpindelundKammerControl [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="green"><B>VentileKühlmittelSpindelundKammerControl</B></FONT></TD></TR><TR><TD><I><FONT COLOR="green">processSimulationControl</FONT></I></TD></TR></TABLE>> ];
+CNCOnControl [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="green"><B>CNCOnControl</B></FONT></TD></TR><TR><TD><I><FONT COLOR="green">staticSimulationControl</FONT></I></TD></TR></TABLE>> ];
+SpindelRotControl [ label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><FONT COLOR="green"><B>SpindelRotControl</B></FONT></TD></TR><TR><TD><I><FONT COLOR="green">processSimulationControl</FONT></I></TD></TR></TABLE>> ];
+Einheit2:PTotal -> Einheit1:PDmd[color="black", style="solid"]
+Spindel:PTotal -> Einheit2:PDmd[color="black", style="solid"]
+Einheit3:PTotal -> Einheit1:PDmd[color="black", style="solid"]
+DreiwegeventilSpindelkuehlung:FluidOut -> KabeltraegerxyzAchseSpindelkuehlung:FluidIn[color="blue", style="solid"]
+Spindelkuehlmittelpumpe1:FluidOut -> DreiwegeventilSpindelkuehlung:FluidIn[color="blue", style="solid"]
+KabeltraegerxyzAchseSpindelkuehlung:FluidOut -> DueseSpindelkuehlmittel:FluidIn[color="blue", style="solid"]
+TankKuehlmittel:FluidOut -> Spindelkuehlmittelpumpe1:FluidIn[color="blue", style="solid"]
+DueseSpindelkuehlmittel:FluidOut -> TankKuehlmittel:FluidIn[color="blue", style="solid"]
+ValveTrommelfilter:FluidOut -> TankKuehlmittel:FluidIn[color="blue", style="solid"]
+TankKuehlmittel:FluidOut -> PumpeTrommelfilter:FluidIn[color="blue", style="solid"]
+PumpeTrommelfilter:FluidOut -> ValveTrommelfilter:FluidIn[color="blue", style="solid"]
+DueseSpaene1:FluidOut -> TankKuehlmittel:FluidIn[color="blue", style="solid"]
+TankKuehlmittel:FluidOut -> PumpeSpaeneEntfernen:FluidIn[color="blue", style="solid"]
+PumpeSpaeneEntfernen:FluidOut -> LeitungEntfernenSpaenen:FluidIn[color="blue", style="solid"]
+LeitungEntfernenSpaenen:FluidOut -> DueseSpaene1:FluidIn[color="blue", style="solid"]
+LeitungEntfernenSpaenen:FluidOut -> DueseSpaene2:FluidIn[color="blue", style="solid"]
+LeitungEntfernenSpaenen:FluidOut -> DueseSpaene3:FluidIn[color="blue", style="solid"]
+DueseSpaene2:FluidOut -> TankKuehlmittel:FluidIn[color="blue", style="solid"]
+DueseSpaene3:FluidOut -> TankKuehlmittel:FluidIn[color="blue", style="solid"]
+PumpeOeltemperaturregler:FluidOut -> Spindel:CoolantIn[color="blue", style="solid"]
+TankKuehloel:FluidOut -> PumpeOeltemperaturregler:FluidIn[color="blue", style="solid"]
+PumpefuerKuehlmitteleinheit3:FluidOut -> KuehlmitteleinheitWaermetauscher:FluidIn[color="blue", style="solid"]
+KuehlmitteleinheitWaermetauscher:FluidOut -> TankKuehlmittel:FluidIn[color="blue", style="solid"]
+TankKuehlmittel:FluidOut -> PumpefuerKuehlmitteleinheit3:FluidIn[color="blue", style="solid"]
+DueseSpindelinnenKuehlung:FluidOut -> TankKuehlmittel:FluidIn[color="blue", style="solid"]
+TankKuehlmittel:FluidOut -> PumpeSpindelinnenkuehlung:FluidIn[color="blue", style="solid"]
+PumpeSpindelinnenkuehlung:FluidOut -> Hochdruckkuehlmitteleinheit:FluidIn[color="blue", style="solid"]
+Hochdruckkuehlmitteleinheit:FluidOut -> KabeltraegerxyzAchseSpindelinnenkuehlung1:FluidIn[color="blue", style="solid"]
+KabeltraegerxyzAchseSpindelinnenkuehlung1:FluidOut -> DueseSpindelinnenKuehlung:FluidIn[color="blue", style="solid"]
+Spindel:CoolantOut -> KuehlungKernY1Achse:CoolantIn[color="blue", style="solid"]
+Spindel:CoolantOut -> KuehlungKernY2Achse:CoolantIn[color="blue", style="solid"]
+Spindel:CoolantOut -> KuehlungKernXAchse:CoolantIn[color="blue", style="solid"]
+Spindel:CoolantOut -> KuehlungKernZ2Achse:CoolantIn[color="blue", style="solid"]
+Spindel:CoolantOut -> KuehlungKernZ1Achse:CoolantIn[color="blue", style="solid"]
+Spindel:CoolantOut -> KuehlungCAchse:CoolantIn[color="blue", style="solid"]
+Spindel:CoolantOut -> KuehlungBAchse:CoolantIn[color="blue", style="solid"]
+KuehlungKernY1Achse:CoolantOut -> TankKuehloel:FluidIn[color="blue", style="solid"]
+KuehlungKernY2Achse:CoolantOut -> TankKuehloel:FluidIn[color="blue", style="solid"]
+KuehlungKernXAchse:CoolantOut -> TankKuehloel:FluidIn[color="blue", style="solid"]
+KuehlungKernZ2Achse:CoolantOut -> TankKuehloel:FluidIn[color="blue", style="solid"]
+KuehlungKernZ1Achse:CoolantOut -> TankKuehloel:FluidIn[color="blue", style="solid"]
+KuehlungCAchse:CoolantOut -> TankKuehloel:FluidIn[color="blue", style="solid"]
+KuehlungBAchse:CoolantOut -> TankKuehloel:FluidIn[color="blue", style="solid"]
+WGAchseMotor:PTotal -> Einheit3:PDmd[color="black", style="solid"]
+KuehlungKernXAchse:PTotal -> Einheit3:PDmd[color="black", style="solid"]
+KuehlungKernY1Achse:PTotal -> Einheit4:PDmd[color="black", style="solid"]
+KuehlungKernY2Achse:PTotal -> Einheit4:PDmd[color="black", style="solid"]
+KuehlungKernZ2Achse:PTotal -> Einheit5:PDmd[color="black", style="solid"]
+KuehlungKernZ1Achse:PTotal -> Einheit5:PDmd[color="black", style="solid"]
+KuehlungCAchse:PTotal -> Einheit6:PDmd[color="black", style="solid"]
+KuehlungBAchse:PTotal -> Einheit6:PDmd[color="black", style="solid"]
+Einheit4:PTotal -> Einheit1:PDmd[color="black", style="solid"]
+Einheit5:PTotal -> Einheit1:PDmd[color="black", style="solid"]
+Einheit6:PTotal -> Einheit1:PDmd[color="black", style="solid"]
+Einheiten123456Control-> Einheit1:State[color="green", style="solid"]
+Einheiten123456Control-> Einheit2:State[color="green", style="solid"]
+Einheiten123456Control-> Einheit3:State[color="green", style="solid"]
+Einheiten123456Control-> Einheit4:State[color="green", style="solid"]
+Einheiten123456Control-> Einheit5:State[color="green", style="solid"]
+Einheiten123456Control-> Einheit6:State[color="green", style="solid"]
+PumpenKuehloelKuehlmittelControl-> Spindelkuehlmittelpumpe1:State[color="green", style="solid"]
+PumpenKuehloelKuehlmittelControl-> PumpeTrommelfilter:State[color="green", style="solid"]
+PumpenKuehloelKuehlmittelControl-> PumpefuerKuehlmitteleinheit3:State[color="green", style="solid"]
+PumpenKuehloelKuehlmittelControl-> PumpeSpaeneEntfernen:State[color="green", style="solid"]
+PumpenKuehloelKuehlmittelControl-> PumpeSpindelinnenkuehlung:State[color="green", style="solid"]
+PumpenKuehloelKuehlmittelControl-> PumpeOeltemperaturregler:State[color="green", style="solid"]
+AmbientTemperature-> TankKuehlmittel:TemperatureAmb[color="green", style="dashed"]
+AmbientPressure-> TankKuehlmittel:PressureAmb[color="green", style="solid"]
+AmbientTemperature-> Spindelkuehlmittelpumpe1:TemperatureAmb[color="green", style="dashed"]
+AmbientTemperature-> PumpeTrommelfilter:TemperatureAmb[color="green", style="dashed"]
+AmbientTemperature-> PumpefuerKuehlmitteleinheit3:TemperatureAmb[color="green", style="dashed"]
+AmbientTemperature-> PumpeSpaeneEntfernen:TemperatureAmb[color="green", style="dashed"]
+AmbientTemperature-> PumpeSpindelinnenkuehlung:TemperatureAmb[color="green", style="dashed"]
+AmbientTemperature-> KabeltraegerxyzAchseSpindelkuehlung:TemperatureAmb[color="green", style="dashed"]
+AmbientTemperature-> LeitungEntfernenSpaenen:TemperatureAmb[color="green", style="dashed"]
+AmbientTemperature-> TankKuehloel:TemperatureAmb[color="green", style="dashed"]
+AmbientPressure-> TankKuehloel:PressureAmb[color="green", style="solid"]
+AmbientTemperature-> PumpeOeltemperaturregler:TemperatureAmb[color="green", style="dashed"]
+AmbientTemperature-> KuehlmitteleinheitWaermetauscher:TemperatureAmb[color="green", style="dashed"]
+AmbientTemperature-> Hochdruckkuehlmitteleinheit:TemperatureAmb[color="green", style="dashed"]
+VentileKuehlmittelSpindelundKammerControl-> DreiwegeventilSpindelkuehlung:ValveCtrl[color="green", style="solid"]
+VentileKuehlmittelSpindelundKammerControl-> DueseSpindelkuehlmittel:ValveCtrl[color="green", style="solid"]
+VentilTrommelfilterConctrol-> ValveTrommelfilter:ValveCtrl[color="green", style="solid"]
+VentileKuehlmittelSpindelundKammerControl-> DueseSpaene1:ValveCtrl[color="green", style="solid"]
+VentileKuehlmittelSpindelundKammerControl-> DueseSpaene2:ValveCtrl[color="green", style="solid"]
+VentileKuehlmittelSpindelundKammerControl-> DueseSpaene3:ValveCtrl[color="green", style="solid"]
+AmbientTemperature-> KabeltraegerxyzAchseSpindelinnenkuehlung1:TemperatureAmb[color="green", style="dashed"]
+VentileKuehlmittelSpindelundKammerControl-> DueseSpindelinnenKuehlung:ValveCtrl[color="green", style="solid"]
+CNCOnControl-> Spindel:State[color="green", style="solid"]
+CNCOnControl-> KuehlungKernY1Achse:State[color="green", style="solid"]
+YAchseControl-> KuehlungKernY1Achse:Speed[color="green", style="solid"]
+CNCOnControl-> KuehlungKernY2Achse:State[color="green", style="solid"]
+YAchseControl-> KuehlungKernY2Achse:Speed[color="green", style="solid"]
+CNCOnControl-> KuehlungKernXAchse:State[color="green", style="solid"]
+XAchseControl-> KuehlungKernXAchse:Speed[color="green", style="solid"]
+CNCOnControl-> KuehlungKernZ2Achse:State[color="green", style="solid"]
+ZAchseControl-> KuehlungKernZ2Achse:Speed[color="green", style="solid"]
+CNCOnControl-> KuehlungKernZ1Achse:State[color="green", style="solid"]
+ZAchseControl-> KuehlungKernZ1Achse:Speed[color="green", style="solid"]
+CNCOnControl-> KuehlungCAchse:State[color="green", style="solid"]
+CAchseControl-> KuehlungCAchse:Speed[color="green", style="solid"]
+CNCOnControl-> KuehlungBAchse:State[color="green", style="solid"]
+BAchseControl-> KuehlungBAchse:Speed[color="green", style="solid"]
+SpindelRotControl-> Spindel:RotSpeed[color="green", style="solid"]
+PumpenKuehloelKuehlmittelControl-> KuehlmitteleinheitWaermetauscher:State[color="green", style="solid"]
+PumpenKuehloelKuehlmittelControl-> Hochdruckkuehlmitteleinheit:State[color="green", style="solid"]
+}

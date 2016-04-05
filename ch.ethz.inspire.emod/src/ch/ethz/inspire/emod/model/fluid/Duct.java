@@ -13,6 +13,7 @@
 
 package ch.ethz.inspire.emod.model.fluid;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.Writer;
@@ -155,8 +156,10 @@ public class Duct {
 	public static Duct buildFromFile(String name){
 		Duct duct = initFromFile(getPath(name));
 		
-		if(null==duct)
+		if(null==duct){
+			System.out.println("Duct: initFromFile: "+name+ "does not exist. Creating empty duct!");
 			return new Duct(name);
+		}
 		else
 			return duct;
 	}
@@ -169,6 +172,12 @@ public class Duct {
 	 */
 	public static Duct initFromFile(String path){
 		Duct duct = null;
+		
+		File file = new File(path);
+		if(!file.exists() || file.isDirectory())
+			return null;
+			
+		
 		try {
 			JAXBContext context = JAXBContext.newInstance(Duct.class);
 			Unmarshaller um = context.createUnmarshaller();

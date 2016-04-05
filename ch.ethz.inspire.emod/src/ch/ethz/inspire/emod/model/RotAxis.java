@@ -90,6 +90,7 @@ public class RotAxis extends APhysicalComponent implements Floodable{
 	private double inertia;         // [kg]     Moved mass
 	private String motorType;
 	private double mass;
+	private double powerBreakOn, powerBreakOff;
 	
 	// SubModels
 	private AMotor motor;
@@ -171,9 +172,11 @@ public class RotAxis extends APhysicalComponent implements Floodable{
 			inertia       = params.getDoubleValue("Inertia");
 			motorType     = params.getString("MotorType");
 			mass          = params.getDoubleValue("StructureMass");
+			powerBreakOn = params.getValue("PowerBreakOn", 0.0);
+			powerBreakOff= params.getValue("PowerBreakOff", 0.0);
 			
 			/* Sub Model Motor */
-			String[] mdlType = motorType.split("_");
+			String[] mdlType = motorType.split("_",2);
 			
 			// Create Sub Elements
 			try {
@@ -270,7 +273,7 @@ public class RotAxis extends APhysicalComponent implements Floodable{
 		massMoved.update();
 		
 		lastspeed  = speed.getValue();                                       // [m/s]
-		lasttorque = torque.getValue()+massMoved.getOutput("Force").getValue();   // [N]
+		lasttorque = torque.getValue()+massMoved.getOutput("Torque").getValue();   // [N]
 		
 		if(1==state.getValue()){
 		
@@ -284,19 +287,16 @@ public class RotAxis extends APhysicalComponent implements Floodable{
 			 * T = k*Tp
 			 */
 			motor.getInput("Torque").setValue(transmission * lasttorque );
-			/* Powers
-			 * PUse [W] = v [m/s] * F [N]
-			 * PTotal [W] = omega [rpm] * 2*pi/60 [rad/s/rpm] * T [N]
-			 * PLoss [W] = PTotal [W] - PUse [W];
-			 */
+			motor.update();
+			/* Powers */
 			puse.setValue(Math.abs(lastspeed*2*Math.PI*lasttorque));
-			ptotal.setValue(motor.getOutput("PTotal").getValue());
+			ptotal.setValue(motor.getOutput("PTotal").getValue()+powerBreakOff);
 			ploss.setValue(ptotal.getValue()-puse.getValue());
 		}
 		else{
 			motor.getOutput("PUse").setValue(0);
-			motor.getOutput("PLoss").setValue(0);
-			motor.getOutput("PTotal").setValue(0);
+			motor.getOutput("PLoss").setValue(powerBreakOn);
+			motor.getOutput("PTotal").setValue(powerBreakOn);
 			
 			puse.setValue(0);
 			ptotal.setValue(0);
