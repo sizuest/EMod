@@ -15,7 +15,7 @@
         </machineComponent>
         <machineComponent>
             <component xsi:type="spindle" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
+                <type>HSK 63A</type>
             </component>
             <name>Spindel</name>
         </machineComponent>
@@ -211,6 +211,18 @@
             </component>
             <name>DüseSpindelinnenKühlung</name>
         </machineComponent>
+        <machineComponent>
+            <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>PumpeKühlölRotachsen</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="tank" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>TankKühlÖlRotachsen</name>
+        </machineComponent>
     </machine>
     <simulators>
         <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -292,6 +304,10 @@
             </unit>
         </simController>
     </simulators>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
     <connectionList/>
     <connectionList/>
     <connectionList/>
