@@ -315,7 +315,66 @@
                 <unitText>Hz</unitText>
             </unit>
         </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>1_spindelkühlmittelpumpeControl</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>1_5MPaControl</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>1_TrommelfilterPumpeControl</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>1_SpäneentfernenPumpeControl</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>1_SprühkühlmittelPumpeControl</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>1_KühlerXYZAchse</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>1_KühlerCBAchse</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>1_PumpeKühloelRotachsen</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+        </simController>
     </simulators>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
     <connectionList/>
     <connectionList/>
     <connectionList/>
