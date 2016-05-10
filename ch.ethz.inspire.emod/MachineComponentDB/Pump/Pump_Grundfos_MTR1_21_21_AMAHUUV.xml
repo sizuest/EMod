@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment/>
+<entry key="NominalFlowRate">0.0005</entry>
+<entry key="LengthPump">.1</entry>
+<entry key="PressureSamples">1275300 1236060 1216440 1187610 1128150 1039860 922140 774990</entry>
+<entry key="EfficiencySamples">0 0.18 0.3 0.38 0.44 0.48 0.496 0.476</entry>
+<entry key="NominalPressure">922140</entry>
+<entry key="NumberImpellerEyes">1</entry>
+<entry key="HasMotorCooling">true</entry>
+<entry key="PowerSamples">480 580 680 780 850 900 930 950</entry>
+<entry key="NominalRotSpeed">2827</entry>
+<entry key="Material">Steel</entry>
+<entry key="DiameterPump">.1</entry>
+<entry key="MassMotor">15</entry>
+<entry key="NumberStages">21</entry>
+<entry key="MassFluid">3</entry>
+<entry key="IsSubmerged">true</entry>
+<entry key="FlowRateSamples">0 0.0000833 0.000166 0.00025 0.000333 0.0004166 0.0005 0.00058</entry>
+<entry key="LengthMotor">.2</entry>
+<entry key="DiameterMotor">.2</entry>
+</properties>

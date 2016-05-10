@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment/>
+<entry key="Efficiency">0.714 0.826 0.896 0.944 0.962 0.973 0.9754</entry>
+<entry key="PowerSamples">50 100 200 500 1000 3000 4560</entry>
+<entry key="PowerCtrl">10</entry>
+</properties>
