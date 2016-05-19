@@ -413,7 +413,7 @@ public class Fluid {
 				
 			
 			
-			return lambda*rho*l/d.getDiameter()*Math.pow(v, 2)/2;
+			return lambda*rho*l/d.getDiameter()*Math.pow(v, 2)/2*Fluid.sign(v);
 		}
 				
 		
@@ -453,7 +453,7 @@ public class Fluid {
 				zeta = .3164/Math.pow(Re, .25) * (1+.095*Math.pow(p.getDiameter()/D, .5)*Math.pow(Re, .25));
 			
 			
-			return zeta*l/p.getDiameter()*mf.getDensity(Tf)*Math.pow(v, 2)/2;
+			return zeta*l/p.getDiameter()*mf.getDensity(Tf)*Math.pow(v, 2)/2*Fluid.sign(v);
 		}
 		
 		/**
@@ -482,7 +482,7 @@ public class Fluid {
 			if(d1.getDiameter()>d2.getDiameter())
 				return .04*rho*Math.pow(v, 2)/2;
 			else
-				return Math.pow(1-f1/f2,2)*rho*Math.pow(v, 2)/2;
+				return Math.pow(1-f1/f2,2)*rho*Math.pow(v, 2)/2*Fluid.sign(v);
 		}
 		
 		/**
@@ -499,7 +499,7 @@ public class Fluid {
 			
 			v = Q/p.getArea();
 			
-			return zeta*mf.getDensity(Tf)*Math.pow(v, 2)/2;
+			return zeta*mf.getDensity(Tf)*Math.pow(v, 2)/2*Fluid.sign(v);
 		}
 		
 		/**
@@ -730,6 +730,16 @@ public class Fluid {
 		 */
 		public static double hydraulicPerimeter(AHydraulicProfile p){
 			return Math.PI*hydraulicDiameter(p);
+		}
+		
+		/**
+		 * Approximation for sign function
+		 * @param value 
+		 * @return 
+		 * 
+		 */
+		public static double sign(double value){
+			return Math.tanh(1E12*value);
 		}
 
 }

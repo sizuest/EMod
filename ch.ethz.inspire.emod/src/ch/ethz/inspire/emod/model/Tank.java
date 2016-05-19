@@ -208,7 +208,7 @@ public class Tank extends APhysicalComponent implements Floodable {
 			
 			/* Thermal Element */
 			fluid.setMaterial(new Material(params.getString("Material")));
-			fluid.setMass(volume/fluid.getMaterial().getDensity(293.15));
+			fluid.getMass().setInitialCondition(volume/fluid.getMaterial().getDensity(293.15));
 
 			
 		}
@@ -236,7 +236,7 @@ public class Tank extends APhysicalComponent implements Floodable {
 		/* Dynamic state */
 		dynamicStates = new ArrayList<DynamicState>();
 		dynamicStates.add(fluid.getTemperature());
-		dynamicStates.add(fluid.getMass());
+		//dynamicStates.add(fluid.getMass());
 		
 		/* FlowRate */
 		fluidPropertiesOut.setPressureReferenceOut(pressureAmb);

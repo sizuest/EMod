@@ -54,6 +54,19 @@ public class DynamicState {
 		this.initFnctObj = null;
 	}
 	
+	public DynamicState(String name, SiUnit unit, double initValue) {
+		this.name = name;
+		this.value = initValue;
+		this.lastValue = initValue;
+		this.initialValue = initValue;
+		this.unit = unit;
+		this.parent = "";
+		this.timestep = 0;
+		
+		this.initFnct    = null;
+		this.initFnctObj = null;
+	}
+	
 	/**
 	 * Set state name
 	 * @param name 

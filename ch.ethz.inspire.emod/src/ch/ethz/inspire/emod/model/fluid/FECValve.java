@@ -23,7 +23,7 @@ public class FECValve extends AFluidElementCharacteristic{
 		if(valve.isClosed())
 			return 1e24;
 		
-		return 2*valve.getPressureLossCoefficient()*flowRate;
+		return 2*valve.getPressureLossCoefficient()*flowRate*Fluid.sign(flowRate);
 	}
 
 	@Override

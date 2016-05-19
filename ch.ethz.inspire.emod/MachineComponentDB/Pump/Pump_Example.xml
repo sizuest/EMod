@@ -34,6 +34,8 @@
       	Motor diameter
       LengthMotor [m]
       	Motor length
+      MaxTemperatureDifference [K]
+        Maximum temperature diff twds. amb.
       NominalRotSpeed [rpm]
       	Nominal rotational speed
       NumberImpellerEyes [-]
@@ -60,6 +62,7 @@
 <entry key="LengthPump">.1</entry>
 <entry key="DiameterMotor">.2</entry>
 <entry key="LengthMotor">.2</entry>
+<entry key="MaxTemperatureDifference">25</entry>
 <entry key="NominalRotSpeed">1500</entry>
 <entry key="NumberImpellerEyes">1</entry>
 <entry key="NumberStages">1</entry>

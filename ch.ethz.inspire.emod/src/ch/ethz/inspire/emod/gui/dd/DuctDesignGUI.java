@@ -39,27 +39,26 @@ import ch.ethz.inspire.emod.gui.AConfigGUI;
 import ch.ethz.inspire.emod.gui.utils.TableUtils;
 import ch.ethz.inspire.emod.model.fluid.ADuctElement;
 import ch.ethz.inspire.emod.model.fluid.Duct;
+import ch.ethz.inspire.emod.model.fluid.DuctDefinedValues;
 import ch.ethz.inspire.emod.model.fluid.DuctDrilling;
 import ch.ethz.inspire.emod.model.fluid.DuctElbowFitting;
 import ch.ethz.inspire.emod.model.fluid.DuctFitting;
 import ch.ethz.inspire.emod.model.fluid.DuctFlowAround;
 import ch.ethz.inspire.emod.model.fluid.DuctHelix;
 import ch.ethz.inspire.emod.model.fluid.DuctPipe;
-import ch.ethz.inspire.emod.model.units.SiUnit;
 
 
 public class DuctDesignGUI extends AConfigGUI{
 	private SashForm form;
     private static Table tableDuctElements;
-    private static Table tableDuctStatistics;
     private static Tree treeDuctDBView;
     private DuctTestingGUI ductTestingGUI;
-    private TabFolder tabFolderDesign;
+    private TabFolder tabFolder;
     private Duct duct;
     
     private ArrayList<Button> buttons = new ArrayList<Button>();
     
-    private ADuctElement[] ductElementSelection = { new DuctDrilling(), new DuctFlowAround(), new DuctHelix(), new DuctPipe(), new DuctElbowFitting()};
+    private ADuctElement[] ductElementSelection = { new DuctDrilling(), new DuctFlowAround(), new DuctHelix(), new DuctPipe(), new DuctElbowFitting(), new DuctDefinedValues()};
     
     private ArrayList<String> elementNames = new ArrayList<String>();
     
@@ -75,11 +74,15 @@ public class DuctDesignGUI extends AConfigGUI{
     	super(parent, style);
     	
     	this.getContent().setLayout(new GridLayout(1, true));
-	    form = new SashForm(this.getContent(), SWT.FILL);
+    	
+    	this.name = name;
+    	
+    	tabFolder = new TabFolder(this.getContent(), SWT.NONE);
+		tabFolder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+    	
+	    form = new SashForm(tabFolder, SWT.FILL);
 	    form.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		form.setLayout(new GridLayout(3, false));
-		
-		this.name = name;
 		
 		duct = Duct.buildFromFile(this.name);
 		
@@ -101,54 +104,32 @@ public class DuctDesignGUI extends AConfigGUI{
 			column.setWidth(32);
 		}
 		
-		tabFolderDesign = new TabFolder(form, SWT.NONE);
-		tabFolderDesign.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-		
-		treeDuctDBView = new Tree(tabFolderDesign, SWT.NONE);
+		treeDuctDBView = new Tree(form, SWT.BORDER);
 		for(ADuctElement e: ductElementSelection){
 			TreeItem childTreeItem     = new TreeItem(treeDuctDBView, SWT.NONE);
 			childTreeItem.setText(e.getClass().getSimpleName().replace("Duct", ""));
 		}
 		
-		tableDuctStatistics = new Table(tabFolderDesign, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
-		tableDuctStatistics.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-		tableDuctStatistics.setLinesVisible(true);
-		tableDuctStatistics.setHeaderVisible(true);
 		
-		ductTestingGUI = new DuctTestingGUI(tabFolderDesign, duct);
+		ductTestingGUI = new DuctTestingGUI(tabFolder, duct);
 		
-		TabItem tabDuctDBItem = new TabItem(tabFolderDesign, SWT.NONE);
-		tabDuctDBItem.setText("Elements");
-		tabDuctDBItem.setToolTipText("Elements");
-		tabDuctDBItem.setControl(treeDuctDBView); 
-
-		TabItem tabStatisticsItem = new TabItem(tabFolderDesign, SWT.NONE);
-		tabStatisticsItem.setText("Statistics");
-		tabStatisticsItem.setToolTipText("Statistics");
-		tabStatisticsItem.setControl(tableDuctStatistics); 
+		TabItem tabDuctDBItem = new TabItem(tabFolder, SWT.NONE);
+		tabDuctDBItem.setText("Design");
+		tabDuctDBItem.setToolTipText("Design");
+		tabDuctDBItem.setControl(form); 
 		
-		TabItem tabTestingItem = new TabItem(tabFolderDesign, SWT.NONE);
+		TabItem tabTestingItem = new TabItem(tabFolder, SWT.NONE);
 		tabTestingItem.setText("Analysis");
 		tabTestingItem.setToolTipText("Testing");
 		tabTestingItem.setControl(ductTestingGUI); 
 		
 		
-		
-		String[] titlesStat =  {"Parameter", "Value", "Unit"};
-		
-		for(int i=0; i < titlesStat.length; i++){
-			TableColumn column = new TableColumn(tableDuctStatistics, SWT.NULL);
-			column.setText(titlesStat[i]);
-		}
-		
 		updateDuctElementTable();
-		updateDuctStatisticTable();
 		updateDuctTestingTable();
 		
 		// Add editor and cp
 		try {
 			TableUtils.addCellEditor(tableDuctElements, this.getClass().getDeclaredMethod("editDuctElementName"), this, new int[] {0});
-			TableUtils.addCopyToClipboard(tableDuctStatistics);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -164,50 +145,23 @@ public class DuctDesignGUI extends AConfigGUI{
         	duct.setElementName(elementNames.get(i), newName);
         }
         updateDuctElementTable();
+        
+        wasEdited();
     }
     
     public void editDuctElementGUI(ADuctElement e){
-    	new EditDuctElementGUI(this, e);
+    	Shell shell = EditDuctElementGUI.editDuctElementGUI(this.getShell(), e);
+    	shell.addDisposeListener(new DisposeListener() {
+			@Override
+			public void widgetDisposed(DisposeEvent e) {
+				update();
+			}
+		});
+    	
     }
     
     private void updateDuctTestingTable(){
     	ductTestingGUI.update();
-    }
-    
-    private void updateDuctStatisticTable(){
-    	tableDuctStatistics.clearAll();
-    	tableDuctStatistics.setItemCount(0);
-    	
-    	TableItem itemCount   = new TableItem(tableDuctStatistics, SWT.NONE, 0);
-    	TableItem itemLength  = new TableItem(tableDuctStatistics, SWT.NONE, 1);
-    	TableItem itemSurface = new TableItem(tableDuctStatistics, SWT.NONE, 2);
-    	TableItem itemVolume  = new TableItem(tableDuctStatistics, SWT.NONE, 3);
-    	
-    	itemCount.setText(0, "Number of elements");
-    	itemCount.setText(1, duct.getElements().size()+"");
-    	
-    	itemLength.setText(0, "Length");
-    	itemLength.setText(1, String.format("%6.3e", duct.getLength()));
-    	itemLength.setText(2, (new SiUnit("m")).toString());
-    	
-    	itemSurface.setText(0, "Surface");
-    	itemSurface.setText(1, String.format("%6.3e", duct.getSurface()));
-    	itemSurface.setText(2, (new SiUnit("m^2")).toString());
-    	
-    	itemVolume.setText(0, "Volume");
-    	itemVolume.setText(1, String.format("%6.3e", duct.getVolume()));
-    	itemVolume.setText(2, (new SiUnit("m^3")).toString());
-    	
-    	
-    	TableColumn[] columns = tableDuctStatistics.getColumns();
-        for (int j = 0; j < columns.length; j++) {
-        	columns[j].pack();
-        }
-        
-        form.redraw();
-        form.pack();
-        
-    	
     }
     
     private void updateDuctElementTable(){
@@ -248,7 +202,6 @@ public class DuctDesignGUI extends AConfigGUI{
 	        	public void widgetSelected(SelectionEvent event){
 	        		editDuctElementGUI(e);
 	        		updateDuctElementTable();
-	        		updateDuctStatisticTable();
 	        	}
 	        	public void widgetDefaultSelected(SelectionEvent event){
 	        		// Not used
@@ -271,7 +224,6 @@ public class DuctDesignGUI extends AConfigGUI{
 		        	public void widgetSelected(SelectionEvent event){
 		        		duct.moveElementUp(e);
 		        		updateDuctElementTable();
-		        		updateDuctStatisticTable();
 		        	}
 		        	public void widgetDefaultSelected(SelectionEvent event){
 		        		// Not used
@@ -295,7 +247,6 @@ public class DuctDesignGUI extends AConfigGUI{
 		        	public void widgetSelected(SelectionEvent event){
 		        		duct.moveElementDown(e);
 		        		updateDuctElementTable();
-		        		updateDuctStatisticTable();
 		        	}
 		        	public void widgetDefaultSelected(SelectionEvent event){
 		        		// Not used
@@ -318,7 +269,6 @@ public class DuctDesignGUI extends AConfigGUI{
 	        	public void widgetSelected(SelectionEvent event){
 	        		duct.removeElement(e.getName());
 	        		updateDuctElementTable();
-	        		updateDuctStatisticTable();
 	        	}
 	        	public void widgetDefaultSelected(SelectionEvent event){
 	        		// Not used
@@ -340,7 +290,6 @@ public class DuctDesignGUI extends AConfigGUI{
     
     public void update(){
     	updateDuctElementTable();
-    	updateDuctStatisticTable();
     	updateDuctTestingTable();
     	
     	this.redraw();
@@ -432,7 +381,6 @@ public class DuctDesignGUI extends AConfigGUI{
 				if(null!=e){
 					duct.addElement(index, e);
 					updateDuctElementTable();
-					updateDuctStatisticTable();
 		        }
 
 			}

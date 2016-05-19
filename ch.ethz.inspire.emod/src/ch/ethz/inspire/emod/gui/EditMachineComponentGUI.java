@@ -19,6 +19,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
@@ -121,6 +124,7 @@ public class EditMachineComponentGUI extends AConfigGUI{
     	//check if the directory exists, then show possible parameter sets to select
     	if(subdir.exists()){
     		String[] subitems = subdir.list();
+    		Arrays.sort(subitems);
     		comboComponentTypeValue.setItems(subitems);
     	}
 		
@@ -253,9 +257,12 @@ public class EditMachineComponentGUI extends AConfigGUI{
 			e.printStackTrace();
 		}
     	
-    	tableComponent.setItemCount(0);		
-	
-		for(String key: component.getKeys()){
+    	tableComponent.setItemCount(0);	
+    	
+    	ArrayList<String> keys = component.getKeys();
+    	Collections.sort(keys);
+    	
+		for(String key: keys){
 			
 			try{
 				String value = component.getString(key);

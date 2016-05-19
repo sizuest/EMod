@@ -15,7 +15,7 @@
         </machineComponent>
         <machineComponent>
             <component xsi:type="spindle" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>HSK 63A</type>
+                <type>Example</type>
             </component>
             <name>Spindel</name>
         </machineComponent>
@@ -66,18 +66,6 @@
                 <type>VKA495</type>
             </component>
             <name>PumpeSpäneEntfernen</name>
-        </machineComponent>
-        <machineComponent>
-            <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
-            </component>
-            <name>DreiwegeventilSpindelkühlung</name>
-        </machineComponent>
-        <machineComponent>
-            <component xsi:type="pipe" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>NMV500Kabelträger</type>
-            </component>
-            <name>KabelträgerxyzAchseSpindelkühlung</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -364,7 +352,6 @@
             </unit>
         </simController>
     </simulators>
-    <connectionList/>
     <connectionList/>
     <connectionList/>
     <connectionList/>

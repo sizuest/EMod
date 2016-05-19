@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:duct xmlns:ns2="ch.ethz.inspire.emod">
+    <material>
+        <type>GlykolWater_30</type>
+    </material>
+    <name>RotAxis_MoriSeiki_NVM5000_CAxis_StructureDuct</name>
+    <elements>
+        <elements xsi:type="ductHelix" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Helix</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.01</radius>
+            </profile>
+            <radius>0.1</radius>
+            <height>0.02</height>
+            <distance>0.02</distance>
+        </elements>
+    </elements>
+</ns2:duct>

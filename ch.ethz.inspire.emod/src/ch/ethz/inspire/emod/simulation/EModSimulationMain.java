@@ -178,6 +178,13 @@ public class EModSimulationMain {
 			fluidPropertyList.addAll(((Floodable) (mc.getComponent())).getFluidPropertiesList());
 		fluidSolver = new FluidCircuitSolver(fluidPropertyList, Machine.getInstance().getFluidConnectionList());
 		
+		/* Find steady state for fluid circuits */
+		try {
+			fluidSolver.solve(1000);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		logger.info("starting simulation");
 		
 		
@@ -213,7 +220,7 @@ public class EModSimulationMain {
 			
 			/* Solve fluid circuits */
 			try {
-				fluidSolver.solve();
+				fluidSolver.solve(20);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

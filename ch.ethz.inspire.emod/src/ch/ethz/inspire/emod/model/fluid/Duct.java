@@ -43,7 +43,7 @@ import ch.ethz.inspire.emod.utils.PropertiesHandler;
  */
 @XmlRootElement(namespace = "ch.ethz.inspire.emod")
 @XmlSeeAlso({ADuctElement.class, AHydraulicProfile.class, DuctDrilling.class, DuctPipe.class, DuctElbowFitting.class, DuctFlowAround.class,
-	DuctFitting.class, DuctHelix.class, DuctElbowFitting.class, HPRectangular.class, HPCircular.class, Isolation.class})
+	DuctFitting.class, DuctHelix.class, DuctElbowFitting.class, DuctDefinedValues.class,  HPRectangular.class, HPCircular.class, Isolation.class})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Duct {
 	private Material material;
@@ -268,7 +268,11 @@ public class Duct {
 	private void removeUnusedIsolations() {
 		for(ADuctElement e: elements)
 			if(null!=e.getIsolation())
-				if(null==e.getIsolation().getMaterial() | e.getIsolation().getMaterial().getType().equals("none"))
+				if(null==e.getIsolation().getMaterial())
+					e.setIsolation(null);
+				else if(null==e.getIsolation().getMaterial().getType())
+					e.setIsolation(null);
+				else if(e.getIsolation().getMaterial().getType().equals("none"))
 					e.setIsolation(null);
 	}
 
@@ -534,7 +538,8 @@ public class Duct {
 		double lastp   = pressureIn;
 		
 		for(ADuctElement e: elements){
-			htc = e.getHTC(flowRate, lastp, temperatureFluid, temperatureWall)*e.getHydraulicSurface();
+			//htc = e.getHTC(flowRate, lastp, temperatureFluid, temperatureWall)*e.getHydraulicSurface();
+			htc = e.getHTC(flowRate, lastp, temperatureFluid, temperatureWall)*e.getSurface();
 			if(null!=e.isolation)
 				htc =  1/(1/htc + 1/e.isolation.getThermalResistance());
 			Rth     += htc;

@@ -75,26 +75,7 @@ public class EModMain {
 			
 		System.out.println("EModMain called EModGUI");
 		new EModGUI(disp);
-
 		
-		
-/*		Shell shell = new Shell(disp);
-		shell.setLayout(new FillLayout());
-		//new MachineComponentSelectGUI(shell);
-		
-		
-		shell.open();
-		
-		while(!shell.isDisposed()) {
-			if(!disp.readAndDispatch()) {
-				disp.sleep();
-			}
-		}
-*/		
-		//test loading configs
-		//Machine.initMachineFromFile("L:/misc_praktikum_david/xml/testmachine_new.xml");
-		//EModSimulationMain sim = EModSimulationMain.initSimulationFromFile("L:/misc_praktikum_david/xml/sim.xml");
-		//sim.runSimulation();
 		
 		//shut down
 		disp.dispose();
@@ -106,62 +87,6 @@ public class EModMain {
 	public EModMain() {
 		
 		logger.info("Start EModMain");
-		
-		
-		/* manick: run simulation just when tab "Analysis" is opened.
-		 * following code part therefore moved to: ch.ethz.inspire.emod.simulation.EModSimulationRun.java
-		 * EModSimulationRun.EModSimRun() is called from EModGUI -> tabFolder.addSelectionListener
-
-		
-		// Get name of machine 
-		String machineName = PropertiesHandler.getProperty("sim.MachineName");
-		if (machineName == null) {
-			Exception e = new Exception("No machine name defined in the application configuration (app.config)!");
-			e.printStackTrace();
-			System.exit(-1);
-		}
-		// Get name of the machine configuration
-		String machineConfigName = PropertiesHandler.getProperty("sim.MachineConfigName");
-		if (machineConfigName == null) {
-			Exception e = new Exception("No machine config name defined in the application configuration (app.config)!");
-			e.printStackTrace();
-			System.exit(-1);
-		}
-		// Get name of the simulation configuration
-		String simulationConfigName = PropertiesHandler.getProperty("sim.SimulationConfigName");
-		if (simulationConfigName == null) {
-			Exception e = new Exception("No simulation config name defined in the application configuration (app.config)!");
-			e.printStackTrace();
-			System.exit(-1);
-		}
-		
-		// Build machine: Read and check machine configuration
-		Machine.buildMachine(machineName, machineConfigName);
-		
-		// Setup the simulation: Read simulation config 
-		EModSimulationMain sim = new EModSimulationMain(machineName, simulationConfigName);
-		
-		// Connect simulation with machine config
-		sim.setMachineComponentList(Machine.getInstance().getMachineComponentList());
-		sim.setIOConnectionList(Machine.getInstance().getIOLinkList());
-		sim.setInputparamObjectList(Machine.getInstance().getInputObjectList());
-		
-		// Setup the process
-		Process process = new Process(PropertiesHandler.getProperty("sim.ProcessName"));
-		
-		// Set process parameters for simulation
-		sim.setProcessParamsforSimulation(process);
-		
-		// Set simulation period for all simulation objects
-		sim.updateSimulationPeriod();
-		
-		// Run the simulation
-		sim.runSimulation();
-		
-		// Write the machine configuration
-		//Machine.saveMachineToFile("machineexportallinone.xml");
-		
-		*/
 		
 	}
 }

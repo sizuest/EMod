@@ -114,6 +114,7 @@ public class SiUnitDefinition {
 		convMap.put("m/s", (new SiUnit("m s^-1")));
 		convMap.put("m³/s",(new SiUnit("m^3 s^-1")));
 		convMap.put("m²",  (new SiUnit("m^2")));
+		convMap.put("m³",  (new SiUnit("m^3")));
 		convMap.put("W/K", (new SiUnit("W K^-1")));
 		convMap.put("W/m²/K",(new SiUnit("W m^-2 K^-1")));
 		convMap.put("W",   (new SiUnit("m^2 kg s^-3")));

@@ -514,6 +514,7 @@ public class ModelGUI extends AGUITab {
         
         String[] items = new String[SiUnitDefinition.getConversionMap().keySet().size()]; 
         SiUnitDefinition.getConversionMap().keySet().toArray(items);
+        Arrays.sort(items);
         
         comboEditInputUnit.setItems(items);
         comboEditInputUnit.setText(sc.getUnit().toString());
@@ -688,6 +689,7 @@ public class ModelGUI extends AGUITab {
     		
     			//change the component to the new type, save machine
     			Machine.getMachineComponent(mc.getName()).getComponent().setType(comboComponentType.getText());
+    			item.setText(2, comboComponentType.getText());
     			//Machine.saveMachine(PropertiesHandler.getProperty("sim.MachineName"), PropertiesHandler.getProperty("sim.MachineConfigName"));
     			comboComponentType.setEnabled(true);
     		}
@@ -710,11 +712,7 @@ public class ModelGUI extends AGUITab {
         Image imageEdit = new Image(Display.getDefault(), "src/resources/Edit16.gif");
         buttonEditComponent.setImage(imageEdit);
         buttonEditComponent.addSelectionListener(new SelectionListener(){
-        	public void widgetSelected(SelectionEvent event){
-        		//open tab Simulation --> inputs
-        		//EModGUI.tabFolder.setSelection(1);
-        		//SimGUI.tabFolder.setSelection(3);
-        		
+        	public void widgetSelected(SelectionEvent event){      		
         		String model = item.getText(1);
         		String type  = item.getText(2);
         		//open window editComponentEditGUI with the selected component
@@ -830,5 +828,6 @@ public class ModelGUI extends AGUITab {
 	@Override
 	public void update() {
 		updateTabCompDB();	
+		initTabCompDB(tabFolder);
 	}
 }

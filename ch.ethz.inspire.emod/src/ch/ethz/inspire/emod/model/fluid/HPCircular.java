@@ -68,4 +68,9 @@ public class HPCircular extends AHydraulicProfile{
 		
 	}
 
+	@Override
+	public AHydraulicProfile clone() {
+		return new HPCircular(this.radius);
+	}
+
 }

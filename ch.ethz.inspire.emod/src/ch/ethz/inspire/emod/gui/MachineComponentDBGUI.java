@@ -1,6 +1,8 @@
 package ch.ethz.inspire.emod.gui;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Rectangle;
@@ -40,6 +42,23 @@ public class MachineComponentDBGUI {
 		treeComponentDBView = new Tree(shell, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
 		treeComponentDBView.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 		MachineComponentHandler.fillMachineComponentTree(treeComponentDBView);
+		
+		treeComponentDBView.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseUp(MouseEvent e) {/* mot used */}
+			
+			@Override
+			public void mouseDown(MouseEvent e) {/* mot used */}
+			
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+				TreeItem[] selection = null;
+				selection = treeComponentDBView.getSelection();
+				//open window editComponentEditGUI with the selected component
+				EditMachineComponentGUI.editMachineComponentGUI(selection[0].getParentItem().getText(), selection[0].getText());
+			}
+		});
 
 		//show button to edit the selected component
 		Button buttonEdit = new Button(shell, SWT.NONE);

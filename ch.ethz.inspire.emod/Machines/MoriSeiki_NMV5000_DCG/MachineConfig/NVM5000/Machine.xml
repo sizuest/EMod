@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:machine xmlns:ns2="ch.ethz.inspire.emod">
+    <machine>
+        <machineComponent>
+            <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Fanuc_PS37</type>
+            </component>
+            <name>CNCPowerSupply</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Fanuc_SP22</type>
+            </component>
+            <name>CNCSpindle</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="spindle" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>MoriSeiki_NMV5000_DCG</type>
+            </component>
+            <name>Spindel</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>FanucSV40_80</type>
+            </component>
+            <name>CNCXAchse</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Fanuc_SV80_80</type>
+            </component>
+            <name>CNCYAchse</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Fanuc_SV80_80</type>
+            </component>
+            <name>CNCZAchse</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>FanucSV360</type>
+            </component>
+            <name>CNCRotAchsen</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="tank" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Kühlmitteltank</type>
+            </component>
+            <name>TankKühlmittel</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>VKA495</type>
+            </component>
+            <name>PumpeSindelkühlmittel1</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>VKA495</type>
+            </component>
+            <name>PumpeTrommelfilter</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>VKA495</type>
+            </component>
+            <name>PumpeSpäneEntfernen</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>DüseSpindelkühlmittel</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>DüseTrommelfilter</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="pipe" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>NMV500Kabelträger</type>
+            </component>
+            <name>LeitungEntfernenSpänen</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>DüseSpäne1</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>DüseSpäne2</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>DüseSpäne3</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="tank" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Kühlöltank</type>
+            </component>
+            <name>TankKühlöl</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Daikin_AKZ438and439</type>
+            </component>
+            <name>PumpeÖltemperaturregler</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="linAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>MoriSeiki_NVM5000_XYAxis</type>
+            </component>
+            <name>Y1Achse</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="linAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>MoriSeiki_NVM5000_XYAxis</type>
+            </component>
+            <name>Y2Achse</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="linAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>MoriSeiki_NVM5000_XYAxis</type>
+            </component>
+            <name>XAchse</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="linAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>MoriSeiki_NVM5000_ZAxis</type>
+            </component>
+            <name>Z2Achse</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="linAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>MoriSeiki_NVM5000_ZAxis</type>
+            </component>
+            <name>Z1Achse</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="rotAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>MoriSeiki_NMV5000_CAxis</type>
+            </component>
+            <name>CAchse</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="rotAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>MoriSeiki_NMV5000_BAxis</type>
+            </component>
+            <name>BAchse</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>DüseSpindelinnenKühlung</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Daikin_AKZ438and439</type>
+            </component>
+            <name>PumpeKühlölRotachsen</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="tank" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Kühlöltank</type>
+            </component>
+            <name>TankKühlÖlRotachsen</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="cooler" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>AKZ438</type>
+            </component>
+            <name>KühlerBCAchse</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Grundfos_MTR1_21_21_AMAHUUV</type>
+            </component>
+            <name>PumpeSpindelinnenkühlung</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="cooler" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>AKZ439</type>
+            </component>
+            <name>KühlerXYZAchse</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>VKA495</type>
+            </component>
+            <name>PumpeSprühkühlmittel</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>Düse_Sprühkühlmittel_hinten_rechts</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>Düse_Sprühkühlmittel_links</name>
+        </machineComponent>
+    </machine>
+    <simulators>
+        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>AmbientTemperature</name>
+            <unit>
+                <unitText>K</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Ctrl_Kühlung</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>AmbientPressure</name>
+            <unit>
+                <unitText>Pa</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Ctrl_CNC</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Proc_XAchse</name>
+            <unit>
+                <unitText>m/s</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Proc_CAchse</name>
+            <unit>
+                <unitText>Hz</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Proc_ZAchse</name>
+            <unit>
+                <unitText>m/s</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Proc_YAchse</name>
+            <unit>
+                <unitText>m/s</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Proc_BAchse</name>
+            <unit>
+                <unitText>Hz</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Proc_Trommelfilter</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Ctrl_Achsen</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Proc_Spindel</name>
+            <unit>
+                <unitText>Hz</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Proc_Spindelinnenkühlung</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Proc_Spindelkühlmittel</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Proc_Spähneschwemmen</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Proc_Sprühkühlmittel</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>On</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+        </simController>
+    </simulators>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+</ns2:machine>

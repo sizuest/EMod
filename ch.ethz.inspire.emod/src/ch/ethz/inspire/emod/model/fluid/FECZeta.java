@@ -38,12 +38,12 @@ public class FECZeta extends AFluidElementCharacteristic{
 	
 	@Override
 	public double getA0(double flowRate, double pressureIn, double pressureOut) {
-		return -getZeta(pressureIn-pressureOut)*Math.pow(flowRate, 2);
+		return -getZeta(pressureIn-pressureOut)*Math.pow(flowRate, 2)*Fluid.sign(flowRate);
 	}
 
 	@Override
 	public double getA1(double flowRate, double pressureIn, double pressureOut) {
-		return 2*flowRate*getZeta(pressureIn-pressureOut);
+		return 2*flowRate*getZeta(pressureIn-pressureOut)*Fluid.sign(flowRate);
 	}
 
 	@Override

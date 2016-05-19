@@ -12,6 +12,7 @@
 <entry key="PowerSamples">480 580 680 780 850 900 930 950</entry>
 <entry key="NominalRotSpeed">2827</entry>
 <entry key="Material">Steel</entry>
+<entry key="MaxTemperatureDifference">25.0</entry>
 <entry key="DiameterPump">.1</entry>
 <entry key="MassMotor">15</entry>
 <entry key="NumberStages">21</entry>

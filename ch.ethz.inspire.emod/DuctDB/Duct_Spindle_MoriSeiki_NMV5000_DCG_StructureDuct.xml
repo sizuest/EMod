@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:duct xmlns:ns2="ch.ethz.inspire.emod">
+    <material>
+        <type>Vascomill-22</type>
+    </material>
+    <name>Spindle_MoriSeiki_NMV5000_DCG_StructureDuct</name>
+    <elements>
+        <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Sinkleitung1</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.002</radius>
+            </profile>
+            <length>0.455</length>
+            <count>2.0</count>
+        </elements>
+        <elements xsi:type="ductElbowFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>ElbowFitting</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.002</radius>
+            </profile>
+            <count>2.0</count>
+        </elements>
+        <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Sinkleitung2</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.002</radius>
+            </profile>
+            <length>0.045</length>
+            <count>2.0</count>
+        </elements>
+        <elements xsi:type="ductElbowFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>ElbowFitting_1</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.002</radius>
+            </profile>
+            <count>2.0</count>
+        </elements>
+        <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Sinkleitung3</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.002</radius>
+            </profile>
+            <length>0.13</length>
+            <count>2.0</count>
+        </elements>
+        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Fitting_Sinkleitung3-UntereLagerkuehlung1</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.0044375</radius>
+            </profile>
+        </elements>
+        <elements xsi:type="ductFlowAround" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>UntereLagerkuehlung1</name>
+            <profile xsi:type="hpRectangular">
+                <height>0.003</height>
+                <width>0.013</width>
+            </profile>
+            <radius>0.075</radius>
+        </elements>
+        <elements xsi:type="ductFlowAround" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>UntereLagerkuehlung2</name>
+            <profile xsi:type="hpRectangular">
+                <height>0.003</height>
+                <width>0.013</width>
+            </profile>
+            <radius>0.075</radius>
+        </elements>
+        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Fitting_UntereLagerkuehlung2-VerbindungLK</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.0044375</radius>
+            </profile>
+        </elements>
+        <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>VerbindungLK</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.002</radius>
+            </profile>
+            <length>0.042</length>
+            <count>2.0</count>
+        </elements>
+        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Fitting_VerbindungLK-ObereLagerkuehlung1</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.0044375</radius>
+            </profile>
+        </elements>
+        <elements xsi:type="ductFlowAround" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>ObereLagerkuehlung1</name>
+            <profile xsi:type="hpRectangular">
+                <height>0.003</height>
+                <width>0.013</width>
+            </profile>
+            <radius>0.076</radius>
+        </elements>
+        <elements xsi:type="ductFlowAround" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>ObereLagerkuehlung2</name>
+            <profile xsi:type="hpRectangular">
+                <height>0.003</height>
+                <width>0.013</width>
+            </profile>
+            <radius>0.076</radius>
+        </elements>
+        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Fitting_ObereLagerkuehlung2-VerbindungStator</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.0044375</radius>
+            </profile>
+        </elements>
+        <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>VerbindungStator</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.002</radius>
+            </profile>
+            <length>0.071</length>
+            <count>2.0</count>
+        </elements>
+        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Fitting_VerbindungStator-Helix</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.004756756756756756</radius>
+            </profile>
+        </elements>
+        <elements xsi:type="ductHelix" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Helix</name>
+            <profile xsi:type="hpRectangular">
+                <height>0.003</height>
+                <width>0.034</width>
+            </profile>
+            <radius>0.095</radius>
+            <height>0.287</height>
+            <distance>0.045</distance>
+        </elements>
+        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Fitting_Helix-ElbowFitting_2</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.004756756756756756</radius>
+            </profile>
+        </elements>
+        <elements xsi:type="ductElbowFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>ElbowFitting_2</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.002</radius>
+            </profile>
+            <count>2.0</count>
+        </elements>
+        <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Steigleitung</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.002</radius>
+            </profile>
+            <length>0.097</length>
+            <count>2.0</count>
+        </elements>
+    </elements>
+</ns2:duct>

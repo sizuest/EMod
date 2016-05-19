@@ -129,9 +129,15 @@
         </machineComponent>
         <machineComponent>
             <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Rollomatic_CF_Nozzle</type>
+                <type>Rollomatic_CF_Nozzle_Spindle</type>
             </component>
-            <name>CFNozzle</name>
+            <name>CFNozzleSpindle</name>
+        </machineComponent>
+        <machineComponent>
+            <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Rollomatic_CF_Nozzle_WP</type>
+            </component>
+            <name>CFNozzleWP</name>
         </machineComponent>
     </machine>
     <simulators>
@@ -243,13 +249,23 @@
                 <unitText>m/s</unitText>
             </unit>
         </simController>
-        <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>CtrlCFNozzle</name>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>ProcCFWP</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>ProcCFSpindle</name>
             <unit>
                 <unitText>none</unitText>
             </unit>
         </simController>
     </simulators>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
     <connectionList/>
     <connectionList/>
     <connectionList/>

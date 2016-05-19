@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment/>
+<entry key="PipeRoughness">1E-4</entry>
+<entry key="PipeMaterial">PUR</entry>
+<entry key="PipeDiameter">0.01</entry>
+<entry key="PipeLength">0.5</entry>
+<entry key="PipeThickness">0.03</entry>
+</properties>

@@ -103,7 +103,6 @@ TankKühlÖlRotachsen.TemperatureAmb = AmbientTemperature
 Spindelkühlmittelpumpe1.TemperatureAmb = AmbientTemperature
 PumpeTrommelfilter.TemperatureAmb = AmbientTemperature
 PumpeSpäneEntfernen.TemperatureAmb = AmbientTemperature
-KabelträgerxyzAchseSpindelkühlung.TemperatureAmb = AmbientTemperature
 LeitungEntfernenSpänen.TemperatureAmb = AmbientTemperature
 TankKühlöl.TemperatureAmb = AmbientTemperature
 PumpeÖltemperaturregler.TemperatureAmb = AmbientTemperature

@@ -1,47 +1,59 @@
 package ch.ethz.inspire.emod.gui.dd;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.ControlEditor;
-import org.eclipse.swt.custom.TableCursor;
 import org.eclipse.swt.custom.TableEditor;
-import org.eclipse.swt.events.KeyAdapter;
-import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.swt.widgets.Text;
 
+import ch.ethz.inspire.emod.gui.AConfigGUI;
+import ch.ethz.inspire.emod.gui.utils.TableUtils;
 import ch.ethz.inspire.emod.model.fluid.ADuctElement;
+import ch.ethz.inspire.emod.model.fluid.AHydraulicProfile;
 import ch.ethz.inspire.emod.model.fluid.Isolation;
 
 import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.utils.ParameterSet;
 
-public class EditDuctElementGUI {
-	private Shell shell;
-    private static Button saveButton, closeButton;
+public class EditDuctElementGUI  extends AConfigGUI{
+	
     private Table tableProperties;
     private ADuctElement element;
-    private ParameterSet parameters = new ParameterSet();
+    private ParameterSet parametersNew = new ParameterSet();
+    private AHydraulicProfile profileOld;
+    private Isolation isolationNew;
     
     
-    public EditDuctElementGUI(final DuctDesignGUI caller, final ADuctElement element){
-    	this.element = element;
-    	this.parameters.getParameterSet().putAll(element.getParameterSet().getParameterSet());
+    public EditDuctElementGUI(Composite parent, int style, final ADuctElement element){
+    	super(parent, style);
     	
-    	shell = new Shell(Display.getCurrent());
-	    shell.setText("Duct Element Editor"+element.getName());
-		shell.setLayout(new GridLayout(2, false));
+    	
+    	this.element = element;
+    	this.parametersNew.getParameterSet().putAll(element.getParameterSet().getParameterSet());
+    	
+    	profileOld = this.element.getProfile().clone();
+    	
+    	if(null==this.element.getIsolation())
+    		isolationNew = new Isolation();
+    	else
+    		isolationNew = this.element.getIsolation().copy();
+    	
+    	this.getContent().setLayout(new GridLayout(1, true));
 		
-		tableProperties = new Table(shell, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL);
+		tableProperties = new Table(this.getContent(), SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL);
 		tableProperties.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 		tableProperties.setLinesVisible(true);
 		tableProperties.setHeaderVisible(true);
@@ -56,102 +68,45 @@ public class EditDuctElementGUI {
 			TableColumn column = new TableColumn(tableProperties, SWT.NULL);
 			column.setText(titles[i]);
 			column.setWidth(32);
-		}
-				
-		//SOURCE http://www.tutorials.de/threads/in-editierbarer-swt-tabelle-ohne-eingabe-von-enter-werte-aendern.299858/
-	    //create a TableCursor to navigate around the table
-	    final TableCursor cursor = new TableCursor(tableProperties, SWT.NONE);
-	    // create an editor to edit the cell when the user hits "ENTER"
-	    // while over a cell in the table
-	    final ControlEditor editor = new ControlEditor(cursor);
-	    editor.grabHorizontal = true;
-	    editor.grabVertical = true;
-	   
-	    cursor.addKeyListener(new KeyAdapter() {
-	        public void keyPressed(KeyEvent e) {
-	            switch(e.keyCode) {
-		            case SWT.ARROW_UP:
-		            case SWT.ARROW_RIGHT:
-		            case SWT.ARROW_DOWN:
-		            case SWT.ARROW_LEFT:
-		            //an dieser stelle fehlen auch noch alle anderen tasten die
-		            //ignoriert werden sollen...wie F1-12, esc,bsp,....
-		                //System.out.println("Taste ignorieren...");
-		                break;
-		               
-		            default:
-		                //System.out.println("hier jetzt text editieren");
-		                final Text text = new Text(cursor, SWT.NONE);
-		                final TableItem row = cursor.getRow();
-		                text.append(String.valueOf(e.character));
-		                text.addKeyListener(new KeyAdapter() {
-		                    public void keyPressed(KeyEvent e) {
-		                        // close the text editor and copy the data over
-		                        // when the user hits "ENTER"
-		                        if (e.character == SWT.CR) {
-		                            int column = cursor.getColumn();
-		                        	switch(column){
-		                        	case 1:
-		                        		try{
-			                        		parameters.setParameter(row.getText(0), Double.parseDouble(text.getText()), new SiUnit(row.getText(2)));
-		                        		}
-		                        		catch(Exception ex){
-		                        			// Not used
-		                        		}
-			                        	updatePropertyTable();
-			                        	break;
-		                        	}
-			                        text.dispose();
-		                        }
-		                        // close the text editor when the user hits "ESC"
-		                        if (e.character == SWT.ESC) {
-		                            text.dispose();
-		                        }
-		                    }
-		                });
-		                editor.setEditor(text);
-		                text.setFocus();
-		                    break;
-	            }  
-	        }
-	    });
+		}			
 	    
 	    updatePropertyTable();
-        
-		
-		saveButton = new Button(shell, SWT.NONE);
-		saveButton.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false, 1, 1));
-		saveButton.setText("Save");
-		saveButton.addSelectionListener(new SelectionListener(){
-        	public void widgetSelected(SelectionEvent event){
-        		element.setParameterSet(parameters);
-        		caller.update();
-        	}
-        	public void widgetDefaultSelected(SelectionEvent event){
-        		// Not used
-        	}
-		});
-		
-		closeButton = new Button(shell, SWT.NONE);
-		closeButton.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false, 1, 1));
-		closeButton.setText("Close");
-		closeButton.addSelectionListener(new SelectionListener(){
-        	public void widgetSelected(SelectionEvent event){
-        		shell.dispose();
-        	}
-        	public void widgetDefaultSelected(SelectionEvent event){
-        		// Not used
-        	}
-		});
-		
-		
-        
-        shell.pack();
-		
-		shell.open();
     }
     
+    public static Shell editDuctElementGUI(Shell parent, ADuctElement element) {
+		final Shell shell = new Shell(parent, SWT.TITLE|SWT.SYSTEM_MODAL| SWT.CLOSE | SWT.MAX);
+		shell.setLayout(new FillLayout());
+		
+		EditDuctElementGUI gui = new EditDuctElementGUI(shell, SWT.NONE, element);
+		
+		shell.setText("Duct Element Editor"+element.getName());
+		
+		shell.pack();
+		
+		shell.layout();
+		shell.redraw();
+		shell.open();
+		gui.addDisposeListener(new DisposeListener() {
+			@Override
+			public void widgetDisposed(DisposeEvent e) {
+				shell.dispose();
+			}
+		});
+		
+		return shell;
+	}
+    
     private void updatePropertyTable(){
+      	
+    	for(Control c: tableProperties.getChildren())
+    		c.dispose();
+    	
+    	try {
+			TableUtils.addCellEditor(tableProperties, this, new int[]{1});
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+    	
     	tableProperties.clearAll();
     	tableProperties.setItemCount(0);
     	
@@ -174,6 +129,7 @@ public class EditDuctElementGUI {
     	buttonEditProfile.addSelectionListener(new SelectionListener(){
         	public void widgetSelected(SelectionEvent event){
         		editDuctProfile(element);
+        		wasEdited();
         	}
 			public void widgetDefaultSelected(SelectionEvent event){
 				// Not used
@@ -185,12 +141,14 @@ public class EditDuctElementGUI {
         editorButton.setEditor(buttonEditProfile, itemProfile, 3);
         
         itemIsolation.setText(0, "Isolation");
-        if(null==element.getIsolation())
+        if(null==isolationNew)
         	itemIsolation.setText(1, "none");
-        else if(null==element.getIsolation().getMaterial().getType())
+        else if(null==isolationNew.getMaterial())
+        	itemIsolation.setText(1, "none");
+        else if(null==isolationNew.getMaterial().getType())
         	itemIsolation.setText(1, "none");
         else {
-        	itemIsolation.setText(1, element.getIsolation().toString());
+        	itemIsolation.setText(1, isolationNew.toString());
         	itemIsolation.setText(2, (new SiUnit("m")).toString());
         }
         
@@ -200,10 +158,11 @@ public class EditDuctElementGUI {
     	buttonEditIsolation.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, true, 1, 1));
     	buttonEditIsolation.addSelectionListener(new SelectionListener(){
         	public void widgetSelected(SelectionEvent event){
-        		if(null==element.getIsolation())
-        			element.setIsolation(new Isolation());
+        		if(null==isolationNew)
+        			isolationNew = new Isolation();
         		
-        		editDuctIsolation(element.getIsolation());
+        		wasEdited();
+        		editDuctIsolation(isolationNew);
         	}
 			public void widgetDefaultSelected(SelectionEvent event){
 				// Not used
@@ -221,7 +180,8 @@ public class EditDuctElementGUI {
     	buttonDeleteIsolation.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, true, 1, 1));
     	buttonDeleteIsolation.addSelectionListener(new SelectionListener(){
         	public void widgetSelected(SelectionEvent event){
-        		element.setIsolation(null);
+        		isolationNew = null;
+        		wasEdited();
         		update();
         	}
 			public void widgetDefaultSelected(SelectionEvent event){
@@ -240,8 +200,8 @@ public class EditDuctElementGUI {
         	final TableItem itemParam = new TableItem(tableProperties, SWT.NONE, idx);
         	
         	itemParam.setText(0, key);
-        	itemParam.setText(1, parameters.getParameter(key).getValue()+"");
-        	itemParam.setText(2, parameters.getParameter(key).getUnit().toString());
+        	itemParam.setText(1, parametersNew.getParameter(key).getValue()+"");
+        	itemParam.setText(2, parametersNew.getParameter(key).getUnit().toString());
         	
         }
         
@@ -252,14 +212,70 @@ public class EditDuctElementGUI {
     }
     
 	private void editDuctProfile(ADuctElement element) {
-		new EditDuctProfileGUI(this, element);
+		Shell shell = EditDuctProfileGUI.editDuctProfileGUI(this.getShell(), element);
+		shell.addDisposeListener(new DisposeListener() {
+			
+			@Override
+			public void widgetDisposed(DisposeEvent e) {
+				update();
+			}
+		});
 	}
 	
 	private void editDuctIsolation(Isolation isolation) {
-		new EditDuctIsolationGUI(this, isolation);		
+		Shell shell = EditDuctIsolationGUI.editDuctIsolationGUI(this.getShell(), isolation);
+		shell.addDisposeListener(new DisposeListener() {
+			
+			@Override
+			public void widgetDisposed(DisposeEvent e) {
+				update();
+			}
+		});
 	}
 
 	public void update() {
 		updatePropertyTable();
+	}
+
+	@Override
+	public void save() {
+		
+		// Read new Config
+		for(int i=3; i<tableProperties.getItemCount(); i++){
+			try{
+				parametersNew.setParameter(tableProperties.getItem(i).getText(0),
+						Double.valueOf(tableProperties.getItem(i).getText(1)), 
+						new SiUnit(""+tableProperties.getItem(i).getText(2)));
+			}
+			catch(Exception e){
+				System.err.println("Can not parse input '"+tableProperties.getItem(i).getText(0)+
+						            "' as number: "+tableProperties.getItem(i).getText(1));
+			}
+		}
+		
+		element.setParameterSet(parametersNew);
+		element.setIsolation(isolationNew);
+		
+		profileOld = this.element.getProfile().clone();
+		
+		updatePropertyTable();
+	}
+
+	@Override
+	public void reset() {
+		for(String s: this.parametersNew.getParameterSet().keySet())
+			this.parametersNew.setParameter(s, element.getParameterSet().getParameter(s));
+		
+		profileOld   = this.element.getProfile().clone();
+		if(null==this.element.getIsolation())
+    		isolationNew = new Isolation();
+    	else
+    		isolationNew = this.element.getIsolation().copy();
+		
+		updatePropertyTable();
+		
+		element.setProfile(profileOld);
+		profileOld = this.element.getProfile().clone();
+		
 	}
 }

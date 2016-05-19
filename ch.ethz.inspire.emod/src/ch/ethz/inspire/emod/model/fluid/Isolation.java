@@ -57,6 +57,9 @@ public class Isolation implements Parameterizable {
 	 * @return [W/m^2/K]
 	 */
 	public double getThermalResistance(){
+		if(null==this.material)
+			return Double.POSITIVE_INFINITY;
+		
 		return this.material.getThermalConductivity()/this.thickness;
 	}
 	

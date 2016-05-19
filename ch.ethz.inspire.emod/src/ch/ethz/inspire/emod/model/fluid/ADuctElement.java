@@ -26,7 +26,7 @@ import ch.ethz.inspire.emod.utils.Parameterizable;
  *
  */
 @XmlRootElement
-public abstract class ADuctElement implements Parameterizable {
+public abstract class ADuctElement implements Parameterizable{
 	
 	protected String name;
 	@XmlTransient
@@ -159,6 +159,22 @@ public abstract class ADuctElement implements Parameterizable {
 	 * @return [Pa]
 	 */
 	public abstract double getPressureDrop(double flowRate, double pressure, double temperatureFluid);
+	
+	/**
+	 * Returns the heat pressure drop for the given operational condition
+	 * 
+	 * @param flowRate			[kg/s]
+	 * @param pressure 			[Pa]
+	 * @param temperatureFluid	[K]
+	 * @param temperatureWall	[K]
+	 * @return [Pa]
+	 */
+	public double getPressureLossCoefficient(double flowRate, double pressure, double temperatureFluid){
+		if(0==flowRate)
+			return Double.NaN;
+		
+		return getPressureDrop(flowRate, pressure, temperatureFluid)/Math.pow(flowRate, 2)*Math.signum(flowRate);
+	}
 
 	/**
 	 * Returns the hydraulic profile object

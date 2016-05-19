@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment/>
+<entry key="ProcClamp">0.0,0.0,</entry>
+<entry key="ProcAxisCSpeed">0.0,0.0,</entry>
+<entry key="ProcAxisZSpeed">0.0,0.0,</entry>
+<entry key="ProcSpindleSpeed">166.666,166.666,</entry>
+<entry key="Time">0.0,100.0,</entry>
+<entry key="ProcAxisASpeed">0.0,0.0,</entry>
+<entry key="ProcAxisXSpeed">0.0,0.0,</entry>
+<entry key="ProcCFSpindle">1.0,1.0,</entry>
+<entry key="ProcCFWP">1.0,1.0,</entry>
+<entry key="ProcAxisYSpeed">0.0,0.0,</entry>
+<entry key="ProcAxisBSpeed">0.0,0.0,</entry>
+</properties>

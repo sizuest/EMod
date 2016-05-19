@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import ch.ethz.inspire.emod.model.fluid.FECValve;
+import ch.ethz.inspire.emod.model.fluid.Fluid;
 import ch.ethz.inspire.emod.model.units.ContainerType;
 import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.model.units.Unit;
@@ -232,7 +233,7 @@ public class Valve extends APhysicalComponent implements Floodable{
 	}
 
 	public double getPressure(double flowRate) {
-		return Math.pow(flowRate, 2) * getPressureLossCoefficient();
+		return Math.pow(flowRate, 2) * getPressureLossCoefficient() * Fluid.sign(flowRate);
 	}
 	
 	public double getPressureLossCoefficient(){

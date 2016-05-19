@@ -174,7 +174,7 @@ public class FluidCircuitSolver {
 		}
 	}
 	
-	public void solve() throws Exception{
+	public void solve(int maxIterations) throws Exception{
 		double[] a1, a0, e, prefIn, prefOut;
 		
 		a1 = new double[fluidPropertyList.size()];
@@ -193,7 +193,7 @@ public class FluidCircuitSolver {
 		int iteration = 0;
 		double relChange = Double.POSITIVE_INFINITY;
 		
-		while(iteration<20 & relChange>1E-4){
+		while(iteration<maxIterations & relChange>1E-4){
 			
 			// Read new op
 			for(int i=0; i<numE; i++){			
@@ -257,7 +257,7 @@ public class FluidCircuitSolver {
 			}
 		}
 		
-		if(iteration>=20){
+		if(iteration>=maxIterations){
 			System.out.println("Warning: Fluid circuit solution didn't coverged. Max change rate: "+relChange);
 		}
 	}

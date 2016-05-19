@@ -80,8 +80,8 @@ public abstract class AThermalIntegrator {
 		pressure  = new ShiftProperty<Double>(0.0);
 		
 		massState           = new DynamicState("Mass", new SiUnit(Unit.KG));
-		temperatureState    = new DynamicState("Temperature", new SiUnit(Unit.KELVIN));
-		temperatureOutState = new DynamicState("TemperatureOut", new SiUnit(Unit.KELVIN));
+		temperatureState    = new DynamicState("Temperature", new SiUnit(Unit.KELVIN), 293.15);
+		temperatureOutState = new DynamicState("TemperatureOut", new SiUnit(Unit.KELVIN), 293.15);
 		try {
 			temperatureState.setInitialConditionFunction(this.getClass().getMethod("setInitialTemperature", double.class), this);
 		} catch (Exception e) {

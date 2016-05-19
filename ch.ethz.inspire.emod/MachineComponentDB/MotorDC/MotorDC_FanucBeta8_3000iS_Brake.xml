@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment/>
+<entry key="BrakePower">29</entry>
+<entry key="PolePairs">3</entry>
+<entry key="StaticFriction">0.3</entry>
+<entry key="KappaA">0.95</entry>
+<entry key="KappaI">0.32</entry>
+<entry key="ArmatureResistance">0.51</entry>
+</properties>

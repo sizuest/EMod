@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment/>
+<entry key="1_KühlerCBAchse">0.0,1.0,0.0,</entry>
+<entry key="1_5MPaControl">0.0,1.0,0.0,</entry>
+<entry key="CAchseControl">0.0,0.0,0.0,</entry>
+<entry key="1_spindelkühlmittelpumpeControl">0.0,0.0,0.0,</entry>
+<entry key="VentileKühlmittelSpindelundKammerControl">0.0,0.0,0.0,</entry>
+<entry key="SpindelRotControl">0.0,0.0,0.0,</entry>
+<entry key="XAchseControl">0.0,0.0,0.0,</entry>
+<entry key="1_KühlerXYZAchse">0.0,0.0,0.0,</entry>
+<entry key="1_TrommelfilterPumpeControl">0.0,0.0,0.0,</entry>
+<entry key="Time">0.0,10.0,20.0,</entry>
+<entry key="YAchseControl">0.0,0.0,0.0,</entry>
+<entry key="1_PumpeKühloelRotachsen">0.0,0.0,0.0,</entry>
+<entry key="ProcessSimulationControl">0.0,0.0,0.0,</entry>
+<entry key="ZAchseControl">0.0,0.0,0.0,</entry>
+<entry key="1_SprühkühlmittelPumpeControl">0.0,0.0,0.0,</entry>
+<entry key="1_SpäneentfernenPumpeControl">0.0,0.0,0.0,</entry>
+<entry key="VentilTrommelfilterConctrol">0.0,0.0,0.0,</entry>
+<entry key="BAchseControl">0.0,0.0,0.0,</entry>
+</properties>

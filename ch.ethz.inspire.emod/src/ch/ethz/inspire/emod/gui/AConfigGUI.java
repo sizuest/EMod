@@ -13,6 +13,8 @@
 package ch.ethz.inspire.emod.gui;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
@@ -133,22 +135,38 @@ public abstract class AConfigGUI extends Composite{
 	public abstract void reset();
 	
 	public void close(){
-		if(wasEdited)
-			askForSavingGUI();
-			
-		this.dispose();
+		if(wasEdited){
+			Shell dialog = askForSavingGUI();
+			dialog.addDisposeListener(new DisposeListener() {
+				
+				@Override
+				public void widgetDisposed(DisposeEvent e) {
+					dispose();
+				}
+			});
+		}
+		else	
+			this.dispose();
 	}
 	
 	public void askForSaving(){
-		if(wasEdited)
-			askForSavingGUI();
-		else
+		if(wasEdited){
+			Shell dialog = askForSavingGUI();
+			dialog.addDisposeListener(new DisposeListener() {
+				
+				@Override
+				public void widgetDisposed(DisposeEvent e) {
+					reset();
+				}
+			});
+		}
+		else	
 			reset();
 		
 		wasEdited = false;
 	}
 	
-	protected void askForSavingGUI(){
+	protected Shell askForSavingGUI(){
 		final Shell dialog = new Shell(this.getShell(), SWT.APPLICATION_MODAL);
 		Button cancel, save;
 		Text text;
@@ -193,5 +211,7 @@ public abstract class AConfigGUI extends Composite{
 		
 		dialog.pack();
 		dialog.open();
+		
+		return dialog;
 	}
 }

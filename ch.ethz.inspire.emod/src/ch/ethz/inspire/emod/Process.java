@@ -13,6 +13,8 @@
 
 package ch.ethz.inspire.emod;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import ch.ethz.inspire.emod.utils.ConfigReader;
@@ -60,6 +62,86 @@ public class Process extends ConfigReader {
 			ex.printStackTrace();
 			return;
 		}
+	}
+	
+	public static void newProcess(String name){
+		
+		/* Set new file name */
+		String path = PropertiesHandler.getProperty("app.MachineDataPathPrefix") + "/" +
+				PropertiesHandler.getProperty("sim.MachineName") + "/" + Defines.SIMULATIONCONFIGDIR + "/" +
+				PropertiesHandler.getProperty("sim.SimulationConfigName");
+		
+		getInstance().fileName = path + "/" + Defines.PROCESSDEFFILE_PREFIX + name + ".xml";
+		
+		/* empty time and variable verctors */
+		try {
+			Process.setTimeVector(new double[]{0.0});
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		for(String key: Process.getVariableNames())
+			getInstance().setValue(key, 0);
+		
+		/* save */
+		try {
+			getInstance().saveValues();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Remove Process
+	 * @param name 
+	 */
+	public static void removeProcess(String name){
+		/* Set new file name */
+		String path = PropertiesHandler.getProperty("app.MachineDataPathPrefix") + "/" +
+				PropertiesHandler.getProperty("sim.MachineName") + "/" + Defines.SIMULATIONCONFIGDIR + "/" +
+				PropertiesHandler.getProperty("sim.SimulationConfigName");
+		
+		File processDir = new File(path);
+		File processFile = new File(path + "/" + Defines.PROCESSDEFFILE_PREFIX + name + ".xml");
+		
+		/* Delete process file */
+		processFile.delete();
+		
+		/* Look for next process file */
+		String newProcessName = "";
+		for(String s: processDir.list())
+			if(s.contains(Defines.PROCESSDEFFILE_PREFIX)){
+				newProcessName = s.replace(Defines.PROCESSDEFFILE_PREFIX, "").replace(".xml", "");
+				break;
+			}
+		
+		/* Set new path */
+		if(newProcessName.equals("")){
+			newProcessName = "default";
+			
+			clearProcess();
+			getInstance().fileName = path + "/" + Defines.PROCESSDEFFILE_PREFIX + newProcessName + ".xml";
+			
+			try {
+				getInstance().saveValues();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		else
+			loadProcess(newProcessName);
+		
+		PropertiesHandler.setProperty("sim.ProcessName", newProcessName);
+		
+	}
+	
+	private static void clearProcess(){
+		try {
+			Process.setTimeVector(new double[]{0.0});
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		for(String key: Process.getVariableNames())
+			getInstance().setValue(key, 0);
 	}
 	
 	/**
@@ -240,7 +322,7 @@ public class Process extends ConfigReader {
 	public static void setTimeVector(double[] time) throws Exception {
 		
 		// Sample lenth
-		if(Process.getTime()==null)
+		if(time==null)
 			throw new Exception("Process: setTimeVector failed: null!");
 		
 		// Time differences

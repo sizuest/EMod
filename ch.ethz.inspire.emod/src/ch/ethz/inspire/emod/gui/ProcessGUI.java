@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
@@ -40,7 +42,7 @@ import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 public class ProcessGUI extends AConfigGUI {
 	
-
+	private ProcessManageGUI processMngGUI;
 	private Table tableProcessParam;
 	private String[] inputNames;
 
@@ -48,6 +50,16 @@ public class ProcessGUI extends AConfigGUI {
 		super(parent, style, false);
 		
 		Process.loadProcess(PropertiesHandler.getProperty("sim.ProcessName"));
+		
+		processMngGUI = new ProcessManageGUI(this.getContent(), SWT.NONE);
+		processMngGUI.addPaintListener(new PaintListener() {
+			
+			@Override
+			public void paintControl(PaintEvent e) {
+				reset();
+				
+			}
+		});
 		
 		//Tabelle fuer Prozess initieren
 		tableProcessParam = new Table(this.getContent(), SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
@@ -105,11 +117,11 @@ public class ProcessGUI extends AConfigGUI {
 			inputNames[i] = tmp1.get(i);
 		
 		for(String k : inputNames){
-			column = new TableColumn(tableProcessParam, SWT.NULL);
-			if(scNames.contains(k))
+			
+			if(scNames.contains(k)){
+				column = new TableColumn(tableProcessParam, SWT.NULL);
 				column.setText(k+ " ["+scUnits.get(scNames.indexOf(k)).toString()+"]");
-			else
-				column.setText(k+ " [not used]");
+			}
 		}
 		
 		// Table items

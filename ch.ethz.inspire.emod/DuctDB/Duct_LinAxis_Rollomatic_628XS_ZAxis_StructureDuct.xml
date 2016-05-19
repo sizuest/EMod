@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ns2:duct xmlns:ns2="ch.ethz.inspire.emod">
     <material>
-        <type>GlykolWater_30</type>
+        <type>Vascomill-22</type>
     </material>
     <name>LinAxis_Rollomatic_628XS_ZAxis_StructureDuct</name>
     <elements>
-        <elements xsi:type="ductPipe" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <elements xsi:type="ductDefinedValues" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>Einlass</name>
             <profile xsi:type="hpCircular">
-                <radius>0.001</radius>
+                <radius>0.01</radius>
             </profile>
-            <roughness>0.0</roughness>
+            <zeta>5.24E13</zeta>
+            <alpha>0.0</alpha>
+            <surface>1.0</surface>
             <length>1.0</length>
+            <volume>1.0</volume>
         </elements>
         <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>Fitting_Einlass-Sockel</name>
+            <name>Fitting_DefinedValues-Sockel</name>
             <profile xsi:type="hpCircular">
-                <radius>0.10038271604938272</radius>
+                <radius>0.10938271604938271</radius>
             </profile>
         </elements>
         <elements xsi:type="ductPipe" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">

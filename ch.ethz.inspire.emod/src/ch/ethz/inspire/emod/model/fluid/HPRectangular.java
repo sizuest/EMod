@@ -72,4 +72,9 @@ public class HPRectangular extends AHydraulicProfile{
 		this.width  = ps.getParameter("Width").getValue();
 	}
 
+	@Override
+	public AHydraulicProfile clone() {
+		return new HPRectangular(this.height, this.width);
+	}
+
 }

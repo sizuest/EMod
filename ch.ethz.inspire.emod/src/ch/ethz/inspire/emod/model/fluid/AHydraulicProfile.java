@@ -24,12 +24,17 @@ import ch.ethz.inspire.emod.utils.Parameterizable;
  *
  */
 @XmlRootElement
-public abstract class AHydraulicProfile implements Parameterizable {
+public abstract class AHydraulicProfile implements Parameterizable, Cloneable {
 	
 	/**
 	 * Constructor for unmarshaler
 	 */
 	public AHydraulicProfile(){}
+	
+	/**
+	 * Clone
+	 */
+	public abstract AHydraulicProfile clone();
 	
 	/**
 	 * Constructor for {@link ParameterSet.java} input

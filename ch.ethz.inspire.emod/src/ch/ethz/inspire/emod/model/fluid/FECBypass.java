@@ -24,7 +24,7 @@ public class FECBypass extends AFluidElementCharacteristic{
 		if(pressureIn-pressureOut<pMax)
 			return pressureIn-pressureOut;
 		else
-			return pMax-getZeta(pressureIn-pressureOut)*Math.pow(flowRate, 2);
+			return pMax-getZeta(pressureIn-pressureOut)*Math.pow(flowRate, 2)*Fluid.sign(flowRate);
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class FECBypass extends AFluidElementCharacteristic{
 		if(pressureIn-pressureOut<pMax)
 			return 1E20*2*flowRate;
 		else
-			return 2*flowRate*getZeta(pressureIn-pressureOut);
+			return 2*flowRate*getZeta(pressureIn-pressureOut)*Fluid.sign(flowRate);
 	}
 
 	@Override

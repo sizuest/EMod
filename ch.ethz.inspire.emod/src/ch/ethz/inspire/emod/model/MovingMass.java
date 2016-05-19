@@ -119,8 +119,8 @@ public class MovingMass extends APhysicalComponent{
 
 		
 		/* State */
-		positionLin = new DynamicState("Position", new SiUnit(Unit.M));
-		positionAng = new DynamicState("Angle",    new SiUnit(""));
+		positionLin = new DynamicState("Position", new SiUnit(Unit.M), 0);
+		positionAng = new DynamicState("Angle",    new SiUnit(""), 0);
 		
 		dynamicStates = new ArrayList<DynamicState>();
 		dynamicStates.add(positionLin);

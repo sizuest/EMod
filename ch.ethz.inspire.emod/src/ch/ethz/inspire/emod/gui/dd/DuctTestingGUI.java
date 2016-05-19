@@ -50,6 +50,7 @@ import ch.ethz.inspire.emod.model.fluid.ADuctElement;
 import ch.ethz.inspire.emod.model.fluid.Duct;
 import ch.ethz.inspire.emod.model.material.Material;
 import ch.ethz.inspire.emod.model.units.SiUnit;
+import ch.ethz.inspire.emod.model.units.Unit;
 
 public class DuctTestingGUI extends AGUITab{
 
@@ -124,7 +125,14 @@ public class DuctTestingGUI extends AGUITab{
 		tableTesting.setLinesVisible(true);
 		tableTesting.setHeaderVisible(true);
 		
-		String[] titlesTest =  {"Element", "Δp ["+(new SiUnit("Pa")).toString()+"]", "Rth ["+(new SiUnit("W K^-1")).toString()+"]", "α ["+(new SiUnit("W m^-2 K^-1")).toString()+"]"};
+		String[] titlesTest =  {"Element", 
+				                "V ["+SiUnit.pow(new SiUnit("m"),3).toString()+"]", 
+				                "S ["+(new SiUnit("m^2")).toString()+"]", 
+				                "l ["+(new SiUnit("m")).toString()+"]", 
+				                "Δp ["+(new SiUnit("Pa")).toString()+"]", 
+				                "ζ ["+SiUnit.divide(new SiUnit("Pa"), SiUnit.pow(new SiUnit(Unit.METERCUBIC_S), 2)).toString()+"]", 
+				                "Rth ["+(new SiUnit("W K^-1")).toString()+"]", 
+				                "α ["+(new SiUnit("W m^-2 K^-1")).toString()+"]"};
 		for(int i=0; i < titlesTest.length; i++){
 			TableColumn column = new TableColumn(tableTesting, SWT.NULL);
 			column.setText(titlesTest[i]);
@@ -467,18 +475,26 @@ public class DuctTestingGUI extends AGUITab{
 			final TableItem itemProp = new TableItem(tableTesting, SWT.RIGHT, i);
 			
 			itemProp.setText(0, e.getName());
-			itemProp.setText(1, String.format("%.3g", e.getPressureDrop(flowRate, pressure, temperatureF)));
-			itemProp.setText(2, String.format("%.3g", e.getHTC(flowRate, pressure, temperatureF, temperatureW)*e.getSurface()));
-			itemProp.setText(3, String.format("%.3g", e.getHTC(flowRate, pressure, temperatureF, temperatureW)));
+			itemProp.setText(1, String.format("%.3g", e.getVolume()));
+			itemProp.setText(2, String.format("%.3g", e.getSurface()));
+			itemProp.setText(3, String.format("%.3g", e.getLength()));
+			itemProp.setText(4, String.format("%.3g", e.getPressureDrop(flowRate, pressure, temperatureF)));
+			itemProp.setText(5, String.format("%.3g", e.getPressureLossCoefficient(flowRate, pressure, temperatureF)));
+			itemProp.setText(6, String.format("%.3g", e.getHTC(flowRate, pressure, temperatureF, temperatureW)*e.getSurface()));
+			itemProp.setText(7, String.format("%.3g", e.getHTC(flowRate, pressure, temperatureF, temperatureW)));
     	}
     	
     	int i              = tableTesting.getItemCount();
 		TableItem itemProp = new TableItem(tableTesting, SWT.RIGHT, i);
 		
 		itemProp.setText(0, "TOTAL");
-		itemProp.setText(1, String.format("%.3g", duct.getPressureDrop(flowRate, pressure, temperatureF)));
-		itemProp.setText(2, String.format("%.3g", duct.getThermalResistance(flowRate, pressure, temperatureF, temperatureW)));
-		itemProp.setText(3, String.format("%.3g", duct.getHTC(flowRate, pressure, temperatureF, temperatureW)));
+		itemProp.setText(1, String.format("%.3g", duct.getVolume()));
+		itemProp.setText(2, String.format("%.3g", duct.getSurface()));
+		itemProp.setText(3, String.format("%.3g", duct.getLength()));
+		itemProp.setText(4, String.format("%.3g", duct.getPressureDrop(flowRate, pressure, temperatureF)));
+		itemProp.setText(5, String.format("%.3g", duct.getPressureLossCoefficient(flowRate, pressure, temperatureF)));
+		itemProp.setText(6, String.format("%.3g", duct.getThermalResistance(flowRate, pressure, temperatureF, temperatureW)));
+		itemProp.setText(7, String.format("%.3g", duct.getHTC(flowRate, pressure, temperatureF, temperatureW)));
 		itemProp.setFont(new Font(itemProp.getDisplay(), "Arial", 10, SWT.BOLD));
     	
     	TableColumn[] columns = tableTesting.getColumns();

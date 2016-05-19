@@ -84,12 +84,14 @@ for i=1:length(MACHINECOMPONENTS)
     tmp.outputs = {};
     
     
-    fieldname = strrep(tmp.name, 'ü', 'ue');
-    fieldname = strrep(fieldname, 'ö', 'oe');
-    fieldname = strrep(fieldname, 'Ö', 'Oe');
-    fieldname = strrep(fieldname, 'ä', 'ae');
-    fieldname = strrep(fieldname, ' ', '');
-    machineComponent.(fieldname) = tmp;
+    name = strrep(tmp.name, 'ü', 'ue');
+    name = strrep(name, 'ö', 'oe');
+    name = strrep(name, 'Ö', 'Oe');
+    name = strrep(name, 'ä', 'ae');
+    name = strrep(name, ' ', '');
+    name = regexprep(name, '^([1-9])', 'a$1');
+    
+    machineComponent.(name) = tmp;
 end
 
 % Get Simulators, same as above
@@ -108,6 +110,14 @@ for i=1:length(SIMCONTROLLERS)
     
 end
 
+for i=1:length(simController)
+    simController{i}.name = strrep(simController{i}.name, 'ü', 'ue');
+    simController{i}.name = strrep(simController{i}.name, 'ö', 'oe');
+    simController{i}.name = strrep(simController{i}.name, 'Ö', 'Oe');
+    simController{i}.name = strrep(simController{i}.name, 'ä', 'ae');
+    simController{i}.name = strrep(simController{i}.name, ' ', '');
+end
+
 fprintf('[+] %d machine components added\n', length(fieldnames(machineComponent)));
 fprintf('[+] %d simulation controllers added\n', length(simController));
 
@@ -121,6 +131,8 @@ linkingFile = strrep(linkingFile, 'ö', 'oe');
 linkingFile = strrep(linkingFile, 'Ö', 'Oe');
 linkingFile = strrep(linkingFile, 'ä', 'ae');
 linkingFile = strrep(linkingFile, ' ', '');
+linkingFile = regexprep(linkingFile, '\n([1-9])', '\na$1');
+linkingFile = regexprep(linkingFile, '=\s*([1-9])', '=a$1');
 
 % remove .Plus, .Sum, .Minus
 % linkingFile = regexprep( linkingFile, {'\.Plus', '\.Sum', '\.Minus' }, '');

@@ -85,19 +85,20 @@ public class Pump extends APhysicalComponent implements Floodable{
 	private double[] flowRateSamples;   		// Samples of flow rate [m^3/s]
 	private double[] effPumpSamples;			// Samples of the pump eff [-]
 	private double[] powerSamples;				// Samples of power demand [W]
-	private double   massFluid       = 3;		// Mass of the fluid in the pump [kg]
-	private double   massMotor       = 29;		// Mass of the motor [kg]
-	private boolean  hasMotorCooling = true;	// Forced convection at the motor
-	private boolean  isSubmerged     = true;	// Submerged Pump (heat flow to tank)
-	private double   diameterPump    = .13;		// Diameter of the pump [m]
-	private double   lengthPump      = .385;	// Length of the pump [m]
-	private double   diameterMotor   = .178;	// Diameter of the motor [m]
-	private double   lengthMotor     = .321;	// Length of the motor [m]
-	private double   rotSpeed    = 2900;		// Nominal rotational speed [rpm]
-	private int      numImpEyes  = 1;			// Number of impeller entries [-]
-	private int      numStages   = 3;			// Number of stages [-]
-	private double   flowRateOpt = 66.7/6e4;	// Nominal flow rate [m^3/s]
-	private double   pressureOpt = 80.1*9810;	// Nominal pressure [Pa]
+	private double   massFluid;					// Mass of the fluid in the pump [kg]
+	private double   massMotor ;				// Mass of the motor [kg]
+	private boolean  hasMotorCooling;			// Forced convection at the motor
+	private boolean  isSubmerged;				// Submerged Pump (heat flow to tank)
+	private double   diameterPump;				// Diameter of the pump [m]
+	private double   lengthPump;				// Length of the pump [m]
+	private double   diameterMotor;				// Diameter of the motor [m]
+	private double   lengthMotor;				// Length of the motor [m]
+	private double   rotSpeed;					// Nominal rotational speed [rpm]
+	private int      numImpEyes;				// Number of impeller entries [-]
+	private int      numStages;					// Number of stages [-]
+	private double   flowRateOpt;				// Nominal flow rate [m^3/s]
+	private double   pressureOpt;				// Nominal pressure [Pa]
+	private double   deltaTempMax;		        // Maximum Temperature twds. amb.
 	
 	// Parameters calculated by the model
 	private double[] effMotorSamples;			// Samples of the motor eff [-]
@@ -213,17 +214,18 @@ public class Pump extends APhysicalComponent implements Floodable{
 			
 			massFluid       = params.getDoubleValue("MassFluid");
 			massMotor       = params.getDoubleValue("MassMotor");
-			hasMotorCooling = params.getBooleanValue("HasMotorCooling");
-			isSubmerged     = params.getBooleanValue("IsSubmerged");
+			hasMotorCooling = params.getValue("HasMotorCooling", true);
+			isSubmerged     = params.getValue("IsSubmerged", true);
 			diameterPump    = params.getDoubleValue("DiameterPump");
 			lengthPump      = params.getDoubleValue("LengthPump");
 			diameterMotor   = params.getDoubleValue("DiameterMotor");
 			lengthMotor     = params.getDoubleValue("LengthMotor");
 			rotSpeed        = params.getDoubleValue("NominalRotSpeed");
-			numImpEyes      = params.getIntValue("NumberImpellerEyes");
-			numStages       = params.getIntValue("NumberStages");
+			numImpEyes      = params.getValue("NumberImpellerEyes", 1);
+			numStages       = params.getValue("NumberStages", 1);
 			flowRateOpt     = params.getDoubleValue("NominalFlowRate");
 			pressureOpt     = params.getDoubleValue("NominalPressure");
+			deltaTempMax    = params.getValue("MaxTemperatureDifference", 25.0);
 			
 			
 			/* Motor efficiency */
@@ -245,7 +247,9 @@ public class Pump extends APhysicalComponent implements Floodable{
 			double lossMax = 0;
 			for(int i=0; i<effPumpSamples.length; i++)
 				lossMax = Math.max(powerSamples[i]*(1-effMotorSamples[i]), lossMax);
-			htcMotorForced = lossMax / surfaceMotor / 20;
+			
+			htcMotorForced = lossMax / surfaceMotor / deltaTempMax;
+			//htcMotorForced = 2/(surfaceMotor*20/lossMax/2-diameterMotor/2/(new Material("Motor")).getThermalConductivity()*Math.log(2));
 			
 
 			pressureSamplesV = new double[pressureSamples.length];

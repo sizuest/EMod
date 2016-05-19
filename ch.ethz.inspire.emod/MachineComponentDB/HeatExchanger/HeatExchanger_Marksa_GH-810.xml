@@ -3,11 +3,11 @@
 <properties>
 <comment/>
 <entry key="PressureLossCoefficient2">250E9</entry>
-<entry key="Power">50</entry>
-<entry key="PressureLossCoefficient1">620E9</entry>
-<entry key="TemperatureHigh">293</entry>
+<entry key="Power">150</entry>
+<entry key="PressureLossCoefficient1">428E9</entry>
+<entry key="TemperatureHigh">293.65</entry>
 <entry key="Volume2">0.005</entry>
 <entry key="Volume1">0.005</entry>
-<entry key="TemperatureLow">293</entry>
+<entry key="TemperatureLow">293.55</entry>
 <entry key="HeatTransferCoefficient">1600</entry>
 </properties>
