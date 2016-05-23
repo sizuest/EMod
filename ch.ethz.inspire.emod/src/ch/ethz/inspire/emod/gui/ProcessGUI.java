@@ -44,7 +44,7 @@ public class ProcessGUI extends AConfigGUI {
 	
 	private ProcessManageGUI processMngGUI;
 	private Table tableProcessParam;
-	private String[] inputNames;
+	private ArrayList<String> inputNames;
 
 	public ProcessGUI(Composite parent, int style) {
 		super(parent, style, false);
@@ -112,16 +112,21 @@ public class ProcessGUI extends AConfigGUI {
 		
 		// Write Heads
 		ArrayList<String> tmp1 = Process.getVariableNames();
-		inputNames = new String[tmp1.size()];
+		inputNames = new ArrayList<String>();
 		for(int i=0; i<tmp1.size(); i++)
-			inputNames[i] = tmp1.get(i);
+			inputNames.add(tmp1.get(i));
 		
-		for(String k : inputNames){
+		for(int i=inputNames.size()-1; i>=0; i--){
 			
-			if(scNames.contains(k)){
+			if(scNames.contains(inputNames.get(i))){
 				column = new TableColumn(tableProcessParam, SWT.NULL);
-				column.setText(k+ " ["+scUnits.get(scNames.indexOf(k)).toString()+"]");
+				column.setText(inputNames.get(i)+ " ["+scUnits.get(scNames.indexOf(inputNames.get(i))).toString()+"]");
 			}
+			else{
+				Process.deleteProcessVariable(inputNames.get(i));
+				inputNames.remove(i);
+			}
+				
 		}
 		
 		// Table items
@@ -134,8 +139,8 @@ public class ProcessGUI extends AConfigGUI {
 		}
 		
 		// Variable Data
-		for(int j=0; j<Process.getVariableNames().size(); j++){
-			double[] tmp = Process.getProcessVariable(Process.getVariableNames().get(j));
+		for(int j=0; j<inputNames.size(); j++){
+			double[] tmp = Process.getProcessVariable(inputNames.get(j));
 			for (int i = 0; i < Process.getNumberOfTimeStamps(); i++) {
 				if(i<tmp.length)
 					item[i].setText(j+1, Double.toString(tmp[i]));
@@ -183,7 +188,7 @@ public class ProcessGUI extends AConfigGUI {
 		
 		// Write back values
 		double[] data = new double[tableProcessParam.getItemCount()];
-		for(int i=0; i<inputNames.length; i++){
+		for(int i=0; i<inputNames.size(); i++){
 			for(int j=0; j<data.length; j++){
 				try{
 					data[j] = Double.valueOf(tableProcessParam.getItem(j).getText(i+1));
@@ -193,7 +198,7 @@ public class ProcessGUI extends AConfigGUI {
 			}
 			
 			try {
-				Process.setProcessVariable(inputNames[i], data);
+				Process.setProcessVariable(inputNames.get(i), data);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
