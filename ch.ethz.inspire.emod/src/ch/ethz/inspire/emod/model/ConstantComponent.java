@@ -76,7 +76,7 @@ public class ConstantComponent extends APhysicalComponent {
 		inputs.add(level);
 		//output
 		outputs = new ArrayList<IOContainer>();
-		ptotal = new IOContainer("ptotal", new SiUnit(Unit.WATT), 0, ContainerType.ELECTRIC);
+		ptotal = new IOContainer("PTotal", new SiUnit(Unit.WATT), 0, ContainerType.ELECTRIC);
 		outputs.add(ptotal);
 		
 		ComponentConfigReader configReader = null;

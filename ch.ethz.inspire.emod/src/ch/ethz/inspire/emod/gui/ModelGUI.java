@@ -41,6 +41,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
@@ -533,6 +535,15 @@ public class ModelGUI extends AGUITab {
     		}
     	});
         
+        comboEditInputUnit.addListener(SWT.MouseWheel, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				event.doit = false;
+				tableModelView.getVerticalBar().setSelection( tableModelView.getVerticalBar().getSelection() - 
+															  (int) Math.signum(event.count)*tableModelView.getVerticalBar().getIncrement() );
+			}
+		});
+        
         comboEditInputUnit.pack();
         editor.minimumWidth = comboEditInputUnit.getSize().x;
         if(columnWidthTableModelView[2] < comboEditInputUnit.getSize().x){
@@ -697,6 +708,16 @@ public class ModelGUI extends AGUITab {
     			// Not used
     		}
     	});
+    	
+    	comboComponentType.addListener(SWT.MouseWheel, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				event.doit = false;
+				tableModelView.getVerticalBar().setSelection( tableModelView.getVerticalBar().getSelection() - 
+						  (int) Math.signum(event.count)*tableModelView.getVerticalBar().getIncrement() );
+			}
+		});
+    	
     	comboComponentType.pack();
         editor.minimumWidth = comboComponentType.getSize().x;
         if(columnWidthTableModelView[2] < comboComponentType.getSize().x){

@@ -44,7 +44,8 @@ public class ProcessGUI extends AConfigGUI {
 	
 	private ProcessManageGUI processMngGUI;
 	private Table tableProcessParam;
-	private ArrayList<String> inputNames;
+	ArrayList<String> scNames;
+	ArrayList<SiUnit> scUnits;
 
 	public ProcessGUI(Composite parent, int style) {
 		super(parent, style, false);
@@ -96,8 +97,8 @@ public class ProcessGUI extends AConfigGUI {
 		
 		
 		// Simulators
-		ArrayList<String> scNames = new ArrayList<String>();
-		ArrayList<SiUnit> scUnits = new ArrayList<SiUnit>();
+		scNames = new ArrayList<String>();
+		scUnits = new ArrayList<SiUnit>();
 		for(ASimulationControl sc : Machine.getInstance().getVariableInputObjectList()){
 			scNames.add(sc.getName());
 			scUnits.add(sc.getUnit());
@@ -106,27 +107,13 @@ public class ProcessGUI extends AConfigGUI {
 					Process.addProcessVariable(sc.getName());
 				} catch (Exception e){
 					System.out.print("Added new variable to process file: "+sc.getName());
-				}
-						
+				}		
 		}
 		
 		// Write Heads
-		ArrayList<String> tmp1 = Process.getVariableNames();
-		inputNames = new ArrayList<String>();
-		for(int i=0; i<tmp1.size(); i++)
-			inputNames.add(tmp1.get(i));
-		
-		for(int i=inputNames.size()-1; i>=0; i--){
-			
-			if(scNames.contains(inputNames.get(i))){
-				column = new TableColumn(tableProcessParam, SWT.NULL);
-				column.setText(inputNames.get(i)+ " ["+scUnits.get(scNames.indexOf(inputNames.get(i))).toString()+"]");
-			}
-			else{
-				Process.deleteProcessVariable(inputNames.get(i));
-				inputNames.remove(i);
-			}
-				
+		for(String s: scNames){
+			column = new TableColumn(tableProcessParam, SWT.NULL);
+			column.setText(s+ " ["+scUnits.get(scNames.indexOf(s)).toString()+"]");
 		}
 		
 		// Table items
@@ -139,8 +126,8 @@ public class ProcessGUI extends AConfigGUI {
 		}
 		
 		// Variable Data
-		for(int j=0; j<inputNames.size(); j++){
-			double[] tmp = Process.getProcessVariable(inputNames.get(j));
+		for(int j=0; j<scNames.size(); j++){
+			double[] tmp = Process.getProcessVariable(scNames.get(j));
 			for (int i = 0; i < Process.getNumberOfTimeStamps(); i++) {
 				if(i<tmp.length)
 					item[i].setText(j+1, Double.toString(tmp[i]));
@@ -188,7 +175,7 @@ public class ProcessGUI extends AConfigGUI {
 		
 		// Write back values
 		double[] data = new double[tableProcessParam.getItemCount()];
-		for(int i=0; i<inputNames.size(); i++){
+		for(int i=0; i<scNames.size(); i++){
 			for(int j=0; j<data.length; j++){
 				try{
 					data[j] = Double.valueOf(tableProcessParam.getItem(j).getText(i+1));
@@ -198,7 +185,7 @@ public class ProcessGUI extends AConfigGUI {
 			}
 			
 			try {
-				Process.setProcessVariable(inputNames.get(i), data);
+				Process.setProcessVariable(scNames.get(i), data);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

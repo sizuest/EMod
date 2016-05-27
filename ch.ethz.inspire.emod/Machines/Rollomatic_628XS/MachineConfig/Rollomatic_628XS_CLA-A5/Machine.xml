@@ -139,6 +139,12 @@
             </component>
             <name>CFNozzleWP</name>
         </machineComponent>
+        <machineComponent>
+            <component xsi:type="constantComponent" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Rollomatic_628XS_CC</type>
+            </component>
+            <name>ConstantConsumers</name>
+        </machineComponent>
     </machine>
     <simulators>
         <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -262,6 +268,7 @@
             </unit>
         </simController>
     </simulators>
+    <connectionList/>
     <connectionList/>
     <connectionList/>
     <connectionList/>

@@ -66,3 +66,4 @@ Tank.HeatExchangerOut = Spindle.PTotal
 Tank.FluidIn = CFNozzleWP.FluidOut
 CFNozzleSpindle.ValveCtrl = ProcCFSpindle
 CFNozzleWP.ValveCtrl = ProcCFWP
+ConstantConsumers.level = CtrlCoolant

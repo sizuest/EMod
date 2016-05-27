@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>File changed by user: simon</comment>
+<entry key="LubricantMaterial">SlidewayOil-ISO-VG-68</entry>
+<entry key="ContactAngle">20</entry>
+<entry key="C0">21300</entry>
+<entry key="LubricationFactor">.7</entry>
+<entry key="MeanDiameter">0.090</entry>
+<entry key="NumRollingBodies">21</entry>
+</properties>
