@@ -5,11 +5,11 @@
 <entry key="NominalFlowRate">0.00208</entry>
 <entry key="LengthPump">.1</entry>
 <entry key="PressureSamples">135378 125568 115758 105948 88290 66708 37278</entry>
-<entry key="EfficiencySamples">0 0.215 0.343 0.440 0.444 0.402 0.27</entry>
+<entry key="EfficiencySamples">0 0.058 0.08 0.095 0.00945 0.09 0.06</entry>
 <entry key="NominalPressure">77000</entry>
 <entry key="NumberImpellerEyes">1</entry>
 <entry key="HasMotorCooling">true</entry>
-<entry key="PowerSamples">169 244 281 300 330 345 345</entry>
+<entry key="PowerSamples">625 900 1200 1400 1550 1540 1500</entry>
 <entry key="NominalRotSpeed">3275</entry>
 <entry key="Material">Steel</entry>
 <entry key="MaxTemperatureDifference">25.0</entry>
