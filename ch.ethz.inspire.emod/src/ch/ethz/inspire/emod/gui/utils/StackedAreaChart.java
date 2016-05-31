@@ -68,7 +68,7 @@ public class StackedAreaChart {
 			color++;
 		}
 		
-		chart.getAxisSet().getXAxis(0).getTitle().setText("time ["+(new SiUnit("s")).toString()+"]");
+		chart.getAxisSet().getXAxis(0).getTitle().setText("time [s]");
 		chart.getAxisSet().getXAxis(0).getTick().setForeground(Display.getDefault().getSystemColor(0));
 		chart.getAxisSet().getXAxis(0).getTitle().setForeground(Display.getDefault().getSystemColor(0));
 		

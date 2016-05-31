@@ -126,7 +126,7 @@ public class SimulationOutput {
 				}
 				if(null!=mc.getComponent().getDynamicStateList())
 					for (DynamicState state : mc.getComponent().getDynamicStateList()){
-						outfile.write(separator + mc.getName() +"." + state.getName());
+						outfile.write(separator + mc.getName() +".State." + state.getName());
 					}
 			}
 			for(ASimulationControl sc : simlist) {

@@ -240,10 +240,10 @@ public class Amplifier extends APhysicalComponent{
 			/* The power loss depends on the efficiency of the amp for the actual
 			 * working point 
 			 */
-			ptotal.setValue(pdmd.getValue() * (1/ eff-1) + powerCtrl);
-			psupply.setValue(ptotal.getValue()+pdmd.getValue());
-			ploss.setValue(psupply.getValue() - pdmd.getValue());
-			efficiency.setValue(pdmd.getValue()/psupply.getValue());
+			ptotal.setValue(pdmd.getValue() * (1/eff-1) + powerCtrl);
+			psupply.setValue(pdmd.getValue()*  1/eff );
+			ploss.setValue(ptotal.getValue());
+			efficiency.setValue(pdmd.getValue()/(pdmd.getValue()+ptotal.getValue()));
 		}
 		else {
 			puse.setValue(0);

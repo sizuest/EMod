@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment/>
+<entry key="Proc_Sprühkühlmittel">1.0,0.0,</entry>
+<entry key="Proc_ZAchse">0.0833,0.0,</entry>
+<entry key="Proc_Spindelinnenkühlung">1.0,0.0,</entry>
+<entry key="Proc_XAchse">0.0833,0.0,</entry>
+<entry key="Proc_BAchse">0.0833,0.0,</entry>
+<entry key="Proc_Spähneschwemmen">1.0,0.0,</entry>
+<entry key="Time">0.0,10.0,</entry>
+<entry key="Proc_Trommelfilter">1.0,0.0,</entry>
+<entry key="Proc_Spindel">60.0,0.0,</entry>
+<entry key="Proc_YAchse">0.0833,0.0,</entry>
+<entry key="Proc_CAchse">0.0,0.0,</entry>
+<entry key="Proc_Spindelkühlmittel">1.0,0.0,</entry>
+</properties>
