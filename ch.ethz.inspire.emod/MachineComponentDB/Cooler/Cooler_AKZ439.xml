@@ -3,7 +3,7 @@
 <properties>
 <comment/>
 <entry key="TemperatureHigh">295</entry>
-<entry key="CompressorPower">1100</entry>
+<entry key="CompressorPower">500</entry>
 <entry key="TemperatureLow">293</entry>
-<entry key="EERCooling">4</entry>
+<entry key="EERCooling">2</entry>
 </properties>

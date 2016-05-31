@@ -236,13 +236,15 @@ public class Tank extends APhysicalComponent implements Floodable {
 		/* Dynamic state */
 		dynamicStates = new ArrayList<DynamicState>();
 		dynamicStates.add(fluid.getTemperature());
-		//dynamicStates.add(fluid.getMass());
+		dynamicStates.add(fluid.getMass());
 		
 		/* FlowRate */
 		fluidPropertiesOut.setPressureReferenceOut(pressureAmb);
 		fluidPropertiesIn.setPressureReferenceIn(pressureAmb);
 		fluidPropertiesOut.setMaterial(fluid.getMaterial());
 		fluidPropertiesIn.setMaterial(fluid.getMaterial());
+		
+		fluid.getMass().setInitialCondition(getVolume()*fluid.getMaterial().getDensity(fluid.getTemperature().getValue()));
 
 	}
 	

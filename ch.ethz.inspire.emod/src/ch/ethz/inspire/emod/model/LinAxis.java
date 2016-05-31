@@ -292,7 +292,7 @@ public class LinAxis extends APhysicalComponent implements Floodable{
 			motor.getInput("Torque").setValue(transmission * lastforce / 2 / Math.PI);
 			motor.update();
 			/* Powers */
-			puse.setValue(Math.abs(lastspeed*2*Math.PI*lastforce));
+			puse.setValue(Math.abs(lastspeed*lastforce));
 			ptotal.setValue(motor.getOutput("PTotal").getValue()+powerBreakOff);
 			ploss.setValue(ptotal.getValue()-puse.getValue());
 			

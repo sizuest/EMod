@@ -235,7 +235,7 @@ public class MotorDC extends AMotor{
 		
 		
 		lasttorque   = torque.getValue();
-		lastrotspeed = Math.abs(rotspeed.getValue())*2*Math.PI;
+		lastrotspeed = rotspeed.getValue()*2*Math.PI;
 		
 		/* Check if component is running. If not, set 
 		 * all to 0 and exit.
@@ -253,8 +253,8 @@ public class MotorDC extends AMotor{
 		 *	     (kappa_i [Vs/rad] * omega [rpm] + (T_m [Nm] + T_f [Nm])/kappa_a [Nm/A] * R_a [Ohm])
 		 *		  + P_brake [W]
 		 */
-		pel.setValue( p*(lasttorque+frictionTorque*Math.abs(Math.signum(lastrotspeed)))/kappa_a * 
-					  ( kappa_i*lastrotspeed + (lasttorque+frictionTorque*Math.abs(Math.signum(lastrotspeed)))*armatureResistance / kappa_a  ) );
+		pel.setValue( p*(lasttorque+frictionTorque*Math.signum(lastrotspeed))/kappa_a * 
+					  ( kappa_i*lastrotspeed + (lasttorque+frictionTorque*Math.signum(lastrotspeed))*armatureResistance / kappa_a  ) );
 		
 		/* The heat loss is equal to the power by the resistor power plus 
 		 * the amplifier loss 

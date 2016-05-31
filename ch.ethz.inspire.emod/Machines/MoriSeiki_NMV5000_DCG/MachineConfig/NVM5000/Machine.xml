@@ -69,7 +69,7 @@
         </machineComponent>
         <machineComponent>
             <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
+                <type>NMV5000Düse_Spindel_Total</type>
             </component>
             <name>DüseSpindelkühlmittel</name>
         </machineComponent>
@@ -201,13 +201,13 @@
         </machineComponent>
         <machineComponent>
             <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
+                <type>NMV5000Düse_hinten_rechts</type>
             </component>
             <name>Düse_Sprühkühlmittel_hinten_rechts</name>
         </machineComponent>
         <machineComponent>
             <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
+                <type>NMV5000_DüsenTotal_links</type>
             </component>
             <name>Düse_Sprühkühlmittel_links</name>
         </machineComponent>
