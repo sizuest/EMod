@@ -9,7 +9,7 @@
 <entry key="NominalPressure">922140</entry>
 <entry key="NumberImpellerEyes">1</entry>
 <entry key="HasMotorCooling">true</entry>
-<entry key="PowerSamples">480 580 680 780 850 900 930 950</entry>
+<entry key="PowerSamples">&#0;600 700 800 900 1050 1200 1250</entry>
 <entry key="NominalRotSpeed">2827</entry>
 <entry key="Material">Steel</entry>
 <entry key="MaxTemperatureDifference">25.0</entry>
