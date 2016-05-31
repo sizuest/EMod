@@ -228,7 +228,7 @@ public class LinAxis extends APhysicalComponent implements Floodable{
 		}
 		
 		/* Initialize sub-model */
-		massMoved = new MovingMass(massValue, 1, alpha);
+		massMoved = new MovingMass(massValue, 1, alpha, 0);
 		
 		dynamicStates = new ArrayList<DynamicState>();
 		dynamicStates.add(massMoved.getDynamicStateList().get(0));

@@ -88,6 +88,8 @@ public class RotAxis extends APhysicalComponent implements Floodable{
 	// Parameters used by the model. 
 	private double transmission;	// [mm/rev] Transmission ratio
 	private double inertia;         // [kg]     Moved mass
+	private double movingMass;
+	private double lever;
 	private String motorType;
 	private double mass;
 	private double powerBreakOn, powerBreakOff;
@@ -172,8 +174,10 @@ public class RotAxis extends APhysicalComponent implements Floodable{
 			inertia       = params.getDoubleValue("Inertia");
 			motorType     = params.getString("MotorType");
 			mass          = params.getDoubleValue("StructureMass");
-			powerBreakOn = params.getValue("PowerBreakOn", 0.0);
-			powerBreakOff= params.getValue("PowerBreakOff", 0.0);
+			powerBreakOn  = params.getValue("PowerBreakOn", 0.0);
+			powerBreakOff = params.getValue("PowerBreakOff", 0.0);
+			movingMass    = params.getValue("Mass", 0.0);
+			lever         = params.getValue("Lever", 0.0);
 			
 			/* Sub Model Motor */
 			String[] mdlType = motorType.split("_",2);
@@ -228,7 +232,7 @@ public class RotAxis extends APhysicalComponent implements Floodable{
 		}
 		
 		/* Initialize sub-model */
-		massMoved = new MovingMass(1, inertia, 0);
+		massMoved = new MovingMass(movingMass, inertia, 0, lever);
 		
 		dynamicStates = new ArrayList<DynamicState>();
 		dynamicStates.add(0, massMoved.getDynamicStateList().get(1));
@@ -272,7 +276,7 @@ public class RotAxis extends APhysicalComponent implements Floodable{
 		massMoved.getInput("SpeedRot").setValue(speed.getValue());
 		massMoved.update();
 		
-		lastspeed  = speed.getValue();                                       // [m/s]
+		lastspeed  = speed.getValue();                                             // [rad/s]
 		lasttorque = torque.getValue()+massMoved.getOutput("Torque").getValue();   // [N]
 		
 		if(1==state.getValue()){

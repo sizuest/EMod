@@ -234,8 +234,8 @@ public class MotorDC extends AMotor{
 	public void update() {
 		
 		
-		lasttorque   = Math.abs(torque.getValue());
-		lastrotspeed = Math.abs(rotspeed.getValue())*60;
+		lasttorque   = torque.getValue();
+		lastrotspeed = Math.abs(rotspeed.getValue())*2*Math.PI;
 		
 		/* Check if component is running. If not, set 
 		 * all to 0 and exit.
@@ -250,7 +250,7 @@ public class MotorDC extends AMotor{
 		
 		/* The electrical power is equal to the motor power 
 		 * pel = (T_m [Nm] + T_f [Nm])/kappa_a [Nm/A] *
-		 *	     (kappa_i [V/rmp] * omega [rpm] + (T_m [Nm] + T_f [Nm])/kappa_a [Nm/A] * R_a [Ohm])
+		 *	     (kappa_i [Vs/rad] * omega [rpm] + (T_m [Nm] + T_f [Nm])/kappa_a [Nm/A] * R_a [Ohm])
 		 *		  + P_brake [W]
 		 */
 		pel.setValue( p*(lasttorque+frictionTorque*Math.abs(Math.signum(lastrotspeed)))/kappa_a * 
@@ -265,7 +265,7 @@ public class MotorDC extends AMotor{
 		/* The mechanical power is given by the rotational speed and the torque:
 		 * pmech = T_m [Nm] * omega [rpm] * pi/30 [rad/rpm]
 		 */
-		pmech.setValue( lasttorque * lastrotspeed * Math.PI/30 );
+		pmech.setValue( lasttorque * lastrotspeed );
 		
 		if (pel.getValue() != 0) efficiency.setValue(pmech.getValue()/pel.getValue());
 		else efficiency.setValue(0);

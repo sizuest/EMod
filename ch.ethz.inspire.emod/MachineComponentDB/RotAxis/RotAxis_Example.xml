@@ -10,4 +10,6 @@
 <entry key="StructureDuct">StructureDuct</entry>
 <entry key="MotorType">MotorDC_Example</entry>
 <entry key="Inertia">1</entry>
+<entry key="Lever">.1</entry>
+<entry key="Mass">100</entry>
 </properties>

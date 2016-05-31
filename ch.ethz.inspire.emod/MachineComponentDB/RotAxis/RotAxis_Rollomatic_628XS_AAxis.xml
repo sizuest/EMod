@@ -10,4 +10,6 @@
 <entry key="StructureDuct">StructureDuct</entry>
 <entry key="MotorType">MotorDC_FanucAlphaiF2_5000</entry>
 <entry key="Inertia">23.53</entry>
+<entry key="Lever">0</entry>
+<entry key="Mass">5.3</entry>
 </properties>

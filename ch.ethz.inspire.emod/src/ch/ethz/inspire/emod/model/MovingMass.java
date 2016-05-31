@@ -52,6 +52,8 @@ public class MovingMass extends APhysicalComponent{
 	protected double inertia;
 	@XmlElement
 	protected double angle;
+	@XmlElement
+	protected double lever;
 	
 	// Input parameters:
 	private IOContainer speedLin, speedRot;
@@ -85,15 +87,17 @@ public class MovingMass extends APhysicalComponent{
 	 * @param mass 
 	 * @param inertia 
 	 * @param angle 
+	 * @param lever 
 	 * 
 	 * @param type
 	 */
-	public MovingMass(double mass, double inertia, double angle) {
+	public MovingMass(double mass, double inertia, double angle, double lever) {
 		super();
 		
 		this.angle   = angle;
 		this.mass    = mass;
 		this.inertia = inertia;
+		this.lever   = lever;
 		init();
 	}
 	
@@ -132,7 +136,6 @@ public class MovingMass extends APhysicalComponent{
 		}
 		catch (Exception e) {
 		    e.printStackTrace();
-		    System.exit(-1);
 		}
 	}
 	
@@ -145,9 +148,14 @@ public class MovingMass extends APhysicalComponent{
 	{		
 		// Check model parameters:
 		// Check dimensions:
-		if (mass <= 0) {
+		if (mass < 0) {
 			throw new Exception("MovingMass, mass:" +mass+ 
 					": Negative value: Mass must be non negative" );
+		}
+		
+		if (lever < 0) {
+			throw new Exception("MovingMass, lever:" +lever+ 
+					": Negative value: Lever must be non negative" );
 		}
 		
 		// Check dimensions:
@@ -180,7 +188,7 @@ public class MovingMass extends APhysicalComponent{
 		 * Acceleration = (v(t)-v(t-Ts))/Ts
 		 */
 		force.setValue(  ( (curspeedLin-lastspeedLin)/timestep + Math.cos(angle*Math.PI/180)*9.81 ) * mass );
-		torque.setValue( (curspeedRot-lastspeedRot)/timestep * inertia );
+		torque.setValue( (curspeedRot-lastspeedRot)/timestep * inertia + Math.sin(Math.abs(positionAng.getValue()*2*Math.PI))*lever*mass*9.81);
 		
 				
 		// Update last speed
