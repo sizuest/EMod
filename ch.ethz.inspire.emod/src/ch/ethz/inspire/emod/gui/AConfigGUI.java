@@ -24,6 +24,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import ch.ethz.inspire.emod.gui.utils.ShowButtons;
+
 /**
  * Abtract class for configuration GUIs with cancel, reset and save button
  * 
@@ -41,9 +43,9 @@ public abstract class AConfigGUI extends Composite{
 	
 	boolean wasEdited = false;
 	
-	public AConfigGUI(Composite parent, int style, boolean showCancel) {
+	public AConfigGUI(Composite parent, int style, int buttons) {
 		super(parent, style);
-		init(showCancel);
+		init(buttons);
 	}
 	
 	public AConfigGUI(Composite parent, int style) {
@@ -64,29 +66,35 @@ public abstract class AConfigGUI extends Composite{
 	}
 	
 	private void init(){
-		init(true);
+		init(ShowButtons.ALL);
 	}
 	
-	private void init(boolean showCancel){
-		this.setLayout(new GridLayout(3, true));
+	private void init(int buttons){
 		
-		content = new Composite(this, SWT.NONE );
-		if(showCancel){
-			this.setLayout(new GridLayout(3, true));
-			content.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
+		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		
+		if(ShowButtons.count(buttons)>0){
+			this.setLayout(new GridLayout(ShowButtons.count(buttons), true));
+			content = new Composite(this, SWT.NONE );
+			content.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, ShowButtons.count(buttons), 1));
 		}
 		else{
-			this.setLayout(new GridLayout(2, true));
-			content.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
+			this.setLayout(new GridLayout(1, true));
+			content = new Composite(this, SWT.NONE );
+			content.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		}
 		
-		content.setLayout(new GridLayout(1, true));
+		content.setLayout(new GridLayout( 1, true));
 		
-		if(showCancel){
+
+		
+		if(ShowButtons.cancel(buttons)){
 			buttonCancel = new Button(this, SWT.NONE);
-			buttonCancel.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false));
-			buttonCancel.setText("Close");
-			buttonCancel.setVisible(showCancel);
+			if(ShowButtons.reset(buttons) | ShowButtons.ok(buttons))
+				buttonCancel.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false));
+			else
+				buttonCancel.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, false, false));
+			buttonCancel.setText("Cancel");
 			buttonCancel.addSelectionListener(new SelectionListener() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
@@ -98,36 +106,47 @@ public abstract class AConfigGUI extends Composite{
 			});
 		}
 		
-		buttonReset = new Button(this, SWT.NONE);
-		if(showCancel)
-			buttonReset.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, false, false));
-		else
-			buttonReset.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false));
-		
-		buttonReset.setText("Reset");
-		buttonReset.addSelectionListener(new SelectionListener() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				askForSaving();
-			}
+		if(ShowButtons.reset(buttons)){
+			buttonReset = new Button(this, SWT.NONE);
+			if(!ShowButtons.cancel(buttons) & ShowButtons.ok(buttons))
+				buttonReset.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false));
+			if(ShowButtons.cancel(buttons) & !ShowButtons.ok(buttons))
+				buttonReset.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false, false));
+			else
+				buttonReset.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, false, false));
 			
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {/* Not used */}
-		});
-		
-		buttonSave = new Button(this, SWT.NONE);
-		buttonSave.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false, false));
-		buttonSave.setText("Save");
-		buttonSave.addSelectionListener(new SelectionListener() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				save();
-				wasEdited = false;
-			}
+			buttonReset.setText("Reset");
+			buttonReset.addSelectionListener(new SelectionListener() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					askForSaving();
+				}
+				
+				@Override
+				public void widgetDefaultSelected(SelectionEvent e) {/* Not used */}
+			});
+		}
+		if(ShowButtons.ok(buttons)){
+			buttonSave = new Button(this, SWT.NONE);
 			
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {/* Not used */}
-		});
+			if(ShowButtons.reset(buttons) | ShowButtons.cancel(buttons))
+				buttonSave.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false, false));
+			else
+				buttonSave.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, false, false));
+			
+			buttonSave.setText("OK");
+			buttonSave.addSelectionListener(new SelectionListener() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					save();
+					wasEdited = false;
+					close();
+				}
+				
+				@Override
+				public void widgetDefaultSelected(SelectionEvent e) {/* Not used */}
+			});
+		}
 	}
 	
 	public abstract void save();

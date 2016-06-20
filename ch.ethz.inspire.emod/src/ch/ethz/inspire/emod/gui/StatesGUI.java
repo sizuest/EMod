@@ -30,6 +30,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import ch.ethz.inspire.emod.States;
+import ch.ethz.inspire.emod.gui.utils.ShowButtons;
 import ch.ethz.inspire.emod.gui.utils.TableUtils;
 import ch.ethz.inspire.emod.simulation.MachineState;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
@@ -50,7 +51,7 @@ public class StatesGUI extends AConfigGUI {
 	private String[] stateList;
 
 	public StatesGUI(Composite parent, int style) {
-		super(parent, style, false);
+		super(parent, style, ShowButtons.RESET | ShowButtons.OK);
 		
 		tableStateSequence = new Table(this.getContent(), SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
 		tableStateSequence.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));

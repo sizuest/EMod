@@ -1,4 +1,4 @@
-package ch.ethz.inspire.emod.model.fluid;
+package ch.ethz.inspire.emod.dd.model;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;

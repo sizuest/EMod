@@ -27,7 +27,6 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -46,6 +45,7 @@ import org.swtchart.ILineSeries.PlotSymbolType;
 import org.swtchart.ISeries.SeriesType;
 import org.swtchart.Range;
 
+import ch.ethz.inspire.emod.gui.utils.ShowButtons;
 import ch.ethz.inspire.emod.gui.utils.TableUtils;
 import ch.ethz.inspire.emod.utils.Algo;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
@@ -68,7 +68,7 @@ public class EditMaterialGUI extends AConfigGUI {
 	private TabFolder tabFolder;
 
     public EditMaterialGUI(Composite parent, int style, String materialName){
-    	super(parent, style, true);
+    	super(parent, style, ShowButtons.ALL);
     	
     	try {
 			material = new MaterialConfigReader("Material", materialName);
@@ -151,7 +151,7 @@ public class EditMaterialGUI extends AConfigGUI {
     
     public static void editMaterialGUI(String type) {
 		final Shell shell = new Shell(Display.getCurrent());
-		shell.setLayout(new FillLayout());
+		shell.setLayout(new GridLayout(1,true));
 		EditMaterialGUI gui = new EditMaterialGUI(shell, SWT.NONE, type);
 		
 		shell.setText("Edit Material: "+type);

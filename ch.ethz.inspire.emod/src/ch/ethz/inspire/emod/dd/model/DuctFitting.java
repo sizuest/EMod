@@ -11,10 +11,11 @@
  *
  ***********************************/
 
-package ch.ethz.inspire.emod.model.fluid;
+package ch.ethz.inspire.emod.dd.model;
 
 import javax.xml.bind.annotation.XmlTransient;
 
+import ch.ethz.inspire.emod.model.fluid.Fluid;
 import ch.ethz.inspire.emod.utils.ParameterSet;
 
 
@@ -96,6 +97,20 @@ public class DuctFitting extends ADuctElement{
 	@XmlTransient
 	public void setParameterSet(ParameterSet ps) {
 		// Not used
+	}
+	
+	@Override
+	public DuctFitting clone() {
+		DuctFitting clone = new DuctFitting();
+		
+		clone.setParameterSet(this.getParameterSet());
+		if(null==this.isolation)
+			clone.setIsolation(null);
+		else
+			clone.setIsolation(this.isolation.clone());
+		clone.setName(this.getName());
+		
+		return clone;
 	}
 
 }

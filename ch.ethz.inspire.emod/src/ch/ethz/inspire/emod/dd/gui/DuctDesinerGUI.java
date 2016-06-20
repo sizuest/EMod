@@ -10,25 +10,24 @@
  * All rights reserved
  *
  ***********************************/
-package ch.ethz.inspire.emod.gui;
+package ch.ethz.inspire.emod.dd.gui;
 
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Logger;
 
-import org.eclipse.swt.*;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.MenuEvent;
+import org.eclipse.swt.events.MenuListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Menu;
@@ -39,14 +38,15 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
-import ch.ethz.inspire.emod.dd.gui.DuctConfigGUI;
-import ch.ethz.inspire.emod.gui.utils.ProgressbarGUI;
-import ch.ethz.inspire.emod.model.MachineComponent;
-import ch.ethz.inspire.emod.utils.LocalizationHandler;
-import ch.ethz.inspire.emod.utils.PropertiesHandler;
 import ch.ethz.inspire.emod.LogLevel;
-import ch.ethz.inspire.emod.Machine;
-import ch.ethz.inspire.emod.States;
+import ch.ethz.inspire.emod.dd.Duct;
+import ch.ethz.inspire.emod.gui.EditMachineComponentGUI;
+import ch.ethz.inspire.emod.gui.EditMaterialGUI;
+import ch.ethz.inspire.emod.gui.MachineComponentDBGUI;
+import ch.ethz.inspire.emod.gui.MaterialDBGUI;
+import ch.ethz.inspire.emod.gui.utils.ProgressbarGUI;
+import ch.ethz.inspire.emod.gui.utils.ShowButtons;
+import ch.ethz.inspire.emod.utils.LocalizationHandler;
 
 /**
  * main gui class for emod application
@@ -54,22 +54,23 @@ import ch.ethz.inspire.emod.States;
  * @author dhampl
  *
  */
-public class EModGUI {
+public class DuctDesinerGUI {
 
-	private static Logger logger = Logger.getLogger(EModGUI.class.getName());
+	private static Logger logger = Logger.getLogger(DuctDesinerGUI.class.getName());
 	
 	protected static Shell shell;
 	protected Display disp;
+		
+	protected Duct duct;
+	protected String path = "";
 	
-	protected static TabFolder tabFolder;
+	private MenuItem editRedo, editUndo;
 
 	
-	protected Composite model;
-	protected Composite sim;
-	protected Composite analysis;
+	protected DuctConfigGUI ductDesigner;
 	protected StyledText console;
 	
-	public EModGUI(Display display) {
+	public DuctDesinerGUI(Display display) {
 		disp = display;
 		shell = new Shell(display);
 		
@@ -101,6 +102,10 @@ public class EModGUI {
 		logger.log(LogLevel.DEBUG, "init menu");
 		initMenu();
 		
+		pg.updateProgressbar(20);
+		
+		duct = new Duct("Duct");
+		
 		pg.updateProgressbar(50);
 		
 		//init tabs
@@ -112,17 +117,13 @@ public class EModGUI {
 		shell.open();
 		
 		pg.updateProgressbar(100);
-
-		
-		//manick: Startup GUI for Settings of machine/sim confg
-		EModStartupGUI startup =new EModStartupGUI();
-		startup.loadMachineGUI();
-		
+	
 		while(!shell.isDisposed()) {
 			if(!display.readAndDispatch()) {
 				display.sleep();
 			}
 		}
+
 	}
 	
 	
@@ -150,12 +151,21 @@ public class EModGUI {
 			MenuItem fileSaveAsItem = new MenuItem(fileMenu, SWT.PUSH);
 			fileSaveAsItem.setImage(new Image(Display.getDefault(), "src/resources/SaveAs16.gif"));
 			fileSaveAsItem.setText(LocalizationHandler.getItem("app.gui.menu.file.saveas"));			
-			MenuItem filePropertiesItem = new MenuItem(fileMenu, SWT.PUSH);
-			filePropertiesItem.setImage(new Image(Display.getDefault(), "src/resources/Preferences16.gif"));
-			filePropertiesItem.setText(LocalizationHandler.getItem("app.gui.menu.file.properties"));
 			MenuItem fileExitItem = new MenuItem(fileMenu, SWT.PUSH);
 			fileExitItem.setText(LocalizationHandler.getItem("app.gui.menu.file.exit"));
-		
+			
+		//create "Edit" tab and items
+		MenuItem editMenuHeader = new MenuItem(menuBar, SWT.CASCADE);
+		editMenuHeader.setText(LocalizationHandler.getItem("Edit"));
+		Menu editMenu = new Menu(shell, SWT.DROP_DOWN);
+		editMenuHeader.setMenu(editMenu);
+			editRedo = new MenuItem(editMenu, SWT.PUSH);
+			editRedo.setText(LocalizationHandler.getItem("Redo"));
+			editRedo.setEnabled(false);
+			editUndo = new MenuItem(editMenu, SWT.PUSH);
+			editUndo.setText(LocalizationHandler.getItem("Undo"));
+			editUndo.setEnabled(false);
+				
 		//create "Database Components" tab and items
 		MenuItem compDBMenuHeader = new MenuItem(menuBar, SWT.CASCADE);
 		compDBMenuHeader.setText(LocalizationHandler.getItem("app.gui.menu.compDB"));
@@ -208,8 +218,22 @@ public class EModGUI {
 		fileOpenItem.addSelectionListener(new fileOpenItemListener());
 		fileSaveItem.addSelectionListener(new fileSaveItemListener());
 		fileSaveAsItem.addSelectionListener(new fileSaveAsItemListener());
-		filePropertiesItem.addSelectionListener(new filePropertiesItemListener());
 		fileExitItem.addSelectionListener(new fileExitItemListener());
+		
+		editMenu.addMenuListener(new MenuListener() {
+			@Override
+			public void menuShown(MenuEvent e) {
+				setUndoRedoAvailability();
+			}
+			
+			@Override
+			public void menuHidden(MenuEvent e) {
+				// Not used
+			}
+		});
+		
+		editRedo.addSelectionListener(new editRedoItemListener());
+		editUndo.addSelectionListener(new editUndoItemListener());
 		
 		compDBNewItem.addSelectionListener(new compDBNewItemListener());
 		compDBOpenItem.addSelectionListener(new compDBOpenItemListener());
@@ -225,87 +249,16 @@ public class EModGUI {
 	}
 	
 	private void initTabs(){
-		//create the tab folder container
-		//final TabFolder tabFolder = new TabFolder(shell, SWT.NONE);
-		tabFolder = new TabFolder(shell, SWT.NONE);
 		
-		//tab for machine model config
-		final TabItem tabModelItem = new TabItem(tabFolder, SWT.NONE);
-		tabModelItem.setText(LocalizationHandler.getItem("app.gui.tabs.mach"));
-		tabModelItem.setToolTipText(LocalizationHandler.getItem("app.gui.tabs.machtooltip"));
-		tabModelItem.setControl(initModel(tabFolder));
-		
-		//tab for simulation config
-		final TabItem tabSimItem = new TabItem(tabFolder, SWT.NONE);
-		tabSimItem.setText(LocalizationHandler.getItem("app.gui.tabs.sim"));
-		tabSimItem.setToolTipText(LocalizationHandler.getItem("app.gui.tabs.simtooltip"));
-		final Composite tabSimControl = initSim(tabFolder);
-		tabSimItem.setControl(tabSimControl);
-		
-		//tab for thermal model config - not used at the moment
-		//TabItem tabThermalItem = new TabItem(tabFolder, SWT.NONE);
-		//tabThermalItem.setText(LocalizationHandler.getItem("app.gui.tabs.thermal"));
-		//tabThermalItem.setToolTipText(LocalizationHandler.getItem("app.gui.tabs.thermaltooltip"));
-
-		//tab for analysis
-		final TabItem tabAnalysisItem = new TabItem(tabFolder, SWT.NONE);
-		tabAnalysisItem.setText(LocalizationHandler.getItem("app.gui.tabs.analysis"));
-		tabAnalysisItem.setToolTipText(LocalizationHandler.getItem("app.gui.tabs.analysistooltip"));
-		final Composite tabAnalysisControl = initAnalysis(tabFolder);
-		tabAnalysisItem.setControl(tabAnalysisControl);
+		ductDesigner = new DuctConfigGUI(shell, SWT.NONE, this.duct, ShowButtons.NONE);
 		
 		//tab for console
-		final TabItem tabConsoleItem = new TabItem(tabFolder, SWT.NONE);
+		final TabItem tabConsoleItem = new TabItem(ductDesigner.getTabFolder(), SWT.NONE);
 		tabConsoleItem.setText(LocalizationHandler.getItem("app.gui.tabs.console"));
 		tabConsoleItem.setToolTipText(LocalizationHandler.getItem("app.gui.tabs.consoletooltip"));
-		tabConsoleItem.setControl(initConsole(tabFolder));
+		tabConsoleItem.setControl(initConsole(ductDesigner.getTabFolder()));
 		
-		tabFolder.setSelection(0);
-		
-		tabFolder.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(org.eclipse.swt.events.SelectionEvent event) {
-				logger.log(LogLevel.DEBUG, "tab"+ tabFolder.getSelection()[0].getText()+" selected");
-				
-				System.out.println("tab " + tabFolder.getSelection()[0].getText() + " selected");
-				
-				if (tabFolder.getItem(tabFolder.getSelectionIndex()).equals(tabSimItem))
-		        {
-					tabSimControl.update();
-					logger.log(LogLevel.DEBUG, "updating simulation configuration tabs");
-		        }
-					
-				// manick: if tab Analysis is opened -> Run Simulation
-				if (tabFolder.getItem(tabFolder.getSelectionIndex()).equals(tabAnalysisItem))
-		        {/*
-					System.out.println("Simulation start initialization: Saving Machine and IOLinking");
-					// Save all
-					Machine.saveMachine(PropertiesHandler.getProperty("sim.MachineName"), PropertiesHandler.getProperty("sim.MachineConfigName"));
-					States.saveStates(PropertiesHandler.getProperty("sim.MachineName"), PropertiesHandler.getProperty("sim.SimulationConfigName"));
-					// manick: EModSimRun contains all the necessary commands to run a simulation
-					EModSimulationRun.EModSimRun();
-					logger.log(LogLevel.DEBUG, "simulation run");*/
-					tabAnalysisControl.update();
-		        }
-			}
-		});
-	}
-	
-	//manick: open ModelGUI in tab
-	private Composite initModel(TabFolder tabFolder){
-		model = new ModelGUI(tabFolder);
-		return model;
-	}
-	
-	//manick: open SimGUI in tab
-	private Composite initSim(TabFolder tabFolder){
-		sim = new SimGUI(tabFolder);
-		return sim;
-	}
-	
-	private Composite initAnalysis(TabFolder tabFolder) {
-		analysis = new AnalysisGUI("simulation_output.dat", tabFolder);
-		// TODO: input file config
-		return analysis;
+		ductDesigner.getTabFolder().setSelection(0);
 	}
 	
 	private StyledText initConsole(TabFolder tabFolder) {
@@ -359,8 +312,8 @@ public class EModGUI {
 	 */
 	class fileNewItemListener implements SelectionListener {
 		public void widgetSelected(SelectionEvent event) {
-			EModStartupGUI startup = new EModStartupGUI();
-			startup.createNewMachineGUI();
+			logger.log(LogLevel.DEBUG, "menu new item selected");
+			newDuct();
 		}
 		public void widgetDefaultSelected(SelectionEvent event) {
 			// Not used
@@ -376,14 +329,8 @@ public class EModGUI {
 	class fileSaveItemListener implements SelectionListener {
 		public void widgetSelected(SelectionEvent event) {
 			logger.log(LogLevel.DEBUG, "menu save item selected");
-			Machine.saveMachine(PropertiesHandler.getProperty("sim.MachineName"), PropertiesHandler.getProperty("sim.MachineConfigName"));
-			Machine.saveInitialConditions();
-			States.saveStates(PropertiesHandler.getProperty("sim.MachineName"), PropertiesHandler.getProperty("sim.SimulationConfigName"));
+			saveDuct();
 		}
-
-		/* (non-Javadoc)
-		 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
-		 */
 		@Override
 		public void widgetDefaultSelected(SelectionEvent event) {
 			// Not used
@@ -398,24 +345,8 @@ public class EModGUI {
 	 */
 	class fileSaveAsItemListener implements SelectionListener {
 		public void widgetSelected(SelectionEvent event) {
-			logger.log(LogLevel.DEBUG, "menu save as item selected");
-			FileDialog fd = new FileDialog(shell, SWT.SAVE);
-	        fd.setText(LocalizationHandler.getItem("app.gui.save"));
-	        fd.setFilterPath("C:/");
-	        String[] filterExt = { "*.xml", "*.*" };
-	        fd.setFilterExtensions(filterExt);
-	        String selected = fd.open();
-	        if(selected == null) {
-		        logger.log(LogLevel.DEBUG, "no file specified, closed");
-	        	return;
-	        }
-	        logger.log(LogLevel.DEBUG, "File to save to: "+selected);
-	        Machine.saveMachineToNewFile(selected);
+			saveDuctAs();
 		}
-
-		/* (non-Javadoc)
-		 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
-		 */
 		@Override
 		public void widgetDefaultSelected(SelectionEvent event) {
 			// Not used
@@ -430,50 +361,9 @@ public class EModGUI {
 	 */
 	class fileOpenItemListener implements SelectionListener {
 		public void widgetSelected(SelectionEvent event) {
-			logger.log(LogLevel.DEBUG, "menu open item selected");
-			FileDialog fd = new FileDialog(shell, SWT.OPEN);
-	        fd.setText(LocalizationHandler.getItem("app.gui.open"));
-	        fd.setFilterPath("C:/");
-	        String[] filterExt = { "*.xml", "*.*" };
-	        fd.setFilterExtensions(filterExt);
-	        String selected = fd.open();
-	        if(selected == null) {
-	        	logger.log(LogLevel.DEBUG, "no file selected");
-	        	return;
-	        }
-	        logger.log(LogLevel.DEBUG, "Open file: "+selected);
-	        Machine.initMachineFromFile(selected);
-	        
-			ArrayList<MachineComponent> mclist = Machine.getInstance().getMachineComponentList();
-
-			int i = 0;
-			for(MachineComponent mc:mclist){
-				ModelGUI.addTableItem(mc, i);
-				i++;
-			}
-	        
+			openDuct();
 		}
-
-		/* (non-Javadoc)
-		 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
-		 */
 		@Override
-		public void widgetDefaultSelected(SelectionEvent event) {
-			// Not used
-		}
-	}
-
-	/**
-	 * menu item action listener for properties item
-	 * 
-	 * @author manick
-	 *
-	 */
-	class filePropertiesItemListener implements SelectionListener {
-		public void widgetSelected(SelectionEvent event) {
-			logger.log(LogLevel.DEBUG, "menu properties item selected");
-			new PropertiesGUI();
-		}
 		public void widgetDefaultSelected(SelectionEvent event) {
 			// Not used
 		}
@@ -501,6 +391,35 @@ public class EModGUI {
 			disp.dispose();
 		}
 	}
+	
+	class editUndoItemListener implements SelectionListener {
+		public void widgetSelected(SelectionEvent event) {
+			undo();
+		}
+
+		/* (non-Javadoc)
+		 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
+		 */
+		@Override
+		public void widgetDefaultSelected(SelectionEvent e) {
+			// Not used
+		}
+	}
+	
+	class editRedoItemListener implements SelectionListener {
+		public void widgetSelected(SelectionEvent event) {
+			redo();
+		}
+
+		/* (non-Javadoc)
+		 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
+		 */
+		@Override
+		public void widgetDefaultSelected(SelectionEvent e) {
+			// Not used
+		}
+	}
+	
 	
 	/**
 	 * menu item action listener for comp DB new item
@@ -624,4 +543,68 @@ public class EModGUI {
 		return position;
 	}
 	
+	private void newDuct(){
+		this.path = "";
+		this.duct.clear();
+		this.ductDesigner.setDuct(duct);
+		this.ductDesigner.update();
+	}
+	
+	private void saveDuct(){
+		if(""==this.path)
+			saveDuctAs();
+		else
+			this.duct.saveToFile(this.path);
+	}
+	
+	private void saveDuctAs(){
+		String path = getFilePath("Open");
+		if(null==path)
+			return;
+		
+		this.path = path;
+		this.duct.saveToFile(this.path);
+	}
+	
+	private void openDuct(){
+		String path = getFilePath("Open");
+		if(null==path)
+			return;
+		
+		this.path = path;
+		this.duct = Duct.buildFromFile(this.path);
+		this.ductDesigner.setDuct(duct);
+		this.ductDesigner.update();
+	}
+	
+	
+	private String getFilePath(String titel){
+		FileDialog fd = new FileDialog(shell, SWT.SAVE);
+        fd.setText(titel);
+        fd.setFilterPath("C:/");
+        fd.setFilterExtensions(new String[] { "*.duct", "*.*" });
+        String selected = fd.open();
+        
+        return selected;
+	}
+	
+	private void undo(){
+		this.duct.undo();
+		this.ductDesigner.update();
+		setUndoRedoAvailability();
+	}
+	
+	private void redo(){
+		this.duct.redo();
+		this.ductDesigner.update();
+		setUndoRedoAvailability();
+	}
+	
+	private void setUndoRedoAvailability(){
+		editUndo.setEnabled(this.duct.undoPossible());
+		editRedo.setEnabled(this.duct.redoPossible());
+		
+		editUndo.setText("Undo "+this.duct.getUndoComment());
+		editRedo.setText("Redo "+this.duct.getRedoComment());
+	}
 }

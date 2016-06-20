@@ -34,6 +34,11 @@ public class LocalizationHandler {
 			Locale currentLocale = new Locale(PropertiesHandler.getProperty("app.language"), PropertiesHandler.getProperty("app.country"));
 			handler = ResourceBundle.getBundle("lang/MessagesBundle", currentLocale);
 		}
-		return handler.getString(item);
+		try{
+			return handler.getString(item);
+		}
+		catch(Exception e){
+			return item;
+		}
 	}
 }

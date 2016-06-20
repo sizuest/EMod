@@ -27,6 +27,7 @@ import org.eclipse.swt.widgets.TableItem;
 
 import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.Process;
+import ch.ethz.inspire.emod.gui.utils.ShowButtons;
 import ch.ethz.inspire.emod.gui.utils.TableUtils;
 import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.simulation.ASimulationControl;
@@ -48,7 +49,7 @@ public class ProcessGUI extends AConfigGUI {
 	ArrayList<SiUnit> scUnits;
 
 	public ProcessGUI(Composite parent, int style) {
-		super(parent, style, false);
+		super(parent, style, ShowButtons.RESET | ShowButtons.OK);
 		
 		Process.loadProcess(PropertiesHandler.getProperty("sim.ProcessName"));
 		

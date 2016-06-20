@@ -11,13 +11,14 @@
  *
  ***********************************/
 
-package ch.ethz.inspire.emod.model.fluid;
+package ch.ethz.inspire.emod.dd.model;
 
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import ch.ethz.inspire.emod.model.fluid.Fluid;
 import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.utils.ParameterSet;
 
@@ -121,6 +122,20 @@ public class DuctDrilling extends ADuctElement {
 		this.length        = ps.getParameter("Length").getValue();
 		super.length       = this.length;
 		this.count         = ps.getParameter("Count").getValue();
+	}
+	
+	@Override
+	public DuctDrilling clone() {
+		DuctDrilling clone = new DuctDrilling();
+		
+		clone.setParameterSet(this.getParameterSet());
+		if(null==this.isolation)
+			clone.setIsolation(null);
+		else
+			clone.setIsolation(this.isolation.clone());
+		clone.setName(this.getName());
+		
+		return clone;
 	}
 
 }

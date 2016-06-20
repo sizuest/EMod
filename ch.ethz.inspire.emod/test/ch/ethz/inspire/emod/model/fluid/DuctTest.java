@@ -4,6 +4,11 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import ch.ethz.inspire.emod.dd.Duct;
+import ch.ethz.inspire.emod.dd.model.ADuctElement;
+import ch.ethz.inspire.emod.dd.model.DuctDrilling;
+import ch.ethz.inspire.emod.dd.model.DuctHelix;
+import ch.ethz.inspire.emod.dd.model.HPRectangular;
 import ch.ethz.inspire.emod.model.material.Material;
 
 public class DuctTest {
@@ -24,7 +29,7 @@ public class DuctTest {
 		
 		duct1.save();
 		
-		duct2 = Duct.buildFromFile("Test");
+		duct2 = Duct.buildFromDB("Test");
 	}
 	
 	@Test

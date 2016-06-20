@@ -1,4 +1,4 @@
-package ch.ethz.inspire.emod.gui.dd;
+package ch.ethz.inspire.emod.dd.gui;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
@@ -7,7 +7,6 @@ import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -19,10 +18,10 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
+import ch.ethz.inspire.emod.dd.model.ADuctElement;
+import ch.ethz.inspire.emod.dd.model.AHydraulicProfile;
 import ch.ethz.inspire.emod.gui.AConfigGUI;
 import ch.ethz.inspire.emod.gui.utils.TableUtils;
-import ch.ethz.inspire.emod.model.fluid.ADuctElement;
-import ch.ethz.inspire.emod.model.fluid.AHydraulicProfile;
 import ch.ethz.inspire.emod.model.fluid.Isolation;
 
 import ch.ethz.inspire.emod.model.units.SiUnit;
@@ -49,7 +48,7 @@ public class EditDuctElementGUI  extends AConfigGUI{
     	if(null==this.element.getIsolation())
     		isolationNew = new Isolation();
     	else
-    		isolationNew = this.element.getIsolation().copy();
+    		isolationNew = this.element.getIsolation().clone();
     	
     	this.getContent().setLayout(new GridLayout(1, true));
 		
@@ -75,7 +74,7 @@ public class EditDuctElementGUI  extends AConfigGUI{
     
     public static Shell editDuctElementGUI(Shell parent, ADuctElement element) {
 		final Shell shell = new Shell(parent, SWT.TITLE|SWT.SYSTEM_MODAL| SWT.CLOSE | SWT.MAX);
-		shell.setLayout(new FillLayout());
+		shell.setLayout(new GridLayout(1, true));
 		
 		EditDuctElementGUI gui = new EditDuctElementGUI(shell, SWT.NONE, element);
 		
@@ -270,7 +269,7 @@ public class EditDuctElementGUI  extends AConfigGUI{
 		if(null==this.element.getIsolation())
     		isolationNew = new Isolation();
     	else
-    		isolationNew = this.element.getIsolation().copy();
+    		isolationNew = this.element.getIsolation().clone();
 		
 		updatePropertyTable();
 		

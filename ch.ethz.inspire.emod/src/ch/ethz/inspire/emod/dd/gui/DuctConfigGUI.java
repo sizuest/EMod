@@ -1,4 +1,4 @@
-package ch.ethz.inspire.emod.gui.dd;
+package ch.ethz.inspire.emod.dd.gui;
 
 import java.util.ArrayList;
 
@@ -20,7 +20,6 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -35,26 +34,27 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
+import ch.ethz.inspire.emod.dd.Duct;
+import ch.ethz.inspire.emod.dd.model.ADuctElement;
+import ch.ethz.inspire.emod.dd.model.DuctDefinedValues;
+import ch.ethz.inspire.emod.dd.model.DuctDrilling;
+import ch.ethz.inspire.emod.dd.model.DuctElbowFitting;
+import ch.ethz.inspire.emod.dd.model.DuctFitting;
+import ch.ethz.inspire.emod.dd.model.DuctFlowAround;
+import ch.ethz.inspire.emod.dd.model.DuctHelix;
+import ch.ethz.inspire.emod.dd.model.DuctPipe;
 import ch.ethz.inspire.emod.gui.AConfigGUI;
+import ch.ethz.inspire.emod.gui.utils.ShowButtons;
 import ch.ethz.inspire.emod.gui.utils.TableUtils;
-import ch.ethz.inspire.emod.model.fluid.ADuctElement;
-import ch.ethz.inspire.emod.model.fluid.Duct;
-import ch.ethz.inspire.emod.model.fluid.DuctDefinedValues;
-import ch.ethz.inspire.emod.model.fluid.DuctDrilling;
-import ch.ethz.inspire.emod.model.fluid.DuctElbowFitting;
-import ch.ethz.inspire.emod.model.fluid.DuctFitting;
-import ch.ethz.inspire.emod.model.fluid.DuctFlowAround;
-import ch.ethz.inspire.emod.model.fluid.DuctHelix;
-import ch.ethz.inspire.emod.model.fluid.DuctPipe;
 
 
-public class DuctDesignGUI extends AConfigGUI{
+public class DuctConfigGUI extends AConfigGUI{
 	private SashForm form;
     private static Table tableDuctElements;
     private static Tree treeDuctDBView;
     private DuctTestingGUI ductTestingGUI;
     private TabFolder tabFolder;
-    private Duct duct;
+    private Duct duct = new Duct();
     
     private ArrayList<Button> buttons = new ArrayList<Button>();
     
@@ -68,14 +68,16 @@ public class DuctDesignGUI extends AConfigGUI{
      * EditMachineComponentGUI
      * @param parent 
      * @param style 
+     * @param duct 
+     * @param buttons 
+     * @param resetAvail 
      * @param name 
      */
-    public DuctDesignGUI(Composite parent, int style, String name){
-    	super(parent, style);
+    
+    public DuctConfigGUI(Composite parent, int style, Duct duct, int buttons){
+    	super(parent, style, buttons);
     	
     	this.getContent().setLayout(new GridLayout(1, true));
-    	
-    	this.name = name;
     	
     	tabFolder = new TabFolder(this.getContent(), SWT.NONE);
 		tabFolder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
@@ -84,7 +86,7 @@ public class DuctDesignGUI extends AConfigGUI{
 	    form.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		form.setLayout(new GridLayout(3, false));
 		
-		duct = Duct.buildFromFile(this.name);
+		this.duct = duct;
 		
 		tableDuctElements = new Table(form, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL);
 		tableDuctElements.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
@@ -201,7 +203,7 @@ public class DuctDesignGUI extends AConfigGUI{
 	        editElementButton.addSelectionListener(new SelectionListener(){
 	        	public void widgetSelected(SelectionEvent event){
 	        		editDuctElementGUI(e);
-	        		updateDuctElementTable();
+	        		update();
 	        	}
 	        	public void widgetDefaultSelected(SelectionEvent event){
 	        		// Not used
@@ -293,7 +295,6 @@ public class DuctDesignGUI extends AConfigGUI{
     	updateDuctTestingTable();
     	
     	this.redraw();
-    	this.pack();
     	this.layout();
     }
     
@@ -375,7 +376,7 @@ public class DuctDesignGUI extends AConfigGUI{
 				Point p = event.display.map(null, tableModelView, event.x, event.y);
 				TableItem dropItem = tableModelView.getItem(p);
 				int index = dropItem == null ? tableModelView.getItemCount() : tableModelView.indexOf(dropItem);
-				
+								
 				ADuctElement e = Duct.newDuctElement(string);
 				
 				if(null!=e){
@@ -393,8 +394,8 @@ public class DuctDesignGUI extends AConfigGUI{
 	
 	public static void editDuctGUI(String type) {
 		final Shell shell = new Shell(Display.getCurrent());
-		shell.setLayout(new FillLayout());
-		DuctDesignGUI gui = new DuctDesignGUI(shell, SWT.NONE, type);
+		shell.setLayout(new GridLayout(1, true));
+		DuctConfigGUI gui = new DuctConfigGUI(shell, SWT.NONE, Duct.buildFromDB(type), ShowButtons.ALL);
 		
 		shell.setText("DuctDesigner: "+type);
 		
@@ -418,10 +419,18 @@ public class DuctDesignGUI extends AConfigGUI{
 
 	@Override
 	public void reset() {
-		duct = Duct.buildFromFile(this.name);
+		duct.clone(Duct.buildFromDB(this.name));
+		update();
+	}
+
+	public void setDuct(Duct duct) {
+		this.duct.clone(duct);
 		update();
 	}
 	
+	public TabFolder getTabFolder(){
+		return this.tabFolder;
+	}
 	
 		
 		

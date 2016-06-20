@@ -12,6 +12,7 @@
 
 package ch.ethz.inspire.emod.model.fluid;
 
+import ch.ethz.inspire.emod.dd.Duct;
 import ch.ethz.inspire.emod.simulation.DynamicState;
 
 

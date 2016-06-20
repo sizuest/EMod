@@ -1,4 +1,4 @@
-package ch.ethz.inspire.emod.gui.dd;
+package ch.ethz.inspire.emod.dd.gui;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ControlEditor;
@@ -38,7 +38,7 @@ public class EditDuctIsolationGUI extends AConfigGUI{
 		
 		if(null!=iso){
 			this.isolationOld = iso;
-			this.isolationNew = iso.copy();
+			this.isolationNew = iso.clone();
 			parameters = this.isolationOld.getParameterSet();
 		}
 		else
@@ -184,7 +184,7 @@ public class EditDuctIsolationGUI extends AConfigGUI{
 
 	@Override
 	public void reset() {
-		isolationNew = isolationOld.copy();
+		isolationNew = isolationOld.clone();
 		if(null!=isolationNew){
 			parameters = this.isolationNew.getParameterSet();
 		}

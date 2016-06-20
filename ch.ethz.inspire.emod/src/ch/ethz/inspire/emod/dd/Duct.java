@@ -11,7 +11,7 @@
  *
  ***********************************/
 
-package ch.ethz.inspire.emod.model.fluid;
+package ch.ethz.inspire.emod.dd;
 
 import java.io.File;
 import java.io.FileReader;
@@ -31,8 +31,21 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
+import ch.ethz.inspire.emod.dd.model.ADuctElement;
+import ch.ethz.inspire.emod.dd.model.AHydraulicProfile;
+import ch.ethz.inspire.emod.dd.model.DuctDefinedValues;
+import ch.ethz.inspire.emod.dd.model.DuctDrilling;
+import ch.ethz.inspire.emod.dd.model.DuctElbowFitting;
+import ch.ethz.inspire.emod.dd.model.DuctFitting;
+import ch.ethz.inspire.emod.dd.model.DuctFlowAround;
+import ch.ethz.inspire.emod.dd.model.DuctHelix;
+import ch.ethz.inspire.emod.dd.model.DuctPipe;
+import ch.ethz.inspire.emod.dd.model.HPCircular;
+import ch.ethz.inspire.emod.dd.model.HPRectangular;
+import ch.ethz.inspire.emod.model.fluid.Isolation;
 import ch.ethz.inspire.emod.model.material.Material;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
+import ch.ethz.inspire.emod.utils.Undo;
 
 /**
  * Implements the generic flow rate dependent properties of a duct:
@@ -45,9 +58,11 @@ import ch.ethz.inspire.emod.utils.PropertiesHandler;
 @XmlSeeAlso({ADuctElement.class, AHydraulicProfile.class, DuctDrilling.class, DuctPipe.class, DuctElbowFitting.class, DuctFlowAround.class,
 	DuctFitting.class, DuctHelix.class, DuctElbowFitting.class, DuctDefinedValues.class,  HPRectangular.class, HPCircular.class, Isolation.class})
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Duct {
+public class Duct implements Cloneable{
 	private Material material;
 	private String name;
+	private Undo<Duct> history;
+	
 	@XmlElementWrapper
 	@XmlElement
 	private ArrayList<ADuctElement> elements = new ArrayList<ADuctElement>();
@@ -64,6 +79,7 @@ public class Duct {
 	 */
 	public Duct(String name){
 		this.name    = name;
+		init();
 	}
 	
 	/**
@@ -72,16 +88,22 @@ public class Duct {
 	 * @param parent
 	 */
 	public void afterUnmarshal(final Unmarshaller u, final Object parent) {
-		cleanUpFittings();
+		init();
 	}
 	
+	private void init() {
+		cleanUpFittings();
+		
+		history = new Undo<Duct>(10, (new Duct()).clone(this));
+	}
+
 	/**
 	 * Checks and corrects all fittings (diameters of the adjected elements)
 	 */
 	private void reconnectFittings(){
 		for(int i=1; i<elements.size()-1; i++)
 			if(getElement(i) instanceof DuctFitting)
-				((DuctFitting) getElement(i)).setProfiles(getElement(i-1).profile, getElement(i+1).profile);
+				((DuctFitting) getElement(i)).setProfiles(getElement(i-1).getProfile(), getElement(i+1).getProfile());
 	}
 	
 	/**
@@ -142,18 +164,38 @@ public class Duct {
 	 * @return {@link Duct.java}
 	 */
 	public static Duct buildFromFile(String type, String name, String obj){
-		return buildFromFile(type+"_"+name+"_"+obj);
+		return buildFromDB(type+"_"+name+"_"+obj);
 	}
 	
 	/**
 	 * Build the duct from the provided name of an xml-file.
 	 * If no xml-file is existing, a new duct with the given name will
 	 * created.
+	 * @param path 
 	 * 
 	 * @param name
 	 * @return {@link Duct.java}
 	 */
-	public static Duct buildFromFile(String name){
+	public static Duct buildFromFile(String path){
+		Duct duct = initFromFile(path);
+		
+		if(null==duct){
+			System.out.println("Duct: initFromFile: "+path+ "does not exist. Creating empty duct!");
+			return new Duct();
+		}
+		else
+			return duct;
+	}
+	
+	/**
+	 * Build the duct from the DB provided name of an xml-file.
+	 * If no xml-file is existing, a new duct with the given name will
+	 * created.
+	 * 
+	 * @param name
+	 * @return {@link Duct.java}
+	 */
+	public static Duct buildFromDB(String name){
 		Duct duct = initFromFile(getPath(name));
 		
 		if(null==duct){
@@ -201,7 +243,7 @@ public class Duct {
 		// Try to create and parametrize the object
 		try {
 			// Get class and constructor objects
-			Class<?>        cl = Class.forName("ch.ethz.inspire.emod.model.fluid.Duct"+type);
+			Class<?>        cl = Class.forName("ch.ethz.inspire.emod.dd.model.Duct"+type);
 			Constructor<?>  co = cl.getConstructor(String.class);
 			// initialize new component
 			element = co.newInstance(type);
@@ -291,13 +333,14 @@ public class Duct {
 	 * @param e {@link ADuctElement.java}
 	 */
 	public void addElement(int i, ADuctElement e){
+		
 		/*
 		 * If the last element added has a different diameter, add a fitting
 		 */
 		if(elements.size()>0 & i>0)
-			if(elements.get(i-1).profile.getDiameter() != e.profile.getDiameter()){
+			if(elements.get(i-1).getProfile().getDiameter() != e.getProfile().getDiameter()){
 				DuctFitting df = new DuctFitting("Fitting_"+elements.get(i-1).getName()+"-"+e.getName(), 
-						elements.get(i-1).profile, e.profile);
+						elements.get(i-1).getProfile(), e.getProfile());
 				elements.add(i, df);
 				df.setMaterial(getMaterial());
 				i++;
@@ -308,13 +351,15 @@ public class Duct {
 		e.setMaterial(getMaterial());
 		
 		if(elements.size()>i+1)
-			if(elements.get(i+1).profile.getDiameter() != e.profile.getDiameter()){
+			if(elements.get(i+1).getProfile().getDiameter() != e.getProfile().getDiameter()){
 				DuctFitting df = new DuctFitting("Fitting_"+e.getName()+"-"+elements.get(i+1).getName(), 
-						e.profile, elements.get(i+1).profile);
+						e.getProfile(), elements.get(i+1).getProfile());
 				elements.add(i+1, df);
 				df.setMaterial(getMaterial());
 				cleanUpFittings();
 			}
+		
+		history.add((new Duct()).clone(this), "add "+e.getName());
 	}
 	
 	/**
@@ -337,6 +382,8 @@ public class Duct {
 			Collections.swap(this.elements, index, index-1);
 		
 		cleanUpFittings();
+		
+		history.add((new Duct()).clone(this), "move "+name);
 	}
 	
 	
@@ -358,6 +405,7 @@ public class Duct {
 	 * @param name
 	 */
 	public void moveElementDown(String name){
+		
 		ADuctElement e = getElement(name);
 		
 		if(null==e)
@@ -371,6 +419,8 @@ public class Duct {
 			Collections.swap(this.elements, index, index+1);
 		
 		cleanUpFittings();
+		
+		history.add((new Duct()).clone(this), "move "+name);
 		
 	}
 	
@@ -402,8 +452,11 @@ public class Duct {
 	 * @param e
 	 */
 	public void replaceElement(int i, ADuctElement e){
+		
 		elements.set(i, e);
 		reconnectFittings();
+		
+		history.add((new Duct()).clone(this), "replace "+e.getName());
 	}
 	
 	/**
@@ -461,6 +514,7 @@ public class Duct {
 	 * @param newname	new name
 	 */
 	public void setElementName(String name, String newname){
+		
 		ADuctElement e = getElement(name);
 		
 		if(null==e) {
@@ -473,6 +527,8 @@ public class Duct {
 			return;
 		else
 			e.setName(getUniqueElementName(newname));	
+		
+		history.add((new Duct()).clone(this), "change name of"+name);
 	}
 	
 	/**
@@ -497,12 +553,15 @@ public class Duct {
 	 * @param name
 	 */
 	public void removeElement(String name){
+		
 		int i = getElementIndex(name);
 		
 		if(i>=0){
 			elements.remove(i);
 			cleanUpFittings();
 		}
+		
+		history.add((new Duct()).clone(this), "remove "+name);
 	}
 	
 	/**
@@ -540,8 +599,8 @@ public class Duct {
 		for(ADuctElement e: elements){
 			//htc = e.getHTC(flowRate, lastp, temperatureFluid, temperatureWall)*e.getHydraulicSurface();
 			htc = e.getHTC(flowRate, lastp, temperatureFluid, temperatureWall)*e.getSurface();
-			if(null!=e.isolation)
-				htc =  1/(1/htc + 1/e.isolation.getThermalResistance());
+			if(e.hasIsolation()) 
+				htc =  1/(1/htc + 1/e.getIsolation().getThermalResistance());
 			Rth     += htc;
 			lastp   = e.getPressureOut(flowRate, lastp, temperatureFluid);
 		}
@@ -639,4 +698,45 @@ public class Duct {
 		return this.elements;
 	}
 
+	public void clear() {
+		for(int i=elements.size()-1; i>=0; i--)
+			elements.remove(i);
+		
+		history.clear((new Duct()).clone(this));
+	}
+
+	public Duct clone(Duct duct) {
+		this.elements = new ArrayList<ADuctElement>();
+		
+		for(ADuctElement e: duct.getElements())
+			this.elements.add(e.clone());
+		
+		cleanUpFittings();
+		
+		return this;
+	}
+	
+	public void undo(){
+		clone(this.history.undo());
+	}
+	
+	public void redo(){
+		clone(this.history.redo());
+	}
+	
+	public boolean redoPossible(){
+		return history.redoPossible();
+	}
+	
+	public boolean undoPossible(){
+		return history.undoPossible();
+	}
+	
+	public String getUndoComment(){
+		return history.getUndoComment();
+	}
+	
+	public String getRedoComment(){
+		return history.getRedoComment();
+	}
 }

@@ -82,9 +82,9 @@ public class MaterialDBGUI {
 		size[1] = rect.height;
 		
 		//position the shell into the middle of the last window
-	    int[] position;
-	    position = EModGUI.shellPosition();
-	    shell.setLocation(position[0]-size[0]/2, position[1]-size[1]/2);
+	    //int[] position;
+	    //position = EModGUI.shellPosition();
+	    //shell.setLocation(position[0]-size[0]/2, position[1]-size[1]/2);
 		
 	    //open the new shell
 		shell.open();

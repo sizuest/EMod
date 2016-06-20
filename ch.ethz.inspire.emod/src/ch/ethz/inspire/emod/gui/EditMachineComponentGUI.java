@@ -30,7 +30,6 @@ import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -44,7 +43,8 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
-import ch.ethz.inspire.emod.gui.dd.DuctDesignGUI;
+import ch.ethz.inspire.emod.dd.gui.DuctConfigGUI;
+import ch.ethz.inspire.emod.gui.utils.ShowButtons;
 import ch.ethz.inspire.emod.gui.utils.TableUtils;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
@@ -70,7 +70,7 @@ public class EditMachineComponentGUI extends AConfigGUI{
      * @param parameter 
      */
     public EditMachineComponentGUI(Composite parent, int style, String type, String parameter){
-    	super(parent, style, true);
+    	super(parent, style, ShowButtons.ALL);
     	
     	this.type = type;
     	this.parameter = parameter;
@@ -201,7 +201,7 @@ public class EditMachineComponentGUI extends AConfigGUI{
     public static void editMachineComponentGUI(final String type, final String parameter){
     	final Shell shell = new Shell(Display.getCurrent());
         shell.setText(LocalizationHandler.getItem("app.gui.compdb.editcomp"));
-        shell.setLayout(new FillLayout());
+        shell.setLayout(new GridLayout(1, true));
     	
     	EditMachineComponentGUI gui = new EditMachineComponentGUI(shell, SWT.NONE, type, parameter);
 		
@@ -322,7 +322,7 @@ public class EditMachineComponentGUI extends AConfigGUI{
 					editDuctButton.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, true, 1, 1));
 					editDuctButton.addSelectionListener(new SelectionListener(){
 			        	public void widgetSelected(SelectionEvent event){
-			        		DuctDesignGUI.editDuctGUI(type, parameter,  name);	
+			        		DuctConfigGUI.editDuctGUI(type, parameter,  name);	
 			        		wasEdited();
 			        	}
 			        	public void widgetDefaultSelected(SelectionEvent event){

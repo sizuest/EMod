@@ -13,6 +13,9 @@
 
 package ch.ethz.inspire.emod.model.fluid;
 
+import ch.ethz.inspire.emod.dd.model.AHydraulicProfile;
+import ch.ethz.inspire.emod.dd.model.HPCircular;
+import ch.ethz.inspire.emod.dd.model.HPRectangular;
 import ch.ethz.inspire.emod.model.material.Material;
 
 /**

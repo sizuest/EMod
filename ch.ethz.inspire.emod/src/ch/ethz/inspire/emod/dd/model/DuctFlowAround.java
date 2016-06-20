@@ -11,34 +11,31 @@
  *
  ***********************************/
 
-package ch.ethz.inspire.emod.model.fluid;
+package ch.ethz.inspire.emod.dd.model;
 
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import ch.ethz.inspire.emod.model.fluid.Fluid;
 import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.utils.ParameterSet;
 
 /**
- * Implements the hydrodynamic properties of a helix
+ * Implements the hydrodynamic properties of a circular flow around
  * @author sizuest
  *
  */
 @XmlRootElement
-public class DuctHelix extends ADuctElement{
+public class DuctFlowAround extends ADuctElement{
 	@XmlElement
 	double radius;
-	@XmlElement
-	double height;
-	@XmlElement
-	double distance;
 	
 	/**
 	 * Constructor called from XmlUnmarshaller.
 	 */
-	public DuctHelix() {
+	public DuctFlowAround() {
 		super();
 	}
 	
@@ -52,29 +49,27 @@ public class DuctHelix extends ADuctElement{
 	}
 	
 	/**
-	 * Constructor by name
+	 * Constructor by name 
 	 * 
 	 * @param name
 	 */
-	public DuctHelix(String name){
+	public DuctFlowAround(String name){
 		super();
 		this.name     = name;
 	}
 	
 	/**
-	 * Constructor for testing
+	 * constructor for testing
 	 * 
 	 * @param name 
 	 * @param r 
-	 * @param h 
+	 * @param h  
 	 * @param d
 	 * @param profile
 	 */
-	public DuctHelix(String name, double r, double h, double d, AHydraulicProfile profile){
+	public DuctFlowAround(String name, double r, double h, AHydraulicProfile profile){
 		this.name     = name;
 		this.radius   = r;
-		this.height   = h;
-		this.distance = d;
 		this.profile  = profile;
 		init();
 	}
@@ -82,45 +77,60 @@ public class DuctHelix extends ADuctElement{
 	/**
 	 * Initializes the element
 	 */
-	private void init(){
-		double N;  //Number of revolutions
-		double dl; // Length per revolution
-		
-		N  = height/distance;
-		dl = Math.sqrt(Math.pow(distance, 2)+Math.pow(2*Math.PI*radius, 2));
-		
-		this.length = N*dl;
+	private void init(){		
+		this.length = Math.PI*this.radius;
 	}
 	
+	@Override
+	public double getSurface(){
+		return 2*super.getSurface();
+	}
+	
+	@Override
+	public double getHydraulicSurface(){
+		return 2*super.getHydraulicSurface();
+	}
+	
+	@Override
+	public double getVolume(){
+		return 2*super.getVolume();
+	}
 
 	@Override
 	public double getHTC(double flowRate, double pressure,
 			double temperatureFluid, double temperatureWall) {
-		return Fluid.convectionForcedCoil(getMaterial(), temperatureWall, temperatureFluid, profile, radius*2, distance, flowRate);
-		//return Fluid.convectionForcedPipe(getMaterial(), temperatureWall, temperatureFluid, getLength(), getProfile(), flowRate);
+		return Fluid.convectionForcedCoil(getMaterial(), temperatureWall, temperatureFluid, profile, radius*2, 0, flowRate/2);
 	}
 
 	@Override
 	public double getPressureDrop(double flowRate, double pressure,
 			double temperatureFluid) {		
-		return Fluid.pressureLossFrictionCoil(getMaterial(), temperatureFluid, length, profile, 2*radius, distance, flowRate);
+		return Fluid.pressureLossFrictionCoil(getMaterial(), temperatureFluid, length, profile, 2*radius, 0, flowRate/2);
 	}
 	
 	@Override
 	public ParameterSet getParameterSet() {
 		ParameterSet ps = new ParameterSet(this.name);
-		
 		ps.setParameter("Radius", this.radius, new SiUnit("m"));
-		ps.setParameter("Height", this.height, new SiUnit("m"));
-		ps.setParameter("Distance", this.distance, new SiUnit("m"));
 		return ps;
 	}
 
 	@XmlTransient
 	public void setParameterSet(ParameterSet ps) {
 		this.radius   = ps.getParameter("Radius").getValue();
-		this.height   = ps.getParameter("Height").getValue();
-		this.distance = ps.getParameter("Distance").getValue();
+	}
+	
+	@Override
+	public DuctFlowAround clone() {
+		DuctFlowAround clone = new DuctFlowAround();
+		
+		clone.setParameterSet(this.getParameterSet());
+		if(null==this.isolation)
+			clone.setIsolation(null);
+		else
+			clone.setIsolation(this.isolation.clone());
+		clone.setName(this.getName());
+		return clone;
 	}
 
 }

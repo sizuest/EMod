@@ -11,12 +11,14 @@
  *
  ***********************************/
 
-package ch.ethz.inspire.emod.model.fluid;
+package ch.ethz.inspire.emod.dd.model;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import ch.ethz.inspire.emod.model.fluid.Fluid;
+import ch.ethz.inspire.emod.model.fluid.Isolation;
 import ch.ethz.inspire.emod.model.material.Material;
 import ch.ethz.inspire.emod.utils.Parameterizable;
 
@@ -26,7 +28,7 @@ import ch.ethz.inspire.emod.utils.Parameterizable;
  *
  */
 @XmlRootElement
-public abstract class ADuctElement implements Parameterizable{
+public abstract class ADuctElement implements Parameterizable, Cloneable{
 	
 	protected String name;
 	@XmlTransient
@@ -184,6 +186,15 @@ public abstract class ADuctElement implements Parameterizable{
 	public AHydraulicProfile getProfile() {
 		return this.profile;
 	}
+	
+	public boolean hasIsolation(){
+		if(this.isolation == null)
+			return false;
+		if(this.isolation.getThickness() == 0)
+			return false;
+		else
+			return true;
+	}
 
 	/**
 	 * Sets the hydraulic profile
@@ -202,7 +213,15 @@ public abstract class ADuctElement implements Parameterizable{
 	 */
 	@XmlElement
 	public Isolation getIsolation() {
-		return this.isolation;
+		if(this.isolation != null)
+			if(this.isolation.getMaterial() == null)
+				return null;
+			else
+				return this.isolation;
+		else
+			return null;
 	}
+	
+	public abstract ADuctElement clone();
 
 }

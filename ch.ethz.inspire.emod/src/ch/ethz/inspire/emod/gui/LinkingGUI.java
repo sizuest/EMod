@@ -43,6 +43,7 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
 import ch.ethz.inspire.emod.Machine;
+import ch.ethz.inspire.emod.gui.utils.ShowButtons;
 import ch.ethz.inspire.emod.model.MachineComponent;
 import ch.ethz.inspire.emod.simulation.ASimulationControl;
 import ch.ethz.inspire.emod.utils.FluidContainer;
@@ -66,7 +67,7 @@ public class LinkingGUI extends AConfigGUI{
 	List<IOConnection> linking;
 
     public LinkingGUI(Composite parent, int style){
-    	super(parent, style, true);
+    	super(parent, style, ShowButtons.ALL);
     	
     	this.getContent().setLayout(new GridLayout(1, true));
     	

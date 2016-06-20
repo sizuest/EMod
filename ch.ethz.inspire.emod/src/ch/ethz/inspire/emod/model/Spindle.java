@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.lang.Math;
 import java.lang.reflect.Constructor;
 
-import ch.ethz.inspire.emod.model.fluid.Duct;
+import ch.ethz.inspire.emod.dd.Duct;
 import ch.ethz.inspire.emod.model.fluid.FECDuct;
 import ch.ethz.inspire.emod.model.thermal.ThermalArray;
 import ch.ethz.inspire.emod.model.thermal.ThermalElement;

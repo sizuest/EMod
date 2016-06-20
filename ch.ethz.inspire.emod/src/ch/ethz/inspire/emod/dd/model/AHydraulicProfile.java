@@ -11,10 +11,11 @@
  *
  ***********************************/
 
-package ch.ethz.inspire.emod.model.fluid;
+package ch.ethz.inspire.emod.dd.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import ch.ethz.inspire.emod.model.fluid.Fluid;
 import ch.ethz.inspire.emod.utils.ParameterSet;
 import ch.ethz.inspire.emod.utils.Parameterizable;
 

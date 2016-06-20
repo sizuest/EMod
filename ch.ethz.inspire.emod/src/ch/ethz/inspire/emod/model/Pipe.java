@@ -19,8 +19,8 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import ch.ethz.inspire.emod.model.fluid.Duct;
-import ch.ethz.inspire.emod.model.fluid.DuctPipe;
+import ch.ethz.inspire.emod.dd.Duct;
+import ch.ethz.inspire.emod.dd.model.DuctPipe;
 import ch.ethz.inspire.emod.model.fluid.FECDuct;
 import ch.ethz.inspire.emod.model.fluid.Fluid;
 import ch.ethz.inspire.emod.model.material.Material;

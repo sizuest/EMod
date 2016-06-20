@@ -11,12 +11,13 @@
  *
  ***********************************/
 
-package ch.ethz.inspire.emod.model.fluid;
+package ch.ethz.inspire.emod.dd.model;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import ch.ethz.inspire.emod.model.fluid.Fluid;
 import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.utils.ParameterSet;
 
@@ -64,4 +65,17 @@ public class DuctElbowFitting extends ADuctElement{
 		this.count = ps.getParameter("Count").getValue();
 	}
 
+	@Override
+	public DuctElbowFitting clone() {
+		DuctElbowFitting clone = new DuctElbowFitting();
+		
+		clone.setParameterSet(this.getParameterSet());
+		if(null==this.isolation)
+			clone.setIsolation(null);
+		else
+			clone.setIsolation(this.isolation.clone());
+		clone.setName(this.getName());
+		
+		return clone;
+	}
 }

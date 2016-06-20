@@ -1,4 +1,4 @@
-package ch.ethz.inspire.emod.gui.dd;
+package ch.ethz.inspire.emod.dd.gui;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
@@ -17,12 +17,12 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
+import ch.ethz.inspire.emod.dd.model.ADuctElement;
+import ch.ethz.inspire.emod.dd.model.AHydraulicProfile;
+import ch.ethz.inspire.emod.dd.model.HPCircular;
+import ch.ethz.inspire.emod.dd.model.HPRectangular;
 import ch.ethz.inspire.emod.gui.AConfigGUI;
 import ch.ethz.inspire.emod.gui.utils.TableUtils;
-import ch.ethz.inspire.emod.model.fluid.ADuctElement;
-import ch.ethz.inspire.emod.model.fluid.AHydraulicProfile;
-import ch.ethz.inspire.emod.model.fluid.HPCircular;
-import ch.ethz.inspire.emod.model.fluid.HPRectangular;
 import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.utils.ParameterSet;
 

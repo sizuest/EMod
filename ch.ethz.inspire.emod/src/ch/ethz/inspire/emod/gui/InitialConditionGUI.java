@@ -8,6 +8,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import ch.ethz.inspire.emod.Machine;
+import ch.ethz.inspire.emod.gui.utils.ShowButtons;
 import ch.ethz.inspire.emod.gui.utils.TableUtils;
 import ch.ethz.inspire.emod.simulation.DynamicState;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
@@ -17,7 +18,7 @@ public class InitialConditionGUI extends AConfigGUI{
 	private Table tableSimParam;
 
 	public InitialConditionGUI(Composite parent, int style) {
-		super(parent, style, false);
+		super(parent, style, ShowButtons.RESET | ShowButtons.OK);
 		
 		//Machine.loadInitialConditions();
 		

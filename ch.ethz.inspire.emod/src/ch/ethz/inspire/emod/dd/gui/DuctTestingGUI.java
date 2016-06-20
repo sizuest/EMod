@@ -1,4 +1,4 @@
-package ch.ethz.inspire.emod.gui.dd;
+package ch.ethz.inspire.emod.dd.gui;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -41,13 +41,13 @@ import org.swtchart.ILineSeries.PlotSymbolType;
 import org.swtchart.ISeries.SeriesType;
 import org.swtchart.LineStyle;
 
+import ch.ethz.inspire.emod.dd.Duct;
+import ch.ethz.inspire.emod.dd.model.ADuctElement;
 import ch.ethz.inspire.emod.gui.AGUITab;
 import ch.ethz.inspire.emod.gui.SelectMachineComponentGUI;
 import ch.ethz.inspire.emod.gui.SelectMaterialGUI;
 import ch.ethz.inspire.emod.gui.utils.TableUtils;
 import ch.ethz.inspire.emod.model.Pump;
-import ch.ethz.inspire.emod.model.fluid.ADuctElement;
-import ch.ethz.inspire.emod.model.fluid.Duct;
 import ch.ethz.inspire.emod.model.material.Material;
 import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.model.units.Unit;
@@ -332,14 +332,11 @@ public class DuctTestingGUI extends AGUITab{
 		this.getShell().redraw();
 		this.getShell().layout();
 		this.getShell().update();
-		
-		System.out.println(this.getParent().getSize().x+" : "+this.getParent().getSize().y);
-		System.out.println(this.getSize().x+" : "+this.getSize().y);
 
 		this.redraw();
 		this.layout();
 		
-		System.out.println(this.getSize().x+" : "+this.getSize().y);
+		duct.setMaterial(material);
 		
 		
 		updateTestingTable();

@@ -49,7 +49,10 @@ public class Isolation implements Parameterizable {
 	}
 	
 	private void init(){
-		this.material = new Material(type);
+		if(this.thickness == 0)
+			this.material = null;
+		else
+			this.material = new Material(type);
 	}
 	
 	/**
@@ -96,7 +99,7 @@ public class Isolation implements Parameterizable {
 	 * Returns a copy of the isolation
 	 * @return {@link Isolation}
 	 */
-	public Isolation copy() {
+	public Isolation clone() {
 		return new Isolation(type, thickness);
 	}
 	
@@ -114,5 +117,9 @@ public class Isolation implements Parameterizable {
 	 */
 	public Material getMaterial() {
 		return this.material;
+	}
+
+	public double getThickness() {
+		return this.thickness;
 	}
 }

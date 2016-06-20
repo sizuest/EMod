@@ -27,6 +27,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
+import ch.ethz.inspire.emod.gui.utils.ShowButtons;
 import ch.ethz.inspire.emod.gui.utils.TableUtils;
 import ch.ethz.inspire.emod.utils.ConfigReader;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
@@ -38,7 +39,7 @@ public class EditInputGUI extends AConfigGUI {
     protected ConfigReader input;
 
     public EditInputGUI(Composite parent, int style, String type, String parameter){
-    	super(parent, style, true);
+    	super(parent, style, ShowButtons.ALL);
     	
     	this.getContent().setLayout(new GridLayout(1, true));
     	
