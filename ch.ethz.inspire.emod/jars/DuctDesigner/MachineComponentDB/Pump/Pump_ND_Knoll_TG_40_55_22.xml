@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>
+    Model parameter definition
+    ==========================
+      Model : PumpPower 
+      Type  : ND_Knoll_TG_40_55_22
+    Parameters
+    ----------
+      PressureSamples [Pa]
+        Array of operation points for the pump
+	  FlowRateSamples [m^3/s]
+		Array of corresponding flow rate to the given pressure samples
+      ElectricalPower [W]
+      	Electrical power of the pump if running
+      Mass [kg]
+      	Structural mass
+      Material [-]
+      	Structural material
+      EfficiencySamples [-]
+      	Pump efficiency samples
+      
+  </comment>
+  <entry key="PressureSamples">320000 319500 315000 311500 303000 298000 283000 270000</entry>
+  <entry key="FlowRateSamples">.00147 .001957 .002443 .002943 .003429 .003915 .004415 .0049</entry>
+  <entry key="PowerSamples">1700 1850 2050 2250 2400 2550 2750 2850</entry>
+  <entry key="EfficiencySamples">0 .3 .35 .4 .42 .4 .35 .3</entry>
+  
+  
+<entry key="MassFluid">3</entry>
+<entry key="MassMotor">15</entry>
+<entry key="HasMotorCooling">1</entry>
+<entry key="IsSubmerged">0</entry>
+<entry key="DiameterPump">.1</entry>
+<entry key="LengthPump">.1</entry>
+<entry key="DiameterMotor">.2</entry>
+<entry key="LengthMotor">.2</entry>
+<entry key="NominalRotSpeed">1500</entry>
+<entry key="NumberImpellerEyes">1</entry>
+<entry key="NumberStages">1</entry>
+<entry key="NominalFlowRate">0.003915</entry>
+<entry key="NominalPressure">298000</entry>
+</properties>
