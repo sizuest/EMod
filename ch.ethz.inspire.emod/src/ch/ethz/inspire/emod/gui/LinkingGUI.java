@@ -28,7 +28,6 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -137,7 +136,7 @@ public class LinkingGUI extends AConfigGUI{
 	public static void openLinkingGUI(){
 			final Shell shell = new Shell(Display.getCurrent());
 	        shell.setText(LocalizationHandler.getItem("app.gui.linking.title"));
-	    	shell.setLayout(new FillLayout());
+	    	shell.setLayout(new GridLayout());
 	    	
 	    	LinkingGUI gui = new LinkingGUI(shell, SWT.NONE);
 	    	

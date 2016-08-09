@@ -43,6 +43,7 @@ import org.swtchart.LineStyle;
 
 import ch.ethz.inspire.emod.dd.Duct;
 import ch.ethz.inspire.emod.dd.model.ADuctElement;
+import ch.ethz.inspire.emod.dd.model.DuctBypass;
 import ch.ethz.inspire.emod.gui.AGUITab;
 import ch.ethz.inspire.emod.gui.SelectMachineComponentGUI;
 import ch.ethz.inspire.emod.gui.SelectMaterialGUI;
@@ -51,6 +52,7 @@ import ch.ethz.inspire.emod.model.Pump;
 import ch.ethz.inspire.emod.model.material.Material;
 import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.model.units.Unit;
+import ch.ethz.inspire.emod.utils.LocalizationHandler;
 
 public class DuctTestingGUI extends AGUITab{
 
@@ -107,7 +109,10 @@ public class DuctTestingGUI extends AGUITab{
 		tableOpPoint.setLinesVisible(true);
 		tableOpPoint.setHeaderVisible(true);
 		
-		String[] titlesOP =  {"Parameter", "Value", "Unit", "        "};
+		String[] titlesOP =  {	LocalizationHandler.getItem("app.gui.parameter"), 
+								LocalizationHandler.getItem("app.gui.parameter.value"), 
+								LocalizationHandler.getItem("app.gui.parameter.unit"), 
+								"        "};
 		for(int i=0; i < titlesOP.length; i++){
 			TableColumn column = new TableColumn(tableOpPoint, SWT.NULL);
 			column.setText(titlesOP[i]);
@@ -125,14 +130,16 @@ public class DuctTestingGUI extends AGUITab{
 		tableTesting.setLinesVisible(true);
 		tableTesting.setHeaderVisible(true);
 		
-		String[] titlesTest =  {"Element", 
+		String[] titlesTest =  {LocalizationHandler.getItem("app.dd.config.gui.element"), 
 				                "V ["+SiUnit.pow(new SiUnit("m"),3).toString()+"]", 
 				                "S ["+(new SiUnit("m^2")).toString()+"]", 
 				                "l ["+(new SiUnit("m")).toString()+"]", 
 				                "Δp ["+(new SiUnit("Pa")).toString()+"]", 
 				                "ζ ["+SiUnit.divide(new SiUnit("Pa"), SiUnit.pow(new SiUnit(Unit.METERCUBIC_S), 2)).toString()+"]", 
 				                "Rth ["+(new SiUnit("W K^-1")).toString()+"]", 
-				                "α ["+(new SiUnit("W m^-2 K^-1")).toString()+"]"};
+				                "α ["+(new SiUnit("W m^-2 K^-1")).toString()+"]", 
+				                "Q [l/min]",
+				                ""};
 		for(int i=0; i < titlesTest.length; i++){
 			TableColumn column = new TableColumn(tableTesting, SWT.NULL);
 			column.setText(titlesTest[i]);
@@ -144,15 +151,15 @@ public class DuctTestingGUI extends AGUITab{
 		colorHTC      = new Color(getDisplay(), new RGB(255, 80, 0));
 		
 		chartTesting = new Chart(tabMain, SWT.NONE);
-		chartTesting.getAxisSet().getXAxis(0).getTitle().setText("Location ["+(new SiUnit("m")).toString()+"]");
+		chartTesting.getAxisSet().getXAxis(0).getTitle().setText(LocalizationHandler.getItem("app.dd.testing.gui.location")+" ["+(new SiUnit("m")).toString()+"]");
 		chartTesting.getAxisSet().getXAxis(0).getTick().setForeground(Display.getDefault().getSystemColor(0));
 		chartTesting.getAxisSet().getXAxis(0).getTitle().setForeground(Display.getDefault().getSystemColor(0));
 		chartTesting.getAxisSet().createYAxis();
-		chartTesting.getAxisSet().getYAxis(0).getTitle().setText("HTC ["+(new SiUnit("W/K")).toString()+"]");
+		chartTesting.getAxisSet().getYAxis(0).getTitle().setText(LocalizationHandler.getItem("app.dd.testing.gui.htc")+" ["+(new SiUnit("W/K")).toString()+"]");
 		chartTesting.getAxisSet().getYAxis(0).getTick().setForeground(colorPressure);
 		chartTesting.getAxisSet().getYAxis(0).getTitle().setForeground(colorPressure);
 		chartTesting.getAxisSet().getYAxis(1).getTick().setFormat(new DecimalFormat("0.###E0"));
-		chartTesting.getAxisSet().getYAxis(1).getTitle().setText("Pressure ["+(new SiUnit("Pa")).toString()+"]");
+		chartTesting.getAxisSet().getYAxis(1).getTitle().setText(LocalizationHandler.getItem("app.dd.testing.gui.pressure")+" ["+(new SiUnit("Pa")).toString()+"]");
 		chartTesting.getAxisSet().getYAxis(0).getTick().setForeground(colorHTC);
 		chartTesting.getAxisSet().getYAxis(0).getTitle().setForeground(colorHTC);
 		chartTesting.getTitle().setVisible(false);
@@ -166,25 +173,18 @@ public class DuctTestingGUI extends AGUITab{
 				
 				double x = xAxis.getDataCoordinate(event.x);
 				
-				double pos = 0;
-				for(ADuctElement e: duct.getElements())
-					if(pos+e.getLength()>x){
-						plotArea.setToolTipText(e.getName());
-						break;
-					}
-					else
-						pos+=e.getLength();
+				plotArea.setToolTipText(getElementName(duct, x));
 			}
 	    });
 
-		lineSeriesHTCTesting = (ILineSeries) chartTesting.getSeriesSet().createSeries(SeriesType.LINE, "HTC");
+		lineSeriesHTCTesting = (ILineSeries) chartTesting.getSeriesSet().createSeries(SeriesType.LINE, LocalizationHandler.getItem("app.dd.testing.gui.htc"));
 		lineSeriesHTCTesting.setYAxisId(0);
 		lineSeriesHTCTesting.setLineColor(colorHTC);
 		lineSeriesHTCTesting.setLineWidth(2);
 		lineSeriesHTCTesting.enableArea(true);
 		lineSeriesHTCTesting.setSymbolType(PlotSymbolType.NONE);
 		
-		lineSeriesPressureTesting = (ILineSeries) chartTesting.getSeriesSet().createSeries(SeriesType.LINE, "Pressure");
+		lineSeriesPressureTesting = (ILineSeries) chartTesting.getSeriesSet().createSeries(SeriesType.LINE, LocalizationHandler.getItem("app.dd.testing.gui.pressure"));
 		lineSeriesPressureTesting.setYAxisId(1);
 		lineSeriesPressureTesting.setLineColor(colorPressure);
 		lineSeriesPressureTesting.setLineWidth(2);
@@ -192,28 +192,28 @@ public class DuctTestingGUI extends AGUITab{
 		
 		/* Chart Characteristics */
 		chartCC = new Chart(tabMain, SWT.NONE);
-		chartCC.getAxisSet().getXAxis(0).getTitle().setText("Flow Rate ["+(new SiUnit("m^3 s^-1")).toString()+"]");
+		chartCC.getAxisSet().getXAxis(0).getTitle().setText(LocalizationHandler.getItem("app.dd.testing.gui.flowrate")+" ["+(new SiUnit("m^3 s^-1")).toString()+"]");
 		chartCC.getAxisSet().getXAxis(0).getTick().setForeground(Display.getDefault().getSystemColor(0));
 		chartCC.getAxisSet().getXAxis(0).getTitle().setForeground(Display.getDefault().getSystemColor(0));
 		chartCC.getAxisSet().getXAxis(0).getTick().setFormat(new DecimalFormat("0.###E0"));
 		chartCC.getAxisSet().createYAxis();
-		chartCC.getAxisSet().getYAxis(0).getTitle().setText("HTC ["+(new SiUnit("W/K")).toString()+"]");
+		chartCC.getAxisSet().getYAxis(0).getTitle().setText(LocalizationHandler.getItem("app.dd.testing.gui.htc")+" ["+(new SiUnit("W/K")).toString()+"]");
 		chartCC.getAxisSet().getYAxis(0).getTick().setForeground(colorPressure);
 		chartCC.getAxisSet().getYAxis(0).getTitle().setForeground(colorPressure);
-		chartCC.getAxisSet().getYAxis(1).getTitle().setText("Pressure ["+(new SiUnit("Pa")).toString()+"]");
+		chartCC.getAxisSet().getYAxis(1).getTitle().setText(LocalizationHandler.getItem("app.dd.testing.gui.pressure")+" ["+(new SiUnit("Pa")).toString()+"]");
 		chartCC.getAxisSet().getYAxis(1).getTick().setFormat(new DecimalFormat("0.###E0"));
 		chartCC.getAxisSet().getYAxis(0).getTick().setForeground(colorHTC);
 		chartCC.getAxisSet().getYAxis(0).getTitle().setForeground(colorHTC);
 		chartCC.getTitle().setVisible(false);
 		
-		lineSeriesHTCCC = (ILineSeries) chartCC.getSeriesSet().createSeries(SeriesType.LINE, "HTC");
+		lineSeriesHTCCC = (ILineSeries) chartCC.getSeriesSet().createSeries(SeriesType.LINE, LocalizationHandler.getItem("app.dd.testing.gui.htc"));
 		lineSeriesHTCCC.setYAxisId(0);
 		lineSeriesHTCCC.setLineColor(colorHTC);
 		lineSeriesHTCCC.setLineWidth(2);
 		lineSeriesHTCCC.enableArea(true);
 		lineSeriesHTCCC.setSymbolType(PlotSymbolType.NONE);
 		
-		lineSeriesPressureCC = (ILineSeries) chartCC.getSeriesSet().createSeries(SeriesType.LINE, "Pressure");
+		lineSeriesPressureCC = (ILineSeries) chartCC.getSeriesSet().createSeries(SeriesType.LINE, LocalizationHandler.getItem("app.dd.testing.gui.pressure"));
 		lineSeriesPressureCC.setYAxisId(1);
 		lineSeriesPressureCC.setLineColor(colorPressure);
 		lineSeriesPressureCC.setLineWidth(2);
@@ -231,17 +231,17 @@ public class DuctTestingGUI extends AGUITab{
 		
 		/* Tab Controls */
 		TabItem tabAnalysisNum = new TabItem(tabMain, SWT.NONE);
-		tabAnalysisNum.setText("Element Analysis: Numerical");
+		tabAnalysisNum.setText(LocalizationHandler.getItem("app.dd.testing.gui.analysis.numerical"));
 		tabAnalysisNum.setToolTipText("");
 		tabAnalysisNum.setControl(tableTesting); 
 		
 		TabItem tabAnalysisPlot = new TabItem(tabMain, SWT.NONE);
-		tabAnalysisPlot.setText("Element Analysis: Graphical");
+		tabAnalysisPlot.setText(LocalizationHandler.getItem("app.dd.testing.gui.analysis.graphical"));
 		tabAnalysisPlot.setToolTipText("");
 		tabAnalysisPlot.setControl(chartTesting); 
 		
 		TabItem tabCharacteristicsPlot = new TabItem(tabMain, SWT.NONE);
-		tabCharacteristicsPlot.setText("Characteristic Diagram ");
+		tabCharacteristicsPlot.setText(LocalizationHandler.getItem("app.dd.testing.gui.analysis.characteristicdiag"));
 		tabCharacteristicsPlot.setToolTipText("");
 		tabCharacteristicsPlot.setControl(chartCC); 
 		
@@ -260,7 +260,7 @@ public class DuctTestingGUI extends AGUITab{
 		/* Popup */
 		menuChartCC = new Menu(chartCC);
 		MenuItem itemPrint = new MenuItem(menuChartCC, SWT.NONE);
-		itemPrint.setText("Save as image");
+		itemPrint.setText(LocalizationHandler.getItem("app.gui.file.saveasimg"));
 		itemPrint.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
 				saveChartCC(chartCC);
@@ -271,7 +271,7 @@ public class DuctTestingGUI extends AGUITab{
 		});
 		
 		MenuItem itemAddPump = new MenuItem(menuChartCC, SWT.NONE);
-		itemAddPump.setText("Add new Pump");
+		itemAddPump.setText(LocalizationHandler.getItem("app.dd.testing.gui.analysis.characteristicdiag.addpump"));
 		itemAddPump.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
 				openModelSelectGUI();
@@ -287,7 +287,7 @@ public class DuctTestingGUI extends AGUITab{
 		
 		menuChartTesting = new Menu(chartTesting);
 		MenuItem itemPrintTesting = new MenuItem(menuChartTesting, SWT.NONE);
-		itemPrintTesting.setText("Save as image");
+		itemPrintTesting.setText(LocalizationHandler.getItem("app.gui.file.saveasimg"));
 		itemPrintTesting.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
 				saveChartCC(chartTesting);
@@ -329,9 +329,8 @@ public class DuctTestingGUI extends AGUITab{
 
 	@Override
 	public void update() {
-		this.getShell().redraw();
-		this.getShell().layout();
-		this.getShell().update();
+		
+		this.setEnabled(false);
 
 		this.redraw();
 		this.layout();
@@ -344,7 +343,7 @@ public class DuctTestingGUI extends AGUITab{
 		updateChartTesting();
 		updateChartCC();
 
-		//this.getParent().pack();
+		this.setEnabled(true);
 	}
 	
 	public void setOperationalPoint(){
@@ -403,23 +402,23 @@ public class DuctTestingGUI extends AGUITab{
 		itemTemperatureW = new TableItem(tableOpPoint, SWT.LEFT, 3);
 		itemMaterial     = new TableItem(tableOpPoint, SWT.LEFT, 4);
 		
-		itemFlowRate.setText(0, "Flow Rate");
+		itemFlowRate.setText(0, LocalizationHandler.getItem("app.dd.testing.gui.flowrate"));
 		itemFlowRate.setText(1, this.flowRate+"");
 		itemFlowRate.setText(2, (new SiUnit("m^3/s")).toString());
 		
-		itemPressure.setText(0, "Inlet pressure");
+		itemPressure.setText(0, LocalizationHandler.getItem("app.dd.testing.gui.pressurein"));
 		itemPressure.setText(1, this.pressure+"");
 		itemPressure.setText(2, (new SiUnit("Pa")).toString());
 		
-		itemTemperatureF.setText(0, "Temperature Fluid (avg.)");
+		itemTemperatureF.setText(0, LocalizationHandler.getItem("app.dd.testing.gui.temperaturefluid"));
 		itemTemperatureF.setText(1, this.temperatureF+"");
 		itemTemperatureF.setText(2, (new SiUnit("K")).toString());
 		
-		itemTemperatureW.setText(0, "Temperature Wall (avg.)");
+		itemTemperatureW.setText(0, LocalizationHandler.getItem("app.dd.testing.gui.temperaturewall"));
 		itemTemperatureW.setText(1, this.temperatureW+"");
 		itemTemperatureW.setText(2, (new SiUnit("K")).toString());
 		
-		itemMaterial.setText(0, "Coolant");
+		itemMaterial.setText(0, LocalizationHandler.getItem("app.dd.testing.gui.coolant"));
 		itemMaterial.setText(1, duct.getMaterial().getType());
 		itemMaterial.setText(2, "");
 		
@@ -463,15 +462,12 @@ public class DuctTestingGUI extends AGUITab{
 			setMaterial(selection);
 	}
 	
-	private void updateTestingTable(){
-    	tableTesting.clearAll();
-    	tableTesting.setItemCount(0);
-    	
-    	for(ADuctElement e: duct.getElements()){
+	private void addToTestingTable(Duct duct, String prefix, double flowRate){
+		for(ADuctElement e: duct.getElements()){
     		int i                    = tableTesting.getItemCount();
 			final TableItem itemProp = new TableItem(tableTesting, SWT.RIGHT, i);
 			
-			itemProp.setText(0, e.getName());
+			itemProp.setText(0, prefix + e.getName());
 			itemProp.setText(1, String.format("%.3g", e.getVolume()));
 			itemProp.setText(2, String.format("%.3g", e.getSurface()));
 			itemProp.setText(3, String.format("%.3g", e.getLength()));
@@ -479,7 +475,21 @@ public class DuctTestingGUI extends AGUITab{
 			itemProp.setText(5, String.format("%.3g", e.getPressureLossCoefficient(flowRate, pressure, temperatureF)));
 			itemProp.setText(6, String.format("%.3g", e.getHTC(flowRate, pressure, temperatureF, temperatureW)*e.getSurface()));
 			itemProp.setText(7, String.format("%.3g", e.getHTC(flowRate, pressure, temperatureF, temperatureW)));
+			itemProp.setText(8, String.format("%.3g", flowRate*60E3));
+			
+			if(e instanceof DuctBypass){
+				addToTestingTable(((DuctBypass) e).getPrimary(),   prefix.replaceFirst("[0-9]:", "  ")+"  1: ", ((DuctBypass) e).getFlowRatePrimary(flowRate, this.pressure, this.temperatureF));
+				addToTestingTable(((DuctBypass) e).getSecondary(), prefix.replaceFirst("[0-9]:", "  ")+"  2: ", ((DuctBypass) e).getFlowRateSecondary(flowRate, this.pressure, this.temperatureF));
+			}
+				
     	}
+	}
+	
+	private void updateTestingTable(){
+    	tableTesting.clearAll();
+    	tableTesting.setItemCount(0);
+    	
+    	addToTestingTable(duct, "", this.flowRate);
     	
     	int i              = tableTesting.getItemCount();
 		TableItem itemProp = new TableItem(tableTesting, SWT.RIGHT, i);
@@ -499,44 +509,44 @@ public class DuctTestingGUI extends AGUITab{
         	columns[j].pack();
         }
     }
-	
+		
 	private void updateChartTesting(){
 		
 		if(duct.getElements().size()==0)
 			return;
 		
 		double[] pressure, position1, htc, position2;
+		ArrayList<Double> positionArr = getPositions(this.duct, 0), 
+						  htcArr      = getHTCs(this.duct, this.pressure, this.flowRate),
+						  pressureArr = getPressures(this.duct, this.pressure, this.flowRate); 
 		
-		pressure  = new double[duct.getElements().size()+1];
-		position1 = new double[duct.getElements().size()+1];
-		htc       = new double[duct.getElements().size()*2];
-		position2 = new double[duct.getElements().size()*2];
+		if(positionArr.size()<1)
+			return;
 		
-		// Inlet:
+		pressure  = new double[pressureArr.size()+1];
+		position1 = new double[positionArr.size()+1];
+		htc       = new double[htcArr.size()*2];
+		position2 = new double[positionArr.size()*2];
+		
 		pressure[0]  = this.pressure;
 		position1[0] = 0;
-		
-		for(int i=0; i<duct.getElements().size(); i++){
-			position1[i+1] = position1[i] + duct.getElement(i).getLength();
-			pressure[i+1] = pressure[i] -   duct.getElement(i).getPressureDrop(flowRate, pressure[i], temperatureF);
+		for(int i=0; i<pressureArr.size(); i++){
+			pressure[i+1]  = pressureArr.get(i);
+			position1[i+1] = positionArr.get(i);
 		}
 		
-		
-		position2[0] = position1[0];
-		position2[1] = duct.getElement(0).getLength();
-		htc[0]       = duct.getElement(0).getHTC(flowRate, pressure[0], temperatureF, temperatureW)*duct.getElement(0).getSurface();
-		htc[1]       = htc[0];
-		
-		for(int i=1; i<duct.getElements().size(); i++){
-			position2[2*i]   = position2[2*i-1];
-			position2[2*i+1] = position2[2*i] + duct.getElement(i).getLength();
-			htc[2*i] = duct.getElement(i).getHTC(flowRate, pressure[i], temperatureF, temperatureW)*duct.getElement(i).getSurface();
-			if(null!=duct.getElement(i).getIsolation())
-				htc[2*i] =  1/(1/htc[2*i] + 1/duct.getElement(i).getIsolation().getThermalResistance());
+		htc[0]       = htcArr.get(0);
+		position2[0] = 0;
+		int i;
+		for(i=0; i<positionArr.size(); i++){
+			htc[2*i+1]       = htcArr.get(i);
+			position2[2*i+1] = positionArr.get(i);
 			
-			htc[2*i+1] = htc[2*i];
-		}
-
+			if(i<positionArr.size()-1){
+				htc[2*i+2] = htcArr.get(i+1);
+				position2[2*i+2] = positionArr.get(i);
+			}
+		}		
 		
 		lineSeriesPressureTesting.setXSeries(position1);
 		lineSeriesPressureTesting.setYSeries(pressure);
@@ -545,8 +555,13 @@ public class DuctTestingGUI extends AGUITab{
 		lineSeriesHTCTesting.setYSeries(htc);
 		
 		chartTesting.getLegend().setVisible(false);
-		chartTesting.getAxisSet().adjustRange();
-		chartTesting.redraw();
+		
+		try{
+			chartTesting.getAxisSet().adjustRange();
+			chartTesting.redraw();
+		} catch(Exception e){
+			System.err.println("Chart update failed!");
+		}
 	}
 	
 	private void updateChartCC(){
@@ -612,7 +627,7 @@ public class DuctTestingGUI extends AGUITab{
 		this.pumps.add(pump);
 		
 		// Create and add new line series
-		ILineSeries line = (ILineSeries) chartCC.getSeriesSet().createSeries(SeriesType.LINE, "Pump: "+pump.getType());
+		ILineSeries line = (ILineSeries) chartCC.getSeriesSet().createSeries(SeriesType.LINE, LocalizationHandler.getItem("app.dd.testing.gui.analysis.characteristicdiag.pump")+": "+pump.getType());
 		line.setYAxisId(1);
 		line.setLineStyle(LineStyle.DOT);
 		line.setLineWidth(2);
@@ -623,7 +638,7 @@ public class DuctTestingGUI extends AGUITab{
 		if(menuChartCC.getItemCount()==2)
 			new MenuItem(menuChartCC, SWT.SEPARATOR);
 		MenuItem item = new MenuItem(menuChartCC, SWT.NONE);
-		item.setText("Remove pump '"+pump.getType()+"'");
+		item.setText(LocalizationHandler.getItem("app.dd.testing.gui.analysis.characteristicdiag.removepump")+": '"+pump.getType()+"'");
 		item.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
 				removePump(pump.getType());
@@ -705,5 +720,102 @@ public class DuctTestingGUI extends AGUITab{
 			l.setLineColor(new Color(Display.getCurrent(), new RGB(0, 100+(int)(155*i++/this.lineSeriesPumps.size()),0)));
 	}
 
+
+	public void setDuct(Duct duct) {
+		this.duct = duct;
+	}
+	
+	/**
+	 * Retuens and ArrayList with the position of the elements outlets
+	 * @param duct
+	 * @param offset
+	 * @return
+	 */
+	private ArrayList<Double> getPositions(Duct duct, double offset){
+		ArrayList<Double> positions = new ArrayList<Double>();
+		
+		for(ADuctElement e: duct.getElements()){
+			if(e instanceof DuctBypass) {
+				positions.addAll(getPositions(((DuctBypass) e).getPrimary(), offset));
+				if( positions.size()>0)
+					offset = positions.get(positions.size()-1);
+			}
+			else{
+				offset+=e.getLength();
+				positions.add(offset);
+			}
+		}
+		
+		return positions;
+	}
+	
+	/**
+	 * Returns an ArrayList with the pressures at the outlets of the elements
+	 * @param duct
+	 * @param inlet
+	 * @param flowRate
+	 * @return
+	 */
+	private ArrayList<Double> getPressures(Duct duct, double inlet, double flowRate){
+		ArrayList<Double> pressures = new ArrayList<Double>();
+		
+		for(ADuctElement e: duct.getElements()){
+			if(e instanceof DuctBypass) {
+				pressures.addAll(getPressures(((DuctBypass) e).getPrimary(), inlet,((DuctBypass) e).getFlowRatePrimary(flowRate, inlet, this.temperatureF)));
+				if( pressures.size()>0)
+					inlet = pressures.get(pressures.size()-1);
+			}
+			else{
+				inlet = e.getPressureOut(this.flowRate, inlet, this.temperatureF);
+				pressures.add(inlet);
+			}
+		}
+		
+		return pressures;
+	}
+	
+	/**
+	 * Returns an ArrayList with the HTC of each element
+	 * @param duct
+	 * @param inlet
+	 * @param flowRate
+	 * @return
+	 */
+	private ArrayList<Double> getHTCs(Duct duct, double inlet, double flowRate){
+		ArrayList<Double> htcs = new ArrayList<Double>();
+		ArrayList<Double> pressures = getPressures(duct, inlet, flowRate);
+		
+		
+		for(ADuctElement e: duct.getElements()){
+			if(e instanceof DuctBypass) {
+				if( htcs.size()>0)		
+					htcs.addAll(getHTCs(((DuctBypass) e).getPrimary(), pressures.get(htcs.size()-1),((DuctBypass) e).getFlowRatePrimary(flowRate, inlet, this.temperatureF)));
+				else
+					htcs.addAll(getHTCs(((DuctBypass) e).getPrimary(), inlet,((DuctBypass) e).getFlowRatePrimary(flowRate, inlet, this.temperatureF)));
+			}
+			else{
+				htcs.add(e.getHTC(flowRate,  pressures.get(htcs.size()), this.temperatureF, this.temperatureW)*e.getSurface());
+			}
+		}	
+		
+		return htcs;
+	}
+	
+	private String getElementName(Duct duct, double x) {
+		
+		double pos = 0;
+		
+		for(ADuctElement e: duct.getElements())
+			if(pos+e.getLength()>x){
+				if(e instanceof DuctBypass)
+					return e.getName()+": "+getElementName(((DuctBypass) e).getPrimary(), x-pos);
+				else
+					return e.getName();
+			}
+			else
+				pos+=e.getLength();
+		
+		return "";
+	}
 
 }

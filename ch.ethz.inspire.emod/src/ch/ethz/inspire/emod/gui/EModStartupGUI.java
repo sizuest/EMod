@@ -420,6 +420,15 @@ public class EModStartupGUI {
 			ModelGUI.addTableItem(sc, i);
 			i++;
 		}
+
+		for(MachineComponent mc:mclist){
+			ModelGraphGUI.addGraphItem(mc);
+		}
+		for(ASimulationControl sc:sclist){
+			ModelGraphGUI.addGraphItem(sc);
+		}
+		
+		ModelGraphGUI.redrawConnections();
 		
 		// update table to resize the columns
 		ModelGUI.updateTable();

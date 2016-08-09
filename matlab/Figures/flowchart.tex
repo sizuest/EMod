@@ -3,15 +3,30 @@
 	\footnotesize
 	\begin{tabular}{lllp{5cm}}
 	\toprule		Component	& Model type	& Parameter set	& Attributes\\
-		\midrule		 Cylinder	& cylinder	&NDM200	&type: NDM200\\
-		 Valve	& valve	&NDM200	&type: NDM200\\
-		 HLP46	& hydraulicOil	&HLP46	&type: HLP46\\
-		 PumpAccumulator	& pumpAccumulator	&NDM200	&type: NDM200\\
-		 PumpPower	& pumpPower	&NDM200	&type: NDM200\\
-		 Pipe	& pipe	&NDM200	&type: NDM200\\
-		 TotalHeatLoss	& sum	&--	&unit: WATT\\
-		 Thermal\_HLP46	& homogStorage	&Example	&type: Example\newline	parentType: HydraulicOil\\
-		 Thermal\_FreeFlow	& freeHeatTransfere	&Example	&type: Example\newline	parentType: HydraulicOil\\
+		\midrule		 Spindle	& spindle	&Renaud-175-170200-DIA25	&type: Renaud-175-170200-DIA25\\
+		 Water	& forcedFluidFlow	&Water	&type: Water\\
+		 Tank	& tank	&Rollomatic\_628XS\_CF	&type: Rollomatic\_628XS\_CF\\
+		 PumpHydraulics	& pump	&Parker-PGP502-2.1CC	&type: Parker-PGP502-2.1CC\\
+		 PumpCoolant	& pump	&Grundfos\_CRK-4-100-10	&type: Grundfos\_CRK-4-100-10\\
+		 PumpHE	& pump	&Grundfos\_SPK-4-5-5	&type: Grundfos\_SPK-4-5-5\\
+		 CtrlSpindle	& amplifier	&Emerson\_SK2402	&type: Emerson\_SK2402\\
+		 AmpAxes	& amplifier	&Fanuc-PS5.5-A06B-6140-H006	&type: Fanuc-PS5.5-A06B-6140-H006\\
+		 CtrlAxesLin	& amplifier	&Fanuc-SV20-20-20-A06B-6117-H303	&type: Fanuc-SV20-20-20-A06B-6117-H303\\
+		 CtrlAxesRot	& amplifier	&Fanuc-SV20-20-20-A06B-6117-H303	&type: Fanuc-SV20-20-20-A06B-6117-H303\\
+		 HeatExchanger	& heatExchanger	&Marksa\_GH-810	&type: Marksa\_GH-810\\
+		 AxisX	& linAxis	&Rollomatic\_628XS\_XAxis	&type: Rollomatic\_628XS\_XAxis\\
+		 AxisY	& linAxis	&Rollomatic\_628XS\_YAxis	&type: Rollomatic\_628XS\_YAxis\\
+		 AxisZ	& linAxis	&Rollomatic\_628XS\_ZAxis	&type: Rollomatic\_628XS\_ZAxis\\
+		 AxisA	& rotAxis	&Rollomatic\_628XS\_AAxis	&type: Rollomatic\_628XS\_AAxis\\
+		 AxisB	& rotAxis	&Rollomatic\_628XS\_BAxis	&type: Rollomatic\_628XS\_BAxis\\
+		 AxisC	& rotAxis	&Rollomatic\_628XS\_CAxis	&type: Rollomatic\_628XS\_CAxis\\
+		 ValveCoolant	& valve	&Example	&type: Example\\
+		 Cylinder	& cylinder	&Example	&type: Example\\
+		 TankHydraulic	& tank	&Rollomatic\_628XS\_Hydraulic	&type: Rollomatic\_628XS\_Hydraulic\\
+		 Bypass	& bypass	&Girmatic-506820	&type: Girmatic-506820\\
+		 CFNozzleSpindle	& valve	&Rollomatic\_CF\_Nozzle\_Spindle	&type: Rollomatic\_CF\_Nozzle\_Spindle\\
+		 CFNozzleWP	& valve	&Rollomatic\_CF\_Nozzle\_WP	&type: Rollomatic\_CF\_Nozzle\_WP\\
+		 ConstantConsumers	& constantComponent	&Rollomatic\_628XS\_CC	&type: Rollomatic\_628XS\_CC\\
 		\bottomrule
 	\end{tabular}
 	\normalsize

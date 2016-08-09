@@ -23,7 +23,7 @@ import java.util.Enumeration;
 import java.util.Properties;
 
 import ch.ethz.inspire.emod.model.material.Material;
-import ch.ethz.inspire.emod.model.units.PhysicalValue;
+import ch.ethz.inspire.emod.model.parameters.PhysicalValue;
 
 public class ConfigReader {
 	

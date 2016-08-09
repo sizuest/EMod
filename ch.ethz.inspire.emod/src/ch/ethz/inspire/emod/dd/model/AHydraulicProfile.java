@@ -16,8 +16,8 @@ package ch.ethz.inspire.emod.dd.model;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import ch.ethz.inspire.emod.model.fluid.Fluid;
-import ch.ethz.inspire.emod.utils.ParameterSet;
-import ch.ethz.inspire.emod.utils.Parameterizable;
+import ch.ethz.inspire.emod.model.parameters.ParameterSet;
+import ch.ethz.inspire.emod.model.parameters.Parameterizable;
 
 /**
  * Abstract calss for a hydraulic diameter

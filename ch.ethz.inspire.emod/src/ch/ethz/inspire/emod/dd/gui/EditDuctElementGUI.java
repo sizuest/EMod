@@ -24,8 +24,9 @@ import ch.ethz.inspire.emod.gui.AConfigGUI;
 import ch.ethz.inspire.emod.gui.utils.TableUtils;
 import ch.ethz.inspire.emod.model.fluid.Isolation;
 
+import ch.ethz.inspire.emod.model.parameters.ParameterSet;
 import ch.ethz.inspire.emod.model.units.SiUnit;
-import ch.ethz.inspire.emod.utils.ParameterSet;
+import ch.ethz.inspire.emod.utils.LocalizationHandler;
 
 public class EditDuctElementGUI  extends AConfigGUI{
 	
@@ -43,7 +44,7 @@ public class EditDuctElementGUI  extends AConfigGUI{
     	this.element = element;
     	this.parametersNew.getParameterSet().putAll(element.getParameterSet().getParameterSet());
     	
-    	profileOld = this.element.getProfile().clone();
+    	profileOld = this.element.getProfileIn().clone();
     	
     	if(null==this.element.getIsolation())
     		isolationNew = new Isolation();
@@ -57,11 +58,11 @@ public class EditDuctElementGUI  extends AConfigGUI{
 		tableProperties.setLinesVisible(true);
 		tableProperties.setHeaderVisible(true);
 		
-		String[] titles =  {"Property",
-				"Value",
-				"Unit",
-				"        ",
-				"        "};
+		String[] titles =  {	LocalizationHandler.getItem("app.dd.elemet.gui.property"),
+								LocalizationHandler.getItem("app.dd.elemet.gui.value"),
+								LocalizationHandler.getItem("app.dd.elemet.gui.unit"),
+								"        ",
+								"        "};
 		
 		for(int i=0; i < titles.length; i++){
 			TableColumn column = new TableColumn(tableProperties, SWT.NULL);
@@ -73,12 +74,12 @@ public class EditDuctElementGUI  extends AConfigGUI{
     }
     
     public static Shell editDuctElementGUI(Shell parent, ADuctElement element) {
-		final Shell shell = new Shell(parent, SWT.TITLE|SWT.SYSTEM_MODAL| SWT.CLOSE | SWT.MAX);
+		final Shell shell = new Shell(parent, SWT.APPLICATION_MODAL| SWT.CLOSE | SWT.MAX);
 		shell.setLayout(new GridLayout(1, true));
 		
 		EditDuctElementGUI gui = new EditDuctElementGUI(shell, SWT.NONE, element);
 		
-		shell.setText("Duct Element Editor"+element.getName());
+		shell.setText(LocalizationHandler.getItem("app.dd.elemet.gui.titel")+" "+element.getName());
 		
 		shell.pack();
 		
@@ -110,36 +111,38 @@ public class EditDuctElementGUI  extends AConfigGUI{
     	tableProperties.setItemCount(0);
     	
     	TableItem itemName       = new TableItem(tableProperties, SWT.NONE, 0);
-    	TableItem itemProfile    = new TableItem(tableProperties, SWT.NONE, 1);
-    	TableItem itemIsolation  = new TableItem(tableProperties, SWT.NONE, 2);
+    	new TableItem(tableProperties, SWT.NONE, 1); // Profile
+    	new TableItem(tableProperties, SWT.NONE, 2); // Isolation
     	
-    	itemName.setText(0, "Name");
-    	itemName.setText(1, element.getName());
-    	itemProfile.setText(0, "Profile");
-    	itemProfile.setText(1, element.getProfile().toString());
-    	itemProfile.setText(2, (new SiUnit("m")).toString());
+    	updateProfileItem();
+    	updateIsolationItem();
     	
-    	TableEditor editorButton = new TableEditor(tableProperties);
+    	itemName.setText(0, LocalizationHandler.getItem("app.dd.elemet.gui.name"));
+    	itemName.setText(1, element.getName());     
     	
-    	Button buttonEditProfile = new Button(tableProperties, SWT.NONE);
-    	Image imageEdit = new Image(Display.getDefault(), "src/resources/Edit16.gif");
-    	buttonEditProfile.setImage(imageEdit);
-    	buttonEditProfile.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, true, 1, 1));
-    	buttonEditProfile.addSelectionListener(new SelectionListener(){
-        	public void widgetSelected(SelectionEvent event){
-        		editDuctProfile(element);
-        		wasEdited();
-        	}
-			public void widgetDefaultSelected(SelectionEvent event){
-				// Not used
-        	}
-        });
-    	buttonEditProfile.pack();
-		editorButton.minimumWidth = buttonEditProfile.getSize().x;
-		editorButton.horizontalAlignment = SWT.LEFT;
-        editorButton.setEditor(buttonEditProfile, itemProfile, 3);
+        for(String key: element.getParameterSet().getParameterSet().keySet()){
+        	final int idx = tableProperties.getItemCount();
+        	final TableItem itemParam = new TableItem(tableProperties, SWT.NONE, idx);
+        	
+        	itemParam.setText(0, key);
+        	itemParam.setText(1, parametersNew.getPhysicalValue(key).getValue()+"");
+        	itemParam.setText(2, parametersNew.getPhysicalValue(key).getUnit().toString());
+        	
+        }
         
-        itemIsolation.setText(0, "Isolation");
+        TableColumn[] columns = tableProperties.getColumns();
+        for (int j = 0; j < columns.length; j++) {
+        	columns[j].pack();
+        }
+    }
+    
+    private void updateIsolationItem(){
+    	
+    	TableItem itemIsolation  = tableProperties.getItem(2);
+    	TableEditor editorButton = new TableEditor(tableProperties);
+    	Image imageEdit          = new Image(Display.getDefault(), "src/resources/Edit16.gif");
+    	
+    	itemIsolation.setText(0, LocalizationHandler.getItem("app.dd.elemet.gui.isolation"));
         if(null==isolationNew)
         	itemIsolation.setText(1, "none");
         else if(null==isolationNew.getMaterial())
@@ -191,23 +194,34 @@ public class EditDuctElementGUI  extends AConfigGUI{
 		editorButton.minimumWidth = buttonDeleteIsolation.getSize().x;
 		editorButton.horizontalAlignment = SWT.LEFT;
         editorButton.setEditor(buttonDeleteIsolation, itemIsolation, 4);
-        
-        
+    }
+    
+    private void updateProfileItem(){
+    	TableItem itemProfile = tableProperties.getItem(1);
     	
-        for(String key: element.getParameterSet().getParameterSet().keySet()){
-        	final int idx = tableProperties.getItemCount();
-        	final TableItem itemParam = new TableItem(tableProperties, SWT.NONE, idx);
-        	
-        	itemParam.setText(0, key);
-        	itemParam.setText(1, parametersNew.getParameter(key).getValue()+"");
-        	itemParam.setText(2, parametersNew.getParameter(key).getUnit().toString());
-        	
-        }
-        
-        TableColumn[] columns = tableProperties.getColumns();
-        for (int j = 0; j < columns.length; j++) {
-        	columns[j].pack();
-        }
+    	TableEditor editorButton = new TableEditor(tableProperties);
+    	
+    	itemProfile.setText(0, LocalizationHandler.getItem("app.dd.elemet.gui.profile"));
+    	itemProfile.setText(1, element.getProfileIn().toString());
+    	itemProfile.setText(2, (new SiUnit("m")).toString()); 
+    	
+    	Button buttonEditProfile = new Button(tableProperties, SWT.NONE);
+    	Image imageEdit = new Image(Display.getDefault(), "src/resources/Edit16.gif");
+    	buttonEditProfile.setImage(imageEdit);
+    	buttonEditProfile.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, true, 1, 1));
+    	buttonEditProfile.addSelectionListener(new SelectionListener(){
+        	public void widgetSelected(SelectionEvent event){
+        		editDuctProfile(element);
+        		wasEdited();
+        	}
+			public void widgetDefaultSelected(SelectionEvent event){
+				// Not used
+        	}
+        });
+    	buttonEditProfile.pack();
+		editorButton.minimumWidth = buttonEditProfile.getSize().x;
+		editorButton.horizontalAlignment = SWT.LEFT;
+        editorButton.setEditor(buttonEditProfile, itemProfile, 3);
     }
     
 	private void editDuctProfile(ADuctElement element) {
@@ -216,7 +230,7 @@ public class EditDuctElementGUI  extends AConfigGUI{
 			
 			@Override
 			public void widgetDisposed(DisposeEvent e) {
-				update();
+				updateProfileItem();
 			}
 		});
 	}
@@ -227,7 +241,7 @@ public class EditDuctElementGUI  extends AConfigGUI{
 			
 			@Override
 			public void widgetDisposed(DisposeEvent e) {
-				update();
+				updateIsolationItem();
 			}
 		});
 	}
@@ -242,7 +256,7 @@ public class EditDuctElementGUI  extends AConfigGUI{
 		// Read new Config
 		for(int i=3; i<tableProperties.getItemCount(); i++){
 			try{
-				parametersNew.setParameter(tableProperties.getItem(i).getText(0),
+				parametersNew.setPhysicalValue(tableProperties.getItem(i).getText(0),
 						Double.valueOf(tableProperties.getItem(i).getText(1)), 
 						new SiUnit(""+tableProperties.getItem(i).getText(2)));
 			}
@@ -255,7 +269,7 @@ public class EditDuctElementGUI  extends AConfigGUI{
 		element.setParameterSet(parametersNew);
 		element.setIsolation(isolationNew);
 		
-		profileOld = this.element.getProfile().clone();
+		profileOld = this.element.getProfileIn().clone();
 		
 		updatePropertyTable();
 	}
@@ -263,9 +277,9 @@ public class EditDuctElementGUI  extends AConfigGUI{
 	@Override
 	public void reset() {
 		for(String s: this.parametersNew.getParameterSet().keySet())
-			this.parametersNew.setParameter(s, element.getParameterSet().getParameter(s));
+			this.parametersNew.setPhysicalValue(s, element.getParameterSet().getPhysicalValue(s));
 		
-		profileOld   = this.element.getProfile().clone();
+		profileOld   = this.element.getProfileIn().clone();
 		if(null==this.element.getIsolation())
     		isolationNew = new Isolation();
     	else
@@ -274,7 +288,7 @@ public class EditDuctElementGUI  extends AConfigGUI{
 		updatePropertyTable();
 		
 		element.setProfile(profileOld);
-		profileOld = this.element.getProfile().clone();
+		profileOld = this.element.getProfileIn().clone();
 		
 	}
 }

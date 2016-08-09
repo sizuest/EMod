@@ -19,8 +19,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import ch.ethz.inspire.emod.model.fluid.Fluid;
+import ch.ethz.inspire.emod.model.parameters.ParameterSet;
 import ch.ethz.inspire.emod.model.units.SiUnit;
-import ch.ethz.inspire.emod.utils.ParameterSet;
 
 /**
  * Implements the hydrodynamic properties of a drill hole
@@ -112,16 +112,16 @@ public class DuctDrilling extends ADuctElement {
 	@Override
 	public ParameterSet getParameterSet() {
 		ParameterSet ps = new ParameterSet(this.name);
-		ps.setParameter("Length", this.length, new SiUnit("m"));
-		ps.setParameter("Count", this.count, new SiUnit(""));
+		ps.setPhysicalValue("Length", this.length, new SiUnit("m"));
+		ps.setPhysicalValue("Count", this.count, new SiUnit(""));
 		return ps;
 	}
 
 	@XmlTransient
 	public void setParameterSet(ParameterSet ps) {
-		this.length        = ps.getParameter("Length").getValue();
+		this.length        = ps.getPhysicalValue("Length").getValue();
 		super.length       = this.length;
-		this.count         = ps.getParameter("Count").getValue();
+		this.count         = ps.getPhysicalValue("Count").getValue();
 	}
 	
 	@Override
@@ -134,6 +134,8 @@ public class DuctDrilling extends ADuctElement {
 		else
 			clone.setIsolation(this.isolation.clone());
 		clone.setName(this.getName());
+		
+		clone.setProfile(getProfile().clone());
 		
 		return clone;
 	}

@@ -2,7 +2,7 @@ package ch.ethz.inspire.emod.utils;
 
 import org.junit.Test;
 
-import ch.ethz.inspire.emod.model.units.PhysicalValue;
+import ch.ethz.inspire.emod.model.parameters.PhysicalValue;
 import static org.junit.Assert.assertEquals;
 
 

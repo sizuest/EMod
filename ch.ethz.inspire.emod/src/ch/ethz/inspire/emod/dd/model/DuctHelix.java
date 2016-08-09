@@ -19,8 +19,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import ch.ethz.inspire.emod.model.fluid.Fluid;
+import ch.ethz.inspire.emod.model.parameters.ParameterSet;
 import ch.ethz.inspire.emod.model.units.SiUnit;
-import ch.ethz.inspire.emod.utils.ParameterSet;
 
 /**
  * Implements the hydrodynamic properties of a helix
@@ -111,17 +111,17 @@ public class DuctHelix extends ADuctElement{
 	public ParameterSet getParameterSet() {
 		ParameterSet ps = new ParameterSet(this.name);
 		
-		ps.setParameter("Radius", this.radius, new SiUnit("m"));
-		ps.setParameter("Height", this.height, new SiUnit("m"));
-		ps.setParameter("Distance", this.distance, new SiUnit("m"));
+		ps.setPhysicalValue("Radius", this.radius, new SiUnit("m"));
+		ps.setPhysicalValue("Height", this.height, new SiUnit("m"));
+		ps.setPhysicalValue("Distance", this.distance, new SiUnit("m"));
 		return ps;
 	}
 
 	@XmlTransient
 	public void setParameterSet(ParameterSet ps) {
-		this.radius   = ps.getParameter("Radius").getValue();
-		this.height   = ps.getParameter("Height").getValue();
-		this.distance = ps.getParameter("Distance").getValue();
+		this.radius   = ps.getPhysicalValue("Radius").getValue();
+		this.height   = ps.getPhysicalValue("Height").getValue();
+		this.distance = ps.getPhysicalValue("Distance").getValue();
 		
 		init();
 	}
@@ -136,6 +136,8 @@ public class DuctHelix extends ADuctElement{
 		else
 			clone.setIsolation(this.isolation.clone());
 		clone.setName(this.getName());
+		
+		clone.setProfile(getProfile().clone());
 		
 		return clone;
 	}

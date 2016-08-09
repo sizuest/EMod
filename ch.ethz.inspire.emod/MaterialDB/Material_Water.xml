@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-<comment>File changed by user: sizuest</comment>
+<comment/>
 <entry key="TemperatureSamples"> 273.15, 293.15, 303.15, 313.15, 323.15, 333.15, 343.15</entry>
 <entry key="ThermalConductivity">0.6</entry>
 <entry key="ViscositySamples">1.791,  1.001,  0.797,  0.652,  0.546,  0.466,  0.403</entry>

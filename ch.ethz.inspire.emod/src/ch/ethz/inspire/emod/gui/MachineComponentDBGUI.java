@@ -56,7 +56,7 @@ public class MachineComponentDBGUI {
 				TreeItem[] selection = null;
 				selection = treeComponentDBView.getSelection();
 				//open window editComponentEditGUI with the selected component
-				EditMachineComponentGUI.editMachineComponentGUI(selection[0].getParentItem().getText(), selection[0].getText());
+				EditMachineComponentGUI.editMachineComponentGUI(shell, selection[0].getParentItem().getText(), selection[0].getText());
 			}
 		});
 
@@ -79,7 +79,7 @@ public class MachineComponentDBGUI {
 	    	
 				
 				//open window editComponentEditGUI with the selected component
-				EditMachineComponentGUI.editMachineComponentGUI(selection[0].getParentItem().getText(), text);
+				EditMachineComponentGUI.editMachineComponentGUI(shell, selection[0].getParentItem().getText(), text);
 	    	}
 	    	public void widgetDefaultSelected(SelectionEvent event){
 	    		// Not used
@@ -107,9 +107,9 @@ public class MachineComponentDBGUI {
 		size[1] = rect.height;
 		
 		//position the shell into the middle of the last window
-	    int[] position;
-	    position = EModGUI.shellPosition();
-	    shell.setLocation(position[0]-size[0]/2, position[1]-size[1]/2);
+	    //int[] position;
+	    //position = EModGUI.shellPosition();
+	    //shell.setLocation(position[0]-size[0]/2, position[1]-size[1]/2);
 		
 	    //open the new shell
 		shell.open();

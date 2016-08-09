@@ -235,6 +235,12 @@ public class EModGUI {
 		tabModelItem.setToolTipText(LocalizationHandler.getItem("app.gui.tabs.machtooltip"));
 		tabModelItem.setControl(initModel(tabFolder));
 		
+		//tab for machine model config
+		final TabItem tabModel2Item = new TabItem(tabFolder, SWT.NONE);
+		tabModel2Item.setText(LocalizationHandler.getItem("app.gui.tabs.mach"));
+		tabModel2Item.setToolTipText(LocalizationHandler.getItem("app.gui.tabs.machtooltip"));
+		tabModel2Item.setControl(initModel2(tabFolder));
+		
 		//tab for simulation config
 		final TabItem tabSimItem = new TabItem(tabFolder, SWT.NONE);
 		tabSimItem.setText(LocalizationHandler.getItem("app.gui.tabs.sim"));
@@ -293,6 +299,11 @@ public class EModGUI {
 	//manick: open ModelGUI in tab
 	private Composite initModel(TabFolder tabFolder){
 		model = new ModelGUI(tabFolder);
+		return model;
+	}
+	
+	private Composite initModel2(TabFolder tabFolder){
+		model = new ModelGraphGUI(tabFolder);
 		return model;
 	}
 	
@@ -510,7 +521,7 @@ public class EModGUI {
 	 */
 	class compDBNewItemListener implements SelectionListener {
 		public void widgetSelected(SelectionEvent event){
-			EditMachineComponentGUI.newMachineComponentGUI();
+			EditMachineComponentGUI.newMachineComponentGUI(shell);
 		}
 		public void widgetDefaultSelected(SelectionEvent event){
 			// Not used
@@ -541,7 +552,7 @@ public class EModGUI {
 	 */
 	class matDBNewItemListener implements SelectionListener {
 		public void widgetSelected(SelectionEvent event){
-			EditMaterialGUI.newMaterialGUI();
+			EditMaterialGUI.newMaterialGUI(shell);
 		}
 		public void widgetDefaultSelected(SelectionEvent event){
 			// Not used

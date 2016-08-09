@@ -18,8 +18,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import ch.ethz.inspire.emod.model.fluid.Fluid;
+import ch.ethz.inspire.emod.model.parameters.ParameterSet;
 import ch.ethz.inspire.emod.model.units.SiUnit;
-import ch.ethz.inspire.emod.utils.ParameterSet;
 
 public class DuctDefinedValues  extends ADuctElement {
 	@XmlElement
@@ -47,11 +47,11 @@ public class DuctDefinedValues  extends ADuctElement {
 	public ParameterSet getParameterSet() {
 		ParameterSet ps = new ParameterSet();
 		
-		ps.setParameter("PressureLossCoefficient", this.zeta, new SiUnit("Pa s^2 m^-4"));
-		ps.setParameter("HeatTransferCoefficient", this.alpha, new SiUnit("W K^-1"));
-		ps.setParameter("Surface", this.surface, new SiUnit("m^2"));
-		ps.setParameter("Length", this.length, new SiUnit("m"));
-		ps.setParameter("Volume", this.length, new SiUnit("m^3"));
+		ps.setPhysicalValue("PressureLossCoefficient", this.zeta, new SiUnit("Pa s^2 m^-4"));
+		ps.setPhysicalValue("HeatTransferCoefficient", this.alpha, new SiUnit("W K^-1"));
+		ps.setPhysicalValue("Surface", this.surface, new SiUnit("m^2"));
+		ps.setPhysicalValue("Length", this.length, new SiUnit("m"));
+		ps.setPhysicalValue("Volume", this.length, new SiUnit("m^3"));
 		
 		return ps;
 	}
@@ -59,11 +59,11 @@ public class DuctDefinedValues  extends ADuctElement {
 	@Override
 	@XmlTransient
 	public void setParameterSet(ParameterSet ps) {
-		this.zeta = ps.getParameter("PressureLossCoefficient").getValue();
-		this.alpha = ps.getParameter("HeatTransferCoefficient").getValue();
-		this.surface = ps.getParameter("Surface").getValue();
-		this.length = ps.getParameter("Length").getValue();
-		this.volume = ps.getParameter("Volume").getValue();
+		this.zeta    = ps.getPhysicalValue("PressureLossCoefficient").getValue();
+		this.alpha   = ps.getPhysicalValue("HeatTransferCoefficient").getValue();
+		this.surface = ps.getPhysicalValue("Surface").getValue();
+		this.length  = ps.getPhysicalValue("Length").getValue();
+		this.volume  = ps.getPhysicalValue("Volume").getValue();
 		
 		super.length = this.length;
 	}
@@ -106,6 +106,8 @@ public class DuctDefinedValues  extends ADuctElement {
 		else
 			clone.setIsolation(this.isolation.clone());
 		clone.setName(this.getName());
+		
+		clone.setProfile(getProfile().clone());
 
 		return clone;
 	}

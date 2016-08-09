@@ -34,8 +34,10 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
+
 import ch.ethz.inspire.emod.dd.Duct;
 import ch.ethz.inspire.emod.dd.model.ADuctElement;
+import ch.ethz.inspire.emod.dd.model.DuctBypass;
 import ch.ethz.inspire.emod.dd.model.DuctDefinedValues;
 import ch.ethz.inspire.emod.dd.model.DuctDrilling;
 import ch.ethz.inspire.emod.dd.model.DuctElbowFitting;
@@ -46,6 +48,7 @@ import ch.ethz.inspire.emod.dd.model.DuctPipe;
 import ch.ethz.inspire.emod.gui.AConfigGUI;
 import ch.ethz.inspire.emod.gui.utils.ShowButtons;
 import ch.ethz.inspire.emod.gui.utils.TableUtils;
+import ch.ethz.inspire.emod.utils.LocalizationHandler;
 
 
 public class DuctConfigGUI extends AConfigGUI{
@@ -57,8 +60,10 @@ public class DuctConfigGUI extends AConfigGUI{
     private Duct duct = new Duct();
     
     private ArrayList<Button> buttons = new ArrayList<Button>();
+    private ArrayList<ADuctElement> elements = new ArrayList<ADuctElement>();
     
-    private ADuctElement[] ductElementSelection = { new DuctDrilling(), new DuctFlowAround(), new DuctHelix(), new DuctPipe(), new DuctElbowFitting(), new DuctDefinedValues()};
+    private ADuctElement[] ductElementSelection = { new DuctDrilling(), new DuctFlowAround(), new DuctHelix(), new DuctPipe(), 
+    		new DuctElbowFitting(), new DuctDefinedValues(), new DuctBypass()};
     
     private ArrayList<String> elementNames = new ArrayList<String>();
     
@@ -93,8 +98,8 @@ public class DuctConfigGUI extends AConfigGUI{
 		tableDuctElements.setLinesVisible(true);
 		tableDuctElements.setHeaderVisible(true);
 		
-		String[] titles =  {"Element",
-				"Type",
+		String[] titles =  {LocalizationHandler.getItem("app.dd.config.gui.element"),
+				LocalizationHandler.getItem("app.dd.config.gui.type"),
 				"        ",
 				"        ",
 				"        ",
@@ -116,18 +121,29 @@ public class DuctConfigGUI extends AConfigGUI{
 		ductTestingGUI = new DuctTestingGUI(tabFolder, duct);
 		
 		TabItem tabDuctDBItem = new TabItem(tabFolder, SWT.NONE);
-		tabDuctDBItem.setText("Design");
-		tabDuctDBItem.setToolTipText("Design");
+		tabDuctDBItem.setText(LocalizationHandler.getItem("app.dd.config.gui.design"));
 		tabDuctDBItem.setControl(form); 
 		
-		TabItem tabTestingItem = new TabItem(tabFolder, SWT.NONE);
-		tabTestingItem.setText("Analysis");
-		tabTestingItem.setToolTipText("Testing");
+		final TabItem tabTestingItem = new TabItem(tabFolder, SWT.NONE);
+		tabTestingItem.setText(LocalizationHandler.getItem("app.dd.config.gui.analysis"));
 		tabTestingItem.setControl(ductTestingGUI); 
+		
+		tabFolder.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (tabFolder.getItem(tabFolder.getSelectionIndex()).equals(tabTestingItem))
+					updateDuctTestingTable();
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// Not Used
+		    }
+		});
 		
 		
 		updateDuctElementTable();
-		updateDuctTestingTable();
 		
 		// Add editor and cp
 		try {
@@ -144,7 +160,7 @@ public class DuctConfigGUI extends AConfigGUI{
         
         for(int i=0; i<elementNames.size(); i++){
 	        String newName = tableDuctElements.getItem(i).getText(0);
-        	duct.setElementName(elementNames.get(i), newName);
+        	duct.setElementName(elementNames.get(i), newName.replaceAll("\\s*[0-9]:\\s*", ""));
         }
         updateDuctElementTable();
         
@@ -166,53 +182,50 @@ public class DuctConfigGUI extends AConfigGUI{
     	ductTestingGUI.update();
     }
     
-    private void updateDuctElementTable(){
-    	tableDuctElements.clearAll();
-    	tableDuctElements.setItemCount(0);
-    	
-    	elementNames.clear();
-    	
-    	for(Button b: buttons)
-    		b.dispose();
-    	
-    	buttons.clear();
-    	
-    	
+    private void insertElemementsToTable(Table tableDuctElements, final Duct duct, String prefix){
+    	    	
     	for(final ADuctElement e: duct.getElements()){
     		if(e instanceof DuctFitting)
     			continue;
     		
     		elementNames.add(e.getName());
     		
-			int i                    = tableDuctElements.getItemCount();
-			final TableItem itemProp = new TableItem(tableDuctElements, SWT.NONE, i);
+			final TableItem itemProp = new TableItem(tableDuctElements, SWT.NONE, tableDuctElements.getItemCount());
 			TableEditor editorButton = new TableEditor(tableDuctElements);
 			
-			itemProp.setText(0, e.getName());
-			itemProp.setText(1, e.getClass().getSimpleName().replace("Duct", ""));
+			itemProp.setText(0, prefix+e.getName());
+			itemProp.setText(1, e.getClass().getSimpleName().replace(LocalizationHandler.getItem("app.dd.config.gui.duct"), ""));
 			
 			if(e instanceof DuctFitting)
 				continue;
 			
+			//if(e instanceof DuctBypass)
+			//	itemProp.setFont(new Font(itemProp.getDisplay(), "Arial", 10, SWT.BOLD));
+			
+			/* Add Element to the List of all Elements */
+			elements.add(e);
+
+			
 			/* Edit */
-			final Button editElementButton = new Button(tableDuctElements, SWT.PUSH);
-			buttons.add(editElementButton);
-	        Image imageEdit = new Image(Display.getDefault(), "src/resources/Edit16.gif");
-	        editElementButton.setImage(imageEdit);
-	        editElementButton.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, true, 1, 1));
-	        editElementButton.addSelectionListener(new SelectionListener(){
-	        	public void widgetSelected(SelectionEvent event){
-	        		editDuctElementGUI(e);
-	        		update();
-	        	}
-	        	public void widgetDefaultSelected(SelectionEvent event){
-	        		// Not used
-	        	}
-	        });
-	        editElementButton.pack();
-			editorButton.minimumWidth = editElementButton.getSize().x;
-			editorButton.horizontalAlignment = SWT.LEFT;
-	        editorButton.setEditor(editElementButton, itemProp, 2);
+			if(!(e instanceof DuctBypass)){
+				final Button editElementButton = new Button(tableDuctElements, SWT.PUSH);
+				buttons.add(editElementButton);
+		        Image imageEdit = new Image(Display.getDefault(), "src/resources/Edit16.gif");
+		        editElementButton.setImage(imageEdit);
+		        editElementButton.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, true, 1, 1));	
+			        editElementButton.addSelectionListener(new SelectionListener(){
+			        	public void widgetSelected(SelectionEvent event){
+			        		editDuctElementGUI(e);
+			        	}
+			        	public void widgetDefaultSelected(SelectionEvent event){
+			        		// Not used
+			        	}
+			        });
+		        editElementButton.pack();
+				editorButton.minimumWidth = editElementButton.getSize().x;
+				editorButton.horizontalAlignment = SWT.LEFT;
+		        editorButton.setEditor(editElementButton, itemProp, 2);
+			}
 	        
 	        /* Up */
 	        if(duct.getElementIndex(e.getName())!=0){
@@ -225,7 +238,7 @@ public class DuctConfigGUI extends AConfigGUI{
 		        moveElementUpButton.addSelectionListener(new SelectionListener(){
 		        	public void widgetSelected(SelectionEvent event){
 		        		duct.moveElementUp(e);
-		        		updateDuctElementTable();
+		        		update();
 		        	}
 		        	public void widgetDefaultSelected(SelectionEvent event){
 		        		// Not used
@@ -248,7 +261,7 @@ public class DuctConfigGUI extends AConfigGUI{
 		        moveElementDownButton.addSelectionListener(new SelectionListener(){
 		        	public void widgetSelected(SelectionEvent event){
 		        		duct.moveElementDown(e);
-		        		updateDuctElementTable();
+		        		update();
 		        	}
 		        	public void widgetDefaultSelected(SelectionEvent event){
 		        		// Not used
@@ -270,7 +283,7 @@ public class DuctConfigGUI extends AConfigGUI{
 	        removeElementButton.addSelectionListener(new SelectionListener(){
 	        	public void widgetSelected(SelectionEvent event){
 	        		duct.removeElement(e.getName());
-	        		updateDuctElementTable();
+	        		update();
 	        	}
 	        	public void widgetDefaultSelected(SelectionEvent event){
 	        		// Not used
@@ -280,7 +293,48 @@ public class DuctConfigGUI extends AConfigGUI{
 			editorButton.minimumWidth = removeElementButton.getSize().x;
 			editorButton.horizontalAlignment = SWT.LEFT;
 	        editorButton.setEditor(removeElementButton, itemProp, 5);
+	        
+	        
+	        /* Bypass elements */
+	        if(e instanceof DuctBypass){
+	        	if(((DuctBypass) e).getPrimary().getElements().size()>0)
+	        		insertElemementsToTable(tableDuctElements, ((DuctBypass) e).getPrimary(), prefix.replaceFirst("[0-9]:", "  ")+"  1: ");
+	        	else {
+	        		TableItem itemProp2 = new TableItem(tableDuctElements, SWT.NONE);
+	        		itemProp2.setText(0, prefix.replaceFirst("[0-9]:", "  ")+"  1: "+LocalizationHandler.getItem("app.dd.config.gui.empty"));
+	        		elements.add(new DuctDefinedValues("Dummy"));
+	        	}
+	        	if(((DuctBypass) e).getSecondary().getElements().size()>0)
+	        		insertElemementsToTable(tableDuctElements, ((DuctBypass) e).getSecondary(), prefix.replaceFirst("[0-9]:", "  ")+"  2: ");
+	        	else {
+	        		TableItem itemProp2 = new TableItem(tableDuctElements, SWT.NONE);
+	        		itemProp2.setText(0, prefix.replaceFirst("[0-9]:", "  ")+"  2: "+LocalizationHandler.getItem("app.dd.config.gui.empty"));
+	        		elements.add(new DuctDefinedValues("Dummy"));
+	        	}
+	        	
+	        }
 		}
+    	
+    	
+    	
+    }
+    
+    private void updateDuctElementTable(){
+    	
+    	tableDuctElements.setEnabled(false);
+    	
+    	tableDuctElements.clearAll();
+    	tableDuctElements.setItemCount(0);
+    	
+    	elementNames.clear();
+    	elements.clear();
+    	
+    	for(Button b: buttons)
+    		b.dispose();
+    	
+    	buttons.clear();
+    	
+    	insertElemementsToTable(tableDuctElements, duct, "");
 		
 		TableColumn[] columns = tableDuctElements.getColumns();
         for (int j = 0; j < columns.length; j++) {
@@ -288,12 +342,13 @@ public class DuctConfigGUI extends AConfigGUI{
         }
         
         form.layout();
+        
+        tableDuctElements.setEnabled(true);
     }
     
     public void update(){
     	updateDuctElementTable();
-    	updateDuctTestingTable();
-    	
+    	    	
     	this.redraw();
     	this.layout();
     }
@@ -378,14 +433,51 @@ public class DuctConfigGUI extends AConfigGUI{
 				int index = dropItem == null ? tableModelView.getItemCount() : tableModelView.indexOf(dropItem);
 								
 				ADuctElement e = Duct.newDuctElement(string);
-				
+						
 				if(null!=e){
-					duct.addElement(index, e);
-					updateDuctElementTable();
+					addElementAtReceiver(index, e);
+					update();
 		        }
 
 			}
 		});	
+	}
+    
+    private void addElementAtReceiver(int index, ADuctElement e ) {
+		Duct duct = this.duct;
+		
+		ArrayList<ADuctElement> elements = duct.getAllElements();
+		
+		if(elements.size() <= index){
+			duct.addElement(e);
+			return;
+		}
+		
+		// Check whether the item shall be inserted to a bypass
+		String elementName = tableDuctElements.getItem(index).getText(0);
+		if(elementName.matches("\\A\\s+[0-9]:[\\s\\S]*")){
+			if(elements.size() > 0)
+				for(int i=index; i>=0; i--){
+					if(elements.get(i) instanceof DuctBypass){
+						if(Math.max(((DuctBypass) elements.get(i)).getPrimary().getAllElements().size(), 1) >= index-i){
+							duct = ((DuctBypass) elements.get(i)).getPrimary();
+							index -= i+1;
+						}
+						else if(Math.max(((DuctBypass) elements.get(i)).getPrimary().getAllElements().size(), 1) +
+						   Math.max(((DuctBypass) elements.get(i)).getSecondary().getAllElements().size(), 1)>= index-i){
+							duct = ((DuctBypass) elements.get(i)).getSecondary();
+							index -= i+1+Math.max(((DuctBypass) elements.get(i)).getPrimary().getAllElements().size(), 1);
+						}
+						
+						break;
+					}
+				}
+		}
+		else
+			index = duct.getElementIndex(elements.get(index).getName());
+			
+		
+		duct.addElement(index, e);
 	}
 
 	public static void editDuctGUI(String type, String parameter, String name) {
@@ -424,7 +516,10 @@ public class DuctConfigGUI extends AConfigGUI{
 	}
 
 	public void setDuct(Duct duct) {
-		this.duct.clone(duct);
+		//this.duct.clone(duct);
+		this.duct = duct;
+		this.ductTestingGUI.setDuct(duct);
+		
 		update();
 	}
 	

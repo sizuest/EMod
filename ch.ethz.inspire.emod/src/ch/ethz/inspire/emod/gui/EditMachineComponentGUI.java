@@ -36,7 +36,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -103,9 +102,10 @@ public class EditMachineComponentGUI extends AConfigGUI{
 
  	/**
 	 * Component Edit GUI for creating a new Component
+ 	 * @param parent 
 	 */
-    public static void newMachineComponentGUI(){
-    	final Shell shell = new Shell(Display.getCurrent());
+    public static void newMachineComponentGUI(Shell parent){
+    	final Shell shell = new Shell(parent, SWT.TITLE|SWT.SYSTEM_MODAL| SWT.CLOSE | SWT.MAX);
         shell.setText(LocalizationHandler.getItem("app.gui.compdb.newcomp"));
     	shell.setLayout(new GridLayout(2, false));
 
@@ -167,7 +167,7 @@ public class EditMachineComponentGUI extends AConfigGUI{
 	    		shell.close();
 	    		
 	    		//open the edit ComponentEditGUI with the newly created component file
-	    		EditMachineComponentGUI.editMachineComponentGUI(stringCompTypeValue, stringCompParamValue);
+	    		EditMachineComponentGUI.editMachineComponentGUI(shell, stringCompTypeValue, stringCompParamValue);
 	    	}
 	    	public void widgetDefaultSelected(SelectionEvent event){
 	    		// Not used
@@ -184,9 +184,9 @@ public class EditMachineComponentGUI extends AConfigGUI{
 		size[1] = rect.height;
 		
 		//position the shell into the middle of the last window
-        int[] position;
-        position = EModGUI.shellPosition();
-        shell.setLocation(position[0]-size[0]/2, position[1]-size[1]/2);
+        //int[] position;
+        //position = EModGUI.shellPosition();
+        //shell.setLocation(position[0]-size[0]/2, position[1]-size[1]/2);
 		
         //open the new shell
 		shell.open();
@@ -195,11 +195,12 @@ public class EditMachineComponentGUI extends AConfigGUI{
     
  	/**
 	 * Component Edit GUI for editing a existing Component of the Component DB
+ 	 * @param parent 
  	 * @param type 
  	 * @param parameter 
 	 */
-    public static void editMachineComponentGUI(final String type, final String parameter){
-    	final Shell shell = new Shell(Display.getCurrent());
+    public static void editMachineComponentGUI(final Shell parent, final String type, final String parameter){
+    	final Shell shell = new Shell(parent, SWT.TITLE|SWT.SYSTEM_MODAL| SWT.CLOSE | SWT.MAX);
         shell.setText(LocalizationHandler.getItem("app.gui.compdb.editcomp"));
         shell.setLayout(new GridLayout(1, true));
     	
@@ -210,6 +211,14 @@ public class EditMachineComponentGUI extends AConfigGUI{
 		shell.layout();
 		shell.redraw();
 		shell.open();
+		
+		shell.addDisposeListener(new DisposeListener() {
+			
+			@Override
+			public void widgetDisposed(DisposeEvent e) {
+				parent.setEnabled(true);
+			}
+		});
 		
 		gui.addDisposeListener(new DisposeListener() {
 			@Override

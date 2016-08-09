@@ -1,13 +1,13 @@
 package ch.ethz.inspire.emod.model.fluid;
 
-import ch.ethz.inspire.emod.utils.ParameterSet;
-import ch.ethz.inspire.emod.utils.Parameterizable;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import ch.ethz.inspire.emod.model.material.Material;
+import ch.ethz.inspire.emod.model.parameters.ParameterSet;
+import ch.ethz.inspire.emod.model.parameters.Parameterizable;
 import ch.ethz.inspire.emod.model.units.SiUnit;
 
 /**
@@ -49,10 +49,7 @@ public class Isolation implements Parameterizable {
 	}
 	
 	private void init(){
-		if(this.thickness == 0)
-			this.material = null;
-		else
-			this.material = new Material(type);
+		this.material = new Material(type);
 	}
 	
 	/**
@@ -86,13 +83,13 @@ public class Isolation implements Parameterizable {
 
 	public ParameterSet getParameterSet() {
 		ParameterSet ps = new ParameterSet("Isolation");
-		ps.setParameter("Thickness", this.thickness, new SiUnit("m"));
+		ps.setPhysicalValue("Thickness", this.thickness, new SiUnit("m"));
 		return ps;
 	}
 
 	@XmlTransient
 	public void setParameterSet(ParameterSet ps) {
-		this.thickness = ps.getParameter("Thickness").getValue();		
+		this.thickness = ps.getPhysicalValue("Thickness").getValue();		
 	}
 
 	/**

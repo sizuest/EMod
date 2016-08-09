@@ -2,28 +2,54 @@
 <ns2:machine xmlns:ns2="ch.ethz.inspire.emod">
     <machine>
         <machineComponent>
-            <component xsi:type="tank" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Schaublin42L</type>
-            </component>
-            <name>Tank</name>
-        </machineComponent>
-        <machineComponent>
+            <position>
+                <x>1105.8823529411761</x>
+                <y>38.8235294117647</y>
+            </position>
             <component xsi:type="spindle" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>StepTec-6000.300.B.10</type>
             </component>
             <name>Spindle</name>
         </machineComponent>
         <machineComponent>
+            <position>
+                <x>258.0</x>
+                <y>319.0</y>
+            </position>
             <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Hyfra_VWK_21_1S</type>
             </component>
             <name>Pump</name>
         </machineComponent>
         <machineComponent>
+            <position>
+                <x>708.0</x>
+                <y>222.0</y>
+            </position>
             <component xsi:type="heatExchangerAir" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
             <name>HeatExchangerAir</name>
+        </machineComponent>
+        <machineComponent>
+            <position>
+                <x>251.10447761194033</x>
+                <y>-89.01492537313428</y>
+            </position>
+            <component xsi:type="tank" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>Tank</name>
+        </machineComponent>
+        <machineComponent>
+            <position>
+                <x>1563.0000000000025</x>
+                <y>-97.14285714285745</y>
+            </position>
+            <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Example</type>
+            </component>
+            <name>Amplifier</name>
         </machineComponent>
     </machine>
     <simulators>
@@ -32,32 +58,55 @@
             <unit>
                 <unitText>none</unitText>
             </unit>
+            <position>
+                <x>803.5294117647061</x>
+                <y>-7.058823529411759</y>
+            </position>
         </simController>
         <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>PumpCtrl</name>
             <unit>
                 <unitText>none</unitText>
             </unit>
+            <position>
+                <x>52.941176470588246</x>
+                <y>211.76470588235296</y>
+            </position>
         </simController>
         <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>AmbTemp</name>
             <unit>
                 <unitText>K</unitText>
             </unit>
+            <position>
+                <x>-109.41176470588235</x>
+                <y>271.7647058823529</y>
+            </position>
         </simController>
         <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>AmpPressure</name>
             <unit>
                 <unitText>Pa</unitText>
             </unit>
+            <position>
+                <x>-78.31903829269895</x>
+                <y>-43.16168028635091</y>
+            </position>
         </simController>
         <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>RotSpeed</name>
             <unit>
                 <unitText>Hz</unitText>
             </unit>
+            <position>
+                <x>785.8823529411766</x>
+                <y>84.9411764705882</y>
+            </position>
         </simController>
     </simulators>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
     <connectionList/>
     <connectionList/>
     <connectionList/>

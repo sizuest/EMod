@@ -18,8 +18,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import ch.ethz.inspire.emod.model.fluid.Fluid;
+import ch.ethz.inspire.emod.model.parameters.ParameterSet;
 import ch.ethz.inspire.emod.model.units.SiUnit;
-import ch.ethz.inspire.emod.utils.ParameterSet;
 
 /**
  * Implements the hydrodynamic properties of a elbow fitting
@@ -50,19 +50,19 @@ public class DuctElbowFitting extends ADuctElement{
 	@Override
 	public double getPressureDrop(double flowRate, double pressure,
 			double temperatureFluid) {
-		return Fluid.pressureLossTElement(getMaterial(), temperatureFluid, getProfile(), flowRate/count);
+		return Fluid.pressureLoss90Angle(getMaterial(), temperatureFluid, getProfileIn(), flowRate/count);
 	}
 
 	@Override
 	public ParameterSet getParameterSet() {
 		ParameterSet ps = new ParameterSet();
-		ps.setParameter("Count", this.count, new SiUnit());
+		ps.setPhysicalValue("Count", this.count, new SiUnit());
 		return ps;
 	}
 
 	@XmlTransient
 	public void setParameterSet(ParameterSet ps) {
-		this.count = ps.getParameter("Count").getValue();
+		this.count = ps.getPhysicalValue("Count").getValue();
 	}
 
 	@Override
@@ -75,6 +75,8 @@ public class DuctElbowFitting extends ADuctElement{
 		else
 			clone.setIsolation(this.isolation.clone());
 		clone.setName(this.getName());
+		
+		clone.setProfile(getProfile().clone());
 		
 		return clone;
 	}

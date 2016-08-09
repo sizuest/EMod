@@ -1,5 +1,7 @@
 package ch.ethz.inspire.emod.model.units;
 
+import ch.ethz.inspire.emod.model.parameters.PhysicalValue;
+
 /**
  * Implements varoius SI constants
  * @author sizuest

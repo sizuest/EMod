@@ -23,9 +23,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import ch.ethz.inspire.emod.LogLevel;
+import ch.ethz.inspire.emod.gui.graph.GraphElementPosition;
+import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.SimulationConfigReader;
-import ch.ethz.inspire.emod.model.units.SiUnit;
 
 /**
  * generic simulation control object. 
@@ -44,6 +45,8 @@ public abstract class ASimulationControl {
 	protected String name;
 	@XmlElement
 	protected SiUnit unit;
+	@XmlElement
+	protected GraphElementPosition position;
 	
 	protected double simulationPeriod;
 	protected IOContainer simulationOutput;
@@ -154,5 +157,13 @@ public abstract class ASimulationControl {
 		
 	public IOContainer getOutput() {
 		return simulationOutput;
+	}
+
+	public GraphElementPosition getPosition() {
+		return position;
+	}
+	
+	public void setPosition(GraphElementPosition position){
+		this.position = position;
 	}
 }

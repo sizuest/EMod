@@ -19,7 +19,7 @@ if nargin<2
     filename = 'flowchart';
 end
 if nargin<3
-    outputType = 'ps';
+    outputType = 'pdf';
 end
 
 %% Globals

@@ -4,8 +4,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import ch.ethz.inspire.emod.model.parameters.ParameterSet;
 import ch.ethz.inspire.emod.model.units.SiUnit;
-import ch.ethz.inspire.emod.utils.ParameterSet;
 
 /**
  * Implements the hydraulic properties of a rectangular profile
@@ -61,15 +61,15 @@ public class HPRectangular extends AHydraulicProfile{
 	@Override
 	public ParameterSet getParameterSet() {
 		ParameterSet ps = new ParameterSet("Rectangular");
-		ps.setParameter("Height", this.height, new SiUnit("m"));
-		ps.setParameter("Width", this.width, new SiUnit("m"));
+		ps.setPhysicalValue("Height", this.height, new SiUnit("m"));
+		ps.setPhysicalValue("Width", this.width, new SiUnit("m"));
 		return ps;
 	}
 
 	@XmlTransient
 	public void setParameterSet(ParameterSet ps) {
-		this.height = ps.getParameter("Height").getValue();
-		this.width  = ps.getParameter("Width").getValue();
+		this.height = ps.getPhysicalValue("Height").getValue();
+		this.width  = ps.getPhysicalValue("Width").getValue();
 	}
 
 	@Override

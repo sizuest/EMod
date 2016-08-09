@@ -79,7 +79,7 @@ public class DuctDesinerGUI {
 		pg.updateProgressbar(0);
 	
 		
-		shell.setText(LocalizationHandler.getItem("app.gui.title"));
+		shell.setText(LocalizationHandler.getItem("app.dd.gui.title"));
 		if(display.getBounds().width >= 1024)
 			shell.setSize(1024, 768);
 		else
@@ -156,15 +156,15 @@ public class DuctDesinerGUI {
 			
 		//create "Edit" tab and items
 		MenuItem editMenuHeader = new MenuItem(menuBar, SWT.CASCADE);
-		editMenuHeader.setText(LocalizationHandler.getItem("Edit"));
+		editMenuHeader.setText(LocalizationHandler.getItem("app.gui.menu.edit"));
 		Menu editMenu = new Menu(shell, SWT.DROP_DOWN);
 		editMenuHeader.setMenu(editMenu);
-			editRedo = new MenuItem(editMenu, SWT.PUSH);
-			editRedo.setText(LocalizationHandler.getItem("Redo"));
-			editRedo.setEnabled(false);
 			editUndo = new MenuItem(editMenu, SWT.PUSH);
-			editUndo.setText(LocalizationHandler.getItem("Undo"));
+			editUndo.setText(LocalizationHandler.getItem("app.gui.menu.edit.undo"));
 			editUndo.setEnabled(false);
+			editRedo = new MenuItem(editMenu, SWT.PUSH);
+			editRedo.setText(LocalizationHandler.getItem("app.gui.menu.edit.redo"));
+			editRedo.setEnabled(false);
 				
 		//create "Database Components" tab and items
 		MenuItem compDBMenuHeader = new MenuItem(menuBar, SWT.CASCADE);
@@ -191,16 +191,6 @@ public class DuctDesinerGUI {
 			MenuItem matDBOpenItem = new MenuItem(matDBMenu, SWT.PUSH);
 			matDBOpenItem.setImage(new Image(Display.getDefault(), "src/resources/Open16.gif"));
 			matDBOpenItem.setText(LocalizationHandler.getItem("app.gui.menu.matDB.open"));
-		
-		//create "Duct Design" tab and items
-			/*
-		MenuItem ductDesignMenuHeader = new MenuItem(menuBar, SWT.CASCADE);
-		ductDesignMenuHeader.setText("Duct Designer");
-		Menu ductMenu = new Menu(shell, SWT.DROP_DOWN);
-		ductDesignMenuHeader.setMenu(ductMenu);
-			MenuItem ductDesignTestItem = new MenuItem(ductMenu, SWT.PUSH);
-			ductDesignTestItem.setText("Test"); */
-			
 			
 		//create "Help" tab and items
 		MenuItem helpMenuHeader = new MenuItem(menuBar, SWT.CASCADE);
@@ -429,7 +419,7 @@ public class DuctDesinerGUI {
 	 */
 	class compDBNewItemListener implements SelectionListener {
 		public void widgetSelected(SelectionEvent event){
-			EditMachineComponentGUI.newMachineComponentGUI();
+			EditMachineComponentGUI.newMachineComponentGUI(shell);
 		}
 		public void widgetDefaultSelected(SelectionEvent event){
 			// Not used
@@ -460,7 +450,7 @@ public class DuctDesinerGUI {
 	 */
 	class matDBNewItemListener implements SelectionListener {
 		public void widgetSelected(SelectionEvent event){
-			EditMaterialGUI.newMaterialGUI();
+			EditMaterialGUI.newMaterialGUI(shell);
 		}
 		public void widgetDefaultSelected(SelectionEvent event){
 			// Not used
@@ -503,22 +493,7 @@ public class DuctDesinerGUI {
 			// Not used
 		}
 	}
-	
-	/**
-	 * menu item action listener for help about item
-	 * 
-	 * @author manick
-	 *
-	 */
-	class ductDesignTestItemListener implements SelectionListener {
-		public void widgetSelected(SelectionEvent event){
-			DuctConfigGUI.editDuctGUI("Test");
-		}
-		
-		public void widgetDefaultSelected(SelectionEvent event){
-			// Not used
-		}
-	}
+
 
 	/**
 	 * returns the position of the shell (used to center new windows on current position)
@@ -558,7 +533,7 @@ public class DuctDesinerGUI {
 	}
 	
 	private void saveDuctAs(){
-		String path = getFilePath("Open");
+		String path = getFilePath(LocalizationHandler.getItem("app.gui.file.saveas"));
 		if(null==path)
 			return;
 		
@@ -567,7 +542,7 @@ public class DuctDesinerGUI {
 	}
 	
 	private void openDuct(){
-		String path = getFilePath("Open");
+		String path = getFilePath(LocalizationHandler.getItem("app.gui.file.open"));
 		if(null==path)
 			return;
 		
@@ -604,7 +579,7 @@ public class DuctDesinerGUI {
 		editUndo.setEnabled(this.duct.undoPossible());
 		editRedo.setEnabled(this.duct.redoPossible());
 		
-		editUndo.setText("Undo "+this.duct.getUndoComment());
-		editRedo.setText("Redo "+this.duct.getRedoComment());
+		editUndo.setText(LocalizationHandler.getItem("app.gui.menu.edit.undo")+" "+LocalizationHandler.getItem(this.duct.getUndoComment()));
+		editRedo.setText(LocalizationHandler.getItem("app.gui.menu.edit.redo")+" "+LocalizationHandler.getItem(this.duct.getRedoComment()));
 	}
 }

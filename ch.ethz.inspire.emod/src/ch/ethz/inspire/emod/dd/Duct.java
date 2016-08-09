@@ -40,6 +40,7 @@ import ch.ethz.inspire.emod.dd.model.DuctFitting;
 import ch.ethz.inspire.emod.dd.model.DuctFlowAround;
 import ch.ethz.inspire.emod.dd.model.DuctHelix;
 import ch.ethz.inspire.emod.dd.model.DuctPipe;
+import ch.ethz.inspire.emod.dd.model.DuctBypass;
 import ch.ethz.inspire.emod.dd.model.HPCircular;
 import ch.ethz.inspire.emod.dd.model.HPRectangular;
 import ch.ethz.inspire.emod.model.fluid.Isolation;
@@ -56,7 +57,7 @@ import ch.ethz.inspire.emod.utils.Undo;
  */
 @XmlRootElement(namespace = "ch.ethz.inspire.emod")
 @XmlSeeAlso({ADuctElement.class, AHydraulicProfile.class, DuctDrilling.class, DuctPipe.class, DuctElbowFitting.class, DuctFlowAround.class,
-	DuctFitting.class, DuctHelix.class, DuctElbowFitting.class, DuctDefinedValues.class,  HPRectangular.class, HPCircular.class, Isolation.class})
+	DuctFitting.class, DuctHelix.class, DuctElbowFitting.class, DuctDefinedValues.class, DuctBypass.class, HPRectangular.class, HPCircular.class, Isolation.class})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Duct implements Cloneable{
 	private Material material;
@@ -103,7 +104,7 @@ public class Duct implements Cloneable{
 	private void reconnectFittings(){
 		for(int i=1; i<elements.size()-1; i++)
 			if(getElement(i) instanceof DuctFitting)
-				((DuctFitting) getElement(i)).setProfiles(getElement(i-1).getProfile(), getElement(i+1).getProfile());
+				((DuctFitting) getElement(i)).setProfiles(getElement(i-1).getProfileOut(), getElement(i+1).getProfileIn());
 	}
 	
 	/**
@@ -117,26 +118,23 @@ public class Duct implements Cloneable{
 		if( getElement(0) instanceof DuctFitting ){
 			removeElement(getElement(0).getName());
 		}
-		for(int i=0; i<elements.size()-1; i++){
+		for(int i=elements.size()-2; i>=0; i--){
 			if( getElement(i) instanceof DuctFitting )  {
 				if( ((DuctFitting) getElement(i)).hasEqualProfiles()) {
 					elements.remove(i);
-					cleanUpFittings();
 					break;
 				}
 				
 				if( getElement(i+1) instanceof DuctFitting ) {
 					elements.remove(i+1);
-					cleanUpFittings();
 					break;
 				}
 				
 				getElement(i).setName("Fitting_"+getElement(i-1).getName()+"-"+getElement(i+1).getName());
 			}
-			else if( !(getElement(i+1) instanceof DuctFitting) & (getElement(i).getDiameter()!=getElement(i+1).getDiameter())){
-				addElement(i+1, new DuctFitting("Fitting_"+getElement(i).getName()+"-"+getElement(i+1).getName(), getElement(i).getProfile(), getElement(i+1).getProfile()));
-				cleanUpFittings();
-				break;
+			else if( !(getElement(i+1) instanceof DuctFitting) & (getElement(i).getDiameter()!=getElement(i+1).getDiameter()) ){
+				//addElement(i+1, new DuctFitting("Fitting_"+getElement(i).getName()+"-"+getElement(i+1).getName(), getElement(i).getProfileOut(), getElement(i+1).getProfileIn()));
+				elements.add(i+1, new DuctFitting("Fitting_"+getElement(i).getName()+"-"+getElement(i+1).getName(), getElement(i).getProfileOut(), getElement(i+1).getProfileIn()));
 			}
 		}
 		
@@ -338,9 +336,9 @@ public class Duct implements Cloneable{
 		 * If the last element added has a different diameter, add a fitting
 		 */
 		if(elements.size()>0 & i>0)
-			if(elements.get(i-1).getProfile().getDiameter() != e.getProfile().getDiameter()){
+			if(elements.get(i-1).getProfileOut().getDiameter() != e.getProfileIn().getDiameter()){
 				DuctFitting df = new DuctFitting("Fitting_"+elements.get(i-1).getName()+"-"+e.getName(), 
-						elements.get(i-1).getProfile(), e.getProfile());
+						elements.get(i-1).getProfileOut(), e.getProfileIn());
 				elements.add(i, df);
 				df.setMaterial(getMaterial());
 				i++;
@@ -351,15 +349,15 @@ public class Duct implements Cloneable{
 		e.setMaterial(getMaterial());
 		
 		if(elements.size()>i+1)
-			if(elements.get(i+1).getProfile().getDiameter() != e.getProfile().getDiameter()){
+			if(elements.get(i+1).getProfileIn().getDiameter() != e.getProfileOut().getDiameter()){
 				DuctFitting df = new DuctFitting("Fitting_"+e.getName()+"-"+elements.get(i+1).getName(), 
-						e.getProfile(), elements.get(i+1).getProfile());
+						e.getProfileOut(), elements.get(i+1).getProfileIn());
 				elements.add(i+1, df);
 				df.setMaterial(getMaterial());
 				cleanUpFittings();
 			}
 		
-		history.add((new Duct()).clone(this), "add "+e.getName());
+		history.add((new Duct()).clone(this), "app.dd.actions.add");
 	}
 	
 	/**
@@ -383,7 +381,7 @@ public class Duct implements Cloneable{
 		
 		cleanUpFittings();
 		
-		history.add((new Duct()).clone(this), "move "+name);
+		history.add((new Duct()).clone(this), "app.dd.actions.move");
 	}
 	
 	
@@ -420,7 +418,7 @@ public class Duct implements Cloneable{
 		
 		cleanUpFittings();
 		
-		history.add((new Duct()).clone(this), "move "+name);
+		history.add((new Duct()).clone(this), "app.dd.actions.move");
 		
 	}
 	
@@ -500,7 +498,7 @@ public class Duct implements Cloneable{
 	 * @return {@link ADuctElement.java}
 	 */
 	public ADuctElement getElement(String name){
-		for(ADuctElement e: elements)
+		for(ADuctElement e: getAllElements())
 			if(e.getName().equals(name))
 				return e;
 		
@@ -528,7 +526,7 @@ public class Duct implements Cloneable{
 		else
 			e.setName(getUniqueElementName(newname));	
 		
-		history.add((new Duct()).clone(this), "change name of"+name);
+		history.add((new Duct()).clone(this), "app.dd.actions.editname");
 	}
 	
 	/**
@@ -561,7 +559,7 @@ public class Duct implements Cloneable{
 			cleanUpFittings();
 		}
 		
-		history.add((new Duct()).clone(this), "remove "+name);
+		history.add((new Duct()).clone(this), "app.dd.actions.remove");
 	}
 	
 	/**
@@ -597,8 +595,8 @@ public class Duct implements Cloneable{
 		double lastp   = pressureIn;
 		
 		for(ADuctElement e: elements){
-			//htc = e.getHTC(flowRate, lastp, temperatureFluid, temperatureWall)*e.getHydraulicSurface();
-			htc = e.getHTC(flowRate, lastp, temperatureFluid, temperatureWall)*e.getSurface();
+			htc = e.getHTC(flowRate, lastp, temperatureFluid, temperatureWall)*e.getHydraulicSurface();
+			//htc = e.getHTC(flowRate, lastp, temperatureFluid, temperatureWall)*e.getSurface();
 			if(e.hasIsolation()) 
 				htc =  1/(1/htc + 1/e.getIsolation().getThermalResistance());
 			Rth     += htc;
@@ -697,6 +695,51 @@ public class Duct implements Cloneable{
 	public ArrayList<ADuctElement> getElements(){
 		return this.elements;
 	}
+	
+	/**
+	 * Inlet profile
+	 * @return 
+	 */
+	public AHydraulicProfile getInletProfile(){
+		if(elements.size() == 0)
+			return null;
+		else
+			return getElement(0).getProfile();
+	}
+	
+	/**
+	 * Outlet profile
+	 * @return 
+	 */
+	public AHydraulicProfile getOutletProfile(){
+		if(elements.size() == 0)
+			return null;
+		else
+			return getElement(getElements().size()-1).getProfile();
+	}
+	
+	/**
+	 * @return List of duct element parents, including elements of bypasses, but without fittings
+	 */
+	public ArrayList<ADuctElement> getAllElements(){
+		ArrayList<ADuctElement> elements = new ArrayList<ADuctElement>();
+		
+		for(ADuctElement e: getElements()){
+			if(!(e instanceof DuctFitting))
+				elements.add(e);
+			if(e instanceof DuctBypass){
+				elements.addAll(((DuctBypass) e).getPrimary().getAllElements());				
+				if(((DuctBypass) e).getPrimary().getElements().size()==0)
+					elements.add(new DuctPipe(e.getName()+"_Branch1"));
+				
+				elements.addAll(((DuctBypass) e).getSecondary().getAllElements());
+				if(((DuctBypass) e).getSecondary().getElements().size()==0)
+					elements.add(new DuctPipe(e.getName()+"_Branch12"));
+			}
+		}
+		
+		return elements;
+	}
 
 	public void clear() {
 		for(int i=elements.size()-1; i>=0; i--)
@@ -738,5 +781,9 @@ public class Duct implements Cloneable{
 	
 	public String getRedoComment(){
 		return history.getRedoComment();
+	}
+	
+	public String getName(){
+		return name;
 	}
 }

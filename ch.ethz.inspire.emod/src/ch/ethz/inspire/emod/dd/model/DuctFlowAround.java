@@ -19,8 +19,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import ch.ethz.inspire.emod.model.fluid.Fluid;
+import ch.ethz.inspire.emod.model.parameters.ParameterSet;
 import ch.ethz.inspire.emod.model.units.SiUnit;
-import ch.ethz.inspire.emod.utils.ParameterSet;
 
 /**
  * Implements the hydrodynamic properties of a circular flow around
@@ -111,13 +111,14 @@ public class DuctFlowAround extends ADuctElement{
 	@Override
 	public ParameterSet getParameterSet() {
 		ParameterSet ps = new ParameterSet(this.name);
-		ps.setParameter("Radius", this.radius, new SiUnit("m"));
+		ps.setPhysicalValue("Radius", this.radius, new SiUnit("m"));
 		return ps;
 	}
 
 	@XmlTransient
 	public void setParameterSet(ParameterSet ps) {
-		this.radius   = ps.getParameter("Radius").getValue();
+		this.radius   = ps.getPhysicalValue("Radius").getValue();
+		init();
 	}
 	
 	@Override
@@ -130,6 +131,9 @@ public class DuctFlowAround extends ADuctElement{
 		else
 			clone.setIsolation(this.isolation.clone());
 		clone.setName(this.getName());
+		
+		clone.setProfile(getProfile().clone());
+		
 		return clone;
 	}
 

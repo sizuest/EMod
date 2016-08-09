@@ -62,7 +62,6 @@ AxisZ.State = CtrlCNC
 Tank.FluidIn = AxisZ.CoolantOut
 AxisZ.CoolantIn = ValveCoolant.FluidOut
 CFNozzleWP.FluidIn = PumpCoolant.FluidOut
-Tank.HeatExchangerOut = Spindle.PTotal
 Tank.FluidIn = CFNozzleWP.FluidOut
 CFNozzleSpindle.ValveCtrl = ProcCFSpindle
 CFNozzleWP.ValveCtrl = ProcCFWP

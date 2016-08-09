@@ -19,8 +19,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import ch.ethz.inspire.emod.model.fluid.Fluid;
+import ch.ethz.inspire.emod.model.parameters.ParameterSet;
 import ch.ethz.inspire.emod.model.units.SiUnit;
-import ch.ethz.inspire.emod.utils.ParameterSet;
 
 /**
  * Implements the hydrodynamic properties of a pipe
@@ -110,16 +110,16 @@ public class DuctPipe extends ADuctElement {
 	@Override
 	public ParameterSet getParameterSet() {
 		ParameterSet ps = new ParameterSet(this.name);
-		ps.setParameter("Length", this.length, new SiUnit("m"));
-		ps.setParameter("Wall Roughness", this.roughness/1000, new SiUnit("m"));
+		ps.setPhysicalValue("Length", this.length, new SiUnit("m"));
+		ps.setPhysicalValue("Wall Roughness", this.roughness, new SiUnit("m"));
 		return ps;
 	}
 
 	@XmlTransient
 	public void setParameterSet(ParameterSet ps) {
-		this.length    = ps.getParameter("Length").getValue();
+		this.length    = ps.getPhysicalValue("Length").getValue();
 		super.length   = this.length;
-		this.roughness = ps.getParameter("Wall Roughness").getValue()*1000;
+		this.roughness = ps.getPhysicalValue("Wall Roughness").getValue();
 	}
 	
 	@Override
@@ -132,6 +132,8 @@ public class DuctPipe extends ADuctElement {
 		else
 			clone.setIsolation(this.isolation.clone());
 		clone.setName(this.getName());
+		
+		clone.setProfile(getProfile().clone());
 		
 		return clone;
 	}

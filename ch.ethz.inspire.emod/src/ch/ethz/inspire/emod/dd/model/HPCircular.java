@@ -4,8 +4,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import ch.ethz.inspire.emod.model.parameters.ParameterSet;
 import ch.ethz.inspire.emod.model.units.SiUnit;
-import ch.ethz.inspire.emod.utils.ParameterSet;
 
 /**
  * Implements the hydraulic properties of a circular profile
@@ -58,13 +58,13 @@ public class HPCircular extends AHydraulicProfile{
 	public ParameterSet getParameterSet() {
 		ParameterSet ps = new ParameterSet("Circular");
 		
-		ps.setParameter("Radius", this.radius, new SiUnit("m"));
+		ps.setPhysicalValue("Radius", this.radius, new SiUnit("m"));
 		return ps;
 	}
 
 	@XmlTransient
 	public void setParameterSet(ParameterSet ps) {
-		this.radius = ps.getParameter("Radius").getValue();
+		this.radius = ps.getPhysicalValue("Radius").getValue();
 		
 	}
 

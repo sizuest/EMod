@@ -12,7 +12,12 @@
  ***********************************/
 package ch.ethz.inspire.emod.model;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+import ch.ethz.inspire.emod.gui.graph.GraphElementPosition;
+
 
 /**
  * General machine component
@@ -25,6 +30,8 @@ public class MachineComponent {
 
 	private String name;
 	private APhysicalComponent component;
+	@XmlElement
+	private GraphElementPosition position = new GraphElementPosition(0, 0);
 	
 	/**
 	 * 
@@ -72,6 +79,15 @@ public class MachineComponent {
 	private void setInitialConditions(){
 		if(!component.equals(null))
 			component.setDynamicStateParent(name);
+	}
+
+	public GraphElementPosition getPosition() {
+		return position;
+	}
+	
+	@XmlTransient
+	public void setPosition(GraphElementPosition position){
+		this.position = position;
 	}
 
 }

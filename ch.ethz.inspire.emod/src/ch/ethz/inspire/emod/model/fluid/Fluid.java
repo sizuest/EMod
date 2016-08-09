@@ -17,6 +17,7 @@ import ch.ethz.inspire.emod.dd.model.AHydraulicProfile;
 import ch.ethz.inspire.emod.dd.model.HPCircular;
 import ch.ethz.inspire.emod.dd.model.HPRectangular;
 import ch.ethz.inspire.emod.model.material.Material;
+import ch.ethz.inspire.emod.utils.Algo;
 
 /**
  * Implements various models for fluids
@@ -354,7 +355,7 @@ public class Fluid {
 		 * @return calculated pressure loss [Pa]
 		 */
 		public static double pressureLossFrictionPipe(Material mf, double Tf, double l, AHydraulicProfile d, double Q, double k){
-			double lambda, Re, v, nu, rho;
+			double zeta, Re, v, nu, rho;
 			
 			/* Simplest case: No flow */
 			if(0==Q)
@@ -367,15 +368,15 @@ public class Fluid {
 			
 			/* Distinguish between laminar and turbulent flow */
 			if(Re<2300)
-				lambda = 64/Re;
+				zeta = 64/Re;
 			else {
 				
 				nu = mf.getViscosityKinematic(Tf);
 				
 				if(v*k/nu<=5) 	    // smooth
-					lambda = 0.3164/Math.pow(Re, .25);
-				else if(v*k/nu>=70) // rough
-					lambda = 1/(Math.pow(1.14-2*Math.log10(k/d.getDiameter()), 2));
+					zeta = 0.3164/Math.pow(Re, .25);
+				else if(v*k/nu>=70000000) // rough
+					zeta = 1/(Math.pow(1.14-2*Math.log10(k/d.getDiameter()), 2));
 				else {
 					/* Find a numerical solution of the Darcy equation:
                      * Find root of
@@ -386,27 +387,27 @@ public class Fluid {
                      *  - an iterative procedure is used  */
                     double dlambda, lambdaMin, lambdaMax, eTol, iMax, e, i;
                     // 0. Initial guess and limits
-                    lambda = 0.3164/Math.pow(Re, .25);
+                    zeta = 0.3164/Math.pow(Re, .25);
                     lambdaMin = 0.3164/Math.pow(Re, .25);
-                    lambdaMax = Math.pow(1.14-2*Math.log10(.01/d.getDiameter()), -2);
+                    lambdaMax = Math.pow(1.14+2*Math.log10(k/d.getDiameter()), -2);
                     // 1. Range of the solution
                     dlambda = lambdaMax - lambdaMin;
                     // 2. Error tolerance an max. iterations
                     eTol = dlambda/500;
                     iMax = 20;
                     // 3. Iteration
-                    e = Math.pow(lambda, -.5) + 2.03*Math.log10(2.51/Re/Math.sqrt(lambda)+.27*k/d.getDiameter());
+                    e = Math.pow(zeta, -.5) + 2*Math.log10(2.51/Re/Math.sqrt(zeta)+k/d.getDiameter()/3.71);
                     i = 0;
                     while(lambdaMax-lambdaMin>eTol & i<iMax){
                         if(e>0){
-                            lambdaMin = lambda;
-                            lambda += (lambdaMax-lambdaMin)/2;
+                            lambdaMin = zeta;
+                            zeta += (lambdaMax-lambdaMin)/2;
                         }
                         else {
-                            lambdaMax = lambda;
-                            lambda -= (lambdaMax-lambdaMin)/2;
+                            lambdaMax = zeta;
+                            zeta -= (lambdaMax-lambdaMin)/2;
                         }
-                        e = Math.pow(lambda, -.5) + 2.03*Math.log10(2.51/Re/Math.sqrt(lambda)+.27*k/d.getDiameter());
+                        e = Math.pow(zeta, -.5) + 2.0*Math.log10(2.51/Re/Math.sqrt(zeta)+k/d.getDiameter()/3.71);
                         i++;
                     }
 				}
@@ -416,7 +417,7 @@ public class Fluid {
 				
 			
 			
-			return lambda*rho*l/d.getDiameter()*Math.pow(v, 2)/2*Fluid.sign(v);
+			return zeta*rho*l/d.getDiameter()*Math.pow(v, 2)/2*Fluid.sign(v);
 		}
 				
 		
@@ -497,13 +498,282 @@ public class Fluid {
 		 * @param Q   Throughput [m3/s]
 		 * @return calculated pressure loss [Pa]
 		 */
-		public static double pressureLossTElement(Material mf, double Tf, AHydraulicProfile p, double Q){
+		public static double pressureLoss90Angle(Material mf, double Tf, AHydraulicProfile p, double Q){
 			double v, zeta = 1.3;
 			
 			v = Q/p.getArea();
 			
 			return zeta*mf.getDensity(Tf)*Math.pow(v, 2)/2*Fluid.sign(v);
 		}
+		
+		/**
+		 * Calculates the pressure loss in a T-Splitt for the primary flow
+		 * 
+		 * @param mf	Type of the fluid {@link Material.java} 
+		 * @param Tf	Temperature of the fluid (bulk) [K]
+		 * @param p		Hydraulic profile
+		 * @param Qa	Primary Throughput [m3/s]
+		 * @param Qz	Total Throughput [m3/s]
+		 * @return
+		 */
+		public static double pressureLossTBranchPrimary(Material mf, double Tf, AHydraulicProfile p, double Qa, double Qz){
+			
+			if(Qz==0)
+				return 0;
+			
+			if(null==p)
+				return Double.NaN;
+			
+			double v, zeta;
+			double[] r_vec    = {	0,
+									0.0526316,
+									0.105263,
+									0.157895,
+									0.210526,
+									0.263158,
+									0.315789,
+									0.368421,
+									0.421053,
+									0.473684,
+									0.526316,
+									0.578947,
+									0.631579,
+									0.684211,
+									0.736842,
+									0.789474,
+									0.842105,
+									0.894737,
+									0.947368,
+									1},
+					 zeta_vec = {	0.0528785,
+									-0.0124157,
+									-0.0472879,
+									-0.0682365,
+									-0.0796901,
+									-0.0807118,
+									-0.0740795,
+									-0.0568793,
+									-0.0323749,
+									-0.00272367,
+									0.0240347,
+									0.0543648,
+									0.0846287,
+									0.121634,
+									0.156577,
+									0.196532,
+									0.235241,
+									0.276651,
+									0.319452,
+									0.364065};
+			
+			v = Qz/p.getArea();
+			zeta = Algo.linearInterpolation(Qa/Qz, r_vec, zeta_vec);
+			
+			
+			return zeta*mf.getDensity(Tf)*Math.pow(v, 2)/2*Fluid.sign(v);
+		}
+		
+		/**
+		 * Calculates the pressure loss in a T-Splitt for the primary flow
+		 * 
+		 * @param mf	Type of the fluid {@link Material.java} 
+		 * @param Tf	Temperature of the fluid (bulk) [K]
+		 * @param p		Hydraulic profile
+		 * @param Qa	Primary Throughput [m3/s]
+		 * @param Qz	Total Throughput [m3/s]
+		 * @return
+		 */
+		public static double pressureLossTBranchSecondary(Material mf, double Tf, AHydraulicProfile p, double Qa, double Qz){
+			
+			if(Qz==0)
+				return 0;
+			
+			if(null==p)
+				return Double.NaN;
+			
+			double v, zeta;
+			double[] r_vec    = {	0,
+									0.0526316,
+									0.105263,
+									0.157895,
+									0.210526,
+									0.263158,
+									0.315789,
+									0.368421,
+									0.421053,
+									0.473684,
+									0.526316,
+									0.578947,
+									0.631579,
+									0.684211,
+									0.736842,
+									0.789474,
+									0.842105,
+									0.894737,
+									0.947368,
+									1},
+					 zeta_vec = {	0.989137,
+									0.939119,
+									0.902534,
+									0.879996,
+									0.868181,
+									0.864476,
+									0.86984,
+									0.879225,
+									0.893792,
+									0.913807,
+									0.937738,
+									0.96536,
+									0.996447,
+									1.03029,
+									1.06591,
+									1.10704,
+									1.14823,
+									1.19144,
+									1.24097,
+									1.29016};
+			
+			v = Qz/p.getArea();
+			zeta = Algo.linearInterpolation(Qa/Qz, r_vec, zeta_vec);
+			
+			
+			return zeta*mf.getDensity(Tf)*Math.pow(v, 2)/2*Fluid.sign(v);
+		}
+		
+		/**
+		 * Calculates the pressure loss in a T-Splitt for the primary flow
+		 * 
+		 * @param mf	Type of the fluid {@link Material.java} 
+		 * @param Tf	Temperature of the fluid (bulk) [K]
+		 * @param p		Hydraulic profile
+		 * @param Qa	Primary Throughput [m3/s]
+		 * @param Qz	Total Throughput [m3/s]
+		 * @return
+		 */
+		public static double pressureLossTMergePrimary(Material mf, double Tf, AHydraulicProfile p, double Qa, double Qz){
+			
+			if(Qz==0)
+				return 0;
+			
+			if(null==p)
+				return Double.NaN;
+			
+			double v, zeta;
+			double[] r_vec    = {	0,
+									0.0526316,
+									0.105263,
+									0.157895,
+									0.210526,
+									0.263158,
+									0.315789,
+									0.368421,
+									0.421053,
+									0.473684,
+									0.526316,
+									0.578947,
+									0.631579,
+									0.684211,
+									0.736842,
+									0.789474,
+									0.842105,
+									0.894737,
+									0.947368,
+									1},
+					 zeta_vec = {	0.049575,
+									0.0815342,
+									0.115941,
+									0.149553,
+									0.181201,
+									0.214667,
+									0.246131,
+									0.277118,
+									0.305642,
+									0.335522,
+									0.36166,
+									0.389359,
+									0.418409,
+									0.445317,
+									0.473664,
+									0.500479,
+									0.527192,
+									0.5541,
+									0.578417,
+									0.607916};
+			
+			v = Qz/p.getArea();
+			zeta = Algo.linearInterpolation(Qa/Qz, r_vec, zeta_vec);
+			
+			
+			return zeta*mf.getDensity(Tf)*Math.pow(v, 2)/2*Fluid.sign(v);
+		}
+		
+		/**
+		 * Calculates the pressure loss in a T-Splitt for the primary flow
+		 * 
+		 * @param mf	Type of the fluid {@link Material.java} 
+		 * @param Tf	Temperature of the fluid (bulk) [K]
+		 * @param p		Hydraulic profile
+		 * @param Qa	Primary Throughput [m3/s]
+		 * @param Qz	Total Throughput [m3/s]
+		 * @return
+		 */
+		public static double pressureLossTMergeSecondary(Material mf, double Tf, AHydraulicProfile p, double Qa, double Qz){
+			
+			if(Qz==0)
+				return 0;
+			
+			if(null==p)
+				return Double.NaN;
+			
+			double v, zeta;
+			double[] r_vec    = {	0,
+									0.0526316,
+									0.105263,
+									0.157895,
+									0.210526,
+									0.263158,
+									0.315789,
+									0.368421,
+									0.421053,
+									0.473684,
+									0.526316,
+									0.578947,
+									0.631579,
+									0.684211,
+									0.736842,
+									0.789474,
+									0.842105,
+									0.894737,
+									0.947368,
+									1},
+					 zeta_vec = {	-1.01732,
+									-0.851863,
+									-0.692796,
+									-0.538715,
+									-0.396938,
+									-0.255913,
+									-0.125456,
+									0.00127893,
+									0.119066,
+									0.224643,
+									0.322957,
+									0.413827,
+									0.494682,
+									0.575219,
+									0.644842,
+									0.70424,
+									0.760146,
+									0.811475,
+									0.85837,
+									0.904737};
+			
+			v = Qz/p.getArea();
+			zeta = Algo.linearInterpolation(Qa/Qz, r_vec, zeta_vec);
+			
+			
+			return zeta*mf.getDensity(Tf)*Math.pow(v, 2)/2*Fluid.sign(v);
+		}
+		
 		
 		/**
 		 * Calculates the heat flux resulting from a given wall, inlet and outlet temperature at 

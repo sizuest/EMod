@@ -25,6 +25,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 import ch.ethz.inspire.emod.gui.utils.ShowButtons;
+import ch.ethz.inspire.emod.utils.LocalizationHandler;
 
 /**
  * Abtract class for configuration GUIs with cancel, reset and save button
@@ -94,7 +95,7 @@ public abstract class AConfigGUI extends Composite{
 				buttonCancel.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false));
 			else
 				buttonCancel.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, false, false));
-			buttonCancel.setText("Cancel");
+			buttonCancel.setText(LocalizationHandler.getItem("app.gui.config.cancel"));
 			buttonCancel.addSelectionListener(new SelectionListener() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
@@ -110,12 +111,12 @@ public abstract class AConfigGUI extends Composite{
 			buttonReset = new Button(this, SWT.NONE);
 			if(!ShowButtons.cancel(buttons) & ShowButtons.ok(buttons))
 				buttonReset.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false));
-			if(ShowButtons.cancel(buttons) & !ShowButtons.ok(buttons))
+			else if(ShowButtons.cancel(buttons) & !ShowButtons.ok(buttons))
 				buttonReset.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false, false));
 			else
 				buttonReset.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, false, false));
 			
-			buttonReset.setText("Reset");
+			buttonReset.setText(LocalizationHandler.getItem("app.gui.config.reset"));
 			buttonReset.addSelectionListener(new SelectionListener() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
@@ -134,7 +135,7 @@ public abstract class AConfigGUI extends Composite{
 			else
 				buttonSave.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, false, false));
 			
-			buttonSave.setText("OK");
+			buttonSave.setText(LocalizationHandler.getItem("app.gui.config.ok"));
 			buttonSave.addSelectionListener(new SelectionListener() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
@@ -192,15 +193,15 @@ public abstract class AConfigGUI extends Composite{
 		
 		dialog.setLayout(new GridLayout(2, true));
 		dialog.setSize(200, 200);
-		dialog.setText("Configuration was modified");
+		dialog.setText(LocalizationHandler.getItem("app.gui.config.infomodify"));
 		
 		text = new Text(dialog, SWT.NONE);
-		text.setText("Save changes made?");
+		text.setText(LocalizationHandler.getItem("app.gui.config.askforsaving"));
 		text.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 		
 		cancel = new Button(dialog, SWT.NONE);
 		cancel.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false));
-		cancel.setText("No");
+		cancel.setText(LocalizationHandler.getItem("app.gui.config.no"));
 		cancel.addSelectionListener(new SelectionListener() {
 			
 			@Override
@@ -215,7 +216,7 @@ public abstract class AConfigGUI extends Composite{
 		
 		save = new Button(dialog, SWT.NONE);
 		save.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false, false));
-		save.setText("Yes");
+		save.setText(LocalizationHandler.getItem("app.gui.config.yes"));
 		save.addSelectionListener(new SelectionListener() {
 			
 			@Override

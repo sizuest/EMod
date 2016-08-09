@@ -1101,6 +1101,10 @@ public class Machine {
 			}
 	}
 	
+	public static void removeIOLink(IOConnection ioc){
+		getInstance().connectionList.remove(ioc);
+	}
+	
 	/**
 	 * adds a new FluidConnection to the machine
 	 * @param source

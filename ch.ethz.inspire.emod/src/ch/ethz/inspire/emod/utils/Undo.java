@@ -14,12 +14,16 @@ import java.util.ArrayList;
 public class Undo<T extends Cloneable> {
 	private int maxSteps;
 	private int pos;
-	private ArrayList<T> lastStates;
-	private ArrayList<String> comments;
+	private ArrayList<T> lastStates = new ArrayList<T>();
+	private ArrayList<String> comments = new ArrayList<String>();
 	
 	public Undo(int maxSteps, T initValue){
 		this.maxSteps = maxSteps;
 		clear(initValue);
+	}
+	
+	public Undo(){
+		this.maxSteps = 10;
 	}
 	
 	public boolean undoPossible(){
@@ -63,7 +67,12 @@ public class Undo<T extends Cloneable> {
 		return this.comments.get(pos+1);
 	}
 	
-	public void add(T state, String comment){		
+	public void add(T state, String comment){	
+		if(null == this.lastStates){
+			this.lastStates = new ArrayList<T>();
+			this.comments   = new ArrayList<String>();
+		}
+		
 		// If full: shift
 		if(lastStates.size()==maxSteps){
 			// Shift

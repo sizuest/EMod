@@ -16,6 +16,7 @@ package ch.ethz.inspire.emod.dd;
 import java.io.*;
 import java.util.Locale;
 import java.util.logging.FileHandler;
+import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -23,7 +24,6 @@ import java.util.logging.StreamHandler;
 
 import org.eclipse.swt.widgets.*;
 
-import ch.ethz.inspire.emod.LogLevel;
 import ch.ethz.inspire.emod.dd.gui.DuctDesinerGUI;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
@@ -53,7 +53,7 @@ public class DuctDesignerMain {
 			// Set log level:
 			// The following loglevel are available (from lowest to highest):
 			// OFF, FINEST, FINER, FINE=DEBUG, CONFIG, INFO, WARNING, SEVERE, ALL
-			rootlogger.setLevel(LogLevel.FINER);
+			rootlogger.setLevel(Level.FINER);
 			
 			// Add stdout to logger: All logging output is written to stdout too.
 			SimpleFormatter fmt = new SimpleFormatter();

@@ -7,7 +7,6 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -23,8 +22,9 @@ import ch.ethz.inspire.emod.dd.model.HPCircular;
 import ch.ethz.inspire.emod.dd.model.HPRectangular;
 import ch.ethz.inspire.emod.gui.AConfigGUI;
 import ch.ethz.inspire.emod.gui.utils.TableUtils;
+import ch.ethz.inspire.emod.model.parameters.ParameterSet;
 import ch.ethz.inspire.emod.model.units.SiUnit;
-import ch.ethz.inspire.emod.utils.ParameterSet;
+import ch.ethz.inspire.emod.utils.LocalizationHandler;
 
 public class EditDuctProfileGUI extends AConfigGUI{
 
@@ -43,8 +43,8 @@ public class EditDuctProfileGUI extends AConfigGUI{
     	
     	/* Write global parameterset */
     	for(int i=0; i<candidates.length; i++) {
-    		if(candidates[i].getClass().equals(element.getProfile().getClass())){
-    			candidates[i].setParameterSet(element.getProfile().getParameterSet());
+    		if(candidates[i].getClass().equals(element.getProfileIn().getClass())){
+    			candidates[i].setParameterSet(element.getProfileIn().getParameterSet());
     			this.profileNew = candidates[i];
     		}
     		allParameters.getParameterSet().putAll(candidates[i].getParameterSet().getParameterSet());
@@ -57,10 +57,10 @@ public class EditDuctProfileGUI extends AConfigGUI{
 		tableProperties.setLinesVisible(true);
 		tableProperties.setHeaderVisible(true);
 		
-		String[] titles =  {"Property",
-				"Value",
-				"Unit",
-				"        "};
+		String[] titles =  {LocalizationHandler.getItem("app.dd.elemet.gui.property"),
+							LocalizationHandler.getItem("app.dd.elemet.gui.value"),
+							LocalizationHandler.getItem("app.dd.elemet.gui.unit"),
+							"        "};
 		
 		for(int i=0; i < titles.length; i++){
 			TableColumn column = new TableColumn(tableProperties, SWT.NULL);
@@ -74,11 +74,11 @@ public class EditDuctProfileGUI extends AConfigGUI{
     
     public static Shell editDuctProfileGUI(Shell parent, ADuctElement element) {
 		final Shell shell = new Shell(parent, SWT.SYSTEM_MODAL| SWT.CLOSE | SWT.MAX);
-		shell.setLayout(new FillLayout());
+		shell.setLayout(new GridLayout());
 		
 		EditDuctProfileGUI gui = new EditDuctProfileGUI(shell, SWT.NONE, element);
 		
-		shell.setText("Duct Profile Editor "+element.getName());
+		shell.setText(LocalizationHandler.getItem("app.dd.elemet.gui.profile.title")+": "+element.getName());
 		
 		shell.pack();
 		
@@ -115,7 +115,7 @@ public class EditDuctProfileGUI extends AConfigGUI{
     	
     	TableItem itemType = new TableItem(tableProperties, SWT.NONE, 0);
     	
-    	itemType.setText(0, "Shape");
+    	itemType.setText(0, LocalizationHandler.getItem("app.dd.elemet.gui.profile.shape"));
     	
     	comboProfile = new CCombo(tableProperties, SWT.NONE);
     	String[] comboItems = new String[candidates.length];
@@ -155,8 +155,8 @@ public class EditDuctProfileGUI extends AConfigGUI{
         	final TableItem itemParam = new TableItem(tableProperties, SWT.NONE, idx);
         	
         	itemParam.setText(0, key);
-        	itemParam.setText(1, allParameters.getParameter(key).getValue()+"");
-        	itemParam.setText(2, allParameters.getParameter(key).getUnit().toString());
+        	itemParam.setText(1, allParameters.getPhysicalValue(key).getValue()+"");
+        	itemParam.setText(2, allParameters.getPhysicalValue(key).getUnit().toString());
         }
         
         for(int i=0; i<allParameters.getParameterSet().size()-this.profileNew.getParameterSet().getParameterSet().size(); i++){
@@ -179,7 +179,7 @@ public class EditDuctProfileGUI extends AConfigGUI{
 		// Read new Config
 		for(int i=1; i<tableProperties.getItemCount(); i++){
 			try{
-				allParameters.setParameter(tableProperties.getItem(i).getText(0),
+				allParameters.setPhysicalValue(tableProperties.getItem(i).getText(0),
 						Double.valueOf(tableProperties.getItem(i).getText(1)), 
 						new SiUnit(""+tableProperties.getItem(i).getText(2)));
 			}
@@ -198,8 +198,8 @@ public class EditDuctProfileGUI extends AConfigGUI{
 	public void reset() {
 		
     	for(int i=0; i<candidates.length; i++) {
-    		if(candidates[i].getClass().equals(element.getProfile().getClass())){
-    			candidates[i].setParameterSet(element.getProfile().getParameterSet());
+    		if(candidates[i].getClass().equals(element.getProfileIn().getClass())){
+    			candidates[i].setParameterSet(element.getProfileIn().getParameterSet());
     			this.profileNew = candidates[i];
     		}
     		allParameters.getParameterSet().putAll(candidates[i].getParameterSet().getParameterSet());

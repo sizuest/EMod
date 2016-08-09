@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import ch.ethz.inspire.emod.model.fluid.Fluid;
 import ch.ethz.inspire.emod.model.fluid.Isolation;
 import ch.ethz.inspire.emod.model.material.Material;
-import ch.ethz.inspire.emod.utils.Parameterizable;
+import ch.ethz.inspire.emod.model.parameters.Parameterizable;
 
 /**
  * Implements the abstract class for a hydraulic duct element
@@ -177,13 +177,31 @@ public abstract class ADuctElement implements Parameterizable, Cloneable{
 		
 		return getPressureDrop(flowRate, pressure, temperatureFluid)/Math.pow(flowRate, 2)*Math.signum(flowRate);
 	}
-
+	
 	/**
 	 * Returns the hydraulic profile object
 	 * 
 	 * @return {@link AHydraulicProfile.java}
 	 */
 	public AHydraulicProfile getProfile() {
+		return this.profile;
+	}
+
+	/**
+	 * Returns the hydraulic profile object
+	 * 
+	 * @return {@link AHydraulicProfile.java}
+	 */
+	public AHydraulicProfile getProfileIn() {
+		return this.profile;
+	}
+	
+	/**
+	 * Returns the hydraulic profile object
+	 * 
+	 * @return {@link AHydraulicProfile.java}
+	 */
+	public AHydraulicProfile getProfileOut() {
 		return this.profile;
 	}
 	

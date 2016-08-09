@@ -16,7 +16,7 @@ package ch.ethz.inspire.emod.dd.model;
 import javax.xml.bind.annotation.XmlTransient;
 
 import ch.ethz.inspire.emod.model.fluid.Fluid;
-import ch.ethz.inspire.emod.utils.ParameterSet;
+import ch.ethz.inspire.emod.model.parameters.ParameterSet;
 
 
 /**
@@ -109,6 +109,9 @@ public class DuctFitting extends ADuctElement{
 		else
 			clone.setIsolation(this.isolation.clone());
 		clone.setName(this.getName());
+		
+		clone.p1 = this.p1.clone();
+		clone.p2 = this.p2.clone();
 		
 		return clone;
 	}

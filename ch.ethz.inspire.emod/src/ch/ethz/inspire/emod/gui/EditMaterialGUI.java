@@ -149,31 +149,43 @@ public class EditMaterialGUI extends AConfigGUI {
     	update();
 	}
     
-    public static void editMaterialGUI(String type) {
-		final Shell shell = new Shell(Display.getCurrent());
-		shell.setLayout(new GridLayout(1,true));
-		EditMaterialGUI gui = new EditMaterialGUI(shell, SWT.NONE, type);
+    public static void editMaterialGUI(final Shell parent, String type) {
+    	
+    	parent.setEnabled(false);
+    	
+		final Shell dialog = new Shell(parent, SWT.RESIZE | SWT.TITLE | SWT.CLOSE);
+		dialog.setLayout(new GridLayout(1,true));
 		
-		shell.setText("Edit Material: "+type);
+		EditMaterialGUI gui = new EditMaterialGUI(dialog, SWT.NONE, type);
 		
-		shell.pack();
+		dialog.setText("Edit Material: "+type);
 		
-		shell.layout();
-		shell.redraw();
-		shell.open();
+		dialog.open();
+		dialog.setSize(480, 320);
+		dialog.layout();
+		
+		dialog.addDisposeListener(new DisposeListener() {
+			
+			@Override
+			public void widgetDisposed(DisposeEvent e) {
+				parent.setEnabled(true);
+			}
+		});
+		
 		gui.addDisposeListener(new DisposeListener() {
 			@Override
 			public void widgetDisposed(DisposeEvent e) {
-				shell.dispose();
+				dialog.dispose();
 			}
 		});
 	}
 
  	/**
 	 * Component Edit GUI for creating a new Material
+ 	 * @param parent 
 	 */
-    public static void newMaterialGUI(){
-    	final Shell shell = new Shell(Display.getCurrent());
+    public static void newMaterialGUI(final Shell parent){
+    	final Shell shell = new Shell(parent, SWT.TITLE|SWT.SYSTEM_MODAL| SWT.CLOSE | SWT.MAX);
         shell.setText(LocalizationHandler.getItem("app.gui.matdb.newmat"));
     	shell.setLayout(new GridLayout(2, false));
 
@@ -212,7 +224,7 @@ public class EditMaterialGUI extends AConfigGUI {
 	    		shell.close();
 	    		
 	    		//open the edit ComponentEditGUI with the newly created component file
-	    		EditMaterialGUI.editMaterialGUI(stringMaterialNameValue);
+	    		EditMaterialGUI.editMaterialGUI(parent, stringMaterialNameValue);
 	    	}
 	    	public void widgetDefaultSelected(SelectionEvent event){
 	    		// Not used
@@ -229,9 +241,9 @@ public class EditMaterialGUI extends AConfigGUI {
 		size[1] = rect.height;
 		
 		//position the shell into the middle of the last window
-        int[] position;
-        position = EModGUI.shellPosition();
-        shell.setLocation(position[0]-size[0]/2, position[1]-size[1]/2);
+        //int[] position;
+        //position = EModGUI.shellPosition();
+        //shell.setLocation(position[0]-size[0]/2, position[1]-size[1]/2);
 		
         //open the new shell
 		shell.open();

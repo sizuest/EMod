@@ -2,144 +2,240 @@
 <ns2:machine xmlns:ns2="ch.ethz.inspire.emod">
     <machine>
         <machineComponent>
+            <position>
+                <x>911.4754098360672</x>
+                <y>424.59016393442704</y>
+            </position>
             <component xsi:type="spindle" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Renaud-175-170200-DIA25</type>
             </component>
             <name>Spindle</name>
         </machineComponent>
         <machineComponent>
+            <position>
+                <x>1379.5918367346983</x>
+                <y>887.7551020408202</y>
+            </position>
             <component xsi:type="forcedFluidFlow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Water</type>
             </component>
             <name>Water</name>
         </machineComponent>
         <machineComponent>
+            <position>
+                <x>-458.631298527117</x>
+                <y>803.3211418523898</y>
+            </position>
             <component xsi:type="tank" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Rollomatic_628XS_CF</type>
             </component>
             <name>Tank</name>
         </machineComponent>
         <machineComponent>
+            <position>
+                <x>278.68886949743614</x>
+                <y>1108.8258321750213</y>
+            </position>
             <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Parker-PGP502-2.1CC</type>
             </component>
             <name>PumpHydraulics</name>
         </machineComponent>
         <machineComponent>
+            <position>
+                <x>-273.3203878137371</x>
+                <y>-157.04835255041755</y>
+            </position>
             <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Grundfos_CRK-4-100-10</type>
             </component>
             <name>PumpCoolant</name>
         </machineComponent>
         <machineComponent>
+            <position>
+                <x>284.123549590586</x>
+                <y>790.4229360005552</y>
+            </position>
             <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Grundfos_SPK-4-5-5</type>
             </component>
             <name>PumpHE</name>
         </machineComponent>
         <machineComponent>
+            <position>
+                <x>1420.843091334898</x>
+                <y>398.3606557377054</y>
+            </position>
             <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Emerson_SK2402</type>
             </component>
             <name>CtrlSpindle</name>
         </machineComponent>
         <machineComponent>
+            <position>
+                <x>1773.7704918032832</x>
+                <y>-639.3442622950832</y>
+            </position>
             <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Fanuc-PS5.5-A06B-6140-H006</type>
             </component>
             <name>AmpAxes</name>
         </machineComponent>
         <machineComponent>
+            <position>
+                <x>1382.857142857147</x>
+                <y>-512.8571428571441</y>
+            </position>
             <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Fanuc-SV20-20-20-A06B-6117-H303</type>
             </component>
             <name>CtrlAxesLin</name>
         </machineComponent>
         <machineComponent>
+            <position>
+                <x>1387.058823529413</x>
+                <y>-48.23529411764694</y>
+            </position>
             <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Fanuc-SV20-20-20-A06B-6117-H303</type>
             </component>
             <name>CtrlAxesRot</name>
         </machineComponent>
         <machineComponent>
+            <position>
+                <x>736.6319642611129</x>
+                <y>889.6117135378752</y>
+            </position>
             <component xsi:type="heatExchanger" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Marksa_GH-810</type>
             </component>
             <name>HeatExchanger</name>
         </machineComponent>
         <machineComponent>
+            <position>
+                <x>916.4705882352945</x>
+                <y>-536.4705882352954</y>
+            </position>
             <component xsi:type="linAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Rollomatic_628XS_XAxis</type>
             </component>
             <name>AxisX</name>
         </machineComponent>
         <machineComponent>
+            <position>
+                <x>915.463917525773</x>
+                <y>-388.659793814433</y>
+            </position>
             <component xsi:type="linAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Rollomatic_628XS_YAxis</type>
             </component>
             <name>AxisY</name>
         </machineComponent>
         <machineComponent>
+            <position>
+                <x>910.3092783505156</x>
+                <y>-228.8659793814433</y>
+            </position>
             <component xsi:type="linAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Rollomatic_628XS_ZAxis</type>
             </component>
             <name>AxisZ</name>
         </machineComponent>
         <machineComponent>
+            <position>
+                <x>910.3092783505155</x>
+                <y>-68.04123711340208</y>
+            </position>
             <component xsi:type="rotAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Rollomatic_628XS_AAxis</type>
             </component>
             <name>AxisA</name>
         </machineComponent>
         <machineComponent>
+            <position>
+                <x>909.0</x>
+                <y>98.0</y>
+            </position>
             <component xsi:type="rotAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Rollomatic_628XS_BAxis</type>
             </component>
             <name>AxisB</name>
         </machineComponent>
         <machineComponent>
+            <position>
+                <x>913.0</x>
+                <y>256.0</y>
+            </position>
             <component xsi:type="rotAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Rollomatic_628XS_CAxis</type>
             </component>
             <name>AxisC</name>
         </machineComponent>
         <machineComponent>
+            <position>
+                <x>352.7257478333807</x>
+                <y>-295.1635448700025</y>
+            </position>
             <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
             <name>ValveCoolant</name>
         </machineComponent>
         <machineComponent>
+            <position>
+                <x>760.9777025564306</x>
+                <y>1274.7497687599644</y>
+            </position>
             <component xsi:type="cylinder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
             <name>Cylinder</name>
         </machineComponent>
         <machineComponent>
+            <position>
+                <x>-171.8230177316818</x>
+                <y>1266.6741385078637</y>
+            </position>
             <component xsi:type="tank" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Rollomatic_628XS_Hydraulic</type>
             </component>
             <name>TankHydraulic</name>
         </machineComponent>
         <machineComponent>
+            <position>
+                <x>278.81510555887166</x>
+                <y>1407.5003535299543</y>
+            </position>
             <component xsi:type="bypass" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Girmatic-506820</type>
             </component>
             <name>Bypass</name>
         </machineComponent>
         <machineComponent>
+            <position>
+                <x>335.51613648670514</x>
+                <y>352.4193520572026</y>
+            </position>
             <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Rollomatic_CF_Nozzle_Spindle</type>
             </component>
             <name>CFNozzleSpindle</name>
         </machineComponent>
         <machineComponent>
+            <position>
+                <x>334.99015289739333</x>
+                <y>160.01455508686462</y>
+            </position>
             <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Rollomatic_CF_Nozzle_WP</type>
             </component>
             <name>CFNozzleWP</name>
         </machineComponent>
         <machineComponent>
+            <position>
+                <x>-255.24278676988126</x>
+                <y>-276.7065446868419</y>
+            </position>
             <component xsi:type="constantComponent" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Rollomatic_628XS_CC</type>
             </component>
@@ -152,123 +248,202 @@
             <unit>
                 <unitText>K</unitText>
             </unit>
+            <position>
+                <x>-533.7438423645334</x>
+                <y>-135.22167487683922</y>
+            </position>
         </simController>
         <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>PressureAmb</name>
             <unit>
                 <unitText>Pa</unitText>
             </unit>
+            <position>
+                <x>-683.4271639690318</x>
+                <y>832.1956368754454</y>
+            </position>
         </simController>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>ProcSpindleSpeed</name>
             <unit>
                 <unitText>Hz</unitText>
             </unit>
+            <position>
+                <x>695.9183673469399</x>
+                <y>444.89795918367423</y>
+            </position>
         </simController>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>ProcAxisXSpeed</name>
             <unit>
                 <unitText>m/s</unitText>
             </unit>
+            <position>
+                <x>716.3265306122463</x>
+                <y>-516.3265306122458</y>
+            </position>
         </simController>
         <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>CtrlHydraulics</name>
             <unit>
                 <unitText>none</unitText>
             </unit>
+            <position>
+                <x>53.061224489797524</x>
+                <y>1108.1632653061286</y>
+            </position>
         </simController>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>ProcAxisYSpeed</name>
             <unit>
                 <unitText>m/s</unitText>
             </unit>
+            <position>
+                <x>712.2448979591854</x>
+                <y>-367.346938775511</y>
+            </position>
         </simController>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>ProcAxisZSpeed</name>
             <unit>
                 <unitText>m/s</unitText>
             </unit>
+            <position>
+                <x>702.0408163265319</x>
+                <y>-208.16326530612292</y>
+            </position>
         </simController>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>ProcAxisASpeed</name>
             <unit>
                 <unitText>Hz</unitText>
             </unit>
+            <position>
+                <x>704.0816326530628</x>
+                <y>-46.93877551020418</y>
+            </position>
         </simController>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>ProcAxisBSpeed</name>
             <unit>
                 <unitText>Hz</unitText>
             </unit>
+            <position>
+                <x>695.9183673469399</x>
+                <y>116.32653061224512</y>
+            </position>
         </simController>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>ProcAxisCSpeed</name>
             <unit>
                 <unitText>Hz</unitText>
             </unit>
+            <position>
+                <x>687.7551020408179</x>
+                <y>275.51020408163305</y>
+            </position>
         </simController>
         <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>CtrlHeatExchanger</name>
             <unit>
                 <unitText>none</unitText>
             </unit>
+            <position>
+                <x>-44.89795918367592</x>
+                <y>775.5102040816316</y>
+            </position>
         </simController>
         <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>CtrlSpindle</name>
             <unit>
                 <unitText>none</unitText>
             </unit>
+            <position>
+                <x>106.12244897959219</x>
+                <y>-206.12244897959243</y>
+            </position>
         </simController>
         <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>CtrlCNC</name>
             <unit>
                 <unitText>none</unitText>
             </unit>
+            <position>
+                <x>533.135233474833</x>
+                <y>-646.076409945421</y>
+            </position>
         </simController>
         <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>CtrlCoolant</name>
             <unit>
                 <unitText>none</unitText>
             </unit>
+            <position>
+                <x>-528.972264341214</x>
+                <y>-275.4031936272564</y>
+            </position>
         </simController>
         <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>WaterFlowRate</name>
             <unit>
                 <unitText>m³/s</unitText>
             </unit>
+            <position>
+                <x>1085.4828529349857</x>
+                <y>954.9758047548899</y>
+            </position>
         </simController>
         <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>WaterPressure</name>
             <unit>
                 <unitText>Pa</unitText>
             </unit>
+            <position>
+                <x>1083.5472333263176</x>
+                <y>914.5802650957285</y>
+            </position>
         </simController>
         <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>WaterTemperature</name>
             <unit>
                 <unitText>K</unitText>
             </unit>
+            <position>
+                <x>1084.5150431306515</x>
+                <y>872.2280664843247</y>
+            </position>
         </simController>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>ProcClamp</name>
             <unit>
                 <unitText>m/s</unitText>
             </unit>
+            <position>
+                <x>553.2733424618772</x>
+                <y>1291.8470819120294</y>
+            </position>
         </simController>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>ProcCFWP</name>
             <unit>
                 <unitText>none</unitText>
             </unit>
+            <position>
+                <x>141.0284445026942</x>
+                <y>161.6556238855212</y>
+            </position>
         </simController>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>ProcCFSpindle</name>
             <unit>
                 <unitText>none</unitText>
             </unit>
+            <position>
+                <x>130.35977277508906</x>
+                <y>351.39911634756993</y>
+            </position>
         </simController>
     </simulators>
-    <connectionList/>
     <connectionList/>
     <connectionList/>
     <connectionList/>

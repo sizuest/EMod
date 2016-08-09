@@ -23,7 +23,6 @@ import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.ControlEditor;
 import org.eclipse.swt.custom.TableCursor;
 import org.eclipse.swt.custom.TableEditor;
@@ -39,10 +38,12 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
@@ -69,7 +70,6 @@ import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 public class ModelGUI extends AGUITab {
 	
-	private Text textModelTitel;
 	private static Table tableModelView;
 	private TabFolder tabFolder;
 	private static Tree treeComponentDBView, treeInputsDBView, treeMathDBView;
@@ -89,10 +89,6 @@ public class ModelGUI extends AGUITab {
 	 * initialize the layout of the Model GUI
 	 */ 	
 	private void initLayout() {
-		//set title of the tab machine config
-		textModelTitel = new Text(this, SWT.MULTI);
-		textModelTitel.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false, 3, 1));
-		textModelTitel.setText(LocalizationHandler.getItem("app.gui.tabs.machtooltip"));
 		
 		//set table on the left side of the tab model for the machine config
 		tableModelView = new Table(this, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL);
@@ -135,9 +131,9 @@ public class ModelGUI extends AGUITab {
 		String[] titles =  {LocalizationHandler.getItem("app.gui.model.name"),
 							LocalizationHandler.getItem("app.gui.model.type"),
 							LocalizationHandler.getItem("app.gui.model.param"),
-							"        ",//LocalizationHandler.getItem("app.gui.model.editcomp"),
-							//LocalizationHandler.getItem("app.gui.model.editlink"),
-							"        "};//LocalizationHandler.getItem("app.gui.model.delcomp")};
+							"        ",
+							"        ",
+							"        "};
 		for(int i=0; i < titles.length; i++){
 			TableColumn column = new TableColumn(tableModelView, SWT.NULL);
 			column.setText(titles[i]);
@@ -512,7 +508,8 @@ public class ModelGUI extends AGUITab {
         
         //create combo to edit unit
         TableEditor editor = new TableEditor(tableModelView);
-        final CCombo comboEditInputUnit = new CCombo(tableModelView, SWT.PUSH);
+        final Combo comboEditInputUnit = new Combo(tableModelView, SWT.DROP_DOWN | SWT.SIMPLE);
+        comboEditInputUnit.setLayoutData(new GridData(SWT.CENTER, SWT.RIGHT, true, true));
         
         String[] items = new String[SiUnitDefinition.getConversionMap().keySet().size()]; 
         SiUnitDefinition.getConversionMap().keySet().toArray(items);
@@ -526,7 +523,6 @@ public class ModelGUI extends AGUITab {
 				comboEditInputUnit.setEnabled(false);
     		
 				sc.setUnit(new SiUnit(comboEditInputUnit.getText()));
-				//System.out.println("***comboEditInputUnit: " + sc.getName() + " " + sc.getUnit().toString());
     			//enable comboMachineConfigName after update
 				comboEditInputUnit.setEnabled(true);
     		}
@@ -550,7 +546,7 @@ public class ModelGUI extends AGUITab {
         	columnWidthTableModelView[2] = comboEditInputUnit.getSize().x;
         }
         editor.grabHorizontal = true;
-        editor.horizontalAlignment = SWT.LEFT;
+        editor.horizontalAlignment = SWT.RIGHT;
         editor.setEditor(comboEditInputUnit, item, 2);
         
         //System.out.println("********** " + editor.getColumn());
@@ -581,7 +577,7 @@ public class ModelGUI extends AGUITab {
         });
         buttonEditComponent.pack();
         editor.minimumWidth = buttonEditComponent.getSize().x;
-        editor.horizontalAlignment = SWT.LEFT;
+        editor.horizontalAlignment = SWT.RIGHT;
         editor.setEditor(buttonEditComponent, item, 3);
         
         
@@ -629,7 +625,7 @@ public class ModelGUI extends AGUITab {
         });
         buttonDeleteComponent.pack();
         editor.minimumWidth = buttonDeleteComponent.getSize().x;
-        editor.horizontalAlignment = SWT.LEFT;
+        editor.horizontalAlignment = SWT.RIGHT;
         editor.setEditor(buttonDeleteComponent, item, 4);		        
         
         //if item is disposed, remove buttons delete/edit and combo
@@ -669,7 +665,8 @@ public class ModelGUI extends AGUITab {
         
         //set combo to let the user choose the parameter type of the mc
         TableEditor editor = new TableEditor(tableModelView);
-        final CCombo comboComponentType = new CCombo(tableModelView, SWT.PUSH);
+        final Combo comboComponentType = new Combo(tableModelView, SWT.DROP_DOWN | SWT.SIMPLE);
+        comboComponentType.setLayoutData(new GridData(SWT.CENTER, SWT.RIGHT, true, true));
         
 		//according to the given component, get the path for the parameter sets
 		String path = PropertiesHandler.getProperty("app.MachineComponentDBPathPrefix") + "/" + mc.getComponent().getModelType() + "/";
@@ -724,10 +721,11 @@ public class ModelGUI extends AGUITab {
         	columnWidthTableModelView[2] = comboComponentType.getSize().x;
         }
         editor.grabHorizontal = true;
-        editor.horizontalAlignment = SWT.LEFT;
+        editor.horizontalAlignment = SWT.RIGHT;
         editor.setEditor(comboComponentType, item, 2);
         
         //create button to edit component
+        final Shell parent = tableModelView.getShell();
         editor = new TableEditor(tableModelView);
         final Button buttonEditComponent = new Button(tableModelView, SWT.PUSH);
         Image imageEdit = new Image(Display.getDefault(), "src/resources/Edit16.gif");
@@ -737,7 +735,7 @@ public class ModelGUI extends AGUITab {
         		String model = item.getText(1);
         		String type  = item.getText(2);
         		//open window editComponentEditGUI with the selected component
-        		EditMachineComponentGUI.editMachineComponentGUI(model, type);
+        		EditMachineComponentGUI.editMachineComponentGUI(parent, model, type);
         	}
         	public void widgetDefaultSelected(SelectionEvent event){
         		// Not used
@@ -745,7 +743,7 @@ public class ModelGUI extends AGUITab {
         });
         buttonEditComponent.pack();
         editor.minimumWidth = buttonEditComponent.getSize().x;
-        editor.horizontalAlignment = SWT.LEFT;
+        editor.horizontalAlignment = SWT.RIGHT;
         editor.setEditor(buttonEditComponent, item, 3);
         
         //create button to delete component in last column
@@ -785,7 +783,7 @@ public class ModelGUI extends AGUITab {
         if(columnWidthTableModelView[4] < buttonDeleteComponent.getSize().x){
         	columnWidthTableModelView[4] = buttonDeleteComponent.getSize().x;
         }
-        editor.horizontalAlignment = SWT.LEFT;
+        editor.horizontalAlignment = SWT.RIGHT;
         editor.setEditor(buttonDeleteComponent, item, 4);		        
         
         //if item is disposed, remove button delete and button edit
@@ -816,7 +814,7 @@ public class ModelGUI extends AGUITab {
         //workaround: width is not correct for the TableEditors when .pack();
         for(int i = 2; i <= 4; i++){
         	if(columnWidthTableModelView[i] > 0){
-        		tableModelView.getColumn(i).setWidth(columnWidthTableModelView[i]+2);
+        		tableModelView.getColumn(i).setWidth(columnWidthTableModelView[i]+20);
         	}
         }
         
