@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project name="Create Runnable Jar for Project ch.ethz.inspire.emod.dd">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+	<taskdef name="swtjar" classname="org.swtjar.ant.SWTJarTask"
+	                       classpath="./lib/swtjar.jar"/>
+    <swtjar jarfile="./jars/DuctDesigner/DuctDesigner.jar" swtversion="4.5" targetmainclass="ch.ethz.inspire.emod.dd.DuctDesignerMain">
+        <manifest>
+            <attribute name="Main-Class" value="ch.ethz.inspire.emod.dd.DuctDesignerMain"/>
+            <attribute name="Class-Path" value="."/>
+        </manifest>
+        <fileset dir="./bin" includes="**/*.class"/>
+    	<fileset dir="./src" includes="lang/*"/>
+
+        <zipfileset excludes="META-INF/*.SF" src="./junit-4.9b3.jar"/>
+        <zipfileset excludes="META-INF/*.SF" src="./org.swtchart_0.7.0.v20110128.jar"/>
+        <zipfileset excludes="META-INF/*.SF" src="./ejml-v0.26-libs/EJML-core-0.26.jar"/>
+    	<fileset dir="./lib" includes="swt-*-4.5.jar" />
+    	
+    </swtjar>
+</project>
