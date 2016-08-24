@@ -6,6 +6,6 @@
 <entry key="ThermalConductivity">0.15</entry>
 <entry key="ViscositySamples">42.5, 26</entry>
 <entry key="PressureSamples">100000</entry>
-<entry key="DensityMatrix">890, 890</entry>
+<entry key="DensityMatrix">850, 850</entry>
 <entry key="HeatCapacity">1855</entry>
 </properties>

@@ -479,5 +479,15 @@ public class Algo {
 		
 		return ret;
 	}
+	
+	public static int getMaximumIndex(double[] values){
+		int ret = 0;
+		
+		for(int i=1; i<values.length; i++)
+			if(values[ret]<values[i])
+				ret = i;
+		
+		return ret;
+	}
 
 }

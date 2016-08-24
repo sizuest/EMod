@@ -37,6 +37,7 @@ import org.eclipse.swt.widgets.TreeItem;
 
 import ch.ethz.inspire.emod.dd.Duct;
 import ch.ethz.inspire.emod.dd.model.ADuctElement;
+import ch.ethz.inspire.emod.dd.model.DuctArc;
 import ch.ethz.inspire.emod.dd.model.DuctBypass;
 import ch.ethz.inspire.emod.dd.model.DuctDefinedValues;
 import ch.ethz.inspire.emod.dd.model.DuctDrilling;
@@ -63,7 +64,7 @@ public class DuctConfigGUI extends AConfigGUI{
     private ArrayList<ADuctElement> elements = new ArrayList<ADuctElement>();
     
     private ADuctElement[] ductElementSelection = { new DuctDrilling(), new DuctFlowAround(), new DuctHelix(), new DuctPipe(), 
-    		new DuctElbowFitting(), new DuctDefinedValues(), new DuctBypass()};
+    		new DuctElbowFitting(), new DuctArc(), new DuctDefinedValues(), new DuctBypass()};
     
     private ArrayList<String> elementNames = new ArrayList<String>();
     

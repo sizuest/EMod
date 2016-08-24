@@ -266,7 +266,7 @@
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>ProcSpindleSpeed</name>
             <unit>
-                <unitText>Hz</unitText>
+                <unitText>Bq</unitText>
             </unit>
             <position>
                 <x>695.9183673469399</x>
@@ -316,7 +316,7 @@
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>ProcAxisASpeed</name>
             <unit>
-                <unitText>Hz</unitText>
+                <unitText>Bq</unitText>
             </unit>
             <position>
                 <x>704.0816326530628</x>
@@ -326,7 +326,7 @@
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>ProcAxisBSpeed</name>
             <unit>
-                <unitText>Hz</unitText>
+                <unitText>Bq</unitText>
             </unit>
             <position>
                 <x>695.9183673469399</x>
@@ -336,7 +336,7 @@
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>ProcAxisCSpeed</name>
             <unit>
-                <unitText>Hz</unitText>
+                <unitText>Bq</unitText>
             </unit>
             <position>
                 <x>687.7551020408179</x>

@@ -33,6 +33,7 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 
 import ch.ethz.inspire.emod.dd.model.ADuctElement;
 import ch.ethz.inspire.emod.dd.model.AHydraulicProfile;
+import ch.ethz.inspire.emod.dd.model.DuctArc;
 import ch.ethz.inspire.emod.dd.model.DuctDefinedValues;
 import ch.ethz.inspire.emod.dd.model.DuctDrilling;
 import ch.ethz.inspire.emod.dd.model.DuctElbowFitting;
@@ -57,7 +58,7 @@ import ch.ethz.inspire.emod.utils.Undo;
  */
 @XmlRootElement(namespace = "ch.ethz.inspire.emod")
 @XmlSeeAlso({ADuctElement.class, AHydraulicProfile.class, DuctDrilling.class, DuctPipe.class, DuctElbowFitting.class, DuctFlowAround.class,
-	DuctFitting.class, DuctHelix.class, DuctElbowFitting.class, DuctDefinedValues.class, DuctBypass.class, HPRectangular.class, HPCircular.class, Isolation.class})
+	DuctFitting.class, DuctHelix.class, DuctElbowFitting.class, DuctDefinedValues.class, DuctBypass.class, DuctArc.class, HPRectangular.class, HPCircular.class, Isolation.class})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Duct implements Cloneable{
 	private Material material;
