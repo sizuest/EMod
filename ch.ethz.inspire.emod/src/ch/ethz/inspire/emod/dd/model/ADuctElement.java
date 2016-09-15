@@ -36,6 +36,10 @@ public abstract class ADuctElement implements Parameterizable, Cloneable{
 	protected AHydraulicProfile profile = new HPCircular(.01);
 	protected double length;
 	protected Isolation isolation = null;
+	@XmlElement
+	protected double heatSource = Double.NaN;
+	@XmlElement
+	protected double wallTemperature = Double.NaN;
 	
 	/**
 	 * Sets the current fluid material
@@ -130,7 +134,7 @@ public abstract class ADuctElement implements Parameterizable, Cloneable{
 	
 	/**
 	 * Returns the outlet pressure for the given operational condition
-	 * @param flowRate			[kg/s]
+	 * @param flowRate			[m³/s]
 	 * @param pressureIn		[Pa]
 	 * @param temperatureFluid	[K]
 	 * @param temperatureWall	[K]
@@ -143,18 +147,22 @@ public abstract class ADuctElement implements Parameterizable, Cloneable{
 	/**
 	 * Returns the heat transfer coefficient for the given operational condition
 	 * 
-	 * @param flowRate			[kg/s]
+	 * @param flowRate			[m³/s]
 	 * @param pressure 			[Pa]
 	 * @param temperatureFluid	[K]
 	 * @param temperatureWall	[K]
 	 * @return [W/K/m²]
 	 */
-	public abstract double getHTC(double flowRate, double pressure, double temperatureFluid, double temperatureWall);
+	protected abstract double getHTC(double flowRate, double pressure, double temperatureFluid, double temperatureWall);
+	
+	public double getHTC(double flowRate, double pressure, double temperatureFluid){
+		return getHTC(flowRate, pressure, temperatureFluid, this.getWallTemperature(temperatureFluid, flowRate, pressure));
+	}
 	
 	/**
 	 * Returns the heat pressure drop for the given operational condition
 	 * 
-	 * @param flowRate			[kg/s]
+	 * @param flowRate			[m³/s]
 	 * @param pressure 			[Pa]
 	 * @param temperatureFluid	[K]
 	 * @param temperatureWall	[K]
@@ -165,7 +173,7 @@ public abstract class ADuctElement implements Parameterizable, Cloneable{
 	/**
 	 * Returns the heat pressure drop for the given operational condition
 	 * 
-	 * @param flowRate			[kg/s]
+	 * @param flowRate			[m³/s]
 	 * @param pressure 			[Pa]
 	 * @param temperatureFluid	[K]
 	 * @param temperatureWall	[K]
@@ -213,6 +221,130 @@ public abstract class ADuctElement implements Parameterizable, Cloneable{
 		else
 			return true;
 	}
+	
+
+	/**
+	 * Returns the wall temperature
+	 * @param temperatureIn 
+	 * @param flowRate 
+	 * @param pressure 
+	 * @return 
+	 */
+	public double getWallTemperature(double temperatureIn, double flowRate, double pressure){
+		double T = Double.NaN;
+		
+		// Simplest case: No heat transfer
+		if(Double.isNaN(this.heatSource) & Double.isNaN(this.wallTemperature))
+			T = temperatureIn;
+		
+		// Wall temperature
+		if(Double.isNaN(this.heatSource) & !Double.isNaN(this.wallTemperature))
+			T = this.wallTemperature;
+			
+		// Wall heat flux
+		if(!Double.isNaN(this.heatSource) & Double.isNaN(this.wallTemperature)){
+			int i=0;
+			double Tlast;
+			T = 293;
+			do {
+				Tlast = T;
+				T = (temperatureIn + this.heatSource/2/getMaterial().getHeatCapacity()/flowRate/getMaterial().getDensity(temperatureIn)) + this.heatSource/getHTC(flowRate, pressure, temperatureIn, Tlast)/getSurface();
+				i++;
+			} while (Math.abs(T/Tlast)>1E-3 & i<10);
+		}
+		
+		return T;
+	}
+	
+	/**
+	 * Returns the outlet temperature
+	 * @param temperatureIn 
+	 * @param flowRate 
+	 * @param pressure 
+	 * @return 
+	 */
+	public double getTemperatureOut(double temperatureIn, double flowRate, double pressure){
+		return getTemperature(temperatureIn, flowRate, pressure, getLength());
+	}
+	
+	/**
+	 * Returns the wall heat flux
+	 * @param temperatureIn 
+	 * @param flowRate 
+	 * @param pressure 
+	 * @return 
+	 * 
+	 */
+	public double getWallHeatFlux(double temperatureIn, double flowRate, double pressure){
+		double Qdot;
+		
+		// Simplest case: No heat transfer
+		if(Double.isNaN(this.heatSource) & Double.isNaN(this.wallTemperature))
+			Qdot = 0;
+		
+		// Wall temperature
+		if(Double.isNaN(this.heatSource) & !Double.isNaN(this.wallTemperature))
+			Qdot = (getTemperatureOut(temperatureIn, flowRate, pressure)-temperatureIn)*flowRate*getMaterial().getDensity(temperatureIn)*getMaterial().getHeatCapacity();
+			
+		// Wall heat flux
+		if(!Double.isNaN(this.heatSource) & Double.isNaN(this.wallTemperature))
+			Qdot =this.heatSource;
+		
+		else
+			Qdot = Double.NaN;
+		
+		return Qdot;
+	}
+	
+	/**
+	 * Returns the temperature at position x
+	 * @param temperatureIn 
+	 * @param flowRate 
+	 * @param pressure 
+	 * @param x 
+	 * @return 
+	 */
+	public double getTemperature(double temperatureIn, double flowRate, double pressure, double x){
+		
+		double T = Double.NaN;
+		
+		// Simplest case: No heat transfer
+		if(Double.isNaN(this.heatSource) & Double.isNaN(this.wallTemperature))
+			T = temperatureIn;
+		
+		// Wall temperature
+		if(Double.isNaN(this.heatSource) & !Double.isNaN(this.wallTemperature))
+			T = this.wallTemperature + Math.exp(-getProfile().getPerimeter()*x*getHTC(flowRate, pressure, temperatureIn, this.wallTemperature) / getMaterial().getHeatCapacity() / (flowRate*getMaterial().getDensity(temperatureIn))) * (temperatureIn-this.wallTemperature);
+			
+		// Wall heat flux
+		if(!Double.isNaN(this.heatSource) & Double.isNaN(this.wallTemperature))
+			T = temperatureIn + this.heatSource/(flowRate*getMaterial().getDensity(temperatureIn))/getLength()/getMaterial().getHeatCapacity()*x;
+		
+		return T;
+	}
+	
+	/**
+	 * Sets the wall heat flux
+	 * and resets the wall temperature
+	 * 
+	 * @param heatSource [W]
+	 */
+	public void setHeatSource(double heatSource){
+		this.heatSource = heatSource;
+		this.wallTemperature = Double.NaN;
+	}
+	
+	/**
+	 * Sets the wall temperature
+	 * and resets the wall heat flux
+	 * 
+	 * @param wallTemperature [K]
+	 */
+	public void setWallTemperature(double wallTemperature){
+		this.wallTemperature = wallTemperature;
+		this.heatSource = Double.NaN;
+	}
+	
 
 	/**
 	 * Sets the hydraulic profile
@@ -241,5 +373,21 @@ public abstract class ADuctElement implements Parameterizable, Cloneable{
 	}
 	
 	public abstract ADuctElement clone();
+
+	/**
+	 * Indicates if a wall temperature BC has been set
+	 * @return
+	 */
+	public boolean hasWallTemperature() {
+		return !(Double.isNaN(wallTemperature));
+	}
+
+	/**
+	 * Indicates if a heat flux has been set
+	 * @return
+	 */
+	public boolean hasHeatSource() {
+		return !(Double.isNaN(heatSource));
+	}
 
 }

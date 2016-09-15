@@ -586,49 +586,70 @@ public class Duct implements Cloneable{
 	 * Returns the current thermal resistance
 	 * @param flowRate [m^3/s]
 	 * @param pressureIn [Pa]
-	 * @param temperatureFluid [K]
+	 * @param temperatureIn [K]
 	 * @param temperatureWall [K]
 	 * @return [W/K]
 	 */
-	public double getThermalResistance(double flowRate, double pressureIn, double temperatureFluid, double temperatureWall){
+	public double getThermalResistance(double flowRate, double pressureIn, double temperatureIn){
 		double htc;
 		double Rth     = 0;
 		double lastp   = pressureIn;
+		double lastT   = temperatureIn;
 		
 		for(ADuctElement e: elements){
-			htc = e.getHTC(flowRate, lastp, temperatureFluid, temperatureWall)*e.getHydraulicSurface();
+			htc = e.getHTC(flowRate, lastp, lastT)*e.getHydraulicSurface();
 			//htc = e.getHTC(flowRate, lastp, temperatureFluid, temperatureWall)*e.getSurface();
 			if(e.hasIsolation()) 
 				htc =  1/(1/htc + 1/e.getIsolation().getThermalResistance());
 			Rth     += htc;
-			lastp   = e.getPressureOut(flowRate, lastp, temperatureFluid);
+			lastp   = e.getPressureOut(flowRate, lastp, lastT);
+			lastT   = e.getTemperatureOut(lastT, flowRate, lastp);
 		}
 		
 		return Rth;
 	}
 	
+	public double getThermalResistance(double flowRate, double pressureIn, double temperatureIn, double temperatureWall){
+		for(ADuctElement e: elements)
+			e.setWallTemperature(temperatureWall);
+		
+		return getThermalResistance(flowRate, pressureIn, temperatureIn);
+	}
+	
+	public double getHTC(double flowRate, double pressure,	double temperatureFluid) {
+		return getThermalResistance(flowRate, pressure, temperatureFluid)/getSurface();
+	}
+	
 	public double getHTC(double flowRate, double pressure,	double temperatureFluid, double temperatureWall) {
-		return getThermalResistance(flowRate, pressure, temperatureFluid, temperatureWall)/getSurface();
+		
+		for(ADuctElement e: elements)
+			e.setWallTemperature(temperatureWall);
+		
+		return getHTC(flowRate, pressure,	temperatureFluid);
 	}
 	
 	/**
 	 * Returns the current pressure loss
 	 * @param flowRate [m^3/s]
 	 * @param pressureIn [Pa]
-	 * @param temperatureFluid [K]
+	 * @param temperatureIn [K]
 	 * @return [Pa s^2/m^6]
 	 */
-	public double getPressureDrop(double flowRate, double pressureIn, double temperatureFluid){
+	public double getPressureDrop(double flowRate, double pressureIn, double temperatureIn){
 		/*
 		 * Simples case: no flow
 		 */
 		if(0==flowRate)
 			return 0;
 		
-		double pressureOut = pressureIn;
+		double  pressureOut = pressureIn,
+				pressureInLast = pressureIn;
 		
-		for(ADuctElement e: elements)
-			pressureOut = e.getPressureOut(flowRate, pressureOut, temperatureFluid);
+		for(ADuctElement e: elements){
+			pressureIn = e.getPressureOut(flowRate, pressureInLast, temperatureIn);
+			temperatureIn = e.getTemperatureOut(temperatureIn, flowRate, pressureInLast);
+			pressureInLast = pressureIn;
+		}
 		
 		return (pressureIn-pressureOut);
 	}
@@ -652,6 +673,29 @@ public class Duct implements Cloneable{
 		if(flowRate == 0)
 			return 0;
 		return (getPressureDrop(flowRate*fac, pressureIn, temperatureFluid)-getPressureDrop(flowRate, pressureIn, temperatureFluid))/(fac-1)/flowRate;
+	}
+	
+	/**
+	 * Returns the outlet temperature
+	 * @param flowRate [kg/s]
+	 * @param pressureIn [Pa]
+	 * @param temperatureIn [K]
+	 * @return 
+	 */
+	public double getTemperatureOut(double flowRate, double pressureIn, double temperatureIn){
+		
+		if(0==flowRate)
+			return temperatureIn;
+		
+		double pressureInLast = pressureIn;
+		
+		for(ADuctElement e: elements){
+			pressureIn = e.getPressureOut(flowRate, pressureInLast, temperatureIn);
+			temperatureIn = e.getTemperatureOut(temperatureIn, flowRate, pressureInLast);
+			pressureInLast = pressureIn;
+		}
+		
+		return temperatureIn;
 	}
 	
 	/**
@@ -735,7 +779,7 @@ public class Duct implements Cloneable{
 				
 				elements.addAll(((DuctBypass) e).getSecondary().getAllElements());
 				if(((DuctBypass) e).getSecondary().getElements().size()==0)
-					elements.add(new DuctPipe(e.getName()+"_Branch12"));
+					elements.add(new DuctPipe(e.getName()+"_Branch2"));
 			}
 		}
 		

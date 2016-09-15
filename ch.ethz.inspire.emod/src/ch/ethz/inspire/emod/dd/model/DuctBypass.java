@@ -64,7 +64,7 @@ public class DuctBypass extends ADuctElement {
 	public double getHTC(double flowRate, double pressure,
 			double temperatureFluid, double temperatureWall) {
 		
-		double htcPrimary   = getPrimary().getHTC(getFlowRatePrimary(flowRate, pressure, temperatureFluid), pressure, temperatureFluid, temperatureWall); 
+		double htcPrimary   = getPrimary().getHTC(getFlowRatePrimary(flowRate, pressure, temperatureFluid), pressure, temperatureFluid); 
 		
 		return htcPrimary;
 	}
@@ -272,5 +272,83 @@ public class DuctBypass extends ADuctElement {
 			return this.profile;
 	}
 	
-
+	/**
+	 * Returns the wall temperature
+	 * 
+	 * Override for bypass
+	 * @param temperatureIn 
+	 * @param flowRate 
+	 * @param pressure 
+	 * @return 
+	 */
+	@Override
+	public double getWallTemperature(double temperatureIn, double flowRate, double pressure){
+		return Double.NaN;
+	}
+	
+	
+	/**
+	 * Returns the outlet temperature
+	 * 
+	 * Override for bypass
+	 * @param temperatureIn 
+	 * @param flowRate 
+	 * @param pressure 
+	 * @return 
+	 */
+	@Override
+	public double getTemperatureOut(double temperatureIn, double flowRate, double pressureIn){
+		double T1, T2, Q1, Q2;
+		
+		Q1 = getFlowRatePrimary(flowRate, pressureIn, temperatureIn);
+		Q2 = getFlowRateSecondary(flowRate, pressureIn, temperatureIn);
+		T1 = ductPrimary.getTemperatureOut( Q1, pressureIn, temperatureIn);
+		T2 = ductSecondary.getTemperatureOut(Q2, pressureIn, temperatureIn);
+		
+		return (T1*Q1+T2*Q2)/(Q1+Q2);
+	}
+	
+	/**
+	 * Returns the wall heat flux
+	 * 
+	 * Override for bypass
+	 * @param temperatureIn 
+	 * @param flowRate 
+	 * @param pressure 
+	 * @return 
+	 * 
+	 */
+	@Override
+	public double getWallHeatFlux(double temperatureIn, double flowRate, double pressureIn){
+		double heatFlux = 0;
+		
+		double Q1, Q2;
+		
+		Q1 = getFlowRatePrimary(flowRate, pressureIn, temperatureIn);
+		Q2 = getFlowRateSecondary(flowRate, pressureIn, temperatureIn);
+		
+		for(ADuctElement e: ductPrimary.getElements())
+			heatFlux += e.getWallHeatFlux(temperatureIn, Q1, pressureIn);
+		
+		for(ADuctElement e: ductSecondary.getElements())
+			heatFlux += e.getWallHeatFlux(temperatureIn, Q2, pressureIn);
+		
+		return heatFlux;
+		
+	}
+	
+	/**
+	 * Returns the temperature at position x
+	 * 
+	 * Override for bypass
+	 * @param temperatureIn 
+	 * @param flowRate 
+	 * @param pressure 
+	 * @param x 
+	 * @return 
+	 */
+	@Override
+	public double getTemperature(double temperatureIn, double flowRate, double pressure, double x){
+		return Double.NaN;
+	}
 }

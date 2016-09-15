@@ -44,7 +44,7 @@ public class DuctElbowFitting extends ADuctElement{
 	@Override
 	public double getHTC(double flowRate, double pressure,
 			double temperatureFluid, double temperatureWall) {
-		return this.profile.getDiameter()*Math.PI/2;
+		return 0;
 	}
 
 	@Override

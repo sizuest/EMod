@@ -349,6 +349,8 @@ public class DuctConfigGUI extends AConfigGUI{
     
     public void update(){
     	updateDuctElementTable();
+    	
+    	ductTestingGUI.update();
     	    	
     	this.redraw();
     	this.layout();

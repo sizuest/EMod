@@ -471,7 +471,7 @@ public class Pump extends APhysicalComponent implements Floodable{
 	 * @param nu  Viscosity [m^2/s]
 	 */
 	private void updatePumpMap(double rho, double nu){
-		double Re, ReMod, fHopt, fEta, fQ, fH, fP, omega, omegaS, Hv, Hw;
+		double Re, ReMod, fHopt, fEta, fQ, fH, omega, omegaS;
 				if(numImpEyes == 0 | numStages == 0){
 			/* Update map */
 			for(int i=0; i<flowRateSamples.length; i++){
@@ -503,8 +503,6 @@ public class Pump extends APhysicalComponent implements Floodable{
 			for(int i=0; i<flowRateSamples.length; i++){
 				
 				fH = 1-(1-fHopt)*Math.pow(flowRateSamples[i]/flowRateBEP, .75);
-				fP = fQ*fH/fEta;
-				
 				flowRateSamplesV[i] = fQ   * flowRateSamples[i]; 
 				pressureSamplesV[i] = fH   * pressureSamples[i] * rho/1000;
 				effPumpSamplesV[i]  = fEta * effPumpSamples[i];

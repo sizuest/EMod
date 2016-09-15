@@ -142,28 +142,6 @@ public class EditDuctIsolationGUI extends AConfigGUI{
 		
 		itemMaterial.setText(0, LocalizationHandler.getItem("app.dd.elemet.gui.isolation.material"));
     	if( null!=isolationNew & null!=isolationNew.getMaterial() )
-        for(String key: parameters.getParameterSet().keySet()){
-        	final int idx = tableProperties.getItemCount();
-        	final TableItem itemParam = new TableItem(tableProperties, SWT.NONE, idx);
-        	
-        	itemParam.setText(0, key);
-        	itemParam.setText(1, parameters.getParameter(key).getValue()+"");
-        	itemParam.setText(2, parameters.getParameter(key).getUnit().toString());
-        	
-        }
-        
-        TableColumn[] columns = tableProperties.getColumns();
-        for (int j = 0; j < columns.length; j++) {
-        	columns[j].pack();
-        }
-		
-	}
-	
-	private void updateIsolationItem(){
-		TableItem itemMaterial = tableProperties.getItem(0);
-		
-		itemMaterial.setText(0, LocalizationHandler.getItem("app.dd.elemet.gui.isolation.material"));
-    	if( null!=isolationNew & null!=isolationNew.getMaterial() )
     		itemMaterial.setText(1, isolationNew.getMaterial().getType());
     	else
     		itemMaterial.setText(1, LocalizationHandler.getItem("app.dd.elemet.gui.isolation.none"));
