@@ -25,11 +25,12 @@ import java.util.Collections;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -176,17 +177,6 @@ public class EditMachineComponentGUI extends AConfigGUI{
 		buttonContinue.setLayoutData(new GridData(SWT.END, SWT.CENTER, false, true, 2, 1));
 		
 		shell.pack();
-
-		//width and height of the shell
-		Rectangle rect = shell.getBounds();
-		int[] size = {0, 0};
-		size[0] = rect.width;
-		size[1] = rect.height;
-		
-		//position the shell into the middle of the last window
-        //int[] position;
-        //position = EModGUI.shellPosition();
-        //shell.setLocation(position[0]-size[0]/2, position[1]-size[1]/2);
 		
         //open the new shell
 		shell.open();
@@ -200,17 +190,33 @@ public class EditMachineComponentGUI extends AConfigGUI{
  	 * @param parameter 
 	 */
     public static void editMachineComponentGUI(final Shell parent, final String type, final String parameter){
-    	final Shell shell = new Shell(parent, SWT.TITLE|SWT.SYSTEM_MODAL| SWT.CLOSE | SWT.MAX);
+    	final Shell shell = new Shell(parent, SWT.TITLE|SWT.SYSTEM_MODAL| SWT.CLOSE | SWT.MAX | SWT.RESIZE);
         shell.setText(LocalizationHandler.getItem("app.gui.compdb.editcomp"));
         shell.setLayout(new GridLayout(1, true));
+        shell.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,true));
     	
-    	EditMachineComponentGUI gui = new EditMachineComponentGUI(shell, SWT.NONE, type, parameter);
+    	final EditMachineComponentGUI gui = new EditMachineComponentGUI(shell, SWT.NONE, type, parameter);
 		
     	shell.pack();
 		
 		shell.layout();
 		shell.redraw();
 		shell.open();
+		
+		shell.setSize(shell.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		
+		shell.addControlListener(new ControlListener() {
+			
+			@Override
+			public void controlResized(ControlEvent e) {
+				gui.layout();
+			}
+			
+			@Override
+			public void controlMoved(ControlEvent e) {
+				gui.layout();
+			}
+		});
 		
 		shell.addDisposeListener(new DisposeListener() {
 			
@@ -241,6 +247,10 @@ public class EditMachineComponentGUI extends AConfigGUI{
     	if(selection != "" & selection !=null)
 			item.setText(1, selection);
     }
+    
+    public void openDuctDesigner(String type, String parameter,  String name){
+		DuctConfigGUI.editDuctGUI(this.getShell(), type, parameter,  name);
+	}
     
     public void setModelType(String type, TableItem item){
     	if(item.getText().matches(""))
@@ -331,7 +341,7 @@ public class EditMachineComponentGUI extends AConfigGUI{
 					editDuctButton.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, true, 1, 1));
 					editDuctButton.addSelectionListener(new SelectionListener(){
 			        	public void widgetSelected(SelectionEvent event){
-			        		DuctConfigGUI.editDuctGUI(type, parameter,  name);	
+			        		openDuctDesigner(type, parameter,  name);
 			        		wasEdited();
 			        	}
 			        	public void widgetDefaultSelected(SelectionEvent event){

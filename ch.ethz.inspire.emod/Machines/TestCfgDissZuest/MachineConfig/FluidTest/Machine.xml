@@ -2,36 +2,60 @@
 <ns2:machine xmlns:ns2="ch.ethz.inspire.emod">
     <machine>
         <machineComponent>
+            <position>
+                <x>-49.95668495524117</x>
+                <y>-12.9887380883627</y>
+            </position>
             <component xsi:type="tank" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
             <name>Tank</name>
         </machineComponent>
         <machineComponent>
+            <position>
+                <x>445.5696095494951</x>
+                <y>139.08793856886655</y>
+            </position>
             <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
             <name>Pump_1</name>
         </machineComponent>
         <machineComponent>
+            <position>
+                <x>-46.959283857926856</x>
+                <y>177.84579844065868</y>
+            </position>
             <component xsi:type="hydraulicAccumulator" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
             <name>PumpAccumulator</name>
         </machineComponent>
         <machineComponent>
+            <position>
+                <x>409.60904763842024</x>
+                <y>-151.31605711728568</y>
+            </position>
             <component xsi:type="cylinder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
             </component>
             <name>Cylinder_1</name>
         </machineComponent>
         <machineComponent>
+            <position>
+                <x>736.8740083804568</x>
+                <y>-56.30364915992035</y>
+            </position>
             <component xsi:type="pipe" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Schaublin42LR</type>
             </component>
             <name>PipeNL_1</name>
         </machineComponent>
         <machineComponent>
+            <position>
+                <x>-54.896057930922275</x>
+                <y>-168.20715186526178</y>
+            </position>
             <component xsi:type="pipe" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Schaublin42LV</type>
             </component>
@@ -44,30 +68,40 @@
             <unit>
                 <unitText>Pa</unitText>
             </unit>
+            <position>
+                <x>-364.6838001732605</x>
+                <y>17.984406583886756</y>
+            </position>
         </simController>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>Velocity</name>
             <unit>
                 <unitText>m/s</unitText>
             </unit>
-        </simController>
-        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>ZeroPower</name>
-            <unit>
-                <unitText>W</unitText>
-            </unit>
+            <position>
+                <x>269.7660987583023</x>
+                <y>-150.86918856482836</y>
+            </position>
         </simController>
         <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>AmbTemperature</name>
             <unit>
                 <unitText>K</unitText>
             </unit>
+            <position>
+                <x>-366.68206757147044</x>
+                <y>-88.92289922032958</y>
+            </position>
         </simController>
         <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>Force</name>
             <unit>
                 <unitText>N</unitText>
             </unit>
+            <position>
+                <x>265.3309466661243</x>
+                <y>-213.953866807697</y>
+            </position>
         </simController>
     </simulators>
     <connectionList/>

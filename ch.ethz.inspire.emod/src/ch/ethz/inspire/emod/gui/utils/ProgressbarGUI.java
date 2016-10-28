@@ -5,10 +5,10 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Monitor;
 import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
 
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
 
@@ -23,12 +23,12 @@ public class ProgressbarGUI {
 		shell.setText(LocalizationHandler.getItem(textString));
 		shell.setLayout(new GridLayout(2, false));
 
-		Text textLoad = new Text(shell, SWT.READ_ONLY);
+		Label textLoad = new Label(shell, SWT.TRANSPARENT);
 		textLoad.setText(LocalizationHandler.getItem(textString));
-		textLoad.setLayoutData(new GridData(SWT.BEGINNING, SWT.TOP, false, true, 1, 1));
+		textLoad.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, true, 1, 1));
 
 		pb = new ProgressBar(shell, SWT.SMOOTH);
-		pb.setLayoutData(new GridData(SWT.BEGINNING, SWT.TOP, false, true, 1, 1));
+		pb.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, true, 1, 1));
 		
 		shell.pack();
 		

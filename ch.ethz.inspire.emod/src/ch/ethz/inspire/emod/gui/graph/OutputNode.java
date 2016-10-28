@@ -20,11 +20,31 @@ import org.piccolo2d.extras.swt.PSWTText;
 
 import ch.ethz.inspire.emod.utils.IOContainer;
 
+/**
+ * OutputNode class
+ * 
+ * Graphical representation of a {@link IOContainer} used as an output in the
+ * graphical model representation.
+ * 
+ * @author sizuest
+ *
+ */
 public class OutputNode extends AIONode{
 
 	private static final long serialVersionUID = 1L;
 	
-	
+	/**
+	 * Constructor 
+	 * 
+	 * The graphical representation will look as follows:
+	 *                
+	 *  O  Name [Unit]
+	 *  
+	 *  |          |__ Text
+	 *  |__ IONode
+	 * 
+	 * @param ioObject {@link IOContainer} to be represented
+	 */
 	public OutputNode(IOContainer ioObject){
 		super();
 		this.ioObject = ioObject;
@@ -45,6 +65,18 @@ public class OutputNode extends AIONode{
 	
 	public PSWTPath getIONode(){
 		return this.ioNode;
+	}
+	
+	public void updateText(){
+		// Set new name and unit
+		ioText.setText(ioObject.getName()+" ["+ioObject.getUnit().toString()+"]");
+		
+		// Update offset to fit the new text length
+		this.ioNode.setOffset(this.ioText.getWidth()+getSize(), ioText.getHeight()/2-getSize()/2);
+		
+		// Update bounds to fit the new text length
+		this.setBounds(0, 0, getSize()+5+ioText.getWidth(), ioText.getHeight());
+	
 	}
 	
 	

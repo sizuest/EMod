@@ -20,7 +20,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ControlEditor;
@@ -67,7 +69,6 @@ import ch.ethz.inspire.emod.utils.PropertiesHandler;
  * @author manick
  *
  */
-
 public class ModelGUI extends AGUITab {
 	
 	private static Table tableModelView;
@@ -569,7 +570,11 @@ public class ModelGUI extends AGUITab {
         		String type = item.getText(1).replace("Input ", "");
         		String name = item.getText(0);
         		//open window editComponentEditGUI with the selected component
-				EditInputGUI.editInputGUI(type, name);
+        		try {
+        			EditInputGUI.editInputGUI(Display.getCurrent().getActiveShell(), Machine.createNewInputObject(type, name, new SiUnit()));
+        		} catch(Exception e){
+        			e.printStackTrace();
+        		}
         	}
         	public void widgetDefaultSelected(SelectionEvent event){
         		// Not used
@@ -848,5 +853,22 @@ public class ModelGUI extends AGUITab {
 	public void update() {
 		updateTabCompDB();	
 		initTabCompDB(tabFolder);
+		
+		ArrayList<MachineComponent> mclist = Machine.getInstance().getMachineComponentList();
+		List<ASimulationControl> sclist = Machine.getInstance().getInputObjectList();
+		
+
+		//add the components to the table in the model gui tab
+		int i = 0;
+		for(MachineComponent mc:mclist){
+			addTableItem(mc, i);
+			i++;
+		}
+		for(ASimulationControl sc:sclist){
+			addTableItem(sc, i);
+			i++;
+		}
+		
+		updateTable();
 	}
 }

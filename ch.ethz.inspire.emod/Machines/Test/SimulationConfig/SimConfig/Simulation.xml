@@ -3,11 +3,11 @@
 <properties>
 <comment/>
 <entry key="simulationPeriod">1</entry>
-<entry key="InitialValue_Pump_TemperatureStructure">293.15</entry>
 <entry key="InitialValue_Spindle_TemperatureStructure">293.15</entry>
-<entry key="InitialValue_Pump_TemperatureFluid">293.15</entry>
-<entry key="InitialValue_Spindle_TemperatureCoolant">293.15</entry>
+<entry key="InitialValue_Pump_TemperatureStructure">293.15</entry>
 <entry key="InitialValue_Tank_Temperature">293.15</entry>
-<entry key="InitialValue_Tank_Mass">998.0</entry>
+<entry key="InitialValue_Spindle_TemperatureCoolant">293.15</entry>
+<entry key="InitialValue_Pump_TemperatureFluid">293.15</entry>
 <entry key="InitialValue_HeatExchangerAir_Temperature">293.15</entry>
+<entry key="InitialValue_Tank_Mass">236.64</entry>
 </properties>

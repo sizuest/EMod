@@ -150,14 +150,40 @@ public class Algo {
 	 */
 	public static double linearInterpolation(double x, double[] xsamples, double[] yvals)
 	{
+		return linearInterpolation(x, xsamples, yvals, false);
+	}
+	
+	/**
+	 * A function is given by a set of (x,y) points. The y-value belonging to
+	 * a given x value is determined by linear interpolation.
+	 * 
+	 * @param x     Value on the x axis to find the corresponding y value.
+	 * @param xsamples Samples on the x axis. Must be sorted (lowest value at first position).
+	 * @param yvals Samples on the y axis.
+	 * @param doExtrap if set to true, extrapolation takes place
+	 * @return y-value belonging to 'x'.
+	 */
+	public static double linearInterpolation(double x, double[] xsamples, double[] yvals, boolean doExtrap)
+	{
 		// Conditions:
 		//   xsamples.length == yvals.length
 		//   xsamples[i] < xsamples[i+1] 
 		
+		double y;
+		
 		int index = findInterval(x, xsamples);
-		double y = linearInterpolationWithIndex(x, xsamples, yvals, index);
+		
+		// Check if its outside the range and if extrapolation is required
+		if(index < 0 && doExtrap)
+			y = linearInterpolationWithIndex(x, xsamples, yvals, 0);
+		else if(x>xsamples[xsamples.length-1] && doExtrap)
+			y = linearInterpolationWithIndex(x, xsamples, yvals, index);
+		else
+			y = linearInterpolationWithIndex(x, xsamples, yvals, index);
 		return y;
 	}
+	
+	
 	
 	/**
 	 * Numerically derivates the given series y=f(x) at aa specified point x0:

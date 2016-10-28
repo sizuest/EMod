@@ -25,6 +25,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
@@ -67,6 +69,8 @@ public class DuctConfigGUI extends AConfigGUI{
     		new DuctElbowFitting(), new DuctArc(), new DuctDefinedValues(), new DuctBypass()};
     
     private ArrayList<String> elementNames = new ArrayList<String>();
+    
+    private int maxHeight;
     
     String name;
 
@@ -111,6 +115,13 @@ public class DuctConfigGUI extends AConfigGUI{
 			column.setText(titles[i]);
 			column.setWidth(32);
 		}
+		
+		tableDuctElements.addListener(SWT.MeasureItem, new Listener() {
+			   public void handleEvent(Event event) {
+			      // height cannot be per row so simply set
+			      event.height = maxHeight;
+			   }
+			});
 		
 		treeDuctDBView = new Tree(form, SWT.BORDER);
 		for(ADuctElement e: ductElementSelection){
@@ -209,10 +220,9 @@ public class DuctConfigGUI extends AConfigGUI{
 			
 			/* Edit */
 			if(!(e instanceof DuctBypass)){
-				final Button editElementButton = new Button(tableDuctElements, SWT.PUSH);
+				final Button editElementButton = new Button(tableDuctElements, SWT.FLAT);
 				buttons.add(editElementButton);
-		        Image imageEdit = new Image(Display.getDefault(), "src/resources/Edit16.gif");
-		        editElementButton.setImage(imageEdit);
+		        editElementButton.setText("...");
 		        editElementButton.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, true, 1, 1));	
 			        editElementButton.addSelectionListener(new SelectionListener(){
 			        	public void widgetSelected(SelectionEvent event){
@@ -223,18 +233,18 @@ public class DuctConfigGUI extends AConfigGUI{
 			        	}
 			        });
 		        editElementButton.pack();
+		        editorButton.minimumHeight = editElementButton.getSize().y;
 				editorButton.minimumWidth = editElementButton.getSize().x;
 				editorButton.horizontalAlignment = SWT.LEFT;
 		        editorButton.setEditor(editElementButton, itemProp, 2);
+		        
 			}
 	        
 	        /* Up */
 	        if(duct.getElementIndex(e.getName())!=0){
 		        editorButton = new TableEditor(tableDuctElements);
-		        final Button moveElementUpButton = new Button(tableDuctElements, SWT.PUSH);
+		        final Button moveElementUpButton = new Button(tableDuctElements, SWT.FLAT | SWT.ARROW | SWT.UP);
 		        buttons.add(moveElementUpButton);
-		        Image imageUp = new Image(Display.getDefault(), "src/resources/Up16.gif");
-				moveElementUpButton.setImage(imageUp);
 		        moveElementUpButton.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, true, 1, 1));
 		        moveElementUpButton.addSelectionListener(new SelectionListener(){
 		        	public void widgetSelected(SelectionEvent event){
@@ -246,6 +256,7 @@ public class DuctConfigGUI extends AConfigGUI{
 		        	}
 		        });
 		        moveElementUpButton.pack();
+		        editorButton.minimumHeight = moveElementUpButton.getSize().y;
 				editorButton.minimumWidth = moveElementUpButton.getSize().x;
 				editorButton.horizontalAlignment = SWT.LEFT;
 		        editorButton.setEditor(moveElementUpButton, itemProp, 3);
@@ -254,10 +265,8 @@ public class DuctConfigGUI extends AConfigGUI{
 	        /* Down */
 	        if(duct.getElementIndex(e.getName())!=duct.getElements().size()-1){
 		        editorButton = new TableEditor(tableDuctElements);
-		        final Button moveElementDownButton = new Button(tableDuctElements, SWT.PUSH);
+		        final Button moveElementDownButton = new Button(tableDuctElements, SWT.FLAT | SWT.ARROW | SWT.DOWN);
 		        buttons.add(moveElementDownButton);
-		        Image imageDown = new Image(Display.getDefault(), "src/resources/Down16.gif");
-				moveElementDownButton.setImage(imageDown);
 		        moveElementDownButton.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, true, 1, 1));
 		        moveElementDownButton.addSelectionListener(new SelectionListener(){
 		        	public void widgetSelected(SelectionEvent event){
@@ -276,7 +285,7 @@ public class DuctConfigGUI extends AConfigGUI{
 	        
 	        /* Remove */
 	        editorButton = new TableEditor(tableDuctElements);
-	        final Button removeElementButton = new Button(tableDuctElements, SWT.PUSH);
+	        final Button removeElementButton = new Button(tableDuctElements, SWT.FLAT);
 	        buttons.add(removeElementButton);
 	        Image imageDelete = new Image(Display.getDefault(), "src/resources/Delete16.gif");
 	        removeElementButton.setImage(imageDelete);
@@ -336,7 +345,11 @@ public class DuctConfigGUI extends AConfigGUI{
     	buttons.clear();
     	
     	insertElemementsToTable(tableDuctElements, duct, "");
-		
+    	
+    	maxHeight = 0;
+    	for(Button b: buttons)
+    		maxHeight = Math.max(maxHeight, b.getBounds().height);
+
 		TableColumn[] columns = tableDuctElements.getColumns();
         for (int j = 0; j < columns.length; j++) {
         	columns[j].pack();
@@ -484,11 +497,19 @@ public class DuctConfigGUI extends AConfigGUI{
 	}
 
 	public static void editDuctGUI(String type, String parameter, String name) {
-		editDuctGUI(type+"_"+parameter+"_"+name);
+		editDuctGUI(Display.getCurrent().getActiveShell(), type+"_"+parameter+"_"+name);
+	}
+	
+	public static void editDuctGUI(Shell parent, String type, String parameter, String name) {
+		editDuctGUI(parent, type+"_"+parameter+"_"+name);
 	}
 	
 	public static void editDuctGUI(String type) {
-		final Shell shell = new Shell(Display.getCurrent());
+		editDuctGUI(Display.getCurrent().getActiveShell(), type);
+	}
+	
+	public static void editDuctGUI(Shell parent, String type) {
+		final Shell shell = new Shell(parent);
 		shell.setLayout(new GridLayout(1, true));
 		DuctConfigGUI gui = new DuctConfigGUI(shell, SWT.NONE, Duct.buildFromDB(type), ShowButtons.ALL);
 		

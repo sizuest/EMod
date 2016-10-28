@@ -44,7 +44,7 @@ import ch.ethz.inspire.emod.dd.model.DuctPipe;
 import ch.ethz.inspire.emod.dd.model.DuctBypass;
 import ch.ethz.inspire.emod.dd.model.HPCircular;
 import ch.ethz.inspire.emod.dd.model.HPRectangular;
-import ch.ethz.inspire.emod.model.fluid.Isolation;
+import ch.ethz.inspire.emod.dd.model.Isolation;
 import ch.ethz.inspire.emod.model.material.Material;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
 import ch.ethz.inspire.emod.utils.Undo;
@@ -358,6 +358,9 @@ public class Duct implements Cloneable{
 				cleanUpFittings();
 			}
 		
+		if(null==history)
+			history = new Undo<Duct>(10, (new Duct()).clone(this));
+		
 		history.add((new Duct()).clone(this), "app.dd.actions.add");
 	}
 	
@@ -597,11 +600,8 @@ public class Duct implements Cloneable{
 		double lastT   = temperatureIn;
 		
 		for(ADuctElement e: elements){
-			htc = e.getHTC(flowRate, lastp, lastT)*e.getHydraulicSurface();
-			//htc = e.getHTC(flowRate, lastp, temperatureFluid, temperatureWall)*e.getSurface();
-			if(e.hasIsolation()) 
-				htc =  1/(1/htc + 1/e.getIsolation().getThermalResistance());
-			Rth     += htc;
+			htc     = e.getRth(Math.abs(flowRate), lastp, lastT);
+			Rth     += htc*e.getHydraulicSurface();
 			lastp   = e.getPressureOut(flowRate, lastp, lastT);
 			lastT   = e.getTemperatureOut(lastT, flowRate, lastp);
 		}
@@ -647,11 +647,11 @@ public class Duct implements Cloneable{
 		
 		for(ADuctElement e: elements){
 			pressureIn = e.getPressureOut(flowRate, pressureInLast, temperatureIn);
-			temperatureIn = e.getTemperatureOut(temperatureIn, flowRate, pressureInLast);
+			//temperatureIn = e.getTemperatureOut(temperatureIn, flowRate, pressureInLast); //TODO
 			pressureInLast = pressureIn;
 		}
 		
-		return (pressureIn-pressureOut);
+		return -(pressureIn-pressureOut);
 	}
 	
 	/**

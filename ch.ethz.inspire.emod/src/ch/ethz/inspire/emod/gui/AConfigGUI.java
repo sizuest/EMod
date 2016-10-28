@@ -1,10 +1,10 @@
 /***********************************
- * $Id: SimGUI.java 203 2016-02-26 14:54:24Z sizuest $
+ * $Id$
  *
- * $URL: https://icvrdevil.ethz.ch/svn/EMod/trunk/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/gui/SimGUI.java $
- * $Author: sizuest $
- * $Date: 2016-02-26 15:54:24 +0100 (Fre, 26. Feb 2016) $
- * $Rev: 203 $
+ * $URL$
+ * $Author$
+ * $Date$
+ * $Rev$
  *
  * Copyright (c) 2011 by Inspire AG, ETHZ
  * All rights reserved

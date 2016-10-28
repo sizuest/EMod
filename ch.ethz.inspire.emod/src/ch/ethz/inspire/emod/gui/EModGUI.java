@@ -14,13 +14,14 @@ package ch.ethz.inspire.emod.gui;
 
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Logger;
 
-import org.eclipse.swt.*;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -39,14 +40,13 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
-import ch.ethz.inspire.emod.dd.gui.DuctConfigGUI;
-import ch.ethz.inspire.emod.gui.utils.ProgressbarGUI;
-import ch.ethz.inspire.emod.model.MachineComponent;
-import ch.ethz.inspire.emod.utils.LocalizationHandler;
-import ch.ethz.inspire.emod.utils.PropertiesHandler;
 import ch.ethz.inspire.emod.LogLevel;
 import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.States;
+import ch.ethz.inspire.emod.dd.gui.DuctConfigGUI;
+import ch.ethz.inspire.emod.gui.utils.ProgressbarGUI;
+import ch.ethz.inspire.emod.utils.LocalizationHandler;
+import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 /**
  * main gui class for emod application
@@ -68,6 +68,8 @@ public class EModGUI {
 	protected Composite sim;
 	protected Composite analysis;
 	protected StyledText console;
+	
+	static boolean USE_GRAPHICAL_MODE = true;
 	
 	public EModGUI(Display display) {
 		disp = display;
@@ -115,8 +117,15 @@ public class EModGUI {
 
 		
 		//manick: Startup GUI for Settings of machine/sim confg
-		EModStartupGUI startup =new EModStartupGUI();
-		startup.loadMachineGUI();
+		Shell startupShell = EModStartupGUI.loadMachineGUI(shell);
+		
+		startupShell.addDisposeListener(new DisposeListener() {
+			
+			@Override
+			public void widgetDisposed(DisposeEvent e) {
+				update();
+			}
+		});
 		
 		while(!shell.isDisposed()) {
 			if(!display.readAndDispatch()) {
@@ -126,6 +135,13 @@ public class EModGUI {
 	}
 	
 	
+	protected void update() {
+		model.update();
+		sim.update();
+		analysis.update();
+	}
+
+
 	/**
 	 * Initializes the main menu bar.
 	 */
@@ -229,17 +245,12 @@ public class EModGUI {
 		//final TabFolder tabFolder = new TabFolder(shell, SWT.NONE);
 		tabFolder = new TabFolder(shell, SWT.NONE);
 		
+		
 		//tab for machine model config
 		final TabItem tabModelItem = new TabItem(tabFolder, SWT.NONE);
 		tabModelItem.setText(LocalizationHandler.getItem("app.gui.tabs.mach"));
 		tabModelItem.setToolTipText(LocalizationHandler.getItem("app.gui.tabs.machtooltip"));
 		tabModelItem.setControl(initModel(tabFolder));
-		
-		//tab for machine model config
-		final TabItem tabModel2Item = new TabItem(tabFolder, SWT.NONE);
-		tabModel2Item.setText(LocalizationHandler.getItem("app.gui.tabs.mach"));
-		tabModel2Item.setToolTipText(LocalizationHandler.getItem("app.gui.tabs.machtooltip"));
-		tabModel2Item.setControl(initModel2(tabFolder));
 		
 		//tab for simulation config
 		final TabItem tabSimItem = new TabItem(tabFolder, SWT.NONE);
@@ -247,11 +258,6 @@ public class EModGUI {
 		tabSimItem.setToolTipText(LocalizationHandler.getItem("app.gui.tabs.simtooltip"));
 		final Composite tabSimControl = initSim(tabFolder);
 		tabSimItem.setControl(tabSimControl);
-		
-		//tab for thermal model config - not used at the moment
-		//TabItem tabThermalItem = new TabItem(tabFolder, SWT.NONE);
-		//tabThermalItem.setText(LocalizationHandler.getItem("app.gui.tabs.thermal"));
-		//tabThermalItem.setToolTipText(LocalizationHandler.getItem("app.gui.tabs.thermaltooltip"));
 
 		//tab for analysis
 		final TabItem tabAnalysisItem = new TabItem(tabFolder, SWT.NONE);
@@ -280,17 +286,10 @@ public class EModGUI {
 					logger.log(LogLevel.DEBUG, "updating simulation configuration tabs");
 		        }
 					
-				// manick: if tab Analysis is opened -> Run Simulation
 				if (tabFolder.getItem(tabFolder.getSelectionIndex()).equals(tabAnalysisItem))
-		        {/*
-					System.out.println("Simulation start initialization: Saving Machine and IOLinking");
-					// Save all
-					Machine.saveMachine(PropertiesHandler.getProperty("sim.MachineName"), PropertiesHandler.getProperty("sim.MachineConfigName"));
-					States.saveStates(PropertiesHandler.getProperty("sim.MachineName"), PropertiesHandler.getProperty("sim.SimulationConfigName"));
-					// manick: EModSimRun contains all the necessary commands to run a simulation
-					EModSimulationRun.EModSimRun();
-					logger.log(LogLevel.DEBUG, "simulation run");*/
+		        {
 					tabAnalysisControl.update();
+					logger.log(LogLevel.DEBUG, "updating analysis tabs");
 		        }
 			}
 		});
@@ -298,12 +297,11 @@ public class EModGUI {
 	
 	//manick: open ModelGUI in tab
 	private Composite initModel(TabFolder tabFolder){
-		model = new ModelGUI(tabFolder);
-		return model;
-	}
-	
-	private Composite initModel2(TabFolder tabFolder){
-		model = new ModelGraphGUI(tabFolder);
+		if(USE_GRAPHICAL_MODE)
+			model = new ModelGraphGUI(tabFolder);
+		else	
+			model = new ModelGUI(tabFolder);
+		
 		return model;
 	}
 	
@@ -370,8 +368,7 @@ public class EModGUI {
 	 */
 	class fileNewItemListener implements SelectionListener {
 		public void widgetSelected(SelectionEvent event) {
-			EModStartupGUI startup = new EModStartupGUI();
-			startup.createNewMachineGUI();
+			EModStartupGUI.createNewMachineGUI();
 		}
 		public void widgetDefaultSelected(SelectionEvent event) {
 			// Not used
@@ -441,7 +438,7 @@ public class EModGUI {
 	 */
 	class fileOpenItemListener implements SelectionListener {
 		public void widgetSelected(SelectionEvent event) {
-			logger.log(LogLevel.DEBUG, "menu open item selected");
+			/*logger.log(LogLevel.DEBUG, "menu open item selected");
 			FileDialog fd = new FileDialog(shell, SWT.OPEN);
 	        fd.setText(LocalizationHandler.getItem("app.gui.open"));
 	        fd.setFilterPath("C:/");
@@ -461,7 +458,17 @@ public class EModGUI {
 			for(MachineComponent mc:mclist){
 				ModelGUI.addTableItem(mc, i);
 				i++;
-			}
+			}*/
+			
+			Shell startupShell = EModStartupGUI.loadMachineGUI(shell);
+			
+			startupShell.addDisposeListener(new DisposeListener() {
+				
+				@Override
+				public void widgetDisposed(DisposeEvent e) {
+					update();
+				}
+			});
 	        
 		}
 

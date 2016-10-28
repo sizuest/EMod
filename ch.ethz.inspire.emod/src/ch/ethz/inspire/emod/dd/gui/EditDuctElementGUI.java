@@ -2,6 +2,8 @@ package ch.ethz.inspire.emod.dd.gui;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionEvent;
@@ -20,9 +22,9 @@ import org.eclipse.swt.widgets.TableItem;
 
 import ch.ethz.inspire.emod.dd.model.ADuctElement;
 import ch.ethz.inspire.emod.dd.model.AHydraulicProfile;
+import ch.ethz.inspire.emod.dd.model.Isolation;
 import ch.ethz.inspire.emod.gui.AConfigGUI;
 import ch.ethz.inspire.emod.gui.utils.TableUtils;
-import ch.ethz.inspire.emod.model.fluid.Isolation;
 
 import ch.ethz.inspire.emod.model.parameters.ParameterSet;
 import ch.ethz.inspire.emod.model.units.SiUnit;
@@ -74,18 +76,33 @@ public class EditDuctElementGUI  extends AConfigGUI{
     }
     
     public static Shell editDuctElementGUI(Shell parent, ADuctElement element) {
-		final Shell shell = new Shell(parent, SWT.APPLICATION_MODAL| SWT.CLOSE | SWT.MAX);
+		final Shell shell = new Shell(parent, SWT.APPLICATION_MODAL| SWT.CLOSE | SWT.MAX | SWT.RESIZE);
 		shell.setLayout(new GridLayout(1, true));
 		
-		EditDuctElementGUI gui = new EditDuctElementGUI(shell, SWT.NONE, element);
+		final EditDuctElementGUI gui = new EditDuctElementGUI(shell, SWT.NONE, element);
 		
 		shell.setText(LocalizationHandler.getItem("app.dd.elemet.gui.titel")+" "+element.getName());
-		
+
 		shell.pack();
-		
 		shell.layout();
-		shell.redraw();
 		shell.open();
+		
+		shell.setSize(shell.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		
+		shell.addControlListener(new ControlListener() {
+			
+			@Override
+			public void controlResized(ControlEvent e) {
+				gui.layout();
+			}
+			
+			@Override
+			public void controlMoved(ControlEvent e) {
+				gui.layout();
+			}
+		});
+		
+		
 		gui.addDisposeListener(new DisposeListener() {
 			@Override
 			public void widgetDisposed(DisposeEvent e) {
@@ -140,7 +157,6 @@ public class EditDuctElementGUI  extends AConfigGUI{
     	
     	TableItem itemIsolation  = tableProperties.getItem(2);
     	TableEditor editorButton = new TableEditor(tableProperties);
-    	Image imageEdit          = new Image(Display.getDefault(), "src/resources/Edit16.gif");
     	
     	itemIsolation.setText(0, LocalizationHandler.getItem("app.dd.elemet.gui.isolation"));
         if(null==isolationNew)
@@ -156,7 +172,7 @@ public class EditDuctElementGUI  extends AConfigGUI{
         
         editorButton = new TableEditor(tableProperties);
     	Button buttonEditIsolation = new Button(tableProperties, SWT.NONE);
-    	buttonEditIsolation.setImage(imageEdit);
+    	buttonEditIsolation.setText("...");
     	buttonEditIsolation.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, true, 1, 1));
     	buttonEditIsolation.addSelectionListener(new SelectionListener(){
         	public void widgetSelected(SelectionEvent event){
@@ -206,8 +222,7 @@ public class EditDuctElementGUI  extends AConfigGUI{
     	itemProfile.setText(2, (new SiUnit("m")).toString()); 
     	
     	Button buttonEditProfile = new Button(tableProperties, SWT.NONE);
-    	Image imageEdit = new Image(Display.getDefault(), "src/resources/Edit16.gif");
-    	buttonEditProfile.setImage(imageEdit);
+    	buttonEditProfile.setText("...");
     	buttonEditProfile.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, true, 1, 1));
     	buttonEditProfile.addSelectionListener(new SelectionListener(){
         	public void widgetSelected(SelectionEvent event){

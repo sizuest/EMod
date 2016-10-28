@@ -1,28 +1,40 @@
+/***********************************
+ * $Id$
+ *
+ * $URL$
+ * $Author$
+ * $Date$
+ * $Rev$
+ *
+ * Copyright (c) 2011 by Inspire AG, ETHZ
+ * All rights reserved
+ *
+ ***********************************/
+
 package ch.ethz.inspire.emod.dd.gui;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.ControlEditor;
-import org.eclipse.swt.custom.TableCursor;
 import org.eclipse.swt.custom.TableEditor;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
+import ch.ethz.inspire.emod.dd.model.Isolation;
 import ch.ethz.inspire.emod.gui.AConfigGUI;
 import ch.ethz.inspire.emod.gui.SelectMaterialGUI;
 import ch.ethz.inspire.emod.gui.utils.TableUtils;
-import ch.ethz.inspire.emod.model.fluid.Isolation;
 import ch.ethz.inspire.emod.model.parameters.ParameterSet;
 import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
@@ -61,34 +73,37 @@ public class EditDuctIsolationGUI extends AConfigGUI{
 			column.setText(titles[i]);
 			column.setWidth(32);
 		}
-		
-	    final TableCursor cursor = new TableCursor(tableProperties, SWT.NONE);
-	    final ControlEditor editor = new ControlEditor(cursor);
-	    editor.grabHorizontal = true;
-	    editor.grabVertical = true;
-	    
-	    try {
-			TableUtils.addCellEditor(tableProperties, this, new int[]{1});
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	    
 	    updatePropertyTable();
 	}
 	
 	public static Shell editDuctIsolationGUI(Shell parent, Isolation isolation) {
-		final Shell shell = new Shell(parent, SWT.TITLE|SWT.SYSTEM_MODAL| SWT.CLOSE | SWT.MAX);
+		final Shell shell = new Shell(parent, SWT.SYSTEM_MODAL| SWT.CLOSE | SWT.MAX| SWT.RESIZE);
 		shell.setLayout(new GridLayout());
 		
-		EditDuctIsolationGUI gui = new EditDuctIsolationGUI(shell, SWT.NONE, isolation);
+		final EditDuctIsolationGUI gui = new EditDuctIsolationGUI(shell, SWT.NONE, isolation);
 		
 		shell.setText(LocalizationHandler.getItem("app.dd.elemet.gui.isolation.titel"));
 		
-		shell.pack();
-		
 		shell.layout();
-		shell.redraw();
 		shell.open();
+		shell.layout();
+		
+		shell.setSize(shell.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		
+		shell.addControlListener(new ControlListener() {
+			
+			@Override
+			public void controlResized(ControlEvent e) {
+				gui.layout();
+			}
+			
+			@Override
+			public void controlMoved(ControlEvent e) {
+				gui.layout();
+			}
+		});
+		
 		gui.addDisposeListener(new DisposeListener() {
 			@Override
 			public void widgetDisposed(DisposeEvent e) {
@@ -112,10 +127,19 @@ public class EditDuctIsolationGUI extends AConfigGUI{
 	private void updatePropertyTable() {
 		if(null!=buttonEditMaterial)
 			buttonEditMaterial.dispose();
-			
 		
 		tableProperties.clearAll();
     	tableProperties.setItemCount(0);
+    	
+    	for(Control c: tableProperties.getChildren())
+    		c.dispose();
+			
+		
+		try {
+			TableUtils.addCellEditor(tableProperties, this, new int[]{1});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     	
     	new TableItem(tableProperties, SWT.NONE, 0); //Material
     	updateIsolationItem();
@@ -128,13 +152,23 @@ public class EditDuctIsolationGUI extends AConfigGUI{
         	itemParam.setText(1, parameters.getPhysicalValue(key).getValue()+"");
         	itemParam.setText(2, parameters.getPhysicalValue(key).getUnit().toString());
         	
+        }   
+        
+        for(int i=0; i<3; i++){
+        	final int idx = tableProperties.getItemCount();
+        	final TableItem itemParam = new TableItem(tableProperties, SWT.NONE, idx);
+        	itemParam.setText(0, "");
         }
         
         TableColumn[] columns = tableProperties.getColumns();
         for (int j = 0; j < columns.length; j++) {
         	columns[j].pack();
-        }
-		
+        }         
+        
+        this.pack();
+        this.layout();
+        this.getShell().pack();
+        this.getShell().layout();
 	}
 	
 	private void updateIsolationItem(){
@@ -149,8 +183,7 @@ public class EditDuctIsolationGUI extends AConfigGUI{
     	TableEditor editorButton = new TableEditor(tableProperties);
     	
     	buttonEditMaterial = new Button(tableProperties, SWT.NONE);
-    	Image imageEdit = new Image(Display.getDefault(), "src/resources/Edit16.gif");
-    	buttonEditMaterial.setImage(imageEdit);
+    	buttonEditMaterial.setText("...");
     	buttonEditMaterial.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, true, 1, 1));
     	buttonEditMaterial.addSelectionListener(new SelectionListener(){
         	public void widgetSelected(SelectionEvent event){

@@ -53,16 +53,18 @@ public class ConfigReader {
          *    <entry key="parameter2">12, 13, 14</entry>
          *  </properties>
 		 */
-		InputStream iostream = new FileInputStream(fileName);
-		props = new Properties();
+		
 		try {
+			InputStream iostream = new FileInputStream(fileName);
+			props = new Properties();
 			props.loadFromXML(iostream);
+			iostream.close();
 		} catch (Exception e) {
 			throw new Exception("Error in reading properties from file '"+fileName+
-					"' bad format. \n"
-					+e.getMessage());
+						"' bad format. \n"
+						+e.getMessage());
 		}
-		iostream.close();
+		
 	}
 	
 	/**

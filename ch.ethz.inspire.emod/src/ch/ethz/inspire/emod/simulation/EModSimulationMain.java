@@ -126,7 +126,7 @@ public class EModSimulationMain {
 				}
 				
 			}
-			else if (sc.getClass() == GeometricKienzleSimulationControl.class) {
+			else if (sc instanceof GeometricKienzleSimulationControl) {
 				/* Set and calculate the process moments for the Kienzle simulators */
 				((GeometricKienzleSimulationControl) sc).installKienzleInputParameters(Process.getInstance());
 			}

@@ -53,11 +53,10 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 	 * @param unit 
 	 * @throws Exception 
 	 */
-	public GeometricKienzleSimulationControl(String name, Unit unit) throws Exception {
+	public GeometricKienzleSimulationControl(String name, SiUnit unit) throws Exception {
 		super(name, new SiUnit(Unit.NEWTONMETER));
 		this.simulationPeriod = -1;
-		if (!unit.equals(Unit.NEWTON))
-			throw new Exception("Kienzle unit violation: unit must be NEWTON");
+		
 		readConfigFromFile();
 	}
 	
@@ -128,7 +127,6 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 			
 		} catch(Exception e) {
 			e.printStackTrace();
-			System.exit(-1);
 		}
 	}
 	
@@ -163,7 +161,6 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			System.exit(-1);
 		}
 		/* Check length */
 		if( (!d_name.matches("NONE") && (n.length!=v.length)) || 
@@ -171,20 +168,15 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 			 ap.length!=v.length) {
 			Exception ex = new Exception("input violation: params must have same length");
 			ex.printStackTrace();
-			System.exit(-1);
 		}
 		
 		for(int i=0; i<n.length; i++){
 			// TODO: check units
 			if ( !n_name.matches("NONE") ) {
 				if (0==n[i]) v[i] = 0;
-				else         v[i] = v[i]/(n[i]);  // mm/min -> mm/U
-				n[i] = n[i]/60;      // 1/min -> 1/s
+				else         v[i] = v[i]/(n[i])*1000;  // m/s -> mm/U
 			}
-			if ( !d_name.matches("NONE") ) 
-				d[i] = d[i]/1000;    // mm -> m
 			
-			ap[i] = ap[i];       // mm -> mm
 			v[i]  = Math.abs(v[i]);
 		}
 		

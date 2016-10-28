@@ -313,7 +313,7 @@ public class Spindle extends APhysicalComponent implements Floodable{
 		// Thermal resistance
 		alphaCoolant = coolingDuct.getThermalResistance(fluidProperties.getFlowRate(), 
 				fluidProperties.getPressureIn(), 
-				coolant.getTemperature().getValue(), 
+				fluidProperties.getTemperatureIn(), 
 				structure.getTemperature().getValue());
 				
 		

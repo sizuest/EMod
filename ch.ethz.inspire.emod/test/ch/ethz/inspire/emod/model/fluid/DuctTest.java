@@ -9,6 +9,7 @@ import ch.ethz.inspire.emod.dd.model.ADuctElement;
 import ch.ethz.inspire.emod.dd.model.DuctDrilling;
 import ch.ethz.inspire.emod.dd.model.DuctHelix;
 import ch.ethz.inspire.emod.dd.model.HPRectangular;
+import ch.ethz.inspire.emod.dd.model.Isolation;
 import ch.ethz.inspire.emod.model.material.Material;
 
 public class DuctTest {

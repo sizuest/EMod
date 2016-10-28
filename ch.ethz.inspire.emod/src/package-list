@@ -1,9 +1,16 @@
 ch.ethz.inspire.emod
+ch.ethz.inspire.emod.dd
+ch.ethz.inspire.emod.dd.gui
+ch.ethz.inspire.emod.dd.model
 ch.ethz.inspire.emod.gui
+ch.ethz.inspire.emod.gui.graph
 ch.ethz.inspire.emod.gui.utils
 ch.ethz.inspire.emod.model
 ch.ethz.inspire.emod.model.control
+ch.ethz.inspire.emod.model.fluid
+ch.ethz.inspire.emod.model.material
 ch.ethz.inspire.emod.model.math
+ch.ethz.inspire.emod.model.parameters
 ch.ethz.inspire.emod.model.thermal
 ch.ethz.inspire.emod.model.units
 ch.ethz.inspire.emod.simulation

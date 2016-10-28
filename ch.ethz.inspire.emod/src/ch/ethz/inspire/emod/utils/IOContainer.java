@@ -133,4 +133,12 @@ public class IOContainer {
 	public boolean hasReference(){
 		return !this.equals(getReference());
 	}
+	
+	/**
+	 * Sets the name of the sc
+	 * @param name
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
 }

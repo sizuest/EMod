@@ -128,7 +128,7 @@ public class SiUnitDefinition {
 		convMap.put("°C",  (new SiUnit("K")));
 		convMap.put("lm",  (new SiUnit("cd")));
 		convMap.put("lx",  (new SiUnit("m^-2 cd")));
-		convMap.put("Bq",  (new SiUnit("s^-1")));
+		//convMap.put("Bq",  (new SiUnit("s^-1")));
 		convMap.put("Gy",  (new SiUnit("m^2 s^-2")));
 		convMap.put("Sv",  (new SiUnit("m^2 s^-2")));
 		convMap.put("kat", (new SiUnit("mol s^-1")));

@@ -86,7 +86,7 @@ public abstract class ASimulationControl {
 	 * 
 	 * @param file each {@link MachineState} is represented by one line MachineState_state=SimState ; e.g. READY_state=ON
 	 */
-	protected void readConfig() {
+	public void readConfig() {
 		logger.log(LogLevel.DEBUG, "reading state mapping for: "+this.getClass().getSimpleName()+"_"+name);
 		
 		stateMap = new EnumMap<MachineState, ComponentState>(MachineState.class);
@@ -153,6 +153,7 @@ public abstract class ASimulationControl {
 	 */
 	public void setName(String name) {
 		this.name = name;
+		simulationOutput.setName(name);
 	}
 		
 	public IOContainer getOutput() {
@@ -165,5 +166,9 @@ public abstract class ASimulationControl {
 	
 	public void setPosition(GraphElementPosition position){
 		this.position = position;
+	}
+	
+	public String getType(){
+		return this.getClass().getCanonicalName().replace("ch.ethz.inspire.emod.simulation.", "");
 	}
 }

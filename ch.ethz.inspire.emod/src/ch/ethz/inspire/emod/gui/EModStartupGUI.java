@@ -2,8 +2,6 @@ package ch.ethz.inspire.emod.gui;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -14,12 +12,11 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 import ch.ethz.inspire.emod.Machine;
-import ch.ethz.inspire.emod.model.MachineComponent;
-import ch.ethz.inspire.emod.simulation.ASimulationControl;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
@@ -27,27 +24,30 @@ public class EModStartupGUI {
 	private static Shell shell;
 	
 	//Combo to let the user select the MachineConfig
-	private Combo comboMachineName;
+	private static Combo comboMachineName;
 	//name of the MachineConfig from the last use of EMod from app.config
-	private String machineName;
+	private static String machineName;
 	
 	//Combo to let the user select the SimConfig
-	private Combo comboMachineConfigName, comboSimConfigName, comboProcName;
-	//name of the SimConfig from the last use of EMod from app.config
-	private String machineConfigName, simConfigName, procName;
-	
-	//start the StartupGUI and initialize all needed content
-	public EModStartupGUI(){
+	private static Combo comboMachineConfigName;
 
-	}
+	private static Combo comboSimConfigName;
+
+	private static Combo comboProcName;
+	//name of the SimConfig from the last use of EMod from app.config
+	private static String machineConfigName;
+
+	private static String simConfigName;
+
+	private static String procName;
 	
  	/**
 	 * window to load existing machine configuration
 	 */
-	protected void loadMachineGUI(){
+	protected static Shell loadMachineGUI(Shell parent){
 		
 		//new shell in style modal to prevent user from skipping window
-		shell = new Shell(Display.getCurrent(),SWT.APPLICATION_MODAL);
+		shell = new Shell(parent,SWT.APPLICATION_MODAL);
 		shell.setText("EMod startup");
 		shell.setLayout(new GridLayout(2, true));
 		
@@ -58,7 +58,7 @@ public class EModStartupGUI {
 		procName          = PropertiesHandler.getProperty("sim.ProcessName");
 		
 		//text load machine config
-		Text textLoadMachConfig = new Text(shell, SWT.READ_ONLY | SWT.LEFT);
+		Label textLoadMachConfig = new Label(shell, SWT.TRANSPARENT);
 		textLoadMachConfig.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		textLoadMachConfig.setText(LocalizationHandler.getItem("app.gui.startup.machinename"));
 	
@@ -103,7 +103,7 @@ public class EModStartupGUI {
     	});
 
 		//text load machine config
-		Text textLoadMachineConfig = new Text(shell, SWT.READ_ONLY | SWT.LEFT);
+		Label textLoadMachineConfig = new Label(shell, SWT.TRANSPARENT);
 		textLoadMachineConfig.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		textLoadMachineConfig.setText(LocalizationHandler.getItem("app.gui.startup.machineconfigname"));
 
@@ -116,7 +116,7 @@ public class EModStartupGUI {
 		comboMachineConfigName.setText(machineConfigName);
 		
 		//text load simulation config
-		Text textLoadSimConfig = new Text(shell, SWT.READ_ONLY | SWT.LEFT);
+		Label textLoadSimConfig = new Label(shell, SWT.TRANSPARENT);
 		textLoadSimConfig.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		textLoadSimConfig.setText(LocalizationHandler.getItem("app.gui.startup.simulationconfigname"));
 
@@ -149,7 +149,7 @@ public class EModStartupGUI {
 		});
 		
 		//text load process config
-		Text textLoadProcConfig = new Text(shell, SWT.READ_ONLY | SWT.LEFT);
+		Label textLoadProcConfig = new Label(shell, SWT.TRANSPARENT);
 		textLoadProcConfig.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		textLoadProcConfig.setText(LocalizationHandler.getItem("app.gui.startup.processconfigname"));
 
@@ -161,9 +161,29 @@ public class EModStartupGUI {
 		//prefill the last used process as default value into the combo
 		comboProcName.setText(procName);
 
-		//Button to continue (exit the window, load the selected configuration)
+		
+	
+    	//Button to create a new machine
+    	Button buttonNew = new Button(shell, SWT.NONE);
+		buttonNew.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
+		buttonNew.setText(LocalizationHandler.getItem("app.gui.startup.newmachine"));
+    	buttonNew.addSelectionListener(new SelectionListener(){
+    	public void widgetSelected(SelectionEvent event){
+    			//open new window to input the desired machine name and config name
+    			createNewMachineGUI();
+    		
+    			shell.close();
+    			System.out.println("New Simulation started");
+
+    		}
+    		public void widgetDefaultSelected(SelectionEvent event){
+    			// Not used
+    		}
+    	});
+    	
+    	//Button to continue (exit the window, load the selected configuration)
 		Button buttonContinue = new Button(shell, SWT.NONE);
-		buttonContinue.setLayoutData(new GridData(SWT.END, SWT.CENTER, true, false, 2, 1));
+		buttonContinue.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
 		buttonContinue.setText(LocalizationHandler.getItem("app.gui.continue"));
     	buttonContinue.addSelectionListener(new SelectionListener(){
     	public void widgetSelected(SelectionEvent event){
@@ -195,24 +215,6 @@ public class EModStartupGUI {
     			// Not used
     		}
     	});
-	
-    	//Button to create a new machine
-    	Button buttonNew = new Button(shell, SWT.NONE);
-		buttonNew.setLayoutData(new GridData(GridData.END, GridData.CENTER, true, false, 2, 1));
-		buttonNew.setText(LocalizationHandler.getItem("app.gui.startup.newmachine"));
-    	buttonNew.addSelectionListener(new SelectionListener(){
-    	public void widgetSelected(SelectionEvent event){
-    			//open new window to input the desired machine name and config name
-    			createNewMachineGUI();
-    		
-    			shell.close();
-    			System.out.println("New Simulation started");
-
-    		}
-    		public void widgetDefaultSelected(SelectionEvent event){
-    			// Not used
-    		}
-    	});
     	
 		shell.pack();
 	
@@ -230,12 +232,14 @@ public class EModStartupGUI {
 	
     	//open the new shell
 		shell.open();
+		
+		return shell;
 	}
 	
  	/**
 	 * window to create a new machine configuration
 	 */
-	protected void createNewMachineGUI() {
+	protected static void createNewMachineGUI() {
 		final Shell shellCreateMachine = new Shell(Display.getCurrent(),SWT.APPLICATION_MODAL);
 		shellCreateMachine.setText("EMod startup");
 		shellCreateMachine.setLayout(new GridLayout(2, true));
@@ -304,7 +308,7 @@ public class EModStartupGUI {
 	 * @param machine	name of the machine to add
 	 * @param config	name of the machine conifguration to add
 	 */
-	protected void createNewMachine(String machine, String config) {
+	protected static void createNewMachine(String machine, String config) {
 		//clear machine and table
 		ModelGUI.clearTable();		
 		
@@ -342,7 +346,7 @@ public class EModStartupGUI {
 	 * update the comboMachineConfigName according to the selection of comboMachineName
 	 * @param stringMachConfig	update the selection of possible machine conifgurations
 	 */
-    protected void updatecomboMachineConfigName(String stringMachConfig){
+    protected static void updatecomboMachineConfigName(String stringMachConfig){
     	String path = PropertiesHandler.getProperty("app.MachineDataPathPrefix") + "/" + stringMachConfig + "/MachineConfig/";
     	File subdir = new File(path);
     	
@@ -360,7 +364,7 @@ public class EModStartupGUI {
 	}
     
    //update the comboSimConfigName according to the selection of comboMachineName
-    protected void updatecomboSimConfigName(String stringMachConfig){
+    protected static void updatecomboSimConfigName(String stringMachConfig){
     	String path = PropertiesHandler.getProperty("app.MachineDataPathPrefix") + "/" + stringMachConfig + "/SimulationConfig/";
     	File subdir = new File(path);
     	
@@ -378,7 +382,7 @@ public class EModStartupGUI {
 	}
     
     //update the comboProcName according to the selection of comboMachineName
-    protected void updatecomboProcName(String stringMachConfig, String stringSimConfig){
+    protected static void updatecomboProcName(String stringMachConfig, String stringSimConfig){
     	String path = PropertiesHandler.getProperty("app.MachineDataPathPrefix") + "/" + stringMachConfig + "/SimulationConfig/" + stringSimConfig;
     	File files = new File(path);
     	
@@ -404,33 +408,9 @@ public class EModStartupGUI {
 	 * @param machine	name of the machine to load
 	 * @param config	name of the configuration to load
 	 */   
-    public void loadMachineModelConfig(String machine, String config){
+    public static void loadMachineModelConfig(String machine, String config){
 		// Build machine: Read and check machine configuration
 		Machine.buildMachine(machine, config);
-		ArrayList<MachineComponent> mclist = Machine.getInstance().getMachineComponentList();
-		List<ASimulationControl> sclist = Machine.getInstance().getInputObjectList();
-
-		//add the components to the table in the model gui tab
-		int i = 0;
-		for(MachineComponent mc:mclist){
-			ModelGUI.addTableItem(mc, i);
-			i++;
-		}
-		for(ASimulationControl sc:sclist){
-			ModelGUI.addTableItem(sc, i);
-			i++;
-		}
-
-		for(MachineComponent mc:mclist){
-			ModelGraphGUI.addGraphItem(mc);
-		}
-		for(ASimulationControl sc:sclist){
-			ModelGraphGUI.addGraphItem(sc);
-		}
-		
-		ModelGraphGUI.redrawConnections();
-		
-		// update table to resize the columns
-		ModelGUI.updateTable();
     }
+ 
 }

@@ -15,6 +15,7 @@ package ch.ethz.inspire.emod.gui;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.nio.file.CopyOption;
 import java.nio.file.Files;
@@ -22,8 +23,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DragSource;
 import org.eclipse.swt.dnd.DragSourceEvent;
@@ -33,9 +36,12 @@ import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.DropTargetListener;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseWheelListener;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -52,13 +58,13 @@ import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.gui.graph.AGraphElement;
 import ch.ethz.inspire.emod.gui.graph.AIONode;
 import ch.ethz.inspire.emod.gui.graph.ConnectionLine;
-import ch.ethz.inspire.emod.gui.graph.DoubleClickEventHandler;
 import ch.ethz.inspire.emod.gui.graph.GraphElementPosition;
+import ch.ethz.inspire.emod.gui.graph.GraphEventHandler;
+import ch.ethz.inspire.emod.gui.graph.GraphMidMouseEventHandler;
 import ch.ethz.inspire.emod.gui.graph.InputNode;
-import ch.ethz.inspire.emod.gui.graph.DragEventHandler;
+import ch.ethz.inspire.emod.gui.graph.KeyEventHandler;
 import ch.ethz.inspire.emod.gui.graph.MachineComponentGraphElement;
 import ch.ethz.inspire.emod.gui.graph.OutputNode;
-import ch.ethz.inspire.emod.gui.graph.GraphMidMouseEventHandler;
 import ch.ethz.inspire.emod.gui.graph.SimulationControlGraphElement;
 import ch.ethz.inspire.emod.gui.utils.MachineComponentHandler;
 import ch.ethz.inspire.emod.model.MachineComponent;
@@ -71,7 +77,7 @@ import ch.ethz.inspire.emod.utils.LocalizationHandler;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 /**
- * @author manick
+ * @author sizuest
  *
  */
 
@@ -87,12 +93,15 @@ public class ModelGraphGUI extends AGUITab {
 	
 	private static PSelectionEventHandler selectionEventHandler;
 	
+	private static SashForm form;
+	
+	
 	/**
 	 * @param parent
 	 */
 	public ModelGraphGUI(Composite parent) {
 		super(parent, SWT.NONE);
-		this.setLayout(new GridLayout(3, true));
+		this.setLayout(new GridLayout(1, true));
 		init();
 	}
 
@@ -101,12 +110,21 @@ public class ModelGraphGUI extends AGUITab {
 	 */ 	
 	private void initLayout() {
 		
+		// Resizable form
+		form = new SashForm(this, SWT.FILL);
+	    form.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		form.setLayout(new GridLayout(3, false));
+		
+		
 		//set model graph on the left side of the tab model for the machine conifg
-		canvasModelGraph = new PSWTCanvas(this, SWT.BORDER);
+		canvasModelGraph = new PSWTCanvas(form, SWT.BORDER);
 		canvasModelGraph.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 		
-		// Drag handler
+		// Remove standart handlers
 		canvasModelGraph.removeInputEventListener(canvasModelGraph.getPanEventHandler());
+		canvasModelGraph.removeInputEventListener(canvasModelGraph.getZoomEventHandler());
+		
+		// Drag handler
 		canvasModelGraph.addInputEventListener(new GraphMidMouseEventHandler());
 		
 		//Add mouse zoom
@@ -122,22 +140,38 @@ public class ModelGraphGUI extends AGUITab {
 		});
 		
 		//Add Seclection
-		selectionEventHandler = new DragEventHandler(canvasModelGraph.getLayer(), canvasModelGraph.getLayer());
+		selectionEventHandler = new GraphEventHandler(canvasModelGraph.getLayer(), canvasModelGraph.getLayer(), this.getShell());
 		canvasModelGraph.addInputEventListener(selectionEventHandler);
 		canvasModelGraph.getRoot().getDefaultInputManager().setKeyboardFocus(selectionEventHandler);
 		
-		// Add double click handler
-		canvasModelGraph.addInputEventListener(new DoubleClickEventHandler());
+		// Add key press handler
+		canvasModelGraph.addKeyListener(new KeyEventHandler(this));
 	
 
 		//set tabfolder on the right side of the tab model for the component DB and for the inputs
-		tabFolder = new TabFolder(this, SWT.NONE);
+		tabFolder = new TabFolder(form, SWT.NONE);
 		tabFolder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		
 		initTabCompDB(tabFolder);
 		initTabInputs(tabFolder);
 		initTabMath(tabFolder);
 		
+		canvasModelGraph.addControlListener(new ControlListener() {
+			
+			@Override
+			public void controlResized(ControlEvent e) {
+				Rectangle bounds = canvasModelGraph.getBounds();
+				canvasModelGraph.getCamera().startResizeBounds();
+				canvasModelGraph.getCamera().setBounds(bounds.x, bounds.y, bounds.width, bounds.height);
+				canvasModelGraph.getCamera().endResizeBounds();
+			}
+			
+			@Override
+			public void controlMoved(ControlEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
      }    
 
 	/**
@@ -334,6 +368,9 @@ public class ModelGraphGUI extends AGUITab {
 		        
 		        //get position of the drop		        
 				Point p = event.display.map(null, modelGraph, event.x, event.y);
+				//Point p = event.display.map(modelGraph, canvasModelGraph, event.x, event.y);
+				
+				System.out.println(p.toString());
 		        
 		        if (string.contains("SimulationControl")){
 					//create new simulation control
@@ -361,7 +398,7 @@ public class ModelGraphGUI extends AGUITab {
 					final ASimulationControl sc = Machine.addNewInputObject(string, new SiUnit(Unit.NONE));
 					
 					//add the machine component to the table
-					addGraphItem(sc, new GraphElementPosition(p));
+					addGraphItem(sc, new GraphElementPosition(p, canvasModelGraph));
 		        }
 				
 				else if(string.contains("ThermalTest")){
@@ -382,7 +419,7 @@ public class ModelGraphGUI extends AGUITab {
 			        	return;
 			        
 			        //add the machine component to the table
-			        addGraphItem(mc, new GraphElementPosition(p));
+			        addGraphItem(mc, new GraphElementPosition(p, canvasModelGraph));
 		        }
 
 
@@ -405,6 +442,8 @@ public class ModelGraphGUI extends AGUITab {
         	p = new GraphElementPosition(0, 0);
         
 		composite.setOffset(p.get());
+		
+
 	}
 	
 	/**
@@ -464,6 +503,24 @@ public class ModelGraphGUI extends AGUITab {
 	public void update() {
 		updateTabCompDB();	
 		initTabCompDB(tabFolder);
+		
+		for(MachineComponentGraphElement ge: machineComponents)
+			canvasModelGraph.getLayer().removeChild(ge);
+		
+		for(SimulationControlGraphElement ge: simulationControls)
+			canvasModelGraph.getLayer().removeChild(ge);
+		
+		ArrayList<MachineComponent> mclist = Machine.getInstance().getMachineComponentList();
+		List<ASimulationControl> sclist = Machine.getInstance().getInputObjectList();
+
+		for(MachineComponent mc:mclist){
+			ModelGraphGUI.addGraphItem(mc);
+		}
+		for(ASimulationControl sc:sclist){
+			ModelGraphGUI.addGraphItem(sc);
+		}
+		
+		ModelGraphGUI.redrawConnections();
 	}
 	
 
@@ -472,6 +529,33 @@ public class ModelGraphGUI extends AGUITab {
 		PCamera camera = canvasModelGraph.getCamera();
 
         camera.setViewScale(camera.getViewScale()+level * 0.01);
+	}
+	
+	/**
+	 * Sets the zoom level, such that all elements are visible
+	 */
+	public void showAll(){
+		double xMin = Double.POSITIVE_INFINITY, 
+			   xMax = Double.NEGATIVE_INFINITY, 
+			   yMin = Double.POSITIVE_INFINITY,
+			   yMax = Double.NEGATIVE_INFINITY;
+		
+		for(MachineComponentGraphElement mc: machineComponents){
+			xMin = Math.min(xMin, mc.getGlobalFullBounds().x);
+			xMax = Math.max(xMax, mc.getGlobalFullBounds().x+mc.getGlobalFullBounds().width);
+			yMin = Math.min(yMin, mc.getGlobalFullBounds().y);
+			yMax = Math.max(yMax, mc.getGlobalFullBounds().y+mc.getGlobalFullBounds().height);
+		}
+		
+		for(SimulationControlGraphElement sc: simulationControls){
+			xMin = Math.min(xMin, sc.getGlobalFullBounds().x);
+			xMax = Math.max(xMax, sc.getGlobalFullBounds().x+sc.getGlobalFullBounds().width);
+			yMin = Math.min(yMin, sc.getGlobalFullBounds().y);
+			yMax = Math.max(yMax, sc.getGlobalFullBounds().y+sc.getGlobalFullBounds().height);
+		}
+		
+		canvasModelGraph.getCamera().setViewBounds(new Rectangle2D.Double(xMin, yMin, xMax-xMin, yMax-yMin));
+		
 	}
 	
 	public static void drawIOConnection(IOConnection ioc){
@@ -563,7 +647,7 @@ public class ModelGraphGUI extends AGUITab {
 		
 		return null;
 	}
-	
+
 	public static void saveElementPositions(){
 		ArrayList<AGraphElement> elements = new ArrayList<AGraphElement>();
 		
@@ -591,7 +675,6 @@ public class ModelGraphGUI extends AGUITab {
 		default:
 			return Color.BLACK;
 	}
-	}
-	
+	}	
 	
 }

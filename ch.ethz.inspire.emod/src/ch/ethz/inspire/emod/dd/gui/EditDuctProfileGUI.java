@@ -3,6 +3,8 @@ package ch.ethz.inspire.emod.dd.gui;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.TableEditor;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionEvent;
@@ -73,18 +75,35 @@ public class EditDuctProfileGUI extends AConfigGUI{
     }
     
     public static Shell editDuctProfileGUI(Shell parent, ADuctElement element) {
-		final Shell shell = new Shell(parent, SWT.SYSTEM_MODAL| SWT.CLOSE | SWT.MAX);
+		final Shell shell = new Shell(parent, SWT.SYSTEM_MODAL| SWT.CLOSE | SWT.MAX | SWT.RESIZE);
 		shell.setLayout(new GridLayout());
 		
-		EditDuctProfileGUI gui = new EditDuctProfileGUI(shell, SWT.NONE, element);
+		final EditDuctProfileGUI gui = new EditDuctProfileGUI(shell, SWT.NONE, element);
 		
 		shell.setText(LocalizationHandler.getItem("app.dd.elemet.gui.profile.title")+": "+element.getName());
 		
+		gui.getContent().layout();
+		gui.layout();
+				
 		shell.pack();
-		
 		shell.layout();
-		shell.redraw();
 		shell.open();
+		
+		shell.setSize(shell.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		
+		shell.addControlListener(new ControlListener() {
+			
+			@Override
+			public void controlResized(ControlEvent e) {
+				gui.layout();
+			}
+			
+			@Override
+			public void controlMoved(ControlEvent e) {
+				gui.layout();
+			}
+		});
+		
 		gui.addDisposeListener(new DisposeListener() {
 			@Override
 			public void widgetDisposed(DisposeEvent e) {
@@ -159,6 +178,7 @@ public class EditDuctProfileGUI extends AConfigGUI{
         	itemParam.setText(2, allParameters.getPhysicalValue(key).getUnit().toString());
         }
         
+        
         for(int i=0; i<allParameters.getParameterSet().size()-this.profileNew.getParameterSet().getParameterSet().size(); i++){
         	final int idx = tableProperties.getItemCount();
         	final TableItem itemParam = new TableItem(tableProperties, SWT.NONE, idx);
@@ -171,6 +191,8 @@ public class EditDuctProfileGUI extends AConfigGUI{
         for (int j = 0; j < columns.length; j++) {
         	columns[j].pack();
         }
+        
+        this.layout();
     }
 
 	@Override

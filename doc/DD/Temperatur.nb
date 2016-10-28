@@ -1,0 +1,160 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.4' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      4428,        152]
+NotebookOptionsPosition[      3899,        129]
+NotebookOutlinePosition[      4235,        144]
+CellTagsIndexPosition[      4192,        141]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"T1", "[", "x_", "]"}], ":=", 
+  RowBox[{"Tw", "+", 
+   RowBox[{
+    RowBox[{"Exp", "[", 
+     RowBox[{
+      RowBox[{"-", "U"}], "*", "x", "*", 
+      RowBox[{
+       RowBox[{"\[Alpha]", "/", "MDot"}], "/", "cp"}]}], "]"}], "*", 
+    RowBox[{"(", 
+     RowBox[{"Tin", "-", "Tw"}], ")"}]}]}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"T2", "[", "x_", "]"}], ":=", 
+  RowBox[{"Tin", "+", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{"Qdot", "/", "mDot"}], "/", "l"}], "/", "cp"}], "*", 
+    "x"}]}]}]}], "Input",
+ CellChangeTimes->{{3.6828371913086452`*^9, 3.682837241589355*^9}, {
+  3.6828461365235863`*^9, 3.682846154989174*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"T1", "[", "l", "]"}], "\[IndentingNewLine]", 
+ RowBox[{"T2", "[", "l", "]"}]}], "Input",
+ CellChangeTimes->{{3.682837235724737*^9, 3.682837238020216*^9}, {
+  3.682846163502201*^9, 3.682846164965304*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   SuperscriptBox["\[ExponentialE]", 
+    RowBox[{"-", 
+     FractionBox[
+      RowBox[{"l", " ", "U", " ", "\[Alpha]"}], 
+      RowBox[{"cp", " ", "MDot"}]]}]], " ", 
+   RowBox[{"(", 
+    RowBox[{"Tin", "-", "Tw"}], ")"}]}], "+", "Tw"}]], "Output",
+ CellChangeTimes->{{3.682837238652317*^9, 3.6828372436592703`*^9}, 
+   3.6828461654702253`*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  FractionBox["Qdot", 
+   RowBox[{"cp", " ", "mDot"}]], "+", "Tin"}]], "Output",
+ CellChangeTimes->{{3.682837238652317*^9, 3.6828372436592703`*^9}, 
+   3.682846165472123*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"Tb1", "=", 
+  RowBox[{
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"1", "/", "l"}], "*", 
+     RowBox[{"Integrate", "[", 
+      RowBox[{
+       RowBox[{"T1", "[", "x", "]"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"x", ",", "0", ",", "l"}], "}"}]}], "]"}]}], ")"}], "//", 
+   "FullSimplify"}]}], "\[IndentingNewLine]", 
+ RowBox[{"Tb2", "=", 
+  RowBox[{
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"1", "/", "l"}], "*", 
+     RowBox[{"Integrate", "[", 
+      RowBox[{
+       RowBox[{"T2", "[", "x", "]"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"x", ",", "0", ",", "l"}], "}"}]}], "]"}]}], ")"}], "//", 
+   "FullSimplify"}]}]}], "Input",
+ CellChangeTimes->{{3.682837256095245*^9, 3.682837339758007*^9}, {
+  3.682837421512347*^9, 3.682837431048267*^9}, {3.6828461715662737`*^9, 
+  3.682846185350114*^9}}],
+
+Cell[BoxData[
+ FractionBox[
+  RowBox[{
+   RowBox[{"cp", " ", 
+    RowBox[{"(", 
+     RowBox[{"1", "-", 
+      SuperscriptBox["\[ExponentialE]", 
+       RowBox[{"-", 
+        FractionBox[
+         RowBox[{"l", " ", "U", " ", "\[Alpha]"}], 
+         RowBox[{"cp", " ", "MDot"}]]}]]}], ")"}], " ", "MDot", " ", 
+    RowBox[{"(", 
+     RowBox[{"Tin", "-", "Tw"}], ")"}]}], "+", 
+   RowBox[{"l", " ", "Tw", " ", "U", " ", "\[Alpha]"}]}], 
+  RowBox[{"l", " ", "U", " ", "\[Alpha]"}]]], "Output",
+ CellChangeTimes->{{3.682837297339271*^9, 3.682837340506194*^9}, {
+  3.6828374232525063`*^9, 3.68283743208263*^9}, {3.682846173868895*^9, 
+  3.682846186138323*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  FractionBox["Qdot", 
+   RowBox[{"2", " ", "cp", " ", "mDot"}]], "+", "Tin"}]], "Output",
+ CellChangeTimes->{{3.682837297339271*^9, 3.682837340506194*^9}, {
+  3.6828374232525063`*^9, 3.68283743208263*^9}, {3.682846173868895*^9, 
+  3.682846186173191*^9}}]
+}, Open  ]]
+},
+WindowSize->{808, 911},
+WindowMargins->{{Automatic, 525}, {78, Automatic}},
+FrontEndVersion->"10.4 for Linux x86 (64-bit) (April 11, 2016)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 679, 21, 55, "Input"],
+Cell[CellGroupData[{
+Cell[1262, 45, 228, 4, 55, "Input"],
+Cell[1493, 51, 380, 11, 43, "Output"],
+Cell[1876, 64, 198, 5, 51, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2111, 74, 833, 25, 55, "Input"],
+Cell[2947, 101, 654, 17, 71, "Output"],
+Cell[3604, 120, 279, 6, 84, "Output"]
+}, Open  ]]
+}
+]
+*)
+

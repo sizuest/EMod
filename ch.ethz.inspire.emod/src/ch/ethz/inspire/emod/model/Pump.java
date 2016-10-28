@@ -459,6 +459,10 @@ public class Pump extends APhysicalComponent implements Floodable{
 	 * @param temperature Temperature [K]
 	 */
 	public void updatePumpMap(double temperature){
+		
+		if(Double.isNaN(temperature))
+			return;
+		
 		double density   = fluid.getMaterial().getDensity(temperature);
 		double viscosity = fluid.getMaterial().getViscosityKinematic(temperature);
 		updatePumpMap(density, viscosity);
@@ -471,8 +475,13 @@ public class Pump extends APhysicalComponent implements Floodable{
 	 * @param nu  Viscosity [m^2/s]
 	 */
 	private void updatePumpMap(double rho, double nu){
+		
+		if(Double.isNaN(rho) | Double.isNaN(nu))
+			return;
+		
 		double Re, ReMod, fHopt, fEta, fQ, fH, omega, omegaS;
-				if(numImpEyes == 0 | numStages == 0){
+		
+		if(numImpEyes == 0 | numStages == 0){
 			/* Update map */
 			for(int i=0; i<flowRateSamples.length; i++){
 				flowRateSamplesV[i] = flowRateSamples[i]; 

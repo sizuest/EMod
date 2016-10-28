@@ -17,8 +17,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import ch.ethz.inspire.emod.dd.model.Isolation;
 import ch.ethz.inspire.emod.model.fluid.Fluid;
-import ch.ethz.inspire.emod.model.fluid.Isolation;
 import ch.ethz.inspire.emod.model.material.Material;
 import ch.ethz.inspire.emod.model.parameters.Parameterizable;
 
@@ -155,8 +155,32 @@ public abstract class ADuctElement implements Parameterizable, Cloneable{
 	 */
 	protected abstract double getHTC(double flowRate, double pressure, double temperatureFluid, double temperatureWall);
 	
-	public double getHTC(double flowRate, double pressure, double temperatureFluid){
+	public double getHTC(double flowRate, double pressure, double temperatureFluid){	
 		return getHTC(flowRate, pressure, temperatureFluid, this.getWallTemperature(temperatureFluid, flowRate, pressure));
+	}
+	
+	
+	
+	/**
+	 * Returns the total heat transfer coefficient for the given operational condition
+	 * 
+	 * @param flowRate			[m³/s]
+	 * @param pressure 			[Pa]
+	 * @param temperatureFluid	[K]
+	 * @param temperatureWall	[K]
+	 * @return [W/K/m²]
+	 */
+	protected double getRth(double flowRate, double pressure, double temperatureFluid, double temperatureWall){
+		double Rth = getHTC(flowRate, pressure, temperatureFluid, temperatureWall);
+		
+		if(hasIsolation()) 
+			Rth =  1/(1/Rth + 1/getIsolation().getThermalResistance());
+		
+		return Rth;
+	}
+	
+	public double getRth(double flowRate, double pressure, double temperatureFluid){
+		return getRth(flowRate, pressure, temperatureFluid, this.getWallTemperature(temperatureFluid, flowRate, pressure));
 	}
 	
 	/**
@@ -248,7 +272,7 @@ public abstract class ADuctElement implements Parameterizable, Cloneable{
 			T = 293;
 			do {
 				Tlast = T;
-				T = (temperatureIn + this.heatSource/2/getMaterial().getHeatCapacity()/flowRate/getMaterial().getDensity(temperatureIn)) + this.heatSource/getHTC(flowRate, pressure, temperatureIn, Tlast)/getSurface();
+				T = (temperatureIn + this.heatSource/2/getMaterial().getHeatCapacity()/flowRate/getMaterial().getDensity(temperatureIn)) + this.heatSource/getRth(flowRate, pressure, temperatureIn, Tlast)/getSurface();
 				i++;
 			} while (Math.abs(T/Tlast)>1E-3 & i<10);
 		}
@@ -314,7 +338,10 @@ public abstract class ADuctElement implements Parameterizable, Cloneable{
 		
 		// Wall temperature
 		if(Double.isNaN(this.heatSource) & !Double.isNaN(this.wallTemperature))
-			T = this.wallTemperature + Math.exp(-getProfile().getPerimeter()*x*getHTC(flowRate, pressure, temperatureIn, this.wallTemperature) / getMaterial().getHeatCapacity() / (flowRate*getMaterial().getDensity(temperatureIn))) * (temperatureIn-this.wallTemperature);
+			if(flowRate>0)
+				T = this.wallTemperature + Math.exp(-getProfile().getPerimeter()*x*getRth(flowRate, pressure, temperatureIn, this.wallTemperature) / getMaterial().getHeatCapacity() / (flowRate*getMaterial().getDensity(temperatureIn))) * (temperatureIn-this.wallTemperature);
+			else
+				T = this.wallTemperature; //TODO
 			
 		// Wall heat flux
 		if(!Double.isNaN(this.heatSource) & Double.isNaN(this.wallTemperature))

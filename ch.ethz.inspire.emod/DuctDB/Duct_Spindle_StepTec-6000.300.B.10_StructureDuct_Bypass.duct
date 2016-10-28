@@ -76,8 +76,12 @@
                         </profile>
                     </elements>
                     <elements xsi:type="ductFlowAround">
-                        <heatSource>200.0</heatSource>
+                        <heatSource>268.0</heatSource>
                         <wallTemperature>NaN</wallTemperature>
+                        <isolation>
+                            <thickness>0.011</thickness>
+                            <type>Steel</type>
+                        </isolation>
                         <name>Lagerkühlung I</name>
                         <profile xsi:type="hpRectangular">
                             <height>0.0115</height>
@@ -113,8 +117,12 @@
                         </profile>
                     </elements>
                     <elements xsi:type="ductFlowAround">
-                        <heatSource>200.0</heatSource>
+                        <heatSource>268.0</heatSource>
                         <wallTemperature>NaN</wallTemperature>
+                        <isolation>
+                            <thickness>0.011</thickness>
+                            <type>Steel</type>
+                        </isolation>
                         <name>Lagerkühlung II</name>
                         <profile xsi:type="hpRectangular">
                             <height>0.0115</height>
@@ -273,8 +281,12 @@
                         <count>1.0</count>
                     </elements>
                     <elements xsi:type="ductHelix">
-                        <heatSource>500.0</heatSource>
+                        <heatSource>507.0</heatSource>
                         <wallTemperature>NaN</wallTemperature>
+                        <isolation>
+                            <thickness>0.0235</thickness>
+                            <type>Steel</type>
+                        </isolation>
                         <name>Statorkühlung</name>
                         <profile xsi:type="hpRectangular">
                             <height>0.011</height>
@@ -352,8 +364,12 @@
                         </profile>
                     </elements>
                     <elements xsi:type="ductFlowAround">
-                        <heatSource>300.0</heatSource>
+                        <heatSource>237.0</heatSource>
                         <wallTemperature>NaN</wallTemperature>
+                        <isolation>
+                            <thickness>0.0055</thickness>
+                            <type>Steel</type>
+                        </isolation>
                         <name>Lagerkühlung oben</name>
                         <profile xsi:type="hpRectangular">
                             <height>0.004</height>

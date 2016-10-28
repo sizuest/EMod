@@ -20,13 +20,14 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -151,20 +152,35 @@ public class EditMaterialGUI extends AConfigGUI {
     
     public static void editMaterialGUI(final Shell parent, String type) {
     	
-    	parent.setEnabled(false);
-    	
-		final Shell dialog = new Shell(parent, SWT.RESIZE | SWT.TITLE | SWT.CLOSE);
-		dialog.setLayout(new GridLayout(1,true));
+    	final Shell shell = new Shell(parent, SWT.TITLE|SWT.APPLICATION_MODAL| SWT.CLOSE | SWT.MAX | SWT.RESIZE);
+    	shell.setText("Edit Material: "+type);
+		shell.setLayout(new GridLayout(1,true));
+        shell.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,true));
 		
-		EditMaterialGUI gui = new EditMaterialGUI(dialog, SWT.NONE, type);
+		final EditMaterialGUI gui = new EditMaterialGUI(shell, SWT.NONE, type);
 		
-		dialog.setText("Edit Material: "+type);
+		shell.pack();
 		
-		dialog.open();
-		dialog.setSize(480, 320);
-		dialog.layout();
+		shell.layout();
+		shell.redraw();
+		shell.open();
 		
-		dialog.addDisposeListener(new DisposeListener() {
+		shell.setSize(shell.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		
+		shell.addControlListener(new ControlListener() {
+			
+			@Override
+			public void controlResized(ControlEvent e) {
+				gui.layout();
+			}
+			
+			@Override
+			public void controlMoved(ControlEvent e) {
+				gui.layout();
+			}
+		});
+		
+		shell.addDisposeListener(new DisposeListener() {
 			
 			@Override
 			public void widgetDisposed(DisposeEvent e) {
@@ -175,7 +191,7 @@ public class EditMaterialGUI extends AConfigGUI {
 		gui.addDisposeListener(new DisposeListener() {
 			@Override
 			public void widgetDisposed(DisposeEvent e) {
-				dialog.dispose();
+				shell.dispose();
 			}
 		});
 	}
@@ -233,17 +249,6 @@ public class EditMaterialGUI extends AConfigGUI {
 		buttonContinue.setLayoutData(new GridData(SWT.END, SWT.CENTER, false, true, 2, 1));
 		
 		shell.pack();
-
-		//width and height of the shell
-		Rectangle rect = shell.getBounds();
-		int[] size = {0, 0};
-		size[0] = rect.width;
-		size[1] = rect.height;
-		
-		//position the shell into the middle of the last window
-        //int[] position;
-        //position = EModGUI.shellPosition();
-        //shell.setLocation(position[0]-size[0]/2, position[1]-size[1]/2);
 		
         //open the new shell
 		shell.open();

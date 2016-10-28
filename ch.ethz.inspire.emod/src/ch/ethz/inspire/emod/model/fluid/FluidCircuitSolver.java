@@ -211,6 +211,9 @@ public class FluidCircuitSolver {
 			double cand = 0;
 			for(int i=0; i<numE; i++){
 				
+				if( Double.isNaN(sol.get(i)) )
+					System.out.println();
+				
 				if( (sol.get(i)<=flowRateLim & fluidPropertyList.get(i).getFlowRate()> flowRateLim))
 					cand = 1;
 				else if(sol.get(i)<=flowRateLim & fluidPropertyList.get(i).getFlowRate()<=flowRateLim) 

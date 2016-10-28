@@ -15,10 +15,13 @@ public class FECPump extends AFluidElementCharacteristic{
 
 	@Override
 	public double getA0(double flowRate, double pressureIn, double pressureOut) {
+		double a0;
 		if(0==state.getValue())
-			return 0;
+			a0 = 0;
 		else
-			return -pump.getPressure(flowRate)+flowRate*pump.getPressureDrivative(flowRate);
+			a0 = -pump.getPressure(flowRate)+flowRate*pump.getPressureDrivative(flowRate);
+		
+		return a0;
 	}
 
 	@Override

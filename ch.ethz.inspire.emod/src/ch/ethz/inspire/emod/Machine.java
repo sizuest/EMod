@@ -17,6 +17,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +57,11 @@ import ch.ethz.inspire.emod.utils.IOConnection;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 import java.lang.reflect.*;
+import java.nio.file.CopyOption;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 /**
  * 
@@ -673,9 +679,42 @@ public class Machine {
 	 * 
 	 * @return List with input parameter simulation objects
 	 */
-	public List<ASimulationControl> getInputObjectList()
-	{
+	public List<ASimulationControl> getInputObjectList(){
 		return simulators;
+	}
+	
+	/**
+	 * Returns the list with input parameter simulation objects with the stated unit
+	 * 
+	 * @param type 
+	 * @param unit SiUnit
+	 * @return List with input parameter simulation 
+	 */
+	public static List<ASimulationControl> getInputObjectList(SiUnit unit){
+		List<ASimulationControl> simulatorsFiltered = new ArrayList<ASimulationControl>();
+		
+		for(ASimulationControl sc: getInstance().simulators)
+			if(sc.getUnit().equals(unit))
+				simulatorsFiltered.add(sc);
+		
+		return simulatorsFiltered;
+	}
+	
+	/**
+	 * Returns the list with process simulation control objects with the stated unit
+	 * 
+	 * @param type 
+	 * @param unit SiUnit
+	 * @return List with input parameter simulation 
+	 */
+	public static List<ASimulationControl> getProcessSimulationControlList(SiUnit unit){
+		List<ASimulationControl> simulatorsFiltered = new ArrayList<ASimulationControl>();
+		
+		for(ASimulationControl sc: getInstance().simulators)
+			if(sc.getUnit().equals(unit) & sc instanceof ProcessSimulationControl)
+				simulatorsFiltered.add(sc);
+		
+		return simulatorsFiltered;
 	}
 	
 	/**
@@ -848,13 +887,14 @@ public class Machine {
 	}
 	
 	/**
-	 * Adds a new simulator by its name
+	 * Creates a new simulator by its name
+	 * @param type Simulator type (class name)
 	 * @param name Simulator name
 	 * @param unit Simulator unit
 	 * @return {@link ASimulationControl} with the simulator 
+	 * @throws Exception 
 	 */
-	public static ASimulationControl addNewInputObject(String name, SiUnit unit) {
-		
+	public static ASimulationControl createNewInputObject(String type, String name, SiUnit unit) throws Exception{
 		Object simulator = null;
 		
 		// Try to create and parametrize the object
@@ -868,14 +908,30 @@ public class Machine {
 			// initialize new component
 			simulator = co.newInstance(name, unit);
 		} catch (Exception e) {
-			Exception ex = new Exception("Unable to create component "+name+"("+unit.toString()+")"+" : " + e.getMessage());
-			ex.printStackTrace();
-			//return null;
+			throw new Exception("Unable to create component "+name+"("+unit.toString()+")"+" : " + e.getMessage());
 		} 
 		
-		addInputObject((ASimulationControl) simulator);
-		
 		return (ASimulationControl) simulator;
+	}
+	
+	/**
+	 * Adds a new simulator by its name
+	 * @param name Simulator name
+	 * @param unit Simulator unit
+	 * @return {@link ASimulationControl} with the simulator 
+	 */
+	public static ASimulationControl addNewInputObject(String name, SiUnit unit) {
+		
+		ASimulationControl simulator = null;
+		
+		try{
+			simulator = createNewInputObject(name, name, unit);
+			addInputObject(simulator);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+
+		return simulator;
 	}
 	
 	/**
@@ -1059,14 +1115,37 @@ public class Machine {
 		else
 			sc.setName(getUniqueInputObjectName(newname));	
 		
+		//change the name of file that belongs to the given simulator
+		String prefix = PropertiesHandler.getProperty("app.MachineDataPathPrefix") + "/" +
+					    PropertiesHandler.getProperty("sim.MachineName") + "/" +
+					    "MachineConfig/" +
+					    PropertiesHandler.getProperty("sim.MachineConfigName") +
+					    "/";
+		
+	    Path source = Paths.get(prefix, sc.getType() + "_" + name + ".xml");
+	    
+	    //overwrite existing file, if exists
+	    CopyOption[] options = new CopyOption[]{
+	    	StandardCopyOption.REPLACE_EXISTING,
+	    }; 
+	    //try to rename the existing xml-file of the simulator to the new name
+	    try {
+	    	Files.copy(source, source.resolveSibling(sc.getType() + "_" + newname + ".xml"), options);
+		} catch (IOException ee) {
+			ee.printStackTrace();
+		}
+		
 	}
 	
 	/**
 	 * Adds a new IOConnection between the source and the target
 	 * @param source
 	 * @param target
+	 * @return ioc
 	 */
-	public static void addIOLink(IOContainer source, IOContainer target) {
+	public static IOConnection addIOLink(IOContainer source, IOContainer target) {
+		
+		IOConnection ioc = null;
 		
 		// Add Element to List
 		if(machineModel==null)
@@ -1077,13 +1156,17 @@ public class Machine {
 		// Create new IOConnection
 		try {
 			if(source instanceof FluidContainer & target instanceof FluidContainer)
-				getInstance().getIOLinkList().add(new FluidConnection((FluidContainer)source, (FluidContainer)target));
+				ioc = new FluidConnection((FluidContainer)source, (FluidContainer)target);
 			else
-				getInstance().getIOLinkList().add(new IOConnection(source, target));
+				ioc = new IOConnection(source, target);
+				
+				
+			getInstance().getIOLinkList().add(ioc);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return;
 		}
+		
+		return ioc;
 		
 	}
 	

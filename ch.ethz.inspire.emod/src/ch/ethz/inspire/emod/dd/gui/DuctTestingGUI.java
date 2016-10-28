@@ -1,3 +1,16 @@
+/***********************************
+ * $Id$
+ *
+ * $URL$
+ * $Author$
+ * $Date$
+ * $Rev$
+ *
+ * Copyright (c) 2011 by Inspire AG, ETHZ
+ * All rights reserved
+ *
+ ***********************************/
+
 package ch.ethz.inspire.emod.dd.gui;
 
 import java.text.DecimalFormat;
@@ -525,8 +538,7 @@ public class DuctTestingGUI extends AGUITab{
 		final TableEditor editorButton = new TableEditor(tableOpPoint);
     	
     	final Button buttonEditMaterial = new Button(tableOpPoint, SWT.NONE);
-    	Image imageEdit = new Image(Display.getDefault(), "src/resources/Edit16.gif");
-    	buttonEditMaterial.setImage(imageEdit);
+    	buttonEditMaterial.setText("...");
     	buttonEditMaterial.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, true, 1, 1));
     	buttonEditMaterial.addSelectionListener(new SelectionListener(){
         	public void widgetSelected(SelectionEvent event){
@@ -574,8 +586,8 @@ public class DuctTestingGUI extends AGUITab{
 			itemProp.setText(3, String.format("%.3g", e.getLength()));
 			itemProp.setText(4, String.format("%.3g", e.getPressureDrop(flowRate, pressureIn, temperatureIn)));
 			itemProp.setText(5, String.format("%.3g", e.getPressureLossCoefficient(flowRate, pressureIn, temperatureIn)));
-			itemProp.setText(6, String.format("%.3g", e.getHTC(flowRate, pressureIn, temperatureIn)*e.getSurface()));
-			itemProp.setText(7, String.format("%.3g", e.getHTC(flowRate, pressureIn, temperatureIn)));
+			itemProp.setText(6, String.format("%.3g", e.getRth(flowRate, pressureIn, temperatureIn)*e.getSurface()));
+			itemProp.setText(7, String.format("%.3g", e.getRth(flowRate, pressureIn, temperatureIn)));
 			itemProp.setText(8, String.format("%.3g", flowRate*60E3));
 			itemProp.setText(9, String.format("%.3g", e.getTemperatureOut(temperatureIn, flowRate, pressureIn)));
 			itemProp.setText(10, String.format("%.3g", e.getWallTemperature(temperatureIn, flowRate, pressureIn)));
@@ -959,15 +971,13 @@ public class DuctTestingGUI extends AGUITab{
 		for(ADuctElement e: duct.getElements()){
 			if(e instanceof DuctBypass) {
 				temperatures.addAll(getTemperaturesOut(((DuctBypass) e).getPrimary(), pressureIn, temperatureIn, ((DuctBypass) e).getFlowRatePrimary(flowRate, pressureIn, temperatureIn)));
-				if( temperatures.size()>0)
-					temperatureIn = temperatures.get(temperatures.size()-1);
 			}
 			else{
-				temperatureIn = e.getTemperatureOut(temperatureIn, flowRate, pressureIn);
-				temperatures.add(temperatureIn);
+				temperatures.add(e.getTemperatureOut(temperatureIn, flowRate, pressureIn));
 			}
 			
 			pressureIn = e.getPressureOut(flowRate, pressureIn, temperatureIn);
+			temperatureIn = e.getTemperatureOut(temperatureIn, flowRate, pressureIn);
 		}
 		
 		return temperatures;
@@ -986,8 +996,6 @@ public class DuctTestingGUI extends AGUITab{
 		for(ADuctElement e: duct.getElements()){
 			if(e instanceof DuctBypass) {
 				temperatures.addAll(getTemperaturesWall(((DuctBypass) e).getPrimary(), pressureIn, temperatureIn, ((DuctBypass) e).getFlowRatePrimary(flowRate, pressureIn, temperatureIn)));
-				if( temperatures.size()>0)
-					pressureIn = temperatures.get(temperatures.size()-1);
 			}
 			else{
 				temperatures.add(e.getWallTemperature(temperatureIn, flowRate, pressureIn));
@@ -1021,7 +1029,7 @@ public class DuctTestingGUI extends AGUITab{
 					htcs.addAll(getHTCs(((DuctBypass) e).getPrimary(), pressureIn, temperatureIn, ((DuctBypass) e).getFlowRatePrimary(flowRate, pressureIn, this.temperatureF)));
 			}
 			else{
-				htcs.add(e.getHTC(flowRate,  pressures.get(htcs.size()), temperatures.get(htcs.size()))*e.getSurface());
+				htcs.add(e.getRth(flowRate,  pressures.get(htcs.size()), temperatures.get(htcs.size()))*e.getSurface());
 			}
 		}	
 		
