@@ -10,7 +10,7 @@
 <entry key="InitialValue_PumpCoolant_TemperatureStructure">293.15</entry>
 <entry key="InitialValue_Spindle_TemperatureCoolant">293.15</entry>
 <entry key="InitialValue_AxisZ_TemperatureStructure">293.15</entry>
-<entry key="InitialValue_Tank_Mass">247.77599999999998</entry>
+<entry key="InitialValue_Tank_Mass">236.64</entry>
 <entry key="InitialValue_Tank_Temperature">293.15</entry>
 <entry key="InitialValue_AxisY_TemperatureCoolant">293.15</entry>
 <entry key="InitialValue_PumpHydraulics_TemperatureStructure">293.15</entry>
@@ -25,7 +25,7 @@
 <entry key="InitialValue_PumpCoolant_TemperatureFluid">293.15</entry>
 <entry key="InitialValue_PumpHydraulics_TemperatureFluid">293.15</entry>
 <entry key="InitialValue_AxisA_TemperatureStructure">293.15</entry>
-<entry key="simulationPeriod">1</entry>
+<entry key="simulationPeriod">1.0</entry>
 <entry key="InitialValue_TankHydraulic_Temperature">293.15</entry>
 <entry key="InitialValue_AxisY_Position">0.0</entry>
 <entry key="InitialValue_AxisB_TemperatureStructure">293.15</entry>
@@ -33,9 +33,12 @@
 <entry key="InitialValue_Spindle_TemperatureStructure">293.15</entry>
 <entry key="InitialValue_Cylinder_TemperatureFluid">293.15</entry>
 <entry key="InitialValue_AxisC_TemperatureCoolant">293.15</entry>
+<entry key="InitialValue_LinAxis_Position">0.0</entry>
+<entry key="InitialValue_LinAxis_TemperatureCoolant">293.15</entry>
 <entry key="InitialValue_AxisZ_Position">0.0</entry>
 <entry key="InitialValue_AxisB_TemperatureCoolant">293.15</entry>
 <entry key="InitialValue_Cylinder_TemperatureStructure">293.15</entry>
 <entry key="InitialValue_AxisA_TemperatureCoolant">293.15</entry>
 <entry key="InitialValue_TankHydraulic_Mass">11.800978560000003</entry>
+<entry key="InitialValue_LinAxis_TemperatureStructure">293.15</entry>
 </properties>

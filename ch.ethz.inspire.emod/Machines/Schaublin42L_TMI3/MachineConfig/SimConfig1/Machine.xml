@@ -1,499 +1,535 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!--
-	Machine definition file
-
-	The <machine> contains a list of <machineComponent>s. Each
-	<machineComponent> is specified by a <name>, a <component xsi:type> (e.g. linearMotor)
-	and a <type>. The machine component objects are built from this list automatically.
-
-	The <simulators> contains a list of simulators used for process and state simulation.
--->
 <ns2:machine xmlns:ns2="ch.ethz.inspire.emod">
-	<machine>
-		<!-- Spindle -->
-		<machineComponent>
-			<name>C1</name>
-			<component xsi:type="motor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>Kessler_000101561</type>		
-			</component>
-		</machineComponent>
-
-		<!-- X-Axis Motor -->
-		<machineComponent>
-			<component xsi:type="servoMotor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>FanucAlphaC6_2000</type>
-			</component>
-			<name>X1</name>
-		</machineComponent>
-
-		<!-- Z-Axis Motor -->
-		<machineComponent>
-			<name>Z1</name>
-			<component xsi:type="servoMotor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>FanucAlphaC12_2000</type>
-			</component>
-		</machineComponent>
-		
-		<!-- Tailstock-Axis Motor -->
-		<machineComponent>
-			<name>Z3</name>
-			<component xsi:type="servoMotor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>FanucAlphaC12_2000</type>
-			</component>
-		</machineComponent>
-		
-		<!-- B-Axis Motor -->
-		<machineComponent>
-			<name>B1</name>
-			<component xsi:type="servoMotor" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>FanucAlphaM9_3000</type>
-			</component>
-		</machineComponent>
-		
-		<!-- X-Axis -->
-		<machineComponent>
-			<name>X1_ax</name>
-			<component xsi:type="linAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>Schaublin42L_X1</type>
-			</component>
-		</machineComponent>
-
-		<!-- Z-Axis -->
-		<machineComponent>
-			<name>Z1_ax</name>
-			<component xsi:type="linAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>Schaublin42L_Z1</type>
-			</component>
-		</machineComponent>
-		
-		<!-- Brake conrol on/off -->
-		<machineComponent>
-			<name>X1_Brake</name>
-			<component xsi:type="constantComponent" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>FanucAlphaC6_2000</type>
-			</component> 
-		</machineComponent>
-		
-		<machineComponent>
-			<name>Z1_Brake</name>
-			<component xsi:type="constantComponent" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>FanucAlphaC12_2000</type>
-			</component> 
-		</machineComponent>
-		
-		<machineComponent>
-			<name>X1_BrakeAction</name>
-			<component xsi:type="switchControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<signalUnit>NEWTONMETER</signalUnit>
-				<controlUnit>NONE</controlUnit>
-				<threshold>0.5</threshold>
-				<passHigh>false</passHigh>
-			</component> 
-		</machineComponent>
-		<machineComponent>
-			<name>Z1_BrakeAction</name>
-			<component xsi:type="switchControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<signalUnit>NEWTONMETER</signalUnit>
-				<controlUnit>NONE</controlUnit>
-				<threshold>0.5</threshold>
-				<passHigh>false</passHigh>
-			</component> 
-		</machineComponent>
-        
-		
-		<!-- Tailstock-Axis -->
-		<machineComponent>
-			<name>Z3_ax</name>
-			<component xsi:type="linAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>Schaublin42L_Tailstock</type>
-			</component>
-		</machineComponent>
-
-		<!-- Revolver -->
-		<machineComponent>
-			<name>T1_pos</name>
-			<component xsi:type="revolver" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>Schaublin42L</type>
-			</component>
-		</machineComponent>
-		
-		<!-- Spindle Amplifier-->
-		<machineComponent>
-			<name>C1_amp</name>
-			<component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>FanucSPM-26</type>		
-			</component>
-		</machineComponent>
-
-		<!-- X and Z-Axis Amplifier -->
-		<machineComponent>
-			<name>AxPower</name>
-			<component xsi:type="sum" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<unit>WATT</unit>
-			</component>
-		</machineComponent>
-		
-		<machineComponent>
-			<component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>FanucSVM2-20-20</type>
-			</component>
-			<name>Ax_amp</name>
-		</machineComponent>
-		
-		<!-- Tailstock Amplifier -->
-		<machineComponent>
-			<name>Z3_amp</name>
-			<component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>FanucSVU1-80</type>
-			</component>
-		</machineComponent>
-		
-		<!-- B-Axis Amplifier -->
-		<machineComponent>
-			<name>B1_amp</name>
-			<component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>FanucSVM1-80</type>
-			</component>
-		</machineComponent>
-		
-		
-		<!-- Pump cutting fluid -->
-		<machineComponent>
-			<name>CuttingFluidPump</name>
-			<component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>SpandauVogel_PV80_180</type>
-			</component>
-		</machineComponent>
-		
-		<!-- Spindle cooling -->
-		<machineComponent>
-			<name>SpindleCoolingCompressor</name>
-			<component xsi:type="heatExchanger" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>Hyfra_VWK_21_1S</type>
-			</component> 
-		</machineComponent>
-		
-		<machineComponent>
-			<name>SpindleCoolingPump</name>
-			<component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>Hyfra_VWK_21_1S</type>
-			</component> 
-		</machineComponent>
-		
-		<!-- Compressor Control -->
-		<machineComponent>
-			<name>SpindleCoolingController</name>
-			<component xsi:type="hysteresisControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>SpindleCoolingCompressor</type>
-			</component>
-		</machineComponent>
-		
-		<!-- Chip conv. -->
-		<machineComponent>
-			<name>ChipConveyor</name>
-			<component xsi:type="constantComponent" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>Bonfigioli_BN804A</type>
-			</component> 
-		</machineComponent>
-		
-		<!-- Fan 1 -->
-		<machineComponent>
-			<name>Fan_in</name>
-			<component xsi:type="fan" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>Pfannenberg_PF_3000</type>
-			</component> 
-		</machineComponent>
-		
-		<!-- Fan 2 -->
-		<machineComponent>
-			<name>Fan_out</name>
-			<component xsi:type="fan" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>Pfannenberg_PF_3000</type>
-			</component> 
-		</machineComponent>
-		
-		<!-- Sum of energy over Fanuc -->
-		<machineComponent>
-			<name>FanucTotalPower</name>
-			<component xsi:type="sum" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<unit>WATT</unit>
-			</component>
-		</machineComponent>
-		
-		<machineComponent>
-			<name>FanucTotalHeatLoss</name> 
-			<component xsi:type="sum" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<unit>WATT</unit>
-			</component>
-		</machineComponent>
-		
-		<!-- Compressed air -->
-		<machineComponent>
-			<name>CompressedAir</name>
-			<component xsi:type="compressedFluid" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>Air8bar</type>
-			</component>
-		</machineComponent>
-		
-		<!-- 2400kVA Transformer -->
-		<machineComponent>
-			<name>ControlPowerTransformer</name>
-			<component xsi:type="sum" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<unit>WATT</unit>
-			</component>
-		</machineComponent>
-		
-		<!-- Total electrical power -->
-		<machineComponent>
-			<name>TotalPower</name>
-			<component xsi:type="sum" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<unit>WATT</unit>
-			</component>
-		</machineComponent>
-		
-		<!-- Total heat loss -->
-		<machineComponent>
-			<name>TotalHeatLoss</name>
-			<component xsi:type="sum" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<unit>WATT</unit>
-			</component>
-		</machineComponent>
-
-		<!-- TERMAL ELEMENTS -->
-		<!-- Spindle -->
-		<machineComponent>
-			<name>Thermal_SpindleTemperature</name>
-			<component xsi:type="homogStorage" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>Kessler_000101561</type>
-				<parentType>Motor</parentType>
-			</component>
-		</machineComponent>
-		
-		<!-- Spindle -->
-		<machineComponent>
-			<name>Thermal_SpindleFreeFlow</name>
-			<component xsi:type="freeHeatTransfere" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>Kessler_000101561</type>
-				<parentType>Motor</parentType>
-			</component>
-		</machineComponent>
-		
-		<!-- Heat Exchanger Spindle-CF -->
-		<machineComponent>
-			<name>Thermal_SpindleHeatExchanger</name>
-			<component xsi:type="layerStorage" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>SpindleHeatExchanger</type>
-				<parentType></parentType>
-			</component>
-		</machineComponent>
-		
-		<!-- Backflow to Tank -->
-		<machineComponent>
-			<name>Thermal_CoolerBackflow</name>
-			<component xsi:type="forcedHeatTransfere" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>CoolingFluidSpindle</type>
-				<parentType></parentType>
-			</component>
-		</machineComponent>
-		
-		<!-- Spindle Cooler Tank -->
-		<machineComponent>
-			<name>Thermal_CoolerTemperature</name>
-			<component xsi:type="homogStorage" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-		 		<type>Hyfra_VWK_21_1S</type>
-				<parentType>HeatExchanger</parentType>
-			</component>
-		</machineComponent>
-		
-		<machineComponent>
-			<name>Thermal_PumpLossToFluid</name>
-			<component xsi:type="gain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<unit>WATT</unit>
-				<!--<gain>0.25</gain>-->
-				<gain>0.3</gain>
-			</component>
-		</machineComponent>
-		
-		<machineComponent>
-			<name>Thermal_PumpLossToAmbient</name>
-			<component xsi:type="sum" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<unit>WATT</unit>
-			</component>
-		</machineComponent>
-		
-		
-		<!-- CF tank free thermal flow -->
-		<machineComponent>
-			<name>Thermal_CoolerFreeFlow</name>
-			<component xsi:type="freeHeatTransfere" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>Hyfra_VWK_21_1S</type>
-				<parentType>HeatExchanger</parentType>
-			</component>
-		</machineComponent>
-		
-		<!-- <machineComponent>
-			<name>Thermal_FanucTemperature</name>
-			<component xsi:type="homogStorage" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>Fanuc</type>
-				<parentType></parentType>
-			</component>
-		</machineComponent>
-		
-		<machineComponent>
-			<name>Thermal_FanucFreeFlow</name>
-			<component xsi:type="freeHeatTransfere" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>Fanuc</type>
-				<parentType></parentType>
-			</component>
-		</machineComponent>
-		
-		<machineComponent>
-			<name>Thermal_CabinettTemperature</name>
-			<component xsi:type="homogStorage" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>Cabinett</type>
-				<parentType></parentType>
-			</component>
-		</machineComponent>
-		
-		<machineComponent>
-			<name>Thermal_CabinettAirFlow</name>
-			<component xsi:type="forcedHeatTransfere" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>Air</type>
-				<parentType></parentType>
-			</component>
-		</machineComponent>
-		
-		<machineComponent>
-			<name>Thermal_CabinettFreeFlow</name>
-			<component xsi:type="freeHeatTransfere" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				<type>CabinettWall</type>
-				<parentType></parentType>
-			</component>
-		</machineComponent>-->
-
-	</machine>
-	<simulators>
-	
-		<!-- Fanuc on/off -->
-		<simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>FanucCtrl</name>
-            <unit>NONE</unit>
-        </simController>
-        
-        <!-- Axis conrol on/off -->
-		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>AxisBrakeCtrl</name>
-            <unit>NONE</unit>
-        </simController>
-                
-        <!-- Lubricant mass flow -->
-        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-			<name>LubFlow</name>
-			<unit>KG_S</unit>
-		</simController>
-        
-        <!-- Spindle cooling on/off -->
-		<simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>SpindleCoolingCtrl</name>
-            <unit>KG_S</unit>
-        </simController>
-        
-        <!-- Chip conveyor on/off -->
-		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>ChipConv</name>
-            <unit>NONE</unit>
-        </simController>
-        
-        <!-- Sealing air demand -->
-		<simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>SealingAirDemand</name>
-            <unit>L_S</unit>
-        </simController>
-        
-        <!-- Fan on/off -->
-		<simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <machine>
+        <machineComponent>
+            <position>
+                <x>688.131578947369</x>
+                <y>157.463815789473</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
+            <component xsi:type="spindle" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Kessler_000101561</type>
+            </component>
+            <name>Spindle</name>
+        </machineComponent>
+        <machineComponent>
+            <position>
+                <x>695.8750000000007</x>
+                <y>362.18749999999966</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
+            <component xsi:type="linAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Schaublin42L_X1</type>
+            </component>
+            <name>XAxis</name>
+        </machineComponent>
+        <machineComponent>
+            <position>
+                <x>697.5550373134332</x>
+                <y>520.3124999999994</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
+            <component xsi:type="linAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Schaublin42L_Z1</type>
+            </component>
+            <name>ZAxis</name>
+        </machineComponent>
+        <machineComponent>
+            <position>
+                <x>705.6875000000005</x>
+                <y>682.2499999999998</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
+            <component xsi:type="linAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Schaublin42L_Tailstock</type>
+            </component>
+            <name>Tailstock</name>
+        </machineComponent>
+        <machineComponent>
+            <position>
+                <x>840.5980047516014</x>
+                <y>-269.5107368651529</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
+            <component xsi:type="cooler" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Hyfra_VWK_21_1S</type>
+            </component>
+            <name>Cooler</name>
+        </machineComponent>
+        <machineComponent>
+            <position>
+                <x>812.7569629564608</x>
+                <y>-103.30700380748439</y>
+                <r>0.5</r>
+                <rotate>0.5</rotate>
+            </position>
+            <component xsi:type="tank" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Hyfra_VWK_21_1S</type>
+            </component>
+            <name>TankCoolant</name>
+        </machineComponent>
+        <machineComponent>
+            <position>
+                <x>390.5313095204497</x>
+                <y>-119.92842521064506</y>
+                <r>0.5</r>
+                <rotate>0.5</rotate>
+            </position>
+            <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Hyfra_VWK_21_1S</type>
+            </component>
+            <name>PumpCoolant</name>
+        </machineComponent>
+        <machineComponent>
+            <position>
+                <x>1110.8675373134383</x>
+                <y>138.78264925373108</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
+            <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>FanucSPM-26</type>
+            </component>
+            <name>AmplifierSpindle</name>
+        </machineComponent>
+        <machineComponent>
+            <position>
+                <x>1113.9225746268705</x>
+                <y>381.18003731343407</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
+            <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>FanucSVM2-20-20</type>
+            </component>
+            <name>AmplifierAxes</name>
+        </machineComponent>
+        <machineComponent>
+            <position>
+                <x>1118.39508581141</x>
+                <y>674.6556437753536</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
+            <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>FanucSVU1-80</type>
+            </component>
+            <name>AmplifierTailstock</name>
+        </machineComponent>
+        <machineComponent>
+            <position>
+                <x>1124.1797593425993</x>
+                <y>862.9303340833535</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
+            <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>FanucSVM1-80</type>
+            </component>
+            <name>AmplifierRevolver</name>
+        </machineComponent>
+        <machineComponent>
+            <position>
+                <x>1728.1411776343725</x>
+                <y>-232.2608082679823</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
+            <component xsi:type="compressedFluid" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Air6bar</type>
+            </component>
+            <name>CompressedAir</name>
+        </machineComponent>
+        <machineComponent>
+            <position>
+                <x>243.2522867344954</x>
+                <y>881.9277538642181</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
+            <component xsi:type="revolver" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Schaublin42L</type>
+            </component>
+            <name>Revolver</name>
+        </machineComponent>
+        <machineComponent>
+            <position>
+                <x>710.9375000000027</x>
+                <y>870.312500000004</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
+            <component xsi:type="motorDC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>FanucAlphaM9_3000</type>
+            </component>
+            <name>BAxis</name>
+        </machineComponent>
+        <machineComponent>
+            <position>
+                <x>1940.0475459876907</x>
+                <y>833.8397119066715</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
+            <component xsi:type="fan" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Pfannenberg_PF_3000</type>
+            </component>
+            <name>Fan2</name>
+        </machineComponent>
+        <machineComponent>
+            <position>
+                <x>1941.400157927989</x>
+                <y>658.863032802194</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
+            <component xsi:type="fan" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Pfannenberg_PF_3000</type>
+            </component>
+            <name>Fan1</name>
+        </machineComponent>
+        <machineComponent>
+            <position>
+                <x>1971.2372130582169</x>
+                <y>503.4944119534987</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
+            <component xsi:type="constantComponent" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Bonfigioli_BN804A</type>
+            </component>
+            <name>ChipConveyor</name>
+        </machineComponent>
+        <machineComponent>
+            <position>
+                <x>1964.6853977317196</x>
+                <y>57.4912128419959</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
+            <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>SpandauVogel_PV80_180</type>
+            </component>
+            <name>PumpCF</name>
+        </machineComponent>
+        <machineComponent>
+            <position>
+                <x>1554.718550023935</x>
+                <y>76.60695887801417</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
+            <component xsi:type="tank" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Schaublin42L</type>
+            </component>
+            <name>TankCF</name>
+        </machineComponent>
+        <machineComponent>
+            <position>
+                <x>1755.2269861774046</x>
+                <y>307.9782962141018</y>
+                <r>0.5</r>
+                <rotate>0.5</rotate>
+            </position>
+            <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>SchaulbinCFNozzle</type>
+            </component>
+            <name>Valve</name>
+        </machineComponent>
+    </machine>
+    <simulators>
+        <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>FanCtrl</name>
-            <unit>NONE</unit>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+            <position>
+                <x>1692.752769868288</x>
+                <y>762.9208686230895</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
         </simController>
-		 
-		<!-- Rot. Speed C axis -->
-		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-			<name>C1_n</name>
-			<unit>RPM</unit>
-		</simController>
-
-		<!-- Torque C axis -->
-		<simController xsi:type="geometricKienzleSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-			<name>C1_Torque</name>
-			<unit>NEWTONMETER</unit>
-		</simController>
-		
-		<!-- Feed Force X axis -->
-		<simController xsi:type="geometricKienzleSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-			<name>X1_Force</name>
-			<unit>NEWTON</unit>
-		</simController>
-		
-		<!-- Feed Force Z axis -->
-		<simController xsi:type="geometricKienzleSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-			<name>Z1_Force</name>
-			<unit>NEWTON</unit>
-		</simController>
-
-		<!-- Position X axis -->
-		<!-- Position surface -->
-		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-			<name>X1_d</name>
-			<unit>MM</unit>
-		</simController>
-
-		<!-- Cutting depth -->
-		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-			<name>X1_ap</name>
-			<unit>MM</unit>
-		</simController>
-
-		<!-- Feed on X axis -->
-		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-			<name>X1_v</name>
-			<unit>MM_MIN</unit>
-		</simController>
-		
-		<!-- Feed on Z axis -->
-		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-			<name>Z1_v</name>
-			<unit>MM_MIN</unit>
-		</simController>
-		
-		<!-- Clamping force -->
-		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-			<name>FClamp</name>
-			<unit>NEWTON</unit>
-		</simController>
-		
-		<!-- Tool in use Z axis -->
-		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-			<name>Tool</name>
-			<unit>NONE</unit>
-		</simController>
-		
-		<!-- Ambient Temperature -->
-		<simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-			<name>AmbTemperature</name>
-			<unit>KELVIN</unit>
-		</simController>
-		
-		<!-- Ambient Pressure -->
-		<simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-			<name>AmbPressure</name>
-			<unit>PA</unit>
-		</simController>
-		
-		<!-- Zero element -->
-		<simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-			<name>Zero</name>
-			<unit>MM_MIN</unit>
-		</simController>
-		
-	</simulators>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>ChipConv</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+            <position>
+                <x>1612.823011353306</x>
+                <y>502.91736483865327</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
+        </simController>
+        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>AmbPressure</name>
+            <unit>
+                <unitText>Pa</unitText>
+            </unit>
+            <position>
+                <x>1386.8793144703009</x>
+                <y>-395.50883709775854</y>
+                <r>0.25</r>
+                <rotate>0.25</rotate>
+            </position>
+        </simController>
+        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>AmbTemperature</name>
+            <unit>
+                <unitText>K</unitText>
+            </unit>
+            <position>
+                <x>1294.4437313815458</x>
+                <y>-386.675462071212</y>
+                <r>0.25</r>
+                <rotate>0.25</rotate>
+            </position>
+        </simController>
+        <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>FanucCtrl</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+            <position>
+                <x>1024.8405172413784</x>
+                <y>1121.9353448275835</y>
+                <r>0.75</r>
+                <rotate>0.75</rotate>
+            </position>
+        </simController>
+        <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>AxisCtrl</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+            <position>
+                <x>530.1185344827566</x>
+                <y>1108.7866379310315</y>
+                <r>0.75</r>
+                <rotate>0.75</rotate>
+            </position>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>FClamp</name>
+            <unit>
+                <unitText>N</unitText>
+            </unit>
+            <position>
+                <x>269.71318493150574</x>
+                <y>787.3715753424643</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Z1_v</name>
+            <unit>
+                <unitText>m/s</unitText>
+            </unit>
+            <position>
+                <x>273.43749999999926</x>
+                <y>556.249999999999</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>X1_v</name>
+            <unit>
+                <unitText>m/s</unitText>
+            </unit>
+            <position>
+                <x>279.33768656716336</x>
+                <y>348.83395522388014</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>X1_ap</name>
+            <unit>
+                <unitText>m</unitText>
+            </unit>
+            <position>
+                <x>19.02985074626822</x>
+                <y>684.8647388059679</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>X1_d</name>
+            <unit>
+                <unitText>m</unitText>
+            </unit>
+            <position>
+                <x>19.029850746268192</x>
+                <y>770.8022388059677</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>C1_n</name>
+            <unit>
+                <unitText>Hz</unitText>
+            </unit>
+            <position>
+                <x>282.81249999999926</x>
+                <y>160.93749999999955</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
+        </simController>
+        <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>CoolerCtrl</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+            <position>
+                <x>548.6274566439134</x>
+                <y>-298.41714993480133</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>LubFlow</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+            <position>
+                <x>1586.5268330846873</x>
+                <y>-51.54440214134358</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
+        </simController>
+        <simController xsi:type="geometricKienzleSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>C1_Torque</name>
+            <unit>
+                <unitText>Nm</unitText>
+            </unit>
+            <position>
+                <x>249.31506849315076</x>
+                <y>243.8356164383562</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
+        </simController>
+        <simController xsi:type="geometricKienzleSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>X1_Force</name>
+            <unit>
+                <unitText>N</unitText>
+            </unit>
+            <position>
+                <x>269.86301369863025</x>
+                <y>446.5753424657535</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
+        </simController>
+        <simController xsi:type="geometricKienzleSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Z1_Force</name>
+            <unit>
+                <unitText>N</unitText>
+            </unit>
+            <position>
+                <x>265.0</x>
+                <y>650.0</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Tool</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+            <position>
+                <x>21.518987341772235</x>
+                <y>881.0126582278489</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
+        </simController>
+        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Zero</name>
+            <unit>
+                <unitText>m/s</unitText>
+            </unit>
+            <position>
+                <x>271.2328767123289</x>
+                <y>720.54794520548</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
+        </simController>
+        <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>ValvePos</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+            <position>
+                <x>2194.318181818182</x>
+                <y>302.27272727272737</y>
+                <r>0.5</r>
+                <rotate>0.5</rotate>
+            </position>
+        </simController>
+    </simulators>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
+    <connectionList/>
 </ns2:machine>

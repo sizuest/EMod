@@ -1,6 +1,0 @@
-# Definition of sequence and duration of simulation.
-# Duration , Machine state
-#  [s]
-	   1   , PROCESS;
-     500   , READY;
-   24130   , OFF;

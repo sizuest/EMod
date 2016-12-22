@@ -5,6 +5,8 @@
             <position>
                 <x>911.4754098360672</x>
                 <y>424.59016393442704</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
             </position>
             <component xsi:type="spindle" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Renaud-175-170200-DIA25</type>
@@ -13,8 +15,10 @@
         </machineComponent>
         <machineComponent>
             <position>
-                <x>1379.5918367346983</x>
-                <y>887.7551020408202</y>
+                <x>66.57354687812071</x>
+                <y>948.1336516499888</y>
+                <r>0.5</r>
+                <rotate>0.5</rotate>
             </position>
             <component xsi:type="forcedFluidFlow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Water</type>
@@ -23,8 +27,10 @@
         </machineComponent>
         <machineComponent>
             <position>
-                <x>-458.631298527117</x>
-                <y>803.3211418523898</y>
+                <x>-273.1984569122116</x>
+                <y>430.23302073437424</y>
+                <r>0.5</r>
+                <rotate>0.5</rotate>
             </position>
             <component xsi:type="tank" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Rollomatic_628XS_CF</type>
@@ -33,8 +39,10 @@
         </machineComponent>
         <machineComponent>
             <position>
-                <x>278.68886949743614</x>
-                <y>1108.8258321750213</y>
+                <x>-282.180695719952</x>
+                <y>1570.4717949079295</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
             </position>
             <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Parker-PGP502-2.1CC</type>
@@ -45,6 +53,8 @@
             <position>
                 <x>-273.3203878137371</x>
                 <y>-157.04835255041755</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
             </position>
             <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Grundfos_CRK-4-100-10</type>
@@ -53,8 +63,10 @@
         </machineComponent>
         <machineComponent>
             <position>
-                <x>284.123549590586</x>
-                <y>790.4229360005552</y>
+                <x>-400.3485000988525</x>
+                <y>747.5657931434079</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
             </position>
             <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Grundfos_SPK-4-5-5</type>
@@ -65,6 +77,8 @@
             <position>
                 <x>1420.843091334898</x>
                 <y>398.3606557377054</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
             </position>
             <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Emerson_SK2402</type>
@@ -75,6 +89,8 @@
             <position>
                 <x>1773.7704918032832</x>
                 <y>-639.3442622950832</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
             </position>
             <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Fanuc-PS5.5-A06B-6140-H006</type>
@@ -85,6 +101,8 @@
             <position>
                 <x>1382.857142857147</x>
                 <y>-512.8571428571441</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
             </position>
             <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Fanuc-SV20-20-20-A06B-6117-H303</type>
@@ -95,6 +113,8 @@
             <position>
                 <x>1387.058823529413</x>
                 <y>-48.23529411764694</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
             </position>
             <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Fanuc-SV20-20-20-A06B-6117-H303</type>
@@ -103,8 +123,10 @@
         </machineComponent>
         <machineComponent>
             <position>
-                <x>736.6319642611129</x>
-                <y>889.6117135378752</y>
+                <x>69.17854811204732</x>
+                <y>746.9409060844545</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
             </position>
             <component xsi:type="heatExchanger" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Marksa_GH-810</type>
@@ -115,6 +137,8 @@
             <position>
                 <x>916.4705882352945</x>
                 <y>-536.4705882352954</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
             </position>
             <component xsi:type="linAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Rollomatic_628XS_XAxis</type>
@@ -125,6 +149,8 @@
             <position>
                 <x>915.463917525773</x>
                 <y>-388.659793814433</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
             </position>
             <component xsi:type="linAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Rollomatic_628XS_YAxis</type>
@@ -135,6 +161,8 @@
             <position>
                 <x>910.3092783505156</x>
                 <y>-228.8659793814433</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
             </position>
             <component xsi:type="linAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Rollomatic_628XS_ZAxis</type>
@@ -145,6 +173,8 @@
             <position>
                 <x>910.3092783505155</x>
                 <y>-68.04123711340208</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
             </position>
             <component xsi:type="rotAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Rollomatic_628XS_AAxis</type>
@@ -155,6 +185,8 @@
             <position>
                 <x>909.0</x>
                 <y>98.0</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
             </position>
             <component xsi:type="rotAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Rollomatic_628XS_BAxis</type>
@@ -165,6 +197,8 @@
             <position>
                 <x>913.0</x>
                 <y>256.0</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
             </position>
             <component xsi:type="rotAxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Rollomatic_628XS_CAxis</type>
@@ -175,6 +209,8 @@
             <position>
                 <x>352.7257478333807</x>
                 <y>-295.1635448700025</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
             </position>
             <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
@@ -183,8 +219,10 @@
         </machineComponent>
         <machineComponent>
             <position>
-                <x>760.9777025564306</x>
-                <y>1274.7497687599644</y>
+                <x>281.1195877111457</x>
+                <y>1530.213274354148</y>
+                <r>0.75</r>
+                <rotate>0.75</rotate>
             </position>
             <component xsi:type="cylinder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Example</type>
@@ -193,8 +231,10 @@
         </machineComponent>
         <machineComponent>
             <position>
-                <x>-171.8230177316818</x>
-                <y>1266.6741385078637</y>
+                <x>-291.3882351229848</x>
+                <y>1184.8418403712064</y>
+                <r>0.5</r>
+                <rotate>0.5</rotate>
             </position>
             <component xsi:type="tank" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Rollomatic_628XS_Hydraulic</type>
@@ -203,8 +243,10 @@
         </machineComponent>
         <machineComponent>
             <position>
-                <x>278.81510555887166</x>
-                <y>1407.5003535299543</y>
+                <x>139.26327282838332</x>
+                <y>1536.7337246926866</y>
+                <r>0.75</r>
+                <rotate>0.75</rotate>
             </position>
             <component xsi:type="bypass" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Girmatic-506820</type>
@@ -213,8 +255,10 @@
         </machineComponent>
         <machineComponent>
             <position>
-                <x>335.51613648670514</x>
-                <y>352.4193520572026</y>
+                <x>355.30043129738755</x>
+                <y>273.0436716564108</y>
+                <r>0.25</r>
+                <rotate>0.25</rotate>
             </position>
             <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Rollomatic_CF_Nozzle_Spindle</type>
@@ -223,8 +267,10 @@
         </machineComponent>
         <machineComponent>
             <position>
-                <x>334.99015289739333</x>
-                <y>160.01455508686462</y>
+                <x>187.01584815238647</x>
+                <y>274.2422448371215</y>
+                <r>0.25</r>
+                <rotate>0.25</rotate>
             </position>
             <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Rollomatic_CF_Nozzle_WP</type>
@@ -235,6 +281,8 @@
             <position>
                 <x>-255.24278676988126</x>
                 <y>-276.7065446868419</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
             </position>
             <component xsi:type="constantComponent" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Rollomatic_628XS_CC</type>
@@ -249,8 +297,10 @@
                 <unitText>K</unitText>
             </unit>
             <position>
-                <x>-533.7438423645334</x>
-                <y>-135.22167487683922</y>
+                <x>-894.4581280788244</x>
+                <y>-110.22167487683888</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
             </position>
         </simController>
         <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -259,18 +309,22 @@
                 <unitText>Pa</unitText>
             </unit>
             <position>
-                <x>-683.4271639690318</x>
-                <y>832.1956368754454</y>
+                <x>-704.8557353976034</x>
+                <y>589.338494018299</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
             </position>
         </simController>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>ProcSpindleSpeed</name>
             <unit>
-                <unitText>Bq</unitText>
+                <unitText>Hz</unitText>
             </unit>
             <position>
                 <x>695.9183673469399</x>
                 <y>444.89795918367423</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
             </position>
         </simController>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -281,6 +335,8 @@
             <position>
                 <x>716.3265306122463</x>
                 <y>-516.3265306122458</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
             </position>
         </simController>
         <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -289,8 +345,10 @@
                 <unitText>none</unitText>
             </unit>
             <position>
-                <x>53.061224489797524</x>
-                <y>1108.1632653061286</y>
+                <x>-533.8952972493294</x>
+                <y>1528.5048802129484</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
             </position>
         </simController>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -301,6 +359,8 @@
             <position>
                 <x>712.2448979591854</x>
                 <y>-367.346938775511</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
             </position>
         </simController>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -311,36 +371,44 @@
             <position>
                 <x>702.0408163265319</x>
                 <y>-208.16326530612292</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
             </position>
         </simController>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>ProcAxisASpeed</name>
             <unit>
-                <unitText>Bq</unitText>
+                <unitText>Hz</unitText>
             </unit>
             <position>
                 <x>704.0816326530628</x>
                 <y>-46.93877551020418</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
             </position>
         </simController>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>ProcAxisBSpeed</name>
             <unit>
-                <unitText>Bq</unitText>
+                <unitText>Hz</unitText>
             </unit>
             <position>
                 <x>695.9183673469399</x>
-                <y>116.32653061224512</y>
+                <y>114.76457543247125</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
             </position>
         </simController>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>ProcAxisCSpeed</name>
             <unit>
-                <unitText>Bq</unitText>
+                <unitText>Hz</unitText>
             </unit>
             <position>
                 <x>687.7551020408179</x>
                 <y>275.51020408163305</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
             </position>
         </simController>
         <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -349,8 +417,10 @@
                 <unitText>none</unitText>
             </unit>
             <position>
-                <x>-44.89795918367592</x>
-                <y>775.5102040816316</y>
+                <x>-740.1251576145329</x>
+                <y>689.0031756409602</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
             </position>
         </simController>
         <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -361,6 +431,8 @@
             <position>
                 <x>106.12244897959219</x>
                 <y>-206.12244897959243</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
             </position>
         </simController>
         <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -369,8 +441,10 @@
                 <unitText>none</unitText>
             </unit>
             <position>
-                <x>533.135233474833</x>
-                <y>-646.076409945421</y>
+                <x>580.6762170813894</x>
+                <y>-696.8960820765681</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
             </position>
         </simController>
         <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -381,6 +455,8 @@
             <position>
                 <x>-528.972264341214</x>
                 <y>-275.4031936272564</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
             </position>
         </simController>
         <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -389,8 +465,10 @@
                 <unitText>m³/s</unitText>
             </unit>
             <position>
-                <x>1085.4828529349857</x>
-                <y>954.9758047548899</y>
+                <x>492.87415728281496</x>
+                <y>1083.7335687300415</y>
+                <r>0.5</r>
+                <rotate>0.5</rotate>
             </position>
         </simController>
         <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -399,8 +477,10 @@
                 <unitText>Pa</unitText>
             </unit>
             <position>
-                <x>1083.5472333263176</x>
-                <y>914.5802650957285</y>
+                <x>488.82673643190935</x>
+                <y>993.0895818659103</y>
+                <r>0.5</r>
+                <rotate>0.5</rotate>
             </position>
         </simController>
         <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -409,8 +489,10 @@
                 <unitText>K</unitText>
             </unit>
             <position>
-                <x>1084.5150431306515</x>
-                <y>872.2280664843247</y>
+                <x>478.73864561512755</x>
+                <y>912.7870726955001</y>
+                <r>0.5</r>
+                <rotate>0.5</rotate>
             </position>
         </simController>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -419,8 +501,10 @@
                 <unitText>m/s</unitText>
             </unit>
             <position>
-                <x>553.2733424618772</x>
-                <y>1291.8470819120294</y>
+                <x>287.5063637950345</x>
+                <y>1693.8375561410476</y>
+                <r>0.75</r>
+                <rotate>0.75</rotate>
             </position>
         </simController>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -429,8 +513,10 @@
                 <unitText>none</unitText>
             </unit>
             <position>
-                <x>141.0284445026942</x>
-                <y>161.6556238855212</y>
+                <x>233.1176479433307</x>
+                <y>-24.066299887984854</y>
+                <r>0.25</r>
+                <rotate>0.25</rotate>
             </position>
         </simController>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -439,8 +525,10 @@
                 <unitText>none</unitText>
             </unit>
             <position>
-                <x>130.35977277508906</x>
-                <y>351.39911634756993</y>
+                <x>343.64895484088237</x>
+                <y>-28.096529880004354</y>
+                <r>0.25</r>
+                <rotate>0.25</rotate>
             </position>
         </simController>
     </simulators>

@@ -1,7 +1,13 @@
+Spindle.State = NC
+Spindle.RotSpeed = n
 Amplifier.PDmd = Spindle.PTotal
+Amplifier.State = NC
+Pump.State = Machine
+Pump.TemperatureAmb = AmbTemperature
+Tank.TemperatureAmb = AmbTemperature
+Pump.FluidIn = Tank.FluidOut
+Tank.FluidIn = Spindle.CoolantOut
+Spindle.CoolantIn = Pump.FluidOut
+Cooler.State = Machine
 Cooler.Temperature = Tank.TemperatureTank
 Tank.HeatExchangerOut = Cooler.PThermal
-Pump.FluidIn = Tank.FluidOut
-Spindle.CoolantIn = Pump.FluidOut
-Tank.FluidIn = Spindle.CoolantOut
-Spindle.RotSpeed = n
