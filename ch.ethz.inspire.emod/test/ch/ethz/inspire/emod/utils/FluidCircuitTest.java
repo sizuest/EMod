@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.model.MachineComponent;
+import ch.ethz.inspire.emod.model.fluid.FluidCircuit;
 
 public class FluidCircuitTest {
 	@Test

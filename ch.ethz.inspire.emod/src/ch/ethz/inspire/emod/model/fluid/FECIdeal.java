@@ -12,7 +12,12 @@
 
 package ch.ethz.inspire.emod.model.fluid;
 
-public class FECIdeal extends AFluidElementCharacteristic{
+/**
+ * Element with no pressure drop
+ * @author sizuest
+ *
+ */
+public class FECIdeal extends AFluidElementCharacteristic {
 
 	@Override
 	public double getA0(double flowRate, double pressureIn, double pressureOut) {

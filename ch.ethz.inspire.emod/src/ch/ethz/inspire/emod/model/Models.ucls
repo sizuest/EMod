@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.13" icons="true" automaticImage="PNG" always-add-relationships="false" 
+  generalizations="true" realizations="true" associations="true" dependencies="false" nesting-relationships="true" 
+  router="FAN">  
+  <class id="1" language="java" name="ch.ethz.inspire.emod.model.APhysicalComponent" project="ch.ethz.inspire.emod" 
+    file="/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/model/APhysicalComponent.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="527" width="269" x="2994" y="334"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="ch.ethz.inspire.emod.model.Spindle" project="ch.ethz.inspire.emod" 
+    file="/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/model/Spindle.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="761" width="298" x="3372" y="901"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="ch.ethz.inspire.emod.model.AMotor" project="ch.ethz.inspire.emod" 
+    file="/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/model/AMotor.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="239" width="203" x="3372" y="2206"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="ch.ethz.inspire.emod.model.Bearing" project="ch.ethz.inspire.emod" 
+    file="/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/model/Bearing.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="725" width="228" x="4048" y="2206"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="ch.ethz.inspire.emod.model.Cylinder" project="ch.ethz.inspire.emod" 
+    file="/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/model/Cylinder.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="707" width="298" x="1661" y="901"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="ch.ethz.inspire.emod.model.Bypass" project="ch.ethz.inspire.emod" 
+    file="/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/model/Bypass.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="401" width="298" x="41" y="901"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="ch.ethz.inspire.emod.model.Cooler" project="ch.ethz.inspire.emod" 
+    file="/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/model/Cooler.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="437" width="228" x="717" y="901"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="ch.ethz.inspire.emod.model.HeatExchanger" project="ch.ethz.inspire.emod" 
+    file="/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/model/HeatExchanger.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="671" width="298" x="379" y="901"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="ch.ethz.inspire.emod.model.HeatExchangerAir" project="ch.ethz.inspire.emod" 
+    file="/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/model/HeatExchangerAir.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="581" width="298" x="985" y="901"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="ch.ethz.inspire.emod.model.HydraulicAccumulator" project="ch.ethz.inspire.emod" 
+    file="/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/model/HydraulicAccumulator.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="671" width="298" x="3034" y="901"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="ch.ethz.inspire.emod.model.LinAxis" project="ch.ethz.inspire.emod" 
+    file="/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/model/LinAxis.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="851" width="298" x="3710" y="901"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="12" language="java" name="ch.ethz.inspire.emod.model.MachineComponent" project="ch.ethz.inspire.emod" 
+    file="/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/model/MachineComponent.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="257" width="228" x="2994" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="13" language="java" name="ch.ethz.inspire.emod.model.MotorAC" project="ch.ethz.inspire.emod" 
+    file="/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/model/MotorAC.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="581" width="228" x="3104" y="2971"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="14" language="java" name="ch.ethz.inspire.emod.model.Motor" project="ch.ethz.inspire.emod" 
+    file="/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/model/Motor.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="455" width="228" x="3372" y="2971"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="15" language="java" name="ch.ethz.inspire.emod.model.MotorDC" project="ch.ethz.inspire.emod" 
+    file="/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/model/MotorDC.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="491" width="228" x="3640" y="2971"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="16" language="java" name="ch.ethz.inspire.emod.model.Pipe" project="ch.ethz.inspire.emod" 
+    file="/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/model/Pipe.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="689" width="298" x="1999" y="901"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="17" language="java" name="ch.ethz.inspire.emod.model.Pump" project="ch.ethz.inspire.emod" 
+    file="/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/model/Pump.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="1265" width="298" x="1323" y="901"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="18" language="java" name="ch.ethz.inspire.emod.model.RotAxis" project="ch.ethz.inspire.emod" 
+    file="/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/model/RotAxis.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="797" width="298" x="4048" y="901"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="19" language="java" name="ch.ethz.inspire.emod.model.Tank" project="ch.ethz.inspire.emod" 
+    file="/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/model/Tank.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="725" width="298" x="2337" y="901"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="20" language="java" name="ch.ethz.inspire.emod.model.Transmission" project="ch.ethz.inspire.emod" 
+    file="/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/model/Transmission.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="419" width="228" x="4316" y="2206"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="21" language="java" name="ch.ethz.inspire.emod.model.Valve" project="ch.ethz.inspire.emod" 
+    file="/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/model/Valve.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="509" width="298" x="2675" y="901"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="22" language="java" name="ch.ethz.inspire.emod.dd.Duct" project="ch.ethz.inspire.emod" 
+    file="/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/dd/Duct.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2480" y="3032"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="23" language="java" name="ch.ethz.inspire.emod.utils.Floodable" project="ch.ethz.inspire.emod" 
+    file="/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/utils/Floodable.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="95" width="298" x="779" y="165"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <generalization id="24">    
+    <bendpoint x="3003" y="901"/>    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <association id="25">    
+    <end type="SOURCE" refId="18" navigable="false">      
+      <attribute id="26" name="bearings"/>      
+      <multiplicity id="27" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="28">    
+    <bendpoint x="4376" y="901"/>    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <generalization id="29">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <association id="30">    
+    <end type="SOURCE" refId="18" navigable="false">      
+      <attribute id="31" name="transmission"/>      
+      <multiplicity id="32" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="20" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="33">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="23"/>  
+  </realization>  
+  <generalization id="34">    
+    <end type="SOURCE" refId="16"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <association id="35">    
+    <end type="SOURCE" refId="16" navigable="false">      
+      <attribute id="36" name="duct"/>      
+      <multiplicity id="37" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="22" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="38">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <association id="39">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="40" name="bearings"/>      
+      <multiplicity id="41" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="42">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="43" name="duct"/>      
+      <multiplicity id="44" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="22" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="45">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <generalization id="46">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <realization id="47">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="23"/>  
+  </realization>  
+  <association id="48">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="49" name="motor"/>      
+      <multiplicity id="50" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="51">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="52" name="coolingDuct"/>      
+      <multiplicity id="53" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="22" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="54">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="55" name="bearings"/>      
+      <multiplicity id="56" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="57">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <realization id="58">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="23"/>  
+  </realization>  
+  <generalization id="59">    
+    <end type="SOURCE" refId="21"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <generalization id="60">    
+    <bendpoint x="4397" y="901"/>    
+    <end type="SOURCE" refId="20"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <generalization id="61">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <generalization id="62">    
+    <end type="SOURCE" refId="15"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <realization id="63">    
+    <end type="SOURCE" refId="18"/>    
+    <end type="TARGET" refId="23"/>  
+  </realization>  
+  <association id="64">    
+    <end type="SOURCE" refId="12" navigable="false">      
+      <attribute id="65" name="component"/>      
+      <multiplicity id="66" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="67">    
+    <end type="SOURCE" refId="18" navigable="false">      
+      <attribute id="68" name="duct"/>      
+      <multiplicity id="69" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="22" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="70">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="23"/>  
+  </realization>  
+  <generalization id="71">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <realization id="72">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="23"/>  
+  </realization>  
+  <realization id="73">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="23"/>  
+  </realization>  
+  <generalization id="74">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <generalization id="75">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <realization id="76">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="23"/>  
+  </realization>  
+  <realization id="77">    
+    <end type="SOURCE" refId="16"/>    
+    <end type="TARGET" refId="23"/>  
+  </realization>  
+  <realization id="78">    
+    <end type="SOURCE" refId="21"/>    
+    <end type="TARGET" refId="23"/>  
+  </realization>  
+  <generalization id="79">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <association id="80">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="81" name="motor"/>      
+      <multiplicity id="82" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="83">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <realization id="84">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="23"/>  
+  </realization>  
+  <realization id="85">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="23"/>  
+  </realization>  
+  <generalization id="86">    
+    <end type="SOURCE" refId="18"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <association id="87">    
+    <end type="SOURCE" refId="18" navigable="false">      
+      <attribute id="88" name="motor"/>      
+      <multiplicity id="89" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="90">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

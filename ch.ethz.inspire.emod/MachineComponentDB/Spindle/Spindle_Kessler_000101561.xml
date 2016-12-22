@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-<comment>File changed by user: simon</comment>
-<entry key="AirGapFrictionCoeff">0, 0</entry>
-<entry key="PreloadForce">0</entry>
-<entry key="StructureMass">26</entry>
-<entry key="MotorType">MotorAC_Kessler_000101561</entry>
-<entry key="BearingType">Example</entry>
+<comment/>
 <entry key="StructureMaterial">Steel</entry>
+<entry key="BearingType">Example</entry>
+<entry key="StructureMass">26</entry>
 <entry key="StructureDuct">StructureDuct</entry>
+<entry key="PreloadForce">0</entry>
+<entry key="MotorType">MotorAC_Kessler_000101561</entry>
+<entry key="AirGapFrictionCoeff">0, 0</entry>
 </properties>

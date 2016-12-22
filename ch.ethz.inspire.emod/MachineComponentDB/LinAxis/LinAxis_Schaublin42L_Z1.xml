@@ -1,25 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-  <comment>
-    Model parameter definition
-    ==========================
-      Model : LinAxis 
-      Type  : Schaublin 42L TMI3 Z1
-    Parameters
-    ----------
-      Transmission [m]
-        Transmission between the motor (rad/s) and the translation (m)
-      Mass [kg]
-		Mass in kg
-      Alpha [deg]
-  		Angle between the axis and the vertical
-  </comment>
-  <entry key="Transmission">.015</entry>
-  <entry key="Mass">0</entry>
-  <entry key="Alpha">35</entry>
-  <entry key="MotorType">MotorDC_Example</entry>
-  <entry key="StructureMass">100</entry>
-  <entry key="StructureDuct">StructureDuct</entry>
-  <entry key="StructureMaterial">Steel</entry>
+<comment/>
+<entry key="Alpha">35</entry>
+<entry key="Transmission">.015</entry>
+<entry key="PowerBreakOff">27</entry>
+<entry key="StructureMass">35</entry>
+<entry key="MotorType">MotorDC_FanucAlphaC12_2000</entry>
+<entry key="StructureDuct">StructureDuct</entry>
+<entry key="PowerBreakOn">0.0</entry>
+<entry key="StructureMaterial">Steel</entry>
+<entry key="TransmissionEfficiency">1.0</entry>
+<entry key="Mass">35</entry>
 </properties>

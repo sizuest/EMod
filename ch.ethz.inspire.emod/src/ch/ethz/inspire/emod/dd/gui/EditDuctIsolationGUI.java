@@ -39,177 +39,209 @@ import ch.ethz.inspire.emod.model.parameters.ParameterSet;
 import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
 
-public class EditDuctIsolationGUI extends AConfigGUI{
-    private Table tableProperties;
-    private Isolation isolationOld, isolationNew;
-    private ParameterSet parameters = new ParameterSet();
-    Button buttonEditMaterial;
+/**
+ * Composite to edit the isolation of a duct
+ * @author sizuest
+ *
+ */
+public class EditDuctIsolationGUI extends AConfigGUI {
+	private Table tableProperties;
+	private Isolation isolationOld, isolationNew;
+	private ParameterSet parameters = new ParameterSet();
+	Button buttonEditMaterial;
 
+	/**
+	 * Create the composite and add it to the parent
+	 * @param parent
+	 * @param style
+	 * @param iso
+	 */
 	public EditDuctIsolationGUI(Composite parent, int style, final Isolation iso) {
 		super(parent, style);
-		
-		if(null!=iso){
+
+		if (null != iso) {
 			this.isolationOld = iso;
 			this.isolationNew = iso.clone();
 			parameters = this.isolationOld.getParameterSet();
-		}
-		else
+		} else
 			parameters = (new Isolation()).getParameterSet();
-		
+
 		this.getContent().setLayout(new GridLayout(1, true));
-		
-		tableProperties = new Table(this.getContent(), SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL);
-		tableProperties.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
+
+		tableProperties = new Table(this.getContent(), SWT.BORDER | SWT.SINGLE
+				| SWT.V_SCROLL);
+		tableProperties.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
+				true, 2, 1));
 		tableProperties.setLinesVisible(true);
 		tableProperties.setHeaderVisible(true);
-		
-		String[] titles =  {LocalizationHandler.getItem("app.dd.elemet.gui.property"),
-							LocalizationHandler.getItem("app.dd.elemet.gui.value"),
-							LocalizationHandler.getItem("app.dd.elemet.gui.unit"),
-							"        "};
-		
-		for(int i=0; i < titles.length; i++){
+
+		String[] titles = {
+				LocalizationHandler.getItem("app.dd.elemet.gui.property"),
+				LocalizationHandler.getItem("app.dd.elemet.gui.value"),
+				LocalizationHandler.getItem("app.dd.elemet.gui.unit"),
+				"        " };
+
+		for (int i = 0; i < titles.length; i++) {
 			TableColumn column = new TableColumn(tableProperties, SWT.NULL);
 			column.setText(titles[i]);
 			column.setWidth(32);
 		}
-	    
-	    updatePropertyTable();
+
+		updatePropertyTable();
 	}
-	
+
+	/**
+	 * Create the composite in a new shell
+	 * @param parent
+	 * @param isolation
+	 * @return
+	 */
 	public static Shell editDuctIsolationGUI(Shell parent, Isolation isolation) {
-		final Shell shell = new Shell(parent, SWT.SYSTEM_MODAL| SWT.CLOSE | SWT.MAX| SWT.RESIZE);
+		final Shell shell = new Shell(parent, SWT.SYSTEM_MODAL | SWT.CLOSE
+				| SWT.MAX | SWT.RESIZE);
 		shell.setLayout(new GridLayout());
-		
-		final EditDuctIsolationGUI gui = new EditDuctIsolationGUI(shell, SWT.NONE, isolation);
-		
-		shell.setText(LocalizationHandler.getItem("app.dd.elemet.gui.isolation.titel"));
-		
+
+		final EditDuctIsolationGUI gui = new EditDuctIsolationGUI(shell,
+				SWT.NONE, isolation);
+
+		shell.setText(LocalizationHandler
+				.getItem("app.dd.elemet.gui.isolation.titel"));
+
 		shell.layout();
 		shell.open();
 		shell.layout();
-		
+
 		shell.setSize(shell.computeSize(SWT.DEFAULT, SWT.DEFAULT));
-		
+
 		shell.addControlListener(new ControlListener() {
-			
+
 			@Override
 			public void controlResized(ControlEvent e) {
 				gui.layout();
 			}
-			
+
 			@Override
 			public void controlMoved(ControlEvent e) {
 				gui.layout();
 			}
 		});
-		
+
 		gui.addDisposeListener(new DisposeListener() {
 			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				shell.dispose();
 			}
 		});
-		
+
 		return shell;
 	}
-	
-	private void setIsolationThickness(){
-		try{
-			parameters.setPhysicalValue(tableProperties.getItem(1).getText(0), Double.parseDouble(tableProperties.getItem(1).getText(1)), new SiUnit(tableProperties.getItem(1).getText(2)));
-    		isolationNew.setParameterSet(parameters);
-		}
-		catch(Exception ex){
+
+	private void setIsolationThickness() {
+		try {
+			parameters.setPhysicalValue(tableProperties.getItem(1).getText(0),
+					Double.parseDouble(tableProperties.getItem(1).getText(1)),
+					new SiUnit(tableProperties.getItem(1).getText(2)));
+			isolationNew.setParameterSet(parameters);
+		} catch (Exception ex) {
 			// Not used
 		}
 	}
 
 	private void updatePropertyTable() {
-		if(null!=buttonEditMaterial)
+		if (null != buttonEditMaterial)
 			buttonEditMaterial.dispose();
-		
+
 		tableProperties.clearAll();
-    	tableProperties.setItemCount(0);
-    	
-    	for(Control c: tableProperties.getChildren())
-    		c.dispose();
-			
-		
+		tableProperties.setItemCount(0);
+
+		for (Control c : tableProperties.getChildren())
+			c.dispose();
+
 		try {
-			TableUtils.addCellEditor(tableProperties, this, new int[]{1});
+			TableUtils.addCellEditor(tableProperties, this, new int[] { 1 });
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-    	
-    	new TableItem(tableProperties, SWT.NONE, 0); //Material
-    	updateIsolationItem();
-    	
-        for(String key: parameters.getParameterSet().keySet()){
-        	final int idx = tableProperties.getItemCount();
-        	final TableItem itemParam = new TableItem(tableProperties, SWT.NONE, idx);
-        	
-        	itemParam.setText(0, key);
-        	itemParam.setText(1, parameters.getPhysicalValue(key).getValue()+"");
-        	itemParam.setText(2, parameters.getPhysicalValue(key).getUnit().toString());
-        	
-        }   
-        
-        for(int i=0; i<3; i++){
-        	final int idx = tableProperties.getItemCount();
-        	final TableItem itemParam = new TableItem(tableProperties, SWT.NONE, idx);
-        	itemParam.setText(0, "");
-        }
-        
-        TableColumn[] columns = tableProperties.getColumns();
-        for (int j = 0; j < columns.length; j++) {
-        	columns[j].pack();
-        }         
-        
-        this.pack();
-        this.layout();
-        this.getShell().pack();
-        this.getShell().layout();
+
+		new TableItem(tableProperties, SWT.NONE, 0); // Material
+		updateIsolationItem();
+
+		for (String key : parameters.getParameterSet().keySet()) {
+			final int idx = tableProperties.getItemCount();
+			final TableItem itemParam = new TableItem(tableProperties,
+					SWT.NONE, idx);
+
+			itemParam.setText(0, key);
+			itemParam.setText(1, parameters.getPhysicalValue(key).getValue()
+					+ "");
+			itemParam.setText(2, parameters.getPhysicalValue(key).getUnit()
+					.toString());
+
+		}
+
+		for (int i = 0; i < 3; i++) {
+			final int idx = tableProperties.getItemCount();
+			final TableItem itemParam = new TableItem(tableProperties,
+					SWT.NONE, idx);
+			itemParam.setText(0, "");
+		}
+
+		TableColumn[] columns = tableProperties.getColumns();
+		for (int j = 0; j < columns.length; j++) {
+			columns[j].pack();
+		}
+
+		this.pack();
+		this.layout();
+		this.getShell().pack();
+		this.getShell().layout();
 	}
-	
-	private void updateIsolationItem(){
+
+	private void updateIsolationItem() {
 		TableItem itemMaterial = tableProperties.getItem(0);
-		
-		itemMaterial.setText(0, LocalizationHandler.getItem("app.dd.elemet.gui.isolation.material"));
-    	if( null!=isolationNew & null!=isolationNew.getMaterial() )
-    		itemMaterial.setText(1, isolationNew.getMaterial().getType());
-    	else
-    		itemMaterial.setText(1, LocalizationHandler.getItem("app.dd.elemet.gui.isolation.none"));
-    	
-    	TableEditor editorButton = new TableEditor(tableProperties);
-    	
-    	buttonEditMaterial = new Button(tableProperties, SWT.NONE);
-    	buttonEditMaterial.setText("...");
-    	buttonEditMaterial.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, true, 1, 1));
-    	buttonEditMaterial.addSelectionListener(new SelectionListener(){
-        	public void widgetSelected(SelectionEvent event){
-        		openMaterialGUI();
-        		wasEdited();
-        	}
-			public void widgetDefaultSelected(SelectionEvent event){
+
+		itemMaterial.setText(0, LocalizationHandler
+				.getItem("app.dd.elemet.gui.isolation.material"));
+		if (null != isolationNew & null != isolationNew.getMaterial())
+			itemMaterial.setText(1, isolationNew.getMaterial().getType());
+		else
+			itemMaterial.setText(1, LocalizationHandler
+					.getItem("app.dd.elemet.gui.isolation.none"));
+
+		TableEditor editorButton = new TableEditor(tableProperties);
+
+		buttonEditMaterial = new Button(tableProperties, SWT.NONE);
+		buttonEditMaterial.setText("...");
+		buttonEditMaterial.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false,
+				true, 1, 1));
+		buttonEditMaterial.addSelectionListener(new SelectionListener() {
+			@Override
+			public void widgetSelected(SelectionEvent event) {
+				openMaterialGUI();
+				wasEdited();
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent event) {
 				// Not used
-        	}
-        });
-    	buttonEditMaterial.pack();
+			}
+		});
+		buttonEditMaterial.pack();
 		editorButton.minimumWidth = buttonEditMaterial.getSize().x;
 		editorButton.horizontalAlignment = SWT.LEFT;
-        editorButton.setEditor(buttonEditMaterial, itemMaterial, 3);
+		editorButton.setEditor(buttonEditMaterial, itemMaterial, 3);
 	}
-	
-	private void setMaterial(String type){
+
+	private void setMaterial(String type) {
 		isolationNew.setMaterial(type);
 		updateIsolationItem();
 	}
-	
-	private void openMaterialGUI(){
+
+	private void openMaterialGUI() {
 		SelectMaterialGUI matGUI = new SelectMaterialGUI(this.getShell());
-    	String selection = matGUI.open();
-    	if(selection != "" & selection !=null)
-    		setMaterial(selection);
+		String selection = matGUI.open();
+		if (selection != "" & selection != null)
+			setMaterial(selection);
 	}
 
 	@Override
@@ -222,12 +254,11 @@ public class EditDuctIsolationGUI extends AConfigGUI{
 	@Override
 	public void reset() {
 		isolationNew = isolationOld.clone();
-		if(null!=isolationNew){
+		if (null != isolationNew) {
 			parameters = this.isolationNew.getParameterSet();
-		}
-		else
+		} else
 			parameters = (new Isolation()).getParameterSet();
-		
+
 		updatePropertyTable();
 	}
 

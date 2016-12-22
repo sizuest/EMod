@@ -23,28 +23,33 @@ import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 /**
  * Handler Class for material GUIs
+ * 
  * @author sizuest
- *
+ * 
  */
 public class MaterialHandler {
 
- 	/**
+	/**
 	 * fill a tree element with the machine component from the DB
-	 * @param aTree	tree element to fill
-	 */ 	
-	public static void fillTree(Tree aTree){
+	 * 
+	 * @param aTree
+	 *            tree element to fill
+	 */
+	public static void fillTree(Tree aTree) {
 		String matName;
-		
-		//read material db folder from the current path
-		String path = PropertiesHandler.getProperty("app.MaterialDBPathPrefix") + "/";
-		File dir = new File(path);		
+
+		// read material db folder from the current path
+		String path = PropertiesHandler.getProperty("app.MaterialDBPathPrefix")
+				+ "/";
+		File dir = new File(path);
 		File[] subDirsMaterials = dir.listFiles();
 		Arrays.sort(subDirsMaterials);
-		
-		//iterate over existing Materials
-		for (int i = 0; i < subDirsMaterials.length; i++){
+
+		// iterate over existing Materials
+		for (int i = 0; i < subDirsMaterials.length; i++) {
 			TreeItem child = new TreeItem(aTree, SWT.NONE);
-			matName = subDirsMaterials[i].getName().replace("Material_", "").replace(".xml", "");
+			matName = subDirsMaterials[i].getName().replace("Material_", "")
+					.replace(".xml", "");
 			child.setText(matName);
 		}
 	}

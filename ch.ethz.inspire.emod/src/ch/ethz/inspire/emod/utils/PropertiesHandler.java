@@ -22,35 +22,44 @@ import java.util.Properties;
 
 /**
  * @author dhampl
- *
+ * 
  */
 public class PropertiesHandler {
 
-	private static Properties prop=null;
-	
+	private static Properties prop = null;
+
 	private PropertiesHandler() throws IOException {
 		prop = new Properties();
 		InputStream is = new FileInputStream("app.config");
 		prop.load(is);
 		is.close();
 	}
-	
+
+	/**
+	 * Returns the stated property
+	 * @param property
+	 * @return
+	 */
 	public static String getProperty(String property) {
-		if(prop==null) {
+		if (prop == null) {
 			try {
 				new PropertiesHandler();
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return prop.getProperty(property);
 	}
-	
-	public static void setProperty(String property, String value){
+
+	/**
+	 * Sets the stated property
+	 * @param property
+	 * @param value
+	 */
+	public static void setProperty(String property, String value) {
 		prop.setProperty(property, value);
-		
+
 		OutputStream os = null;
 		try {
 			os = new FileOutputStream("app.config");

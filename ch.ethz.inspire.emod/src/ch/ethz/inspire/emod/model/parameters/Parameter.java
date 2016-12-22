@@ -12,37 +12,71 @@
  ***********************************/
 package ch.ethz.inspire.emod.model.parameters;
 
-public class Parameter <T> {
+/**
+ * Implements a parameter with a unit and a describing comment
+ * @author sizuest
+ *
+ * @param <T>
+ */
+public class Parameter<T> {
 	private String name;
-	private T value; 
+	private T value;
 	private String comment;
-	
-	public Parameter(String name, T value){
+
+	/**
+	 * @param name
+	 * @param value
+	 */
+	public Parameter(String name, T value) {
 		this.name = name;
 		this.value = value;
 	}
-	
-	public T getValue(){
+
+	/**
+	 * Get the value
+	 * @return
+	 */
+	public T getValue() {
 		return value;
 	}
-	
-	public void setValue(T value){
+
+	/**
+	 * Set the value
+	 * @param value
+	 */
+	public void setValue(T value) {
 		this.value = value;
 	}
-	
-	public String getComment(){
+
+	/**
+	 * Get the description
+	 * @return
+	 */
+	public String getComment() {
 		return this.comment;
 	}
-	
-	public void setComment(String comment){
+
+	/**
+	 * Set the description
+	 * @param comment
+	 */
+	public void setComment(String comment) {
 		this.comment = comment;
 	}
-	
-	public String getName(){
+
+	/**
+	 * Get the name
+	 * @return
+	 */
+	public String getName() {
 		return this.name;
 	}
-	
-	public void setName(String name){
+
+	/**
+	 * Set the name
+	 * @param name
+	 */
+	public void setName(String name) {
 		this.name = name;
 	}
 }

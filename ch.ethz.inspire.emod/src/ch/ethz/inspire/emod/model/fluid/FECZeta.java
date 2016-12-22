@@ -14,48 +14,78 @@ package ch.ethz.inspire.emod.model.fluid;
 
 import ch.ethz.inspire.emod.utils.Algo;
 
-public class FECZeta extends AFluidElementCharacteristic{
+/**
+ * Element with zeta from lookup table
+ * 
+ * @author sizuest
+ *
+ */
+public class FECZeta extends AFluidElementCharacteristic {
 
 	double[] zetaSamples, pressureSamples;
-	
-	public void setZeta(double zeta){
-		this.zetaSamples = new double[]{zeta};
+
+	/**
+	 * Set constant value
+	 * @param zeta
+	 */
+	public void setZeta(double zeta) {
+		this.zetaSamples = new double[] { zeta };
 	}
-	
-	public void setZeta(double[] zeta, double[] pressure){
+
+	/**
+	 * Set pressure dependent value
+	 * @param zeta
+	 * @param pressure
+	 */
+	public void setZeta(double[] zeta, double[] pressure) {
 		this.zetaSamples = zeta;
 		this.pressureSamples = pressure;
 	}
-	
-	public FECZeta(double zeta){
-		this.zetaSamples = new double[]{zeta};
+
+	/**
+	 * @param zeta
+	 */
+	public FECZeta(double zeta) {
+		this.zetaSamples = new double[] { zeta };
 	}
-	
-	public FECZeta(double[] zeta, double[] pressure){
+
+	/**
+	 * @param zeta
+	 * @param pressure
+	 */
+	public FECZeta(double[] zeta, double[] pressure) {
 		this.zetaSamples = zeta;
 		this.pressureSamples = pressure;
 	}
-	
+
 	@Override
 	public double getA0(double flowRate, double pressureIn, double pressureOut) {
-		return -getZeta(pressureIn-pressureOut)*Math.pow(flowRate, 2)*Fluid.sign(flowRate);
+		return -getZeta(pressureIn - pressureOut) * Math.pow(flowRate, 2)
+				* Fluid.sign(flowRate);
 	}
 
 	@Override
 	public double getA1(double flowRate, double pressureIn, double pressureOut) {
-		return 2*flowRate*getZeta(pressureIn-pressureOut)*Fluid.sign(flowRate);
+		return 2 * flowRate * getZeta(pressureIn - pressureOut)
+				* Fluid.sign(flowRate);
 	}
 
 	@Override
 	public double getEp(double flowRate, double pressureIn, double pressureOut) {
 		return 1;
 	}
-	
-	public double getZeta(double pressure){
-		if(this.zetaSamples.length == 1)
+
+	/**
+	 * Get zeta for the given pressure
+	 * @param pressure
+	 * @return
+	 */
+	public double getZeta(double pressure) {
+		if (this.zetaSamples.length == 1)
 			return this.zetaSamples[0];
 		else
-			return Algo.linearInterpolation(pressure, pressureSamples, zetaSamples);
+			return Algo.linearInterpolation(pressure, pressureSamples,
+					zetaSamples);
 	}
 
 }

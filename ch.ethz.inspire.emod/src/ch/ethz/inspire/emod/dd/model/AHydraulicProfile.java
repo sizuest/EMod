@@ -21,67 +21,75 @@ import ch.ethz.inspire.emod.model.parameters.Parameterizable;
 
 /**
  * Abstract calss for a hydraulic diameter
+ * 
  * @author sizuest
- *
+ * 
  */
 @XmlRootElement
 public abstract class AHydraulicProfile implements Parameterizable, Cloneable {
-	
+
 	/**
 	 * Constructor for unmarshaler
 	 */
-	public AHydraulicProfile(){}
-	
+	public AHydraulicProfile() {
+	}
+
 	/**
 	 * Clone
 	 */
+	@Override
 	public abstract AHydraulicProfile clone();
-	
+
 	/**
-	 * Constructor for {@link ParameterSet.java} input
+	 * Constructor for {@link ParameterSet} input
+	 * 
 	 * @param ps
 	 */
-	public AHydraulicProfile(ParameterSet ps){
+	public AHydraulicProfile(ParameterSet ps) {
 		setParameterSet(ps);
 	}
-	
+
 	/**
 	 * Returns the configuration as string
 	 * 
-	 * @param Configuration
 	 */
+	@Override
 	public abstract String toString();
-	
+
 	/**
 	 * Returns the profile height
+	 * 
 	 * @return [m]
 	 */
 	public abstract double getHeight();
-	
+
 	/**
 	 * Returns the profile width
+	 * 
 	 * @return [m]
 	 */
 	public abstract double getWidth();
-	
+
 	/**
 	 * Returns the cross sectional area A
+	 * 
 	 * @return [m^2]
 	 */
 	public abstract double getArea();
-	
+
 	/**
 	 * Returns the wetted perimeter U
+	 * 
 	 * @return [m]
 	 */
 	public abstract double getPerimeter();
-	
+
 	/**
-	 * Returns the hydraulic diameter defined by
-	 *   Dh = 4 A/U
+	 * Returns the hydraulic diameter defined by Dh = 4 A/U
+	 * 
 	 * @return [m]
 	 */
-	public double getDiameter(){
+	public double getDiameter() {
 		return Fluid.hydraulicDiameter(this);
 	}
 

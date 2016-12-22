@@ -20,15 +20,16 @@ import ch.ethz.inspire.emod.model.MachineComponent;
 
 /**
  * @author dhampl
- *
+ * 
  */
 public class MachineComponentComposite extends Composite {
 
 	private Label nameLabel;
 	private Label componentClassLabel;
 	private Label typeLabel;
-	
+
 	private MachineComponent component;
+
 	/**
 	 * @param parent
 	 * @param style
@@ -38,7 +39,8 @@ public class MachineComponentComposite extends Composite {
 		nameLabel = new Label(this, SWT.NONE);
 		nameLabel.setText(component.getName());
 		componentClassLabel = new Label(this, SWT.NONE);
-		componentClassLabel.setText(component.getComponent().getClass().getSimpleName());
+		componentClassLabel.setText(component.getComponent().getClass()
+				.getSimpleName());
 		typeLabel = new Label(this, SWT.NONE);
 		typeLabel.setText(component.getComponent().getType());
 		pack();

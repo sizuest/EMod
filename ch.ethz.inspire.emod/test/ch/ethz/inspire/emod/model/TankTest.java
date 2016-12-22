@@ -2,8 +2,6 @@ package ch.ethz.inspire.emod.model;
 
 import org.junit.Test;
 
-import ch.ethz.inspire.emod.utils.FluidContainer;
-
 public class TankTest {
 	
 	@Test

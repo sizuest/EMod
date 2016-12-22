@@ -11,4 +11,6 @@
 <entry key="PowerBreakOn">0.0</entry>
 <entry key="StructureMaterial">Steel</entry>
 <entry key="Mass">10</entry>
+<entry key="BearingType">Example, Example</entry>
+<entry key="TransmissionEfficiency">.9</entry>
 </properties>

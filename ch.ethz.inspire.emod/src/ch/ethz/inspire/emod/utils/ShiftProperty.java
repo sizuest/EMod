@@ -13,81 +13,92 @@
 package ch.ethz.inspire.emod.utils;
 
 /**
- * ThermalArrayStatus
- * Preserves the property of the thermal array at a specific time step
+ * ThermalArrayStatus Preserves the property of the thermal array at a specific
+ * time step
+ * 
  * @author sizuest
- * @param <T> Type of the property
- *
+ * @param <T>
+ *            Type of the property
+ * 
  */
 public class ShiftProperty<T> {
-	private T last=null, current=null;
-	
+	private T last = null, current = null;
+
 	/**
-	 * Creates a new object with current and last property value equal to the argument
+	 * Creates a new object with current and last property value equal to the
+	 * argument
+	 * 
 	 * @param value
 	 */
-	public ShiftProperty(T value){
-		this.last    = value;
+	public ShiftProperty(T value) {
+		this.last = value;
 		this.current = value;
 	}
-	
+
 	/**
-	 * Creates a new object with current and last property value equal to the arguments
+	 * Creates a new object with current and last property value equal to the
+	 * arguments
+	 * 
 	 * @param value
-	 * @param lastvalue 
+	 * @param lastvalue
 	 */
-	public ShiftProperty(T value, T lastvalue){
-		this.last    = value;
+	public ShiftProperty(T value, T lastvalue) {
+		this.last = value;
 		this.current = lastvalue;
 	}
-	
+
 	/**
 	 * 
 	 */
-	public ShiftProperty(){
+	public ShiftProperty() {
 	}
-	
+
 	/**
 	 * Sets the current value to the argument value
+	 * 
 	 * @param value
 	 */
-	public void set(T value){
-		if(null==last)
+	public void set(T value) {
+		if (null == last)
 			this.last = value;
 		this.current = value;
 	}
-	
+
 	/**
 	 * Shifts the current value to the last value field
 	 */
-	public void shift(){
-		this.last    = this.current;
+	public void shift() {
+		this.last = this.current;
 	}
-	
+
 	/**
-	 * Shifts the current value to the last field and sets the current value equal to the arguement
+	 * Shifts the current value to the last field and sets the current value
+	 * equal to the arguement
+	 * 
 	 * @param value
 	 */
-	public void update(T value){
+	public void update(T value) {
 		// Shift
 		shift();
 		// Update
 		set(value);
 	}
-	
+
 	/**
 	 * Returns the current value
+	 * 
 	 * @return Current value
 	 */
-	public T getCurrent(){
+	public T getCurrent() {
 		return current;
 	}
-	
+
 	/**
 	 * Returns the last value
+	 * 
 	 * @return Last value
 	 */
-	public T getLast(){
+	public T getLast() {
 		return last;
 	}
 }

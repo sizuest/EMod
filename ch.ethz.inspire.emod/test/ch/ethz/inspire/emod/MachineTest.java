@@ -3,14 +3,12 @@ package ch.ethz.inspire.emod;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 
 import ch.ethz.inspire.emod.model.*;
 import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.simulation.ASimulationControl;
-import ch.ethz.inspire.emod.utils.FluidConnection;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 import org.junit.Test;

@@ -23,21 +23,28 @@ import ch.ethz.inspire.emod.model.units.SiUnit;
 
 /**
  * Implements the hydrodynamic properties of a elbow fitting
+ * 
  * @author sizuest
- *
+ * 
  */
 @XmlRootElement
-public class DuctElbowFitting extends ADuctElement{
-	
+public class DuctElbowFitting extends ADuctElement {
+
 	@XmlElement
-	double count=1;
-	
+	double count = 1;
+
 	/**
 	 * Constructor for XmlUnmarshaller
 	 */
-	public DuctElbowFitting(){}
-	
-	public DuctElbowFitting(String name){
+	public DuctElbowFitting() {
+	}
+
+	/**
+	 * New elbow Fitting with the given name
+	 * 
+	 * @param name
+	 */
+	public DuctElbowFitting(String name) {
 		this.name = name;
 	}
 
@@ -50,7 +57,8 @@ public class DuctElbowFitting extends ADuctElement{
 	@Override
 	public double getPressureDrop(double flowRate, double pressure,
 			double temperatureFluid) {
-		return Fluid.pressureLoss90Angle(getMaterial(), temperatureFluid, getProfileIn(), flowRate/count);
+		return Fluid.pressureLoss90Angle(getMaterial(), temperatureFluid,
+				getProfileIn(), flowRate / count);
 	}
 
 	@Override
@@ -60,6 +68,7 @@ public class DuctElbowFitting extends ADuctElement{
 		return ps;
 	}
 
+	@Override
 	@XmlTransient
 	public void setParameterSet(ParameterSet ps) {
 		this.count = ps.getPhysicalValue("Count").getValue();
@@ -68,16 +77,16 @@ public class DuctElbowFitting extends ADuctElement{
 	@Override
 	public DuctElbowFitting clone() {
 		DuctElbowFitting clone = new DuctElbowFitting();
-		
+
 		clone.setParameterSet(this.getParameterSet());
-		if(null==this.isolation)
+		if (null == this.isolation)
 			clone.setIsolation(null);
 		else
 			clone.setIsolation(this.isolation.clone());
 		clone.setName(this.getName());
-		
+
 		clone.setProfile(getProfile().clone());
-		
+
 		return clone;
 	}
 }

@@ -73,8 +73,7 @@ public class ConsumerData {
 		int ptotal = 0;
 		double peak = 0, avg = 0;
 		for (int i = 0; i < values.size(); i++) {
-			if (names.get(i).equals("PTotal")
-					|| names.get(i).equals("Pel"))
+			if (names.get(i).equals("PTotal") || names.get(i).equals("Pel"))
 				ptotal = i;
 		}
 		if (ptotal != 0)
@@ -82,15 +81,15 @@ public class ConsumerData {
 		else {
 			/*
 			 * No power consumption available set values to zero and return
+			 * 
 			 * @author sizuest
 			 */
-			pTotal       = new double[values.get(0).length];
-			variance     = Double.NaN;
+			pTotal = new double[values.get(0).length];
+			variance = Double.NaN;
 			averagePower = Double.NaN;
-			peakPower    = Double.NaN;
+			peakPower = Double.NaN;
 			return;
 		}
-		
 
 		for (int j = 0; j < values.get(ptotal).length; j++) {
 			if (pTotal[j] > peak)
@@ -166,6 +165,10 @@ public class ConsumerData {
 		this.values.add(values);
 	}
 
+	/**
+	 * Returns whether the component is active (to be displayed) or not
+	 * @return
+	 */
 	public List<Boolean> getActive() {
 		return active;
 	}
@@ -212,18 +215,34 @@ public class ConsumerData {
 		return energy;
 	}
 
+	/**
+	 * Returns the average power of the consumer
+	 * @return
+	 */
 	public double getAveragePower() {
 		return averagePower;
 	}
 
+	/**
+	 * Returns the Peak power of the component
+	 * @return
+	 */
 	public double getPeakPower() {
 		return peakPower;
 	}
 
+	/** 
+	 * Returns the variance in the consumers power 
+	 * @return
+	 */
 	public double getVariance() {
 		return variance;
 	}
 
+	/**
+	 * Returns the total powers
+	 * @return
+	 */
 	public double[] getPTotal() {
 		return pTotal;
 	}

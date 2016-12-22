@@ -14,21 +14,23 @@ package ch.ethz.inspire.emod.gui;
 
 import org.eclipse.swt.widgets.Composite;
 
-
 /**
  * abstract class for guis, containing configuration steps.
  * 
  * @author sizuest
- *
+ * 
  */
-public abstract class AGUITab extends Composite  {
-	
-	protected AGUITab(Composite parent, int i){
+public abstract class AGUITab extends Composite {
+
+	protected AGUITab(Composite parent, int i) {
 		super(parent, i);
 	}
-	
+
+	/**
+	 * Init the gui tab
+	 */
 	abstract public void init();
-	
+
 	@Override
 	abstract public void update();
 

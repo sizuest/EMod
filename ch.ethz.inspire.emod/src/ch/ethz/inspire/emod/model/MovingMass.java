@@ -25,26 +25,21 @@ import ch.ethz.inspire.emod.simulation.DynamicState;
 import ch.ethz.inspire.emod.utils.IOContainer;
 
 /**
- * General Moving Mass Class.
- * TODO
+ * General Moving Mass Class. TODO
  * 
- * Assumptions:
- * TODO
+ * Assumptions: TODO
  * 
- * Inputlist:
- *   1: Speed    : [mm/min] : Required speed
- *   
- * Outputlist:
- *   1: Force 	 : [N]		: Resulting force
- *   
- * Config parameters:
- *   none
+ * Inputlist: 1: Speed : [mm/min] : Required speed
+ * 
+ * Outputlist: 1: Force : [N] : Resulting force
+ * 
+ * Config parameters: none
  * 
  * @author simon
- *
+ * 
  */
 @XmlRootElement
-public class MovingMass extends APhysicalComponent{
+public class MovingMass extends APhysicalComponent {
 
 	@XmlElement
 	protected double mass;
@@ -54,158 +49,163 @@ public class MovingMass extends APhysicalComponent{
 	protected double angle;
 	@XmlElement
 	protected double lever;
-	
+
 	// Input parameters:
 	private IOContainer speedLin, speedRot;
 	// Output parameters:
 	private IOContainer force, torque;
-	
+
 	// Save last input values
 	private double lastspeedLin = 0, lastspeedRot = 0;
-	
+
 	private DynamicState positionLin, positionAng;
-	
+
 	/**
-	 * Constructor called from XmlUnmarshaller.
-	 * Attribute 'type' is set by XmlUnmarshaller.
+	 * Constructor called from XmlUnmarshaller. Attribute 'type' is set by
+	 * XmlUnmarshaller.
 	 */
 	public MovingMass() {
 		super();
 	}
-	
+
 	/**
+	 * post xml init method (loading physics data)
 	 * @param u
 	 * @param parent
 	 */
-	public void afterUnmarshal(Unmarshaller u, Object parent) {
-		//post xml init method (loading physics data)
+	public void afterUnmarshal(final Unmarshaller u, final Object parent) {
 		init();
 	}
-	
+
 	/**
 	 * Linear Motor constructor
-	 * @param mass 
-	 * @param inertia 
-	 * @param angle 
-	 * @param lever 
 	 * 
-	 * @param type
+	 * @param mass
+	 * @param inertia
+	 * @param angle
+	 * @param lever
 	 */
 	public MovingMass(double mass, double inertia, double angle, double lever) {
 		super();
-		
-		this.angle   = angle;
-		this.mass    = mass;
+
+		this.angle = angle;
+		this.mass = mass;
 		this.inertia = inertia;
-		this.lever   = lever;
+		this.lever = lever;
 		init();
 	}
-	
+
 	/**
 	 * Called from constructor or after unmarshaller.
 	 */
-	private void init()
-	{
+	private void init() {
 		/* Define Input parameters */
 		inputs = new ArrayList<IOContainer>();
-		speedLin  = new IOContainer("SpeedLin", new SiUnit(Unit.M_S), 0, ContainerType.MECHANIC);
-		speedRot  = new IOContainer("SpeedRot", new SiUnit(Unit.REVOLUTIONS_S), 0, ContainerType.MECHANIC);
+		speedLin = new IOContainer("SpeedLin", new SiUnit(Unit.M_S), 0,
+				ContainerType.MECHANIC);
+		speedRot = new IOContainer("SpeedRot", new SiUnit(Unit.REVOLUTIONS_S),
+				0, ContainerType.MECHANIC);
 		inputs.add(speedLin);
 		inputs.add(speedRot);
-		
-		
+
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		force   = new IOContainer("Force", new SiUnit(Unit.NEWTON), 0, ContainerType.MECHANIC);
-		torque  = new IOContainer("Torque", new SiUnit(Unit.NEWTONMETER), 0, ContainerType.MECHANIC);
+		force = new IOContainer("Force", new SiUnit(Unit.NEWTON), 0,
+				ContainerType.MECHANIC);
+		torque = new IOContainer("Torque", new SiUnit(Unit.NEWTONMETER), 0,
+				ContainerType.MECHANIC);
 		outputs.add(force);
 		outputs.add(torque);
 
-		
 		/* State */
 		positionLin = new DynamicState("Position", new SiUnit(Unit.M), 0);
-		positionAng = new DynamicState("Angle",    new SiUnit(""), 0);
-		
+		positionAng = new DynamicState("Angle", new SiUnit(""), 0);
+
 		dynamicStates = new ArrayList<DynamicState>();
 		dynamicStates.add(positionLin);
 		dynamicStates.add(positionAng);
-		
+
 		// Validate the parameters:
 		try {
-		    checkConfigParams();
-		}
-		catch (Exception e) {
-		    e.printStackTrace();
+			checkConfigParams();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Validate the model parameters.
 	 * 
 	 * @throws Exception
 	 */
-    private void checkConfigParams() throws Exception
-	{		
+	private void checkConfigParams() throws Exception {
 		// Check model parameters:
 		// Check dimensions:
 		if (mass < 0) {
-			throw new Exception("MovingMass, mass:" +mass+ 
-					": Negative value: Mass must be non negative" );
+			throw new Exception("MovingMass, mass:" + mass
+					+ ": Negative value: Mass must be non negative");
 		}
-		
+
 		if (lever < 0) {
-			throw new Exception("MovingMass, lever:" +lever+ 
-					": Negative value: Lever must be non negative" );
+			throw new Exception("MovingMass, lever:" + lever
+					+ ": Negative value: Lever must be non negative");
 		}
-		
+
 		// Check dimensions:
 		if (inertia <= 0) {
-			throw new Exception("MovingMass, inertia:" +inertia+ 
-					": Negative value: Inertia must be non negative" );
+			throw new Exception("MovingMass, inertia:" + inertia
+					+ ": Negative value: Inertia must be non negative");
 		}
 	}
-	
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ch.ethz.inspire.emod.model.APhysicalComponent#update()
 	 */
 	@Override
 	public void update() {
-		
-		// Get required speed in m/s 
-		double curspeedLin = speedLin.getValue(),
-			   curspeedRot = speedRot.getValue();
-		
-		
-		positionLin.addValue( (curspeedLin+lastspeedLin)/2*timestep);
-		positionAng.addValue( (curspeedRot+lastspeedRot)/2*timestep);
-		
-		
+
+		// Get required speed in m/s
+		double curspeedLin = speedLin.getValue(), curspeedRot = speedRot
+				.getValue();
+
+		positionLin.addValue((curspeedLin + lastspeedLin) / 2 * timestep);
+		positionAng.addValue((curspeedRot + lastspeedRot) / 2 * timestep);
+
 		/*
-		 * Force is calculated by
-		 * F =  ( Acceleration + sin(Angle)*g ) * Mass
+		 * Force is calculated by F = ( Acceleration + sin(Angle)*g ) * Mass
 		 * where the Acceleration is estimated by the velocity change:
 		 * Acceleration = (v(t)-v(t-Ts))/Ts
 		 */
-		force.setValue(  ( (curspeedLin-lastspeedLin)/timestep + Math.cos(angle*Math.PI/180)*9.81 ) * mass );
-		torque.setValue( (curspeedRot-lastspeedRot)/timestep * inertia + Math.sin(positionAng.getValue()*2*Math.PI)*lever*mass*9.81);
-		
-				
+		force.setValue(((curspeedLin - lastspeedLin) / timestep + Math
+				.cos(angle * Math.PI / 180) * 9.81) * mass);
+		torque.setValue((curspeedRot - lastspeedRot) / timestep * inertia
+				+ Math.sin(positionAng.getValue() * 2 * Math.PI) * lever * mass
+				* 9.81);
+
 		// Update last speed
 		lastspeedLin = curspeedLin;
 		lastspeedRot = curspeedRot;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ch.ethz.inspire.emod.model.APhysicalComponent#getType()
 	 */
 	@Override
 	public String getType() {
-		return "m="+mass+"-alpha="+angle;
+		return "m=" + mass + "-alpha=" + angle;
 	}
-	
+
+	@Override
 	public void setType(String type) {
-		//TODO
+		// TODO
 	}
-	
+
+	@Override
+	public void updateBoundaryConditions() {/* No BC */
+	}
+
 }

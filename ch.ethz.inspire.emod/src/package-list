@@ -2,6 +2,7 @@ ch.ethz.inspire.emod
 ch.ethz.inspire.emod.dd
 ch.ethz.inspire.emod.dd.gui
 ch.ethz.inspire.emod.dd.model
+ch.ethz.inspire.emod.femexport
 ch.ethz.inspire.emod.gui
 ch.ethz.inspire.emod.gui.graph
 ch.ethz.inspire.emod.gui.utils

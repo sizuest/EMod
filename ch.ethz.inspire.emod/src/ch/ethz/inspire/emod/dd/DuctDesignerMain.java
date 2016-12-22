@@ -12,7 +12,6 @@
  ***********************************/
 package ch.ethz.inspire.emod.dd;
 
-
 import java.io.*;
 import java.util.Locale;
 import java.util.logging.FileHandler;
@@ -24,6 +23,8 @@ import java.util.logging.StreamHandler;
 
 import org.eclipse.swt.widgets.*;
 
+import ch.ethz.inspire.emod.LogLevel;
+import ch.ethz.inspire.emod.LoggingOutputStream;
 import ch.ethz.inspire.emod.dd.gui.DuctDesinerGUI;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
@@ -31,54 +32,67 @@ import ch.ethz.inspire.emod.utils.PropertiesHandler;
  * energy model main class
  * 
  * @author dhampl
- *
+ * 
  */
 public class DuctDesignerMain {
 	private static Logger rootlogger = Logger.getLogger("");
-	private static Logger logger = Logger.getLogger(DuctDesignerMain.class.getName());
-	
+	private static Logger logger = Logger.getLogger(DuctDesignerMain.class
+			.getName());
+
+	/**
+	 * Main DuctDesigner class
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		Display disp = new Display();
-		
+
 		Locale.setDefault(new Locale("de", "CH"));
-		
+
 		// init logging
 		LogManager logManager = LogManager.getLogManager();
 		logManager.reset();
 		try {
 			// Let the loggers write to file:
-			FileHandler fh = new FileHandler(PropertiesHandler.getProperty("app.logfile"), 100000, 1, true);
+			FileHandler fh = new FileHandler(
+					PropertiesHandler.getProperty("app.logfile"), 100000, 1,
+					true);
 			fh.setFormatter(new SimpleFormatter());
 			rootlogger.addHandler(fh);
 			// Set log level:
 			// The following loglevel are available (from lowest to highest):
-			// OFF, FINEST, FINER, FINE=DEBUG, CONFIG, INFO, WARNING, SEVERE, ALL
-			rootlogger.setLevel(Level.FINER);
-			
-			// Add stdout to logger: All logging output is written to stdout too.
+			// OFF, FINEST, FINER, FINE=DEBUG, CONFIG, INFO, WARNING, SEVERE,
+			// ALL
+			rootlogger.setLevel(LogLevel.DEBUG);
+
+			// Add stdout to logger: All logging output is written to stdout
+			// too.
 			SimpleFormatter fmt = new SimpleFormatter();
 			StreamHandler sh = new StreamHandler(System.out, fmt);
 			rootlogger.addHandler(sh);
 
-			// Redirect stderr to logger (and then to stdout as stdout is a handler of logger)
-			//OutputStream los;
-			//los = new LoggingOutputStream(Logger.getLogger("stderr"), LogLevel.SEVERE);
-			//System.setErr(new PrintStream(los,true));
-			
+			OutputStream losOut = new LoggingOutputStream(logger, Level.INFO);
+			System.setOut(new PrintStream(losOut, true));
+
+			// Redirect stderr to logger (and then to stdout as stdout is a
+			// handler of logger)
+			OutputStream losErr;
+			losErr = new LoggingOutputStream(Logger.getLogger("stderr"),
+					Level.SEVERE);
+			System.setErr(new PrintStream(losErr, true));
+
 		} catch (SecurityException e1) {
 			e1.printStackTrace();
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		
-		//start program
+
+		// start program
 		new DuctDesignerMain();
-			
+
 		System.out.println("DuctDesignerMain called DuctDesignerGUI");
 		new DuctDesinerGUI(disp);
-		
-		
-		//shut down
+
+		// shut down
 		disp.dispose();
 	}
 
@@ -86,8 +100,8 @@ public class DuctDesignerMain {
 	 * Energy Model main method.
 	 */
 	public DuctDesignerMain() {
-		
+
 		logger.info("Start DuctDesigner");
-		
+
 	}
 }

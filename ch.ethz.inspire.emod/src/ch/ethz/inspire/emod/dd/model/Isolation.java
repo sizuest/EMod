@@ -24,8 +24,9 @@ import ch.ethz.inspire.emod.model.units.SiUnit;
 
 /**
  * General implementation of a duct element isolation
+ * 
  * @author sizuest
- *
+ * 
  */
 @XmlRootElement
 public class Isolation implements Parameterizable {
@@ -34,88 +35,99 @@ public class Isolation implements Parameterizable {
 	@XmlElement
 	private String type = "none";
 	private Material material;
-	
-	
+
 	/**
 	 * 
 	 */
-	public Isolation(){}
-	
+	public Isolation() {
+	}
+
 	/**
 	 * @param type
 	 * @param thickness
 	 */
-	public Isolation(String type, double thickness){
+	public Isolation(String type, double thickness) {
 		this.type = type;
 		this.thickness = thickness;
 		init();
 	}
-	
+
 	/**
 	 * @param u
 	 * @param parent
 	 */
 	public void afterUnmarshal(final Unmarshaller u, final Object parent) {
-		//post xml init method (loading physics data)
+		// post xml init method (loading physics data)
 		init();
 	}
-	
-	private void init(){
+
+	private void init() {
 		this.material = new Material(type);
 	}
-	
+
 	/**
 	 * Returns the area specific thermal resistance
+	 * 
 	 * @return [W/m^2/K]
 	 */
-	public double getThermalResistance(){
-		if(null==this.material)
+	public double getThermalResistance() {
+		if (null == this.material)
 			return Double.POSITIVE_INFINITY;
-		
-		return this.material.getThermalConductivity()/this.thickness;
+
+		return this.material.getThermalConductivity() / this.thickness;
 	}
-	
+
 	/**
 	 * Returns the area specific thermal resistance for a pipe
+	 * 
 	 * @param ri
 	 * @return [W/m^2/K]
 	 */
-	public double getThermalResistanceCircular(double ri){
-		return this.material.getThermalConductivity()/this.thickness;
+	public double getThermalResistanceCircular(double ri) {
+		return this.material.getThermalConductivity() / this.thickness;
 	}
-	
-	public String toString(){
-		return this.material.getType()+": "+this.thickness;
+
+	@Override
+	public String toString() {
+		return this.material.getType() + ": " + this.thickness;
 	}
-	
-	public void setMaterial(String type){
+
+	/**
+	 * Set the material by name
+	 * @param type
+	 */
+	public void setMaterial(String type) {
 		this.type = type;
 		init();
 	}
 
+	@Override
 	public ParameterSet getParameterSet() {
 		ParameterSet ps = new ParameterSet("Isolation");
 		ps.setPhysicalValue("Thickness", this.thickness, new SiUnit("m"));
 		return ps;
 	}
 
+	@Override
 	@XmlTransient
 	public void setParameterSet(ParameterSet ps) {
-		this.thickness = ps.getPhysicalValue("Thickness").getValue();		
+		this.thickness = ps.getPhysicalValue("Thickness").getValue();
 	}
 
 	/**
 	 * Returns a copy of the isolation
+	 * 
 	 * @return {@link Isolation}
 	 */
+	@Override
 	public Isolation clone() {
 		return new Isolation(type, thickness);
 	}
-	
+
 	/**
 	 * @param iso
 	 */
-	public void setIsolation(Isolation iso){
+	public void setIsolation(Isolation iso) {
 		this.type = iso.type;
 		this.thickness = iso.thickness;
 		init();
@@ -128,6 +140,10 @@ public class Isolation implements Parameterizable {
 		return this.material;
 	}
 
+	/**
+	 * Get the thickness of the isolation
+	 * @return
+	 */
 	public double getThickness() {
 		return this.thickness;
 	}

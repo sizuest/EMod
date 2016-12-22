@@ -10,5 +10,6 @@
 <entry key="StructureDuct">StructureDuct</entry>
 <entry key="PowerBreakOn">0.0</entry>
 <entry key="StructureMaterial">Steel</entry>
+<entry key="TransmissionEfficiency">1.0</entry>
 <entry key="Mass">10</entry>
 </properties>

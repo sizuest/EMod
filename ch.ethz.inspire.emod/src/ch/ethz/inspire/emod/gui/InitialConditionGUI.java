@@ -1,3 +1,15 @@
+/***********************************
+ * $Id$
+ *
+ * $URL$
+ * $Author$
+ * $Date$
+ * $Rev$
+ *
+ * Copyright (c) 2011 by Inspire AG, ETHZ
+ * All rights reserved
+ *
+ ***********************************/
 package ch.ethz.inspire.emod.gui;
 
 import org.eclipse.swt.SWT;
@@ -13,73 +25,87 @@ import ch.ethz.inspire.emod.gui.utils.TableUtils;
 import ch.ethz.inspire.emod.simulation.DynamicState;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
 
-public class InitialConditionGUI extends AConfigGUI{
-	
+/**
+ * GUI to edit the initial conditions
+ * @author sizuest
+ *
+ */
+public class InitialConditionGUI extends AConfigGUI {
+
 	private Table tableSimParam;
 
+	/**
+	 * @param parent
+	 * @param style
+	 */
 	public InitialConditionGUI(Composite parent, int style) {
-		super(parent, style, ShowButtons.RESET | ShowButtons.OK);
-		
-		//Machine.loadInitialConditions();
-		
-		//Tabelle fuer Maschinenmodell initieren
+		super(parent, style, ShowButtons.RESET | ShowButtons.OK, false);
+
+		// Machine.loadInitialConditions();
+
+		// Tabelle fuer Maschinenmodell initieren
 		tableSimParam = new Table(this.getContent(), SWT.BORDER);
-		tableSimParam.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		tableSimParam.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
+				true, 1, 1));
 		tableSimParam.setLinesVisible(true);
 		tableSimParam.setHeaderVisible(true);
-		
-		
-		//Titel der Spalten setzen
-		String[] aTitles =  {
-				LocalizationHandler.getItem("app.gui.sim.initialconditions.component"),
-				LocalizationHandler.getItem("app.gui.sim.initialconditions.state"),
-				LocalizationHandler.getItem("app.gui.sim.initialconditions.value"),
-				LocalizationHandler.getItem("app.gui.sim.initialconditions.unit")};
-		
-		for(int i=0; i < aTitles.length; i++){
+
+		// Titel der Spalten setzen
+		String[] aTitles = {
+				LocalizationHandler
+						.getItem("app.gui.sim.initialconditions.component"),
+				LocalizationHandler
+						.getItem("app.gui.sim.initialconditions.state"),
+				LocalizationHandler
+						.getItem("app.gui.sim.initialconditions.value"),
+				LocalizationHandler
+						.getItem("app.gui.sim.initialconditions.unit") };
+
+		for (int i = 0; i < aTitles.length; i++) {
 			TableColumn column = new TableColumn(tableSimParam, SWT.NULL);
 			column.setText(aTitles[i]);
 		}
-	    
-	    try {
-			TableUtils.addCellEditor(tableSimParam, this, new int[] {2});
+
+		try {
+			TableUtils.addCellEditor(tableSimParam, this, new int[] { 2 });
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public void update(){
+
+	@Override
+	public void update() {
 		tableSimParam.clearAll();
 		tableSimParam.setItemCount(0);
-		
-		try{
-			for (DynamicState s:Machine.getInstance().getDynamicStatesList()){
+
+		try {
+			for (DynamicState s : Machine.getInstance().getDynamicStatesList()) {
 				TableItem item = new TableItem(tableSimParam, SWT.NONE);
 				item.setText(0, s.getParent());
 				item.setText(1, s.getName());
-				item.setText(2, s.getInitialValue()+"");
+				item.setText(2, s.getInitialValue() + "");
 				item.setText(3, s.getUnit().toString());
 			}
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			System.err.println("Failed to display initial states.");
 			e.printStackTrace();
 		}
-		
-        //Tabelle packen
-        TableColumn[] columns = tableSimParam.getColumns();
-        for (int i = 0; i < columns.length; i++) {
-        	columns[i].pack();
-        }
+
+		// Tabelle packen
+		TableColumn[] columns = tableSimParam.getColumns();
+		for (int i = 0; i < columns.length; i++) {
+			columns[i].pack();
+		}
 	}
 
 	@Override
 	public void save() {
-		
-		for(TableItem ti:tableSimParam.getItems()){
-			Machine.getInstance().getDynamicState(ti.getText(1), ti.getText(0)).setInitialCondition(Double.parseDouble(ti.getText(2)));
+
+		for (TableItem ti : tableSimParam.getItems()) {
+			Machine.getInstance().getDynamicState(ti.getText(1), ti.getText(0))
+					.setInitialCondition(Double.parseDouble(ti.getText(2)));
 		}
-		
+
 		Machine.saveInitialConditions();
 	}
 
@@ -87,6 +113,6 @@ public class InitialConditionGUI extends AConfigGUI{
 	public void reset() {
 		Machine.loadInitialConditions();
 		update();
-		
+
 	}
 }

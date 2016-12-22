@@ -20,21 +20,22 @@ import ch.ethz.inspire.emod.gui.ModelGraphGUI;
 /**
  * KeyEventHandler class
  * 
- * Handles the following key event for the model graph:
- * - SPACE: Zoom to shown the whole model
+ * Handles the following key event for the model graph: - SPACE: Zoom to shown
+ * the whole model
  * 
  * @author sizuest
- *
+ * 
  */
 public class KeyEventHandler implements KeyListener {
-	
+
 	/* Graph to perform actions on */
 	private ModelGraphGUI parent;
 
 	/**
-	 * Constructor 
+	 * Constructor
 	 * 
-	 * @param parent Model graph to apply listener
+	 * @param parent
+	 *            Model graph to apply listener
 	 */
 	public KeyEventHandler(ModelGraphGUI parent) {
 		super();
@@ -43,7 +44,7 @@ public class KeyEventHandler implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		switch(e.character){
+		switch (e.character) {
 		/* SPACE: Show all */
 		case ' ':
 			parent.showAll();
@@ -51,6 +52,7 @@ public class KeyEventHandler implements KeyListener {
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) { /* Not used */ }
+	public void keyReleased(KeyEvent e) { /* Not used */
+	}
 
 }

@@ -14,7 +14,7 @@ package ch.ethz.inspire.emod.model.units;
 
 /**
  * @author sizuest
- *
+ * 
  */
 public enum ContainerType {
 	/**

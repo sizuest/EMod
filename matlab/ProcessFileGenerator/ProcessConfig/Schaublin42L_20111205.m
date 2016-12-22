@@ -123,5 +123,5 @@ inputs.Zero.time        = [0];
 inputs.Zero.values      = [0];
 
 %% Create file
-cd('..');
+% cd('..');
 ProcessFileGenerator(FileName, inputs, FileComment, 0.2);

@@ -19,25 +19,32 @@ import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 /**
  * @author dhampl
- *
+ * 
  */
 public class LocalizationHandler {
 
-	private static ResourceBundle handler=null;
-	
+	private static ResourceBundle handler = null;
+
 	private LocalizationHandler() {
-		
+
 	}
-	
+
+	/**
+	 * Returns the item with the given name
+	 * @param item
+	 * @return
+	 */
 	public static String getItem(String item) {
-		if(handler==null) {
-			Locale currentLocale = new Locale(PropertiesHandler.getProperty("app.language"), PropertiesHandler.getProperty("app.country"));
-			handler = ResourceBundle.getBundle("lang/MessagesBundle", currentLocale);
+		if (handler == null) {
+			Locale currentLocale = new Locale(
+					PropertiesHandler.getProperty("app.language"),
+					PropertiesHandler.getProperty("app.country"));
+			handler = ResourceBundle.getBundle("lang/MessagesBundle",
+					currentLocale);
 		}
-		try{
+		try {
 			return handler.getString(item);
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			return item;
 		}
 	}

@@ -19,10 +19,12 @@ function [] = ProcessFileGenerator( name, inp_fields, description, minSampleTi )
 %               .values      = [0 1000 1500 1000]
 %               .        = 1
 
+if nargin<4
+    minSampleTi = 1;
+end
+
 if nargin<3
     description='@TODO';
-elseif nargin<4
-    minSampleTi = 1;
 else
     % Add line breaks
     cperl = 50;
@@ -168,6 +170,22 @@ for f=1:length(signal_names)
 
 end
 
+%% Unit Conversion
+for f=1:length(signal_names)
+    switch inp_fields.(signal_names{f}).unit
+        case 'mm'
+            inp_fields.(signal_names{f}).unit = 'm';
+            inp_fields.(signal_names{f}).values = inp_fields.(signal_names{f}).values/1000;
+        case 'rpm'
+            inp_fields.(signal_names{f}).unit = 'Hz';
+            inp_fields.(signal_names{f}).values = inp_fields.(signal_names{f}).values/60;
+        case 'mm/min'
+            inp_fields.(signal_names{f}).unit = 'm/s';
+            inp_fields.(signal_names{f}).values = inp_fields.(signal_names{f}).values/1000/60;
+    end
+            
+end
+
 
 
 %% Write file
@@ -202,6 +220,7 @@ for f=1:length(signal_names)
 end
 fprintf(id, '  </comment>\n');
 fprintf(id,['  <entry key="SamplePeriod">' num2str(sampleTime) '</entry>\n']);
+fprintf(id,['  <entry key="Time">' sprintf('%f ', time) '</entry>\n']);
 for f=1:length(signal_names)
     fprintf(id,['  <entry key="' signal_names{f} '">' sprintf('%f ', inp_fields.(signal_names{f}).values) '</entry>\n']);
 end

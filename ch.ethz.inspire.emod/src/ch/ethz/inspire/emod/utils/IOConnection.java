@@ -16,50 +16,53 @@ package ch.ethz.inspire.emod.utils;
 import ch.ethz.inspire.emod.utils.IOContainer;
 
 /**
- * contains information on simulation input sources and targets
- * through references to IOContainers of MachineComponents and
- * SimulationControls.
+ * contains information on simulation input sources and targets through
+ * references to IOContainers of MachineComponents and SimulationControls.
  * 
  * @author dhampl
- * @param <T>
- *
+ * 
  */
 public class IOConnection {
 	protected IOContainer source;
 	protected IOContainer target;
-	
-	public IOConnection(){
-		
+
+	/**
+	 * IOConnection
+	 */
+	public IOConnection() {
+
 	}
-	
-	
+
 	/**
 	 * 
-	 * @param <T>
 	 * @param source
-	 * @param target 
-	 * @throws Exception thrown if units don't match
+	 * @param target
+	 * @throws Exception
+	 *             thrown if units don't match
 	 */
-	public IOConnection(IOContainer source, IOContainer target) throws Exception {
+	public IOConnection(IOContainer source, IOContainer target)
+			throws Exception {
 		this.source = source;
 		this.target = target;
-		
+
 		if (!source.getUnit().equals(target.getUnit()))
-			throw new Exception("units do not match "+source.getName()+
-					": "+source.getUnit()+" <-> "+target.getName()+": "+
-					target.getUnit());
+			throw new Exception("units do not match " + source.getName() + ": "
+					+ source.getUnit() + " <-> " + target.getName() + ": "
+					+ target.getUnit());
 	}
-	
+
 	/**
 	 * gets the Source IOContainer of the Connection
+	 * 
 	 * @return the Source
 	 */
 	public IOContainer getSource() {
 		return source;
 	}
-	
+
 	/**
 	 * gets the Target IOContainer of the Connection
+	 * 
 	 * @return the Target
 	 */
 	public IOContainer getTarget() {
@@ -67,7 +70,8 @@ public class IOConnection {
 	}
 
 	/**
-	 * update the connection, i.e. get the value of the source and write it to the target
+	 * update the connection, i.e. get the value of the source and write it to
+	 * the target
 	 */
 	public void update() {
 		this.getTarget().setValue(this.getSource().getValue());

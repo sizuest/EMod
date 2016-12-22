@@ -13,86 +13,71 @@
 package ch.ethz.inspire.emod.model.units;
 
 /**
- * @author dhampl
- * See the unit describtions for the units
+ * @author dhampl See the unit describtions for the units
  */
 public enum Unit {
 	/**
-	 * KG [kg] 
-	 * Mass
+	 * KG [kg] Mass
 	 */
 	KG,
 	/**
-	 * WATT [W] 
-	 * Power
+	 * WATT [W] Power
 	 */
-	WATT, 
+	WATT,
 	/**
-	 * KELVIN [K]
-	 * Temperature
+	 * KELVIN [K] Temperature
 	 */
-	KELVIN, 
+	KELVIN,
 	/**
-	 * NEWTONMETER [Nm]
-	 * Torque
+	 * NEWTONMETER [Nm] Torque
 	 */
-	NEWTONMETER, 
+	NEWTONMETER,
 	/**
-	 * Rev. per second [rpm]
-	 * rotational speed
+	 * Rev. per second [rpm] rotational speed
 	 */
-	REVOLUTIONS_S,          // rotations per minute
+	REVOLUTIONS_S,
+	/**
+	 * rotations per minute
+	 */
 	RPM,
 	/**
-	 * M [m]
-	 * distance
+	 * M [m] distance
 	 */
 	M,
 	/**
-	 * M_S [m/s]
-	 * translational speed
+	 * M_S [m/s] translational speed
 	 */
-	M_S,		  // m/s
+	M_S, // m/s
 	/**
-	 * METERCUBIC [m³]
-	 * volume
+	 * METERCUBIC [m³] volume
 	 */
 	METERCUBIC,
 	/**
-	 * S [s]
-	 * time
+	 * S [s] time
 	 */
 	S,
 	/**
-	 * NEWTON [N]
-	 * force
+	 * NEWTON [N] force
 	 */
 	NEWTON,
 	/**
-	 * METERCUBIC_S [m³/s]
-	 * voluminal flow
+	 * METERCUBIC_S [m³/s] voluminal flow
 	 */
 	METERCUBIC_S,
 	/**
-	 * KG_MCUBIC [kg/m³]
-	 * density
+	 * KG_MCUBIC [kg/m³] density
 	 */
 	KG_MCUBIC,
 	/**
-	 * KG_S [kg/s]
-	 * mass flow
+	 * KG_S [kg/s] mass flow
 	 */
 	KG_S,
 	/**
-	 * PA [Pa]
-	 * pressure
+	 * PA [Pa] pressure
 	 */
 	PA,
 	/**
-	 * NONE [-]
-	 * control signals
-	 * information
-	 * misc
+	 * NONE [-] control signals information misc
 	 */
 	NONE;
 }

@@ -18,12 +18,11 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import ch.ethz.inspire.emod.gui.graph.GraphElementPosition;
 
-
 /**
  * General machine component
  * 
  * @author dhampl
- *
+ * 
  */
 @XmlRootElement
 public class MachineComponent {
@@ -32,7 +31,7 @@ public class MachineComponent {
 	private APhysicalComponent component;
 	@XmlElement
 	private GraphElementPosition position = new GraphElementPosition(0, 0);
-	
+
 	/**
 	 * 
 	 * @param name
@@ -41,26 +40,30 @@ public class MachineComponent {
 		super();
 		this.name = name;
 	}
-	
+
+	/**
+	 * Empty machine component
+	 */
 	public MachineComponent() {
 		super();
 	}
-	
-	
+
 	/**
 	 * @return the name
 	 */
 	public String getName() {
 		return name;
 	}
+
 	/**
-	 * @param name the name to set
+	 * @param name
+	 *            the name to set
 	 */
 	public void setName(String name) {
 		this.name = name;
 		setInitialConditions();
 	}
-	
+
 	/**
 	 * @return the component
 	 */
@@ -69,24 +72,33 @@ public class MachineComponent {
 	}
 
 	/**
-	 * @param component the {@link APhysicalComponent} to set
+	 * @param component
+	 *            the {@link APhysicalComponent} to set
 	 */
 	public void setComponent(APhysicalComponent component) {
 		this.component = component;
 		setInitialConditions();
 	}
-	
-	private void setInitialConditions(){
-		if(!component.equals(null))
+
+	private void setInitialConditions() {
+		if (!component.equals(null))
 			component.setDynamicStateParent(name);
 	}
 
+	/**
+	 * Position of the element in the graph
+	 * @return
+	 */
 	public GraphElementPosition getPosition() {
 		return position;
 	}
-	
+
+	/**
+	 * Set the position of the element in the graph
+	 * @param position
+	 */
 	@XmlTransient
-	public void setPosition(GraphElementPosition position){
+	public void setPosition(GraphElementPosition position) {
 		this.position = position;
 	}
 

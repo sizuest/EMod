@@ -14,6 +14,7 @@
 package ch.ethz.inspire.emod.gui.graph;
 
 import java.awt.Color;
+import java.awt.Font;
 
 import org.piccolo2d.extras.nodes.PComposite;
 import org.piccolo2d.extras.swt.PSWTPath;
@@ -25,33 +26,72 @@ import ch.ethz.inspire.emod.utils.IOContainer;
 /**
  * AIONode class
  * 
- * Generic representation of an {@link IOContainer.java} in the grphical representation of the mode.
- * This type is intended to be child of a {@link AGraphElement.java}. The element provides an clickable 
- * rectangle to interact with the node.
+ * Generic representation of an {@link IOContainer} in the grphical
+ * representation of the mode. This type is intended to be child of a
+ * {@link AGraphElement}. The element provides an clickable rectangle to
+ * interact with the node.
  * 
  * @author sizuest
- *
+ * 
  */
 public abstract class AIONode extends PComposite {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	/* Size of the interacting rectangle in px */
-	protected static int SIZE=10;
+	protected static int SIZE = 10;
 	/* IOContainer to be represented */
 	protected IOContainer ioObject;
 	/* Interacting node */
 	protected PSWTPath ioNode;
 	/* Describtive text (name) */
 	protected PSWTText ioText;
-	
+
 	/**
 	 * Constructor
 	 */
-	protected AIONode(){
+	protected AIONode() {
 		super();
-		
+
 		this.ioNode = PSWTPath.createRectangle(0, 0, getSize(), getSize());
+		this.ioText = new PSWTText("IONode");
+		this.ioText.setFont(new Font(this.ioText.getFont().getFamily(),
+				Font.PLAIN, (int) (this.ioText.getFont().getSize() * .75)));
+
+		this.addChild(ioNode);
+		this.addChild(ioText);
+	}
+
+	/**
+	 * setLeft
+	 * 
+	 * Configures the node as a left hand element:
+	 * 
+	 * O Name [Unit]
+	 * 
+	 * | |__ Text |__ IONode
+	 */
+	public void setLeft() {
+		this.ioNode.setOffset(-getSize() - 5, ioText.getHeight() / 2
+				- getSize() / 2);
+		this.setBounds(-getSize() - 5, 0, getSize() + 5 + ioText.getWidth(),
+				ioText.getHeight());
+	}
+
+	/**
+	 * set Right
+	 * 
+	 * Configures the node as a right hand element:
+	 * 
+	 * Name [Unit] O
+	 * 
+	 * |__ Text | |__ IONode
+	 */
+	public void setRight() {
+		this.ioNode.setOffset(this.ioText.getWidth() + getSize(),
+				ioText.getHeight() / 2 - getSize() / 2);
+		this.setBounds(-getSize() - 5, 0, getSize() + 5 + ioText.getWidth(),
+				ioText.getHeight());
 	}
 
 	/**
@@ -59,10 +99,10 @@ public abstract class AIONode extends PComposite {
 	 * 
 	 * Returns the represented IOContainer
 	 * 
-	 * @return {@link IOContainer.java}
+	 * @return {@link IOContainer}
 	 */
 	public abstract IOContainer getIOObject();
-	
+
 	/**
 	 * getIONode
 	 * 
@@ -71,7 +111,7 @@ public abstract class AIONode extends PComposite {
 	 * @return Node
 	 */
 	public abstract PSWTPath getIONode();
-	
+
 	/**
 	 * getSize
 	 * 
@@ -79,29 +119,29 @@ public abstract class AIONode extends PComposite {
 	 * 
 	 * @return node size
 	 */
-	public static int getSize(){
+	public static int getSize() {
 		return SIZE;
 	}
-	
+
 	/**
 	 * setHighlight
 	 * 
-	 * Enables/disables the highlighting of the node. The color is
-	 * chose as defined in {@link ModelGraphGUI.getIOColor}
+	 * Enables/disables the highlighting of the node. The color is chose as
+	 * defined in {@link ModelGraphGUI}
 	 * 
 	 * @param b
 	 */
-	public void setHighlight(boolean b){
-		if(b)
+	public void setHighlight(boolean b) {
+		if (b)
 			ioNode.setPaint(ModelGraphGUI.getIOColor(ioObject));
 		else
 			ioNode.setPaint(Color.WHITE);
 	}
-	
+
 	/**
 	 * updateText
 	 * 
-	 * Triggers an update of the descriptive text. 
+	 * Triggers an update of the descriptive text.
 	 */
 	public abstract void updateText();
 

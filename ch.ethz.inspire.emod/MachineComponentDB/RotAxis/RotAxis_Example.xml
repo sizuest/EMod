@@ -12,4 +12,6 @@
 <entry key="Inertia">1</entry>
 <entry key="Lever">.1</entry>
 <entry key="Mass">100</entry>
+<entry key="BearingType">Example, Example</entry>
+<entry key="TransmissionType">Example</entry>
 </properties>

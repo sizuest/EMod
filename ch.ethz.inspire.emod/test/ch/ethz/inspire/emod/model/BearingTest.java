@@ -16,8 +16,6 @@ package ch.ethz.inspire.emod.model;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
-import ch.ethz.inspire.emod.model.Clamp;
-
 public class BearingTest {
 	
 	/**

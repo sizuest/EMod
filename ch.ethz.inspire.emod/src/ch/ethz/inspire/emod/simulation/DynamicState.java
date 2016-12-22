@@ -15,16 +15,17 @@ package ch.ethz.inspire.emod.simulation;
 
 import java.lang.reflect.Method;
 
+import ch.ethz.inspire.emod.model.APhysicalComponent;
 import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.utils.ConfigReader;
 import ch.ethz.inspire.emod.utils.Defines;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
-
 /**
- * Implements an initial condition for a {@link APhysicalComponent} 
+ * Implements an initial condition for a {@link APhysicalComponent}
+ * 
  * @author sizuest
- *
+ * 
  */
 public class DynamicState {
 	private String name;
@@ -35,11 +36,14 @@ public class DynamicState {
 	private String parent;
 	private Method initFnct;
 	private Object initFnctObj;
-	
+
 	/**
 	 * Initial Condition for {@link APhysicalComponent}
-	 * @param name	Name of the initial condition
-	 * @param unit  Unit
+	 * 
+	 * @param name
+	 *            Name of the initial condition
+	 * @param unit
+	 *            Unit
 	 */
 	public DynamicState(String name, SiUnit unit) {
 		this.name = name;
@@ -49,11 +53,16 @@ public class DynamicState {
 		this.unit = unit;
 		this.parent = "";
 		this.timestep = 0;
-		
-		this.initFnct    = null;
+
+		this.initFnct = null;
 		this.initFnctObj = null;
 	}
-	
+
+	/**
+	 * @param name
+	 * @param unit
+	 * @param initValue
+	 */
 	public DynamicState(String name, SiUnit unit, double initValue) {
 		this.name = name;
 		this.value = initValue;
@@ -62,55 +71,59 @@ public class DynamicState {
 		this.unit = unit;
 		this.parent = "";
 		this.timestep = 0;
-		
-		this.initFnct    = null;
+
+		this.initFnct = null;
 		this.initFnctObj = null;
 	}
-	
+
 	/**
 	 * Set state name
-	 * @param name 
+	 * 
+	 * @param name
 	 */
-	public void setName(String name){
-		this.name=name;
+	public void setName(String name) {
+		this.name = name;
 	}
-	
+
 	/**
 	 * Sets the value of the state
+	 * 
 	 * @param value
 	 */
-	public void setValue(double value){
+	public void setValue(double value) {
 		this.lastValue = this.value;
-		this.value     = value;
+		this.value = value;
 	}
-	
+
 	/**
 	 * Adds the value to the current state
+	 * 
 	 * @param value
 	 */
-	public void addValue(double value){
+	public void addValue(double value) {
 		this.lastValue = this.value;
-		this.value     += value;
+		this.value += value;
 	}
-	
+
 	/**
 	 * Sets the value of the initial condition
+	 * 
 	 * @param initialValue
 	 */
-	public void setInitialCondition(double initialValue){
+	public void setInitialCondition(double initialValue) {
 		this.initialValue = initialValue;
 		setInitialCondition();
 	}
-	
+
 	/**
 	 * sets the current and last value to the initial condition
 	 */
-	public void setInitialCondition(){
-		this.value     = this.initialValue;
+	public void setInitialCondition() {
+		this.value = this.initialValue;
 		this.lastValue = this.initialValue;
-		
+
 		// If available, run init function
-		if (initFnct!=null){
+		if (initFnct != null) {
 			try {
 				initFnct.invoke(initFnctObj, this.initialValue);
 			} catch (Throwable e) {
@@ -119,145 +132,156 @@ public class DynamicState {
 			}
 		}
 	}
-	
+
 	/**
 	 * @param initFnct
-	 * @param initFnctObj 
+	 * @param initFnctObj
 	 */
-	public void setInitialConditionFunction(Method initFnct, Object initFnctObj){
-		this.initFnct    = initFnct;
+	public void setInitialConditionFunction(Method initFnct, Object initFnctObj) {
+		this.initFnct = initFnct;
 		this.initFnctObj = initFnctObj;
 	}
-	
+
 	/**
 	 * Sets the parent of the initial condition
+	 * 
 	 * @param parent
 	 */
-	public void setParent(String parent){
+	public void setParent(String parent) {
 		this.parent = parent;
 	}
-	
+
 	/**
 	 * Sets the timestep duration [s]
+	 * 
 	 * @param timestep
 	 */
-	public void setTimestep(double timestep){
+	public void setTimestep(double timestep) {
 		this.timestep = timestep;
 	}
-	
+
 	/**
 	 * @return current value
 	 */
-	public double getValue(){
+	public double getValue() {
 		return this.value;
 	}
-	
+
 	/**
 	 * @return initial condition value
 	 */
-	public double getInitialValue(){
+	public double getInitialValue() {
 		return initialValue;
 	}
-	
+
 	/**
 	 * @return numerical derivate of value
 	 */
-	public double getTimeDerivate(){
-		return (value-lastValue)/timestep;
+	public double getTimeDerivate() {
+		return (value - lastValue) / timestep;
 	}
-	
+
 	/**
 	 * @return initial condition name
 	 */
-	public String getName(){
+	public String getName() {
 		return this.name;
 	}
-	
+
 	/**
 	 * @return initial condition parent name
 	 */
-	public String getParent(){
+	public String getParent() {
 		return this.parent;
 	}
-	
+
 	/**
 	 * @return initial condition unit
 	 */
-	public SiUnit getUnit(){
+	public SiUnit getUnit() {
 		return this.unit;
 	}
-	
+
 	/**
 	 * Generates a unique IC name containing the parent and the IC names
+	 * 
 	 * @return parent.name
 	 */
-	public String getInitialConditionName(){
-		return "InitialValue_"+getParent()+"_"+getName();
+	public String getInitialConditionName() {
+		return "InitialValue_" + getParent() + "_" + getName();
 	}
-	
+
 	/**
 	 * Loads the initial condition from the simulation file
-	 * @throws Exception 
+	 * 
+	 * @throws Exception
 	 */
-	public void loadInitialCondition() throws Exception{
-		
-		if(this.parent.equals("")) 
-			throw new Exception("Dynamic state '"+ this.toString()+"': Can't load initial condition: No parent set!" + this.toString());
-		
+	public void loadInitialCondition() throws Exception {
+
+		if (this.parent.equals(""))
+			throw new Exception("Dynamic state '" + this.toString()
+					+ "': Can't load initial condition: No parent set!"
+					+ this.toString());
+
 		try {
-			System.out.println("Dynamic state '"+ this.toString()+"': Loaded initial condition");
-			ConfigReader initCond = new ConfigReader( configPath() );
-			setInitialCondition(initCond.getDoubleValue(getInitialConditionName()));
+			System.out.println("Dynamic state '" + this.toString()
+					+ "': Loaded initial condition");
+			ConfigReader initCond = new ConfigReader(configPath());
+			setInitialCondition(initCond
+					.getDoubleValue(getInitialConditionName()));
 			initCond.Close();
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			value = Double.NaN;
 		}
 	}
-	
-	
+
 	/**
 	 * Saves the initial condition
-	 * @throws Exception 
+	 * 
+	 * @throws Exception
 	 */
-	public void saveInitialCondition() throws Exception{
-		
-		if(this.parent.equals(""))
-			throw new Exception("Dynamic state '"+name+"': Can't save initial condition: No parent set!");
-		
-		if(Double.isNaN(this.initialValue))
+	public void saveInitialCondition() throws Exception {
+
+		if (this.parent.equals(""))
+			throw new Exception("Dynamic state '" + name
+					+ "': Can't save initial condition: No parent set!");
+
+		if (Double.isNaN(this.initialValue))
 			return;
-		
+
 		try {
-			ConfigReader initCond = new ConfigReader( configPath() );
+			ConfigReader initCond = new ConfigReader(configPath());
 			initCond.setValue(getInitialConditionName(), this.initialValue);
 			initCond.saveValues();
 			initCond.Close();
-		}
-		catch (Exception e) {
-			
+		} catch (Exception e) {
+
 			e.printStackTrace();
 		}
-		
+
 	}
-	
-	private String configPath(){
-		return PropertiesHandler.getProperty("app.MachineDataPathPrefix")+
-			      "/"+PropertiesHandler.getProperty("sim.MachineName")+"/"+Defines.SIMULATIONCONFIGDIR+"/"+
-			      PropertiesHandler.getProperty("sim.SimulationConfigName")+"/"+Defines.SIMULATIONCONFIGFILE;
+
+	private String configPath() {
+		return PropertiesHandler.getProperty("app.MachineDataPathPrefix") + "/"
+				+ PropertiesHandler.getProperty("sim.MachineName") + "/"
+				+ Defines.SIMULATIONCONFIGDIR + "/"
+				+ PropertiesHandler.getProperty("sim.SimulationConfigName")
+				+ "/" + Defines.SIMULATIONCONFIGFILE;
 	}
 
 	/**
 	 * Returns the value before the last update call
+	 * 
 	 * @return last value
 	 */
 	public double getLastValue() {
 		return this.lastValue;
 	}
-	
-	public String toString(){
+
+	@Override
+	public String toString() {
 		return this.getInitialConditionName();
 	}
-	
+
 }

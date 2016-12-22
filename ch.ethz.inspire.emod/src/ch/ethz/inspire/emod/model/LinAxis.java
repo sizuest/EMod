@@ -21,56 +21,46 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import ch.ethz.inspire.emod.dd.Duct;
+import ch.ethz.inspire.emod.femexport.BoundaryCondition;
+import ch.ethz.inspire.emod.femexport.BoundaryConditionType;
 import ch.ethz.inspire.emod.model.fluid.FECDuct;
+import ch.ethz.inspire.emod.model.fluid.FluidCircuitProperties;
 import ch.ethz.inspire.emod.model.thermal.ThermalArray;
 import ch.ethz.inspire.emod.model.thermal.ThermalElement;
 import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 import ch.ethz.inspire.emod.utils.Floodable;
-import ch.ethz.inspire.emod.utils.FluidCircuitProperties;
 import ch.ethz.inspire.emod.utils.FluidContainer;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.simulation.DynamicState;
 
 /**
- * General linear axis model class.
- * Implements the physical model of a linear axis.
- * From the input parameter translational speed and process force, 
- * the requested motor torque is calculated
+ * General linear axis model class. Implements the physical model of a linear
+ * axis. From the input parameter translational speed and process force, the
+ * requested motor torque is calculated
  * 
- * Assumptions:
- * The inertia of mass and frictional forces are negligible
+ * Assumptions: The inertia of mass and frictional forces are negligible
  * 
- * Inputlist:
- *   1: State        : [-]  : State of the axis (0/1)
- *   2: Speed        : [Hz] : Actual rotational speed
- *   3: ProcessForce : [N]  : Actual process force along the axis
- *   4: CoolantIn    : [-]  : Coolant fluid in
- * Outputlist:
- *   1: PTotal      : [W]    : Input power
- *   2: PUse        : [W]    : Output power (usable)
- *   3: PLoss       : [W]    : Output power (losses)
- *   4: CoolantOut  : [-]    : Coolant fluid out
- *   
- * Config parameters:
- *   Transmission         : [m]    : Transmission between the motor (rpm) 
- *   								 and the translation (mm_min)
- *   Mass				  : [kg]   : Mass of the moving part
- *   Alpha				  : [deg]  : Angle between the axis and the vertical 
- *   								 of the machine
- *   StructureMass
- *   StructureMaterial
- *   StructureDuct
+ * Inputlist: 1: State : [-] : State of the axis (0/1) 2: Speed : [Hz] : Actual
+ * rotational speed 3: ProcessForce : [N] : Actual process force along the axis
+ * 4: CoolantIn : [-] : Coolant fluid in Outputlist: 1: PTotal : [W] : Input
+ * power 2: PUse : [W] : Output power (usable) 3: PLoss : [W] : Output power
+ * (losses) 4: CoolantOut : [-] : Coolant fluid out
+ * 
+ * Config parameters: Transmission : [m] : Transmission between the motor (rpm)
+ * and the translation (mm_min) Mass : [kg] : Mass of the moving part Alpha :
+ * [deg] : Angle between the axis and the vertical of the machine StructureMass
+ * StructureMaterial StructureDuct
  * 
  * @author simon
- *
+ * 
  */
 @XmlRootElement
-public class LinAxis extends APhysicalComponent implements Floodable{
+public class LinAxis extends APhysicalComponent implements Floodable {
 
 	@XmlElement
 	protected String type;
-	
+
 	// Input parameters:
 	private IOContainer state;
 	private IOContainer speed;
@@ -81,43 +71,58 @@ public class LinAxis extends APhysicalComponent implements Floodable{
 	private IOContainer ploss;
 	private IOContainer ptotal;
 	private FluidContainer fluidOut;
-	
+	// Boundary conditions
+	private BoundaryCondition bcHeatSrcTransmission;
+	private BoundaryCondition bcHeatSrcBrake;
+	private BoundaryCondition bcCoolantTemperature;
+	private BoundaryCondition bcCoolantHTC;
+
 	// Save last input values
-	private double lastspeed, 
-				   lastforce;
-	
-	// Parameters used by the model. 
-	private double transmission;	// [mm/rev] Transmission ratio
-	private double massValue;       // [kg]     Moved mass
-	private double alpha;           // [deg]    Angle
+	private double lastspeed, lastforce,
+				   lastrotspeed, lasttorque;
+	private double plossTransmission;
+
+	// Parameters used by the model.
+	private double transmission; // [mm/rev] Transmission ratio
+	private double eta; // Trnasmission efficiency
+	private double massValue; // [kg] Moved mass
+	private double alpha; // [deg] Angle
 	private String motorType;
-	private double powerBreakOn, powerBreakOff;
-	
+	private String[] bearingType;
+	private double powerBrakeOn, powerBrakeOff;
+
+	// Global values
+	double alphaCoolant = 0;
+
 	// Submodel
 	private AMotor motor;
+	private Bearing[] bearings;
 	private ThermalElement massCooled;
 	private ThermalArray coolant;
 	private Duct duct;
 	private MovingMass massMoved;
-	
+
 	// FluidProperties
 	FluidCircuitProperties fluidProperties;
 	private boolean coolantConnected = false;
-	
-	
+
 	/**
-	 * Constructor called from XmlUnmarshaller.
-	 * Attribute 'type' is set by XmlUnmarshaller.
+	 * Constructor called from XmlUnmarshaller. Attribute 'type' is set by
+	 * XmlUnmarshaller.
 	 */
 	public LinAxis() {
 		super();
 	}
-	
-	public void afterUnmarshal(Unmarshaller u, Object parent) {
-		//post xml init method (loading physics data)
+
+	/**
+	 * post xml init method (loading physics data)
+	 * @param u
+	 * @param parent
+	 */
+	public void afterUnmarshal(final Unmarshaller u, final Object parent) {
 		init();
 	}
-	
+
 	/**
 	 * Linear Axis constructor
 	 * 
@@ -125,239 +130,326 @@ public class LinAxis extends APhysicalComponent implements Floodable{
 	 */
 	public LinAxis(String type) {
 		super();
-		
-		this.type=type;
+
+		this.type = type;
 		init();
 	}
-	
+
 	/**
 	 * Called from constructor or after unmarshaller.
 	 */
-	private void init()
-	{
+	private void init() {
 		/* Define Input parameters */
 		inputs = new ArrayList<IOContainer>();
-		state  = new IOContainer("State",         new SiUnit(Unit.NONE), 0, ContainerType.CONTROL);
-		speed  = new IOContainer("Speed",        new SiUnit(Unit.M_S), 0, ContainerType.MECHANIC);	
-		force  = new IOContainer("ProcessForce", new SiUnit(Unit.NEWTON), 0, ContainerType.MECHANIC);
+		state = new IOContainer("State", new SiUnit(Unit.NONE), 0,
+				ContainerType.CONTROL);
+		speed = new IOContainer("Speed", new SiUnit(Unit.M_S), 0,
+				ContainerType.MECHANIC);
+		force = new IOContainer("ProcessForce", new SiUnit(Unit.NEWTON), 0,
+				ContainerType.MECHANIC);
 		inputs.add(state);
 		inputs.add(speed);
 		inputs.add(force);
-		
+
 		/* Define output parameters */
-		outputs  = new ArrayList<IOContainer>();
-		puse     = new IOContainer("PUse",     new SiUnit(Unit.WATT),          0, ContainerType.MECHANIC);
-		ploss    = new IOContainer("PLoss",    new SiUnit(Unit.WATT),          0, ContainerType.THERMAL);
-		ptotal   = new IOContainer("PTotal",   new SiUnit(Unit.WATT),          0, ContainerType.MECHANIC);
+		outputs = new ArrayList<IOContainer>();
+		puse = new IOContainer("PUse", new SiUnit(Unit.WATT), 0,
+				ContainerType.MECHANIC);
+		ploss = new IOContainer("PLoss", new SiUnit(Unit.WATT), 0,
+				ContainerType.THERMAL);
+		ptotal = new IOContainer("PTotal", new SiUnit(Unit.WATT), 0,
+				ContainerType.ELECTRIC);
 		outputs.add(puse);
 		outputs.add(ploss);
 		outputs.add(ptotal);
-		
-		/* ************************************************************************/
-		/*         Read configuration parameters: */
-		/* ************************************************************************/
+
+		/* *********************************************************************** */
+		/* Read configuration parameters: */
+		/* *********************************************************************** */
 		ComponentConfigReader params = null;
 		/* Open file containing the parameters of the model type: */
 		try {
 			params = new ComponentConfigReader(getModelType(), type);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		/* Read the config parameter: */
 		try {
 			transmission = params.getDoubleValue("Transmission");
-			massValue    = params.getDoubleValue("Mass");
-			alpha        = params.getDoubleValue("Alpha");
-			motorType    = params.getString("MotorType");
-			powerBreakOn = params.getValue("PowerBreakOn", 0.0);
-			powerBreakOff= params.getValue("PowerBreakOff", 0.0);
-			
+			bearingType = params.getValue("BearingType", new String[0]);
+			massValue = params.getDoubleValue("Mass");
+			alpha = params.getDoubleValue("Alpha");
+			motorType = params.getString("MotorType");
+			powerBrakeOn = params.getValue("PowerBreakOn", 0.0);
+			powerBrakeOff = params.getValue("PowerBreakOff", 0.0);
+			eta = params.getValue("TransmissionEfficiency", 1.0);
+
 			/* Sub Model Motor */
 			String[] mdlType = motorType.split("_", 2);
-			
-			// Create Sub Elements
+
+			// Create Sub Element
 			try {
 				// Get class and constructor objects
-				Class<?>        cl = Class.forName("ch.ethz.inspire.emod.model."+mdlType[0]);
-				Constructor<?>  co = cl.getConstructor(String.class);
+				Class<?> cl = Class.forName("ch.ethz.inspire.emod.model."
+						+ mdlType[0]);
+				Constructor<?> co = cl.getConstructor(String.class);
 				// initialize new component
 				motor = (AMotor) co.newInstance(mdlType[1]);
 			} catch (Exception e) {
-				Exception ex = new Exception("Unable to create component "+mdlType[0]+"("+mdlType[1]+")"+" : " + e.getMessage());
+				Exception ex = new Exception("Unable to create component "
+						+ mdlType[0] + "(" + mdlType[1] + ")" + " : "
+						+ e.getMessage());
 				ex.printStackTrace();
 				motor = null;
-			} 
+			}
 			
+			/* Sub Model Bearing */
+			bearings = new Bearing[bearingType.length];
+			for (int i = 0; i < bearingType.length; i++)
+				bearings[i] = new Bearing(bearingType[i]);
+
 			/* Duct */
-			duct       = Duct.buildFromFile(getModelType(), getType(), params.getString("StructureDuct"));
-			coolant    = new ThermalArray("Example", duct.getVolume(), 20);
-			massCooled = new ThermalElement(params.getString("StructureMaterial"), params.getDoubleValue("StructureMass"));
-			
+			duct = Duct.buildFromFile(getModelType(), getType(),
+					params.getString("StructureDuct"));
+			coolant = new ThermalArray("Example", duct.getVolume(), 20);
+			massCooled = new ThermalElement(
+					params.getString("StructureMaterial"),
+					params.getDoubleValue("StructureMass"));
+
 			/* Fluid properties */
-			fluidProperties = new FluidCircuitProperties(new FECDuct(duct, coolant.getTemperature()), coolant.getTemperature());
-			
+			fluidProperties = new FluidCircuitProperties(new FECDuct(duct,
+					coolant.getTemperature()), coolant.getTemperature());
+
 			/* Define fluid in-/outputs */
-			fluidIn        = new FluidContainer("CoolantIn",  new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidProperties);
+			fluidIn = new FluidContainer("CoolantIn", new SiUnit(Unit.NONE),
+					ContainerType.FLUIDDYNAMIC, fluidProperties);
 			inputs.add(fluidIn);
-			fluidOut       = new FluidContainer("CoolantOut", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC,fluidProperties);
+			fluidOut = new FluidContainer("CoolantOut", new SiUnit(Unit.NONE),
+					ContainerType.FLUIDDYNAMIC, fluidProperties);
 			outputs.add(fluidOut);
-			
+
 			// Change state name
 			coolant.getTemperature().setName("TemperatureCoolant");
 			massCooled.getTemperature().setName("TemperatureStructure");
-			
+
 			/* Fluid circuit parameters */
 			coolant.setMaterial(fluidProperties.getMaterial());
 			duct.setMaterial(fluidProperties.getMaterial());
-			
-		}
-		catch (Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		params.Close(); /* Model configuration file not needed anymore. */
-		
+
 		// Validate the parameters:
 		try {
-		    checkConfigParams();
+			checkConfigParams();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		catch (Exception e) {
-		    e.printStackTrace();
-		}
-		
+
 		/* Initialize sub-model */
 		massMoved = new MovingMass(massValue, 1, alpha, 0);
-		
+
 		dynamicStates = new ArrayList<DynamicState>();
 		dynamicStates.add(massMoved.getDynamicStateList().get(0));
 		dynamicStates.add(1, massCooled.getTemperature());
 		dynamicStates.add(2, coolant.getTemperature());
+
+		/* Boundary conditions */
+		boundaryConditions = new ArrayList<BoundaryCondition>();
+		bcHeatSrcTransmission = new BoundaryCondition("TransmissionHeatSrc", new SiUnit("W"),
+				0, BoundaryConditionType.NEUMANN);
+		bcHeatSrcBrake = new BoundaryCondition("BrakeHeatSrc", new SiUnit("W"),
+				0, BoundaryConditionType.NEUMANN);
+		bcCoolantTemperature = new BoundaryCondition("CoolantTemperature",
+				new SiUnit("K"), 293.15, BoundaryConditionType.ROBIN);
+		bcCoolantHTC = new BoundaryCondition("CoolantHTC", new SiUnit("W/K"),
+				0, BoundaryConditionType.ROBIN);
+		
+		
+		// Motor
+		for (BoundaryCondition bc : motor.getBoundaryConditions())
+			bc.setName("Motor" + bc.getName());
+		boundaryConditions.addAll(motor.getBoundaryConditions());
+		// Bearings
+		for (int i = 0; i < bearings.length; i++) {
+			for (BoundaryCondition bc : bearings[i].getBoundaryConditions())
+				bc.setName("Bearing" + (i + 1) + bc.getName());
+			boundaryConditions.addAll(bearings[i].getBoundaryConditions());
+		}
+		// Others
+		boundaryConditions.add(bcHeatSrcTransmission);
+		boundaryConditions.add(bcHeatSrcBrake);
+		boundaryConditions.add(bcCoolantTemperature);
+		boundaryConditions.add(bcCoolantHTC);
 	}
-	
+
 	/**
 	 * Validate the model parameters.
 	 * 
 	 * @throws Exception
 	 */
-    private void checkConfigParams() throws Exception
-	{		
+	private void checkConfigParams() throws Exception {
 		// Check model parameters:
 		// Parameter must be non negative
-    	if (massValue < 0) {
-    		throw new Exception("LinearAxis, type:" + type +
-    				": Negative value: Mass must be non negative");
-    	}
-    	if (alpha > 90 || alpha < 0) {
-    		throw new Exception("LinearAxis, type:" + type +
-    				": Value: Alpha must be between 0 and 90 degrees");
-    	}
-    	
-		// Transmission must be non zero
-    	if (0==transmission) {
-    		throw new Exception("LinearAxis, type:" + type +
-			": Zero value: Transmission must be non zero");
-    	}
-    	
-	}
-	
+		if (massValue < 0) {
+			throw new Exception("LinearAxis, type:" + type
+					+ ": Negative value: Mass must be non negative");
+		}
+		if (alpha > 90 || alpha < 0) {
+			throw new Exception("LinearAxis, type:" + type
+					+ ": Value: Alpha must be between 0 and 90 degrees");
+		}
 
-	/* (non-Javadoc)
+		// Transmission must be non zero
+		if (0 == transmission) {
+			throw new Exception("LinearAxis, type:" + type
+					+ ": Zero value: Transmission must be non zero");
+		}
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ch.ethz.inspire.emod.model.APhysicalComponent#update()
 	 */
 	@Override
 	public void update() {
 		
+		lastspeed = speed.getValue(); // [m/s]
+		lastforce = force.getValue(); // [N]
+
 		/* Update sub model */
 		massMoved.setSimulationTimestep(timestep);
 		massMoved.getInput("SpeedLin").setValue(speed.getValue());
 		massMoved.update();
+
+		lastforce += massMoved.getOutput("Force").getValue(); // [N]
 		
-		lastspeed = speed.getValue();                                    // [m/s]
-		lastforce = force.getValue()+massMoved.getOutput("Force").getValue(); // [N]
 		
-		if(1==state.getValue()){
-			/* Rotation speed
-			 * The requested rotational speed is given by the transmission
+		/* Transmission */
+		plossTransmission = lastspeed * lastforce * (1/eta-1);
+		
+		lastrotspeed += lastspeed / transmission; // [Hz]
+		lasttorque   += transmission * lastforce / 2 / Math.PI  * (1/eta-1); // [Nm]
+		
+		
+		/* Update sub model bearings */
+		for(Bearing b: bearings){
+			b.getInput("RotSpeed").setValue(lastrotspeed);
+			b.getInput("Temperature1").setValue(massCooled.getTemperature().getInitialValue());
+			b.getInput("Temperature2").setValue(massCooled.getTemperature().getInitialValue());
+			b.update();
+			lasttorque += b.getOutput("Torque").getValue();
+		}
+
+		if (1 == state.getValue()) {
+			/*
+			 * Rotation speed The requested rotational speed is given by the
+			 * transmission
 			 */
-			motor.getInput("RotSpeed").setValue(lastspeed/transmission);
-			
-			/* Torque
-			 * The absolute torque needed to overcome the friction is given as
-			 * T = k*(Fp-m*g*cos alpha)
+			motor.getInput("RotSpeed").setValue(lastrotspeed);
+
+			/*
+			 * Torque The absolute torque needed to overcome the friction is
+			 * given as T = k*(Fp-m*g*cos alpha)
 			 * 
 			 * Remark: transmission is [m/rev]
 			 */
-			motor.getInput("Torque").setValue(transmission * lastforce / 2 / Math.PI);
+			motor.getInput("Torque").setValue(lasttorque);
 			motor.update();
 			/* Powers */
-			puse.setValue(Math.abs(lastspeed*lastforce));
-			ptotal.setValue(motor.getOutput("PTotal").getValue()+powerBreakOff);
-			ploss.setValue(ptotal.getValue()-puse.getValue());
-			
-		}
-		else{
+			puse.setValue(Math.abs(lastspeed * lastforce));
+			ptotal.setValue(motor.getOutput("PTotal").getValue()
+					+ powerBrakeOff);
+			ploss.setValue(ptotal.getValue() - puse.getValue());
+
+		} else {
 			motor.getOutput("PUse").setValue(0);
 			motor.getOutput("PLoss").setValue(0);
 			motor.getOutput("PTotal").setValue(0);
-			
+
 			puse.setValue(0);
-			ptotal.setValue(powerBreakOn);
-			ploss.setValue(powerBreakOn);
+			ptotal.setValue(powerBrakeOn);
+			ploss.setValue(powerBrakeOn);
 		}
-		
-		if(coolantConnected) {
+
+		if (coolantConnected) {
 			// Thermal resistance
-			double alphaCoolant = duct.getThermalResistance(fluidProperties.getFlowRate(), 
-					fluidProperties.getPressureIn(), 
-					coolant.getTemperature().getValue(), 
-					massCooled.getTemperature().getValue());
-					
-			
-					
+			alphaCoolant = duct.getThermalResistance(fluidProperties
+					.getFlowRate(), fluidProperties.getPressureIn(), coolant
+					.getTemperature().getValue(), massCooled.getTemperature()
+					.getValue());
+
 			// Coolant
 			coolant.setThermalResistance(alphaCoolant);
 			coolant.setFlowRate(fluidProperties.getFlowRate());
 			coolant.setHeatSource(0.0);
 			coolant.setTemperatureAmb(massCooled.getTemperature().getValue());
 			coolant.setTemperatureIn(fluidIn.getTemperature());
-			
-			
+
 			// Thermal flows
 			massCooled.setHeatInput(motor.getOutput("PLoss").getValue());
 			massCooled.addHeatInput(coolant.getHeatLoss());
-					
+
 			// Update submodels
 			massCooled.integrate(timestep);
 			coolant.integrate(timestep, 0, 0, fluidProperties.getPressure());
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ch.ethz.inspire.emod.model.APhysicalComponent#getType()
 	 */
 	@Override
 	public String getType() {
 		return type;
 	}
-	
+
+	@Override
 	public void setType(String type) {
 		this.type = type;
 	}
-	
+
 	@Override
 	public ArrayList<FluidCircuitProperties> getFluidPropertiesList() {
 		ArrayList<FluidCircuitProperties> out = new ArrayList<FluidCircuitProperties>();
-		if(coolantConnected)
+		if (coolantConnected)
 			out.add(fluidProperties);
 		return out;
 	}
-	
+
 	@Override
-	public void flood(){
-		if(fluidProperties.getPost().size() != 0 | fluidProperties.getPre().size() != 0)
+	public void flood() {
+		if (fluidProperties.getPost().size() != 0
+				| fluidProperties.getPre().size() != 0)
 			coolantConnected = true;
 	}
-	
+
+	@Override
+	public void updateBoundaryConditions() {
+		motor.updateBoundaryConditions();
+		for(Bearing b: bearings)
+			b.updateBoundaryConditions();
+		
+		bcHeatSrcBrake.setValue(state.getValue() * powerBrakeOff
+				+ (state.getValue() - 1) * powerBrakeOn);
+		bcHeatSrcTransmission.setValue(plossTransmission);
+		
+		if(!coolantConnected){
+			bcCoolantTemperature.setValue(Double.NaN);
+			bcCoolantHTC.setValue(Double.NaN);
+		}
+		else{
+			bcCoolantTemperature.setValue(coolant.getTemperature().getValue());
+			bcCoolantHTC.setValue(alphaCoolant);
+		}
+	}
+
 }

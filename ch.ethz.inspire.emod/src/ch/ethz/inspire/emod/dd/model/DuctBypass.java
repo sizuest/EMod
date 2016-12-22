@@ -22,40 +22,55 @@ import ch.ethz.inspire.emod.model.fluid.Fluid;
 import ch.ethz.inspire.emod.model.material.Material;
 import ch.ethz.inspire.emod.model.parameters.ParameterSet;
 
+/**
+ * Duct element presenting a bypass
+ * 
+ * @author sizuest
+ *
+ */
 @XmlRootElement
 public class DuctBypass extends ADuctElement {
-	
+
 	@XmlElement
-	Duct ductPrimary   = new Duct(this.name+": 1"),
-		 ductSecondary = new Duct(this.name+": 2");
-	
+	Duct ductPrimary = new Duct(this.name + ": 1"), ductSecondary = new Duct(
+			this.name + ": 2");
+
 	double lastFlowRate, lastPressure, lastTemperatureFluid;
 	double flowRatePrimary;
-	
-	public DuctBypass(){}
-	
+
+	/**
+	 * Constructor for unmarshaller
+	 */
+	public DuctBypass() {
+	}
+
 	/**
 	 * Constructor by name
+	 * 
 	 * @param name
 	 */
-	public DuctBypass(String name){
+	public DuctBypass(String name) {
 		super();
-		this.name     = name;
-		init();
-	}
-	
-	public void afterUnmarshal(final Unmarshaller u, final Object parent) {
+		this.name = name;
 		init();
 	}
 
+	/**
+	 * called unmarshaller
+	 * @param u
+	 * @param parent
+	 */
+	public void afterUnmarshal(final Unmarshaller u, final Object parent) {
+		init();
+	}
 
 	private void init() {
 		lastFlowRate = Double.NaN;
 		lastPressure = Double.NaN;
 		lastTemperatureFluid = Double.NaN;
-		
+
 		setMaterial(getMaterial());
-		
+
 		getPrimary().cleanUpFittings();
 		getSecondary().cleanUpFittings();
 	}
@@ -63,31 +78,53 @@ public class DuctBypass extends ADuctElement {
 	@Override
 	public double getHTC(double flowRate, double pressure,
 			double temperatureFluid, double temperatureWall) {
-		
-		double htcPrimary   = getPrimary().getHTC(getFlowRatePrimary(flowRate, pressure, temperatureFluid), pressure, temperatureFluid); 
-		
+
+		double htcPrimary = getPrimary().getHTC(
+				getFlowRatePrimary(flowRate, pressure, temperatureFluid),
+				pressure, temperatureFluid);
+
 		return htcPrimary;
 	}
 
 	@Override
 	public double getPressureDrop(double flowRate, double pressure,
 			double temperatureFluid) {
-		
-		double pressureDrop = getPrimary().getPressureDrop(getFlowRatePrimary(flowRate, pressure, temperatureFluid), pressure, temperatureFluid);
-		
+
+		double pressureDrop = getPrimary().getPressureDrop(
+				getFlowRatePrimary(flowRate, pressure, temperatureFluid),
+				pressure, temperatureFluid);
+
 		return pressureDrop;
 	}
 
-	public double getFlowRatePrimary(double flowRate, double pressure,	double temperatureFluid) {
+	/**
+	 * Get the flow rate in the primary route
+	 * 
+	 * @param flowRate
+	 * @param pressure
+	 * @param temperatureFluid
+	 * @return
+	 */
+	public double getFlowRatePrimary(double flowRate, double pressure,
+			double temperatureFluid) {
 		updateFlowRates(flowRate, pressure, temperatureFluid);
-		
+
 		return this.flowRatePrimary;
 	}
-	
-	public double getFlowRateSecondary(double flowRate, double pressure, double temperatureFluid) {
+
+	/**
+	 * Get the flow rate in the secondary route
+	 * 
+	 * @param flowRate
+	 * @param pressure
+	 * @param temperatureFluid
+	 * @return
+	 */
+	public double getFlowRateSecondary(double flowRate, double pressure,
+			double temperatureFluid) {
 		updateFlowRates(flowRate, pressure, temperatureFluid);
-		
-		return flowRate-this.flowRatePrimary;
+
+		return flowRate - this.flowRatePrimary;
 	}
 
 	@Override
@@ -96,18 +133,17 @@ public class DuctBypass extends ADuctElement {
 		element.init();
 		element.setPrimary(element.ductPrimary.clone(this.ductPrimary));
 		element.setSecondary(element.ductSecondary.clone(this.ductSecondary));
-		
+
 		element.setParameterSet(this.getParameterSet());
-		if(null==this.isolation)
+		if (null == this.isolation)
 			element.setIsolation(null);
 		else
 			element.setIsolation(this.isolation.clone());
-		
+
 		element.setName(this.getName());
-		
+
 		return element;
 	}
-	
 
 	@Override
 	public ParameterSet getParameterSet() {
@@ -118,114 +154,137 @@ public class DuctBypass extends ADuctElement {
 	public void setParameterSet(ParameterSet ps) {
 		// Not used here
 	}
-	
-	public Duct getPrimary(){
+
+	/**
+	 * Get the duct representing the primary rout
+	 * @return
+	 */
+	public Duct getPrimary() {
 		return this.ductPrimary;
 	}
-	
-	public Duct getSecondary(){
+
+	/**
+	 * Get the duct representing the primary rout
+	 * @return
+	 */
+	public Duct getSecondary() {
 		return this.ductSecondary;
 	}
-	
-	private void setPrimary(Duct duct){
+
+	private void setPrimary(Duct duct) {
 		this.ductPrimary = duct;
 	}
-	
-	private void setSecondary(Duct duct){
+
+	private void setSecondary(Duct duct) {
 		this.ductSecondary = duct;
 	}
-	
-	private void updateFlowRates(double flowRate, double pressure, double temperatureFluid) {
-		if( flowRate == lastFlowRate &
-		    pressure == lastPressure &
-		    temperatureFluid == lastTemperatureFluid)
+
+	private void updateFlowRates(double flowRate, double pressure,
+			double temperatureFluid) {
+		if (flowRate == lastFlowRate & pressure == lastPressure
+				& temperatureFluid == lastTemperatureFluid)
 			return;
-		
+
 		lastFlowRate = flowRate;
 		lastPressure = pressure;
-		lastTemperatureFluid = temperatureFluid; 
-		
-		if(Double.isNaN(this.flowRatePrimary) | 0==this.flowRatePrimary | flowRate >= this.flowRatePrimary)
-			this.flowRatePrimary = flowRate*.5;
-		if(0==flowRate){
+		lastTemperatureFluid = temperatureFluid;
+
+		if (Double.isNaN(this.flowRatePrimary) | 0 == this.flowRatePrimary
+				| flowRate >= this.flowRatePrimary)
+			this.flowRatePrimary = flowRate * .5;
+		if (0 == flowRate) {
 			this.flowRatePrimary = 0;
 			return;
 		}
 
-		
 		double lastFlowRatePrimary = this.flowRatePrimary;
 		double k1 = 0, k2 = 0, kT1 = 0, kT2 = 0;
-		double r=Double.POSITIVE_INFINITY;
-		
-		
-		
-		for(int i=0; i<10; i++){
-			
-			k1 = getPrimary().getPressureLossCoefficient(Math.max(this.flowRatePrimary, 1E-3*flowRate), pressure, temperatureFluid);
-			k2 = getSecondary().getPressureLossCoefficient(Math.max(flowRate-this.flowRatePrimary, 1E-3*flowRate), pressure, temperatureFluid);
-			
-			kT1 = ( Fluid.pressureLossTBranchPrimary(getMaterial(),   temperatureFluid, getPrimary().getInletProfile(),  this.flowRatePrimary, flowRate) +
-					Fluid.pressureLossTBranchSecondary(getMaterial(), temperatureFluid, getPrimary().getOutletProfile(), this.flowRatePrimary, flowRate)) / (flowRate*Math.abs(flowRate));
-			kT2 = ( Fluid.pressureLossTBranchPrimary(getMaterial(),   temperatureFluid, getSecondary().getInletProfile(),  this.flowRatePrimary, flowRate) +
-					Fluid.pressureLossTBranchSecondary(getMaterial(), temperatureFluid, getSecondary().getOutletProfile(), this.flowRatePrimary, flowRate)) / (flowRate*Math.abs(flowRate));
+		double r = Double.POSITIVE_INFINITY;
 
-			
-			if(k1+kT1 == k2+kT2)
-				this.flowRatePrimary = flowRate*.5;
+		for (int i = 0; i < 10; i++) {
+
+			k1 = getPrimary().getPressureLossCoefficient(
+					Math.max(this.flowRatePrimary, 1E-3 * flowRate), pressure,
+					temperatureFluid);
+			k2 = getSecondary().getPressureLossCoefficient(
+					Math.max(flowRate - this.flowRatePrimary, 1E-3 * flowRate),
+					pressure, temperatureFluid);
+
+			kT1 = (Fluid.pressureLossTBranchPrimary(getMaterial(),
+					temperatureFluid, getPrimary().getInletProfile(),
+					this.flowRatePrimary, flowRate) + Fluid
+					.pressureLossTBranchSecondary(getMaterial(),
+							temperatureFluid, getPrimary().getOutletProfile(),
+							this.flowRatePrimary, flowRate))
+					/ (flowRate * Math.abs(flowRate));
+			kT2 = (Fluid.pressureLossTBranchPrimary(getMaterial(),
+					temperatureFluid, getSecondary().getInletProfile(),
+					this.flowRatePrimary, flowRate) + Fluid
+					.pressureLossTBranchSecondary(getMaterial(),
+							temperatureFluid,
+							getSecondary().getOutletProfile(),
+							this.flowRatePrimary, flowRate))
+					/ (flowRate * Math.abs(flowRate));
+
+			if (k1 + kT1 == k2 + kT2)
+				this.flowRatePrimary = flowRate * .5;
 			else
-				this.flowRatePrimary =flowRate * (kT2+k2)/(k1+kT1-k2-kT2) * (-1+Math.sqrt(1+(k1+kT1-k2-kT2)/(kT2+k2)));
-			
+				this.flowRatePrimary = flowRate
+						* (kT2 + k2)
+						/ (k1 + kT1 - k2 - kT2)
+						* (-1 + Math.sqrt(1 + (k1 + kT1 - k2 - kT2)
+								/ (kT2 + k2)));
 
-			r = (this.flowRatePrimary-lastFlowRatePrimary)/this.flowRatePrimary;
-			if(Math.abs(r)<1E-4)
+			r = (this.flowRatePrimary - lastFlowRatePrimary)
+					/ this.flowRatePrimary;
+			if (Math.abs(r) < 1E-4)
 				break;
-			
+
 			lastFlowRatePrimary = this.flowRatePrimary;
 		}
-				
+
 	}
-	
+
 	@Override
-	public void setMaterial(Material material){
+	public void setMaterial(Material material) {
 		this.material = material;
 		getPrimary().setMaterial(material);
 		getSecondary().setMaterial(material);
 	}
-	
-		
+
 	/**
 	 * Returns the (hydraulic) diameter
 	 * 
 	 * @return [m]
 	 */
 	@Override
-	public double getDiameter(){
-		if(getPrimary().getElements().size()>0)
+	public double getDiameter() {
+		if (getPrimary().getElements().size() > 0)
 			return getPrimary().getElement(0).getDiameter();
 		else
 			return 0.01;
 	}
-	
+
 	/**
 	 * Returns the length
 	 * 
 	 * @return [m]
 	 */
 	@Override
-	public double getLength(){
-		return  this.getPrimary().getLength();
+	public double getLength() {
+		return this.getPrimary().getLength();
 	}
-	
+
 	/**
 	 * Returns the free surface
 	 * 
 	 * @return [m²]
 	 */
 	@Override
-	public double getSurface(){
+	public double getSurface() {
 		return this.getPrimary().getSurface();
 	}
-	
+
 	/**
 	 * Returns the hydraulic surface
 	 * 
@@ -235,7 +294,7 @@ public class DuctBypass extends ADuctElement {
 	public double getHydraulicSurface() {
 		return this.getPrimary().getSurface();
 	}
-	
+
 	/**
 	 * Returns the total volume
 	 * 
@@ -245,110 +304,116 @@ public class DuctBypass extends ADuctElement {
 	public double getVolume() {
 		return this.getPrimary().getVolume();
 	}
-	
+
 	/**
 	 * Returns the hydraulic profile object
 	 * 
-	 * @return {@link AHydraulicProfile.java}
+	 * @return {@link AHydraulicProfile}
 	 */
 	@Override
 	public AHydraulicProfile getProfileIn() {
-		if(getPrimary().getElements().size()>0)
+		if (getPrimary().getElements().size() > 0)
 			return getPrimary().getElement(0).getProfileIn();
 		else
 			return this.profile;
 	}
-	
+
 	/**
 	 * Returns the hydraulic profile object
 	 * 
-	 * @return {@link AHydraulicProfile.java}
+	 * @return {@link AHydraulicProfile}
 	 */
 	@Override
 	public AHydraulicProfile getProfileOut() {
-		if(getPrimary().getElements().size()>0)
-			return getPrimary().getElement(getPrimary().getElements().size()-1).getProfileOut();
+		if (getPrimary().getElements().size() > 0)
+			return getPrimary().getElement(
+					getPrimary().getElements().size() - 1).getProfileOut();
 		else
 			return this.profile;
 	}
-	
+
 	/**
 	 * Returns the wall temperature
 	 * 
 	 * Override for bypass
-	 * @param temperatureIn 
-	 * @param flowRate 
-	 * @param pressure 
-	 * @return 
+	 * 
+	 * @param temperatureIn
+	 * @param flowRate
+	 * @param pressure
+	 * @return
 	 */
 	@Override
-	public double getWallTemperature(double temperatureIn, double flowRate, double pressure){
+	public double getWallTemperature(double temperatureIn, double flowRate,
+			double pressure) {
 		return Double.NaN;
 	}
-	
-	
+
 	/**
 	 * Returns the outlet temperature
 	 * 
 	 * Override for bypass
-	 * @param temperatureIn 
-	 * @param flowRate 
-	 * @param pressure 
-	 * @return 
+	 * 
+	 * @param temperatureIn
+	 * @param flowRate
+	 * @return
 	 */
 	@Override
-	public double getTemperatureOut(double temperatureIn, double flowRate, double pressureIn){
+	public double getTemperatureOut(double temperatureIn, double flowRate,
+			double pressureIn) {
 		double T1, T2, Q1, Q2;
-		
+
 		Q1 = getFlowRatePrimary(flowRate, pressureIn, temperatureIn);
 		Q2 = getFlowRateSecondary(flowRate, pressureIn, temperatureIn);
-		T1 = ductPrimary.getTemperatureOut( Q1, pressureIn, temperatureIn);
+		T1 = ductPrimary.getTemperatureOut(Q1, pressureIn, temperatureIn);
 		T2 = ductSecondary.getTemperatureOut(Q2, pressureIn, temperatureIn);
-		
-		return (T1*Q1+T2*Q2)/(Q1+Q2);
+
+		return (T1 * Q1 + T2 * Q2) / (Q1 + Q2);
 	}
-	
+
 	/**
 	 * Returns the wall heat flux
 	 * 
 	 * Override for bypass
-	 * @param temperatureIn 
-	 * @param flowRate 
-	 * @param pressure 
-	 * @return 
+	 * 
+	 * @param temperatureIn
+	 * @param flowRate
+	 * @return
 	 * 
 	 */
 	@Override
-	public double getWallHeatFlux(double temperatureIn, double flowRate, double pressureIn){
+	public double getWallHeatFlux(double temperatureIn, double flowRate,
+			double pressureIn) {
 		double heatFlux = 0;
-		
+
 		double Q1, Q2;
-		
+
 		Q1 = getFlowRatePrimary(flowRate, pressureIn, temperatureIn);
 		Q2 = getFlowRateSecondary(flowRate, pressureIn, temperatureIn);
-		
-		for(ADuctElement e: ductPrimary.getElements())
+
+		for (ADuctElement e : ductPrimary.getElements())
 			heatFlux += e.getWallHeatFlux(temperatureIn, Q1, pressureIn);
-		
-		for(ADuctElement e: ductSecondary.getElements())
+
+		for (ADuctElement e : ductSecondary.getElements())
 			heatFlux += e.getWallHeatFlux(temperatureIn, Q2, pressureIn);
-		
+
 		return heatFlux;
-		
+
 	}
-	
+
 	/**
 	 * Returns the temperature at position x
 	 * 
 	 * Override for bypass
-	 * @param temperatureIn 
-	 * @param flowRate 
-	 * @param pressure 
-	 * @param x 
-	 * @return 
+	 * 
+	 * @param temperatureIn
+	 * @param flowRate
+	 * @param pressure
+	 * @param x
+	 * @return
 	 */
 	@Override
-	public double getTemperature(double temperatureIn, double flowRate, double pressure, double x){
+	public double getTemperature(double temperatureIn, double flowRate,
+			double pressure, double x) {
 		return Double.NaN;
 	}
 }

@@ -24,57 +24,56 @@ import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 import ch.ethz.inspire.emod.utils.IOContainer;
 
 /**
- * General clamp model class.
- * Implements the physical model of a clamp.
- * From the input process force and clamp position, the requested 
- * linear speed and motor force are calculated
+ * General clamp model class. Implements the physical model of a clamp. From the
+ * input process force and clamp position, the requested linear speed and motor
+ * force are calculated
  * 
- * Assumptions:
- * The interia and frictional losses are negligible
+ * Assumptions: The interia and frictional losses are negligible
  * 
- * Inputlist:
- *   1: Postion       : [mm]   : Actual translational speed
- * Outputlist:
- *   1: ActuatorForce : [N]    : Requested motor force
- *   
- * Config parameters:
- *   SpringStiffness  : [N/mm] : Spring constant of the material
- *   WorkPiecePostion : [mm]    : Position of the working piece
+ * Inputlist: 1: Postion : [mm] : Actual translational speed Outputlist: 1:
+ * ActuatorForce : [N] : Requested motor force
+ * 
+ * Config parameters: SpringStiffness : [N/mm] : Spring constant of the material
+ * WorkPiecePostion : [mm] : Position of the working piece
  * 
  * @author simon
- *
+ * 
  */
 @XmlRootElement
-public class Clamp extends APhysicalComponent{
-	
+public class Clamp extends APhysicalComponent {
+
 	@XmlElement
 	protected String type;
-	
+
 	// Input parameters:
 	private IOContainer position;
 	// Output parameters:
 	private IOContainer force;
-	
+
 	// Save last input values
 	private double lastposition;
-	
-	// Parameters used by the model. 
+
+	// Parameters used by the model.
 	private double springconst;
 	private double wpposition;
-	
+
 	/**
-	 * Constructor called from XmlUnmarshaller.
-	 * Attribute 'type' is set by XmlUnmarshaller.
+	 * Constructor called from XmlUnmarshaller. Attribute 'type' is set by
+	 * XmlUnmarshaller.
 	 */
 	public Clamp() {
 		super();
 	}
-	
+
+	/**
+	 * post xml init method (loading physics data)
+	 * @param u
+	 * @param parent
+	 */
 	public void afterUnmarshal(final Unmarshaller u, final Object parent) {
-		//post xml init method (loading physics data)
 		init();
 	}
-	
+
 	/**
 	 * Clamp constructor
 	 * 
@@ -82,107 +81,115 @@ public class Clamp extends APhysicalComponent{
 	 */
 	public Clamp(String type) {
 		super();
-		
-		this.type=type;
+
+		this.type = type;
 		init();
 	}
-	
+
 	/**
 	 * Called from constructor or after unmarshaller.
 	 */
-	private void init()
-	{
+	private void init() {
 		/* Define Input parameters */
-		inputs    = new ArrayList<IOContainer>();
-		position  = new IOContainer("Position", new SiUnit(Unit.M), 0, ContainerType.MECHANIC);
+		inputs = new ArrayList<IOContainer>();
+		position = new IOContainer("Position", new SiUnit(Unit.M), 0,
+				ContainerType.MECHANIC);
 		inputs.add(position);
-		
+
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		force   = new IOContainer("Force", new SiUnit(Unit.NEWTONMETER), 0, ContainerType.MECHANIC);
+		force = new IOContainer("Force", new SiUnit(Unit.NEWTONMETER), 0,
+				ContainerType.MECHANIC);
 		outputs.add(force);
-		
-		/* ************************************************************************/
-		/*         Read configuration parameters: */
-		/* ************************************************************************/
+
+		/* *********************************************************************** */
+		/* Read configuration parameters: */
+		/* *********************************************************************** */
 		ComponentConfigReader params = null;
 		/* Open file containing the parameters of the model type: */
 		try {
 			params = new ComponentConfigReader(getModelType(), type);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(-1);
 		}
-		
+
 		/* Read the config parameter: */
 		try {
 			springconst = params.getDoubleValue("SpringStiffness");
-			wpposition  = params.getDoubleValue("WorkPiecePostion");
-		}
-		catch (Exception e) {
+			wpposition = params.getDoubleValue("WorkPiecePostion");
+		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(-1);
 		}
 		params.Close(); /* Model configuration file not needed anymore. */
-		
+
 		// Validate the parameters:
 		try {
-		    checkConfigParams();
-		}
-		catch (Exception e) {
-		    e.printStackTrace();
-		    System.exit(-1);
+			checkConfigParams();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
-	
+
 	/**
 	 * Validate the model parameters.
 	 * 
 	 * @throws Exception
 	 */
-    private void checkConfigParams() throws Exception
-	{		
+	private void checkConfigParams() throws Exception {
 		// Check model parameters:
 		// Parameter must be non negative
-    	if (springconst < 0) {
-    		throw new Exception("Clamp, type:" + type +
-    				": Negative value: Spring stiffness must be non negative");
-    	}
+		if (springconst < 0) {
+			throw new Exception("Clamp, type:" + type
+					+ ": Negative value: Spring stiffness must be non negative");
+		}
 	}
-	
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ch.ethz.inspire.emod.model.APhysicalComponent#update()
 	 */
 	@Override
 	public void update() {
-		
-		if ( lastposition == position.getValue() ) {
+
+		if (lastposition == position.getValue()) {
 			// Input values did not change, nothing to do.
 			return;
 		}
 		lastposition = position.getValue(); // [m]
-		
-		/* Clamping force
-		 * If the clamp is close enough, calculate a clamping force
+
+		/*
+		 * Clamping force If the clamp is close enough, calculate a clamping
+		 * force
 		 */
-		if ( lastposition < wpposition )
-			force.setValue( springconst*(wpposition-lastposition) );
+		if (lastposition < wpposition)
+			force.setValue(springconst * (wpposition - lastposition));
 		else
 			force.setValue(0);
-	
+
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ch.ethz.inspire.emod.model.APhysicalComponent#getType()
 	 */
 	@Override
 	public String getType() {
 		return type;
 	}
-	
+
+	@Override
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	@Override
+	public void updateBoundaryConditions() {
+		// TODO Auto-generated method stub
+
 	}
 }

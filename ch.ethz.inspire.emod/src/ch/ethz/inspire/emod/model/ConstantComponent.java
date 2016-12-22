@@ -23,96 +23,118 @@ import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 
 /**
- * Physical model for constant components. 
+ * Physical model for constant components.
  * <p>
  * configuration file:<br />
- * xml properties file according to http://java.sun.com/dtd/properties.dtd
- * 1 entry named "level" with the power levels per state. 
+ * xml properties file according to http://java.sun.com/dtd/properties.dtd 1
+ * entry named "level" with the power levels per state.
  * </p>
  * input: <br />
- * the current state as a double value without a unit.<br /> 
+ * the current state as a double value without a unit.<br />
  * <p>
- * example:<br /> 
+ * example:<br />
  * 3 use levels with power values 0.0, 50.0, 500.0<br />
- * input is 0.0, 1.0, 2.0</p>
+ * input is 0.0, 1.0, 2.0
+ * </p>
  * 
  * @author dhampl
- *
+ * 
  */
 @XmlRootElement
 public class ConstantComponent extends APhysicalComponent {
 
 	@XmlElement
 	protected String type;
-	
+
 	protected double[] levels;
-	
-	//input
+
+	// input
 	private IOContainer level;
-	
-	//output
+
+	// output
 	private IOContainer ptotal;
-	
+
+	/**
+	 * ConstantComponent of Type type
+	 * @param type
+	 */
 	public ConstantComponent(String type) {
-		this.type=type;
+		this.type = type;
 		init();
 	}
+
 	/**
 	 * empty JAXB constructor
 	 */
 	public ConstantComponent() {
-		
+
 	}
-	
-	public void afterUnmarshal(Unmarshaller u, Object parent) {
-		//post xml init method (loading physics data)
+
+	/**
+	 * post xml init method (loading physics data)
+	 * @param u
+	 * @param parent
+	 */
+	public void afterUnmarshal(final Unmarshaller u, final Object parent) {
 		init();
 	}
-	
+
 	private void init() {
-		//input
+		// input
 		inputs = new ArrayList<IOContainer>();
-		level = new IOContainer("level", new SiUnit(Unit.NONE), 0, ContainerType.CONTROL);
+		level = new IOContainer("level", new SiUnit(Unit.NONE), 0,
+				ContainerType.CONTROL);
 		inputs.add(level);
-		//output
+		// output
 		outputs = new ArrayList<IOContainer>();
-		ptotal = new IOContainer("PTotal", new SiUnit(Unit.WATT), 0, ContainerType.ELECTRIC);
+		ptotal = new IOContainer("PTotal", new SiUnit(Unit.WATT), 0,
+				ContainerType.ELECTRIC);
 		outputs.add(ptotal);
-		
+
 		ComponentConfigReader configReader = null;
 		try {
 			configReader = new ComponentConfigReader(getModelType(), type);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		try {
 			levels = configReader.getDoubleArray("levels");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ch.ethz.inspire.emod.model.APhysicalComponent#update()
 	 */
 	@Override
 	public void update() {
-		if(level.getValue()<0 || level.getValue()>levels.length-1)
+		if (level.getValue() < 0 || level.getValue() > levels.length - 1)
 			ptotal.setValue(Double.NaN);
 		else
-			ptotal.setValue(levels[(int)level.getValue()]);
+			ptotal.setValue(levels[(int) level.getValue()]);
 	}
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ch.ethz.inspire.emod.model.APhysicalComponent#getType()
 	 */
 	@Override
 	public String getType() {
 		return type;
 	}
-	
+
+	@Override
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	@Override
+	public void updateBoundaryConditions() {/* Not used */
 	}
 
 }

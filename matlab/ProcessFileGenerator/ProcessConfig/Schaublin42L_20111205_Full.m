@@ -185,5 +185,5 @@ inputs.ChipConv.values      = repmat([1 0], 1, length(inputs.ChipConv.time)/2);
 
 
 %% Create file
-cd('..');
+%cd('..');
 ProcessFileGenerator(FileName, inputs, FileComment);

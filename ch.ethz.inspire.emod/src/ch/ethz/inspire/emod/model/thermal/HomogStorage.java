@@ -30,71 +30,66 @@ import ch.ethz.inspire.emod.model.APhysicalComponent;
 /**
  * General homogenous thermal storage class
  * 
- * Assumptions:
- *  Homegenous temperature distribuntion. Internal heat capacity
- *  constant c_p does not depend on temperature
+ * Assumptions: Homegenous temperature distribuntion. Internal heat capacity
+ * constant c_p does not depend on temperature
  * 
  * 
- * Inputlist:
- *   1: In          : [W]  : Thermal flows in
- *   2: Out         : [W]  : Thermal flow out
- *   3: Pressure    : [Pa] : Pressure
- * Outputlist:
- *   1: Temperature : [var] : Calculated temperature
- *   
- * Config parameters:
- *   HeatCapacity       : [J/K/kg] : Internal heat capacity
- *   Mass               : [kg]     : Total mass of the storage    
- *   InitialTemperature : [K]      : Initial temperature  
+ * Inputlist: 1: In : [W] : Thermal flows in 2: Out : [W] : Thermal flow out 3:
+ * Pressure : [Pa] : Pressure Outputlist: 1: Temperature : [var] : Calculated
+ * temperature
+ * 
+ * Config parameters: HeatCapacity : [J/K/kg] : Internal heat capacity Mass :
+ * [kg] : Total mass of the storage InitialTemperature : [K] : Initial
+ * temperature
  * 
  * @author simon
- *
+ * 
  */
 @XmlRootElement
-public class HomogStorage extends APhysicalComponent{
+public class HomogStorage extends APhysicalComponent {
 	@XmlElement
 	protected String name;
 	@XmlElement
 	protected String type;
 	@XmlElement
 	protected String parentType;
-	
+
 	// Input Lists
 	private ArrayList<IOContainer> thIn;
 	private ArrayList<IOContainer> thOut;
 	private IOContainer pressure;
-	
+
 	// Output parameters:
 	private IOContainer temperatureOut;
-	
-	// Unit of the element 
+
+	// Unit of the element
 	// private double cp;
 	private double m;
 	private String materialType;
-	//private Material material;
+	// private Material material;
 	private ThermalElement thermalElement;
-	
+
 	// Initial Value
 	double temperatureInit = 0;
-	
+
 	/**
-	 * Constructor called from XmlUnmarshaller.
-	 * Attribute 'type' is set by XmlUnmarshaller.
+	 * Constructor called from XmlUnmarshaller. Attribute 'type' is set by
+	 * XmlUnmarshaller.
 	 */
 	public HomogStorage() {
 		super();
 	}
-	
+
 	/**
 	 * @param u
 	 * @param parent
 	 */
 	public void afterUnmarshal(Unmarshaller u, Object parent) {
-		//post xml init method (loading physics data)
+		// post xml init method (loading physics data)
 		loadParameters();
 		init();
 	}
-	
+
 	/**
 	 * Homog. Storage constructor
 	 * 
@@ -103,14 +98,14 @@ public class HomogStorage extends APhysicalComponent{
 	 */
 	public HomogStorage(String type, String parentType) {
 		super();
-		
-		this.type       = type;
+
+		this.type = type;
 		this.parentType = parentType;
-		
+
 		loadParameters();
 		init();
 	}
-	
+
 	/**
 	 * Homog. Storage constructor
 	 * 
@@ -120,247 +115,262 @@ public class HomogStorage extends APhysicalComponent{
 	 */
 	public HomogStorage(String type, String parentType, double temperatureInit) {
 		super();
-		
-		this.type            = type;
-		this.parentType      = parentType;
+
+		this.type = type;
+		this.parentType = parentType;
 		this.temperatureInit = temperatureInit;
-		
+
 		loadParameters();
 		init();
 	}
-	
+
 	/**
 	 * Homog. Storage constructor
 	 * 
-	 * @param material string indicating the {@link: Material} to be used;
-	 * @param mass [kg]
-	 * @param temperatureInit [K]
+	 * @param material
+	 *            string indicating the {@link: Material} to be used;
+	 * @param mass
+	 *            [kg]
+	 * @param temperatureInit
+	 *            [K]
 	 */
-	public HomogStorage(String material, double mass, double temperatureInit)
-	{
+	public HomogStorage(String material, double mass, double temperatureInit) {
 		this.materialType = material;
 		this.m = mass;
 		this.temperatureInit = temperatureInit;
-		
+
 		init();
 	}
-	
+
 	/**
 	 * Homog. Storage constructor
 	 * 
-	 * @param material string indicating the {@link: Material} to be used;
-	 * @param mass [kg]
+	 * @param material
+	 *            string indicating the {@link: Material} to be used;
+	 * @param mass
+	 *            [kg]
 	 */
-	public HomogStorage(String material, double mass)
-	{
+	public HomogStorage(String material, double mass) {
 		this.materialType = material;
 		this.m = mass;
-		
+
 		init();
 	}
-	
+
 	/**
 	 * loadParameters
 	 * 
-	 * Loads the system parameters from the database. 
-	 */	
- 	private void loadParameters()
-	{
+	 * Loads the system parameters from the database.
+	 */
+	private void loadParameters() {
 		ComponentConfigReader params = null;
 		String path;
-		/* If no parent model file is configured, the local configuration file
+		/*
+		 * If no parent model file is configured, the local configuration file
 		 * will be opened. Otherwise the cfg file of the parent will be opened
-		 */		
+		 */
 		if (parentType.isEmpty()) {
-			path = PropertiesHandler.getProperty("app.MachineDataPathPrefix")+
-					"/"+PropertiesHandler.getProperty("sim.MachineName")+"/"+Defines.MACHINECONFIGDIR+"/"+
-					PropertiesHandler.getProperty("sim.MachineConfigName")+
-					"/"+this.getClass().getSimpleName()+"_"+type+".xml";
+			path = PropertiesHandler.getProperty("app.MachineDataPathPrefix")
+					+ "/" + PropertiesHandler.getProperty("sim.MachineName")
+					+ "/" + Defines.MACHINECONFIGDIR + "/"
+					+ PropertiesHandler.getProperty("sim.MachineConfigName")
+					+ "/" + this.getClass().getSimpleName() + "_" + type
+					+ ".xml";
 			try {
 				params = new ComponentConfigReader(path);
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 				System.exit(-1);
 			}
-		}
-		else {
-		
+		} else {
+
 			/* Open file containing the parameters of the parent model type */
 			try {
 				params = new ComponentConfigReader(parentType, type);
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
-				//System.exit(-1);
+				// System.exit(-1);
 			}
-		}		
-			
+		}
+
 		/* Read the config parameter: */
 		try {
-			m            = params.getDoubleValue("thermal.mass");
+			m = params.getDoubleValue("thermal.mass");
 			materialType = params.getString("Material");
-			//temperatureInit = params.getDoubleValue("thermal.InitialTemperature");
-			
-		}
-		catch (Exception e) {
+			// temperatureInit =
+			// params.getDoubleValue("thermal.InitialTemperature");
+
+		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(-1);
 		}
 		params.Close(); /* Model configuration file not needed anymore. */
-		
+
 	}
-	
+
 	/**
 	 * Called from constructor or after unmarshaller.
 	 */
-	private void init()
-	{		
+	private void init() {
 		/* Define Input parameters */
-		inputs   = new ArrayList<IOContainer>();
-		thIn     = new ArrayList<IOContainer>();
-		thOut    = new ArrayList<IOContainer>();
-		pressure = new IOContainer("Pressure", new SiUnit(Unit.PA), 1E5, ContainerType.FLUIDDYNAMIC);
+		inputs = new ArrayList<IOContainer>();
+		thIn = new ArrayList<IOContainer>();
+		thOut = new ArrayList<IOContainer>();
+		pressure = new IOContainer("Pressure", new SiUnit(Unit.PA), 1E5,
+				ContainerType.FLUIDDYNAMIC);
 		inputs.add(pressure);
-		
+
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		temperatureOut     = new IOContainer("Temperature", new SiUnit(Unit.KELVIN), 0, ContainerType.THERMAL);
+		temperatureOut = new IOContainer("Temperature",
+				new SiUnit(Unit.KELVIN), 0, ContainerType.THERMAL);
 		outputs.add(temperatureOut);
-		
-		
 
 		// Validate the parameters:
 		try {
-		    checkConfigParams();
+			checkConfigParams();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(-1);
 		}
-		catch (Exception e) {
-		    e.printStackTrace();
-		    System.exit(-1);
-		}
-		
+
 		/* Thermal Element */
 		thermalElement = new ThermalElement(materialType, m);
 		thermalElement.getTemperature().setInitialCondition(temperatureInit);
-		
+
 		/* State */
 		dynamicStates = new ArrayList<DynamicState>();
 		dynamicStates.add(thermalElement.getTemperature());
-		
-		//temperature   = newDynamicState("Temperature", new SiUnit(Unit.KELVIN));
-			
+
+		// temperature = newDynamicState("Temperature", new
+		// SiUnit(Unit.KELVIN));
+
 		// Fluid object
 		// material = new Material(materialType);
-		
+
 		// Initialize State
 		// temperature.setInitialCondition(temperatureInit);
-		
+
 	}
-	
+
 	/**
 	 * Validate the model parameters.
 	 * 
 	 * @throws Exception
 	 */
-    private void checkConfigParams() throws Exception
-	{		
-    	// Check model parameters:
+	private void checkConfigParams() throws Exception {
+		// Check model parameters:
 		// Parameter must be non negative and non zero
-    	if (m <= 0) {
-    		throw new Exception("HomogStorage, type:" + type +
-    				": Non positive value: Mass must be non negative and non zero");
-    	}
+		if (m <= 0) {
+			throw new Exception(
+					"HomogStorage, type:"
+							+ type
+							+ ": Non positive value: Mass must be non negative and non zero");
+		}
 	}
-    
-    /**
-     * Returns the desired IOContainer
-     * 
-     * If the desired input name matches In or Out, a new input
-     * is created and added to the set of avaiable inputs
-     * 
-     * @param  name	Name of the desired input
-     * @return temp IOContainer matched the desired name
-     * 
-     * @author simon
-     */
-    @Override
-    public IOContainer getInput(String name) {
-		IOContainer temp=null;
-		
-		/* 
-		 * If the initialization has not been done, create a output with same unit as input
+
+	/**
+	 * Returns the desired IOContainer
+	 * 
+	 * If the desired input name matches In or Out, a new input is created and
+	 * added to the set of avaiable inputs
+	 * 
+	 * @param name
+	 *            Name of the desired input
+	 * @return temp IOContainer matched the desired name
+	 * 
+	 * @author simon
+	 */
+	@Override
+	public IOContainer getInput(String name) {
+		IOContainer temp = null;
+
+		/*
+		 * If the initialization has not been done, create a output with same
+		 * unit as input
 		 */
-		if(name.matches("In")) {
-			temp = new IOContainer("In"+(thIn.size()+1), new SiUnit(Unit.WATT), 0, ContainerType.THERMAL);
+		if (name.matches("In")) {
+			temp = new IOContainer("In" + (thIn.size() + 1), new SiUnit(
+					Unit.WATT), 0, ContainerType.THERMAL);
 			inputs.add(temp);
 			thIn.add(temp);
-		}
-		else if(name.matches("Out")) {
-			temp = new IOContainer("Out"+(thOut.size()+1), new SiUnit(Unit.WATT), 0, ContainerType.THERMAL);
+		} else if (name.matches("Out")) {
+			temp = new IOContainer("Out" + (thOut.size() + 1), new SiUnit(
+					Unit.WATT), 0, ContainerType.THERMAL);
 			inputs.add(temp);
 			thOut.add(temp);
-		}
-		else {
-			for(IOContainer ioc:inputs){
-				if(ioc.getName().equals(name)) {
-					temp=ioc;
+		} else {
+			for (IOContainer ioc : inputs) {
+				if (ioc.getName().equals(name)) {
+					temp = ioc;
 					break;
 				}
 			}
 		}
-			
+
 		return temp;
 	}
-	
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ch.ethz.inspire.emod.model.APhysicalComponent#update()
 	 */
 	@Override
 	public void update() {
-		
-			
-		//cp = material.getHeatCapacity();
-		//tmpSum = 0;
-		
+
+		// cp = material.getHeatCapacity();
+		// tmpSum = 0;
+
 		// Sum up inputs
-		for( IOContainer in : thIn)
+		for (IOContainer in : thIn)
 			if (!Double.isNaN(in.getValue()))
 				thermalElement.addHeatInput(in.getValue());
-		
-		for( IOContainer out : thOut)
+
+		for (IOContainer out : thOut)
 			if (!Double.isNaN(out.getValue()))
 				thermalElement.addHeatInput(-out.getValue());
-		
-		/* Integration step:
-		 * T(k+1) [K] = T(k) [K]+ SampleTime[s]*(P_in [W] - P_out [W]) / cp [J/kg/K] / m [kg] 
-		 */	
-		//temperature.setValue( temperature.getValue() + timestep * tmpSum / cp / m );
+
+		/*
+		 * Integration step: T(k+1) [K] = T(k) [K]+ SampleTime[s]*(P_in [W] -
+		 * P_out [W]) / cp [J/kg/K] / m [kg]
+		 */
+		// temperature.setValue( temperature.getValue() + timestep * tmpSum / cp
+		// / m );
 		thermalElement.integrate(timestep);
-		
-		//if (0>curTemperature)
-		//	curTemperature = 0;
-		
+
+		// if (0>curTemperature)
+		// curTemperature = 0;
+
 		// Set output
 		temperatureOut.setValue(thermalElement.getTemperature().getValue());
 	}
-	
-	/*@Override
-	public ArrayList<DynamicState> getDynamicStateList(){
-		ArrayList<DynamicState> dynamicStates = new ArrayList<DynamicState>();
-		dynamicStates.set(0, thermalElement.getTemperature());
-		return dynamicStates;
-	}*/
 
-	/* (non-Javadoc)
+	/*
+	 * @Override public ArrayList<DynamicState> getDynamicStateList(){
+	 * ArrayList<DynamicState> dynamicStates = new ArrayList<DynamicState>();
+	 * dynamicStates.set(0, thermalElement.getTemperature()); return
+	 * dynamicStates; }
+	 */
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ch.ethz.inspire.emod.model.APhysicalComponent#getType()
 	 */
 	@Override
 	public String getType() {
 		return type;
 	}
-	
+
+	@Override
 	public void setType(String type) {
-		//TODO this.type = type;
+		// TODO this.type = type;
+	}
+
+	@Override
+	public void updateBoundaryConditions() {
+		// TODO Auto-generated method stub
+
 	}
 }

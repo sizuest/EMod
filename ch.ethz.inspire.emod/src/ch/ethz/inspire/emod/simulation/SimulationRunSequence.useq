@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence-diagram version="1.1.13" icons="true" automaticImage="PNG">  
+  <object id="1" language="java" name="ch.ethz.inspire.emod.simulation.EModSimulationRun" project="ch.ethz.inspire.emod" 
+    file="/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/simulation/EModSimulationRun.java" binary="false" 
+    label="eModSimulationRun" type="class" autoSize="true">    
+    <position height="-1" width="-1" x="374" y="0"/>    
+    <execution id="2">      
+      <position height="530" width="138" x="5" y="155"/>    
+    </execution>  
+  </object>  
+  <object id="5" language="java" name="ch.ethz.inspire.emod.simulation.EModSimulationMain" 
+    project="ch.ethz.inspire.emod" 
+    file="/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/simulation/EModSimulationMain.java" binary="false" 
+    label="eModSimulationMain" type="class" autoSize="true">    
+    <position height="-1" width="-1" x="191" y="0"/>    
+    <execution id="4">      
+      <position height="494" width="141" x="147" y="173"/>    
+    </execution>    
+    <execution id="17">      
+      <position height="287" width="141" x="147" y="362"/>    
+    </execution>  
+  </object>  
+  <object id="34" language="java" name="ch.ethz.inspire.emod.simulation.ASimulationControl" 
+    project="ch.ethz.inspire.emod" 
+    file="/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/simulation/ASimulationControl.java" binary="false" 
+    label="aSimulationControl" type="class" autoSize="true">    
+    <position height="-1" width="-1" x="607" y="0"/>    
+    <execution id="11">      
+      <position height="18" width="138" x="292" y="242"/>    
+    </execution>    
+    <execution id="19">      
+      <position height="18" width="138" x="292" y="380"/>    
+    </execution>    
+    <execution id="21">      
+      <position height="18" width="138" x="292" y="409"/>    
+    </execution>  
+  </object>  
+  <object id="35" language="java" name="ch.ethz.inspire.emod.model.APhysicalComponent" project="ch.ethz.inspire.emod" 
+    file="/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/model/APhysicalComponent.java" binary="false" 
+    label="aPhysicalComponent" type="class" autoSize="true">    
+    <position height="-1" width="-1" x="633" y="0"/>    
+    <execution id="13">      
+      <position height="18" width="147" x="434" y="272"/>    
+    </execution>    
+    <execution id="25">      
+      <position height="18" width="147" x="434" y="454"/>    
+    </execution>    
+    <execution id="27">      
+      <position height="18" width="147" x="434" y="481"/>    
+    </execution>    
+    <execution id="36">      
+      <position height="18" width="147" x="434" y="559"/>    
+    </execution>  
+  </object>  
+  <object id="37" language="java" name="ch.ethz.inspire.emod.model.fluid.FluidCircuitSolver" 
+    project="ch.ethz.inspire.emod" 
+    file="/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/model/fluid/FluidCircuitSolver.java" binary="false" 
+    label="fluidCircuitSolver" type="class" autoSize="true">    
+    <position height="-1" width="-1" x="918" y="0"/>    
+    <execution id="15">      
+      <position height="18" width="142" x="585" y="308"/>    
+    </execution>    
+    <execution id="29">      
+      <position height="18" width="142" x="585" y="519"/>    
+    </execution>  
+  </object>  
+  <object id="38" language="java" name="ch.ethz.inspire.emod.utils.IOConnection" project="ch.ethz.inspire.emod" 
+    file="/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/utils/IOConnection.java" binary="false" label="ioConnection" 
+    type="class" autoSize="true">    
+    <position height="-1" width="-1" x="738" y="0"/>    
+    <execution id="23">      
+      <position height="18" width="113" x="731" y="432"/>    
+    </execution>  
+  </object>  
+  <object id="39" language="java" name="ch.ethz.inspire.emod.simulation.SimulationOutput" project="ch.ethz.inspire.emod" 
+    file="/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/simulation/SimulationOutput.java" binary="false" 
+    label="simulationOutput" type="class" autoSize="true">    
+    <position height="-1" width="-1" x="843" y="0"/>    
+    <execution id="31">      
+      <position height="54" width="138" x="848" y="541"/>    
+    </execution>    
+    <execution id="7">      
+      <position height="18" width="138" x="848" y="186"/>    
+    </execution>  
+  </object>  
+  <object id="41" language="java" name="ch.ethz.inspire.emod.femexport.FEMOutput" project="ch.ethz.inspire.emod" 
+    file="/ch.ethz.inspire.emod/src/ch/ethz/inspire/emod/femexport/FEMOutput.java" binary="false" label="femOutput" 
+    type="class" autoSize="true">    
+    <position height="-1" width="-1" x="697" y="0"/>    
+    <execution id="33">      
+      <position height="18" width="139" x="990" y="613"/>    
+    </execution>    
+    <execution id="9">      
+      <position height="18" width="139" x="990" y="213"/>    
+    </execution>  
+  </object>  
+  <message id="3" operation="runSimulation():void" asynchronous="false">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="4"/>  
+  </message>  
+  <message id="6" 
+    operation="SimulationOutput(java.lang.String,java.util.ArrayList&lt;ch.ethz.inspire.emod.model.MachineComponent&gt;,java.util.List&lt;ch.ethz.inspire.emod.simulation.ASimulationControl&gt;)" 
+    asynchronous="false">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="7"/>  
+  </message>  
+  <message id="8" 
+    operation="FEMOutput(java.lang.String,java.util.ArrayList&lt;ch.ethz.inspire.emod.model.MachineComponent&gt;)" 
+    asynchronous="false">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="9"/>  
+  </message>  
+  <message id="10" operation="setState(ch.ethz.inspire.emod.simulation.MachineState):void" asynchronous="false">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="11"/>  
+  </message>  
+  <message id="12" operation="preSimulation():void" asynchronous="false">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="13"/>  
+  </message>  
+  <message id="14" operation="solve(int):void" asynchronous="false">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="15"/>  
+  </message>  
+  <message id="16" asynchronous="false">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="17"/>  
+  </message>  
+  <message id="18" operation="setState(ch.ethz.inspire.emod.simulation.MachineState):void" asynchronous="false">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="19"/>  
+  </message>  
+  <message id="20" operation="update():void" asynchronous="false">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="21"/>  
+  </message>  
+  <message id="22" operation="update():void" asynchronous="false">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="23"/>  
+  </message>  
+  <message id="24" operation="update():void" asynchronous="false">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="25"/>  
+  </message>  
+  <message id="26" operation="updateBoundaryConditions():void" asynchronous="false">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="27"/>  
+  </message>  
+  <message id="28" operation="solve(int):void" asynchronous="false">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="29"/>  
+  </message>  
+  <message id="30" operation="logData(double):void" asynchronous="false">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="31"/>  
+  </message>  
+  <message id="32" operation="logData(double):void" asynchronous="false">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="33"/>  
+  </message>  
+  <message id="40" operation="getBoundaryConditions():java.util.List&lt;BoundaryCondition&gt;" asynchronous="false">    
+    <end type="SOURCE" refId="31"/>    
+    <end type="TARGET" refId="36"/>  
+  </message>
+</sequence-diagram>

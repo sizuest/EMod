@@ -24,62 +24,63 @@ import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 
 /**
- * General Heat Exchanger model class.
- * Implements the physical model of a heat exchanger
+ * General Heat Exchanger model class. Implements the physical model of a heat
+ * exchanger
  * 
- * Assumptions:
- * All Component losses are thermal, heat exchanger can be described
- * by a energy efficency ratio
+ * Assumptions: All Component losses are thermal, heat exchanger can be
+ * described by a energy efficency ratio
  * 
- * Inputlist:
- *   1: Level         : [-]    : On/Off
- *   2: Temperature   : [K]    : Temperature measnurement
- * Outputlist:
- * 	 1: PTotal      : [W]	 : Electric power demand
- *   2: PThermal    : [W]    : Heat flow out
- *   
- * Config parameters:
- *   CompressorPower  : [W]     : Installed compressor power (el.)
- *   EERCooling       : [-]     : Energy efficency ratio cooling
- *   
- *   
+ * Inputlist: 1: Level : [-] : On/Off 2: Temperature : [K] : Temperature
+ * measnurement Outputlist: 1: PTotal : [W] : Electric power demand 2: PThermal
+ * : [W] : Heat flow out
+ * 
+ * Config parameters: CompressorPower : [W] : Installed compressor power (el.)
+ * EERCooling : [-] : Energy efficency ratio cooling
+ * 
+ * 
  * 
  * @author simon
- *
+ * 
  */
 @XmlRootElement
-public class Cooler extends APhysicalComponent{
+public class Cooler extends APhysicalComponent {
 
 	@XmlElement
 	protected String type;
-	
+
 	// Input parameters:
 	private IOContainer state;
 	private IOContainer temperature;
 	// Output parameters:
 	private IOContainer ptotal;
+	private IOContainer puse;
+	private IOContainer ploss;
 	private IOContainer pth_out;
-	
-	// Parameters used by the model. 
-	private double epsilon;     // EER [-]
+
+	// Parameters used by the model.
+	private double epsilon; // EER [-]
 	private double pCompressor; // Compressor power [W]
 	private double tempOn, tempOff; // Temperature setpoints
-	
+
 	private boolean isOn = false;
-	
+
 	/**
-	 * Constructor called from XmlUnmarshaller.
-	 * Attribute 'type' is set by XmlUnmarshaller.
+	 * Constructor called from XmlUnmarshaller. Attribute 'type' is set by
+	 * XmlUnmarshaller.
 	 */
 	public Cooler() {
 		super();
 	}
-	
-	public void afterUnmarshal(Unmarshaller u, Object parent) {
-		//post xml init method (loading physics data)
+
+	/**
+	 * post xml init method (loading physics data)
+	 * @param u
+	 * @param parent
+	 */
+	public void afterUnmarshal(final Unmarshaller u, final Object parent) {
 		init();
 	}
-	
+
 	/**
 	 * Heat exchanger constructor
 	 * 
@@ -87,127 +88,140 @@ public class Cooler extends APhysicalComponent{
 	 */
 	public Cooler(String type) {
 		super();
-		
-		this.type=type;
+
+		this.type = type;
 		init();
 	}
-	
+
 	/**
 	 * Called from constructor or after unmarshaller.
 	 */
-	private void init()
-	{
+	private void init() {
 		/* Define Input parameters */
-		inputs   = new ArrayList<IOContainer>();
-		state          = new IOContainer("State",          new SiUnit(Unit.NONE), 0, ContainerType.CONTROL);
-		temperature    = new IOContainer("Temperature",    new SiUnit(Unit.KELVIN), 0, ContainerType.CONTROL);
+		inputs = new ArrayList<IOContainer>();
+		state = new IOContainer("State", new SiUnit(Unit.NONE), 0,
+				ContainerType.CONTROL);
+		temperature = new IOContainer("Temperature", new SiUnit(Unit.KELVIN),
+				293.15, ContainerType.CONTROL);
 		inputs.add(state);
 		inputs.add(temperature);
-		
+
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		ptotal  = new IOContainer("PTotal",   new SiUnit(Unit.WATT), 0, ContainerType.ELECTRIC);
-		pth_out = new IOContainer("PThermal", new SiUnit(Unit.WATT), 0, ContainerType.THERMAL);
+		ptotal = new IOContainer("PTotal", new SiUnit(Unit.WATT), 0,
+				ContainerType.ELECTRIC);
+		puse = new IOContainer("PUse", new SiUnit(Unit.WATT), 0,
+				ContainerType.MECHANIC);
+		ploss = new IOContainer("PLoss", new SiUnit(Unit.WATT), 0,
+				ContainerType.THERMAL);
+		pth_out = new IOContainer("PThermal", new SiUnit(Unit.WATT), 0,
+				ContainerType.THERMAL);
 		outputs.add(ptotal);
+		outputs.add(ploss);
+		outputs.add(puse);
 		outputs.add(pth_out);
-		
-		/* ************************************************************************/
-		/*         Read configuration parameters: */
-		/* ************************************************************************/
+
+		/* *********************************************************************** */
+		/* Read configuration parameters: */
+		/* *********************************************************************** */
 		ComponentConfigReader params = null;
 		/* Open file containing the parameters of the model type: */
 		try {
 			params = new ComponentConfigReader(getModelType(), type);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-			System.exit(-1);
 		}
-		
+
 		/* Read the config parameter: */
 		try {
 			pCompressor = params.getDoubleValue("CompressorPower");
-			epsilon     = params.getDoubleValue("EERCooling");
-			tempOn      = params.getDoubleValue("TemperatureHigh");
-			tempOff     = params.getDoubleValue("TemperatureLow");
-		}
-		catch (Exception e) {
+			epsilon = params.getDoubleValue("EERCooling");
+			tempOn = params.getDoubleValue("TemperatureHigh");
+			tempOff = params.getDoubleValue("TemperatureLow");
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		params.Close(); /* Model configuration file not needed anymore. */
-		
+
 		// Validate the parameters:
 		try {
-		    checkConfigParams();
-		}
-		catch (Exception e) {
-		    e.printStackTrace();
+			checkConfigParams();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Validate the model parameters.
 	 * 
 	 * @throws Exception
 	 */
-    private void checkConfigParams() throws Exception
-	{		
+	private void checkConfigParams() throws Exception {
 		// Check model parameters:
-    	
-    	// Strictly positive
-    	if (epsilon <= 0 ){
-    		throw new Exception("HeatExchanger, type:" +type+ 
-					": Negative or zero: EER must be strictly positive");
-    	}
-	}
-	
 
-	/* (non-Javadoc)
+		// Strictly positive
+		if (epsilon <= 0) {
+			throw new Exception("HeatExchanger, type:" + type
+					+ ": Negative or zero: EER must be strictly positive");
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ch.ethz.inspire.emod.model.APhysicalComponent#update()
 	 */
 	@Override
 	public void update() {
-		
+
 		// Element is off
-		if ( 0==state.getValue()){
+		if (0 == state.getValue()) {
 			ptotal.setValue(0);
 			pth_out.setValue(0);
 			return;
 		}
-		
-		/* Power consumption is equal to nominal power, if component is
-		 * on.
-		 *  P_tot = P_compressor
+
+		/*
+		 * Power consumption is equal to nominal power, if component is on.
+		 * P_tot = P_compressor
 		 * 
-		 * The transfered heat can be calculated over EER
-		 *  P_thermal [W] = Qdot*epsilon [W] 
+		 * The transfered heat can be calculated over EER P_thermal [W] =
+		 * Qdot*epsilon [W]
 		 */
-		
-		if( isOn & temperature.getValue()<=tempOff |
-		   !isOn & temperature.getValue()>=tempOn)
+
+		if (isOn & temperature.getValue() <= tempOff | !isOn
+				& temperature.getValue() >= tempOn)
 			isOn = !isOn;
-		
-		if (isOn){
+
+		if (isOn) {
 			ptotal.setValue(pCompressor);
-			pth_out.setValue(pCompressor * epsilon );
-		}
-		else {
+			pth_out.setValue(pCompressor * epsilon);
+		} else {
 			ptotal.setValue(0);
 			pth_out.setValue(0);
 		}
-		
-		
+
+		ploss.setValue(ptotal.getValue());
+		puse.setValue(0);
+
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ch.ethz.inspire.emod.model.APhysicalComponent#getType()
 	 */
 	@Override
 	public String getType() {
 		return type;
 	}
-	
+
+	@Override
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	@Override
+	public void updateBoundaryConditions() {/* Not used */
 	}
 }

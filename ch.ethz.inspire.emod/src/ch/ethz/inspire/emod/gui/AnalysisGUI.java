@@ -48,21 +48,22 @@ import ch.ethz.inspire.emod.utils.LocalizationHandler;
 
 /**
  * @author dhampl
- *
+ * 
  */
 public class AnalysisGUI extends AEvaluationGUI {
 
-	private static Logger logger = Logger.getLogger(AnalysisGUI.class.getName());
-	
+	private static Logger logger = Logger
+			.getLogger(AnalysisGUI.class.getName());
+
 	Composite graphComp;
 	Tree chooseTree;
-	ArrayList<TreeItem> consumerTreeItems;
+	ArrayList<TreeItem> consumerTreeItems = new ArrayList<TreeItem>();
 	Text textFilter;
 	private TabFolder aTabFolder;
-	private TabItem ptChartItem, varChartItem, energyChartItem;
-	
+	private TabItem ptChartItem, powerChartItem, energyChartItem;
+
 	int maxWidth;
-	
+
 	/**
 	 * @param dataFile
 	 * @param parent
@@ -73,56 +74,27 @@ public class AnalysisGUI extends AEvaluationGUI {
 		init();
 	}
 
-	public void init() {
-		aTabFolder = new TabFolder(this, SWT.NONE);		
-		
-		//update();
-	}
-	
 	@Override
-	public void update(){
-		
+	public void init() {
+		aTabFolder = new TabFolder(this, SWT.NONE);
+
+		postDataImportAction();
+	}
+
+	@Override
+	public void update() {
+
+		aTabFolder.setEnabled(false);
+
 		// Read data
 		readData();
-		
-		// try to close old tabs
-		if(null!=ptChartItem) ptChartItem.dispose();
-		if(null!=varChartItem) varChartItem.dispose();
-		if(null!=energyChartItem) energyChartItem.dispose();
-		
-		// Create Tabs
-		ptChartItem     = new TabItem(aTabFolder, SWT.NONE);
-		varChartItem    = new TabItem(aTabFolder, SWT.NONE);
-		energyChartItem = new TabItem(aTabFolder, SWT.NONE);
-		
-		ptChartItem.setText(LocalizationHandler.getItem("app.gui.analysis.ptchart"));
-
-		varChartItem.setText(LocalizationHandler.getItem("app.gui.analysis.variancechart"));
-
-		energyChartItem.setText(LocalizationHandler.getItem("app.gui.analysis.energychart"));
-		
-		
-		ptChartItem.setControl(createPTChart(aTabFolder));
-		varChartItem.setControl(StackedAreaChart.createChart(aTabFolder, getConsumerDataList()));
-		energyChartItem.setControl(BarChart.createBarChart(aTabFolder, getConsumerDataList()));
-		
-		aTabFolder.setSelection(0);
-		
-		aTabFolder.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(org.eclipse.swt.events.SelectionEvent event) {
-				logger.log(LogLevel.DEBUG, "atab"+aTabFolder.getSelectionIndex());
-			}
-		});
-		
-		this.redraw();
 	}
-	
-	
+
 	private Composite createPTChart(TabFolder aTabFolder2) {
-		
-		
-		// scrolling composite to ensure visibility 
-		//sc = new ScrolledComposite(aTabFolder2, SWT.NONE | SWT.V_SCROLL | SWT.H_SCROLL);
+
+		// scrolling composite to ensure visibility
+		// sc = new ScrolledComposite(aTabFolder2, SWT.NONE | SWT.V_SCROLL |
+		// SWT.H_SCROLL);
 		// composite containing the elements
 		final SashForm c = new SashForm(aTabFolder2, SWT.NONE);
 		c.setLayout(new GridLayout(2, false));
@@ -134,25 +106,24 @@ public class AnalysisGUI extends AEvaluationGUI {
 		cl.setLayout(new GridLayout(2, false));
 		cl.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true));
 		cl.setBackground(getBackground());
-		
-		
-		
+
 		// Text field for Filtering
-		textFilter = new Text(cl, SWT.BORDER | SWT.SEARCH  | SWT.ICON_CANCEL);
-		textFilter.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 2, 1));
+		textFilter = new Text(cl, SWT.BORDER | SWT.SEARCH | SWT.ICON_CANCEL);
+		textFilter.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false,
+				2, 1));
 		textFilter.setMessage("Filter");
 		textFilter.addMouseListener(new MouseListener() {
-			
+
 			@Override
 			public void mouseUp(MouseEvent e) {
 				redrawConsumerList(textFilter.getText());
 			}
-			
+
 			@Override
 			public void mouseDown(MouseEvent e) {
 				// Not used
 			}
-			
+
 			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 				// Not used
@@ -163,58 +134,60 @@ public class AnalysisGUI extends AEvaluationGUI {
 			public void keyReleased(KeyEvent e) {
 				redrawConsumerList(textFilter.getText());
 			}
-			
+
 			@Override
 			public void keyPressed(KeyEvent e) {
 				// Not used
 			}
 		});
-		
+
 		chooseTree = new Tree(cl, SWT.V_SCROLL);
-		chooseTree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));	
-		
+		chooseTree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true,
+				2, 1));
+
 		chooseTree.addListener(SWT.MouseDoubleClick, new Listener() {
-			
+
 			@Override
 			public void handleEvent(Event event) {
-				for(TreeItem ti: chooseTree.getSelection()){
+				for (TreeItem ti : chooseTree.getSelection()) {
 					String consumer;
-					String signal   = ti.getText();
-					if(null==ti.getParentItem())
+					String signal = ti.getText();
+					if (null == ti.getParentItem())
 						consumer = signal;
 					else
 						consumer = ti.getParentItem().getText();
-					
+
 					toggleConsumerData(consumer, signal);
 				}
-				
+
 				redrawConsumerList(textFilter.getText());
 				redrawGraph();
 			}
 		});
-		
+
 		consumerTreeItems = new ArrayList<TreeItem>();
-		for(ConsumerData cd : availableConsumers) {
+		for (ConsumerData cd : availableConsumers) {
 			TreeItem item = new TreeItem(chooseTree, SWT.NONE);
 			item.setText(cd.getConsumer());
 			consumerTreeItems.add(item);
 		}
-		
+
 		// Consumer List
 		redrawConsumerList("");
-		
+
 		// button to clear the graph
 		Button clear = new Button(cl, SWT.PUSH);
 		clear.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, false, 1, 1));
-		clear.setText(LocalizationHandler.getItem("app.gui.analysis.button.clear"));
+		clear.setText(LocalizationHandler
+				.getItem("app.gui.analysis.button.clear"));
 		clear.addSelectionListener(new SelectionListener() {
-			
+
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				for(ConsumerData cd: availableConsumers)
-					for(int i=0; i< cd.getActive().size(); i++)
-						cd.getActive().set(i,  false);
-				
+				for (ConsumerData cd : availableConsumers)
+					for (int i = 0; i < cd.getActive().size(); i++)
+						cd.getActive().set(i, false);
+
 				redrawGraph();
 				redrawConsumerList(textFilter.getText());
 			}
@@ -224,13 +197,14 @@ public class AnalysisGUI extends AEvaluationGUI {
 				// Not used
 			}
 		});
-		
+
 		// button to draw the graph
 		Button calc = new Button(cl, SWT.PUSH);
 		calc.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, true, false, 1, 1));
-		calc.setText(LocalizationHandler.getItem("app.gui.analysis.button.show"));
+		calc.setText(LocalizationHandler
+				.getItem("app.gui.analysis.button.show"));
 		calc.addSelectionListener(new SelectionListener() {
-			
+
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				redrawGraph();
@@ -241,92 +215,152 @@ public class AnalysisGUI extends AEvaluationGUI {
 				// Not used
 			}
 		});
-		
-		
+
 		cl.pack();
-		
-		
+
 		// composite containing the chart
 		graphComp = new Composite(c, SWT.NONE);
 		graphComp.setLayout(new FillLayout());
-		
-		
+
 		redrawGraph();
 		redrawConsumerList("");
-		
-		c.setWeights(new int[] {1, 3});
-		
+
+		c.setWeights(new int[] { 1, 3 });
+
 		c.pack();
 		c.redraw();
-		
+
 		return c;
 	}
-	
-	public void redrawGraph(){
-		graphComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+
+	/**
+	 * Redraw the plots
+	 */
+	public void redrawGraph() {
+		graphComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1,
+				1));
 		LineChart.createChart(graphComp, getConsumerDataList());
 	}
-	
-	public void redrawConsumerList(String filter){
-		maxWidth=0;
-			
-		for(ConsumerData cd : availableConsumers) {
-			TreeItem itemTop = consumerTreeItems.get(availableConsumers.indexOf(cd));
+
+	/**
+	 * Redraw the consumer list
+	 * @param filter
+	 */
+	public void redrawConsumerList(String filter) {
+		maxWidth = 0;
+
+		for (ConsumerData cd : availableConsumers) {
+			TreeItem itemTop = consumerTreeItems.get(availableConsumers
+					.indexOf(cd));
 			boolean wasExpanded = itemTop.getExpanded();
-			
-			for(TreeItem ti: itemTop.getItems())
+
+			for (TreeItem ti : itemTop.getItems())
 				ti.dispose();
-			
+
 			consumerTreeItems.get(availableConsumers.indexOf(cd));
-			
-			for(int i=0;i<cd.getNames().size();i++) {
-				if(  "" == filter | 
-				     cd.getNames().get(i).toLowerCase().contains(filter.toLowerCase()) |
-				     ("["+cd.getUnits().get(i).toString()+"]").contains(filter)) {
+
+			for (int i = 0; i < cd.getNames().size(); i++) {
+				if ("" == filter
+						| cd.getNames().get(i).toLowerCase()
+								.contains(filter.toLowerCase())
+						| ("[" + cd.getUnits().get(i).toString() + "]")
+								.contains(filter)) {
 					final TreeItem item = new TreeItem(itemTop, SWT.NONE);
-					item.setText(cd.getNames().get(i)+" ["+cd.getUnits().get(i)+"]");
-					
-					if(cd.getActive().get(i))
-						item.setFont(new Font(Display.getCurrent(), item.getFont().getFontData()[0].getName(), item.getFont().getFontData()[0].getHeight(), SWT.BOLD));
+					item.setText(cd.getNames().get(i) + " ["
+							+ cd.getUnits().get(i) + "]");
+
+					if (cd.getActive().get(i))
+						item.setFont(new Font(Display.getCurrent(), item
+								.getFont().getFontData()[0].getName(), item
+								.getFont().getFontData()[0].getHeight(),
+								SWT.BOLD));
 				}
 			}
-			
+
 			itemTop.setExpanded(wasExpanded);
-			
-		}		
+
+		}
 
 	}
-	
-	private void toggleConsumerData(String consumerName, String signalName){
+
+	private void toggleConsumerData(String consumerName, String signalName) {
 		ConsumerData consumer = null;
-		
-		for(ConsumerData cd: availableConsumers)
-			if(cd.getConsumer().equals(consumerName))
+
+		for (ConsumerData cd : availableConsumers)
+			if (cd.getConsumer().equals(consumerName))
 				consumer = cd;
-		
-		if(null==consumer)
+
+		if (null == consumer)
 			return;
-		
-		if(consumerName.equals(signalName)){
+
+		if (consumerName.equals(signalName)) {
 			boolean active = true;
-			if(consumer.getActive().get(0))
+			if (consumer.getActive().get(0))
 				active = false;
-			
-			for(int i=0; i<consumer.getActive().size(); i++)
+
+			for (int i = 0; i < consumer.getActive().size(); i++)
 				consumer.getActive().set(i, active);
-			
+
 			return;
 		}
-		
+
 		int idx = 0;
-		
-		while(idx<consumer.getNames().size() & !signalName.equals(consumer.getNames().get(idx)+" ["+consumer.getUnits().get(idx)+"]"))
+
+		while (idx < consumer.getNames().size()
+				& !signalName.equals(consumer.getNames().get(idx) + " ["
+						+ consumer.getUnits().get(idx) + "]"))
 			idx++;
-		
-		if(idx>=consumer.getNames().size())
+
+		if (idx >= consumer.getNames().size())
 			return;
-		
+
 		consumer.getActive().set(idx, !consumer.getActive().get(idx));
-			
+
+	}
+
+	@Override
+	protected void postDataImportAction() {
+		// try to close old tabs
+		if (null != ptChartItem)
+			ptChartItem.dispose();
+		if (null != powerChartItem)
+			powerChartItem.dispose();
+		if (null != energyChartItem)
+			energyChartItem.dispose();
+
+		// Create Tabs
+		ptChartItem = new TabItem(aTabFolder, SWT.NONE);
+		powerChartItem = new TabItem(aTabFolder, SWT.NONE);
+		energyChartItem = new TabItem(aTabFolder, SWT.NONE);
+
+		ptChartItem.setText(LocalizationHandler
+				.getItem("app.gui.analysis.ptchart"));
+
+		powerChartItem.setText(LocalizationHandler
+				.getItem("app.gui.analysis.variancechart"));
+
+		energyChartItem.setText(LocalizationHandler
+				.getItem("app.gui.analysis.energychart"));
+
+		ptChartItem.setControl(createPTChart(aTabFolder));
+		powerChartItem.setControl(StackedAreaChart.createChart(aTabFolder,
+				getConsumerDataList()));
+		energyChartItem.setControl(BarChart.createBarChart(aTabFolder,
+				getConsumerDataList()));
+
+		aTabFolder.setSelection(0);
+
+		aTabFolder.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(
+					org.eclipse.swt.events.SelectionEvent event) {
+				logger.log(LogLevel.DEBUG,
+						"atab" + aTabFolder.getSelectionIndex());
+			}
+		});
+
+		this.redraw();
+
+		aTabFolder.setEnabled(true);
 	}
 }

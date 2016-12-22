@@ -1,16 +1,36 @@
+/***********************************
+ * $Id$
+ *
+ * $URL$
+ * $Author$
+ * $Date$
+ * $Rev$
+ *
+ * Copyright (c) 2011 by Inspire AG, ETHZ
+ * All rights reserved
+ *
+ ***********************************/
 package ch.ethz.inspire.emod.model.fluid;
 
 import ch.ethz.inspire.emod.utils.IOContainer;
 
 
-public class FECForcedFlow extends AFluidElementCharacteristic{
-	
+/**
+ * Element with fixed flow rate
+ * @author sizuest
+ *
+ */
+public class FECForcedFlow extends AFluidElementCharacteristic {
+
 	IOContainer flowRate;
-	
-	public FECForcedFlow(IOContainer flowRate){
+
+	/**
+	 * @param flowRate
+	 */
+	public FECForcedFlow(IOContainer flowRate) {
 		this.flowRate = flowRate;
 	}
-	
+
 	@Override
 	public double getA0(double flowRate, double pressureIn, double pressureOut) {
 		// TODO Auto-generated method stub

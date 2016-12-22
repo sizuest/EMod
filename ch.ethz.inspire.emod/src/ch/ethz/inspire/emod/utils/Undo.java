@@ -1,13 +1,15 @@
 package ch.ethz.inspire.emod.utils;
 
 import java.util.ArrayList;
+
 /**
  * Generic implementation of a undo/redo function
  * 
- * 
+ * The position pos points to the actual state in the states array. Each state
+ * is assigned a comment.
  * 
  * @author sizuest
- *
+ * 
  * @param <T>
  */
 
@@ -17,96 +19,149 @@ public class Undo<T extends Cloneable> {
 	private ArrayList<T> lastStates = new ArrayList<T>();
 	private ArrayList<String> comments = new ArrayList<String>();
 	
-	public Undo(int maxSteps, T initValue){
+	/**
+	 * Constructor for Unmarshaller
+	 */
+	public Undo(){}
+
+	/**
+	 * New undo for object type T
+	 * 
+	 * @param maxSteps
+	 * @param initValue
+	 */
+	public Undo(int maxSteps, T initValue) {
 		this.maxSteps = maxSteps;
 		clear(initValue);
 	}
-	
-	public Undo(){
-		this.maxSteps = 10;
-	}
-	
-	public boolean undoPossible(){
-		if(this.pos>0)
+
+	/**
+	 * Returns whether an undo is available / possible
+	 * 
+	 * @return
+	 */
+	public boolean undoPossible() {
+		if (this.pos > 0)
 			return true;
 		else
 			return false;
 	}
-	
-	public boolean redoPossible(){
-		if(this.pos<lastStates.size()-1)
+
+	/**
+	 * Returns whether an redo is available / possible
+	 * 
+	 * @return
+	 */
+	public boolean redoPossible() {
+		if (this.pos < lastStates.size() - 1)
 			return true;
 		else
 			return false;
 	}
-	
-	public T undo(){
-		if(this.pos>0)
+
+	/**
+	 * Performs an undo step
+	 * 
+	 * @return
+	 */
+	public T undo() {
+		if (this.pos > 0)
 			this.pos--;
-		
+
 		return lastStates.get(this.pos);
 	}
-	
-	public T redo(){
-		if(this.pos<this.lastStates.size()-1)
+
+	/**
+	 * Performs a redo step
+	 * 
+	 * @return
+	 */
+	public T redo() {
+		if (this.pos < this.lastStates.size() - 1)
 			this.pos++;
-		
+
 		return lastStates.get(this.pos);
 	}
-	
-	public String getUndoComment(){
-		if(!undoPossible())
+
+	/**
+	 * Returns the comment connected to the undo step
+	 * 
+	 * @return
+	 */
+	public String getUndoComment() {
+		if (!undoPossible())
 			return "";
 		return this.comments.get(pos);
 	}
-	
-	public String getRedoComment(){
-		if(!redoPossible())
+
+	/**
+	 * Returns the comment connected to the redo step
+	 * 
+	 * @return
+	 */
+	public String getRedoComment() {
+		if (!redoPossible())
 			return "";
-		
-		return this.comments.get(pos+1);
+
+		return this.comments.get(pos + 1);
 	}
-	
-	public void add(T state, String comment){	
-		if(null == this.lastStates){
+
+	/**
+	 * Add a new state (last state becomes undo state)
+	 * 
+	 * @param state
+	 * @param comment
+	 */
+	public void add(T state, String comment) {
+		if (null == this.lastStates) {
 			this.lastStates = new ArrayList<T>();
-			this.comments   = new ArrayList<String>();
+			this.comments = new ArrayList<String>();
 		}
-		
+
 		// If full: shift
-		if(lastStates.size()==maxSteps){
+		if (lastStates.size() == maxSteps) {
 			// Shift
-			for(int i=1; i<maxSteps; i++) {
-				lastStates.set(i-1, lastStates.get(i));
-				comments.set(i-1, comments.get(i));
+			for (int i = 1; i < maxSteps; i++) {
+				lastStates.set(i - 1, lastStates.get(i));
+				comments.set(i - 1, comments.get(i));
 			}
 			// Add
-			lastStates.set(maxSteps-1, state);
-			comments.set(maxSteps-1, comment);
+			lastStates.set(maxSteps - 1, state);
+			comments.set(maxSteps - 1, comment);
 		}
 		// Append
-		else{
-			
+		else {
+
 			this.pos++;
-			
-			for(int i=lastStates.size()-1; i>=this.pos; i--){
+
+			for (int i = lastStates.size() - 1; i >= this.pos; i--) {
 				lastStates.remove(i);
 				comments.remove(i);
 			}
-			
+
 			lastStates.add(state);
 			comments.add(comment);
 		}
 	}
-	
-	public T get(){
-		return lastStates.get(pos);
-	}	
 
-	public void clear(T initValue){
+	/**
+	 * Returns the actual state
+	 * 
+	 * @return
+	 */
+	public T get() {
+		return lastStates.get(pos);
+	}
+
+	/**
+	 * Clear all non active states
+	 * 
+	 * @param initValue
+	 */
+	public void clear(T initValue) {
 		this.lastStates = new ArrayList<T>();
-		this.comments   = new ArrayList<String>();
-		
+		this.comments = new ArrayList<String>();
+
 		this.lastStates.add(initValue);
 		this.comments.add("");
 		pos = 0;

@@ -19,35 +19,41 @@ import java.util.logging.Logger;
 
 /**
  * @author dhampl
- *
+ * 
  */
 public class LoggingOutputStream extends ByteArrayOutputStream {
-	private String lineSeparator; 
-	 
-	private Logger logger; 
-	private Level level; 
+	private String lineSeparator;
 
-	public LoggingOutputStream(Logger logger, Level level) { 
-		super(); 
-		this.logger = logger; 
-		this.level = level; 
-		lineSeparator = System.getProperty("line.separator"); 
-    }
+	private Logger logger;
+	private Level level;
 
-	public void flush() throws IOException { 
+	/**
+	 * New LoggingOutputStream
+	 * @param logger
+	 * @param level
+	 */
+	public LoggingOutputStream(Logger logger, Level level) {
+		super();
+		this.logger = logger;
+		this.level = level;
+		lineSeparator = System.getProperty("line.separator");
+	}
 
-		String record; 
-		synchronized(this) { 
-			super.flush(); 
-			record = this.toString(); 
-			super.reset(); 
+	@Override
+	public void flush() throws IOException {
 
-			if (record.length() == 0 || record.equals(lineSeparator)) { 
-				// avoid empty records 
-				return; 
-			} 
+		String record;
+		synchronized (this) {
+			super.flush();
+			record = this.toString();
+			super.reset();
 
-			logger.logp(level, "", "", record); 
-		} 
-	} 
+			if (record.length() == 0 || record.equals(lineSeparator)) {
+				// avoid empty records
+				return;
+			}
+
+			logger.logp(level, "", "", record);
+		}
+	}
 }

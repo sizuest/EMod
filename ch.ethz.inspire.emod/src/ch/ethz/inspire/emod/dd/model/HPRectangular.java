@@ -1,3 +1,15 @@
+/***********************************
+ * $Id$
+ *
+ * $URL$
+ * $Author$
+ * $Date$
+ * $Rev$
+ *
+ * Copyright (c) 2011 by Inspire AG, ETHZ
+ * All rights reserved
+ *
+ ***********************************/
 package ch.ethz.inspire.emod.dd.model;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -9,38 +21,40 @@ import ch.ethz.inspire.emod.model.units.SiUnit;
 
 /**
  * Implements the hydraulic properties of a rectangular profile
+ * 
  * @author sizuest
- *
+ * 
  */
 @XmlRootElement
-public class HPRectangular extends AHydraulicProfile{
+public class HPRectangular extends AHydraulicProfile {
 	@XmlElement
 	private double height;
 	@XmlElement
 	private double width;
-	
+
 	/**
 	 * 
 	 */
-	public HPRectangular(){}
-	
+	public HPRectangular() {
+	}
+
 	/**
 	 * @param l
 	 * @param b
 	 */
-	public HPRectangular(double l, double b){
+	public HPRectangular(double l, double b) {
 		this.height = l;
-		this.width  = b;
+		this.width = b;
 	}
 
 	@Override
 	public double getArea() {
-		return height*width;
+		return height * width;
 	}
 
 	@Override
 	public double getPerimeter() {
-		return 2*(height+width);
+		return 2 * (height + width);
 	}
 
 	@Override
@@ -55,7 +69,7 @@ public class HPRectangular extends AHydraulicProfile{
 
 	@Override
 	public String toString() {
-		return height+"x"+width;
+		return height + "x" + width;
 	}
 
 	@Override
@@ -66,10 +80,11 @@ public class HPRectangular extends AHydraulicProfile{
 		return ps;
 	}
 
+	@Override
 	@XmlTransient
 	public void setParameterSet(ParameterSet ps) {
 		this.height = ps.getPhysicalValue("Height").getValue();
-		this.width  = ps.getPhysicalValue("Width").getValue();
+		this.width = ps.getPhysicalValue("Width").getValue();
 	}
 
 	@Override

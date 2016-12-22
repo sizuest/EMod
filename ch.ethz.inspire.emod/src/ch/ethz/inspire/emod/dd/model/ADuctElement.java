@@ -24,12 +24,13 @@ import ch.ethz.inspire.emod.model.parameters.Parameterizable;
 
 /**
  * Implements the abstract class for a hydraulic duct element
+ * 
  * @author simon
- *
+ * 
  */
 @XmlRootElement
-public abstract class ADuctElement implements Parameterizable, Cloneable{
-	
+public abstract class ADuctElement implements Parameterizable, Cloneable {
+
 	protected String name;
 	@XmlTransient
 	protected Material material;
@@ -40,180 +41,225 @@ public abstract class ADuctElement implements Parameterizable, Cloneable{
 	protected double heatSource = Double.NaN;
 	@XmlElement
 	protected double wallTemperature = Double.NaN;
-	
+
 	/**
 	 * Sets the current fluid material
 	 * 
-	 * @param material {@link Material.java}
+	 * @param material {@link Material}
 	 */
-	@XmlTransient	
-	public void setMaterial(Material material){
+	@XmlTransient
+	public void setMaterial(Material material) {
 		this.material = material;
 	}
-	
+
 	/**
 	 * Returns the current material.
 	 * 
-	 * @return {@link Material.java}
+	 * @return {@link Material}
 	 */
-	public Material getMaterial(){
+	public Material getMaterial() {
 		return this.material;
 	}
-	
+
 	/**
 	 * Returns the element name
 	 * 
 	 * @return element name
 	 */
-	public String getName(){
+	public String getName() {
 		return this.name;
 	}
-	
-	/** 
+
+	/**
 	 * Sets the element name
 	 * 
 	 * @param name
 	 */
-	public void setName(String name){
+	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	/**
 	 * Returns the (hydraulic) diameter
 	 * 
 	 * @return [m]
 	 */
-	public double getDiameter(){
+	public double getDiameter() {
 		return this.profile.getDiameter();
 	}
-	
+
 	/**
 	 * Returns the length
 	 * 
 	 * @return [m]
 	 */
-	public double getLength(){
+	public double getLength() {
 		return this.length;
 	}
-	
+
 	/**
 	 * Returns the free surface
 	 * 
 	 * @return [m²]
 	 */
-	public double getSurface(){
-		return this.length*profile.getPerimeter();
+	public double getSurface() {
+		return this.length * profile.getPerimeter();
 	}
-	
+
 	/**
 	 * Returns the hydraulic surface
 	 * 
 	 * @return [m²]
 	 */
 	public double getHydraulicSurface() {
-		return this.length*Fluid.hydraulicPerimeter(this.profile);
+		return this.length * Fluid.hydraulicPerimeter(this.profile);
 	}
-	
+
 	/**
 	 * Returns the total volume
 	 * 
 	 * @return [m³]
 	 */
 	public double getVolume() {
-		return this.length*profile.getArea();
+		return this.length * profile.getArea();
 	}
-	
+
 	/**
 	 * Sets the isolation
 	 * 
-	 * @param isolation {@link Isolation}
+	 * @param isolation
+	 *            {@link Isolation}
 	 */
-	public void setIsolation(Isolation isolation){
+	public void setIsolation(Isolation isolation) {
 		this.isolation = isolation;
 	}
-	
+
 	/**
 	 * Returns the outlet pressure for the given operational condition
-	 * @param flowRate			[m³/s]
-	 * @param pressureIn		[Pa]
-	 * @param temperatureFluid	[K]
-	 * @param temperatureWall	[K]
+	 * 
+	 * @param flowRate
+	 *            [m³/s]
+	 * @param pressureIn
+	 *            [Pa]
+	 * @param temperatureFluid
+	 *            [K]
 	 * @return [Pa]
 	 */
-	public double getPressureOut(double flowRate, double pressureIn, double temperatureFluid){
-		return pressureIn - Math.signum(flowRate)*getPressureDrop(Math.abs(flowRate), pressureIn, temperatureFluid);
+	public double getPressureOut(double flowRate, double pressureIn,
+			double temperatureFluid) {
+		return pressureIn
+				- Math.signum(flowRate)
+				* getPressureDrop(Math.abs(flowRate), pressureIn,
+						temperatureFluid);
 	}
-	
+
 	/**
 	 * Returns the heat transfer coefficient for the given operational condition
 	 * 
-	 * @param flowRate			[m³/s]
-	 * @param pressure 			[Pa]
-	 * @param temperatureFluid	[K]
-	 * @param temperatureWall	[K]
+	 * @param flowRate
+	 *            [m³/s]
+	 * @param pressure
+	 *            [Pa]
+	 * @param temperatureFluid
+	 *            [K]
+	 * @param temperatureWall
+	 *            [K]
 	 * @return [W/K/m²]
 	 */
-	protected abstract double getHTC(double flowRate, double pressure, double temperatureFluid, double temperatureWall);
-	
-	public double getHTC(double flowRate, double pressure, double temperatureFluid){	
-		return getHTC(flowRate, pressure, temperatureFluid, this.getWallTemperature(temperatureFluid, flowRate, pressure));
-	}
-	
-	
-	
+	protected abstract double getHTC(double flowRate, double pressure,
+			double temperatureFluid, double temperatureWall);
+
 	/**
-	 * Returns the total heat transfer coefficient for the given operational condition
+	 * Returns the current HTC
 	 * 
-	 * @param flowRate			[m³/s]
-	 * @param pressure 			[Pa]
-	 * @param temperatureFluid	[K]
-	 * @param temperatureWall	[K]
+	 * @param flowRate
+	 * @param pressure
+	 * @param temperatureFluid
+	 * @return
+	 */
+	public double getHTC(double flowRate, double pressure,
+			double temperatureFluid) {
+		return getHTC(flowRate, pressure, temperatureFluid,
+				this.getWallTemperature(temperatureFluid, flowRate, pressure));
+	}
+
+	/**
+	 * Returns the total heat transfer coefficient for the given operational
+	 * condition
+	 * 
+	 * @param flowRate
+	 *            [m³/s]
+	 * @param pressure
+	 *            [Pa]
+	 * @param temperatureFluid
+	 *            [K]
+	 * @param temperatureWall
+	 *            [K]
 	 * @return [W/K/m²]
 	 */
-	protected double getRth(double flowRate, double pressure, double temperatureFluid, double temperatureWall){
-		double Rth = getHTC(flowRate, pressure, temperatureFluid, temperatureWall);
-		
-		if(hasIsolation()) 
-			Rth =  1/(1/Rth + 1/getIsolation().getThermalResistance());
-		
+	protected double getRth(double flowRate, double pressure,
+			double temperatureFluid, double temperatureWall) {
+		double Rth = getHTC(flowRate, pressure, temperatureFluid,
+				temperatureWall);
+
+		if (hasIsolation())
+			Rth = 1 / (1 / Rth + 1 / getIsolation().getThermalResistance());
+
 		return Rth;
 	}
-	
-	public double getRth(double flowRate, double pressure, double temperatureFluid){
-		return getRth(flowRate, pressure, temperatureFluid, this.getWallTemperature(temperatureFluid, flowRate, pressure));
+
+	/**
+	 * Returns the current thermal resistance
+	 * 
+	 * @param flowRate
+	 * @param pressure
+	 * @param temperatureFluid
+	 * @return
+	 */
+	public double getRth(double flowRate, double pressure,
+			double temperatureFluid) {
+		return getRth(flowRate, pressure, temperatureFluid,
+				this.getWallTemperature(temperatureFluid, flowRate, pressure));
 	}
-	
+
 	/**
 	 * Returns the heat pressure drop for the given operational condition
 	 * 
-	 * @param flowRate			[m³/s]
-	 * @param pressure 			[Pa]
-	 * @param temperatureFluid	[K]
-	 * @param temperatureWall	[K]
+	 * @param flowRate
+	 *            [m³/s]
+	 * @param pressure
+	 *            [Pa]
+	 * @param temperatureFluid
+	 *            [K]
 	 * @return [Pa]
 	 */
-	public abstract double getPressureDrop(double flowRate, double pressure, double temperatureFluid);
-	
+	public abstract double getPressureDrop(double flowRate, double pressure,
+			double temperatureFluid);
+
 	/**
 	 * Returns the heat pressure drop for the given operational condition
 	 * 
-	 * @param flowRate			[m³/s]
-	 * @param pressure 			[Pa]
-	 * @param temperatureFluid	[K]
-	 * @param temperatureWall	[K]
+	 * @param flowRate
+	 *            [m³/s]
+	 * @param pressure
+	 *            [Pa]
+	 * @param temperatureFluid
+	 *            [K]
 	 * @return [Pa]
 	 */
-	public double getPressureLossCoefficient(double flowRate, double pressure, double temperatureFluid){
-		if(0==flowRate)
+	public double getPressureLossCoefficient(double flowRate, double pressure,
+			double temperatureFluid) {
+		if (0 == flowRate)
 			return Double.NaN;
-		
-		return getPressureDrop(flowRate, pressure, temperatureFluid)/Math.pow(flowRate, 2)*Math.signum(flowRate);
+
+		return getPressureDrop(flowRate, pressure, temperatureFluid)
+				/ Math.pow(flowRate, 2) * Math.signum(flowRate);
 	}
-	
+
 	/**
 	 * Returns the hydraulic profile object
 	 * 
-	 * @return {@link AHydraulicProfile.java}
+	 * @return {@link AHydraulicProfile}
 	 */
 	public AHydraulicProfile getProfile() {
 		return this.profile;
@@ -222,161 +268,189 @@ public abstract class ADuctElement implements Parameterizable, Cloneable{
 	/**
 	 * Returns the hydraulic profile object
 	 * 
-	 * @return {@link AHydraulicProfile.java}
+	 * @return {@link AHydraulicProfile}
 	 */
 	public AHydraulicProfile getProfileIn() {
 		return this.profile;
 	}
-	
+
 	/**
 	 * Returns the hydraulic profile object
 	 * 
-	 * @return {@link AHydraulicProfile.java}
+	 * @return {@link AHydraulicProfile}
 	 */
 	public AHydraulicProfile getProfileOut() {
 		return this.profile;
 	}
-	
-	public boolean hasIsolation(){
-		if(this.isolation == null)
+
+	/**
+	 * Returns whether the duct has a isolation or not
+	 * @return
+	 */
+	public boolean hasIsolation() {
+		if (this.isolation == null)
 			return false;
-		if(this.isolation.getThickness() == 0)
+		if (this.isolation.getThickness() == 0)
 			return false;
 		else
 			return true;
 	}
-	
 
 	/**
 	 * Returns the wall temperature
-	 * @param temperatureIn 
-	 * @param flowRate 
-	 * @param pressure 
-	 * @return 
+	 * 
+	 * @param temperatureIn
+	 * @param flowRate
+	 * @param pressure
+	 * @return
 	 */
-	public double getWallTemperature(double temperatureIn, double flowRate, double pressure){
+	public double getWallTemperature(double temperatureIn, double flowRate,
+			double pressure) {
 		double T = Double.NaN;
-		
+
 		// Simplest case: No heat transfer
-		if(Double.isNaN(this.heatSource) & Double.isNaN(this.wallTemperature))
+		if (Double.isNaN(this.heatSource) & Double.isNaN(this.wallTemperature))
 			T = temperatureIn;
-		
+
 		// Wall temperature
-		if(Double.isNaN(this.heatSource) & !Double.isNaN(this.wallTemperature))
+		if (Double.isNaN(this.heatSource) & !Double.isNaN(this.wallTemperature))
 			T = this.wallTemperature;
-			
+
 		// Wall heat flux
-		if(!Double.isNaN(this.heatSource) & Double.isNaN(this.wallTemperature)){
-			int i=0;
+		if (!Double.isNaN(this.heatSource) & Double.isNaN(this.wallTemperature)) {
+			int i = 0;
 			double Tlast;
 			T = 293;
 			do {
 				Tlast = T;
-				T = (temperatureIn + this.heatSource/2/getMaterial().getHeatCapacity()/flowRate/getMaterial().getDensity(temperatureIn)) + this.heatSource/getRth(flowRate, pressure, temperatureIn, Tlast)/getSurface();
+				T = (temperatureIn + this.heatSource / 2
+						/ getMaterial().getHeatCapacity() / flowRate
+						/ getMaterial().getDensity(temperatureIn))
+						+ this.heatSource
+						/ getRth(flowRate, pressure, temperatureIn, Tlast)
+						/ getSurface();
 				i++;
-			} while (Math.abs(T/Tlast)>1E-3 & i<10);
+			} while (Math.abs(T / Tlast) > 1E-3 & i < 10);
 		}
-		
+
 		return T;
 	}
-	
+
 	/**
 	 * Returns the outlet temperature
-	 * @param temperatureIn 
-	 * @param flowRate 
-	 * @param pressure 
-	 * @return 
+	 * 
+	 * @param temperatureIn
+	 * @param flowRate
+	 * @param pressure
+	 * @return
 	 */
-	public double getTemperatureOut(double temperatureIn, double flowRate, double pressure){
+	public double getTemperatureOut(double temperatureIn, double flowRate,
+			double pressure) {
 		return getTemperature(temperatureIn, flowRate, pressure, getLength());
 	}
-	
+
 	/**
 	 * Returns the wall heat flux
-	 * @param temperatureIn 
-	 * @param flowRate 
-	 * @param pressure 
-	 * @return 
+	 * 
+	 * @param temperatureIn
+	 * @param flowRate
+	 * @param pressure
+	 * @return
 	 * 
 	 */
-	public double getWallHeatFlux(double temperatureIn, double flowRate, double pressure){
+	public double getWallHeatFlux(double temperatureIn, double flowRate,
+			double pressure) {
 		double Qdot;
-		
+
 		// Simplest case: No heat transfer
-		if(Double.isNaN(this.heatSource) & Double.isNaN(this.wallTemperature))
+		if (Double.isNaN(this.heatSource) & Double.isNaN(this.wallTemperature))
 			Qdot = 0;
-		
+
 		// Wall temperature
-		if(Double.isNaN(this.heatSource) & !Double.isNaN(this.wallTemperature))
-			Qdot = (getTemperatureOut(temperatureIn, flowRate, pressure)-temperatureIn)*flowRate*getMaterial().getDensity(temperatureIn)*getMaterial().getHeatCapacity();
-			
+		if (Double.isNaN(this.heatSource) & !Double.isNaN(this.wallTemperature))
+			Qdot = (getTemperatureOut(temperatureIn, flowRate, pressure) - temperatureIn)
+					* flowRate
+					* getMaterial().getDensity(temperatureIn)
+					* getMaterial().getHeatCapacity();
+
 		// Wall heat flux
-		if(!Double.isNaN(this.heatSource) & Double.isNaN(this.wallTemperature))
-			Qdot =this.heatSource;
-		
+		if (!Double.isNaN(this.heatSource) & Double.isNaN(this.wallTemperature))
+			Qdot = this.heatSource;
+
 		else
 			Qdot = Double.NaN;
-		
+
 		return Qdot;
 	}
-	
+
 	/**
 	 * Returns the temperature at position x
-	 * @param temperatureIn 
-	 * @param flowRate 
-	 * @param pressure 
-	 * @param x 
-	 * @return 
+	 * 
+	 * @param temperatureIn
+	 * @param flowRate
+	 * @param pressure
+	 * @param x
+	 * @return
 	 */
-	public double getTemperature(double temperatureIn, double flowRate, double pressure, double x){
-		
+	public double getTemperature(double temperatureIn, double flowRate,
+			double pressure, double x) {
+
 		double T = Double.NaN;
-		
+
 		// Simplest case: No heat transfer
-		if(Double.isNaN(this.heatSource) & Double.isNaN(this.wallTemperature))
+		if (Double.isNaN(this.heatSource) & Double.isNaN(this.wallTemperature))
 			T = temperatureIn;
-		
+
 		// Wall temperature
-		if(Double.isNaN(this.heatSource) & !Double.isNaN(this.wallTemperature))
-			if(flowRate>0)
-				T = this.wallTemperature + Math.exp(-getProfile().getPerimeter()*x*getRth(flowRate, pressure, temperatureIn, this.wallTemperature) / getMaterial().getHeatCapacity() / (flowRate*getMaterial().getDensity(temperatureIn))) * (temperatureIn-this.wallTemperature);
+		if (Double.isNaN(this.heatSource) & !Double.isNaN(this.wallTemperature))
+			if (flowRate > 0)
+				T = this.wallTemperature
+						+ Math.exp(-getProfile().getPerimeter()
+								* x
+								* getRth(flowRate, pressure, temperatureIn,
+										this.wallTemperature)
+								/ getMaterial().getHeatCapacity()
+								/ (flowRate * getMaterial().getDensity(
+										temperatureIn)))
+						* (temperatureIn - this.wallTemperature);
 			else
-				T = this.wallTemperature; //TODO
-			
+				T = this.wallTemperature;
+
 		// Wall heat flux
-		if(!Double.isNaN(this.heatSource) & Double.isNaN(this.wallTemperature))
-			T = temperatureIn + this.heatSource/(flowRate*getMaterial().getDensity(temperatureIn))/getLength()/getMaterial().getHeatCapacity()*x;
-		
+		if (!Double.isNaN(this.heatSource) & Double.isNaN(this.wallTemperature))
+			T = temperatureIn + this.heatSource
+					/ (flowRate * getMaterial().getDensity(temperatureIn))
+					/ getLength() / getMaterial().getHeatCapacity() * x;
+
 		return T;
 	}
-	
+
 	/**
-	 * Sets the wall heat flux
-	 * and resets the wall temperature
+	 * Sets the wall heat flux and resets the wall temperature
 	 * 
-	 * @param heatSource [W]
+	 * @param heatSource
+	 *            [W]
 	 */
-	public void setHeatSource(double heatSource){
+	public void setHeatSource(double heatSource) {
 		this.heatSource = heatSource;
 		this.wallTemperature = Double.NaN;
 	}
-	
+
 	/**
-	 * Sets the wall temperature
-	 * and resets the wall heat flux
+	 * Sets the wall temperature and resets the wall heat flux
 	 * 
-	 * @param wallTemperature [K]
+	 * @param wallTemperature
+	 *            [K]
 	 */
-	public void setWallTemperature(double wallTemperature){
+	public void setWallTemperature(double wallTemperature) {
 		this.wallTemperature = wallTemperature;
 		this.heatSource = Double.NaN;
 	}
-	
 
 	/**
 	 * Sets the hydraulic profile
 	 * 
-	 * @param profile {@link AHydraulicProfile.java}
+	 * @param profile {@link AHydraulicProfile}
 	 */
 	@XmlElement
 	public void setProfile(AHydraulicProfile profile) {
@@ -386,23 +460,25 @@ public abstract class ADuctElement implements Parameterizable, Cloneable{
 	/**
 	 * Returns the isolation object
 	 * 
-	 * @return {@link Isolation.java}
+	 * @return {@link Isolation}
 	 */
 	@XmlElement
 	public Isolation getIsolation() {
-		if(this.isolation != null)
-			if(this.isolation.getMaterial() == null)
+		if (this.isolation != null)
+			if (this.isolation.getMaterial() == null)
 				return null;
 			else
 				return this.isolation;
 		else
 			return null;
 	}
-	
+
+	@Override
 	public abstract ADuctElement clone();
 
 	/**
 	 * Indicates if a wall temperature BC has been set
+	 * 
 	 * @return
 	 */
 	public boolean hasWallTemperature() {
@@ -411,6 +487,7 @@ public abstract class ADuctElement implements Parameterizable, Cloneable{
 
 	/**
 	 * Indicates if a heat flux has been set
+	 * 
 	 * @return
 	 */
 	public boolean hasHeatSource() {
