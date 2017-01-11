@@ -27,9 +27,9 @@ import ch.ethz.inspire.emod.model.units.SiUnit;
  */
 public class DuctArc extends ADuctElement {
 	@XmlElement
-	private double radius;
+	private double radius = .1;
 	@XmlElement
-	private double count;
+	private double count = 1;
 
 	/**
 	 * Constructor called from XmlUnmarshaller.

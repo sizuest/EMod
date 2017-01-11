@@ -31,9 +31,9 @@ import ch.ethz.inspire.emod.model.units.SiUnit;
 @XmlRootElement
 public class DuctDrilling extends ADuctElement {
 	@XmlElement
-	private double length;
+	private double length = .1;
 	@XmlElement
-	private double count;
+	private double count = 1;
 
 	/**
 	 * Constructor called from XmlUnmarshaller.

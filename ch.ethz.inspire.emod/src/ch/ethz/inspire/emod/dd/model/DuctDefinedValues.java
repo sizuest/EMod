@@ -27,15 +27,15 @@ import ch.ethz.inspire.emod.model.units.SiUnit;
  */
 public class DuctDefinedValues extends ADuctElement {
 	@XmlElement
-	double zeta;
+	double zeta = 1E-6;
 	@XmlElement
-	double alpha;
+	double alpha = 100;
 	@XmlElement
-	double surface;
+	double surface = 1;
 	@XmlElement
-	double length;
+	double length = .1;
 	@XmlElement
-	double volume;
+	double volume = 0.01;
 
 	/**
 	 * Constructor for unmarshaller

@@ -44,7 +44,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
-import ch.ethz.inspire.emod.dd.gui.DuctConfigGUI;
+import ch.ethz.inspire.emod.dd.gui.DuctConfigGraphGUI;
 import ch.ethz.inspire.emod.gui.utils.ShowButtons;
 import ch.ethz.inspire.emod.gui.utils.TableUtils;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
@@ -299,7 +299,7 @@ public class EditMachineComponentGUI extends AConfigGUI {
 	 * @param name
 	 */
 	public void openDuctDesigner(String type, String parameter, String name) {
-		DuctConfigGUI.editDuctGUI(this.getShell(), type, parameter, name);
+		DuctConfigGraphGUI.editDuctGUI(this.getShell(), type, parameter, name);
 	}
 
 	/**

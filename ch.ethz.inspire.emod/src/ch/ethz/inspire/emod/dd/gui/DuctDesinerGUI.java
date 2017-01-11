@@ -66,7 +66,8 @@ public class DuctDesinerGUI {
 
 	private MenuItem editRedo, editUndo;
 
-	protected DuctConfigGUI ductDesigner;
+	//protected DuctConfigGUI ductDesigner;
+	protected DuctConfigGraphGUI ductDesigner;
 	protected StyledText console;
 
 	/**
@@ -105,6 +106,8 @@ public class DuctDesinerGUI {
 		initTabs();
 
 		shell.open();
+		
+		ductDesigner.showAll();
 
 
 		while (!shell.isDisposed()) {
@@ -253,8 +256,7 @@ public class DuctDesinerGUI {
 
 	private void initTabs() {
 
-		ductDesigner = new DuctConfigGUI(shell, SWT.NONE, this.duct,
-				ShowButtons.NONE);
+		ductDesigner = new DuctConfigGraphGUI(shell, SWT.NONE, this.duct, ShowButtons.NONE);		
 
 		// tab for console
 		final TabItem tabConsoleItem = new TabItem(ductDesigner.getTabFolder(),

@@ -4,8 +4,11 @@
         <type>Vascomill-22</type>
     </material>
     <name>Spindle_MoriSeiki_NMV5000_DCG_StructureDuct</name>
+    <history/>
     <elements>
         <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
             <name>Sinkleitung1</name>
             <profile xsi:type="hpCircular">
                 <radius>0.002</radius>
@@ -14,6 +17,8 @@
             <count>2.0</count>
         </elements>
         <elements xsi:type="ductElbowFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
             <name>ElbowFitting</name>
             <profile xsi:type="hpCircular">
                 <radius>0.002</radius>
@@ -21,6 +26,8 @@
             <count>2.0</count>
         </elements>
         <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
             <name>Sinkleitung2</name>
             <profile xsi:type="hpCircular">
                 <radius>0.002</radius>
@@ -29,6 +36,8 @@
             <count>2.0</count>
         </elements>
         <elements xsi:type="ductElbowFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
             <name>ElbowFitting_1</name>
             <profile xsi:type="hpCircular">
                 <radius>0.002</radius>
@@ -36,6 +45,8 @@
             <count>2.0</count>
         </elements>
         <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
             <name>Sinkleitung3</name>
             <profile xsi:type="hpCircular">
                 <radius>0.002</radius>
@@ -44,12 +55,16 @@
             <count>2.0</count>
         </elements>
         <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
             <name>Fitting_Sinkleitung3-UntereLagerkuehlung1</name>
             <profile xsi:type="hpCircular">
                 <radius>0.0044375</radius>
             </profile>
         </elements>
         <elements xsi:type="ductFlowAround" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
             <name>UntereLagerkuehlung1</name>
             <profile xsi:type="hpRectangular">
                 <height>0.003</height>
@@ -58,6 +73,8 @@
             <radius>0.075</radius>
         </elements>
         <elements xsi:type="ductFlowAround" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
             <name>UntereLagerkuehlung2</name>
             <profile xsi:type="hpRectangular">
                 <height>0.003</height>
@@ -66,12 +83,16 @@
             <radius>0.075</radius>
         </elements>
         <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
             <name>Fitting_UntereLagerkuehlung2-VerbindungLK</name>
             <profile xsi:type="hpCircular">
                 <radius>0.0044375</radius>
             </profile>
         </elements>
         <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
             <name>VerbindungLK</name>
             <profile xsi:type="hpCircular">
                 <radius>0.002</radius>
@@ -80,12 +101,16 @@
             <count>2.0</count>
         </elements>
         <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
             <name>Fitting_VerbindungLK-ObereLagerkuehlung1</name>
             <profile xsi:type="hpCircular">
                 <radius>0.0044375</radius>
             </profile>
         </elements>
         <elements xsi:type="ductFlowAround" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
             <name>ObereLagerkuehlung1</name>
             <profile xsi:type="hpRectangular">
                 <height>0.003</height>
@@ -94,6 +119,8 @@
             <radius>0.076</radius>
         </elements>
         <elements xsi:type="ductFlowAround" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
             <name>ObereLagerkuehlung2</name>
             <profile xsi:type="hpRectangular">
                 <height>0.003</height>
@@ -102,12 +129,16 @@
             <radius>0.076</radius>
         </elements>
         <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
             <name>Fitting_ObereLagerkuehlung2-VerbindungStator</name>
             <profile xsi:type="hpCircular">
                 <radius>0.0044375</radius>
             </profile>
         </elements>
         <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
             <name>VerbindungStator</name>
             <profile xsi:type="hpCircular">
                 <radius>0.002</radius>
@@ -116,12 +147,16 @@
             <count>2.0</count>
         </elements>
         <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
             <name>Fitting_VerbindungStator-Helix</name>
             <profile xsi:type="hpCircular">
                 <radius>0.004756756756756756</radius>
             </profile>
         </elements>
         <elements xsi:type="ductHelix" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
             <name>Helix</name>
             <profile xsi:type="hpRectangular">
                 <height>0.003</height>
@@ -132,12 +167,16 @@
             <distance>0.045</distance>
         </elements>
         <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
             <name>Fitting_Helix-ElbowFitting_2</name>
             <profile xsi:type="hpCircular">
                 <radius>0.004756756756756756</radius>
             </profile>
         </elements>
         <elements xsi:type="ductElbowFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
             <name>ElbowFitting_2</name>
             <profile xsi:type="hpCircular">
                 <radius>0.002</radius>
@@ -145,6 +184,8 @@
             <count>2.0</count>
         </elements>
         <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
             <name>Steigleitung</name>
             <profile xsi:type="hpCircular">
                 <radius>0.002</radius>

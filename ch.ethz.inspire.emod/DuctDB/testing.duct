@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:duct xmlns:ns2="ch.ethz.inspire.emod">
+    <material>
+        <type>GlykolWater_30</type>
+    </material>
+    <name>Spindle_StepTec-6000.300.B.10_StructureDuct</name>
+    <history/>
+    <elements>
+        <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <name>Einlass</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.00585</radius>
+            </profile>
+            <length>0.0135</length>
+            <count>1.0</count>
+        </elements>
+        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <name>Fitting_Einlass-Sinkleitung I</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.00835</radius>
+            </profile>
+        </elements>
+        <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <name>Sinkleitung I</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.0025</radius>
+            </profile>
+            <length>0.13</length>
+            <count>2.0</count>
+        </elements>
+        <elements xsi:type="ductBypass" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <name>Bypass</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.01</radius>
+            </profile>
+            <ductPrimary>
+                <material>
+                    <type>GlykolWater_30</type>
+                </material>
+                <name>null: 1</name>
+                <history/>
+                <elements>
+                    <elements xsi:type="ductDrilling">
+                        <heatSource>NaN</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <name>Sinkleitung II</name>
+                        <profile xsi:type="hpCircular">
+                            <radius>0.0025</radius>
+                        </profile>
+                        <length>0.285</length>
+                        <count>2.0</count>
+                    </elements>
+                    <elements xsi:type="ductElbowFitting">
+                        <heatSource>NaN</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <name>Lagerkühlung Einlass</name>
+                        <profile xsi:type="hpCircular">
+                            <radius>0.0025</radius>
+                        </profile>
+                        <count>2.0</count>
+                    </elements>
+                    <elements xsi:type="ductFitting">
+                        <heatSource>NaN</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <name>Fitting_Lagerkühlung Einlass-Lagerkühlung I</name>
+                        <profile xsi:type="hpCircular">
+                            <radius>0.004879310344827586</radius>
+                        </profile>
+                    </elements>
+                    <elements xsi:type="ductFlowAround">
+                        <heatSource>268.0</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <isolation>
+                            <thickness>0.011</thickness>
+                            <type>Steel</type>
+                        </isolation>
+                        <name>Lagerkühlung I</name>
+                        <profile xsi:type="hpRectangular">
+                            <height>0.0115</height>
+                            <width>0.003</width>
+                        </profile>
+                        <radius>0.0485</radius>
+                    </elements>
+                    <elements xsi:type="ductFitting">
+                        <heatSource>NaN</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <name>Fitting_Lagerkühlung I-Lagerkühlung Verbindung</name>
+                        <profile xsi:type="hpCircular">
+                            <radius>0.004879310344827586</radius>
+                        </profile>
+                    </elements>
+                    <elements xsi:type="ductDrilling">
+                        <heatSource>NaN</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <name>Lagerkühlung Verbindung</name>
+                        <profile xsi:type="hpRectangular">
+                            <height>0.003</height>
+                            <width>0.015</width>
+                        </profile>
+                        <length>0.004</length>
+                        <count>1.0</count>
+                    </elements>
+                    <elements xsi:type="ductFitting">
+                        <heatSource>NaN</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <name>Fitting_Lagerkühlung Verbindung-Lagerkühlung II</name>
+                        <profile xsi:type="hpCircular">
+                            <radius>0.004879310344827586</radius>
+                        </profile>
+                    </elements>
+                    <elements xsi:type="ductFlowAround">
+                        <heatSource>268.0</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <isolation>
+                            <thickness>0.011</thickness>
+                            <type>Steel</type>
+                        </isolation>
+                        <name>Lagerkühlung II</name>
+                        <profile xsi:type="hpRectangular">
+                            <height>0.0115</height>
+                            <width>0.003</width>
+                        </profile>
+                        <radius>0.0485</radius>
+                    </elements>
+                    <elements xsi:type="ductFitting">
+                        <heatSource>NaN</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <name>Fitting_Lagerkühlung II-Lagerkühlung Auslass</name>
+                        <profile xsi:type="hpCircular">
+                            <radius>0.004879310344827586</radius>
+                        </profile>
+                    </elements>
+                    <elements xsi:type="ductElbowFitting">
+                        <heatSource>NaN</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <name>Lagerkühlung Auslass</name>
+                        <profile xsi:type="hpCircular">
+                            <radius>0.0025</radius>
+                        </profile>
+                        <count>2.0</count>
+                    </elements>
+                    <elements xsi:type="ductFitting">
+                        <heatSource>NaN</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <name>Fitting_Lagerkühlung Auslass-Steigleitung unten</name>
+                        <profile xsi:type="hpCircular">
+                            <radius>0.004749999999999999</radius>
+                        </profile>
+                    </elements>
+                    <elements xsi:type="ductDrilling">
+                        <heatSource>NaN</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <name>Steigleitung unten</name>
+                        <profile xsi:type="hpCircular">
+                            <radius>0.00225</radius>
+                        </profile>
+                        <length>0.027</length>
+                        <count>2.0</count>
+                    </elements>
+                    <elements xsi:type="ductElbowFitting">
+                        <heatSource>NaN</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <name>Statorendkühlung Einlass</name>
+                        <profile xsi:type="hpCircular">
+                            <radius>0.00225</radius>
+                        </profile>
+                        <count>2.0</count>
+                    </elements>
+                    <elements xsi:type="ductFitting">
+                        <heatSource>NaN</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <name>Fitting_Statorendkühlung Einlass-Statorendkühlung I</name>
+                        <profile xsi:type="hpCircular">
+                            <radius>0.005011061946902654</radius>
+                        </profile>
+                    </elements>
+                    <elements xsi:type="ductHelix">
+                        <heatSource>NaN</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <name>Statorendkühlung I</name>
+                        <profile xsi:type="hpRectangular">
+                            <height>0.0048</height>
+                            <width>0.0065</width>
+                        </profile>
+                        <radius>0.035</radius>
+                        <height>0.0048</height>
+                        <distance>0.0048</distance>
+                    </elements>
+                    <elements xsi:type="ductElbowFitting">
+                        <heatSource>NaN</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <name>Statorendkühlung Übergang I</name>
+                        <profile xsi:type="hpRectangular">
+                            <height>0.0048</height>
+                            <width>0.0065</width>
+                        </profile>
+                        <count>1.0</count>
+                    </elements>
+                    <elements xsi:type="ductElbowFitting">
+                        <heatSource>NaN</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <name>Statorendkühlung Übergang II</name>
+                        <profile xsi:type="hpRectangular">
+                            <height>0.0048</height>
+                            <width>0.0065</width>
+                        </profile>
+                        <count>1.0</count>
+                    </elements>
+                    <elements xsi:type="ductHelix">
+                        <heatSource>NaN</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <name>Statorendkühlung II</name>
+                        <profile xsi:type="hpRectangular">
+                            <height>0.0048</height>
+                            <width>0.0065</width>
+                        </profile>
+                        <radius>0.045</radius>
+                        <height>0.0048</height>
+                        <distance>0.0048</distance>
+                    </elements>
+                    <elements xsi:type="ductFitting">
+                        <heatSource>NaN</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <name>Fitting_Statorendkühlung II-Statorendkühlung Übergang III</name>
+                        <profile xsi:type="hpCircular">
+                            <radius>0.005118204804045512</radius>
+                        </profile>
+                    </elements>
+                    <elements xsi:type="ductElbowFitting">
+                        <heatSource>NaN</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <name>Statorendkühlung Übergang III</name>
+                        <profile xsi:type="hpRectangular">
+                            <height>0.003</height>
+                            <width>0.011</width>
+                        </profile>
+                        <count>1.0</count>
+                    </elements>
+                    <elements xsi:type="ductFitting">
+                        <heatSource>NaN</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <name>Fitting_Statorendkühlung Übergang III-Statorendkühlung III</name>
+                        <profile xsi:type="hpCircular">
+                            <radius>0.004857142857142857</radius>
+                        </profile>
+                    </elements>
+                    <elements xsi:type="ductFlowAround">
+                        <heatSource>NaN</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <name>Statorendkühlung III</name>
+                        <profile xsi:type="hpRectangular">
+                            <height>0.015</height>
+                            <width>0.003</width>
+                        </profile>
+                        <radius>0.0565</radius>
+                    </elements>
+                    <elements xsi:type="ductFitting">
+                        <heatSource>NaN</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <name>Fitting_Statorendkühlung III-Statorkühlung Einlass</name>
+                        <profile xsi:type="hpCircular">
+                            <radius>0.004857142857142857</radius>
+                        </profile>
+                    </elements>
+                    <elements xsi:type="ductElbowFitting">
+                        <heatSource>NaN</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <name>Statorkühlung Einlass</name>
+                        <profile xsi:type="hpRectangular">
+                            <height>0.011</height>
+                            <width>0.003</width>
+                        </profile>
+                        <count>1.0</count>
+                    </elements>
+                    <elements xsi:type="ductHelix">
+                        <heatSource>507.0</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <isolation>
+                            <thickness>0.0235</thickness>
+                            <type>Steel</type>
+                        </isolation>
+                        <name>Statorkühlung</name>
+                        <profile xsi:type="hpRectangular">
+                            <height>0.011</height>
+                            <width>0.003</width>
+                        </profile>
+                        <radius>0.0575</radius>
+                        <height>0.095</height>
+                        <distance>0.0185</distance>
+                    </elements>
+                    <elements xsi:type="ductFitting">
+                        <heatSource>NaN</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <name>Fitting_Statorkühlung-Statorkühlung Auslass</name>
+                        <profile xsi:type="hpCircular">
+                            <radius>0.004857142857142857</radius>
+                        </profile>
+                    </elements>
+                    <elements xsi:type="ductElbowFitting">
+                        <heatSource>NaN</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <name>Statorkühlung Auslass</name>
+                        <profile xsi:type="hpCircular">
+                            <radius>0.0025</radius>
+                        </profile>
+                        <count>2.0</count>
+                    </elements>
+                    <elements xsi:type="ductDrilling">
+                        <heatSource>NaN</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <name>Steigleitung oben I</name>
+                        <profile xsi:type="hpCircular">
+                            <radius>0.0025</radius>
+                        </profile>
+                        <length>0.0957</length>
+                        <count>2.0</count>
+                    </elements>
+                </elements>
+            </ductPrimary>
+            <ductSecondary>
+                <material>
+                    <type>GlykolWater_30</type>
+                </material>
+                <name>null: 2</name>
+                <history/>
+                <elements>
+                    <elements xsi:type="ductPipe">
+                        <heatSource>NaN</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <isolation>
+                            <thickness>0.001</thickness>
+                            <type>PUR</type>
+                        </isolation>
+                        <name>Zulauf</name>
+                        <profile xsi:type="hpCircular">
+                            <radius>0.001</radius>
+                        </profile>
+                        <roughness>0.0</roughness>
+                        <length>0.1</length>
+                    </elements>
+                    <elements xsi:type="ductElbowFitting">
+                        <heatSource>NaN</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <name>Lagerkühlung oben Einlass</name>
+                        <profile xsi:type="hpCircular">
+                            <radius>0.001</radius>
+                        </profile>
+                        <count>1.0</count>
+                    </elements>
+                    <elements xsi:type="ductFitting">
+                        <heatSource>NaN</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <name>Fitting_Lagerkühlung oben Einlass-Lagerkühlung oben</name>
+                        <profile xsi:type="hpCircular">
+                            <radius>0.003222222222222222</radius>
+                        </profile>
+                    </elements>
+                    <elements xsi:type="ductFlowAround">
+                        <heatSource>237.0</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <isolation>
+                            <thickness>0.0055</thickness>
+                            <type>Steel</type>
+                        </isolation>
+                        <name>Lagerkühlung oben</name>
+                        <profile xsi:type="hpRectangular">
+                            <height>0.004</height>
+                            <width>0.005</width>
+                        </profile>
+                        <radius>0.05</radius>
+                    </elements>
+                    <elements xsi:type="ductFitting">
+                        <heatSource>NaN</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <name>Fitting_Lagerkühlung oben-Bypass</name>
+                        <profile xsi:type="hpCircular">
+                            <radius>0.012222222222222221</radius>
+                        </profile>
+                    </elements>
+                    <elements xsi:type="ductBypass">
+                        <heatSource>NaN</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <name>Bypass</name>
+                        <profile xsi:type="hpCircular">
+                            <radius>0.01</radius>
+                        </profile>
+                        <ductPrimary>
+                            <material>
+                                <type>GlykolWater_30</type>
+                            </material>
+                            <name>null: 1</name>
+                            <history/>
+                            <elements>
+                                <elements xsi:type="ductPipe">
+                                    <heatSource>NaN</heatSource>
+                                    <wallTemperature>NaN</wallTemperature>
+                                    <name>Pipe</name>
+                                    <profile xsi:type="hpCircular">
+                                        <radius>0.01</radius>
+                                    </profile>
+                                    <roughness>0.0</roughness>
+                                    <length>0.0</length>
+                                </elements>
+                            </elements>
+                        </ductPrimary>
+                        <ductSecondary>
+                            <material>
+                                <type>GlykolWater_30</type>
+                            </material>
+                            <name>null: 2</name>
+                            <history/>
+                            <elements>
+                                <elements xsi:type="ductHelix">
+                                    <heatSource>NaN</heatSource>
+                                    <wallTemperature>NaN</wallTemperature>
+                                    <name>Helix</name>
+                                    <profile xsi:type="hpCircular">
+                                        <radius>0.01</radius>
+                                    </profile>
+                                    <radius>0.0</radius>
+                                    <height>0.0</height>
+                                    <distance>0.0</distance>
+                                </elements>
+                            </elements>
+                        </ductSecondary>
+                        <parameterSet/>
+                    </elements>
+                    <elements xsi:type="ductFitting">
+                        <heatSource>NaN</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <name>Fitting_Bypass-Fitting_Lagerkühlung oben-Lagerkühlung oben Auslass</name>
+                        <profile xsi:type="hpCircular">
+                            <radius>0.01322222222222222</radius>
+                        </profile>
+                    </elements>
+                    <elements xsi:type="ductElbowFitting">
+                        <heatSource>NaN</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <name>Lagerkühlung oben Auslass</name>
+                        <profile xsi:type="hpCircular">
+                            <radius>0.001</radius>
+                        </profile>
+                        <count>1.0</count>
+                    </elements>
+                    <elements xsi:type="ductPipe">
+                        <heatSource>NaN</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <isolation>
+                            <thickness>0.001</thickness>
+                            <type>PUR</type>
+                        </isolation>
+                        <name>Rücklauf</name>
+                        <profile xsi:type="hpCircular">
+                            <radius>0.001</radius>
+                        </profile>
+                        <roughness>0.0</roughness>
+                        <length>0.1</length>
+                    </elements>
+                </elements>
+            </ductSecondary>
+            <parameterSet/>
+        </elements>
+        <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <name>Steigleitung oben II</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.0025</radius>
+            </profile>
+            <length>0.13</length>
+            <count>2.0</count>
+        </elements>
+        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <name>Fitting_Steigleitung oben II-Auslass</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.00835</radius>
+            </profile>
+        </elements>
+        <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <name>Auslass</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.00585</radius>
+            </profile>
+            <length>0.0135</length>
+            <count>1.0</count>
+        </elements>
+    </elements>
+</ns2:duct>

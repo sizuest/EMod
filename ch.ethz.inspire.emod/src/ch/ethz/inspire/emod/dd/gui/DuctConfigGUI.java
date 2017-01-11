@@ -68,6 +68,7 @@ import ch.ethz.inspire.emod.utils.LocalizationHandler;
  * @author sizuest
  *
  */
+@Deprecated
 public class DuctConfigGUI extends AConfigGUI {
 	private SashForm form;
 	private static Table tableDuctElements;
@@ -198,9 +199,10 @@ public class DuctConfigGUI extends AConfigGUI {
 	/**
 	 * Open a GUI to edit the given element
 	 * @param e
+	 * @param d 
 	 */
-	public void editDuctElementGUI(ADuctElement e) {
-		Shell shell = EditDuctElementGUI.editDuctElementGUI(this.getShell(), e);
+	public void editDuctElementGUI(ADuctElement e, Duct d) {
+		Shell shell = EditDuctElementGUI.editDuctElementGUI(this.getShell(), e, d);
 		shell.addDisposeListener(new DisposeListener() {
 			@Override
 			public void widgetDisposed(DisposeEvent e) {
@@ -258,7 +260,7 @@ public class DuctConfigGUI extends AConfigGUI {
 				editElementButton.addSelectionListener(new SelectionListener() {
 					@Override
 					public void widgetSelected(SelectionEvent event) {
-						editDuctElementGUI(e);
+						editDuctElementGUI(e, duct);
 					}
 
 					@Override

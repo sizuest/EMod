@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:duct xmlns:ns2="ch.ethz.inspire.emod">
+    <material>
+        <type>GlykolWater_30</type>
+    </material>
+    <name>Spindle_Kessler_000101561_StructureDuct</name>
+    <history/>
+    <elements>
+        <elements xsi:type="ductDefinedValues" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <name>DefinedValues</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.01</radius>
+            </profile>
+            <zeta>6.74E12</zeta>
+            <alpha>100.0</alpha>
+            <surface>9.42</surface>
+            <length>3.0</length>
+            <volume>2.355E-4</volume>
+        </elements>
+    </elements>
+</ns2:duct>

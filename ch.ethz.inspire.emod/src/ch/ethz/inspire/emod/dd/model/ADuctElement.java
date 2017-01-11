@@ -35,7 +35,7 @@ public abstract class ADuctElement implements Parameterizable, Cloneable {
 	@XmlTransient
 	protected Material material;
 	protected AHydraulicProfile profile = new HPCircular(.01);
-	protected double length;
+	protected double length = .1;
 	protected Isolation isolation = null;
 	@XmlElement
 	protected double heatSource = Double.NaN;

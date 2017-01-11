@@ -31,7 +31,7 @@ import ch.ethz.inspire.emod.model.units.SiUnit;
 @XmlRootElement
 public class DuctFlowAround extends ADuctElement {
 	@XmlElement
-	double radius;
+	double radius = .1;
 
 	/**
 	 * Constructor called from XmlUnmarshaller.

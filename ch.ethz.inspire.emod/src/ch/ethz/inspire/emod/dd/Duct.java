@@ -826,6 +826,19 @@ public class Duct implements Cloneable {
 	public ArrayList<ADuctElement> getElements() {
 		return this.elements;
 	}
+	
+	/**
+	 * @return List of duct elements
+	 */
+	public ArrayList<ADuctElement> getElementsExceptFittings() {
+		ArrayList<ADuctElement> retr = new ArrayList<ADuctElement>();
+		
+		for(ADuctElement e: getElements())
+			if(!(e instanceof DuctFitting))
+				retr.add(e);
+		
+		return retr;
+	}
 
 	/**
 	 * Inlet profile

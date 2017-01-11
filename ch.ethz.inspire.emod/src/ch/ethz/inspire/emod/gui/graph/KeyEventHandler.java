@@ -15,8 +15,6 @@ package ch.ethz.inspire.emod.gui.graph;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 
-import ch.ethz.inspire.emod.gui.ModelGraphGUI;
-
 /**
  * KeyEventHandler class
  * 
@@ -29,7 +27,7 @@ import ch.ethz.inspire.emod.gui.ModelGraphGUI;
 public class KeyEventHandler implements KeyListener {
 
 	/* Graph to perform actions on */
-	private ModelGraphGUI parent;
+	private IGraphEditable parent;
 
 	/**
 	 * Constructor
@@ -37,7 +35,7 @@ public class KeyEventHandler implements KeyListener {
 	 * @param parent
 	 *            Model graph to apply listener
 	 */
-	public KeyEventHandler(ModelGraphGUI parent) {
+	public KeyEventHandler(IGraphEditable parent) {
 		super();
 		this.parent = parent;
 	}

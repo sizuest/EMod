@@ -57,6 +57,7 @@ import org.piccolo2d.PCamera;
 import org.piccolo2d.event.PMouseWheelZoomEventHandler;
 import org.piccolo2d.extras.event.PSelectionEventHandler;
 import org.piccolo2d.extras.swt.PSWTCanvas;
+import org.piccolo2d.util.PBounds;
 
 import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.gui.graph.AGraphElement;
@@ -65,6 +66,7 @@ import ch.ethz.inspire.emod.gui.graph.ConnectionLine;
 import ch.ethz.inspire.emod.gui.graph.GraphElementPosition;
 import ch.ethz.inspire.emod.gui.graph.GraphEventHandler;
 import ch.ethz.inspire.emod.gui.graph.GraphMidMouseEventHandler;
+import ch.ethz.inspire.emod.gui.graph.IGraphEditable;
 import ch.ethz.inspire.emod.gui.graph.InputNode;
 import ch.ethz.inspire.emod.gui.graph.KeyEventHandler;
 import ch.ethz.inspire.emod.gui.graph.MachineComponentGraphElement;
@@ -85,7 +87,7 @@ import ch.ethz.inspire.emod.utils.PropertiesHandler;
  * 
  */
 
-public class ModelGraphGUI extends AGUITab {
+public class ModelGraphGUI extends AGUITab implements IGraphEditable{
 
 	private static PSWTCanvas canvasModelGraph;
 	private TabFolder tabFolder;
@@ -146,7 +148,8 @@ public class ModelGraphGUI extends AGUITab {
 
 			@Override
 			public void mouseScrolled(MouseEvent e) {
-				setZoomLevel(e.count);
+				Point p = e.display.map(canvasModelGraph, canvasModelGraph, e.x, e.y);
+				setZoomLevel(p, e.count);
 			}
 		});
 
@@ -472,8 +475,6 @@ public class ModelGraphGUI extends AGUITab {
 				// Point p = event.display.map(modelGraph, canvasModelGraph,
 				// event.x, event.y);
 
-				System.out.println(p.toString());
-
 				if (string.contains("SimulationControl")) {
 					// create new simulation control
 					System.out.println("simulationcontrol " + string);
@@ -549,12 +550,15 @@ public class ModelGraphGUI extends AGUITab {
 			GraphElementPosition p) {
 		SimulationControlGraphElement composite = new SimulationControlGraphElement(
 				sc);
+		
+		
 
 		simulationControls.add(composite);
 		canvasModelGraph.getLayer().addChild(composite);
 
 		if (null == p)
 			p = new GraphElementPosition(0, 0);
+	
 
 		composite.setOffset(p.get());
 
@@ -660,15 +664,16 @@ public class ModelGraphGUI extends AGUITab {
 		ModelGraphGUI.redrawConnections();
 	}
 
-	private static void setZoomLevel(int level) {
+	private static void setZoomLevel(Point center, int level) {
 		PCamera camera = canvasModelGraph.getCamera();
-
-		camera.setViewScale(camera.getViewScale() + level * 0.01);
+		
+		Point2D p = (new GraphElementPosition(center, canvasModelGraph)).get();
+		
+		if(canvasModelGraph.getCamera().getViewScale()<1 | level<0)
+			camera.scaleViewAboutPoint(1 + level * 0.01/camera.getViewScale(), p.getX(), p.getY());
 	}
 
-	/**
-	 * Sets the zoom level, such that all elements are visible
-	 */
+	
 	public void showAll() {
 		double xMin = Double.POSITIVE_INFINITY, xMax = Double.NEGATIVE_INFINITY, yMin = Double.POSITIVE_INFINITY, yMax = Double.NEGATIVE_INFINITY;
 
@@ -695,9 +700,16 @@ public class ModelGraphGUI extends AGUITab {
 					sc.getGlobalFullBounds().y
 							+ sc.getGlobalFullBounds().height);
 		}
+		
+		PBounds b = new PBounds(xMin, yMin, xMax - xMin, yMax - yMin);
 
-		canvasModelGraph.getCamera().setViewBounds(
-				new Rectangle2D.Double(xMin, yMin, xMax - xMin, yMax - yMin));
+		canvasModelGraph.getCamera().setViewBounds(b);
+		
+		canvasModelGraph.getCamera().scaleViewAboutPoint(.9, b.getCenterX(), b.getCenterY());
+		
+		System.out.println(canvasModelGraph.getCamera().getViewScale());
+		if(canvasModelGraph.getCamera().getViewScale()>1)
+			canvasModelGraph.getCamera().scaleViewAboutPoint(1/canvasModelGraph.getCamera().getViewScale(), b.getCenterX(), b.getCenterY());
 
 	}
 

@@ -11,27 +11,22 @@
  *
  ***********************************/
 
-package ch.ethz.inspire.emod.gui.graph;
+package ch.ethz.inspire.emod.dd.graph;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
-import java.util.Iterator;
 
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.widgets.Shell;
 import org.piccolo2d.PCamera;
-import org.piccolo2d.PNode;
 import org.piccolo2d.event.PInputEvent;
 import org.piccolo2d.extras.event.PSelectionEventHandler;
 import org.piccolo2d.extras.swt.PSWTPath;
 
 import ch.ethz.inspire.emod.Machine;
-import ch.ethz.inspire.emod.gui.EditInputGUI;
-import ch.ethz.inspire.emod.gui.EditMachineComponentProperties;
-import ch.ethz.inspire.emod.gui.ModelGraphGUI;
-import ch.ethz.inspire.emod.utils.IOConnection;
+import ch.ethz.inspire.emod.dd.gui.EditDuctElementGUI;
 
 /**
  * GraphEventHandler
@@ -48,21 +43,23 @@ import ch.ethz.inspire.emod.utils.IOConnection;
  * @author sizuest
  * 
  */
-public class GraphEventHandler extends PSelectionEventHandler {
+public class DuctGraphEventHandler extends PSelectionEventHandler {
 
-	/* Source and target node object (null if no line is to be drawn) */
-	private AIONode sourceNode, targetNode;
-	/* Line during the drawing of a connection */
-	private PSWTPath line = new PSWTPath();
 	/* Point where the mouse drag action was initiated */
 	private Point2D dragSource;
 	/* Line (rect) for the selection marquee */
 	private PSWTPath selectionMarquee = new PSWTPath();
+	/* Parent graph */
+	private DuctGraph parentGraph;
+	/* Initiating button */
+	private int initMouseButton=-1;
+	
+	DuctGraphElement selection = null;
 	/*
 	 * Parent shell, required when opening editor windows of type {@link
 	 * AConfigGUI.java}
 	 */
-	private Shell parent;
+	private Shell parentShell;
 
 	/**
 	 * Constructor
@@ -79,10 +76,11 @@ public class GraphEventHandler extends PSelectionEventHandler {
 	 *            Shell of the parent, required for editor windows with the
 	 *            property SWT.APPLICATION_MODAL set
 	 */
-	public GraphEventHandler(final PNode marqueeParent,
-			final PNode selectableParent, final Shell parent) {
+	public DuctGraphEventHandler(final DuctGraph marqueeParent,
+			final DuctGraph selectableParent, final Shell parent) {
 		super(marqueeParent, selectableParent);
-		this.parent = parent;
+		this.parentGraph = selectableParent;
+		this.parentShell = parent;
 	}
 
 	/**
@@ -104,36 +102,27 @@ public class GraphEventHandler extends PSelectionEventHandler {
 		 * We only have to care about this action, if it is raised due to a
 		 * left-click
 		 */
-		if (event.getButton() == MouseEvent.BUTTON1) {
-
-			/* Check, if a source node has been clicked */
-			sourceNode = ModelGraphGUI.getAIONode(event.getPosition());
+		initMouseButton = event.getButton();
+		
+		if (initMouseButton == MouseEvent.BUTTON1 | initMouseButton == MouseEvent.BUTTON3) {
+			/* Check, if an element has been clicked */
+			selection = parentGraph.getSelection(event.getPosition());
+			
+			if(null!=selection){
+				selection.raiseToTop();
+				select(selection);
+			}
+			else
+				unselectAll();
+		}
+		
+		if (initMouseButton == MouseEvent.BUTTON1) {
 
 			/* Save the source of the drag event */
 			dragSource = event.getCanvasPosition();
 
-			/* If a AIONode is selected -> start drawing the connection line */
-			if (null != sourceNode) {
-
-				/*
-				 * We don't want the parent node to be selected in this
-				 * particular case. Otherwise, the parent node would be moved by
-				 * the mouse drag!
-				 */
-				unselectAll();
-
-				/*
-				 * Highlight the nodes of opposite type but the same unit, so
-				 * the user knows o which nodes he can select the selected one
-				 */
-				if (sourceNode instanceof OutputNode)
-					ModelGraphGUI.setInputHighlight(true, sourceNode.ioObject);
-				else
-					ModelGraphGUI.setOutputHighlight(true, sourceNode.ioObject);
-				event.getCamera().addChild(line);
-			}
 			/* If the mouse is over the free area -> draw marquee */
-			else if (event.getPickedNode() instanceof PCamera) {
+			if (event.getPickedNode() instanceof PCamera) {
 				event.getCamera().addChild(selectionMarquee);
 			}
 		}
@@ -157,8 +146,9 @@ public class GraphEventHandler extends PSelectionEventHandler {
 		 * Only if their is a mouse drag source different from null, a
 		 * connection line needs an update
 		 */
-		if (null != sourceNode)
-			updateLine(event);
+		if (null!=selection & initMouseButton==MouseEvent.BUTTON1){
+			selection.getDuctGraph().moveElement(selection, event.getPosition());
+		}
 		/*
 		 * Their seams to be an other reason for an update -> let's update the
 		 * marquee
@@ -182,48 +172,22 @@ public class GraphEventHandler extends PSelectionEventHandler {
 	 */
 	@Override
 	protected void dragActivityFinalStep(final PInputEvent event) {
-
-		/* Remove highlightning */
-		ModelGraphGUI.setHighlight(false, null);
-
 		/* Action is finished -> the line and marquee are not needed anymore */
-		line.removeFromParent();
 		selectionMarquee.removeFromParent();
-
-		/* Check if their is a new connection to be added */
-		IOConnection ioc = null;
-		// Get the target node based on the final mouse position of the mouse
-		// drag
-		targetNode = ModelGraphGUI.getAIONode(event.getPosition());
-		// If the source and target node are not null, a new connection can be
-		// added
-		if (null != sourceNode & null != targetNode) {
-			// Distinguish the two directions input>output & output>input
-			if (targetNode instanceof InputNode
-					& sourceNode instanceof OutputNode)
-				ioc = Machine.addIOLink(sourceNode.getIOObject(),
-						targetNode.getIOObject());
-			else if (sourceNode instanceof InputNode
-					& targetNode instanceof OutputNode)
-				ioc = Machine.addIOLink(targetNode.getIOObject(),
-						sourceNode.getIOObject());
+		
+		/* Handle drag */
+		if(null!=selection  & initMouseButton == MouseEvent.BUTTON1){
+			selection.getDuctGraph().moveElement(selection, event.getPosition());
+			select(selection);
 		}
-		// if ioc is still null, the user did a mistak (i.e. input>input)
-		if (null != ioc) {
-			// Let's update the model graph, so the new connection will be draw:
-			ModelGraphGUI.drawIOConnection(ioc);
-			ModelGraphGUI.updateConnections();
-		}
-		// We are done, set source and target node to null:
-		sourceNode = null;
-		targetNode = null;
 
-		/* Save all graph element positions */
-		ModelGraphGUI.saveElementPositions();
+		/* Rearrange all nodes */
+		parentGraph.update();
+		
 
 		/*
-		 * If the right mouse button is pressed over an machine element or
-		 * simulation control, a configuration window shall be opened.
+		 * If the right mouse button is pressed over an element, 
+		 * a configuration window shall be opened.
 		 * 
 		 * Attention: This is done here instead of in dragActivityFirstStep,
 		 * since the event is not handled correct otherwise. Their seams to be a
@@ -231,41 +195,14 @@ public class GraphEventHandler extends PSelectionEventHandler {
 		 * (unselectAll()) after the action, a subsequent left-click anywhere in
 		 * the graph will select the node again. ZS
 		 */
-		if (event.getButton() == MouseEvent.BUTTON3) {
-			/* Machine component selected */
-			if (event.getPickedNode() instanceof MachineComponentGraphElement) {
-				// Open the config window
-				Shell shell = EditMachineComponentProperties
-						.editMachineComponentGUI(parent,
-								((MachineComponentGraphElement) event
-										.getPickedNode()).getMachineComponent());
-				// Wait for the component window to be closed, to raise a graph
-				// update
-				shell.addDisposeListener(new DisposeListener() {
-					@Override
-					public void widgetDisposed(DisposeEvent e) {
-						// Update the name
-						((MachineComponentGraphElement) event.getPickedNode())
-								.updateText();
-					}
-				});
-
-			} else if (event.getPickedNode() instanceof SimulationControlGraphElement) {
-				// Open the config window
-				Shell shell = EditInputGUI.editInputGUI(parent,
-						((SimulationControlGraphElement) event.getPickedNode())
-								.getSimulationControl());
-				// Wait for the component window to be closed, to raise a graph
-				// update
-				shell.addDisposeListener(new DisposeListener() {
-					@Override
-					public void widgetDisposed(DisposeEvent e) {
-						// Update the name and unit
-						((SimulationControlGraphElement) event.getPickedNode())
-								.updateText();
-					}
-				});
-			}
+		if (event.getButton() == MouseEvent.BUTTON3 & selection!=null) {
+			Shell shell = EditDuctElementGUI.editDuctElementGUI(parentShell, selection.getElement(), selection.getDuctGraph().getDuct());
+			shell.addDisposeListener(new DisposeListener() {
+				@Override
+				public void widgetDisposed(DisposeEvent e) {
+					parentGraph.update();
+				}
+			});
 		}
 	}
 
@@ -281,33 +218,7 @@ public class GraphEventHandler extends PSelectionEventHandler {
 		super.keyPressed(event);
 
 		switch (event.getKeyCode()) {
-		/* r: rotate 90 degrees */
-		case 'r':
-			@SuppressWarnings("rawtypes")
-			final Iterator selectionEn = getSelection().iterator();
-			while (selectionEn.hasNext()) {
-				final PNode node = (PNode) selectionEn.next();
-				if (node instanceof AGraphElement)
-					((AGraphElement) node).rotate(.25);
-			}
-			/* Save all graph element positions */
-			ModelGraphGUI.saveElementPositions();
 		}
-	}
-
-	/**
-	 * updates the connection line according to the mouse event
-	 * 
-	 * @param event
-	 */
-	private void updateLine(PInputEvent event) {
-		// Line from the initial drag source to the current mouse position
-		Point2D[] points = { dragSource, event.getCanvasPosition() };
-		line.setPathToPolyline(points);
-		// Apply graph scalings
-		line.setScale(event.getCamera().getScale());
-		// Color according to the defintions in {@link ModelGraphGUI.java}
-		line.setStrokeColor(ModelGraphGUI.getIOColor(sourceNode.getIOObject()));
 	}
 
 	/**

@@ -44,7 +44,7 @@ import org.eclipse.swt.widgets.TabItem;
 import ch.ethz.inspire.emod.LogLevel;
 import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.States;
-import ch.ethz.inspire.emod.dd.gui.DuctConfigGUI;
+import ch.ethz.inspire.emod.dd.gui.DuctConfigGraphGUI;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
@@ -105,7 +105,8 @@ public class EModGUI {
 		EModStatusBarGUI.create(shell);
 
 		shell.open();
-		shell.setMaximized(true);
+		shell.setMaximized(true);	
+		
 
 		// manick: Startup GUI for Settings of machine/sim confg
 		Shell startupShell = EModStartupGUI.loadMachineGUI(shell);
@@ -132,6 +133,9 @@ public class EModGUI {
 		analysis.update();
 		EModStatusBarGUI.updateMachineInfo();
 		shell.setEnabled(true);
+		
+		//if(model instanceof IGraphEditable)
+			//((IGraphEditable) model).showAll();
 	}
 
 	/**
@@ -430,6 +434,7 @@ public class EModGUI {
 								.getSystemColor(SWT.COLOR_WHITE));
 						console.replaceStyleRanges(sr[0].start, sr[0].length,
 								sr);
+						console.getVerticalBar().setSelection(console.getVerticalBar().getMaximum());
 					}
 				});
 				super.print(s);
@@ -454,6 +459,7 @@ public class EModGUI {
 								.getSystemColor(SWT.COLOR_WHITE));
 						console.replaceStyleRanges(sr[0].start, sr[0].length,
 								sr);
+						console.getVerticalBar().setSelection(console.getVerticalBar().getMaximum());
 					}
 				});
 				super.print(s);
@@ -738,7 +744,7 @@ public class EModGUI {
 	class ductDesignTestItemListener implements SelectionListener {
 		@Override
 		public void widgetSelected(SelectionEvent event) {
-			DuctConfigGUI.editDuctGUI("Test");
+			DuctConfigGraphGUI.editDuctGUI("Test");
 		}
 
 		@Override

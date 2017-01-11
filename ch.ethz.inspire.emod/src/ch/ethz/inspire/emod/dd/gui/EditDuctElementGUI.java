@@ -32,6 +32,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
+import ch.ethz.inspire.emod.dd.Duct;
 import ch.ethz.inspire.emod.dd.model.ADuctElement;
 import ch.ethz.inspire.emod.dd.model.AHydraulicProfile;
 import ch.ethz.inspire.emod.dd.model.Isolation;
@@ -54,20 +55,24 @@ public class EditDuctElementGUI extends AConfigGUI {
 	private ParameterSet parametersNew = new ParameterSet();
 	private AHydraulicProfile profileOld;
 	private Isolation isolationNew;
+	private Duct parentDuct;
 
 	/**
 	 * Create a new editor and add it to the parent
 	 * @param parent
 	 * @param style
 	 * @param element
+	 * @param parentDuct 
 	 */
 	public EditDuctElementGUI(Composite parent, int style,
-			final ADuctElement element) {
+			final ADuctElement element, Duct parentDuct) {
 		super(parent, style);
 
 		this.element = element;
 		this.parametersNew.getParameterSet().putAll(
 				element.getParameterSet().getParameterSet());
+		
+		this.parentDuct = parentDuct;
 
 		profileOld = this.element.getProfileIn().clone();
 
@@ -104,15 +109,15 @@ public class EditDuctElementGUI extends AConfigGUI {
 	 * Create an editor in a new shell
 	 * @param parent
 	 * @param element
+	 * @param duct 
 	 * @return
 	 */
-	public static Shell editDuctElementGUI(Shell parent, ADuctElement element) {
+	public static Shell editDuctElementGUI(Shell parent, ADuctElement element, Duct duct) {
 		final Shell shell = new Shell(parent, SWT.APPLICATION_MODAL | SWT.CLOSE
 				| SWT.MAX | SWT.RESIZE);
 		shell.setLayout(new GridLayout(1, true));
 
-		final EditDuctElementGUI gui = new EditDuctElementGUI(shell, SWT.NONE,
-				element);
+		final EditDuctElementGUI gui = new EditDuctElementGUI(shell, SWT.NONE,	element, duct);
 
 		shell.setText(LocalizationHandler.getItem("app.dd.elemet.gui.titel")
 				+ " " + element.getName());
@@ -322,6 +327,12 @@ public class EditDuctElementGUI extends AConfigGUI {
 
 	@Override
 	public void save() {
+		
+		// Read new name
+		if(null!=this.parentDuct)
+			parentDuct.setElementName(element.getName(), tableProperties.getItem(0).getText(1));
+		else
+			element.setName(tableProperties.getItem(0).getText(1));
 
 		// Read new Config
 		for (int i = 3; i < tableProperties.getItemCount(); i++) {

@@ -31,11 +31,11 @@ import ch.ethz.inspire.emod.model.units.SiUnit;
 @XmlRootElement
 public class DuctHelix extends ADuctElement {
 	@XmlElement
-	double radius;
+	double radius = .1;
 	@XmlElement
-	double height;
+	double height = .1;
 	@XmlElement
-	double distance;
+	double distance = .05;
 
 	/**
 	 * Constructor called from XmlUnmarshaller.
