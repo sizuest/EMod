@@ -58,6 +58,7 @@ import ch.ethz.inspire.emod.utils.PropertiesHandler;
  * @deprecated
  *
  */
+@Deprecated
 public class LinkingGUI extends AConfigGUI {
 
 	int intNumberOfInputs = 0;

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment/>
+<entry key="IsSubmerged">true</entry>
+<entry key="NominalRotSpeed">3275.0 RPM</entry>
+<entry key="DiameterMotor">0.2 m</entry>
+<entry key="DiameterPump">0.1 m</entry>
+<entry key="FlowRateSamples">0.0, 1.67E-4, 3.33E-4, 5.0E-4, 6.67E-4, 8.33E-4, 0.001, 0.001167, 0.001333, 0.0015, 0.001667, 0.001833, 0.002, 0.002167, 0.002333, 0.0025, 0.002667, 0.002833 m³/s</entry>
+<entry key="Material">Steel</entry>
+<entry key="PowerSamples">650.0, 780.0, 900.0, 1000.0, 1100.0, 1200.0, 1300.0, 1380.0, 1450.0, 1500.0, 1530.0, 1550.0, 1550.0, 1530.0, 1510.0, 1480.0, 1450.0, 1430.0 W</entry>
+<entry key="LengthPump">0.1 m</entry>
+<entry key="MaxTemperatureDifference">25.0</entry>
+<entry key="EfficiencySamples">0.0, 0.13, 0.219, 0.286, 0.337, 0.373, 0.398, 0.422, 0.435, 0.45, 0.463, 0.461, 0.447, 0.422, 0.371, 0.302, 0.212, 0.091 none</entry>
+<entry key="NumberImpellerEyes">0</entry>
+<entry key="LengthMotor">0.2 m</entry>
+<entry key="HasMotorCooling">true</entry>
+<entry key="NumberStages">0</entry>
+<entry key="MassMotor">15.0 kg</entry>
+<entry key="PressureSamples">529740.0, 516987.0, 502272.0, 485595.0, 472842.0, 456165.0, 439488.0, 423792.0, 402210.0, 382590.0, 361008.0, 331578.0, 294300.0, 253098.0, 204048.0, 152055.0, 98100.0, 39240.0 Pa</entry>
+<entry key="MassFluid">3.0 kg</entry>
+</properties>

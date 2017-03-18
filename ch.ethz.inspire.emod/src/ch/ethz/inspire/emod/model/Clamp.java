@@ -111,16 +111,14 @@ public class Clamp extends APhysicalComponent {
 			params = new ComponentConfigReader(getModelType(), type);
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.exit(-1);
 		}
 
 		/* Read the config parameter: */
 		try {
-			springconst = params.getDoubleValue("SpringStiffness");
-			wpposition = params.getDoubleValue("WorkPiecePostion");
+			springconst = params.getPhysicalValue("SpringStiffness", new SiUnit("N m^-1")).getValue();
+			wpposition  = params.getPhysicalValue("WorkPiecePostion", new SiUnit("m")).getValue();
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.exit(-1);
 		}
 		params.Close(); /* Model configuration file not needed anymore. */
 
@@ -129,7 +127,6 @@ public class Clamp extends APhysicalComponent {
 			checkConfigParams();
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.exit(-1);
 		}
 	}
 

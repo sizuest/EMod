@@ -94,8 +94,8 @@ public class Pump extends APhysicalComponent implements Floodable {
 	private double diameterMotor; // Diameter of the motor [m]
 	private double lengthMotor; // Length of the motor [m]
 	private double rotSpeed; // Nominal rotational speed [rpm]
-	private int numImpEyes; // Number of impeller entries [-]
-	private int numStages; // Number of stages [-]
+	private double numImpEyes; // Number of impeller entries [-]
+	private double numStages; // Number of stages [-]
 	private double flowRateBEP; // Nominal flow rate [m^3/s]
 	private double pressureBEP; // Nominal pressure [Pa]
 	private double deltaTempMax; // Maximum Temperature twds. amb.
@@ -230,23 +230,28 @@ public class Pump extends APhysicalComponent implements Floodable {
 
 		/* Read the config parameter: */
 		try {
-			pressureSamples = params.getDoubleArray("PressureSamples");
-			flowRateSamples = params.getDoubleArray("FlowRateSamples");
-			powerSamples = params.getDoubleArray("PowerSamples");
-			effPumpSamples = params.getDoubleArray("EfficiencySamples");
+			pressureSamples = params.getPhysicalValue("PressureSamples", new SiUnit("Pa")).getValues();
+			flowRateSamples = params.getPhysicalValue("FlowRateSamples", new SiUnit("m^3 s^-1")).getValues();
+			powerSamples    = params.getPhysicalValue("PowerSamples", new SiUnit("W")).getValues();
+			effPumpSamples  = params.getPhysicalValue("EfficiencySamples", new SiUnit("")).getValues();
 
-			massFluid = params.getDoubleValue("MassFluid");
-			massMotor = params.getDoubleValue("MassMotor");
+			massFluid       = params.getPhysicalValue("MassFluid", new SiUnit("kg")).getValue();
+			massMotor       = params.getPhysicalValue("MassMotor", new SiUnit("kg")).getValue();
 			hasMotorCooling = params.getValue("HasMotorCooling", true);
-			isSubmerged = params.getValue("IsSubmerged", true);
-			diameterPump = params.getDoubleValue("DiameterPump");
-			lengthPump = params.getDoubleValue("LengthPump");
-			diameterMotor = params.getDoubleValue("DiameterMotor");
-			lengthMotor = params.getDoubleValue("LengthMotor");
-			rotSpeed = params.getDoubleValue("NominalRotSpeed");
-			numImpEyes = params.getValue("NumberImpellerEyes", 1);
-			numStages = params.getValue("NumberStages", 1);
-			deltaTempMax = params.getValue("MaxTemperatureDifference", 25.0);
+			isSubmerged     = params.getValue("IsSubmerged", true);
+			diameterPump    = params.getPhysicalValue("DiameterPump", new SiUnit("m")).getValue();
+			lengthPump      = params.getPhysicalValue("LengthPump", new SiUnit("m")).getValue();
+			diameterMotor   = params.getPhysicalValue("DiameterMotor", new SiUnit("m")).getValue();
+			lengthMotor     = params.getPhysicalValue("LengthMotor", new SiUnit("m")).getValue();
+			rotSpeed        = params.getPhysicalValue("NominalRotSpeed", new SiUnit("RPM")).getValue();
+			numImpEyes      = params.getDoubleValue("NumberImpellerEyes");
+			numStages       = params.getDoubleValue("NumberStages");
+			deltaTempMax    = params.getPhysicalValue("MaxTemperatureDifference", new SiUnit("K")).getValue();
+			
+			// Not anymore required
+			params.deleteValue("NominalFlowRate");
+			params.deleteValue("NominalPressure");
+			params.saveValues();
 
 			/* BEP */
 			int idxBEP = Algo.getMaximumIndex(effPumpSamples);
@@ -383,22 +388,16 @@ public class Pump extends APhysicalComponent implements Floodable {
 		fluid.setMaterial(fluidProperties.getMaterial());
 
 		/* Check if pump map has to be updated */
-		if (fluid.getMaterial().getDensity(fluid.getTemperature().getValue()) != lastDensity
-				| fluid.getMaterial().getViscosityKinematic(
-						fluid.getTemperature().getValue()) != lastViscosity) {
-			lastDensity = fluid.getMaterial().getDensity(
-					fluid.getTemperature().getValue());
-			lastViscosity = fluid.getMaterial().getViscosityKinematic(
-					fluid.getTemperature().getValue());
+		if (fluid.getMaterial().getDensity(fluid.getTemperature().getValue()) != lastDensity | fluid.getMaterial().getViscosityKinematic(fluid.getTemperature().getValue()) != lastViscosity) {
+			lastDensity = fluid.getMaterial().getDensity(fluid.getTemperature().getValue());
+			lastViscosity = fluid.getMaterial().getViscosityKinematic(fluid.getTemperature().getValue());
 			updatePumpMap(lastDensity, lastViscosity);
 		}
 
 		/* If pump is running calculate flow rate and power demand */
 		if (pumpCtrl.getValue() > 0) {
 			// Resulting power demand
-			pel.setValue(Algo.linearInterpolation(
-					fluidProperties.getFlowRate(), flowRateSamplesV,
-					powerSamplesV));
+			pel.setValue(Algo.linearInterpolation(fluidProperties.getFlowRate(), flowRateSamplesV,powerSamplesV));
 		} else {
 			pel.setValue(0);
 		}
@@ -407,8 +406,7 @@ public class Pump extends APhysicalComponent implements Floodable {
 		 * The mechanical power is given by the pressure and the voluminal flow:
 		 * Pmech = pFluid [Pa] * Vdot [m3/s]
 		 */
-		pmech.setValue(-fluidProperties.getFlowRate()
-				* fluidProperties.getPressureDrop());
+		pmech.setValue(-fluidProperties.getFlowRate() * fluidProperties.getPressureDrop());
 
 		/*
 		 * The Losses are the difference between electrical and mechanical power
@@ -416,10 +414,13 @@ public class Pump extends APhysicalComponent implements Floodable {
 		pth.setValue(pel.getValue() - pmech.getValue());
 
 		/* Losses */
-		heatLossMotor = pel.getValue()
-				* (1 - Algo.linearInterpolation(fluidProperties.getFlowRate(),
-						flowRateSamplesV, effMotorSamples));
-		heatLossFluid = pel.getValue() - heatLossMotor - pmech.getValue();
+		double curEff = Algo.linearInterpolation(fluidProperties.getFlowRate(), flowRateSamplesV, effMotorSamples);
+		if (pumpCtrl.getValue() > 0 & curEff<=1 & curEff>0)
+			heatLossMotor  = pel.getValue()*(1-curEff);
+		else
+			heatLossFluid = 0;
+		
+		heatLossFluid  = pth.getValue()-heatLossMotor;
 
 		/* Heat fluxes */
 
@@ -439,6 +440,9 @@ public class Pump extends APhysicalComponent implements Floodable {
 			htcPump = Fluid.convectionFreeCylinderVert(new Material("Air"),
 					fluid.getTemperature().getValue(),
 					temperatureAmb.getValue(), lengthPump, diameterPump);
+		
+		if(pumpCtrl.getValue()>0)
+			htcPump*=10;
 
 		// Structure
 		structure.setHeatInput(heatLossMotor);
@@ -513,8 +517,7 @@ public class Pump extends APhysicalComponent implements Floodable {
 			return;
 
 		double density = fluid.getMaterial().getDensity(temperature);
-		double viscosity = fluid.getMaterial().getViscosityKinematic(
-				temperature);
+		double viscosity = fluid.getMaterial().getViscosityKinematic(temperature);
 		updatePumpMap(density, viscosity);
 	}
 
@@ -563,11 +566,10 @@ public class Pump extends APhysicalComponent implements Floodable {
 			/* Update map */
 			for (int i = 0; i < flowRateSamples.length; i++) {
 
-				fH = 1 - (1 - fHopt)
-						* Math.pow(flowRateSamples[i] / flowRateBEP, .75);
+				fH = 1 - (1 - fHopt) * Math.pow(flowRateSamples[i] / flowRateBEP, .75);
 				flowRateSamplesV[i] = fQ * flowRateSamples[i];
 				pressureSamplesV[i] = fH * pressureSamples[i] * rho / 1000;
-				effPumpSamplesV[i] = fEta * effPumpSamples[i];
+				effPumpSamplesV[i]  = fEta * effPumpSamples[i];
 
 				if (flowRateSamples[i] == 0)
 					powerSamplesV[i] = powerSamples[i];
@@ -618,9 +620,14 @@ public class Pump extends APhysicalComponent implements Floodable {
 
 	@Override
 	public void updateBoundaryConditions() {
-		bcMotorHeatSrc.setValue(heatLossMotor);
-		bcPumpHeatSrc.setValue(heatLossFluid
-				- fluidProperties.getEnthalpyChange());
+		if(pumpCtrl.getValue() != 1){
+			bcMotorHeatSrc.setValue(0);
+			bcPumpHeatSrc.setValue(0);
+		}
+		else{
+			bcMotorHeatSrc.setValue(heatLossMotor);
+			bcPumpHeatSrc.setValue(heatLossFluid);
+		}
 		bcMotorHTC.setValue(htcMotor);
 		bcPumpHTC.setValue(htcPump);
 	}

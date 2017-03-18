@@ -164,5 +164,22 @@ public class DuctGraphElement extends PComposite{
 		super.removeFromParent();
 	}
 	
+	/**
+	 * Mark the node as selected or unselected
+	 * @param b
+	 */
+	public void setSelected(boolean b){
+		if(b){
+			box.setStrokeColor(Color.RED);
+			isolation.setStrokeColor(Color.ORANGE);
+			isolation.setPaint(Color.YELLOW);
+		}
+		else{
+			box.setStrokeColor(Color.BLACK);
+			isolation.setStrokeColor(Color.BLACK);
+			isolation.setPaint(Color.GRAY);
+		}
+	}
+	
 
 }

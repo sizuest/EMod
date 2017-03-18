@@ -31,7 +31,7 @@ import ch.ethz.inspire.emod.model.units.SiUnit;
 @XmlRootElement
 public class DuctPipe extends ADuctElement {
 	@XmlElement
-	private double roughness = 1E6;
+	private double roughness = 1E-6;
 	@XmlElement
 	private double length = 1;
 

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment/>
+<entry key="PolePairs">3</entry>
+<entry key="StaticFriction">0.3 Nm</entry>
+<entry key="KappaA">0.86 Wb</entry>
+<entry key="ArmatureResistance">0.181 Ohm</entry>
+<entry key="KappaI">0.03 Vs/rad</entry>
+</properties>

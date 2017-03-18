@@ -8,10 +8,10 @@
 <entry key="InitialValue_KühlungKernY1Achse_Position">0.0</entry>
 <entry key="InitialValue_Z2Achse_TemperatureStructure">293.15</entry>
 <entry key="InitialValue_KühlungCAchse_TemperatureStructure">293.15</entry>
-<entry key="simulationPeriod">1</entry>
+<entry key="simulationPeriod">1.0</entry>
 <entry key="InitialValue_PumpeTrommelfilter_TemperatureFluid">293.15</entry>
 <entry key="InitialValue_PumpeSindelkühlmittel1_TemperatureFluid">293.15</entry>
-<entry key="InitialValue_TankKühlöl_Mass">16.73055</entry>
+<entry key="InitialValue_TankKühlöl_Mass">20.549052000000003</entry>
 <entry key="InitialValue_Y2Achse_Position">0.0</entry>
 <entry key="InitialValue_Spindelkühlmittelpumpe1_TemperatureStructure">293.15</entry>
 <entry key="InitialValue_Y1Achse_TemperatureCoolant">293.15</entry>
@@ -32,7 +32,7 @@
 <entry key="InitialValue_1_5MPa_Spindelinnenkühlung_TemperatureStructure">293.15</entry>
 <entry key="InitialValue_BAchse_TemperatureStructure">293.15</entry>
 <entry key="InitialValue_Z1Achse_TemperatureStructure">293.15</entry>
-<entry key="InitialValue_TankKühlÖlRotachsen_Mass">16.73055</entry>
+<entry key="InitialValue_TankKühlÖlRotachsen_Mass">20.549052000000003</entry>
 <entry key="InitialValue_PumpeSpindelinnenkühlung_TemperatureStructure">293.15</entry>
 <entry key="InitialValue_KühlungKernZ2Achse_Position">0.0</entry>
 <entry key="InitialValue_Z1Achse_Position">0.0</entry>

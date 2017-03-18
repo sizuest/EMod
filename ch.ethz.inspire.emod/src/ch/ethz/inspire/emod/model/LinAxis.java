@@ -176,14 +176,14 @@ public class LinAxis extends APhysicalComponent implements Floodable {
 
 		/* Read the config parameter: */
 		try {
-			transmission = params.getDoubleValue("Transmission");
+			transmission = params.getPhysicalValue("Transmission", new SiUnit("m/rev")).getValue();
 			bearingType = params.getValue("BearingType", new String[0]);
-			massValue = params.getDoubleValue("Mass");
-			alpha = params.getDoubleValue("Alpha");
+			massValue = params.getPhysicalValue("Mass", new SiUnit("kg")).getValue();
+			alpha = params.getPhysicalValue("Alpha", new SiUnit("deg")).getValue();
 			motorType = params.getString("MotorType");
-			powerBrakeOn = params.getValue("PowerBreakOn", 0.0);
-			powerBrakeOff = params.getValue("PowerBreakOff", 0.0);
-			eta = params.getValue("TransmissionEfficiency", 1.0);
+			powerBrakeOn = params.getPhysicalValue("PowerBreakOn", new SiUnit("W")).getValue();
+			powerBrakeOff = params.getPhysicalValue("PowerBreakOff", new SiUnit("W")).getValue();
+			eta = params.getPhysicalValue("TransmissionEfficiency", new SiUnit()).getValue();
 
 			/* Sub Model Motor */
 			String[] mdlType = motorType.split("_", 2);
@@ -334,8 +334,8 @@ public class LinAxis extends APhysicalComponent implements Floodable {
 		/* Transmission */
 		plossTransmission = lastspeed * lastforce * (1/eta-1);
 		
-		lastrotspeed += lastspeed / transmission; // [Hz]
-		lasttorque   += transmission * lastforce / 2 / Math.PI  * (1/eta-1); // [Nm]
+		lastrotspeed = lastspeed / transmission; // [Hz]
+		lasttorque   = transmission * lastforce / 2 / Math.PI  * (1/eta); // [Nm]
 		
 		
 		/* Update sub model bearings */

@@ -70,7 +70,7 @@ public class SiUnit {
 	 * @param parent
 	 */
 	public void afterUnmarshal(Unmarshaller u, Object parent) {
-		this.set(this.unitText);
+		this.set(this.unitText.replace(" (!)", ""));
 	}
 
 	/**
@@ -108,7 +108,7 @@ public class SiUnit {
 		this.N = N;
 		this.J = J;
 
-		this.unitText = toString();
+		this.unitText = toString().replace(" (!)", "");
 	}
 
 	/**
@@ -120,6 +120,7 @@ public class SiUnit {
 	 */
 	public void set(String s) {
 		this.set(SiUnitDefinition.convertToBaseUnit(s).get());
+		unitText = s.replace(" (!)", "").trim();
 	}
 
 	/**
@@ -137,7 +138,7 @@ public class SiUnit {
 		this.J = u[6];
 		;
 
-		this.unitText = toString();
+		this.unitText = toString().replace(" (!)", "");
 	}
 
 	/**
@@ -212,6 +213,13 @@ public class SiUnit {
 	 */
 	@Override
 	public boolean equals(Object o) {
+		boolean nonSi = false;
+		for (int i = 0; i < this.get().length; i++)
+			nonSi = nonSi | (Double.isNaN(this.get()[i]));
+		if (nonSi & o instanceof SiUnit){
+			return unitText.equals(((SiUnit) o).unitText);
+		}
+		
 		try {
 			SiUnit u = (SiUnit) o;
 			if (this.L == u.L & this.M == u.M & this.T == u.T & this.I == u.I
@@ -230,5 +238,31 @@ public class SiUnit {
 	@Override
 	public String toString() {
 		return SiUnitDefinition.getString(this);
+	}
+	
+	/**
+	 * Returns a si save string, non si units are marked with (!).
+	 * @return 
+	 */
+	public String toSaveString() {
+		
+		String out = SiUnitDefinition.getString(this);
+		
+		/* Non Si Unit */
+		boolean nonSi = false;
+		for (int i = 0; i < this.get().length; i++)
+			nonSi = nonSi | (Double.isNaN(this.get()[i]));
+		if (nonSi){
+			out+=" (!)";
+		}
+		
+		return out;
+	}
+
+	/**
+	 * @return
+	 */
+	public String getUnitName() {
+		return unitText;
 	}
 }

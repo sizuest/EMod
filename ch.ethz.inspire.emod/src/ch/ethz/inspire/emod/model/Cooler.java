@@ -99,23 +99,17 @@ public class Cooler extends APhysicalComponent {
 	private void init() {
 		/* Define Input parameters */
 		inputs = new ArrayList<IOContainer>();
-		state = new IOContainer("State", new SiUnit(Unit.NONE), 0,
-				ContainerType.CONTROL);
-		temperature = new IOContainer("Temperature", new SiUnit(Unit.KELVIN),
-				293.15, ContainerType.CONTROL);
+		state = new IOContainer("State", new SiUnit(Unit.NONE), 0, ContainerType.CONTROL);
+		temperature = new IOContainer("Temperature", new SiUnit(Unit.KELVIN), 293.15, ContainerType.CONTROL);
 		inputs.add(state);
 		inputs.add(temperature);
 
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		ptotal = new IOContainer("PTotal", new SiUnit(Unit.WATT), 0,
-				ContainerType.ELECTRIC);
-		puse = new IOContainer("PUse", new SiUnit(Unit.WATT), 0,
-				ContainerType.MECHANIC);
-		ploss = new IOContainer("PLoss", new SiUnit(Unit.WATT), 0,
-				ContainerType.THERMAL);
-		pth_out = new IOContainer("PThermal", new SiUnit(Unit.WATT), 0,
-				ContainerType.THERMAL);
+		ptotal = new IOContainer("PTotal", new SiUnit(Unit.WATT), 0, ContainerType.ELECTRIC);
+		puse = new IOContainer("PUse", new SiUnit(Unit.WATT), 0, ContainerType.MECHANIC);
+		ploss = new IOContainer("PLoss", new SiUnit(Unit.WATT), 0, ContainerType.THERMAL);
+		pth_out = new IOContainer("PThermal", new SiUnit(Unit.WATT), 0, ContainerType.THERMAL);
 		outputs.add(ptotal);
 		outputs.add(ploss);
 		outputs.add(puse);
@@ -134,10 +128,10 @@ public class Cooler extends APhysicalComponent {
 
 		/* Read the config parameter: */
 		try {
-			pCompressor = params.getDoubleValue("CompressorPower");
-			epsilon = params.getDoubleValue("EERCooling");
-			tempOn = params.getDoubleValue("TemperatureHigh");
-			tempOff = params.getDoubleValue("TemperatureLow");
+			pCompressor = params.getPhysicalValue("CompressorPower", new SiUnit("W")).getValue();
+			epsilon = params.getPhysicalValue("EERCooling", new SiUnit("")).getValue();
+			tempOn = params.getPhysicalValue("TemperatureHigh", new SiUnit("K")).getValue();
+			tempOff = params.getPhysicalValue("TemperatureLow", new SiUnit("K")).getValue();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

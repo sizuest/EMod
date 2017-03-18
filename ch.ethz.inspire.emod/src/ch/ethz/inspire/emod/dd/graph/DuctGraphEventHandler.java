@@ -21,6 +21,7 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.widgets.Shell;
 import org.piccolo2d.PCamera;
+import org.piccolo2d.PNode;
 import org.piccolo2d.event.PInputEvent;
 import org.piccolo2d.extras.event.PSelectionEventHandler;
 import org.piccolo2d.extras.swt.PSWTPath;
@@ -272,5 +273,20 @@ public class DuctGraphEventHandler extends PSelectionEventHandler {
 
 		/* Adapt scale to camera */
 		selectionMarquee.setScale(event.getCamera().getScale());
+		
+	}
+	
+	@Override
+	public void decorateSelectedNode(PNode node){
+		if(node instanceof DuctGraphElement){
+			((DuctGraphElement) node).setSelected(true);
+		}
+	}
+	
+	@Override
+	public void undecorateSelectedNode(PNode node){
+		if(node instanceof DuctGraphElement){
+			((DuctGraphElement) node).setSelected(false);
+		}
 	}
 }

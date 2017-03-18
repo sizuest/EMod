@@ -2,9 +2,9 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <comment/>
-<entry key="PipeRoughness">1E-4</entry>
+<entry key="PipeRoughness">1.0E-4 m</entry>
 <entry key="PipeMaterial">PUR</entry>
-<entry key="PipeDiameter">0.01</entry>
-<entry key="PipeLength">0.5</entry>
-<entry key="PipeThickness">0.03</entry>
+<entry key="PipeDiameter">0.01 m</entry>
+<entry key="PipeLength">0.5 m</entry>
+<entry key="PipeThickness">0.03 m</entry>
 </properties>

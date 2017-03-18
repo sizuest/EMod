@@ -298,7 +298,7 @@ public class EModSimulationMain {
 		 * Time 0.0 s: All model and simulation outputs must be initiated.
 		 */
 		// Log data at time 0.0 s
-		simoutput.logData(time);
+		simoutput.logData(time, machineState.getState(0));
 		// Simulation mail loop:
 		while (time < machineState.simEndTime() & !forcedStop) {
 
@@ -338,10 +338,10 @@ public class EModSimulationMain {
 			}
 
 			/* Log data of the actual time sample */
-			simoutput.logData(time);
+			simoutput.logData(time, mstate);
 
 			if (doFEMOutput)
-				femoutput.logData(time);
+				femoutput.logData(time, mstate);
 
 			/* Update Progress */
 			progress = (int) (time / machineState.simEndTime() * 100);

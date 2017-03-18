@@ -38,7 +38,7 @@ public class States {
 	private static States statesMap = null;
 
 	/* Array for Time states */
-	private ArrayList<TimeStateMapper<MachineState>> timeStateMap = null;
+	private ArrayList<TimeStateMapper<MachineState>> timeStateMap = new ArrayList<TimeStateMapper<MachineState>>();
 
 	/**
 	 * Private constructor for singleton implementation.
@@ -139,7 +139,7 @@ public class States {
 			System.err.println("Format error in file '" + file + "' line "
 					+ linenr);
 			e.printStackTrace();
-			// System.exit(-1);
+			removeAllStates();
 		}
 	}
 
@@ -186,6 +186,9 @@ public class States {
 	 * @return Time
 	 */
 	public static Double getTime(int index) {
+		if(index>=getInstance().timeStateMap.size() | index<0)
+			return Double.NaN;
+		
 		return getInstance().timeStateMap.get(index).Time;
 	}
 
@@ -194,6 +197,9 @@ public class States {
 	 * @return Time
 	 */
 	public static Double getDuration(int index) {
+		if(index>=getInstance().timeStateMap.size() | index<0)
+			return Double.NaN;
+		
 		return getInstance().timeStateMap.get(index).Duration;
 	}
 
@@ -202,6 +208,9 @@ public class States {
 	 * @return Time
 	 */
 	public static MachineState getState(int index) {
+		if(index>=getInstance().timeStateMap.size() | index<0)
+			return MachineState.OFF;
+		
 		return getInstance().timeStateMap.get(index).State;
 	}
 

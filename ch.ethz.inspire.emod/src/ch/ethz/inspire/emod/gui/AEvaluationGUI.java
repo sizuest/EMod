@@ -24,6 +24,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import ch.ethz.inspire.emod.gui.utils.ConsumerData;
 import ch.ethz.inspire.emod.model.units.SiUnit;
+import ch.ethz.inspire.emod.simulation.MachineState;
 
 /**
  * abstract class for guis, containing logic to read sim data files.
@@ -33,11 +34,13 @@ import ch.ethz.inspire.emod.model.units.SiUnit;
  */
 public abstract class AEvaluationGUI extends AGUITab {
 
-	private static Logger logger = Logger.getLogger(AEvaluationGUI.class
-			.getName());
+	private static Logger logger = Logger.getLogger(AEvaluationGUI.class.getName());
 	private String dataFile;
 	protected List<ConsumerData> availableConsumers = new ArrayList<ConsumerData>();
 	private List<String[]> lines;
+	
+	private double[] time;
+	private MachineState[] states;
 
 	private boolean isReadingData = false;
 
@@ -86,6 +89,32 @@ public abstract class AEvaluationGUI extends AGUITab {
 		}
 		return result;
 	}
+	
+	private void getTimeVector(int col){
+		double[] values = new double[lines.size() - 3];
+		for (int i = 3; i < lines.size(); i++)
+			try {
+				values[i - 3] = Double.parseDouble(lines.get(i)[col]);
+			} catch (Exception e) {
+				System.err.print("Result file: Could not parse entier result file. Line " + i + " failed due to bad format.");
+				e.printStackTrace();
+			}
+		
+		time = values;
+	}
+	
+	private void getStateVector(int col){
+		MachineState[] values = new MachineState[lines.size() - 3];
+		for (int i = 3; i < lines.size(); i++)
+			try {
+				values[i - 3] = MachineState.valueOf(lines.get(i)[col]);
+			} catch (Exception e) {
+				System.err.print("Result file: Could not parse entier result file. Line " + i + " failed due to bad format.");
+				e.printStackTrace();
+			}
+		
+		states = values;
+	}
 
 	/**
 	 * creates a new consumer with a specified name
@@ -95,7 +124,7 @@ public abstract class AEvaluationGUI extends AGUITab {
 	 *            column in the data file
 	 */
 	private void createConsumer(String name, int col) {
-		ConsumerData data = new ConsumerData(name);
+		ConsumerData data = new ConsumerData(name, time, states);
 		String ioName = lines.get(1)[col].replace(name, "");
 		ioName = ioName.substring(1);
 		data.addName(ioName);
@@ -181,18 +210,15 @@ public abstract class AEvaluationGUI extends AGUITab {
 						logger.info("reading simulation data from file '"
 								+ dataFile + "'");
 
-						EModStatusBarGUI.getProgressBar().setText(
-								"Loading results file ...");
+						EModStatusBarGUI.getProgressBar().setText("Loading results file ...");
 						EModStatusBarGUI.getProgressBar().updateProgressbar(0);
 
 						availableConsumers = new ArrayList<ConsumerData>();
 						BufferedReader reader = null;
 						try {
-							reader = new BufferedReader(
-									new FileReader(dataFile));
+							reader = new BufferedReader(new FileReader(dataFile));
 						} catch (Exception e) {
-							System.err.print("Result file " + dataFile
-									+ " is non existent");
+							System.err.print("Result file " + dataFile + " is non existent");
 							return;
 						}
 
@@ -200,24 +226,39 @@ public abstract class AEvaluationGUI extends AGUITab {
 						String line = null;
 						try {
 							while ((line = reader.readLine()) != null) {
-								lines.add(line.split("\t")); // reading and
-																// splitting the
-																// first line
+								lines.add(line.split("\t")); // reading and splitting the first line
 							}
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
+						
 
 						// Check if result file is non-empty
 						if (0 == lines.size())
-							System.err.print("Result file " + dataFile
-									+ " is empty");
+							System.err.print("Result file " + dataFile + " is empty");
 						else {
 							String[] headerLine = lines.get(0);
+							
+							// Find time & state vector
+							for (int i = 0; i < headerLine.length; i++) {
+								String token = headerLine[i];
+								token = token.trim();
+								if (token.equals("Time")){
+									getTimeVector(i);
+									continue;
+								}
+								if (token.equals("State"))
+									getStateVector(i);
+									break;
+							}
+
+							// Add consumers
 							for (int i = 0; i < headerLine.length; i++) {
 								String token = headerLine[i];
 								token = token.trim();
 								if (token.equals("Time"))
+									continue;
+								if (token.equals("State"))
 									continue;
 								if (token.contains("Sim"))
 									continue;
@@ -228,9 +269,7 @@ public abstract class AEvaluationGUI extends AGUITab {
 								else
 									addDataToConsumer(consumer, i);
 
-								EModStatusBarGUI.getProgressBar()
-										.updateProgressbar(
-												i * 100 / headerLine.length);
+								EModStatusBarGUI.getProgressBar().updateProgressbar(i * 100 / headerLine.length);
 							}
 						}
 
@@ -239,6 +278,7 @@ public abstract class AEvaluationGUI extends AGUITab {
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
+						
 						for (ConsumerData cd : availableConsumers) {
 							cd.calculateEnergy();
 							cd.calculate();

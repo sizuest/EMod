@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project name="Create Runnable Jar for Project ch.ethz.inspire.emod.dd">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+	<taskdef name="swtjar" classname="org.swtjar.ant.SWTJarTask" classpath="./lib/swtjar.jar"/>
+	
+    <swtjar jarfile="./jars/EModMultiArch/EMod.jar" swtversion="4.5" targetmainclass="ch.ethz.inspire.emod.EModMain">
+        <manifest>
+            <attribute name="Main-Class" value="ch.ethz.inspire.emod.EModMain"/>
+            <attribute name="Class-Path" value="."/>
+        </manifest>
+        <fileset dir="./bin" includes="**/*.class"/>
+    	<fileset dir="./src" includes="lang/*"/>
+
+        <zipfileset excludes="META-INF/*.SF" src="./junit-4.9b3.jar"/>
+        <zipfileset excludes="META-INF/*.SF" src="./org.swtchart_0.7.0.v20110128.jar"/>
+        <zipfileset excludes="META-INF/*.SF" src="./ejml-v0.26-libs/EJML-core-0.26.jar"/>
+    	<zipfileset excludes="META-INF/*.SF" src="./piccolo2d.jar"/>
+    	<fileset dir="./lib" includes="swt-*-4.5.jar" />
+    	
+
+    </swtjar>
+	
+
+	
+	<copy file="./app.config" todir="./jars/EModMultiArch"/>
+
+	<copy todir="./jars/EModMultiArch/src/resources">
+		<fileset dir="./src/resources"/>
+	</copy>
+	
+	
+	<delete dir="./jars/EModMultiArch/MachineComponentDB"/>
+	<copy todir="./jars/EModMultiArch/MachineComponentDB">
+	    <fileset dir="./MachineComponentDB"/>
+	</copy>
+	
+	<delete dir="./jars/EModMultiArch/MaterialDB"/>
+	<copy todir="./jars/EModMultiArch/MaterialDB">
+	    <fileset dir="./MaterialDB"/>
+	</copy>
+	
+	<delete dir="./jars/EModMultiArch/DuctDB"/>
+	<copy todir="./jars/EModMultiArch/DuctDB">
+		<fileset dir="./DuctDB"/>
+	</copy>
+	
+	<delete dir="./jars/EModMultiArch/Machines/Schaublin42L_TMI3"/>
+	<copy todir="./jars/EModMultiArch/Machines/Schaublin42L_TMI3">
+		<fileset dir="./Machines/Schaublin42L_TMI3"/>
+	</copy>
+	
+	<delete dir="./jars/EModMultiArch/Machines/Rollomatic_628XS"/>
+	<copy todir="./jars/EModMultiArch/Machines/Rollomatic_628XS">
+		<fileset dir="./Machines/Rollomatic_628XS"/>
+	</copy>
+	    	
+	    	
+</project>

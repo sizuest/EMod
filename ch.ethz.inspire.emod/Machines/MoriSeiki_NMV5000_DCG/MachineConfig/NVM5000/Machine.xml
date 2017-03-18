@@ -3,7 +3,7 @@
     <machine>
         <machineComponent>
             <position>
-                <x>2875.510204081659</x>
+                <x>2874.266892076991</x>
                 <y>-761.2244897959246</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
@@ -87,8 +87,8 @@
         </machineComponent>
         <machineComponent>
             <position>
-                <x>492.4017558528403</x>
-                <y>1063.4667642140537</y>
+                <x>1207.3676711255548</x>
+                <y>946.5540988235468</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
@@ -99,8 +99,8 @@
         </machineComponent>
         <machineComponent>
             <position>
-                <x>1016.8552709946373</x>
-                <y>815.6640857653375</y>
+                <x>1735.5216697164283</x>
+                <y>668.5009869820909</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
@@ -111,8 +111,8 @@
         </machineComponent>
         <machineComponent>
             <position>
-                <x>1028.2608695652164</x>
-                <y>1008.2191780821919</y>
+                <x>1743.2267848379308</x>
+                <y>891.3065126916849</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
@@ -123,20 +123,8 @@
         </machineComponent>
         <machineComponent>
             <position>
-                <x>1033.6019339242587</x>
-                <y>1724.2195985005192</y>
-                <r>0.0</r>
-                <rotate>0.0</rotate>
-            </position>
-            <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>VKA495</type>
-            </component>
-            <name>PumpeSpäneEntfernen</name>
-        </machineComponent>
-        <machineComponent>
-            <position>
-                <x>1856.5217391304425</x>
-                <y>876.0869565217353</y>
+                <x>2565.7426005476855</x>
+                <y>760.4693300297854</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
@@ -147,68 +135,20 @@
         </machineComponent>
         <machineComponent>
             <position>
-                <x>1868.888384474124</x>
-                <y>1049.8153154082747</y>
+                <x>2583.854299746839</x>
+                <y>932.9026500177679</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
             <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
+                <type>NMV5000Düse_Trommelfilter</type>
             </component>
             <name>DüseTrommelfilter</name>
         </machineComponent>
         <machineComponent>
             <position>
-                <x>1490.0547887820821</x>
-                <y>1782.0267715407115</y>
-                <r>0.0</r>
-                <rotate>0.0</rotate>
-            </position>
-            <component xsi:type="pipe" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>NMV500Kabelträger</type>
-            </component>
-            <name>LeitungEntfernenSpänen</name>
-        </machineComponent>
-        <machineComponent>
-            <position>
-                <x>1886.5722317549673</x>
-                <y>1712.9349056259425</y>
-                <r>0.0</r>
-                <rotate>0.0</rotate>
-            </position>
-            <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
-            </component>
-            <name>DüseSpäne1</name>
-        </machineComponent>
-        <machineComponent>
-            <position>
-                <x>1897.7015220804142</x>
-                <y>1857.929492867386</y>
-                <r>0.0</r>
-                <rotate>0.0</rotate>
-            </position>
-            <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
-            </component>
-            <name>DüseSpäne2</name>
-        </machineComponent>
-        <machineComponent>
-            <position>
-                <x>1894.2778649921572</x>
-                <y>2002.0447409733283</y>
-                <r>0.0</r>
-                <rotate>0.0</rotate>
-            </position>
-            <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
-            </component>
-            <name>DüseSpäne3</name>
-        </machineComponent>
-        <machineComponent>
-            <position>
-                <x>623.8647492716775</x>
-                <y>-211.67327837351877</y>
+                <x>622.3147659212854</x>
+                <y>-261.2727455860677</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
@@ -315,18 +255,6 @@
         </machineComponent>
         <machineComponent>
             <position>
-                <x>1858.695652173926</x>
-                <y>1210.8695652173933</y>
-                <r>0.0</r>
-                <rotate>0.0</rotate>
-            </position>
-            <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Example</type>
-            </component>
-            <name>DüseSpindelinnenKühlung</name>
-        </machineComponent>
-        <machineComponent>
-            <position>
                 <x>1040.8787578255738</x>
                 <y>180.97774747412174</y>
                 <r>0.0</r>
@@ -340,7 +268,7 @@
         <machineComponent>
             <position>
                 <x>629.3043478260961</x>
-                <y>315.21739130434753</y>
+                <y>316.21739130434753</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
@@ -351,10 +279,10 @@
         </machineComponent>
         <machineComponent>
             <position>
-                <x>682.6086956521802</x>
-                <y>504.3478260869612</y>
-                <r>0.0</r>
-                <rotate>0.0</rotate>
+                <x>680.2560648763057</x>
+                <y>552.1846518630747</y>
+                <r>0.5</r>
+                <rotate>0.5</rotate>
             </position>
             <component xsi:type="cooler" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>AKZ438</type>
@@ -363,22 +291,10 @@
         </machineComponent>
         <machineComponent>
             <position>
-                <x>1031.000000000009</x>
-                <y>1230.434782608702</y>
-                <r>0.0</r>
-                <rotate>0.0</rotate>
-            </position>
-            <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>Grundfos_MTR1_21_21_AMAHUUV</type>
-            </component>
-            <name>PumpeSpindelinnenkühlung</name>
-        </machineComponent>
-        <machineComponent>
-            <position>
                 <x>655.2590266875978</x>
-                <y>3.4929356357936463</y>
-                <r>0.0</r>
-                <rotate>0.0</rotate>
+                <y>3.4929356357936285</y>
+                <r>0.5</r>
+                <rotate>0.5</rotate>
             </position>
             <component xsi:type="cooler" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>AKZ439</type>
@@ -387,39 +303,15 @@
         </machineComponent>
         <machineComponent>
             <position>
-                <x>1034.304347826096</x>
-                <y>1451.4782608695755</y>
+                <x>1024.5316146806367</x>
+                <y>-553.6452127123971</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
-            <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>VKA495</type>
+            <component xsi:type="constantComponent" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>MoriSeiki_NMV5000_Hydraulics</type>
             </component>
-            <name>PumpeSprühkühlmittel</name>
-        </machineComponent>
-        <machineComponent>
-            <position>
-                <x>1862.644188110048</x>
-                <y>1529.1925465838556</y>
-                <r>0.0</r>
-                <rotate>0.0</rotate>
-            </position>
-            <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>NMV5000Düse_hinten_rechts</type>
-            </component>
-            <name>Düse_Sprühkühlmittel_hinten_rechts</name>
-        </machineComponent>
-        <machineComponent>
-            <position>
-                <x>1863.220940550151</x>
-                <y>1367.2138420585645</y>
-                <r>0.0</r>
-                <rotate>0.0</rotate>
-            </position>
-            <component xsi:type="valve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <type>NMV5000_DüsenTotal_links</type>
-            </component>
-            <name>Düse_Sprühkühlmittel_links</name>
+            <name>Hydraulics</name>
         </machineComponent>
     </machine>
     <simulators>
@@ -429,8 +321,8 @@
                 <unitText>K</unitText>
             </unit>
             <position>
-                <x>-193.0232558139545</x>
-                <y>-323.25581395348956</y>
+                <x>355.6056715915617</x>
+                <y>884.0711215981808</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
@@ -453,8 +345,8 @@
                 <unitText>Pa</unitText>
             </unit>
             <position>
-                <x>-207.50493745885635</x>
-                <y>-244.30546412113534</y>
+                <x>321.2079715363259</x>
+                <y>323.4150266039571</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
@@ -489,8 +381,8 @@
                 <unitText>Hz</unitText>
             </unit>
             <position>
-                <x>1318.5589240729448</x>
-                <y>450.79670593949777</y>
+                <x>1728.8227599474458</x>
+                <y>429.2038724724188</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
@@ -501,8 +393,8 @@
                 <unitText>m/s</unitText>
             </unit>
             <position>
-                <x>1766.427364864872</x>
-                <y>46.157094594594945</y>
+                <x>1757.2963475355896</x>
+                <y>-28.717247505520902</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
@@ -513,8 +405,8 @@
                 <unitText>m/s</unitText>
             </unit>
             <position>
-                <x>1758.0604133545369</x>
-                <y>-687.8855325914168</y>
+                <x>1760.6835992027568</x>
+                <y>-537.3424991308466</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
@@ -525,8 +417,8 @@
                 <unitText>Hz</unitText>
             </unit>
             <position>
-                <x>1291.9544592030359</x>
-                <y>86.07210626185937</y>
+                <x>1704.4325948083756</x>
+                <y>216.16136441431289</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
@@ -537,8 +429,8 @@
                 <unitText>none</unitText>
             </unit>
             <position>
-                <x>700.0759013282733</x>
-                <y>950.7400379506635</y>
+                <x>1426.5316262063056</x>
+                <y>822.3375629548389</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
@@ -549,8 +441,8 @@
                 <unitText>none</unitText>
             </unit>
             <position>
-                <x>1223.2162162162203</x>
-                <y>-562.0540540540559</y>
+                <x>1390.3985948983973</x>
+                <y>-705.1971364551348</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
@@ -561,20 +453,8 @@
                 <unitText>Hz</unitText>
             </unit>
             <position>
-                <x>1289.4193548387084</x>
-                <y>0.7419354838710017</y>
-                <r>0.0</r>
-                <rotate>0.0</rotate>
-            </position>
-        </simController>
-        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>Proc_Spindelinnenkühlung</name>
-            <unit>
-                <unitText>none</unitText>
-            </unit>
-            <position>
-                <x>670.9494712103458</x>
-                <y>1360.3971797884885</y>
+                <x>1257.6902674844523</x>
+                <y>-395.8716564443412</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
@@ -585,32 +465,8 @@
                 <unitText>none</unitText>
             </unit>
             <position>
-                <x>697.2449869224091</x>
-                <y>814.5850043592001</y>
-                <r>0.0</r>
-                <rotate>0.0</rotate>
-            </position>
-        </simController>
-        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>Proc_Spähneschwemmen</name>
-            <unit>
-                <unitText>none</unitText>
-            </unit>
-            <position>
-                <x>693.9616390584123</x>
-                <y>1705.1054925893613</y>
-                <r>0.0</r>
-                <rotate>0.0</rotate>
-            </position>
-        </simController>
-        <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <name>Proc_Sprühkühlmittel</name>
-            <unit>
-                <unitText>none</unitText>
-            </unit>
-            <position>
-                <x>668.9050832038296</x>
-                <y>1451.2694742428346</y>
+                <x>1412.2109021951237</x>
+                <y>697.6723389686932</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
@@ -621,120 +477,1177 @@
                 <unitText>none</unitText>
             </unit>
             <position>
-                <x>1439.3337523570192</x>
-                <y>802.8372093023315</y>
+                <x>2274.5781847910444</x>
+                <y>869.4718665708709</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
+        </simController>
+        <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Ctrl_Hydraulics</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+            <position>
+                <x>737.3432520588128</x>
+                <y>-552.1697690397216</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
+        </simController>
+        <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Ctrl_PS</name>
+            <unit>
+                <unitText>none</unitText>
+            </unit>
+            <position>
+                <x>2704.5570450401497</x>
+                <y>-838.1187554741649</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
         </simController>
     </simulators>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
+    <linking>
+        <ioConnection>
+            <sourceName>Spindel.PTotal</sourceName>
+            <targetName>CNCSpindle.PDmd</targetName>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>TankKühlmittel.FluidOut</sourceName>
+            <targetName>PumpeSindelkühlmittel1.FluidIn</targetName>
+            <points>
+                <x>1632.1198716607848</x>
+                <y>971.1615439162711</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1680.5882486803134</x>
+                <y>753.0538473283965</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>DüseSpindelkühlmittel.FluidOut</sourceName>
+            <targetName>TankKühlmittel.FluidIn</targetName>
+            <points>
+                <x>2894.0835253248597</x>
+                <y>829.8518254983701</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>2903.8771056267597</x>
+                <y>1148.8421450196838</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1145.5430283278295</x>
+                <y>1149.18490657844</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1139.1243740760135</x>
+                <y>1060.076616341141</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>DüseTrommelfilter.FluidOut</sourceName>
+            <targetName>TankKühlmittel.FluidIn</targetName>
+            <points>
+                <x>2900.1420724523014</x>
+                <y>1001.5106607758748</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>2897.9831393775676</x>
+                <y>1150.8616607288304</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1147.5625440369772</x>
+                <y>1147.8934230650923</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1143.163405494308</x>
+                <y>1058.0571006319947</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>TankKühlmittel.FluidOut</sourceName>
+            <targetName>PumpeTrommelfilter.FluidIn</targetName>
+            <points>
+                <x>1632.119871660786</x>
+                <y>973.1810596254178</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>PumpeTrommelfilter.FluidOut</sourceName>
+            <targetName>DüseTrommelfilter.FluidIn</targetName>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>TankKühlöl.FluidOut</sourceName>
+            <targetName>PumpeÖltemperaturregler.FluidIn</targetName>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>Spindel.CoolantOut</sourceName>
+            <targetName>Y1Achse.CoolantIn</targetName>
+            <points>
+                <x>1949.3256782376234</x>
+                <y>-144.4315959165626</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1986.8825166749316</x>
+                <y>-483.3750916725921</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>Spindel.CoolantOut</sourceName>
+            <targetName>Y2Achse.CoolantIn</targetName>
+            <points>
+                <x>1952.7078057457074</x>
+                <y>-145.71268591384384</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1974.8723613675745</x>
+                <y>-324.3904220976128</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>Spindel.CoolantOut</sourceName>
+            <targetName>XAchse.CoolantIn</targetName>
+            <points>
+                <x>1943.0878731754817</x>
+                <y>-144.75062855767024</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>2000.4605969895433</x>
+                <y>-633.6334224472873</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>Spindel.CoolantOut</sourceName>
+            <targetName>Z2Achse.CoolantIn</targetName>
+            <points>
+                <x>1958.7125838207558</x>
+                <y>-132.3724705313422</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1999.012150930951</x>
+                <y>21.075881157479184</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>Spindel.CoolantOut</sourceName>
+            <targetName>Z1Achse.CoolantIn</targetName>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>Y1Achse.CoolantOut</sourceName>
+            <targetName>TankKühlöl.FluidIn</targetName>
+            <points>
+                <x>2382.4522411417306</x>
+                <y>-481.8155874289431</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>2396.402091295259</x>
+                <y>131.97781932634862</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1724.4087700906584</x>
+                <y>119.36408564638921</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1516.9298050374198</x>
+                <y>-40.23511824071669</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>538.5004668849817</x>
+                <y>-77.56581269552886</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>555.5793063292059</x>
+                <y>-176.36385096795425</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>Y2Achse.CoolantOut</sourceName>
+            <targetName>TankKühlöl.FluidIn</targetName>
+            <points>
+                <x>2377.8022910905515</x>
+                <y>-325.2672690393358</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>2393.3021245944738</x>
+                <y>128.87785262556434</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1729.1028643226325</x>
+                <y>116.54762910720495</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1518.8074427302101</x>
+                <y>-42.1127559335062</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>541.2157609391955</x>
+                <y>-79.6655097892958</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>554.6404874828114</x>
+                <y>-172.60857558237518</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>XAchse.CoolantOut</sourceName>
+            <targetName>TankKühlöl.FluidIn</targetName>
+            <points>
+                <x>2379.352274440946</x>
+                <y>-630.6139890665895</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>2401.0520413464355</x>
+                <y>135.07778602713296</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1724.40877009066</x>
+                <y>124.0581798783629</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1515.990986191026</x>
+                <y>-36.47984285513777</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>534.3010726974477</x>
+                <y>-75.46611560176196</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>554.6404874828114</x>
+                <y>-180.1191263535331</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>Z2Achse.CoolantOut</sourceName>
+            <targetName>TankKühlöl.FluidIn</targetName>
+            <points>
+                <x>2382.4522411417292</x>
+                <y>25.02896814929029</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>2384.002224492121</x>
+                <y>119.57795252321155</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1734.5592006778102</x>
+                <y>110.27805242085859</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1525.3114483748705</x>
+                <y>-46.27026596874864</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>550.5602761900547</x>
+                <y>-85.01984972855236</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>556.5181251756009</x>
+                <y>-165.09802481121739</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>Z1Achse.CoolantOut</sourceName>
+            <targetName>TankKühlöl.FluidIn</targetName>
+            <points>
+                <x>2377.8022910905534</x>
+                <y>-131.5193502403169</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>2390.2021578936906</x>
+                <y>124.22790257438788</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1728.1640454762385</x>
+                <y>113.73117256802072</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1522.5627181157904</x>
+                <y>-43.99039362629571</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>545.6372145277073</x>
+                <y>-82.48196632848</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>556.5181251756009</x>
+                <y>-168.8533001967963</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>XAchse.PTotal</sourceName>
+            <targetName>CNCXAchse.PDmd</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Y1Achse.PTotal</sourceName>
+            <targetName>CNCYAchse.PDmd</targetName>
+            <points>
+                <x>2395.7204549077064</x>
+                <y>-454.8479436514924</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Y2Achse.PTotal</sourceName>
+            <targetName>CNCYAchse.PDmd</targetName>
+            <points>
+                <x>2397.8364803480363</x>
+                <y>-445.3258291700105</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Z2Achse.PTotal</sourceName>
+            <targetName>CNCZAchse.PDmd</targetName>
+            <points>
+                <x>2399.9525057883657</x>
+                <y>-77.13740255271468</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Z1Achse.PTotal</sourceName>
+            <targetName>CNCZAchse.PDmd</targetName>
+            <points>
+                <x>2396.7784676278716</x>
+                <y>-90.89156791485507</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>CAchse.PTotal</sourceName>
+            <targetName>CNCRotAchsen.PDmd</targetName>
+            <points>
+                <x>2398.9853337784207</x>
+                <y>461.6724608047262</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>BAchse.PTotal</sourceName>
+            <targetName>CNCRotAchsen.PDmd</targetName>
+            <points>
+                <x>2349.763057057118</x>
+                <y>294.52181277196314</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>2453.3349309915284</x>
+                <y>456.5451403129234</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Ctrl_CNC</sourceName>
+            <targetName>CNCSpindle.State</targetName>
+            <points>
+                <x>2410.265438860383</x>
+                <y>-806.8266288672261</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>2464.6150360734955</x>
+                <y>-291.01818739188946</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Ctrl_CNC</sourceName>
+            <targetName>CNCXAchse.State</targetName>
+            <points>
+                <x>2417.4436875489105</x>
+                <y>-808.8775570639476</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>2447.182146401366</x>
+                <y>-690.9491857524889</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Ctrl_CNC</sourceName>
+            <targetName>CNCYAchse.State</targetName>
+            <points>
+                <x>2413.341831155469</x>
+                <y>-807.8520929655873</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>2454.360395089891</x>
+                <y>-477.6526532935025</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Ctrl_CNC</sourceName>
+            <targetName>CNCZAchse.State</targetName>
+            <points>
+                <x>2405.1381183685858</x>
+                <y>-805.8011647688663</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>2462.5641078767744</x>
+                <y>-115.66382657224167</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Ctrl_CNC</sourceName>
+            <targetName>CNCRotAchsen.State</targetName>
+            <points>
+                <x>2401.03626197514</x>
+                <y>-805.801164768866</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>2462.5641078767744</x>
+                <y>424.7557532637474</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Ctrl_Kühlung</sourceName>
+            <targetName>PumpeÖltemperaturregler.State</targetName>
+            <points>
+                <x>988.3371326645431</x>
+                <y>-325.12409660048615</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>995.1382971606073</x>
+                <y>-284.31710962410085</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>AmbientPressure</sourceName>
+            <targetName>TankKühlmittel.PressureAmb</targetName>
+            <points>
+                <x>503.1925035355831</x>
+                <y>347.43345645251765</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>503.19250353558283</x>
+                <y>642.1702985577809</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>AmbientPressure</sourceName>
+            <targetName>TankKühlöl.PressureAmb</targetName>
+            <points>
+                <x>526.761272972824</x>
+                <y>-234.03816541434622</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Ctrl_Achsen</sourceName>
+            <targetName>Spindel.State</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Ctrl_Achsen</sourceName>
+            <targetName>Y1Achse.State</targetName>
+            <points>
+                <x>1997.8641380815498</x>
+                <y>-688.4735778128974</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>2013.1547393545363</x>
+                <y>-554.3357632777197</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Proc_YAchse</sourceName>
+            <targetName>Y1Achse.Speed</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Ctrl_Achsen</sourceName>
+            <targetName>Y2Achse.State</targetName>
+            <points>
+                <x>1996.5657012487134</x>
+                <y>-687.6761919616221</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>2017.2217153665981</x>
+                <y>-399.9346815694185</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Proc_YAchse</sourceName>
+            <targetName>Y2Achse.Speed</targetName>
+            <points>
+                <x>1954.0863922354781</x>
+                <y>-521.0555132892067</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1983.4192419028125</x>
+                <y>-376.88583446379675</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Ctrl_Achsen</sourceName>
+            <targetName>XAchse.State</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Proc_XAchse</sourceName>
+            <targetName>XAchse.Speed</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Ctrl_Achsen</sourceName>
+            <targetName>Z2Achse.State</targetName>
+            <points>
+                <x>1994.7645497962312</x>
+                <y>-685.07316395338</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>2007.4453994349528</x>
+                <y>-45.32104004882454</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Proc_ZAchse</sourceName>
+            <targetName>Z2Achse.Speed</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Ctrl_Achsen</sourceName>
+            <targetName>Z1Achse.State</targetName>
+            <points>
+                <x>1995.020674287763</x>
+                <y>-685.3292884449118</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>2007.4453994349528</x>
+                <y>-206.1858749240813</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Proc_ZAchse</sourceName>
+            <targetName>Z1Achse.Speed</targetName>
+            <points>
+                <x>1993.8851192716863</x>
+                <y>-30.523240370692946</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>2004.8423400668266</x>
+                <y>-166.57539857700107</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Ctrl_Achsen</sourceName>
+            <targetName>CAchse.State</targetName>
+            <points>
+                <x>1853.0805443431323</x>
+                <y>-323.01113427323224</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1989.9759882673748</x>
+                <y>406.49748137569713</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Ctrl_Achsen</sourceName>
+            <targetName>BAchse.State</targetName>
+            <points>
+                <x>1858.484311866457</x>
+                <y>-324.81239011434053</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1962.9571506507461</x>
+                <y>229.97440894706722</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>AmbientPressure</sourceName>
+            <targetName>TankKühlÖlRotachsen.PressureAmb</targetName>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>CAchse.CoolantOut</sourceName>
+            <targetName>TankKühlÖlRotachsen.FluidIn</targetName>
+            <points>
+                <x>2366.170224138831</x>
+                <y>478.0250522210544</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>2371.8031372172054</x>
+                <y>559.7022918573964</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1036.8027376438818</x>
+                <y>482.71914645302843</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>577.7203217568532</x>
+                <y>476.14741452826513</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>576.7815029104586</x>
+                <y>405.73600104865983</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>BAchse.CoolantOut</sourceName>
+            <targetName>TankKühlÖlRotachsen.FluidIn</targetName>
+            <points>
+                <x>2356.6047105533153</x>
+                <y>317.86226806349316</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>2377.111634168279</x>
+                <y>567.363172045543</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1033.0474622583015</x>
+                <y>487.4132406850023</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>573.0262275248795</x>
+                <y>478.02505222105464</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>571.1485898320901</x>
+                <y>402.91954450947554</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>TankKühlÖlRotachsen.FluidOut</sourceName>
+            <targetName>PumpeKühlölRotachsen.FluidIn</targetName>
+            <points>
+                <x>1008.6381722520379</x>
+                <y>343.7739571866069</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1013.332266484012</x>
+                <y>245.19797831515896</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>TankKühlÖlRotachsen.TemperatureTank</sourceName>
+            <targetName>KühlerBCAchse.Temperature</targetName>
+            <points>
+                <x>987.9478961384481</x>
+                <y>356.4932446942873</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>984.0268448453238</x>
+                <y>569.0142247816088</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>KühlerBCAchse.PThermal</sourceName>
+            <targetName>TankKühlÖlRotachsen.HeatExchangerOut</targetName>
+            <points>
+                <x>560.1267043565031</x>
+                <y>599.0271974089428</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>559.3202527435998</x>
+                <y>374.0271974089436</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>PumpeKühlölRotachsen.FluidOut</sourceName>
+            <targetName>CAchse.CoolantIn</targetName>
+            <points>
+                <x>1874.6920056016852</x>
+                <y>304.19098565351777</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1961.8464309652788</x>
+                <y>468.24637457322234</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>PumpeKühlölRotachsen.FluidOut</sourceName>
+            <targetName>BAchse.CoolantIn</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>TankKühlöl.TemperatureTank</sourceName>
+            <targetName>KühlerXYZAchse.Temperature</targetName>
+            <points>
+                <x>976.8132698647777</x>
+                <y>-244.57664856272785</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>970.3624348560222</x>
+                <y>29.225459586681055</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>PumpeSindelkühlmittel1.FluidOut</sourceName>
+            <targetName>DüseSpindelkühlmittel.FluidIn</targetName>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>PumpeÖltemperaturregler.FluidOut</sourceName>
+            <targetName>Spindel.CoolantIn</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>AmbientTemperature</sourceName>
+            <targetName>TankKühlÖlRotachsen.TemperatureAmb</targetName>
+            <points>
+                <x>552.9515838984499</x>
+                <y>319.75009659640114</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>AmbientTemperature</sourceName>
+            <targetName>PumpeSindelkühlmittel1.TemperatureAmb</targetName>
+            <points>
+                <x>1576.0295424911767</x>
+                <y>769.0079849817839</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>AmbientTemperature</sourceName>
+            <targetName>PumpeTrommelfilter.TemperatureAmb</targetName>
+            <points>
+                <x>1309.2805171135567</x>
+                <y>800.090742709797</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1381.8826294845107</x>
+                <y>879.0927867879373</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1680.7578901929573</x>
+                <y>917.5318235406731</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>AmbientTemperature</sourceName>
+            <targetName>TankKühlöl.TemperatureAmb</targetName>
+            <points>
+                <x>576.0438790824951</x>
+                <y>-256.7054165422083</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>AmbientTemperature</sourceName>
+            <targetName>PumpeÖltemperaturregler.TemperatureAmb</targetName>
+            <points>
+                <x>579.8229036479504</x>
+                <y>-317.2992446113145</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>939.368748292881</x>
+                <y>-307.4410689107192</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>976.0950365716277</x>
+                <y>-270.7147806319723</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>AmbientTemperature</sourceName>
+            <targetName>PumpeKühlölRotachsen.TemperatureAmb</targetName>
+            <points>
+                <x>561.0296467350378</x>
+                <y>198.5791540475829</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>AmbientTemperature</sourceName>
+            <targetName>TankKühlmittel.TemperatureAmb</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Proc_Trommelfilter</sourceName>
+            <targetName>PumpeTrommelfilter.State</targetName>
+            <points>
+                <x>1669.494652406417</x>
+                <y>847.703208556149</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Proc_Spindelkühlmittel</sourceName>
+            <targetName>PumpeSindelkühlmittel1.State</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Ctrl_Kühlung</sourceName>
+            <targetName>PumpeKühlölRotachsen.State</targetName>
+            <points>
+                <x>992.1982202600452</x>
+                <y>-325.8506853476357</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1002.2774706126221</x>
+                <y>176.85378012209435</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Ctrl_Kühlung</sourceName>
+            <targetName>KühlerBCAchse.State</targetName>
+            <points>
+                <x>992.8852360078438</x>
+                <y>-323.4861867188103</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>996.9659347054826</x>
+                <y>509.0077178701905</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Ctrl_Kühlung</sourceName>
+            <targetName>KühlerXYZAchse.State</targetName>
+            <points>
+                <x>992.0317157174677</x>
+                <y>-323.3268588172488</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>991.092896871073</x>
+                <y>3.5319040872554712</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>CNCSpindle.PSupply</sourceName>
+            <targetName>CNCPowerSupply.PDmd</targetName>
+            <points>
+                <x>2745.539792092632</x>
+                <y>-283.3171862254686</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>2836.597460854992</x>
+                <y>-712.1035324980153</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>CNCXAchse.PSupply</sourceName>
+            <targetName>CNCPowerSupply.PDmd</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>CNCYAchse.PSupply</sourceName>
+            <targetName>CNCPowerSupply.PDmd</targetName>
+            <points>
+                <x>2742.8193262942063</x>
+                <y>-473.74979211527057</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>2813.5514370532755</x>
+                <y>-707.7098507798838</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>CNCZAchse.PSupply</sourceName>
+            <targetName>CNCPowerSupply.PDmd</targetName>
+            <points>
+                <x>2746.900024991845</x>
+                <y>-106.48690932779562</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>2845.4316085779806</x>
+                <y>-708.8911151442009</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>CNCRotAchsen.PSupply</sourceName>
+            <targetName>CNCPowerSupply.PDmd</targetName>
+            <points>
+                <x>2748.260257891058</x>
+                <y>437.60625035735217</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>2851.053338947156</x>
+                <y>-705.6786977903863</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>KühlerXYZAchse.PThermal</sourceName>
+            <targetName>TankKühlöl.HeatExchangerOut</targetName>
+            <points>
+                <x>510.7357089722991</x>
+                <y>61.82907036268202</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>535.6890545567884</x>
+                <y>-209.50011195128596</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Proc_Spindel</sourceName>
+            <targetName>Spindel.RotSpeed</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Proc_BAchse</sourceName>
+            <targetName>BAchse.Speed</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Proc_CAchse</sourceName>
+            <targetName>CAchse.Speed</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>On</sourceName>
+            <targetName>DüseSpindelkühlmittel.ValveCtrl</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>On</sourceName>
+            <targetName>DüseTrommelfilter.ValveCtrl</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Ctrl_Hydraulics</sourceName>
+            <targetName>Hydraulics.level</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Ctrl_PS</sourceName>
+            <targetName>CNCPowerSupply.State</targetName>
+            <points>
+                <x>2806.7545229869584</x>
+                <y>-818.5192391555996</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>2834.753832013477</x>
+                <y>-756.92075929725</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+    </linking>
 </ns2:machine>

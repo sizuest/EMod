@@ -1,0 +1,129 @@
+# Input - Output mapping
+# EL. MECH ===============================================================================================================
+# Spindle ---------------------------------
+C1.RotSpeed             = C1_n             # Turing speed from process parameters
+C1.Torque               = C1_Torque        # Torque from Kienzle
+C1_amp.State            = FanucCtrl
+C1_amp.PDmd             = C1.PTotal
+
+# X1-Axis ---------------------------------
+X1_ax.Speed             = X1_v
+X1_ax.ProcessForce      = X1_Force
+X1.BrakeOn              = AxisBrakeCtrl
+X1.RotSpeed             = X1_ax.RotSpeed
+X1.Torque               = X1_ax.Torque
+AxPower.Plus            = X1.PServo
+
+# Z1-Axis ---------------------------------
+Z1_ax.Speed             = Z1_v
+Z1_ax.ProcessForce      = Z1_Force
+Z1.BrakeOn              = AxisBrakeCtrl
+Z1.RotSpeed             = Z1_ax.RotSpeed
+Z1.Torque               = Z1_ax.Torque
+AxPower.Plus            = Z1.PServo
+Ax_amp.State            = FanucCtrl
+Ax_amp.PDmd             = AxPower.Sum
+
+# Revolver --------------------------------
+T1_pos.Tool             = Tool
+B1.RotSpeed             = T1_pos.RotSpeed
+B1.Torque               = T1_pos.Torque
+B1_amp.State            = FanucCtrl
+B1_amp.PDmd             = B1.PServo
+
+# Tailstock -------------------------------
+Z3_ax.Speed             = Zero
+Z3_ax.ProcessForce      = FClamp
+Z3.RotSpeed             = Z3_ax.RotSpeed
+Z3.Torque               = Z3_ax.Torque
+Z3_amp.State            = FanucCtrl
+Z3_amp.PDmd             = Z3.PServo
+
+# Fanuc: Sum ------------------------------
+FanucTotalPower.Plus    = C1_amp.PAmp
+FanucTotalPower.Plus    = Ax_amp.PAmp
+FanucTotalPower.Plus    = B1_amp.PAmp
+FanucTotalPower.Plus    = Z3_amp.PAmp
+
+# Control Power ---------------------------
+ControlPowerTransformer.Plus = Fan_in.PTotal
+ControlPowerTransformer.Plus = Fan_out.PTotal
+ControlPowerTransformer.Plus = X1.PBrake
+ControlPowerTransformer.Plus = Z1.PBrake
+ControlPowerTransformer.Plus = Z3.PBrake
+ControlPowerTransformer.Plus = B1.PBrake
+ControlPowerTransformer.Plus = C1_amp.PCtrl
+ControlPowerTransformer.Plus = Ax_amp.PCtrl
+ControlPowerTransformer.Plus = B1_amp.PCtrl
+ControlPowerTransformer.Plus = Z3_amp.PCtrl
+
+# Compressed air --------------------------
+CompressedAir.Flow           = SealingAirDemand
+CompressedAir.TemperatureAmb = AmbTemperature
+CompressedAir.PressureAmb    = AmbPressure
+
+# Auxilary --------------------------------
+SpindleCoolingCompressor.level    = SpindleCoolingController.Output
+SpindleCoolingPump.MassFlowOut    = SpindleCoolingCtrl
+
+CuttingFluidPump.MassFlowOut      = LubFlow
+ChipConveyor.level                = ChipConv
+
+Fan_in.level            = FanCtrl
+Fan_out.level           = FanCtrl
+
+# TOTAL -----------------------------------
+TotalPower.Plus     = FanucTotalPower.Sum
+TotalPower.Plus     = SpindleCoolingPump.PTotal
+TotalPower.Plus     = SpindleCoolingCompressor.PTotal
+TotalPower.Plus     = CuttingFluidPump.PTotal
+TotalPower.Plus     = ChipConveyor.ptotal
+TotalPower.Plus     = ControlPowerTransformer.Sum
+
+# THERMAL ================================================================================================================
+Thermal_SpindleTemperature.In                  = C1.PLoss										# Spindle loss -> Spindle
+Thermal_SpindleTemperature.In                  = Thermal_SpindleHeatExchanger.PLoss            # CF -> Spindle
+Thermal_SpindleTemperature.Out                 = Thermal_SpindleFreeFlow.PThermal12
+
+Thermal_SpindleFreeFlow.Temperature1           = Thermal_SpindleTemperature.Temperature
+Thermal_SpindleFreeFlow.Temperature2           = AmbTemperature
+
+Thermal_PumpLossToFluid.Input                  = SpindleCoolingPump.PLoss
+
+Thermal_CoolerTemperature.In                   = Thermal_PumpLossToFluid.Output        # CF Pump loss -> CF Tank
+Thermal_CoolerTemperature.In                   = Thermal_CoolerBackflow.PThermal12     # CF Backflow -> CF Tank
+Thermal_CoolerTemperature.Out                  = SpindleCoolingCompressor.PThermal	   # CF Tank -> Amb. by Compressor
+Thermal_CoolerTemperature.Out                  = Thermal_CoolerFreeFlow.PThermal12     # CF Tank -> Amb. (free)
+
+SpindleCoolingController.Input                 = Thermal_CoolerTemperature.Temperature   
+
+Thermal_SpindleHeatExchanger.TemperatureIn     = Thermal_CoolerTemperature.Temperature        
+Thermal_SpindleHeatExchanger.TemperatureAmb    = Thermal_SpindleTemperature.Temperature
+Thermal_SpindleHeatExchanger.MassFlow          = SpindleCoolingCtrl
+
+Thermal_CoolerBackflow.Temperature1            = Thermal_SpindleHeatExchanger.TemperatureOut    
+Thermal_CoolerBackflow.Temperature2            = Thermal_CoolerTemperature.Temperature
+Thermal_CoolerBackflow.MassFlow                = SpindleCoolingCtrl
+
+Thermal_CoolerFreeFlow.Temperature1            = Thermal_CoolerTemperature.Temperature
+Thermal_CoolerFreeFlow.Temperature2            = AmbTemperature
+
+Thermal_FanucTemperature.In                    = C1_amp.PLoss								 	# Amp Losses -> Cabinett air
+Thermal_FanucTemperature.In                    = Ax_amp.PLoss
+Thermal_FanucTemperature.In                    = B1_amp.PLoss
+Thermal_FanucTemperature.In                    = Z3_amp.PLoss
+Thermal_FanucTemperature.Out                   = Thermal_FanucFreeFlow.PThermal12
+
+Thermal_FanucFreeFlow.Temperature1             = Thermal_FanucTemperature.Temperature
+Thermal_FanucFreeFlow.Temperature2             = Thermal_CabinettTemperature.Temperature
+
+Thermal_CabinettTemperature.In                 = Thermal_FanucFreeFlow.PThermal12
+Thermal_CabinettTemperature.Out                = Thermal_CabinettAirFlow.PThermal12            # Cabinett -> Amb (forced)
+Thermal_CabinettTemperature.Out                = Thermal_CabinettFreeFlow.PThermal12           # Cabinett -> Amb (free)
+
+Thermal_CabinettAirFlow.Temperature1           = Thermal_CabinettTemperature.Temperature
+Thermal_CabinettAirFlow.Temperature2           = AmbTemperature
+Thermal_CabinettAirFlow.MassFlow               = Fan_out.MassFlow  
+
+Thermal_CabinettFreeFlow.Temperature1          = Thermal_CabinettTemperature.Temperature
+Thermal_CabinettFreeFlow.Temperature2          = AmbTemperature               

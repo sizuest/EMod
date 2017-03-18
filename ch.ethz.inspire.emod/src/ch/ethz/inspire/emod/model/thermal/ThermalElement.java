@@ -80,9 +80,7 @@ public class ThermalElement extends AThermalIntegrator {
 	 * @param volume
 	 */
 	public void setVolume(double volume) {
-		this.massState.setValue(volume
-				* this.material.getDensity(this.getTemperature().getValue(),
-						100000));
+		this.massState.setValue(volume * this.material.getDensity(this.getTemperature().getValue()));
 	}
 
 	/**

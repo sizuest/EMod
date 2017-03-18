@@ -144,8 +144,8 @@ public class Servodrive extends APhysicalComponent {
 		try {
 
 			motorType = params.getString("MotorType");
-			massStructure = params.getDoubleValue("StructureMass");
-			powerBreake = params.getDoubleValue("BreakePower");
+			massStructure = params.getPhysicalValue("StructureMass", new SiUnit("kg")).getValue();
+			powerBreake = params.getPhysicalValue("BreakePower", new SiUnit("W")).getValue();
 
 			String[] mdlType = motorType.split("_");
 

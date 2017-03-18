@@ -132,12 +132,11 @@ public class Revolver extends APhysicalComponent {
 
 		/* Read the config parameter: */
 		try {
-			theta = params.getDoubleValue("Inertia");
+			theta = params.getPhysicalValue("Inertia", new SiUnit("kg m^2")).getValue();
 			nTotal = params.getIntValue("NumberOfTools");
-			torqueMax = params.getDoubleValue("MaxTorque");
+			torqueMax = params.getPhysicalValue("MaxTorque", new SiUnit("Nm")).getValue();
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.exit(-1);
 		}
 		params.Close(); /* Model configuration file not needed anymore. */
 

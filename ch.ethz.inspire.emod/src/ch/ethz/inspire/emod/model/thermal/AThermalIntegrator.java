@@ -214,7 +214,7 @@ public abstract class AThermalIntegrator {
 			double flowRateOut, double p) {
 
 		/* Fluid properties */
-		double rho = material.getDensity(temperatureState.getValue(), p);
+		double rho = material.getDensity(temperatureState.getValue());
 
 		mDotIn.update(flowRateIn * rho);
 		mDotOut.update(flowRateOut * rho);

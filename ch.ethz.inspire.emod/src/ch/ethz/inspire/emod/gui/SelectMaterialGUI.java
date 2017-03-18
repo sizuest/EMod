@@ -86,29 +86,9 @@ public class SelectMaterialGUI extends Dialog {
 
 	private void createContents(final Shell shell) {
 		// create tree element and fill it with the components from the DB
-		treeMaterialDBView = new Tree(shell, SWT.SINGLE | SWT.BORDER
-				| SWT.V_SCROLL);
-		treeMaterialDBView.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
-				true, 2, 1));
+		treeMaterialDBView = new Tree(shell, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
+		treeMaterialDBView.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 		MaterialHandler.fillTree(treeMaterialDBView);
-
-		/* Select Button */
-		final Button selectComponentButton = new Button(shell, SWT.PUSH);
-		selectComponentButton.setText("OK");
-		selectComponentButton.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP,
-				false, false, 1, 1));
-		selectComponentButton.addSelectionListener(new SelectionListener() {
-			@Override
-			public void widgetSelected(SelectionEvent event) {
-				input = getSelectionToString();
-				shell.close();
-			}
-
-			@Override
-			public void widgetDefaultSelected(SelectionEvent event) {
-				// Not used
-			}
-		});
 
 		/* Close Button */
 		final Button closeComponentButton = new Button(shell, SWT.PUSH);
@@ -119,6 +99,23 @@ public class SelectMaterialGUI extends Dialog {
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				input = "";
+				shell.close();
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent event) {
+				// Not used
+			}
+		});
+		
+		/* Select Button */
+		final Button selectComponentButton = new Button(shell, SWT.PUSH);
+		selectComponentButton.setText("OK");
+		selectComponentButton.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, false, false, 1, 1));
+		selectComponentButton.addSelectionListener(new SelectionListener() {
+			@Override
+			public void widgetSelected(SelectionEvent event) {
+				input = getSelectionToString();
 				shell.close();
 			}
 

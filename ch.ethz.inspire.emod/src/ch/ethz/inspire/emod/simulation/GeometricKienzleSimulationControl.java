@@ -128,7 +128,7 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 			}
 			kappa = scr.getDoubleValue("kappa") * Math.PI / 180;
 			z = scr.getDoubleValue("z");
-			kc = scr.getDoubleValue("kc");
+			kc = scr.getDoubleValue("kc")/1E-6;
 
 			/* Read process parameter names */
 			n_name = scr.getString("n_name");
@@ -210,7 +210,7 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 				if (0 == n[i])
 					v[i] = 0;
 				else
-					v[i] = v[i] / (n[i]) * 1000; // m/s -> mm/U
+					v[i] = v[i] / (n[i]); // m/s -> m/U
 			}
 
 			v[i] = Math.abs(v[i]);
@@ -234,6 +234,7 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 					* Math.pow(f[i] * sinkappa, 1 - z) * d[i] / 2;
 		}
 		samples.set(ComponentState.PERIODIC.ordinal(), moments);
+		samples.set(ComponentState.CONTROLLED.ordinal(), moments);
 	}
 
 	protected void calculateForces(double[] f, double[] ap) {
@@ -246,6 +247,7 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 					* Math.pow(f[i] * sinkappa, 1 - z);
 		}
 		samples.set(ComponentState.PERIODIC.ordinal(), forces);
+		samples.set(ComponentState.CONTROLLED.ordinal(), forces);
 	}
 
 	/*
@@ -302,7 +304,6 @@ public class GeometricKienzleSimulationControl extends ASimulationControl {
 				}
 			} catch (Exception ex) {
 				ex.printStackTrace();
-				System.exit(-1);
 			}
 			simulationPeriod = periodLength;
 		}

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:duct xmlns:ns2="ch.ethz.inspire.emod">
+    <material>
+        <type>Vascomill-22</type>
+    </material>
+    <name>Spindle_Renaud-175-170200-DIA25_StructureDuct</name>
+    <elements>
+        <elements xsi:type="ductDefinedValues" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>DefinedValues</name>
+            <profile xsi:type="hpRectangular">
+                <height>0.002</height>
+                <width>0.01</width>
+            </profile>
+            <zeta>6.26E14</zeta>
+            <alpha>1000.0</alpha>
+            <surface>8.0E-5</surface>
+            <length>4.0</length>
+            <volume>1.0E-4</volume>
+        </elements>
+    </elements>
+</ns2:duct>

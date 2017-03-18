@@ -10,6 +10,11 @@ import ch.ethz.inspire.emod.model.fluid.FluidCircuit;
  * 
  */
 public class FluidConnection extends IOConnection {
+	
+	/**
+	 * required for un-marshaller
+	 */
+	public FluidConnection() {}
 
 	/**
 	 * create FluidConnection with two components, source has to have output

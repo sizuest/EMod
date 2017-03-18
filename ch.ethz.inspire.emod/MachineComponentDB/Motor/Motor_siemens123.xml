@@ -1,36 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-  <comment>
-    Model parameter definition
-    ==========================
-      Model : Motor 
-      Type  : siemens123
-    Parameters
-    ----------
-      PowerNominal [W]
-        Nominal mechanical power of motor.
-      RotspeedNominal [rpm]
-        Nominal rotational speed of motor.
-      PowerSamples [W]
-        Power samples used for linear interpolation of the efficiency.
-        The PowerSamples must be sorted, smallest value first.
-      RotspeedSamples [rpm]
-        Rotational speed samples used for linear interpolation of the efficiency.
-        The RotspeedSamples must be sorted, smallest value first.
-      EfficiencyMatrix [1]
-        The matrix value at the position p,r (EfficiencyMatrix[p,r])
-        corresponds to the motor efficiency when the motor is running
-        at power PowerSamples[p] and at rotational speed RotspeedSamples[r].
-  </comment>
-<entry key="RotspeedSamples">0.8, 1.2;</entry>
-<entry key="PowerSamples">0.6, 0.65, 1.2;</entry>
+<comment/>
+<entry key="RotspeedSamples">0.8, 1.2 m</entry>
+<entry key="PowerSamples">0.6, 0.65, 1.2 W</entry>
+<entry key="FrictionTorque">0.0 Nm</entry>
 <entry key="EfficiencyMatrix">
    0.5,  0.6;
    0.7,  0.8;
    0.75, 0.7;
   </entry>
-<entry key="FrictionTorque">0</entry>
 <entry key="RotspeedNominal">1000</entry>
 <entry key="PowerNominal">10.0</entry>
 </properties>

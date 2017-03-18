@@ -140,13 +140,12 @@ public class Transmission extends APhysicalComponent {
 			params = new ComponentConfigReader(getModelType(), type);
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.exit(-1);
 		}
 
 		/* Read the config parameter: */
 		try {
-			k = params.getDoubleValue("TransmissionRatio");
-			eta = params.getDoubleValue("Efficiency");
+			k = params.getPhysicalValue("TransmissionRatio", new SiUnit()).getValue();
+			eta = params.getPhysicalValue("Efficiency", new SiUnit()).getValue();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-<comment>File changed by user: simon</comment>
-<entry key="TemperatureSamples">293.15; 373.15</entry>
-<entry key="ThermalConductivity">0.127</entry>
-<entry key="ViscositySamples">0.0602; 0.0077</entry>
-<entry key="PressureSamples">100000</entry>
-<entry key="DensityMatrix">0.885; 0.885</entry>
-<entry key="HeatCapacity">1890</entry>
+<comment/>
+<entry key="TemperatureSamples">293.15, 373.15 K</entry>
+<entry key="ThermalConductivity">0.127 W/m/K</entry>
+<entry key="ViscositySamples">0.0602, 0.0077 m^-1 kg s^-1</entry>
+<entry key="DensityMatrix">0.885, 0.885 kg/m³</entry>
+<entry key="HeatCapacity">1890.0 J/kg/K</entry>
 </properties>

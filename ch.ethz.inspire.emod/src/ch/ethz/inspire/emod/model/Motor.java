@@ -150,10 +150,10 @@ public class Motor extends AMotor {
 
 		/* Read the config parameter: */
 		try {
-			powerSamples = params.getDoubleArray("PowerSamples");
-			rotspeedSamples = params.getDoubleArray("RotspeedSamples");
+			powerSamples = params.getPhysicalValue("PowerSamples", new SiUnit("W")).getValues();
+			rotspeedSamples = params.getPhysicalValue("RotspeedSamples", new SiUnit("rpm")).getValues();
 			efficiencyMatrix = params.getDoubleMatrix("EfficiencyMatrix");
-			frictionTorque = params.getDoubleValue("FrictionTorque");
+			frictionTorque = params.getPhysicalValue("FrictionTorque", new SiUnit("Nm")).getValue();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

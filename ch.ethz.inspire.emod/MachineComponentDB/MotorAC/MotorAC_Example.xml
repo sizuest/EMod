@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-<comment>File changed by user: sizuest</comment>
-<entry key="PolePairs">2</entry>
-<entry key="RatedFrequency">500</entry>
-<entry key="InductanceRotor">0.000267</entry>
-<entry key="InductanceMutal">0.00407</entry>
-<entry key="RatedVoltage">330</entry>
-<entry key="ResistanceStator">0.114</entry>
-<entry key="InductanceStator">0.000177</entry>
-<entry key="RatedRotSpeed">14700</entry>
-<entry key="MaxVoltage">380</entry>
-<entry key="ResistanceRotor">0.107</entry>
+<comment/>
+<entry key="PolePairs">2.0</entry>
+<entry key="RatedFrequency">500.0 Hz</entry>
+<entry key="InductanceRotor">2.67E-4 H</entry>
+<entry key="InductanceMutal">0.00407 H</entry>
+<entry key="RatedVoltage">330.0 V</entry>
+<entry key="ResistanceStator">0.114 Ohm</entry>
+<entry key="InductanceStator">1.77E-4 H</entry>
+<entry key="MaxVoltage">380.0 V</entry>
+<entry key="ResistanceRotor">0.107 Ohm</entry>
 </properties>

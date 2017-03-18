@@ -21,6 +21,7 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -31,6 +32,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlTransient;
 
 import ch.ethz.inspire.emod.dd.model.ADuctElement;
 import ch.ethz.inspire.emod.dd.model.AHydraulicProfile;
@@ -66,7 +68,10 @@ import ch.ethz.inspire.emod.utils.Undo;
 public class Duct implements Cloneable {
 	private Material material;
 	private String name;
+	@XmlTransient
 	private Undo<Duct> history;
+	@XmlTransient
+	private Duct rootDuct;
 
 	private static Logger logger = Logger.getLogger(DuctDesignerMain.class
 			.getName());
@@ -102,7 +107,7 @@ public class Duct implements Cloneable {
 	private void init() {
 		cleanUpFittings();
 
-		history = new Undo<Duct>(10, (new Duct()).clone(this));
+		history = new Undo<Duct>(10, (new Duct()).clone(getRootDuct()));
 	}
 
 	/**
@@ -210,8 +215,10 @@ public class Duct implements Cloneable {
 			logger.warning("Duct: initFromFile: " + name
 					+ "does not exist. Creating empty duct!");
 			return new Duct(name);
-		} else
+		} else{
+			duct.setName(name);
 			return duct;
+		}
 	}
 
 	/**
@@ -222,6 +229,8 @@ public class Duct implements Cloneable {
 	 */
 	public static Duct initFromFile(String path) {
 		Duct duct = null;
+		
+		
 
 		File file = new File(path);
 		if (!file.exists() || file.isDirectory())
@@ -233,7 +242,14 @@ public class Duct implements Cloneable {
 			duct = (Duct) um.unmarshal(new FileReader(path));
 		} catch (Exception e) {
 			e.printStackTrace();
+			return null;
 		}
+		
+		String[] pathParts = path.split(Pattern.quote(File.separator));
+		
+		if(pathParts.length>0)
+			duct.setName(pathParts[pathParts.length-1]);
+		
 		return duct;
 	}
 
@@ -294,12 +310,20 @@ public class Duct implements Cloneable {
 	}
 
 	/**
-	 * Saves the current instance as cml file at the path provided
+	 * Saves the current instance as xml file at the path provided
 	 * 
 	 * @param path
 	 */
 	public void saveToFile(String path) {
 		removeUnusedIsolations();
+		
+		try{
+			String[] pathParts = path.split(File.separator);
+			
+			if(pathParts.length>0)
+				this.setName(pathParts[pathParts.length-1]);
+		} catch(Exception e){}
+		
 		try {
 			JAXBContext context = JAXBContext.newInstance(Duct.class);
 			Marshaller m = context.createMarshaller();
@@ -377,9 +401,21 @@ public class Duct implements Cloneable {
 			}
 
 		if (null == history)
-			history = new Undo<Duct>(10, (new Duct()).clone(this));
+			history = new Undo<Duct>(10, (new Duct()).clone(getRootDuct()));
 
-		history.add((new Duct()).clone(this), "app.dd.actions.add");
+		getHistory().add((new Duct()).clone(getRootDuct()), "app.dd.actions.add");
+		
+		if(e instanceof DuctBypass)
+			((DuctBypass) e).setRootDuct(getRootDuct());
+	}
+
+	/**
+	 * @return
+	 */
+	private Duct getRootDuct() {
+		if(null==rootDuct)
+			return this;
+		return rootDuct;
 	}
 
 	/**
@@ -403,7 +439,7 @@ public class Duct implements Cloneable {
 
 		cleanUpFittings();
 
-		history.add((new Duct()).clone(this), "app.dd.actions.move");
+		getHistory().add((new Duct()).clone(getRootDuct()), "app.dd.actions.move");
 	}
 
 	/**
@@ -437,7 +473,7 @@ public class Duct implements Cloneable {
 
 		cleanUpFittings();
 
-		history.add((new Duct()).clone(this), "app.dd.actions.move");
+		getHistory().add((new Duct()).clone(getRootDuct()), "app.dd.actions.move");
 
 	}
 
@@ -473,7 +509,7 @@ public class Duct implements Cloneable {
 		elements.set(i, e);
 		reconnectFittings();
 
-		history.add((new Duct()).clone(this), "replace " + e.getName());
+		getHistory().add((new Duct()).clone(getRootDuct()), "replace " + e.getName());
 	}
 
 	/**
@@ -551,7 +587,7 @@ public class Duct implements Cloneable {
 		else
 			e.setName(getUniqueElementName(newname));
 
-		history.add((new Duct()).clone(this), "app.dd.actions.editname");
+		getHistory().add((new Duct()).clone(getRootDuct()), "app.dd.actions.editname");
 	}
 
 	/**
@@ -585,7 +621,7 @@ public class Duct implements Cloneable {
 			cleanUpFittings();
 		}
 
-		history.add((new Duct()).clone(this), "app.dd.actions.remove");
+		getHistory().add((new Duct()).clone(getRootDuct()), "app.dd.actions.remove");
 	}
 
 	/**
@@ -896,7 +932,7 @@ public class Duct implements Cloneable {
 		for (int i = elements.size() - 1; i >= 0; i--)
 			elements.remove(i);
 
-		history.clear((new Duct()).clone(this));
+		history.clear((new Duct()).clone(getRootDuct()));
 	}
 
 	/**
@@ -920,7 +956,7 @@ public class Duct implements Cloneable {
 	 * @return
 	 */
 	public Undo<Duct> getHistory(){
-		return history;
+		return getRootDuct().history;
 	}
 
 	/**
@@ -928,6 +964,17 @@ public class Duct implements Cloneable {
 	 */
 	public void undo() {
 		clone(this.history.undo());
+		
+		this.setRootDuct();
+	}
+	
+	/**
+	 * Undo the last edit
+	 */
+	public void redo() {
+		clone(this.history.redo());
+		
+		this.setRootDuct();
 	}
 
 
@@ -937,5 +984,31 @@ public class Duct implements Cloneable {
 	 */
 	public String getName() {
 		return name;
+	}
+	
+	/**
+	 * @param name
+	 */
+	public void setName(String name){
+		this.name = name;
+	}
+	
+	/**
+	 * @param rootDuct 
+	 */
+	@XmlTransient
+	public void setRootDuct(Duct rootDuct){
+		this.rootDuct = rootDuct;
+		
+		for(ADuctElement e: elements)
+			if(e instanceof DuctBypass)
+				((DuctBypass) e).setRootDuct(rootDuct);
+	}
+	
+	/**
+	 * 
+	 */
+	public void setRootDuct(){
+		this.setRootDuct(getRootDuct());
 	}
 }

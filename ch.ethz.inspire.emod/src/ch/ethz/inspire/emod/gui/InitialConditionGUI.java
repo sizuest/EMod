@@ -45,8 +45,7 @@ public class InitialConditionGUI extends AConfigGUI {
 
 		// Tabelle fuer Maschinenmodell initieren
 		tableSimParam = new Table(this.getContent(), SWT.BORDER);
-		tableSimParam.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
-				true, 1, 1));
+		tableSimParam.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		tableSimParam.setLinesVisible(true);
 		tableSimParam.setHeaderVisible(true);
 

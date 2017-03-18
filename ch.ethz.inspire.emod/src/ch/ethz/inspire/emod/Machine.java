@@ -82,7 +82,8 @@ import java.nio.file.StandardCopyOption;
 		FreeHeatTransfere.class, ASimulationControl.class,
 		RandomSimulationControl.class, ConstantSimulationControl.class,
 		StaticSimulationControl.class, ProcessSimulationControl.class,
-		GeometricKienzleSimulationControl.class })
+		GeometricKienzleSimulationControl.class,
+		IOConnection.class, FluidConnection.class})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Machine {
 
@@ -99,6 +100,8 @@ public class Machine {
 	private List<ASimulationControl> simulators;
 
 	/* List with component output->input connection */
+	@XmlElementWrapper(name = "linking")
+	@XmlElement(name = "ioConnection")
 	private List<IOConnection> connectionList;
 
 	/* Model reference */
@@ -144,7 +147,25 @@ public class Machine {
 		 * Link outputs to inputs /*
 		 * ******************************************************************
 		 */
-		makeInputOutputLinkList(path);
+		
+		for(int i=getInstance().getIOLinkList().size()-1; i>=0; i--)
+			if(!(getInstance().getIOLinkList().get(i).createIOConnection()))
+				getInstance().getIOLinkList().remove(i);
+				
+		/* Not used anymore, only for cold configs
+		 * 
+		 * Assumption: If ioList is still empty, try to load old config
+		 */
+		if(null == getInstance().getIOLinkList() | 
+				getInstance().getIOLinkList().size() == 0 ){
+			logger.info("No connections found. Trying to read old file");
+			try {
+				makeInputOutputLinkList(path);
+			} catch (Exception e) {
+				logger.warning("Trying to read old file failed");
+			}
+		}
+			
 
 		/* Check link list: Every input must be connected. */
 		checkMachineConfig();
@@ -164,16 +185,14 @@ public class Machine {
 		 * Generate path to machine config: e.g.
 		 * Machines/NDM200/MachineConfig/TestConfig1/
 		 */
-		String prefix = PropertiesHandler
-				.getProperty("app.MachineDataPathPrefix");
-		String path = prefix + "/" + machineName + "/"
-				+ Defines.MACHINECONFIGDIR + "/" + machineConfig + "/";
+		String prefix = PropertiesHandler.getProperty("app.MachineDataPathPrefix");
+		String path = prefix + "/" + machineName + "/" + Defines.MACHINECONFIGDIR + "/" + machineConfig + "/";
 
 		/* Saves the machine */
 		saveMachineToFile(path);
 
 		/* Saves the linking */
-		saveIOLinking(path);
+		//saveIOLinking(path);
 
 		/* Clean up old simulator configs */
 		cleanUpConfigurations(path);
@@ -538,7 +557,7 @@ public class Machine {
 		Machine.getInstance().connectionList = new ArrayList<IOConnection>();
 
 		/* Remove all inputs / outputs with reference */
-		for (MachineComponent mc : Machine.getInstance().componentList) {
+		for (MachineComponent mc : Machine.getInstance().getMachineComponentList()) {
 			for (int i = mc.getComponent().getInputs().size() - 1; i >= 0; i--)
 				if (mc.getComponent().getInputs().get(i).hasReference())
 					mc.getComponent().getInputs().remove(i);
@@ -949,6 +968,7 @@ public class Machine {
 		// Add to component list
 		getInstance().componentList.add(component);
 	}
+	
 
 	/**
 	 * Adds a new (non existent) machine component by its model type and
@@ -960,8 +980,7 @@ public class Machine {
 	 *            parameter set name
 	 * @return created machine component object
 	 */
-	public static MachineComponent addNewMachineComponent(String mdlType,
-			String paramType) {
+	public static MachineComponent addNewMachineComponent(String mdlType, String paramType) {
 
 		Object component = null;
 
@@ -989,6 +1008,32 @@ public class Machine {
 
 		return mc;
 
+	}
+	
+	/**
+	 * Creates  a new component by its model type and parameter set.
+	 * 
+	 * @param mdlType
+	 * @param paramType
+	 * @return
+	 */
+	public static APhysicalComponent createNewMachineComponent(String mdlType, String paramType) {
+
+		Object component = null;
+
+		// Try to create and parametrize the object
+		try {
+			// Get class and constructor objects
+			Class<?> cl = Class.forName("ch.ethz.inspire.emod.model." + mdlType);
+			Constructor<?> co = cl.getConstructor(String.class);
+			// initialize new component
+			component = co.newInstance(paramType);
+			return (APhysicalComponent) component;
+		} catch (Exception e) {
+			Exception ex = new Exception("Unable to create component " + mdlType + "(" + paramType + ")" + " : " + e.getMessage());
+			ex.printStackTrace();
+			return null;
+		}
 	}
 
 	/**
@@ -1170,14 +1215,8 @@ public class Machine {
 				// Go through all links, at test if current input is part of it
 				// If so, delete it
 				for (int j = 1; j < getInstance().getIOLinkList().size(); j++) {
-					if (getInstance().getIOLinkList().get(j).getSource()
-							.equals(mc.getComponent().getInputs().get(i))
-							|| getInstance()
-									.getIOLinkList()
-									.get(j)
-									.getTarget()
-									.equals(mc.getComponent().getInputs()
-											.get(i)))
+					if (getInstance().getIOLinkList().get(j).getSource().equals(mc.getComponent().getInputs().get(i))
+							|| getInstance().getIOLinkList().get(j).getTarget().equals(mc.getComponent().getInputs().get(i)))
 						getInstance().getIOLinkList().remove(j);
 				}
 			}

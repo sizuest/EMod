@@ -40,4 +40,8 @@ public class Defines {
 	 * SIMULATION CONFIG FILE
 	 */
 	public static final String SIMULATIONCONFIGFILE = "Simulation.xml";
+	/**
+	 * TEMP FILE SPACE
+	 */
+	public static final String TEMPFILESPACE = "Temp";
 }

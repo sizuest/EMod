@@ -115,25 +115,18 @@ public class Amplifier extends APhysicalComponent {
 		/* Define Input parameters */
 		inputs = new ArrayList<IOContainer>();
 		inputsDyn = new ArrayList<IOContainer>();
-		state = new IOContainer("State", new SiUnit(Unit.NONE), 0,
-				ContainerType.CONTROL);
-		pdmd = new IOContainer("PDmd", new SiUnit(Unit.WATT), 0,
-				ContainerType.ELECTRIC);
+		state = new IOContainer("State", new SiUnit(Unit.NONE), 0, ContainerType.CONTROL);
+		pdmd = new IOContainer("PDmd", new SiUnit(Unit.WATT), 0, ContainerType.ELECTRIC);
 		inputs.add(state);
 		inputs.add(pdmd);
 
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		psupply = new IOContainer("PSupply", new SiUnit(Unit.WATT), 0,
-				ContainerType.ELECTRIC);
-		ploss = new IOContainer("PLoss", new SiUnit(Unit.WATT), 0,
-				ContainerType.THERMAL);
-		ptotal = new IOContainer("PTotal", new SiUnit(Unit.WATT), 0,
-				ContainerType.ELECTRIC);
-		puse = new IOContainer("PUse", new SiUnit(Unit.WATT), 0,
-				ContainerType.ELECTRIC);
-		efficiency = new IOContainer("Efficiency", new SiUnit(Unit.NONE), 0,
-				ContainerType.INFORMATION);
+		psupply = new IOContainer("PSupply", new SiUnit(Unit.WATT), 0, ContainerType.ELECTRIC);
+		ploss = new IOContainer("PLoss", new SiUnit(Unit.WATT), 0, ContainerType.THERMAL);
+		ptotal = new IOContainer("PTotal", new SiUnit(Unit.WATT), 0, ContainerType.ELECTRIC);
+		puse = new IOContainer("PUse", new SiUnit(Unit.WATT), 0, ContainerType.ELECTRIC);
+		efficiency = new IOContainer("Efficiency", new SiUnit(Unit.NONE), 0, ContainerType.INFORMATION);
 		outputs.add(psupply);
 		outputs.add(ploss);
 		outputs.add(ptotal);
@@ -142,8 +135,7 @@ public class Amplifier extends APhysicalComponent {
 
 		/* Boundary conditions */
 		boundaryConditions = new ArrayList<BoundaryCondition>();
-		bcHeatSrc = new BoundaryCondition("HeatSource", new SiUnit("W"), 0,
-				BoundaryConditionType.NEUMANN);
+		bcHeatSrc = new BoundaryCondition("HeatSource", new SiUnit("W"), 0, BoundaryConditionType.NEUMANN);
 		boundaryConditions.add(bcHeatSrc);
 
 		/* *********************************************************************** */
@@ -159,9 +151,9 @@ public class Amplifier extends APhysicalComponent {
 
 		/* Read the config parameter: */
 		try {
-			powerSamples = params.getDoubleArray("PowerSamples");
-			efficiencyVector = params.getDoubleArray("Efficiency");
-			powerCtrl = params.getDoubleValue("PowerCtrl");
+			powerSamples     = params.getPhysicalValue("PowerSamples", new SiUnit("W")).getValues();
+			efficiencyVector = params.getPhysicalValue("Efficiency", new SiUnit("")).getValues();
+			powerCtrl        = params.getPhysicalValue("PowerCtrl", new SiUnit("W")).getValue();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -238,7 +230,7 @@ public class Amplifier extends APhysicalComponent {
 		pdmd.setValue(psum);
 
 		if (0 != state.getValue()) {
-			puse.setValue(0);
+			
 			/*
 			 * Get efficiency from the configured sample values by linear
 			 * interpolation.
@@ -250,9 +242,10 @@ public class Amplifier extends APhysicalComponent {
 			 * The power loss depends on the efficiency of the amp for the
 			 * actual working point
 			 */
-			ptotal.setValue(pdmd.getValue() * (1 / eff - 1) + powerCtrl);
+			ptotal.setValue(pdmd.getValue() * (1 / eff) + powerCtrl);
+			puse.setValue(pdmd.getValue());
 			psupply.setValue(pdmd.getValue() * 1 / eff);
-			ploss.setValue(ptotal.getValue());
+			ploss.setValue(ptotal.getValue()-pdmd.getValue());
 			efficiency.setValue(pdmd.getValue()
 					/ (pdmd.getValue() + ptotal.getValue()));
 		} else {

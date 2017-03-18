@@ -1,43 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-  <comment>
-    Model parameter definition
-    ==========================
-      Model : PumpFluid
-      Type  : Spandau Vogel PV 80/180
-    Parameters
-    ----------
-      PressureSamples [Pa]
-        Array of operation points for the pump
-	  FlowRateSamples [m^3/s]
-		Array of corresponding flow rate to the given pressure samples
-      ElectricalPower [W]
-      	Electrical power of the pump if running
-      Mass [kg]
-      	Structural mass
-      Material [-]
-      	Structural material
-      EfficiencySamples [-]
-      	Pump efficiency samples
-      
-  </comment>
-  <entry key="PressureSamples">827370 779108 723950 655002 565370 475738 358527 241317</entry>
-  <entry key="FlowRateSamples">0 0.000188 0.000377 0.000566 0.000754 0.000943 0.00113 0.00132</entry>
-  <entry key="PowerSamples">1925 1925 1925 1925 1925 1925 1925 1925</entry>
-  <entry key="EfficiencySamples">0 .3 .35 .4 .42 .4 .35 .3</entry>
-
-	<entry key="MassFluid">.5</entry>
-	<entry key="MassMotor">2</entry>
-	<entry key="HasMotorCooling">1</entry>
-	<entry key="IsSubmerged">0</entry>
-	<entry key="DiameterPump">.1</entry>
-	<entry key="LengthPump">.1</entry>
-	<entry key="DiameterMotor">.2</entry>
-	<entry key="LengthMotor">.2</entry>
-	<entry key="NominalRotSpeed">1500</entry>
-	<entry key="NumberImpellerEyes">1</entry>
-	<entry key="NumberStages">1</entry>
-	<entry key="NominalFlowRate">0.000754</entry>
-	<entry key="NominalPressure">565370</entry>
+<comment/>
+<entry key="IsSubmerged">true</entry>
+<entry key="NominalRotSpeed">1500.0 RPM</entry>
+<entry key="DiameterMotor">0.2 m</entry>
+<entry key="DiameterPump">0.1 m</entry>
+<entry key="FlowRateSamples">0.0, 1.88E-4, 3.77E-4, 5.66E-4, 7.54E-4, 9.43E-4, 0.00113, 0.00132 m³/s</entry>
+<entry key="LengthPump">0.1 m</entry>
+<entry key="MaxTemperatureDifference">25.0 K</entry>
+<entry key="PowerSamples">1650.0, 1650.0, 1650.0, 1650.0, 1650.0, 1650.0, 1650.0, 1650.0 W</entry>
+<entry key="EfficiencySamples">0.0, 0.1138, 0.2121, 0.2881, 0.3312, 0.3486, 0.3148, 0.2475 none</entry>
+<entry key="NumberImpellerEyes">0</entry>
+<entry key="LengthMotor">0.2 m</entry>
+<entry key="HasMotorCooling">true</entry>
+<entry key="NumberStages">0</entry>
+<entry key="MassMotor">10.0 kg</entry>
+<entry key="PressureSamples">827370.0, 779108.0, 723950.0, 655002.0, 565370.0, 475738.0, 358527.0, 241317.0 Pa</entry>
+<entry key="MassFluid">0.5 kg</entry>
 </properties>

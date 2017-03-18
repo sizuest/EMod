@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment/>
+<entry key="samplePeriod">1</entry>
+<entry key="ON">1</entry>
+<entry key="STANDBY_state">ON</entry>
+<entry key="CONTROLLED">0</entry>
+<entry key="READY_state">ON</entry>
+<entry key="ON_state">ON</entry>
+<entry key="PERIODIC">0</entry>
+<entry key="STANDBY">0</entry>
+<entry key="OFF">0</entry>
+<entry key="OFF_state">OFF</entry>
+<entry key="PROCESS_state">ON</entry>
+</properties>

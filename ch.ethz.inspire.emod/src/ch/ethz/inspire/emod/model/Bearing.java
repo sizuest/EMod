@@ -120,16 +120,11 @@ public class Bearing extends APhysicalComponent {
 	private void init() {
 		/* Define Input parameters */
 		inputs = new ArrayList<IOContainer>();
-		forceAxial = new IOContainer("ForceAxial", new SiUnit(Unit.NEWTON), 0,
-				ContainerType.MECHANIC);
-		forceRadial = new IOContainer("ForceRadial", new SiUnit(Unit.NEWTON),
-				0, ContainerType.MECHANIC);
-		rotSpeed = new IOContainer("RotSpeed", new SiUnit(Unit.REVOLUTIONS_S),
-				0, ContainerType.MECHANIC);
-		temperature1 = new IOContainer("Temperature1", new SiUnit(Unit.KELVIN),
-				293.15, ContainerType.THERMAL);
-		temperature2 = new IOContainer("Temperature2", new SiUnit(Unit.KELVIN),
-				293.15, ContainerType.THERMAL);
+		forceAxial = new IOContainer("ForceAxial", new SiUnit(Unit.NEWTON), 0, ContainerType.MECHANIC);
+		forceRadial = new IOContainer("ForceRadial", new SiUnit(Unit.NEWTON), 0, ContainerType.MECHANIC);
+		rotSpeed = new IOContainer("RotSpeed", new SiUnit(Unit.REVOLUTIONS_S), 0, ContainerType.MECHANIC);
+		temperature1 = new IOContainer("Temperature1", new SiUnit(Unit.KELVIN), 293.15, ContainerType.THERMAL);
+		temperature2 = new IOContainer("Temperature2", new SiUnit(Unit.KELVIN), 293.15, ContainerType.THERMAL);
 		inputs.add(forceAxial);
 		inputs.add(forceRadial);
 		inputs.add(rotSpeed);
@@ -139,14 +134,10 @@ public class Bearing extends APhysicalComponent {
 
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		torque = new IOContainer("Torque", new SiUnit(Unit.NEWTONMETER), 0,
-				ContainerType.MECHANIC);
-		ploss = new IOContainer("PLoss", new SiUnit(Unit.WATT), 0,
-				ContainerType.THERMAL);
-		heatFlux1 = new IOContainer("HeatFlux", new SiUnit(Unit.WATT), 0,
-				ContainerType.THERMAL);
-		heatFlux2 = new IOContainer("HeatFlux", new SiUnit(Unit.WATT), 0,
-				ContainerType.THERMAL);
+		torque = new IOContainer("Torque", new SiUnit(Unit.NEWTONMETER), 0, ContainerType.MECHANIC);
+		ploss = new IOContainer("PLoss", new SiUnit(Unit.WATT), 0, ContainerType.THERMAL);
+		heatFlux1 = new IOContainer("HeatFlux", new SiUnit(Unit.WATT), 0, ContainerType.THERMAL);
+		heatFlux2 = new IOContainer("HeatFlux", new SiUnit(Unit.WATT), 0, ContainerType.THERMAL);
 		outputs.add(torque);
 		outputs.add(ploss);
 		outputs.add(heatFlux1);
@@ -154,12 +145,9 @@ public class Bearing extends APhysicalComponent {
 
 		/* Boundary conditions */
 		boundaryConditions = new ArrayList<BoundaryCondition>();
-		bcHeatSrcOuter = new BoundaryCondition("HeatSrcOuter", new SiUnit("W"),
-				0, BoundaryConditionType.NEUMANN);
-		bcHeatSrcInner = new BoundaryCondition("HeatSrcInner", new SiUnit("W"),
-				0, BoundaryConditionType.NEUMANN);
-		bcHTC = new BoundaryCondition("HTC", new SiUnit("W/K"), 0,
-				BoundaryConditionType.ROBIN);
+		bcHeatSrcOuter = new BoundaryCondition("HeatSrcOuter", new SiUnit("W"), 0, BoundaryConditionType.NEUMANN);
+		bcHeatSrcInner = new BoundaryCondition("HeatSrcInner", new SiUnit("W"), 0, BoundaryConditionType.NEUMANN);
+		bcHTC = new BoundaryCondition("HTC", new SiUnit("W/K"), 0, BoundaryConditionType.ROBIN);
 		boundaryConditions.add(bcHeatSrcOuter);
 		boundaryConditions.add(bcHeatSrcInner);
 		boundaryConditions.add(bcHTC);
@@ -173,17 +161,16 @@ public class Bearing extends APhysicalComponent {
 			params = new ComponentConfigReader(getModelType(), type);
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.exit(-1);
 		}
 
 		/* Read the config parameter: */
 		try {
 			// Load specific parameters
-			bearingRm = params.getDoubleValue("MeanDiameter") / 2;
-			bearingA = params.getDoubleValue("ContactAngle");
-			bearingF0 = params.getDoubleValue("LubricationFactor");
-			bearingC0 = params.getDoubleValue("C0");
-			bearingNumBodies = params.getIntValue("NumRollingBodies");
+			bearingRm = params.getPhysicalValue("MeanDiameter", new SiUnit("m")).getValue() / 2;
+			bearingA  = params.getPhysicalValue("ContactAngle", new SiUnit("deg")).getValue();
+			bearingF0 = params.getPhysicalValue("LubricationFactor", new SiUnit("")).getValue();
+			bearingC0 = params.getPhysicalValue("C0", new SiUnit("N")).getValue();
+			bearingNumBodies = (int) params.getPhysicalValue("NumRollingBodies", new SiUnit("")).getValue();
 
 			lubricant = new Material(params.getString("LubricantMaterial"));
 
@@ -299,15 +286,11 @@ public class Bearing extends APhysicalComponent {
 		double nu;
 
 		/* Viscosity Lubricant */
-		nu = lubricant
-				.getViscosityKinematic((temperature2.getValue() + temperature1
-						.getValue()) / 2);
+		nu = lubricant.getViscosityKinematic((temperature2.getValue() + temperature1.getValue()) / 2)*1E-6;
 
 		// Equivalent load
-		P0 = bearingX0 * forceRadial.getValue() + bearingY0
-				* forceAxial.getValue();
-		P1 = Math.max(forceAxial.getValue(), bearingX1 * forceRadial.getValue()
-				+ bearingY1 * forceAxial.getValue());
+		P0 = bearingX0 * forceRadial.getValue() + bearingY0 * forceAxial.getValue();
+		P1 = Math.max(forceAxial.getValue(), bearingX1 * forceRadial.getValue() + bearingY1 * forceAxial.getValue());
 
 		/*
 		 * SOURCE: Harris, A., Rolling Bearing Analysis, John Wiley & Sons Inc.,

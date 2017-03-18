@@ -71,6 +71,7 @@ public class Tank extends APhysicalComponent implements Floodable {
 
 	// Boundary condition
 	private BoundaryCondition bcTankTemp;
+	private BoundaryCondition bcHeatFlux;
 
 	// Dynamic In- and outputs
 	private ArrayList<FluidContainer> inputsDyn;
@@ -165,9 +166,10 @@ public class Tank extends APhysicalComponent implements Floodable {
 
 		/* Boundary conditions */
 		boundaryConditions = new ArrayList<BoundaryCondition>();
-		bcTankTemp = new BoundaryCondition("Temperature", new SiUnit("K"),
-				293.15, BoundaryConditionType.DIRICHLET);
+		bcTankTemp = new BoundaryCondition("Temperature", new SiUnit("K"), 293.15, BoundaryConditionType.DIRICHLET);
+		bcHeatFlux = new BoundaryCondition("HeatFluxToAmbient", new SiUnit("W"), 0, BoundaryConditionType.NEUMANN);
 		boundaryConditions.add(bcTankTemp);
+		boundaryConditions.add(bcHeatFlux);
 
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
@@ -189,7 +191,7 @@ public class Tank extends APhysicalComponent implements Floodable {
 
 		/* Read the config parameter: */
 		try {
-			volume = params.getDoubleValue("Volume");
+			volume = params.getPhysicalValue("Volume", new SiUnit("m^3")).getValue();
 			length = Math.pow(volume, .333);
 			width = Math.pow(volume, .333);
 			height = Math.pow(volume, .333);
@@ -198,9 +200,9 @@ public class Tank extends APhysicalComponent implements Floodable {
 			System.out
 					.println("no property 'Volume', checking for 'Length'/'Depth'/'Height':");
 			try {
-				length = params.getDoubleValue("Length");
-				width = params.getDoubleValue("Width");
-				height = params.getDoubleValue("Height");
+				length = params.getPhysicalValue("Length", new SiUnit("m")).getValue();
+				width = params.getPhysicalValue("Width", new SiUnit("m")).getValue();
+				height = params.getPhysicalValue("Height", new SiUnit("m")).getValue();
 				volume = length * width * height;
 				surface = 2 * (length + width) * height + length * width;
 			} catch (Exception ee) {
@@ -426,5 +428,6 @@ public class Tank extends APhysicalComponent implements Floodable {
 	@Override
 	public void updateBoundaryConditions() {
 		bcTankTemp.setValue(temperatureTank.getValue());
+		bcHeatFlux.setValue(fluid.getBoundaryHeatFlux());
 	}
 }

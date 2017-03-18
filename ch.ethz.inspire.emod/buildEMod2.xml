@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project ch.ethz.inspire.emod with libraries in sub-folder">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <target name="create_run_jar">
+        <jar destfile="/home/sizuest/Dokumente/Projekte/2011_EMod/EMod/trunk/ch.ethz.inspire.emod/jars/EMod/EMod.jar">
+            <manifest>
+                <attribute name="Main-Class" value="ch.ethz.inspire.emod.EModMain"/>
+                <attribute name="Class-Path" value=". EMod_lib/swt.jar EMod_lib/junit-4.9b3.jar EMod_lib/org.swtchart_0.7.0.v20110128.jar EMod_lib/EJML-core-0.26.jar EMod_lib/piccolo2d.jar"/>
+            </manifest>
+            <fileset dir="/home/sizuest/Dokumente/Projekte/2011_EMod/EMod/trunk/ch.ethz.inspire.emod/bin"/>
+            <fileset dir="/home/sizuest/Workspace/org.eclipse.swt"/>
+            <fileset dir="/home/sizuest/Workspace/piccolo2d/bin"/>
+        </jar>
+        <delete dir="/home/sizuest/Dokumente/Projekte/2011_EMod/EMod/trunk/ch.ethz.inspire.emod/jars/EMod/EMod_lib"/>
+        <mkdir dir="/home/sizuest/Dokumente/Projekte/2011_EMod/EMod/trunk/ch.ethz.inspire.emod/jars/EMod/EMod_lib"/>
+        <copy file="/home/sizuest/Workspace/org.eclipse.swt/swt.jar" todir="/home/sizuest/Dokumente/Projekte/2011_EMod/EMod/trunk/ch.ethz.inspire.emod/jars/EMod/EMod_lib"/>
+        <copy file="/home/sizuest/Dokumente/Projekte/2011_EMod/EMod/trunk/ch.ethz.inspire.emod/junit-4.9b3.jar" todir="/home/sizuest/Dokumente/Projekte/2011_EMod/EMod/trunk/ch.ethz.inspire.emod/jars/EMod/EMod_lib"/>
+        <copy file="/home/sizuest/Dokumente/Projekte/2011_EMod/EMod/trunk/ch.ethz.inspire.emod/org.swtchart_0.7.0.v20110128.jar" todir="/home/sizuest/Dokumente/Projekte/2011_EMod/EMod/trunk/ch.ethz.inspire.emod/jars/EMod/EMod_lib"/>
+        <copy file="/home/sizuest/Dokumente/Projekte/2011_EMod/EMod/trunk/ch.ethz.inspire.emod/ejml-v0.26-libs/EJML-core-0.26.jar" todir="/home/sizuest/Dokumente/Projekte/2011_EMod/EMod/trunk/ch.ethz.inspire.emod/jars/EMod/EMod_lib"/>
+        <copy file="/home/sizuest/Dokumente/Projekte/2011_EMod/EMod/trunk/ch.ethz.inspire.emod/piccolo2d.jar" todir="/home/sizuest/Dokumente/Projekte/2011_EMod/EMod/trunk/ch.ethz.inspire.emod/jars/EMod/EMod_lib"/>
+    </target>
+</project>

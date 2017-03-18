@@ -103,20 +103,15 @@ public class Fan extends APhysicalComponent {
 	private void init() {
 		/* Define Input parameters */
 		inputs = new ArrayList<IOContainer>();
-		u = new IOContainer("level", new SiUnit(Unit.NONE), 0,
-				ContainerType.CONTROL);
+		u = new IOContainer("level", new SiUnit(Unit.NONE), 0, ContainerType.CONTROL);
 		inputs.add(u);
 
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		pel = new IOContainer("PTotal", new SiUnit(Unit.WATT), 0,
-				ContainerType.ELECTRIC);
-		ploss = new IOContainer("PLoss", new SiUnit(Unit.WATT), 0,
-				ContainerType.THERMAL);
-		pmech = new IOContainer("PUse", new SiUnit(Unit.WATT), 0,
-				ContainerType.FLUIDDYNAMIC);
-		mdot = new IOContainer("MassFlow", new SiUnit(Unit.KG_S), 0,
-				ContainerType.FLUIDDYNAMIC);
+		pel = new IOContainer("PTotal", new SiUnit(Unit.WATT), 0, ContainerType.ELECTRIC);
+		ploss = new IOContainer("PLoss", new SiUnit(Unit.WATT), 0, ContainerType.THERMAL);
+		pmech = new IOContainer("PUse", new SiUnit(Unit.WATT), 0, ContainerType.FLUIDDYNAMIC);
+		mdot = new IOContainer("MassFlow", new SiUnit(Unit.KG_S), 0, ContainerType.FLUIDDYNAMIC);
 		outputs.add(pel);
 		outputs.add(ploss);
 		outputs.add(pmech);
@@ -124,8 +119,7 @@ public class Fan extends APhysicalComponent {
 
 		/* Boundary conditions */
 		boundaryConditions = new ArrayList<BoundaryCondition>();
-		bcHeatSrc = new BoundaryCondition("HeatSrc", new SiUnit("W"), 0,
-				BoundaryConditionType.NEUMANN);
+		bcHeatSrc = new BoundaryCondition("HeatSrc", new SiUnit("W"), 0, BoundaryConditionType.NEUMANN);
 		boundaryConditions.add(bcHeatSrc);
 
 		/* *********************************************************************** */
@@ -142,13 +136,12 @@ public class Fan extends APhysicalComponent {
 
 		/* Read the config parameter: */
 		try {
-			rhoFluid = params.getDoubleValue("DensityFluid");
-			pelRef = params.getDoubleValue("PowerRef");
-			vdotRef = params.getDoubleValue("VoluminalFlowRef");
-			pRef = params.getDoubleValue("PressureRef");
+			rhoFluid = params.getPhysicalValue("DensityFluid", new SiUnit("kg m^-3")).getValue();
+			pelRef = params.getPhysicalValue("PowerRef", new SiUnit("W")).getValue();
+			vdotRef = params.getPhysicalValue("VoluminalFlowRef", new SiUnit("m^3 s^-1")).getValue();
+			pRef = params.getPhysicalValue("PressureRef", new SiUnit("Pa")).getValue();
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.exit(-1);
 		}
 		params.Close(); /* Model configuration file not needed anymore. */
 
@@ -157,7 +150,6 @@ public class Fan extends APhysicalComponent {
 			checkConfigParams();
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.exit(-1);
 		}
 	}
 

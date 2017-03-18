@@ -61,7 +61,7 @@ public class HeatExchanger extends APhysicalComponent implements Floodable {
 	private FluidContainer fluid2In;
 
 	// Output parameters
-	private IOContainer ptotal, ploss;
+	private IOContainer ptotal, ploss, pth;
 	private FluidContainer fluid1Out;
 	private FluidContainer fluid2Out;
 
@@ -121,28 +121,23 @@ public class HeatExchanger extends APhysicalComponent implements Floodable {
 
 		// Inputs
 		inputs = new ArrayList<IOContainer>();
-		level = new IOContainer("State", new SiUnit(Unit.NONE), 0,
-				ContainerType.CONTROL);
-		fluid1In = new FluidContainer("Fluid1In", new SiUnit(Unit.NONE),
-				ContainerType.FLUIDDYNAMIC, fluidProperties1);
-		fluid2In = new FluidContainer("Fluid2In", new SiUnit(Unit.NONE),
-				ContainerType.FLUIDDYNAMIC, fluidProperties2);
+		level = new IOContainer("State", new SiUnit(Unit.NONE), 0, ContainerType.CONTROL);
+		fluid1In = new FluidContainer("Fluid1In", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidProperties1);
+		fluid2In = new FluidContainer("Fluid2In", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidProperties2);
 		inputs.add(level);
 		inputs.add(fluid1In);
 		inputs.add(fluid2In);
 
 		// Outputs
 		outputs = new ArrayList<IOContainer>();
-		ptotal = new IOContainer("PTotal", new SiUnit(Unit.WATT), 0,
-				ContainerType.ELECTRIC);
-		ploss = new IOContainer("PLoss", new SiUnit(Unit.WATT), 0,
-				ContainerType.THERMAL);
-		fluid1Out = new FluidContainer("Fluid1Out", new SiUnit(Unit.NONE),
-				ContainerType.FLUIDDYNAMIC, fluidProperties1);
-		fluid2Out = new FluidContainer("Fluid2Out", new SiUnit(Unit.NONE),
-				ContainerType.FLUIDDYNAMIC, fluidProperties2);
+		ptotal = new IOContainer("PTotal", new SiUnit(Unit.WATT), 0, ContainerType.ELECTRIC);
+		ploss = new IOContainer("PLoss", new SiUnit(Unit.WATT), 0, ContainerType.THERMAL);
+		pth    = new IOContainer("PThermal", new SiUnit(Unit.WATT), 0, ContainerType.THERMAL);
+		fluid1Out = new FluidContainer("Fluid1Out", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidProperties1);
+		fluid2Out = new FluidContainer("Fluid2Out", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidProperties2);
 		outputs.add(ptotal);
 		outputs.add(ploss);
+		outputs.add(pth);
 		outputs.add(fluid1Out);
 		outputs.add(fluid2Out);
 
@@ -159,18 +154,18 @@ public class HeatExchanger extends APhysicalComponent implements Floodable {
 
 		/* Read the config parameter: */
 		try {
-			zetaValue1 = params.getDoubleValue("PressureLossCoefficient1");
-			zetaValue2 = params.getDoubleValue("PressureLossCoefficient2");
+			zetaValue1 = params.getPhysicalValue("PressureLossCoefficient1", new SiUnit("Pa s^2 m^-6")).getValue();
+			zetaValue2 = params.getPhysicalValue("PressureLossCoefficient2", new SiUnit("Pa s^2 m^-6")).getValue();
 
-			htc = params.getDoubleValue("HeatTransferCoefficient");
+			htc = params.getPhysicalValue("HeatTransferCoefficient", new SiUnit("W K^-1")).getValue();
 
-			tempOn = params.getDoubleValue("TemperatureHigh");
-			tempOff = params.getDoubleValue("TemperatureLow");
+			tempOn = params.getPhysicalValue("TemperatureHigh", new SiUnit("K")).getValue();
+			tempOff = params.getPhysicalValue("TemperatureLow", new SiUnit("K")).getValue();
 
-			power = params.getDoubleValue("Power");
+			power = params.getPhysicalValue("Power", new SiUnit("W")).getValue();
 
-			volume1 = params.getDoubleValue("Volume1");
-			volume2 = params.getDoubleValue("Volume2");
+			volume1 = params.getPhysicalValue("Volume1", new SiUnit("m^3")).getValue();
+			volume2 = params.getPhysicalValue("Volume2", new SiUnit("m^3")).getValue();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -238,7 +233,7 @@ public class HeatExchanger extends APhysicalComponent implements Floodable {
 						* fluidProperties1.getMaterial().getHeatCapacity());
 
 				fluid1.setHeatInput(-heatFlux);
-				fluid2.setHeatInput(-heatFlux);
+				fluid2.setHeatInput(heatFlux);
 
 				ptotal.setValue(power);
 				ploss.setValue(power);
@@ -277,6 +272,8 @@ public class HeatExchanger extends APhysicalComponent implements Floodable {
 
 		fluid1.setTemperatureIn(fluid1In.getTemperature());
 		fluid2.setTemperatureIn(fluid2In.getTemperature());
+		
+		pth.setValue(0.5*(fluid1.getBoundaryHeatFlux()-fluid2.getBoundaryHeatFlux()));
 	}
 
 	@Override

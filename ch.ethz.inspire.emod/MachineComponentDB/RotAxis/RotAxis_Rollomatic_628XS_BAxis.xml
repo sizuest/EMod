@@ -3,14 +3,14 @@
 <properties>
 <comment/>
 <entry key="TransmissionType"/>
-<entry key="Transmission">1</entry>
-<entry key="Inertia">23.53</entry>
-<entry key="PowerBreakOff">0.0</entry>
-<entry key="StructureMass">4.3</entry>
+<entry key="Inertia">23.53 m^2 kg</entry>
+<entry key="PowerBreakOff">0.0 W</entry>
+<entry key="StructureMass">4.3 kg</entry>
 <entry key="MotorType">MotorDC_FanucAlphaiF2_5000</entry>
-<entry key="PowerBreakOn">0.0</entry>
-<entry key="Lever">0</entry>
+<entry key="BearingType"/>
+<entry key="PowerBreakOn">0.0 W</entry>
+<entry key="Lever">0.0 m</entry>
 <entry key="StructureDuct">StructureDuct</entry>
 <entry key="StructureMaterial">Steel</entry>
-<entry key="Mass">4.3</entry>
+<entry key="Mass">4.3 kg</entry>
 </properties>

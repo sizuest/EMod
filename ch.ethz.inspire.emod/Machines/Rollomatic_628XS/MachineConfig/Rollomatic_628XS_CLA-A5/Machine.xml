@@ -15,8 +15,8 @@
         </machineComponent>
         <machineComponent>
             <position>
-                <x>66.57354687812071</x>
-                <y>948.1336516499888</y>
+                <x>906.2167691202818</x>
+                <y>926.9499923732368</y>
                 <r>0.5</r>
                 <rotate>0.5</rotate>
             </position>
@@ -27,8 +27,8 @@
         </machineComponent>
         <machineComponent>
             <position>
-                <x>-273.1984569122116</x>
-                <y>430.23302073437424</y>
+                <x>-76.23470431054787</x>
+                <y>402.6460055813203</y>
                 <r>0.5</r>
                 <rotate>0.5</rotate>
             </position>
@@ -39,10 +39,10 @@
         </machineComponent>
         <machineComponent>
             <position>
-                <x>-282.180695719952</x>
-                <y>1570.4717949079295</y>
-                <r>0.0</r>
-                <rotate>0.0</rotate>
+                <x>751.9670344269301</x>
+                <y>1374.0414997962284</y>
+                <r>0.5</r>
+                <rotate>0.5</rotate>
             </position>
             <component xsi:type="pump" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Parker-PGP502-2.1CC</type>
@@ -51,8 +51,8 @@
         </machineComponent>
         <machineComponent>
             <position>
-                <x>-273.3203878137371</x>
-                <y>-157.04835255041755</y>
+                <x>-55.582677269424465</x>
+                <y>-152.6935983395313</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
@@ -63,8 +63,8 @@
         </machineComponent>
         <machineComponent>
             <position>
-                <x>-400.3485000988525</x>
-                <y>747.5657931434079</y>
+                <x>491.2909767316979</x>
+                <y>774.5268140410927</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
@@ -75,8 +75,8 @@
         </machineComponent>
         <machineComponent>
             <position>
-                <x>1420.843091334898</x>
-                <y>398.3606557377054</y>
+                <x>1290.7802108393003</x>
+                <y>406.01527555294695</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
@@ -87,8 +87,8 @@
         </machineComponent>
         <machineComponent>
             <position>
-                <x>1773.7704918032832</x>
-                <y>-639.3442622950832</y>
+                <x>1678.4103512705426</x>
+                <y>-545.2127897687743</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
@@ -99,8 +99,8 @@
         </machineComponent>
         <machineComponent>
             <position>
-                <x>1382.857142857147</x>
-                <y>-512.8571428571441</y>
+                <x>1320.1998784894552</x>
+                <y>-527.8512825314832</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
@@ -111,8 +111,8 @@
         </machineComponent>
         <machineComponent>
             <position>
-                <x>1387.058823529413</x>
-                <y>-48.23529411764694</y>
+                <x>1355.3084776152168</x>
+                <y>-55.550532640414986</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
@@ -123,8 +123,8 @@
         </machineComponent>
         <machineComponent>
             <position>
-                <x>69.17854811204732</x>
-                <y>746.9409060844545</y>
+                <x>908.8217703542083</x>
+                <y>725.7572468077025</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
@@ -219,8 +219,8 @@
         </machineComponent>
         <machineComponent>
             <position>
-                <x>281.1195877111457</x>
-                <y>1530.213274354148</y>
+                <x>506.436690927503</x>
+                <y>1495.5491046285533</y>
                 <r>0.75</r>
                 <rotate>0.75</rotate>
             </position>
@@ -231,10 +231,10 @@
         </machineComponent>
         <machineComponent>
             <position>
-                <x>-291.3882351229848</x>
-                <y>1184.8418403712064</y>
-                <r>0.5</r>
-                <rotate>0.5</rotate>
+                <x>738.9079206099426</x>
+                <y>1128.9940113688588</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
             </position>
             <component xsi:type="tank" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>Rollomatic_628XS_Hydraulic</type>
@@ -243,8 +243,8 @@
         </machineComponent>
         <machineComponent>
             <position>
-                <x>139.26327282838332</x>
-                <y>1536.7337246926866</y>
+                <x>356.87722721683224</x>
+                <y>1488.58904451825</y>
                 <r>0.75</r>
                 <rotate>0.75</rotate>
             </position>
@@ -255,8 +255,8 @@
         </machineComponent>
         <machineComponent>
             <position>
-                <x>355.30043129738755</x>
-                <y>273.0436716564108</y>
+                <x>503.22319879733845</x>
+                <y>391.0830517826341</y>
                 <r>0.25</r>
                 <rotate>0.25</rotate>
             </position>
@@ -267,8 +267,8 @@
         </machineComponent>
         <machineComponent>
             <position>
-                <x>187.01584815238647</x>
-                <y>274.2422448371215</y>
+                <x>334.93861565233766</x>
+                <y>392.28162496334477</y>
                 <r>0.25</r>
                 <rotate>0.25</rotate>
             </position>
@@ -279,8 +279,8 @@
         </machineComponent>
         <machineComponent>
             <position>
-                <x>-255.24278676988126</x>
-                <y>-276.7065446868419</y>
+                <x>13.4496716938885</x>
+                <y>-406.117765334741</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
@@ -297,8 +297,8 @@
                 <unitText>K</unitText>
             </unit>
             <position>
-                <x>-894.4581280788244</x>
-                <y>-110.22167487683888</y>
+                <x>-312.3445270198605</x>
+                <y>902.7161786770914</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
@@ -309,8 +309,8 @@
                 <unitText>Pa</unitText>
             </unit>
             <position>
-                <x>-704.8557353976034</x>
-                <y>589.338494018299</y>
+                <x>135.03755802340032</x>
+                <y>628.5974725872278</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
@@ -321,8 +321,8 @@
                 <unitText>Hz</unitText>
             </unit>
             <position>
-                <x>695.9183673469399</x>
-                <y>444.89795918367423</y>
+                <x>670.6269602580489</x>
+                <y>444.8979591836742</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
@@ -333,8 +333,8 @@
                 <unitText>m/s</unitText>
             </unit>
             <position>
-                <x>716.3265306122463</x>
-                <y>-516.3265306122458</y>
+                <x>664.4075784378091</x>
+                <y>-518.388766736668</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
@@ -345,10 +345,10 @@
                 <unitText>none</unitText>
             </unit>
             <position>
-                <x>-533.8952972493294</x>
-                <y>1528.5048802129484</y>
-                <r>0.0</r>
-                <rotate>0.0</rotate>
+                <x>1197.4473772027552</x>
+                <y>1375.8625267079174</y>
+                <r>0.5</r>
+                <rotate>0.5</rotate>
             </position>
         </simController>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -357,8 +357,8 @@
                 <unitText>m/s</unitText>
             </unit>
             <position>
-                <x>712.2448979591854</x>
-                <y>-367.346938775511</y>
+                <x>670.2522552519544</x>
+                <y>-372.12856897717245</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
@@ -369,8 +369,8 @@
                 <unitText>m/s</unitText>
             </unit>
             <position>
-                <x>702.0408163265319</x>
-                <y>-208.16326530612292</y>
+                <x>672.1493035679213</x>
+                <y>-209.38681894578633</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
@@ -381,8 +381,8 @@
                 <unitText>Hz</unitText>
             </unit>
             <position>
-                <x>704.0816326530628</x>
-                <y>-46.93877551020418</y>
+                <x>669.5835943405629</x>
+                <y>-42.46482026406286</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
@@ -393,7 +393,7 @@
                 <unitText>Hz</unitText>
             </unit>
             <position>
-                <x>695.9183673469399</x>
+                <x>670.6269602580489</x>
                 <y>114.76457543247125</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
@@ -405,8 +405,8 @@
                 <unitText>Hz</unitText>
             </unit>
             <position>
-                <x>687.7551020408179</x>
-                <y>275.51020408163305</y>
+                <x>662.463694951927</x>
+                <y>275.510204081633</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
@@ -417,8 +417,8 @@
                 <unitText>none</unitText>
             </unit>
             <position>
-                <x>-740.1251576145329</x>
-                <y>689.0031756409602</y>
+                <x>213.13950983929635</x>
+                <y>733.2962814014415</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
@@ -429,8 +429,8 @@
                 <unitText>none</unitText>
             </unit>
             <position>
-                <x>106.12244897959219</x>
-                <y>-206.12244897959243</y>
+                <x>101.76769476870592</x>
+                <y>-317.1686813571914</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
@@ -441,8 +441,8 @@
                 <unitText>none</unitText>
             </unit>
             <position>
-                <x>580.6762170813894</x>
-                <y>-696.8960820765681</y>
+                <x>563.0139514759568</x>
+                <y>-618.0046290389691</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
@@ -453,8 +453,8 @@
                 <unitText>none</unitText>
             </unit>
             <position>
-                <x>-528.972264341214</x>
-                <y>-275.4031936272564</y>
+                <x>-309.4325227457864</x>
+                <y>-362.0636179412408</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </position>
@@ -465,8 +465,8 @@
                 <unitText>m³/s</unitText>
             </unit>
             <position>
-                <x>492.87415728281496</x>
-                <y>1083.7335687300415</y>
+                <x>1332.5173795249764</x>
+                <y>1062.5499094532893</y>
                 <r>0.5</r>
                 <rotate>0.5</rotate>
             </position>
@@ -477,8 +477,8 @@
                 <unitText>Pa</unitText>
             </unit>
             <position>
-                <x>488.82673643190935</x>
-                <y>993.0895818659103</y>
+                <x>1328.4699586740708</x>
+                <y>971.9059225891583</y>
                 <r>0.5</r>
                 <rotate>0.5</rotate>
             </position>
@@ -489,8 +489,8 @@
                 <unitText>K</unitText>
             </unit>
             <position>
-                <x>478.73864561512755</x>
-                <y>912.7870726955001</y>
+                <x>1318.381867857289</x>
+                <y>891.6034134187481</y>
                 <r>0.5</r>
                 <rotate>0.5</rotate>
             </position>
@@ -501,10 +501,10 @@
                 <unitText>m/s</unitText>
             </unit>
             <position>
-                <x>287.5063637950345</x>
-                <y>1693.8375561410476</y>
-                <r>0.75</r>
-                <rotate>0.75</rotate>
+                <x>204.9906196554861</x>
+                <y>1566.3607911038137</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
             </position>
         </simController>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -513,10 +513,10 @@
                 <unitText>none</unitText>
             </unit>
             <position>
-                <x>233.1176479433307</x>
-                <y>-24.066299887984854</y>
-                <r>0.25</r>
-                <rotate>0.25</rotate>
+                <x>64.19869004057824</x>
+                <y>105.0822848390022</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
             </position>
         </simController>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -525,79 +525,819 @@
                 <unitText>none</unitText>
             </unit>
             <position>
-                <x>343.64895484088237</x>
-                <y>-28.096529880004354</y>
-                <r>0.25</r>
-                <rotate>0.25</rotate>
+                <x>47.56040565127586</x>
+                <y>44.061080789404</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
             </position>
         </simController>
     </simulators>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
+    <linking>
+        <ioConnection>
+            <sourceName>CtrlSpindle</sourceName>
+            <targetName>Spindle.State</targetName>
+            <points>
+                <x>345.5231818714196</x>
+                <y>-188.08765458016398</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>514.2952022733317</x>
+                <y>-83.82012365123336</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>830.292207798111</x>
+                <y>-60.17647855078914</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>849.0724011411568</x>
+                <y>425.1432546826461</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>ValveCoolant.FluidOut</sourceName>
+            <targetName>Spindle.CoolantIn</targetName>
+            <points>
+                <x>658.8981749397822</x>
+                <y>-120.55001729730637</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>849.409398666685</x>
+                <y>-98.76202769602547</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>875.3023432127437</x>
+                <y>476.8291538035031</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>TemperatureAmb</sourceName>
+            <targetName>Tank.TemperatureAmb</targetName>
+            <points>
+                <x>-135.04470701166835</x>
+                <y>360.5867072449951</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>265.2570503639448</x>
+                <y>370.64367703083934</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>277.2660950274127</x>
+                <y>404.9034853579942</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>PressureAmb</sourceName>
+            <targetName>Tank.PressureAmb</targetName>
+            <points>
+                <x>319.3262394997045</x>
+                <y>627.0974264507282</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>309.6063849215837</x>
+                <y>434.46758117524723</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>WaterTemperature</sourceName>
+            <targetName>Water.TemperatureIn</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>WaterPressure</sourceName>
+            <targetName>Water.PressureIn</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>WaterFlowRate</sourceName>
+            <targetName>Water.FlowRate</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>CtrlHydraulics</sourceName>
+            <targetName>PumpHydraulics.State</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>TemperatureAmb</sourceName>
+            <targetName>PumpHydraulics.TemperatureAmb</targetName>
+            <points>
+                <x>714.0628749710534</x>
+                <y>1068.5637474933058</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1130.659723908953</x>
+                <y>1091.0824960845437</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1137.0936520778776</x>
+                <y>1403.1280122774103</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>CtrlCoolant</sourceName>
+            <targetName>PumpCoolant.State</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>TemperatureAmb</sourceName>
+            <targetName>PumpCoolant.TemperatureAmb</targetName>
+            <points>
+                <x>-135.7797892669674</x>
+                <y>-121.50064211469599</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>Tank.FluidOut</sourceName>
+            <targetName>PumpCoolant.FluidIn</targetName>
+            <points>
+                <x>-115.3398293334153</x>
+                <y>430.37827609121047</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>-102.11397290582283</x>
+                <y>-95.04892925951091</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>CtrlHeatExchanger</sourceName>
+            <targetName>PumpHE.State</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>TemperatureAmb</sourceName>
+            <targetName>PumpHE.TemperatureAmb</targetName>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>Tank.FluidOut</sourceName>
+            <targetName>PumpHE.FluidIn</targetName>
+            <points>
+                <x>-109.32807641178236</x>
+                <y>450.8182360247624</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>-116.60061131009134</x>
+                <y>596.0201641415958</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>158.97587740758874</x>
+                <y>817.3493125605199</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>CtrlSpindle</sourceName>
+            <targetName>CtrlSpindle.State</targetName>
+            <points>
+                <x>349.94129758874715</x>
+                <y>-192.50577029749158</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>514.1936982065945</x>
+                <y>-96.04077041327808</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>839.1848970193095</x>
+                <y>-83.38212869554584</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>862.2945172704314</x>
+                <y>382.31882229243377</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1187.9987718173356</x>
+                <y>384.8046890112314</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>ProcAxisXSpeed</sourceName>
+            <targetName>AxisX.Speed</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>ProcAxisZSpeed</sourceName>
+            <targetName>AxisZ.Speed</targetName>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>PumpCoolant.FluidOut</sourceName>
+            <targetName>ValveCoolant.FluidIn</targetName>
+            <points>
+                <x>298.0021358050297</x>
+                <y>-54.27266638002484</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>315.7309087770751</x>
+                <y>-254.88772895843357</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>TankHydraulic.FluidOut</sourceName>
+            <targetName>PumpHydraulics.FluidIn</targetName>
+            <points>
+                <x>1098.0474678784017</x>
+                <y>1170.3216751929801</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1103.2122939438939</x>
+                <y>1412.2076959267533</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>TemperatureAmb</sourceName>
+            <targetName>TankHydraulic.TemperatureAmb</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>PressureAmb</sourceName>
+            <targetName>TankHydraulic.PressureAmb</targetName>
+            <points>
+                <x>297.94809511040756</x>
+                <y>683.7973986545076</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>152.3855380767694</x>
+                <y>724.8535044845075</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>541.4854501474543</x>
+                <y>1152.2102424422383</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>Cylinder.FluidOut</sourceName>
+            <targetName>TankHydraulic.FluidIn</targetName>
+            <points>
+                <x>586.7296873949058</x>
+                <y>1234.882001011603</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>Spindle.CoolantOut</sourceName>
+            <targetName>Tank.FluidIn</targetName>
+            <points>
+                <x>1245.6367331306853</x>
+                <y>591.1386263215431</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>813.9340547880194</x>
+                <y>593.4596084631705</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Spindle.PTotal</sourceName>
+            <targetName>CtrlSpindle.PDmd</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>ProcAxisYSpeed</sourceName>
+            <targetName>AxisY.Speed</targetName>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>PumpHydraulics.FluidOut</sourceName>
+            <targetName>Cylinder.FluidIn</targetName>
+            <points>
+                <x>572.9568178869325</x>
+                <y>1536.1635214985106</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>Bypass.FluidOut</sourceName>
+            <targetName>TankHydraulic.FluidIn</targetName>
+            <points>
+                <x>384.44066649655304</x>
+                <y>1226.2739575691194</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>PumpHydraulics.FluidOut</sourceName>
+            <targetName>Bypass.FluidIn</targetName>
+            <points>
+                <x>559.1839483789598</x>
+                <y>1555.9620214162194</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>380.13664477531097</x>
+                <y>1529.2770867445245</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>ProcClamp</sourceName>
+            <targetName>Cylinder.Velocity</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>CtrlCNC</sourceName>
+            <targetName>AmpAxes.State</targetName>
+            <points>
+                <x>1543.526867099581</x>
+                <y>-592.6601316815409</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1619.2776493934293</x>
+                <y>-538.4294579938978</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>CtrlAxesLin.PSupply</sourceName>
+            <targetName>AmpAxes.PDmd</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>CtrlCNC</sourceName>
+            <targetName>CtrlAxesLin.State</targetName>
+            <points>
+                <x>1203.4575269109162</x>
+                <y>-582.7938766570293</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1238.5844812010423</x>
+                <y>-523.780593449617</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>CtrlCNC</sourceName>
+            <targetName>CtrlAxesRot.State</targetName>
+            <points>
+                <x>1206.2676832541258</x>
+                <y>-563.1227822545586</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1248.420028402277</x>
+                <y>-57.29464047674378</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>CtrlAxesRot.PSupply</sourceName>
+            <targetName>AmpAxes.PDmd</targetName>
+            <points>
+                <x>1620.3238403748805</x>
+                <y>-50.54056495634025</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1620.662886863924</x>
+                <y>-480.56839677803384</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>HeatExchanger.Fluid2Out</sourceName>
+            <targetName>Water.FluidIn</targetName>
+            <points>
+                <x>1226.3368454359443</x>
+                <y>824.4490216726605</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1252.463458236852</x>
+                <y>945.7511525340228</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>HeatExchanger.Fluid1Out</sourceName>
+            <targetName>Tank.FluidIn</targetName>
+            <points>
+                <x>1224.951923315919</x>
+                <y>762.8387532419483</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1219.8587393092603</x>
+                <y>642.6396106847861</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>802.2176507631871</x>
+                <y>627.3600586648068</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>CtrlHeatExchanger</sourceName>
+            <targetName>HeatExchanger.State</targetName>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>PumpHE.FluidOut</sourceName>
+            <targetName>HeatExchanger.Fluid1In</targetName>
+            <points>
+                <x>833.7704632866913</x>
+                <y>872.982648346588</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>868.1236282609982</x>
+                <y>765.9285993568874</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>Water.FluidOut</sourceName>
+            <targetName>HeatExchanger.Fluid2In</targetName>
+            <points>
+                <x>870.5203607010654</x>
+                <y>958.4661053756759</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>872.1181823277773</x>
+                <y>819.4556238517371</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>CtrlSpindle</sourceName>
+            <targetName>ValveCoolant.ValveCtrl</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>PumpCoolant.HeatFlowTank</sourceName>
+            <targetName>Tank.HeatFlowIn</targetName>
+            <points>
+                <x>286.46616988429673</x>
+                <y>-56.598255699472446</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>288.332356512933</x>
+                <y>453.80378723257155</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>PumpHydraulics.HeatFlowTank</sourceName>
+            <targetName>TankHydraulic.HeatFlowIn</targetName>
+            <points>
+                <x>692.6086217374481</x>
+                <y>1445.779065352436</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>687.4437956719584</x>
+                <y>1202.1714359301702</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>CFNozzleSpindle.FluidOut</sourceName>
+            <targetName>Tank.FluidIn</targetName>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>PumpCoolant.FluidOut</sourceName>
+            <targetName>CFNozzleSpindle.FluidIn</targetName>
+            <points>
+                <x>527.1594256353056</x>
+                <y>45.32223136900592</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>CtrlCNC</sourceName>
+            <targetName>AxisA.State</targetName>
+            <points>
+                <x>846.7710179461984</x>
+                <y>-570.4422820015176</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>887.3149382997816</x>
+                <y>-79.77589122242443</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>CtrlCNC</sourceName>
+            <targetName>AxisB.State</targetName>
+            <points>
+                <x>838.5220734485098</x>
+                <y>-566.3178097526734</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>883.0997037849664</x>
+                <y>91.64364571339054</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>CtrlCNC</sourceName>
+            <targetName>AxisC.State</targetName>
+            <points>
+                <x>832.8109984961187</x>
+                <y>-562.0118129718873</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>881.6946256133615</x>
+                <y>256.0377917911801</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>AxisA.PTotal</sourceName>
+            <targetName>CtrlAxesRot.PDmd</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>AxisB.PTotal</sourceName>
+            <targetName>CtrlAxesRot.PDmd</targetName>
+            <points>
+                <x>1222.8775565387054</x>
+                <y>140.97407618225313</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1280.9930983298073</x>
+                <y>18.1947625390802</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>AxisC.PTotal</sourceName>
+            <targetName>CtrlAxesRot.PDmd</targetName>
+            <points>
+                <x>1230.2443153572958</x>
+                <y>297.31306888789334</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1289.1783859060188</x>
+                <y>29.654165145776368</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>AxisX.PTotal</sourceName>
+            <targetName>CtrlAxesLin.PDmd</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>AxisY.PTotal</sourceName>
+            <targetName>CtrlAxesLin.PDmd</targetName>
+            <points>
+                <x>1216.0722286474215</x>
+                <y>-348.78999747421767</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1252.5929468036732</x>
+                <y>-485.92902075483846</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>AxisZ.PTotal</sourceName>
+            <targetName>CtrlAxesLin.PDmd</targetName>
+            <points>
+                <x>1210.8549831965286</x>
+                <y>-187.80070927522783</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1260.0461545906617</x>
+                <y>-479.96645452524643</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>CtrlCNC</sourceName>
+            <targetName>AxisX.State</targetName>
+            <points>
+                <x>860.6184530392862</x>
+                <y>-585.6040330002395</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>884.2543172496805</x>
+                <y>-534.6581697585743</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>CtrlCNC</sourceName>
+            <targetName>AxisY.State</targetName>
+            <points>
+                <x>857.4452476321924</x>
+                <y>-579.1450378290602</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>887.3149382997816</x>
+                <y>-391.7032453187435</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>CtrlCNC</sourceName>
+            <targetName>AxisZ.State</targetName>
+            <points>
+                <x>852.4820928985893</x>
+                <y>-574.8390410482745</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>887.3149382997816</x>
+                <y>-244.17003730021423</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>AxisZ.CoolantOut</sourceName>
+            <targetName>Tank.FluidIn</targetName>
+            <points>
+                <x>1730.641453651434</x>
+                <y>-152.17677062896527</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>1750.5735182256042</x>
+                <y>605.2416831894886</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>806.971108363138</x>
+                <y>614.3484477378157</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>ValveCoolant.FluidOut</sourceName>
+            <targetName>AxisZ.CoolantIn</targetName>
+            <points>
+                <x>661.4898416256859</x>
+                <y>-151.6500175281511</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>PumpCoolant.FluidOut</sourceName>
+            <targetName>CFNozzleWP.FluidIn</targetName>
+            <points>
+                <x>366.0451353765484</x>
+                <y>40.38007522609925</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>CFNozzleWP.FluidOut</sourceName>
+            <targetName>Tank.FluidIn</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>ProcCFSpindle</sourceName>
+            <targetName>CFNozzleSpindle.ValveCtrl</targetName>
+            <points>
+                <x>495.529626320703</x>
+                <y>96.72065525523527</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>ProcCFWP</sourceName>
+            <targetName>CFNozzleWP.ValveCtrl</targetName>
+            <points>
+                <x>334.4153360619457</x>
+                <y>119.45457351260595</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>CtrlCoolant</sourceName>
+            <targetName>ConstantConsumers.level</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>ProcSpindleSpeed</sourceName>
+            <targetName>Spindle.RotSpeed</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>ProcAxisCSpeed</sourceName>
+            <targetName>AxisC.Speed</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>ProcAxisBSpeed</sourceName>
+            <targetName>AxisB.Speed</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>ProcAxisASpeed</sourceName>
+            <targetName>AxisA.Speed</targetName>
+        </ioConnection>
+    </linking>
 </ns2:machine>

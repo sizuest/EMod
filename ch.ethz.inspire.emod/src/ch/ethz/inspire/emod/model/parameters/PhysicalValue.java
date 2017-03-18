@@ -72,6 +72,22 @@ public class PhysicalValue {
 	public double[] getValues() {
 		return this.value;
 	}
+	
+	/**
+	 * Return the values as formated string
+	 * @return string
+	 */
+	public String valuesToString(){
+		if(value.length<1)
+			return "";
+		
+		String ret = value[0]+"";
+		
+		for(int i=1; i<value.length; i++)
+			ret +=", "+value[i];
+		
+		return ret;
+	}
 
 	/**
 	 * returns the current unit
@@ -121,7 +137,7 @@ public class PhysicalValue {
 			return getValue() + " " + unit.toString();
 
 		String out = "" + getValue(0);
-		for (int i = 0; i < getValues().length; i++)
+		for (int i = 1; i < getValues().length; i++)
 			out += ", " + getValue(i);
 
 		return out + " " + unit.toString();

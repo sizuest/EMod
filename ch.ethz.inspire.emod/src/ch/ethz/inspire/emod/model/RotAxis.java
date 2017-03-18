@@ -156,7 +156,7 @@ public class RotAxis extends APhysicalComponent implements Floodable {
 		ploss = new IOContainer("PLoss", new SiUnit(Unit.WATT), 0,
 				ContainerType.THERMAL);
 		ptotal = new IOContainer("PTotal", new SiUnit(Unit.WATT), 0,
-				ContainerType.MECHANIC);
+				ContainerType.ELECTRIC);
 		outputs.add(puse);
 		outputs.add(ploss);
 		outputs.add(ptotal);
@@ -175,14 +175,18 @@ public class RotAxis extends APhysicalComponent implements Floodable {
 		/* Read the config parameter: */
 		try {
 			transmissionType = params.getValue("TransmissionType", "");
-			bearingType = params.getValue("BearingType", new String[0]);
-			inertia = params.getDoubleValue("Inertia");
-			motorType = params.getString("MotorType");
-			mass = params.getDoubleValue("StructureMass");
-			powerBrakeOn = params.getValue("PowerBreakOn", 0.0);
-			powerBrakeOff = params.getValue("PowerBreakOff", 0.0);
-			movingMass = params.getValue("Mass", 0.0);
-			lever = params.getValue("Lever", 0.0);
+			bearingType      = params.getValue("BearingType", new String[0]);
+			inertia          = params.getPhysicalValue("Inertia", new SiUnit("kg m^2")).getValue();
+			motorType        = params.getString("MotorType");
+			mass             = params.getPhysicalValue("StructureMass", new SiUnit("kg")).getValue();
+			powerBrakeOn     = params.getPhysicalValue("PowerBreakOn", new SiUnit("W")).getValue();
+			powerBrakeOff    = params.getPhysicalValue("PowerBreakOff", new SiUnit("W")).getValue();
+			movingMass       = params.getPhysicalValue("Mass", new SiUnit("kg")).getValue();
+			lever            = params.getPhysicalValue("Lever", new SiUnit("m")).getValue();
+			
+			// Old Variables
+			params.deleteValue("Transmission");
+			params.saveValues();
 
 			/* Sub Model Motor */
 			String[] mdlType = motorType.split("_", 2);
@@ -210,9 +214,13 @@ public class RotAxis extends APhysicalComponent implements Floodable {
 				transmission = new Transmission(transmissionType);
 			
 			/* Sub Model Bearing */
-			bearings = new Bearing[bearingType.length];
-			for (int i = 0; i < bearingType.length; i++)
-				bearings[i] = new Bearing(bearingType[i]);
+			if(bearingType[0].equals(""))
+				bearings = null;
+			else{
+				bearings = new Bearing[bearingType.length];
+				for (int i = 0; i < bearingType.length; i++)
+					bearings[i] = new Bearing(bearingType[i]);
+			}
 
 			/* Duct */
 			duct = Duct.buildFromFile(getModelType(), getType(),
@@ -275,11 +283,12 @@ public class RotAxis extends APhysicalComponent implements Floodable {
 			bc.setName("Motor" + bc.getName());
 		boundaryConditions.addAll(motor.getBoundaryConditions());
 		// Bearings
-		for (int i = 0; i < bearings.length; i++) {
-			for (BoundaryCondition bc : bearings[i].getBoundaryConditions())
-				bc.setName("Bearing" + (i + 1) + bc.getName());
-			boundaryConditions.addAll(bearings[i].getBoundaryConditions());
-		}
+		if(bearings!=null)
+			for (int i = 0; i < bearings.length; i++) {
+				for (BoundaryCondition bc : bearings[i].getBoundaryConditions())
+					bc.setName("Bearing" + (i + 1) + bc.getName());
+				boundaryConditions.addAll(bearings[i].getBoundaryConditions());
+			}
 		// Transmission
 		if(null!=transmission){
 			for (BoundaryCondition bc : transmission.getBoundaryConditions())
@@ -325,13 +334,14 @@ public class RotAxis extends APhysicalComponent implements Floodable {
 		lasttorque += massMoved.getOutput("Torque").getValue();
 		
 		/* Update sub model bearings */
-		for(Bearing b: bearings){
-			b.getInput("RotSpeed").setValue(lastspeed);
-			b.getInput("Temperature1").setValue(massCooled.getTemperature().getInitialValue());
-			b.getInput("Temperature2").setValue(massCooled.getTemperature().getInitialValue());
-			b.update();
-			lasttorque += b.getOutput("Torque").getValue();
-		}
+		if(bearings!=null)
+			for(Bearing b: bearings){
+				b.getInput("RotSpeed").setValue(lastspeed);
+				b.getInput("Temperature1").setValue(massCooled.getTemperature().getInitialValue());
+				b.getInput("Temperature2").setValue(massCooled.getTemperature().getInitialValue());
+				b.update();
+				lasttorque += b.getOutput("Torque").getValue();
+			}
 		
 		/* Update sub model transmission */
 		if(null!=transmission){
@@ -434,8 +444,10 @@ public class RotAxis extends APhysicalComponent implements Floodable {
 	@Override
 	public void updateBoundaryConditions() {
 		motor.updateBoundaryConditions();
-		for(Bearing b: bearings)
-			b.updateBoundaryConditions();
+		if(bearings!=null)
+			for(Bearing b: bearings)
+				b.updateBoundaryConditions();
+		
 		if(null!=transmission)
 			transmission.updateBoundaryConditions();
 		

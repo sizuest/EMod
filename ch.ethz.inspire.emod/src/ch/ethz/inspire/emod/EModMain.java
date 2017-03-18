@@ -51,9 +51,7 @@ public class EModMain {
 		logManager.reset();
 		try {
 			// Let the loggers write to file:
-			FileHandler fh = new FileHandler(
-					PropertiesHandler.getProperty("app.logfile"), 100000, 1,
-					true);
+			FileHandler fh = new FileHandler(PropertiesHandler.getProperty("app.logfile"), 100000, 1, true);
 			fh.setFormatter(new SimpleFormatter());
 			rootlogger.addHandler(fh);
 			// Set log level:
@@ -74,8 +72,7 @@ public class EModMain {
 			// Redirect stderr to logger (and then to stdout as stdout is a
 			// handler of logger)
 			OutputStream losErr;
-			losErr = new LoggingOutputStream(Logger.getLogger("stderr"),
-					Level.SEVERE);
+			losErr = new LoggingOutputStream(Logger.getLogger("stderr"), Level.SEVERE);
 			System.setErr(new PrintStream(losErr, true));
 
 		} catch (SecurityException e1) {

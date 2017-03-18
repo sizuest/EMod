@@ -124,17 +124,64 @@
             </position>
         </simController>
     </simulators>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
+    <linking>
+        <ioConnection>
+            <sourceName>NC</sourceName>
+            <targetName>Spindle.State</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>n</sourceName>
+            <targetName>Spindle.RotSpeed</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Spindle.PTotal</sourceName>
+            <targetName>Amplifier.PDmd</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>NC</sourceName>
+            <targetName>Amplifier.State</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Machine</sourceName>
+            <targetName>Pump.State</targetName>
+            <points>
+                <x>429.0</x>
+                <y>296.0</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>AmbTemperature</sourceName>
+            <targetName>Pump.TemperatureAmb</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>AmbTemperature</sourceName>
+            <targetName>Tank.TemperatureAmb</targetName>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>Tank.FluidOut</sourceName>
+            <targetName>Pump.FluidIn</targetName>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>Spindle.CoolantOut</sourceName>
+            <targetName>Tank.FluidIn</targetName>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>Pump.FluidOut</sourceName>
+            <targetName>Spindle.CoolantIn</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Machine</sourceName>
+            <targetName>Cooler.State</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Tank.TemperatureTank</sourceName>
+            <targetName>Cooler.Temperature</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Cooler.PThermal</sourceName>
+            <targetName>Tank.HeatExchangerOut</targetName>
+        </ioConnection>
+    </linking>
 </ns2:machine>

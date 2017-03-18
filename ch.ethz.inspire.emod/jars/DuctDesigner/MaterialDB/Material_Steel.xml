@@ -1,30 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-  <comment>
-    Model parameter definition
-    ==========================
-      Model : Material
-      Type  : Steel
-    Parameters
-    ----------
-      TemperatureSamples [K]
-        TODO
-      PressureSamples [Pa]
-        TODO
-      ViscositySamples [mPa*s] = [10^-3 Ns/m^2]
-      	Dynamic Viscosity! dynamic Viscosity = density * kinematic Viscosity
-      DensityMatrix [kg/m3]
-      	TODO
-	  HeatCapacity [J/kg K]
-	    TODO
-	  ThermalConductivity [W/m K]
-      	TODO
-  </comment>
-  <entry key="TemperatureSamples">273; </entry>
-  <entry key="PressureSamples">100000</entry>
-  <entry key="ViscositySamples">NaN</entry>
-  <entry key="DensityMatrix">7860;</entry>
-  <entry key="HeatCapacity">480</entry>
-  <entry key="ThermalConductivity">50</entry>
+<comment/>
+<entry key="TemperatureSamples">273.0 K</entry>
+<entry key="ThermalConductivity">50.0 m kg s^-3 K^-1</entry>
+<entry key="ViscositySamples">1.0E12 m^-1 kg s^-1</entry>
+<entry key="DensityMatrix">7860.0 m^-3 kg</entry>
+<entry key="HeatCapacity">480.0 kg^-1 s K^-1</entry>
 </properties>

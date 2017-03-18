@@ -149,15 +149,19 @@ public class MotorAC extends AMotor {
 
 		/* Read the config parameter: */
 		try {
-			Ls = params.getDoubleValue("InductanceStator");
-			Lr = params.getDoubleValue("InductanceRotor");
-			Lm = params.getDoubleValue("InductanceMutal");
-			Rs = params.getDoubleValue("ResistanceStator");
-			Rr = params.getDoubleValue("ResistanceRotor");
-			p = params.getIntValue("PolePairs");
-			opU = params.getDoubleValue("RatedVoltage");
-			opFreq = params.getDoubleValue("RatedFrequency");
-			maxU = params.getDoubleValue("MaxVoltage");
+			Ls = params.getPhysicalValue("InductanceStator", new SiUnit("H")).getValue();
+			Lr = params.getPhysicalValue("InductanceRotor", new SiUnit("H")).getValue();
+			Lm = params.getPhysicalValue("InductanceMutal", new SiUnit("H")).getValue();
+			Rs = params.getPhysicalValue("ResistanceStator", new SiUnit("Ohm")).getValue();
+			Rr = params.getPhysicalValue("ResistanceRotor", new SiUnit("Ohm")).getValue();
+			p = params.getDoubleValue("PolePairs");
+			opU = params.getPhysicalValue("RatedVoltage", new SiUnit("V")).getValue();
+			opFreq = params.getPhysicalValue("RatedFrequency", new SiUnit("Hz")).getValue();
+			maxU = params.getPhysicalValue("MaxVoltage", new SiUnit("V")).getValue();
+			
+			// Old Params
+			params.deleteValue("RatedRotSpeed");
+			params.saveValues();
 
 			// Us/fs at OP
 			k = opU / opFreq;

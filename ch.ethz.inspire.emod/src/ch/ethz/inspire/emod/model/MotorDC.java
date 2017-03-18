@@ -67,7 +67,7 @@ public class MotorDC extends AMotor {
 	private double kappa_a;
 	private double kappa_i;
 	private double armatureResistance;
-	private int p;
+	private double p;
 
 	/**
 	 * Constructor called from XmlUnmarshaller. Attribute 'type' is set by
@@ -143,11 +143,16 @@ public class MotorDC extends AMotor {
 
 		/* Read the config parameter: */
 		try {
-			frictionTorque = params.getDoubleValue("StaticFriction");
-			kappa_a = params.getDoubleValue("KappaA");
-			kappa_i = params.getDoubleValue("KappaI");
-			armatureResistance = params.getDoubleValue("ArmatureResistance");
-			p = params.getIntValue("PolePairs");
+			frictionTorque = params.getPhysicalValue("StaticFriction", new SiUnit("Nm")).getValue();
+			kappa_a = params.getPhysicalValue("KappaA", new SiUnit("N m A^-1")).getValue();
+			kappa_i = params.getPhysicalValue("KappaI", new SiUnit("Vs/rad")).getValue();
+			armatureResistance = params.getPhysicalValue("ArmatureResistance", new SiUnit("Ohm")).getValue();
+			p = params.getDoubleValue("PolePairs");
+			
+			// Old Parameters
+			params.deleteValue("BrakePower");
+			params.saveValues();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

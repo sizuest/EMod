@@ -14,6 +14,7 @@ package ch.ethz.inspire.emod.gui;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -70,31 +71,26 @@ public class EModStartupGUI {
 		shell.setLayout(new GridLayout(2, true));
 
 		// get machineName and machineConfigName from app.config file
-		machineName = PropertiesHandler.getProperty("sim.MachineName");
-		machineConfigName = PropertiesHandler
-				.getProperty("sim.MachineConfigName");
-		simConfigName = PropertiesHandler
-				.getProperty("sim.SimulationConfigName");
-		procName = PropertiesHandler.getProperty("sim.ProcessName");
+		machineName       = PropertiesHandler.getProperty("sim.MachineName");
+		machineConfigName = PropertiesHandler.getProperty("sim.MachineConfigName");
+		simConfigName     = PropertiesHandler.getProperty("sim.SimulationConfigName");
+		procName          = PropertiesHandler.getProperty("sim.ProcessName");
 
 		// text load machine config
 		Label textLoadMachConfig = new Label(shell, SWT.TRANSPARENT);
-		textLoadMachConfig.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
-				true, false, 1, 1));
-		textLoadMachConfig.setText(LocalizationHandler
-				.getItem("app.gui.startup.machinename"));
+		textLoadMachConfig.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		textLoadMachConfig.setText(LocalizationHandler.getItem("app.gui.startup.machinename"));
 
 		// combo for the user to select the desired MachConfig
 		comboMachineName = new Combo(shell, SWT.NONE);
-		comboMachineName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-				false, 1, 1));
+		comboMachineName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 
 		// possible items of the combo are all Machines present in the folder
 		// Machines
-		String path = PropertiesHandler
-				.getProperty("app.MachineDataPathPrefix") + "/";
+		String path = PropertiesHandler.getProperty("app.MachineDataPathPrefix") + "/";
 		File dir = new File(path);
 		String[] items = dir.list();
+		Arrays.sort(items);
 		comboMachineName.setItems(items);
 
 		// prefill the last used MachineConfig as default value into the combo
@@ -135,15 +131,12 @@ public class EModStartupGUI {
 
 		// text load machine config
 		Label textLoadMachineConfig = new Label(shell, SWT.TRANSPARENT);
-		textLoadMachineConfig.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
-				true, false, 1, 1));
-		textLoadMachineConfig.setText(LocalizationHandler
-				.getItem("app.gui.startup.machineconfigname"));
+		textLoadMachineConfig.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		textLoadMachineConfig.setText(LocalizationHandler.getItem("app.gui.startup.machineconfigname"));
 
 		// combo for the user to select the desired SimConfig
 		comboMachineConfigName = new Combo(shell, SWT.NONE);
-		comboMachineConfigName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
-				true, false, 1, 1));
+		comboMachineConfigName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		// possible items of the combo are all SimConfig that match to the
 		// selected MachConfig
 		updatecomboMachineConfigName(machineName);
@@ -159,8 +152,7 @@ public class EModStartupGUI {
 
 		// combo for the user to select the desired SimConfig
 		comboSimConfigName = new Combo(shell, SWT.NONE);
-		comboSimConfigName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
-				true, false, 1, 1));
+		comboSimConfigName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		// possible items of the combo are all SimConfig that match to the
 		// selected MachConfig
 		updatecomboSimConfigName(machineName);
@@ -444,6 +436,7 @@ public class EModStartupGUI {
 		// select
 		if (subdir.exists()) {
 			String[] subitems = subdir.list();
+			Arrays.sort(subitems);
 			comboMachineConfigName.setItems(subitems);
 			if (1 == subitems.length)
 				comboMachineConfigName.setText(subitems[0]);
@@ -472,6 +465,7 @@ public class EModStartupGUI {
 		// select
 		if (subdir.exists()) {
 			String[] subitems = subdir.list();
+			Arrays.sort(subitems);
 			comboSimConfigName.setItems(subitems);
 			if (1 == subitems.length)
 				comboSimConfigName.setText(subitems[0]);
@@ -506,6 +500,7 @@ public class EModStartupGUI {
 							f.getName().length() - 4));
 				}
 			}
+			
 
 			if (1 == comboProcName.getItems().length)
 				comboProcName.setText(comboProcName.getItems()[0]);

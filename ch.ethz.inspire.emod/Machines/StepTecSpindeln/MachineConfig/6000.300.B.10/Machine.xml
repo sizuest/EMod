@@ -2,12 +2,24 @@
 <ns2:machine xmlns:ns2="ch.ethz.inspire.emod">
     <machine>
         <machineComponent>
+            <position>
+                <x>-10.309278350515482</x>
+                <y>-110.30927835051573</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
             <component xsi:type="spindle" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>StepTec-6000.300.B.10</type>
             </component>
             <name>Spindle</name>
         </machineComponent>
         <machineComponent>
+            <position>
+                <x>-23.076923076923116</x>
+                <y>205.38461538461584</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
             <component xsi:type="forcedFluidFlow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <type>GlykolWater_30</type>
             </component>
@@ -20,44 +32,136 @@
             <unit>
                 <unitText>Hz</unitText>
             </unit>
+            <position>
+                <x>-227.83505154639226</x>
+                <y>-110.30927835051553</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
         </simController>
         <simController xsi:type="processSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>Torque</name>
             <unit>
                 <unitText>Nm</unitText>
             </unit>
+            <position>
+                <x>-217.52577319587655</x>
+                <y>-39.17525773195879</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
         </simController>
         <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>TemperatureIn</name>
             <unit>
                 <unitText>K</unitText>
             </unit>
+            <position>
+                <x>-235.0515463917531</x>
+                <y>81.44329896907227</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
         </simController>
         <simController xsi:type="constantSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>PressureIn</name>
             <unit>
                 <unitText>Pa</unitText>
             </unit>
+            <position>
+                <x>-224.74226804123745</x>
+                <y>157.73195876288685</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
         </simController>
         <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>FlowRate</name>
             <unit>
                 <unitText>m³/s</unitText>
             </unit>
+            <position>
+                <x>-221.64948453608307</x>
+                <y>231.95876288659838</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
         </simController>
         <simController xsi:type="staticSimulationControl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <name>State</name>
             <unit>
                 <unitText>none</unitText>
             </unit>
+            <position>
+                <x>-213.40206185567052</x>
+                <y>-185.56701030927871</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
         </simController>
     </simulators>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
-    <connectionList/>
+    <linking>
+        <ioConnection>
+            <sourceName>RotSpeed</sourceName>
+            <targetName>Spindle.RotSpeed</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>Torque</sourceName>
+            <targetName>Spindle.Torque</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>TemperatureIn</sourceName>
+            <targetName>ForcedFluidFlow.TemperatureIn</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>PressureIn</sourceName>
+            <targetName>ForcedFluidFlow.PressureIn</targetName>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>FlowRate</sourceName>
+            <targetName>ForcedFluidFlow.FlowRate</targetName>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>ForcedFluidFlow.FluidOut</sourceName>
+            <targetName>Spindle.CoolantIn</targetName>
+            <points>
+                <x>269.8229386831009</x>
+                <y>190.4965012122795</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>-74.50695822411637</x>
+                <y>45.13567647001133</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection xsi:type="fluidConnection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <sourceName>Spindle.CoolantOut</sourceName>
+            <targetName>ForcedFluidFlow.FluidIn</targetName>
+            <points>
+                <x>303.8435572398018</x>
+                <y>23.48619193392876</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>304.87448507485374</x>
+                <y>358.53773832568265</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+            <points>
+                <x>-83.78530873958032</x>
+                <y>349.2593878102182</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </points>
+        </ioConnection>
+        <ioConnection>
+            <sourceName>State</sourceName>
+            <targetName>Spindle.State</targetName>
+        </ioConnection>
+    </linking>
 </ns2:machine>

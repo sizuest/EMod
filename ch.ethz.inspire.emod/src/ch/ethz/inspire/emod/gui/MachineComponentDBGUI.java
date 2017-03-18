@@ -9,7 +9,6 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
@@ -32,18 +31,19 @@ public class MachineComponentDBGUI {
 
 	/**
 	 * window with the component db to select a component to edit
+	 * @param parent 
 	 */
-	public MachineComponentDBGUI() {
-		shell = new Shell(Display.getCurrent());
+	public MachineComponentDBGUI(Shell parent) {
+		shell = new Shell(parent, SWT.TITLE | SWT.SYSTEM_MODAL | SWT.CLOSE | SWT.MAX);
 		shell.setText(LocalizationHandler.getItem("app.gui.compdb.title"));
 		shell.setSize(400, 600);
 		shell.setLayout(new GridLayout(2, false));
+		
+		shell.setImages(parent.getImages());
 
 		// create ne tree element and fill it with the components from the DB
-		treeComponentDBView = new Tree(shell, SWT.SINGLE | SWT.BORDER
-				| SWT.V_SCROLL);
-		treeComponentDBView.setLayoutData(new GridData(SWT.FILL, SWT.FILL,
-				true, true, 2, 1));
+		treeComponentDBView = new Tree(shell, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
+		treeComponentDBView.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 		MachineComponentHandler.fillMachineComponentTree(treeComponentDBView);
 
 		treeComponentDBView.addMouseListener(new MouseListener() {
@@ -61,6 +61,9 @@ public class MachineComponentDBGUI {
 				TreeItem[] selection = null;
 				selection = treeComponentDBView.getSelection();
 				// open window editComponentEditGUI with the selected component
+				if(selection[0].getParentItem() == null)
+					return;
+				
 				EditMachineComponentGUI.editMachineComponentGUI(shell,
 						selection[0].getParentItem().getText(),
 						selection[0].getText());

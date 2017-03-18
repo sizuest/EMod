@@ -4,9 +4,9 @@
 <comment/>
 <entry key="InitialValue_Spindle_1_TemperatureStructure">NaN</entry>
 <entry key="InitialValue_Spindle_1_TemperatureCoolant">NaN</entry>
-<entry key="simulationPeriod">1</entry>
-<entry key="InitialValue_Spindle_TemperatureStructure">293.0</entry>
-<entry key="InitialValue_Spindle_TemperatureCoolant">293.0</entry>
+<entry key="simulationPeriod">1.0</entry>
+<entry key="InitialValue_Spindle_TemperatureStructure">293.15</entry>
+<entry key="InitialValue_Spindle_TemperatureCoolant">293.15</entry>
 <entry key="InitialValue_Tank_Temperature">NaN</entry>
 <entry key="InitialValue_Tank_Mass">1.0</entry>
 </properties>

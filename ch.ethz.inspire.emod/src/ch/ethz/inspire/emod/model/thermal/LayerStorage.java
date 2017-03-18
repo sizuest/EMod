@@ -316,9 +316,7 @@ public class LayerStorage extends APhysicalComponent {
 	public void update() {
 
 		// Set boundary conditions
-		thermalArray.setFlowRate(mDotIn.getValue()
-				/ thermalArray.getMaterial().getDensity(tempIn.getValue(),
-						pressure.getValue()));
+		thermalArray.setFlowRate(mDotIn.getValue() / thermalArray.getMaterial().getDensity(tempIn.getValue()));
 		thermalArray.setHeatSource(0);
 		thermalArray.setTemperatureAmb(tempAmb.getValue());
 		thermalArray.setTemperatureIn(tempIn.getValue());

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:duct xmlns:ns2="ch.ethz.inspire.emod">
+    <material>
+        <type>GlykolWater_30</type>
+    </material>
+    <name>Studer_example_start.duct</name>
+    <elements>
+        <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <name>Einlass</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.01</radius>
+            </profile>
+            <length>0.02</length>
+            <count>1.0</count>
+        </elements>
+        <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <name>Auslass</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.01</radius>
+            </profile>
+            <length>0.02</length>
+            <count>1.0</count>
+        </elements>
+    </elements>
+</ns2:duct>

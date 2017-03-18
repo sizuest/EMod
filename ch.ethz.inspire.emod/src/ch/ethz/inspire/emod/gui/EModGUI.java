@@ -92,6 +92,13 @@ public class EModGUI {
 		shell.setLocation(x, y);
 
 		shell.setLayout(new GridLayout(1, false));
+		
+		// Icon
+		shell.setImages(new Image[] {new Image(Display.getDefault(),"src/resources/icons/EModIcon_128x128.png"), 
+				                     new Image(Display.getDefault(),"src/resources/icons/EModIcon_48x48.png"), 
+				                     new Image(Display.getDefault(),"src/resources/icons/EModIcon_32x32.png"), 
+				                     new Image(Display.getDefault(),"src/resources/icons/EModIcon_22x22.png"), 
+				                     new Image(Display.getDefault(),"src/resources/icons/EModIcon_16x16.png")});
 
 		// init menu bar
 		logger.log(LogLevel.DEBUG, "init menu");
@@ -666,7 +673,7 @@ public class EModGUI {
 	class compDBOpenItemListener implements SelectionListener {
 		@Override
 		public void widgetSelected(SelectionEvent event) {
-			new MachineComponentDBGUI();
+			new MachineComponentDBGUI(shell);
 		}
 
 		@Override
@@ -702,7 +709,7 @@ public class EModGUI {
 	class matDBOpenItemListener implements SelectionListener {
 		@Override
 		public void widgetSelected(SelectionEvent event) {
-			new MaterialDBGUI();
+			new MaterialDBGUI(shell);
 		}
 
 		@Override

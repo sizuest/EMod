@@ -12,6 +12,7 @@
  ***********************************/
 package ch.ethz.inspire.emod.gui.graph;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
 
@@ -132,6 +133,17 @@ public class SimulationControlGraphElement extends AGraphElement {
 		this.setBounds(-5, -10, box.getWidth(), box.getHeight());
 
 		this.repaint();
+	}
+
+	/* (non-Javadoc)
+	 * @see ch.ethz.inspire.emod.gui.graph.AGraphElement#setSelected(boolean)
+	 */
+	@Override
+	public void setSelected(boolean b) {
+		if(b)
+			box.setPaint(Color.YELLOW);
+		else
+			box.setPaint(Color.WHITE);
 	}
 
 }

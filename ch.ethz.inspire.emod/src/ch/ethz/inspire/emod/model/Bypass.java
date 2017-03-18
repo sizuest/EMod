@@ -136,8 +136,8 @@ public class Bypass extends APhysicalComponent implements Floodable {
 
 		/* Read the config parameter: */
 		try {
-			pressureMax = params.getDoubleValue("PressureMax");
-			zeta = params.getDoubleValue("PressureLossCoefficient");
+			pressureMax = params.getPhysicalValue("PressureMax", new SiUnit("Pa")).getValue();
+			zeta = params.getPhysicalValue("PressureLossCoefficient", new SiUnit("Pa s^2 m^-6")).getValue();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

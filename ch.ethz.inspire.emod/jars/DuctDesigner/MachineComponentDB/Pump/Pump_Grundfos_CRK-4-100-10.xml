@@ -2,24 +2,22 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <comment/>
-<entry key="NominalFlowRate">0.002</entry>
-<entry key="LengthPump">.385</entry>
-<entry key="PressureSamples">959535.72, 940151.16, 920766.6, 901382.04, 872305.2, 843228.36, 804459.24, 765690.12, 717228.72, 659075.04, 600921.36, 533075.4, 455537.16, 368306.64</entry>
-<entry key="EfficiencySamples">0, 0.18, 0.31, 0.42, 0.5, 0.55, 0.575, 0.59, 0.59, 0.58, 0.57, 0.54, 0.5, 0.44</entry>
-<entry key="NominalPressure">455537 </entry>
+<entry key="LengthPump">0.385 m</entry>
+<entry key="PressureSamples">959536.0, 949843.0, 940151.0, 920767.0, 901382.0, 872305.0, 843228.0, 804459.0, 765690.0, 717229.0, 659075.0, 600921.0, 533075.0, 455537.0, 368307.0 Pa</entry>
+<entry key="EfficiencySamples">0.0, 0.09, 0.172, 0.312, 0.42, 0.496, 0.549, 0.578, 0.597, 0.596, 0.584, 0.569, 0.54, 0.497, 0.438 none</entry>
 <entry key="NumberImpellerEyes">1</entry>
 <entry key="HasMotorCooling">true</entry>
-<entry key="PowerSamples">1000, 1069.8291162, 1157.177598, 1262.1365796, 1380.3999241, 1504.8643058, 1636.2112637, 1764.2322873, 1886.1012258, 1991.3621284, 2072.3503021, 2130.4343189, 2156.7538606, 2141.2511855</entry>
-<entry key="NominalRotSpeed">2900</entry>
+<entry key="PowerSamples">997.0, 1036.0, 1070.0, 1157.0, 1262.0, 1380.0, 1505.0, 1636.0, 1764.0, 1886.0, 1991.0, 2072.0, 2130.0, 2157.0, 2141.0 W</entry>
+<entry key="NominalRotSpeed">2000.0 RPM (!)</entry>
 <entry key="Material">Motor</entry>
-<entry key="MaxTemperatureDifference">27</entry>
-<entry key="DiameterPump">.13</entry>
-<entry key="MassMotor">30</entry>
-<entry key="NumberStages">3</entry>
-<entry key="MassFluid">3</entry>
+<entry key="MaxTemperatureDifference">27.0 K</entry>
+<entry key="DiameterPump">0.13 m</entry>
+<entry key="MassMotor">30.0 kg</entry>
+<entry key="NumberStages">10</entry>
+<entry key="MassFluid">3.0 kg</entry>
 <entry key="IsSubmerged">true</entry>
-<entry key="Mass">30</entry>
-<entry key="FlowRateSamples">0, 0.0001667, 0.0003333, 0.0005, 0.0006667, 0.0008333, 0.001, 0.0011667, 0.0013333, 0.0015, 0.0016667, 0.0018333, 0.002, 0.0021667</entry>
-<entry key="LengthMotor">.321</entry>
-<entry key="DiameterMotor">.178</entry>
+<entry key="Mass">30.0</entry>
+<entry key="FlowRateSamples">0.0, 8.3E-5, 1.67E-4, 3.33E-4, 5.0E-4, 6.67E-4, 8.33E-4, 0.001, 0.001167, 0.001333, 0.0015, 0.001667, 0.001833, 0.002, 0.002167 m³/s</entry>
+<entry key="LengthMotor">0.321 m</entry>
+<entry key="DiameterMotor">0.178 m</entry>
 </properties>

@@ -24,6 +24,7 @@ import java.util.Properties;
 
 import ch.ethz.inspire.emod.model.material.Material;
 import ch.ethz.inspire.emod.model.parameters.PhysicalValue;
+import ch.ethz.inspire.emod.model.units.SiUnit;
 
 
 /**
@@ -165,15 +166,70 @@ public class ConfigReader {
 			throw new Exception("No propertiy '" + paramname + "' found in '"
 					+ filePath + "'!");
 		}
+		
+		if(valstr.contains(",") & valstr.contains(";")){
+			throw new Exception("Cant parse matrix '" + paramname + "' in '"
+					+ filePath + "' to physical value!");
+		}
 
-		value = parseDoubleArray(valstr.replaceFirst("[a-zA-Z].*$", ""));
-		unit = valstr.replaceFirst("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?",
-				"");
+		value = parseDoubleArray(valstr.replaceFirst("[a-df-zA-DF-Z].*$", ""));
+		unit = valstr.replaceFirst("(([-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?)[,;]?)+","");
 
 		out.set(value, unit);
 
 		return out;
 
+	}
+	
+	/**
+	 * Same as getPhysicalValue(String), but in case of failing to read a 
+	 * physical value, a double[] value is tried to be read. On success
+	 * this value is converted to a new physical value with the desired
+	 * si unit
+	 * @param paramname
+	 * @param desUnit
+	 * @return
+	 * @throws Exception
+	 */
+	public PhysicalValue getPhysicalValue(String paramname, SiUnit desUnit) throws Exception {
+		PhysicalValue pvalue;
+		try{
+			pvalue = getPhysicalValue(paramname);
+		}
+		catch (Exception e){
+			/* Ok, this did not work: try to read a double[] value: */
+			try{
+				double[] value = getDoubleArray(paramname);
+				pvalue = new PhysicalValue(value, desUnit);
+				// Save it, so its all fine for next time
+				setValue(paramname, pvalue);
+				saveValues();
+				System.out.println("ConfigReader: " + filePath
+						+ ": Creating new phisical parameter '" + paramname
+						+ "' with value '" + value + " " + desUnit.toString() + "'");
+			}
+			catch(Exception e2){
+				throw new Exception("No propertiy '" + paramname + "' found in '" + filePath + "'!");
+			}
+		}
+		
+		/* Test if the unit is correct  */
+		if(!(pvalue.getUnit().equals(desUnit))){
+			System.out.println("ConfigReader: " + filePath
+					+ ": Changing wrong unit ofparameter '" + paramname
+					+ "' from '" + pvalue.getUnit().toString() + "' to '" + desUnit.toString() + "'");
+			pvalue.set(pvalue.getValues(), desUnit);
+			try {
+				setValue(paramname, pvalue);
+				saveValues();
+			} catch (IOException e1) {
+				throw e1;
+			}
+		}
+		
+		return pvalue;
+		
+		
 	}
 
 	/**
@@ -316,7 +372,12 @@ public class ConfigReader {
 		return retmatrix;
 	}
 
-	private double[][] stringToDoubleMatrix(String valstr) {
+	/**
+	 * Parse a double matrix
+	 * @param valstr
+	 * @return
+	 */
+	public static double[][] stringToDoubleMatrix(String valstr) {
 		double[][] retmatrix = null;
 
 		// Remove all CRs and LFs, if exists:
@@ -490,7 +551,11 @@ public class ConfigReader {
 		return retarray;
 	}
 
-	private double[] parseDoubleArray(String valstr) {
+	/**
+	 * @param valstr
+	 * @return
+	 */
+	public static double[] parseDoubleArray(String valstr) {
 		double[] retarray = null;
 
 		// Remove semicolon at the end, if exists:

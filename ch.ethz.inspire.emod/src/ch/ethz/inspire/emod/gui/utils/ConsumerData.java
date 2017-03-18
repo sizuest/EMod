@@ -13,9 +13,11 @@
 package ch.ethz.inspire.emod.gui.utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import ch.ethz.inspire.emod.model.units.SiUnit;
+import ch.ethz.inspire.emod.simulation.MachineState;
 
 /**
  * holds data read from simulation output file.
@@ -29,38 +31,53 @@ public class ConsumerData {
 	private List<String> names; // i/o names
 	private List<SiUnit> units;
 	private List<double[]> values; // the values
-	private List<Boolean> active; // which values are plotted
-	private List<Double> energy; // integrated energy. use only for io
-									// components with watt as unit
+	private List<Boolean> active;  // which values are plotted
+	private List<Double> energy;   // integrated energy. use only for io
+								   // components with watt as unit
+	
+	private List<Double> average;
+	
 	private double averagePower;
 	private double peakPower;
-	private double variance;
+	private double variancePower;
 	private double[] pTotal = null;
+	
+	private double[] time;
+	private MachineState[] states;
+	
+	private HashMap<MachineState, Double[]> stateSpecificValue = null;
 
 	/**
 	 * 
 	 * @param consumerName
+	 * @param time 
+	 * @param states 
 	 */
-	public ConsumerData(String consumerName) {
+	public ConsumerData(String consumerName, double[] time, MachineState[] states) {
 		consumer = consumerName;
 		names = new ArrayList<String>();
 		units = new ArrayList<SiUnit>();
 		values = new ArrayList<double[]>();
 		active = new ArrayList<Boolean>();
 		energy = new ArrayList<Double>();
+		average = new ArrayList<Double>();
+		
+		this.time = time;
+		this.states = states;
 	}
 
 	/**
 	 * integrates the power values for every value sample set
 	 */
 	public void calculateEnergy() {
+		
 		for (double[] vals : values) {
 			double res = 0;
 			double lastval = 0;
-			for (double sample : vals) {
-				double valdiff = sample - lastval;
-				res += 0.2 * (lastval + valdiff * 0.5);
-				lastval = sample;
+			for (int i=1; i<vals.length; i++) {
+				double valdiff = vals[i] - vals[i-1];
+				double timediff = time[i] - time[i-1];
+				res += timediff * (lastval + valdiff * 0.5);
 			}
 			energy.add(res);
 		}
@@ -70,13 +87,15 @@ public class ConsumerData {
 	 * calculate variance, peak and average power.
 	 */
 	public void calculate() {
-		int ptotal = 0;
+		int ptotal = -1;
 		double peak = 0, avg = 0;
+		int length = 0;
+		
 		for (int i = 0; i < values.size(); i++) {
 			if (names.get(i).equals("PTotal") || names.get(i).equals("Pel"))
 				ptotal = i;
 		}
-		if (ptotal != 0)
+		if (ptotal != -1)
 			pTotal = values.get(ptotal);
 		else {
 			/*
@@ -85,7 +104,7 @@ public class ConsumerData {
 			 * @author sizuest
 			 */
 			pTotal = new double[values.get(0).length];
-			variance = Double.NaN;
+			variancePower = Double.NaN;
 			averagePower = Double.NaN;
 			peakPower = Double.NaN;
 			return;
@@ -94,19 +113,73 @@ public class ConsumerData {
 		for (int j = 0; j < values.get(ptotal).length; j++) {
 			if (pTotal[j] > peak)
 				peak = pTotal[j];
-			avg += pTotal[j];
+			
+			if(!Double.isNaN(pTotal[j])){
+				avg += pTotal[j];
+				length++;
+			}
 		}
 		// calc the average power consumption
-		avg = avg / pTotal.length;
+		avg = avg / length;
 
 		// calc the varicance (s^2=sum(x_i - avg)^2 / n-1)
-		variance = 0;
+		variancePower = 0;
 		for (int k = 0; k < pTotal.length; k++) {
-			variance += (pTotal[k] - avg) * (pTotal[k] - avg);
+			if(!Double.isNaN(pTotal[k]))
+				variancePower += (pTotal[k] - avg) * (pTotal[k] - avg);
 		}
-		variance = variance / (pTotal.length - 1);
+		variancePower = variancePower / (length-1);
 		averagePower = avg;
 		peakPower = peak;
+	}
+	
+	/**
+	 * Calculate the average values per state
+	 */
+	public void calculateStateAverage(){
+		int[] stateCount = new int[MachineState.values().length];
+		double[][] values = new double[MachineState.values().length][this.values.size()];
+		
+		// Init everything
+		for(int i=0; i<values.length; i++){
+			stateCount[i] = 0;
+			for(int j=0; j<this.values.size(); j++)
+				values[i][j] = 0;
+		}
+		
+		for(int i=0; i<states.length; i++){
+			if(states[i] == null)
+				continue;
+			
+			int idx = states[i].ordinal();
+			stateCount[idx] ++;
+			for(int j=0; j<this.values.size(); j++)
+				if(!Double.isNaN(this.values.get(j)[i]))
+					values[idx][j] += this.values.get(j)[i];
+		}
+
+		// Write to hash table
+		stateSpecificValue = new HashMap<MachineState, Double[]>();
+		for(int i=0; i<values.length; i++){
+			Double[] tmp = new Double[this.values.size()];
+			
+			for(int j=0; j<this.values.size(); j++)
+				tmp[j] = values[i][j]/stateCount[i];
+			
+			for(int j=0; j<this.values.size(); j++)
+			stateSpecificValue.put(MachineState.values()[i], tmp);
+		}
+		
+		for(int j=0; j<this.values.size(); j++){
+			double tmp = 0;
+			int count = 0;
+			for(int i=0; i<values.length; i++){
+				tmp += values[i][j];
+				count += stateCount[i];
+			}
+			average.add(tmp/count);
+		}
+		
 	}
 
 	/**
@@ -235,8 +308,24 @@ public class ConsumerData {
 	 * Returns the variance in the consumers power 
 	 * @return
 	 */
-	public double getVariance() {
-		return variance;
+	public double getVariancePower() {
+		return variancePower;
+	}
+	
+	/**
+	 * Returns the hash map with the state specific values
+	 * @return
+	 */
+	public HashMap<MachineState, Double[]> getStateMap(){
+		return stateSpecificValue;
+	}
+	
+	/**
+	 * Returns a list with the average values
+	 * @return
+	 */
+	public List<Double> getAverage(){
+		return average;
 	}
 
 	/**
@@ -245,5 +334,12 @@ public class ConsumerData {
 	 */
 	public double[] getPTotal() {
 		return pTotal;
+	}
+
+	/**
+	 * @return
+	 */
+	public double[] getTime() {
+		return time;
 	}
 }

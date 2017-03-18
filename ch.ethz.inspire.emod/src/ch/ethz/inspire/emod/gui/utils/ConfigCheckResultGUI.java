@@ -66,6 +66,7 @@ public class ConfigCheckResultGUI extends Composite {
 		update();
 	}
 	
+	@Override
 	public void update(){
 		super.update();
 		

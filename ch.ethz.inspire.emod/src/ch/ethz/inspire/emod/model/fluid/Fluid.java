@@ -1102,7 +1102,7 @@ public class Fluid {
 
 		/* Calculate parameters */
 		cp = mf.getHeatCapacity();
-		eta = mf.getViscosityDynamic(Tf) / 1000;
+		eta = mf.getViscosityDynamic(Tf);
 		lambda = mf.getThermalConductivity();
 
 		/* Calculate Pr */

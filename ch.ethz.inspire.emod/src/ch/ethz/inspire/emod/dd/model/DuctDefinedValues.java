@@ -63,7 +63,7 @@ public class DuctDefinedValues extends ADuctElement {
 				"W K^-1"));
 		ps.setPhysicalValue("Surface", this.surface, new SiUnit("m^2"));
 		ps.setPhysicalValue("Length", this.length, new SiUnit("m"));
-		ps.setPhysicalValue("Volume", this.length, new SiUnit("m^3"));
+		ps.setPhysicalValue("Volume", this.volume, new SiUnit("m^3"));
 
 		return ps;
 	}

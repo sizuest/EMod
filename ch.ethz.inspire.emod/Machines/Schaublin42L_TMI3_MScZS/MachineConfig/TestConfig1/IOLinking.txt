@@ -1,0 +1,4 @@
+C1.RotSpeed = C1_n
+C1.Torque = C1_Torque
+Z1_ax.ProcessForce = X1_v
+Z1_ax.Speed = Z1_v

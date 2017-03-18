@@ -1,44 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-  <comment>
-    Model parameter definition
-    ==========================
-      Model : PumpPower 
-      Type  : ND_Knoll_TG_40_55_22
-    Parameters
-    ----------
-      PressureSamples [Pa]
-        Array of operation points for the pump
-	  FlowRateSamples [m^3/s]
-		Array of corresponding flow rate to the given pressure samples
-      ElectricalPower [W]
-      	Electrical power of the pump if running
-      Mass [kg]
-      	Structural mass
-      Material [-]
-      	Structural material
-      EfficiencySamples [-]
-      	Pump efficiency samples
-      
-  </comment>
-  <entry key="PressureSamples">320000 319500 315000 311500 303000 298000 283000 270000</entry>
-  <entry key="FlowRateSamples">.00147 .001957 .002443 .002943 .003429 .003915 .004415 .0049</entry>
-  <entry key="PowerSamples">1700 1850 2050 2250 2400 2550 2750 2850</entry>
-  <entry key="EfficiencySamples">0 .3 .35 .4 .42 .4 .35 .3</entry>
-  
-  
-<entry key="MassFluid">3</entry>
-<entry key="MassMotor">15</entry>
-<entry key="HasMotorCooling">1</entry>
+<comment/>
 <entry key="IsSubmerged">0</entry>
-<entry key="DiameterPump">.1</entry>
-<entry key="LengthPump">.1</entry>
-<entry key="DiameterMotor">.2</entry>
-<entry key="LengthMotor">.2</entry>
-<entry key="NominalRotSpeed">1500</entry>
+<entry key="NominalRotSpeed">1500.0 RPM</entry>
+<entry key="DiameterMotor">0.2 m</entry>
+<entry key="DiameterPump">0.1 m</entry>
+<entry key="FlowRateSamples">0.00147, 0.001957, 0.002443, 0.002943, 0.003429, 0.003915, 0.004415, 0.0049 m³/s</entry>
+<entry key="LengthPump">0.1 m</entry>
+<entry key="MaxTemperatureDifference">25.0 K</entry>
+<entry key="PowerSamples">1700.0, 1850.0, 2050.0, 2250.0, 2400.0, 2550.0, 2750.0, 2850.0 W</entry>
+<entry key="EfficiencySamples">0.0, 0.3, 0.35, 0.4, 0.42, 0.4, 0.35, 0.3 none</entry>
 <entry key="NumberImpellerEyes">1</entry>
+<entry key="LengthMotor">0.2 m</entry>
+<entry key="HasMotorCooling">1</entry>
 <entry key="NumberStages">1</entry>
-<entry key="NominalFlowRate">0.003915</entry>
-<entry key="NominalPressure">298000</entry>
+<entry key="MassMotor">15.0 kg</entry>
+<entry key="PressureSamples">320000.0, 319500.0, 315000.0, 311500.0, 303000.0, 298000.0, 283000.0, 270000.0 Pa</entry>
+<entry key="MassFluid">3.0 kg</entry>
 </properties>

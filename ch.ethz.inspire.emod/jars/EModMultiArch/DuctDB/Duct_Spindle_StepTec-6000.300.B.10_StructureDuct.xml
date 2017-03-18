@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:duct xmlns:ns2="ch.ethz.inspire.emod">
+    <material>
+        <type>GlykolWater_30</type>
+    </material>
+    <name>Spindle_StepTec-6000.300.B.10_StructureDuct</name>
+    <elements>
+        <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <material>
+                <type>GlykolWater_30</type>
+            </material>
+            <name>Einlass</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.00585</radius>
+            </profile>
+            <length>0.0135</length>
+            <count>1.0</count>
+        </elements>
+        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <material>
+                <type>GlykolWater_30</type>
+            </material>
+            <name>Fitting_Einlass-Sinkleitung</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.00835</radius>
+            </profile>
+        </elements>
+        <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <material>
+                <type>GlykolWater_30</type>
+            </material>
+            <name>Sinkleitung</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.0025</radius>
+            </profile>
+            <length>0.415</length>
+            <count>2.0</count>
+        </elements>
+        <elements xsi:type="ductElbowFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <material>
+                <type>GlykolWater_30</type>
+            </material>
+            <name>Lagerkühlung Einlass</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.0025</radius>
+            </profile>
+            <count>2.0</count>
+        </elements>
+        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <material>
+                <type>GlykolWater_30</type>
+            </material>
+            <name>Fitting_Lagerkühlung Einlass-Lagerkühlung I</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.004879310344827586</radius>
+            </profile>
+        </elements>
+        <elements xsi:type="ductFlowAround" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <material>
+                <type>GlykolWater_30</type>
+            </material>
+            <name>Lagerkühlung I</name>
+            <profile xsi:type="hpRectangular">
+                <height>0.0115</height>
+                <width>0.003</width>
+            </profile>
+            <radius>0.0485</radius>
+        </elements>
+        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <material>
+                <type>GlykolWater_30</type>
+            </material>
+            <name>Fitting_Lagerkühlung I-Lagerkühlung Verbindung</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.004879310344827586</radius>
+            </profile>
+        </elements>
+        <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <material>
+                <type>GlykolWater_30</type>
+            </material>
+            <name>Lagerkühlung Verbindung</name>
+            <profile xsi:type="hpRectangular">
+                <height>0.003</height>
+                <width>0.015</width>
+            </profile>
+            <length>0.004</length>
+            <count>1.0</count>
+        </elements>
+        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <material>
+                <type>GlykolWater_30</type>
+            </material>
+            <name>Fitting_Lagerkühlung Verbindung-Lagerkühlung II</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.004879310344827586</radius>
+            </profile>
+        </elements>
+        <elements xsi:type="ductFlowAround" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <material>
+                <type>GlykolWater_30</type>
+            </material>
+            <name>Lagerkühlung II</name>
+            <profile xsi:type="hpRectangular">
+                <height>0.0115</height>
+                <width>0.003</width>
+            </profile>
+            <radius>0.0485</radius>
+        </elements>
+        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <material>
+                <type>GlykolWater_30</type>
+            </material>
+            <name>Fitting_Lagerkühlung II-Lagerkühlung Auslass</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.004879310344827586</radius>
+            </profile>
+        </elements>
+        <elements xsi:type="ductElbowFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <material>
+                <type>GlykolWater_30</type>
+            </material>
+            <name>Lagerkühlung Auslass</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.0025</radius>
+            </profile>
+            <count>2.0</count>
+        </elements>
+        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <material>
+                <type>GlykolWater_30</type>
+            </material>
+            <name>Fitting_Lagerkühlung Auslass-Steigleitung unten</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.004749999999999999</radius>
+            </profile>
+        </elements>
+        <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <material>
+                <type>GlykolWater_30</type>
+            </material>
+            <name>Steigleitung unten</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.00225</radius>
+            </profile>
+            <length>0.027</length>
+            <count>2.0</count>
+        </elements>
+        <elements xsi:type="ductElbowFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <material>
+                <type>GlykolWater_30</type>
+            </material>
+            <name>Statorendkühlung Einlass</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.00225</radius>
+            </profile>
+            <count>2.0</count>
+        </elements>
+        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <material>
+                <type>GlykolWater_30</type>
+            </material>
+            <name>Fitting_Statorendkühlung Einlass-Statorendkühlung I</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.005011061946902654</radius>
+            </profile>
+        </elements>
+        <elements xsi:type="ductHelix" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <material>
+                <type>GlykolWater_30</type>
+            </material>
+            <name>Statorendkühlung I</name>
+            <profile xsi:type="hpRectangular">
+                <height>0.0048</height>
+                <width>0.0065</width>
+            </profile>
+            <radius>0.035</radius>
+            <height>0.0048</height>
+            <distance>0.0048</distance>
+        </elements>
+        <elements xsi:type="ductElbowFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <material>
+                <type>GlykolWater_30</type>
+            </material>
+            <name>Statorendkühlung Übergang I</name>
+            <profile xsi:type="hpRectangular">
+                <height>0.0048</height>
+                <width>0.0065</width>
+            </profile>
+            <count>1.0</count>
+        </elements>
+        <elements xsi:type="ductElbowFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <material>
+                <type>GlykolWater_30</type>
+            </material>
+            <name>Statorendkühlung Übergang II</name>
+            <profile xsi:type="hpRectangular">
+                <height>0.0048</height>
+                <width>0.0065</width>
+            </profile>
+            <count>1.0</count>
+        </elements>
+        <elements xsi:type="ductHelix" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <material>
+                <type>GlykolWater_30</type>
+            </material>
+            <name>Statorendkühlung II</name>
+            <profile xsi:type="hpRectangular">
+                <height>0.0048</height>
+                <width>0.0065</width>
+            </profile>
+            <radius>0.045</radius>
+            <height>0.0048</height>
+            <distance>0.0048</distance>
+        </elements>
+        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <material>
+                <type>GlykolWater_30</type>
+            </material>
+            <name>Fitting_Statorendkühlung II-Statorendkühlung Übergang III</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.005118204804045512</radius>
+            </profile>
+        </elements>
+        <elements xsi:type="ductElbowFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <material>
+                <type>GlykolWater_30</type>
+            </material>
+            <name>Statorendkühlung Übergang III</name>
+            <profile xsi:type="hpRectangular">
+                <height>0.003</height>
+                <width>0.011</width>
+            </profile>
+            <count>1.0</count>
+        </elements>
+        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <material>
+                <type>GlykolWater_30</type>
+            </material>
+            <name>Fitting_Statorendkühlung Übergang III-Statorendkühlung III</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.004857142857142857</radius>
+            </profile>
+        </elements>
+        <elements xsi:type="ductFlowAround" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <material>
+                <type>GlykolWater_30</type>
+            </material>
+            <name>Statorendkühlung III</name>
+            <profile xsi:type="hpRectangular">
+                <height>0.015</height>
+                <width>0.003</width>
+            </profile>
+            <radius>0.0565</radius>
+        </elements>
+        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <material>
+                <type>GlykolWater_30</type>
+            </material>
+            <name>Fitting_Statorendkühlung III-TElement</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.012499999999999999</radius>
+            </profile>
+        </elements>
+        <elements xsi:type="ductElbowFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <material>
+                <type>GlykolWater_30</type>
+            </material>
+            <name>Statorkühlung Einlass</name>
+            <profile xsi:type="hpRectangular">
+                <height>0.011</height>
+                <width>0.003</width>
+            </profile>
+            <count>1.0</count>
+        </elements>
+        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <material>
+                <type>GlykolWater_30</type>
+            </material>
+            <name>Fitting_TElement-Statorkühlung</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.012357142857142855</radius>
+            </profile>
+        </elements>
+        <elements xsi:type="ductHelix" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <material>
+                <type>GlykolWater_30</type>
+            </material>
+            <name>Statorkühlung</name>
+            <profile xsi:type="hpRectangular">
+                <height>0.011</height>
+                <width>0.003</width>
+            </profile>
+            <radius>0.0575</radius>
+            <height>0.095</height>
+            <distance>0.0185</distance>
+        </elements>
+        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <material>
+                <type>GlykolWater_30</type>
+            </material>
+            <name>Fitting_Statorkühlung-Statorkühlung Auslass</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.004857142857142857</radius>
+            </profile>
+        </elements>
+        <elements xsi:type="ductElbowFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <material>
+                <type>GlykolWater_30</type>
+            </material>
+            <name>Statorkühlung Auslass</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.0025</radius>
+            </profile>
+            <count>2.0</count>
+        </elements>
+        <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <material>
+                <type>GlykolWater_30</type>
+            </material>
+            <name>Steigleitung oben</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.0025</radius>
+            </profile>
+            <length>0.2257</length>
+            <count>2.0</count>
+        </elements>
+        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <material>
+                <type>GlykolWater_30</type>
+            </material>
+            <name>Fitting_Steigleitung oben-Auslass</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.00835</radius>
+            </profile>
+        </elements>
+        <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <material>
+                <type>GlykolWater_30</type>
+            </material>
+            <name>Auslass</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.00585</radius>
+            </profile>
+            <length>0.0135</length>
+            <count>1.0</count>
+        </elements>
+    </elements>
+</ns2:duct>

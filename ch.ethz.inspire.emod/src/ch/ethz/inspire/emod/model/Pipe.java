@@ -212,10 +212,10 @@ public class Pipe extends APhysicalComponent implements Floodable {
 
 		/* Read the config parameter: */
 		try {
-			pipeDiameter = params.getDoubleValue("PipeDiameter");
-			pipeLength = params.getDoubleValue("PipeLength");
-			pipeThickness = params.getDoubleValue("PipeThickness");
-			pipeRoughness = params.getDoubleValue("PipeRoughness");
+			pipeDiameter = params.getPhysicalValue("PipeDiameter", new SiUnit("m")).getValue();
+			pipeLength = params.getPhysicalValue("PipeLength", new SiUnit("m")).getValue();
+			pipeThickness = params.getPhysicalValue("PipeThickness", new SiUnit("m")).getValue();
+			pipeRoughness = params.getPhysicalValue("PipeRoughness", new SiUnit("m")).getValue();
 			pipeMaterial = params.getMaterial("PipeMaterial");
 
 			// Calculate constant parameters

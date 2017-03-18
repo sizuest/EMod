@@ -100,8 +100,7 @@ public class SiUnitDefinition {
 		convMap.put("cd", (new SiUnit(0, 0, 0, 0, 0, 0, 1)));
 		// Additional SI units
 		convMap.put("none", (new SiUnit()));
-		convMap.put("rad", (new SiUnit()));
-		convMap.put("sr", (new SiUnit()));
+		//convMap.put("sr", (new SiUnit()));
 		convMap.put("J", (new SiUnit("W s")));
 		convMap.put("Hz", (new SiUnit("s^-1")));
 		convMap.put("N", (new SiUnit("m kg s^-2")));
@@ -128,6 +127,13 @@ public class SiUnitDefinition {
 		convMap.put("Gy", (new SiUnit("m^2 s^-2")));
 		convMap.put("Sv", (new SiUnit("m^2 s^-2")));
 		convMap.put("kat", (new SiUnit("mol s^-1")));
+		//Nice outputs
+		convMap.put("kg/m³", (new SiUnit("kg m^-3")));
+		convMap.put("J/kg/K", (new SiUnit("J kg^-1 K^-1")));
+		convMap.put("N/m", (new SiUnit("N m^-1")));
+		convMap.put("W/m/K", (new SiUnit("W m^-1 K^-1")));
+		convMap.put("s²Pa/m⁶", (new SiUnit("Pa s^2 m^-6")));
+		convMap.put("Pas", (new SiUnit("Pa s")));
 
 	}
 
@@ -163,6 +169,14 @@ public class SiUnitDefinition {
 	 */
 	public static String getString(SiUnit unit) {
 		String out = "";
+		
+		/* Non Si Unit */
+		boolean nonSi = false;
+		for (int i = 0; i < unit.get().length; i++)
+			nonSi = nonSi | (Double.isNaN(unit.get()[i]));
+		if (nonSi){
+			return unit.getUnitName();
+		}
 
 		/* Simplest case */
 		boolean allZero = (0 == unit.get()[0]);
@@ -209,6 +223,13 @@ public class SiUnitDefinition {
 	 * @return {@link SiUnit} objects
 	 */
 	public static SiUnit convertToBaseUnit(String s) {
+		
+		if(s.equals("")){
+			return new SiUnit();
+		}
+		
+		s.replace(" ", "");
+		
 		double[] exp = { 0, 0, 0, 0, 0, 0, 0 };
 
 		double[] expInner = exp;
@@ -221,10 +242,14 @@ public class SiUnitDefinition {
 		Matcher m = p.matcher(s);
 
 		// Prepare other search units
-		Pattern pUnit = Pattern.compile("[a-zA-Z\\/¹²³]+|([-+]?\\d)+");
+		Pattern pUnit = Pattern.compile("[a-zA-Z\\/¹²³⁴⁵⁶⁷⁸⁹]+|([-+]?\\d)+");
 		Matcher mUnit;
+		
+		boolean foundOne = false;
 
 		while (m.find()) {
+			foundOne = true;
+			
 			subUnit = m.group();
 
 			mUnit = pUnit.matcher(subUnit);
@@ -245,6 +270,9 @@ public class SiUnitDefinition {
 				exp[i] += expOut * expInner[i];
 
 		}
+		
+		if(!foundOne)
+			return new SiUnit(Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN);
 
 		return (new SiUnit(exp));
 	}

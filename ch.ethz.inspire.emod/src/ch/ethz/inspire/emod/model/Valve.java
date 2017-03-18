@@ -108,8 +108,7 @@ public class Valve extends APhysicalComponent implements Floodable {
 
 		/* Define Input parameters */
 		inputs = new ArrayList<IOContainer>();
-		valveCtrl = new IOContainer("ValveCtrl", new SiUnit(Unit.NONE), 0,
-				ContainerType.CONTROL);
+		valveCtrl = new IOContainer("ValveCtrl", new SiUnit(Unit.NONE), 0, ContainerType.CONTROL);
 		inputs.add(valveCtrl);
 
 		/* Fluid Properties */
@@ -117,21 +116,16 @@ public class Valve extends APhysicalComponent implements Floodable {
 
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		ploss = new IOContainer("PLoss", new SiUnit(Unit.WATT), 0,
-				ContainerType.THERMAL);
-		ptotal = new IOContainer("PTotal", new SiUnit(Unit.WATT), 0,
-				ContainerType.ELECTRIC);
-		puse = new IOContainer("PUse", new SiUnit(Unit.WATT), 0,
-				ContainerType.FLUIDDYNAMIC);
+		ploss = new IOContainer("PLoss", new SiUnit(Unit.WATT), 0, ContainerType.THERMAL);
+		ptotal = new IOContainer("PTotal", new SiUnit(Unit.WATT), 0, ContainerType.ELECTRIC);
+		puse = new IOContainer("PUse", new SiUnit(Unit.WATT), 0, ContainerType.FLUIDDYNAMIC);
 		outputs.add(ptotal);
 		outputs.add(puse);
 		outputs.add(ploss);
 
 		/* Fluid in- and output */
-		fluidIn = new FluidContainer("FluidIn", new SiUnit(Unit.NONE),
-				ContainerType.FLUIDDYNAMIC, fluidProperties);
-		fluidOut = new FluidContainer("FluidOut", new SiUnit(Unit.NONE),
-				ContainerType.FLUIDDYNAMIC, fluidProperties);
+		fluidIn = new FluidContainer("FluidIn", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidProperties);
+		fluidOut = new FluidContainer("FluidOut", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidProperties);
 		inputs.add(fluidIn);
 		outputs.add(fluidOut);
 
@@ -144,14 +138,13 @@ public class Valve extends APhysicalComponent implements Floodable {
 			params = new ComponentConfigReader(getModelType(), type);
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.exit(-1);
 		}
 
 		/* Read the config parameter: */
 		try {
-			electricPower = params.getDoubleValue("ElectricPower");
-			zeta = params.getDoubleValue("PressureLossCoefficient");
-			area = params.getDoubleValue("Area");
+			electricPower = params.getPhysicalValue("ElectricPower", new SiUnit("W")).getValue();
+			zeta = params.getPhysicalValue("PressureLossCoefficient", new SiUnit()).getValue();
+			area = params.getPhysicalValue("Area", new SiUnit("m^2")).getValue();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -238,8 +231,7 @@ public class Valve extends APhysicalComponent implements Floodable {
 	 * @return
 	 */
 	public double getPressure(double flowRate) {
-		return Math.pow(flowRate, 2) * getPressureLossCoefficient()
-				* Math.signum(flowRate);
+		return Math.pow(flowRate, 2) * getPressureLossCoefficient() * Math.signum(flowRate);
 	}
 
 	/**

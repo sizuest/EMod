@@ -164,14 +164,23 @@ public class DuctGraph extends PComposite {
 		
 		int idx = elements.indexOf(element);
 		
+		System.out.println(idx);
 		
-		if(element.getGlobalBounds().getMinY()>position.getY() & idx>0) {
-			duct.moveElementUp(element.getElement());
-			Collections.swap(elements, idx, idx-1);
+		// Move element up
+		if(idx>0){
+			if(elements.get(idx-1).getGlobalBounds().getMinY()>position.getY()) {
+				duct.moveElementUp(element.getElement());
+				Collections.swap(elements, idx, idx-1);
+			}
+			//System.out.println(elements.get(idx-1).getGlobalBounds().getMinY()+" : "+position.getY());
 		}
-		else if(element.getGlobalBounds().getMaxY()<position.getY() & idx<elements.size()-1) {
-			duct.moveElementDown(element.getElement());
-			Collections.swap(elements, idx, idx+1);
+		// Move element down
+		if(idx+1<elements.size()){
+			if(elements.get(idx+1).getGlobalBounds().getMaxY()<position.getY()) {
+				duct.moveElementDown(element.getElement());
+				Collections.swap(elements, idx, idx+1);
+			}
+			System.out.println(elements.get(idx+1).getGlobalBounds().getMaxY()+" : "+position.getY());
 		}
 		
 		this.update();

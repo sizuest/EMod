@@ -49,6 +49,8 @@ import org.swtchart.Range;
 
 import ch.ethz.inspire.emod.gui.utils.ShowButtons;
 import ch.ethz.inspire.emod.gui.utils.TableUtils;
+import ch.ethz.inspire.emod.model.material.Material;
+import ch.ethz.inspire.emod.model.parameters.PhysicalValue;
 import ch.ethz.inspire.emod.utils.Algo;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
 import ch.ethz.inspire.emod.utils.MaterialConfigReader;
@@ -81,8 +83,10 @@ public class EditMaterialGUI extends AConfigGUI {
 	 */
 	public EditMaterialGUI(Composite parent, int style, String materialName) {
 		super(parent, style, ShowButtons.ALL);
+		
 
 		try {
+			new Material(materialName);
 			material = new MaterialConfigReader("Material", materialName);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -179,8 +183,7 @@ public class EditMaterialGUI extends AConfigGUI {
 	 */
 	public static void editMaterialGUI(final Shell parent, String type) {
 
-		final Shell shell = new Shell(parent, SWT.TITLE | SWT.APPLICATION_MODAL
-				| SWT.CLOSE | SWT.MAX | SWT.RESIZE);
+		final Shell shell = new Shell(parent, SWT.TITLE | SWT.APPLICATION_MODAL | SWT.CLOSE | SWT.MAX | SWT.RESIZE);
 		shell.setText("Edit Material: " + type);
 		shell.setLayout(new GridLayout(1, true));
 		shell.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -230,22 +233,18 @@ public class EditMaterialGUI extends AConfigGUI {
 	 * @param parent
 	 */
 	public static void newMaterialGUI(final Shell parent) {
-		final Shell shell = new Shell(parent, SWT.TITLE | SWT.SYSTEM_MODAL
-				| SWT.CLOSE | SWT.MAX);
+		final Shell shell = new Shell(parent, SWT.TITLE | SWT.SYSTEM_MODAL | SWT.CLOSE | SWT.MAX);
 		shell.setText(LocalizationHandler.getItem("app.gui.matdb.newmat"));
 		shell.setLayout(new GridLayout(2, false));
 
 		// Text "Material name" of the material
 		Label textMaterialName = new Label(shell, SWT.NONE);
-		textMaterialName.setText(LocalizationHandler
-				.getItem("app.gui.matdb.matname"));
-		textMaterialName.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER,
-				true, true, 1, 1));
+		textMaterialName.setText(LocalizationHandler.getItem("app.gui.matdb.matname"));
+		textMaterialName.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, true, true, 1, 1));
 
 		// Textfield to let the user enter the desired name of the material
 		final Text textMaterialNameValue = new Text(shell, SWT.BORDER);
-		textMaterialNameValue.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
-				true, true, 1, 1));
+		textMaterialNameValue.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true, 1, 1));
 
 		// button to continue
 		Button buttonContinue = new Button(shell, SWT.NONE);
@@ -254,8 +253,7 @@ public class EditMaterialGUI extends AConfigGUI {
 		buttonContinue.addSelectionListener(new SelectionListener() {
 			@Override
 			public void widgetSelected(SelectionEvent event) {
-				String stringMaterialNameValue = textMaterialNameValue
-						.getText();
+				String stringMaterialNameValue = textMaterialNameValue.getText();
 
 				// copy the example type of the selected component and create a
 				// copy
@@ -309,7 +307,18 @@ public class EditMaterialGUI extends AConfigGUI {
 			TableItem item = new TableItem(tableMaterialProperties, SWT.NONE);
 			item.setText(0, key);
 			try {
-				item.setText(1, material.getString(key));
+				String value, unit;
+				try{
+					PhysicalValue pvalue = material.getPhysicalValue(key);
+					value = pvalue.valuesToString();
+					unit  = pvalue.getUnit().toString();
+				}catch (Exception e2){
+					value = material.getString(key);
+					unit = "";
+				}
+				
+				item.setText(1, value);
+				item.setText(2, unit);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -321,23 +330,20 @@ public class EditMaterialGUI extends AConfigGUI {
 		}
 
 		try {
-			lineDensity.setXSeries(material
-					.getDoubleArray("TemperatureSamples"));
-			lineDensity.setYSeries(material.getDoubleArray("DensityMatrix"));
+			lineDensity.setXSeries(material.getPhysicalValue("TemperatureSamples").getValues());
+			lineDensity.setYSeries(material.getPhysicalValue("DensityMatrix").getValues());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		try {
-			lineHeatCap.setXSeries(material
-					.getDoubleArray("TemperatureSamples"));
-			double[] cp = new double[material
-					.getDoubleArray("TemperatureSamples").length];
-			if (material.getDoubleArray("HeatCapacity").length < cp.length)
+			lineHeatCap.setXSeries(material.getPhysicalValue("TemperatureSamples").getValues());
+			double[] cp = new double[material.getPhysicalValue("TemperatureSamples").getValues().length];
+			if (material.getPhysicalValue("HeatCapacity").getValues().length < cp.length)
 				for (int i = 0; i < cp.length; i++)
-					cp[i] = material.getDoubleArray("HeatCapacity")[0];
+					cp[i] = material.getPhysicalValue("HeatCapacity").getValue();
 			else
-				cp = material.getDoubleArray("HeatCapacity");
+				cp = material.getPhysicalValue("HeatCapacity").getValues();
 
 			lineHeatCap.setYSeries(cp);
 		} catch (Exception e) {
@@ -345,24 +351,17 @@ public class EditMaterialGUI extends AConfigGUI {
 		}
 
 		try {
-			lineViscosity.setXSeries(material
-					.getDoubleArray("TemperatureSamples"));
-			lineViscosity.setYSeries(material
-					.getDoubleArray("ViscositySamples"));
+			lineViscosity.setXSeries(material.getPhysicalValue("TemperatureSamples").getValues());
+			lineViscosity.setYSeries(material.getPhysicalValue("ViscositySamples").getValues());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		chart.getAxisSet().adjustRange();
 		try {
-			chart.getAxisSet()
-					.getXAxis(0)
-					.setRange(
-							new Range(
-									Algo.getMinimum(material
-											.getDoubleArray("TemperatureSamples")),
-									Algo.getMaximum(material
-											.getDoubleArray("TemperatureSamples"))));
+			chart.getAxisSet().getXAxis(0).setRange(new Range(
+									Algo.getMinimum(material.getPhysicalValue("TemperatureSamples").getValues())*.9,
+									Algo.getMaximum(material.getPhysicalValue("TemperatureSamples").getValues())*1.1));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -373,7 +372,7 @@ public class EditMaterialGUI extends AConfigGUI {
 	public void save() {
 
 		for (TableItem ti : tableMaterialProperties.getItems()) {
-			material.setValue(ti.getText(0), ti.getText(1));
+			material.setValue(ti.getText(0), ti.getText(1)+" "+ti.getText(2));
 		}
 
 		try {

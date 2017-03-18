@@ -12,6 +12,8 @@
  ***********************************/
 package ch.ethz.inspire.emod.gui;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
@@ -35,6 +37,9 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
@@ -42,6 +47,8 @@ import org.eclipse.swt.widgets.TreeItem;
 import ch.ethz.inspire.emod.LogLevel;
 import ch.ethz.inspire.emod.gui.utils.ConsumerData;
 import ch.ethz.inspire.emod.gui.utils.LineChart;
+import ch.ethz.inspire.emod.gui.utils.TableUtils;
+import ch.ethz.inspire.emod.simulation.MachineState;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
 
 /**
@@ -50,15 +57,14 @@ import ch.ethz.inspire.emod.utils.LocalizationHandler;
  */
 public class FEMExportGUI extends AEvaluationGUI {
 
-	private static Logger logger = Logger.getLogger(FEMExportGUI.class
-			.getName());
+	private static Logger logger = Logger.getLogger(FEMExportGUI.class.getName());
 
 	Composite graphComp;
 	Tree chooseTree;
 	ArrayList<TreeItem> consumerTreeItems = new ArrayList<TreeItem>();
 	Text textFilter;
 	private TabFolder aTabFolder;
-	private TabItem tChartItem, sChartItem, aChartItem;
+	private TabItem tChartItem, sChartItem;
 
 	int maxWidth;
 
@@ -107,8 +113,7 @@ public class FEMExportGUI extends AEvaluationGUI {
 
 		// Text field for Filtering
 		textFilter = new Text(cl, SWT.BORDER | SWT.SEARCH | SWT.ICON_CANCEL);
-		textFilter.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false,
-				2, 1));
+		textFilter.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 2, 1));
 		textFilter.setMessage("Filter");
 		textFilter.addMouseListener(new MouseListener() {
 
@@ -140,8 +145,7 @@ public class FEMExportGUI extends AEvaluationGUI {
 		});
 
 		chooseTree = new Tree(cl, SWT.V_SCROLL);
-		chooseTree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true,
-				2, 1));
+		chooseTree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 
 		chooseTree.addListener(SWT.MouseDoubleClick, new Listener() {
 
@@ -248,8 +252,7 @@ public class FEMExportGUI extends AEvaluationGUI {
 		maxWidth = 0;
 
 		for (ConsumerData cd : availableConsumers) {
-			TreeItem itemTop = consumerTreeItems.get(availableConsumers
-					.indexOf(cd));
+			TreeItem itemTop = consumerTreeItems.get(availableConsumers.indexOf(cd));
 			boolean wasExpanded = itemTop.getExpanded();
 
 			for (TreeItem ti : itemTop.getItems())
@@ -258,14 +261,9 @@ public class FEMExportGUI extends AEvaluationGUI {
 			consumerTreeItems.get(availableConsumers.indexOf(cd));
 
 			for (int i = 0; i < cd.getNames().size(); i++) {
-				if ("" == filter
-						| cd.getNames().get(i).toLowerCase()
-								.contains(filter.toLowerCase())
-						| ("[" + cd.getUnits().get(i).toString() + "]")
-								.contains(filter)) {
+				if ("" == filter | cd.getNames().get(i).toLowerCase().contains(filter.toLowerCase()) | ("[" + cd.getUnits().get(i).toString() + "]").contains(filter)) {
 					final TreeItem item = new TreeItem(itemTop, SWT.NONE);
-					item.setText(cd.getNames().get(i) + " ["
-							+ cd.getUnits().get(i) + "]");
+					item.setText(cd.getNames().get(i) + " ["+ cd.getUnits().get(i) + "]");
 
 					if (cd.getActive().get(i))
 						item.setFont(new Font(Display.getCurrent(), item
@@ -323,21 +321,18 @@ public class FEMExportGUI extends AEvaluationGUI {
 			tChartItem.dispose();
 		if (null != sChartItem)
 			sChartItem.dispose();
-		if (null != aChartItem)
-			aChartItem.dispose();
 
 		// Create Tabs
 		tChartItem = new TabItem(aTabFolder, SWT.NONE);
 		sChartItem = new TabItem(aTabFolder, SWT.NONE);
-		aChartItem = new TabItem(aTabFolder, SWT.NONE);
 
 		tChartItem.setText(LocalizationHandler.getItem("Time"));
 
 		sChartItem.setText(LocalizationHandler.getItem("State"));
 
-		aChartItem.setText(LocalizationHandler.getItem("Average"));
-
 		tChartItem.setControl(createPTChart(aTabFolder));
+		
+		sChartItem.setControl(createStateTable(aTabFolder));
 
 		aTabFolder.setSelection(0);
 
@@ -353,5 +348,69 @@ public class FEMExportGUI extends AEvaluationGUI {
 		this.redraw();
 
 		aTabFolder.setEnabled(true);
+	}
+
+	/**
+	 * Creates a table including the state specific averages of all FEM values
+	 * @param aTabFolder2
+	 * @return
+	 */
+	private Composite createStateTable(TabFolder aTabFolder) {
+		Table table = new Table(aTabFolder, SWT.None | SWT.MULTI);
+		
+		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		table.setLinesVisible(true);
+		table.setHeaderVisible(true);
+		
+		// Table  headers
+		(new TableColumn(table, SWT.NULL)).setText("Component");
+		(new TableColumn(table, SWT.NULL)).setText("Name");
+		(new TableColumn(table, SWT.NULL)).setText("Unit");
+		for (int i = 0; i < MachineState.values().length; i++) {
+			TableColumn column = new TableColumn(table, SWT.NULL);
+			column.setText(MachineState.values()[i].toString());
+		}
+		(new TableColumn(table, SWT.NULL)).setText("Overall");
+		
+		try {
+			TableUtils.addCopyToClipboard(table);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		/* Fill the table */ 		
+		for(ConsumerData cd: availableConsumers){
+			cd.calculateStateAverage();
+			// Loop through all boundary conditions of the component
+			for(int bcIdx=0; bcIdx<cd.getNames().size(); bcIdx++){
+				TableItem item = new TableItem(table, SWT.NONE);
+				item.setText(0, cd.getConsumer());
+				item.setText(1, cd.getNames().get(bcIdx));
+				item.setText(2, cd.getUnits().get(bcIdx)+"");
+				// Loop through all state specific values
+				for (int i = 0; i < MachineState.values().length; i++) {
+					if(!Double.isNaN(cd.getStateMap().get(MachineState.values()[i])[bcIdx]))
+						item.setText(3+i, (new BigDecimal(cd.getStateMap().get(MachineState.values()[i])[bcIdx])).round(new MathContext(3)).toEngineeringString());
+				}
+				item.setText(3+MachineState.values().length, (new BigDecimal(cd.getAverage().get(bcIdx))).round(new MathContext(3)).toEngineeringString());
+			}
+		}
+		
+		/* Tabelle packen */
+		TableColumn[] columns = table.getColumns();
+		for (int i = 0; i < columns.length; i++) {
+			columns[i].pack();
+		}
+		
+		/* Spaltenbreite gleich ab index 3 */
+		int maxWith = 0;
+		for (int i = 3; i < columns.length; i++) {
+			maxWith = Math.max(columns[i].getWidth(), maxWith);
+		}
+		for (int i = 3; i < columns.length; i++) {
+			columns[i].setWidth(maxWith);
+		}
+		
+		return table;
 	}
 }

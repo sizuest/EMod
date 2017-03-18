@@ -108,9 +108,7 @@ public class ThermalArray extends AThermalIntegrator {
 	 */
 	public void setFlowRate(double flowRate) {
 		this.flowRate = flowRate;
-		this.massFlowRate = flowRate
-				* material.getDensity(getTemperatureBulk(),
-						pressure.getCurrent());
+		this.massFlowRate = flowRate * material.getDensity(getTemperatureBulk());
 	}
 
 	/**

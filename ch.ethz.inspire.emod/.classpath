@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="org.swtchart_0.7.0.v20110128.jar"/>
 	<classpathentry kind="lib" path="ejml-v0.26-libs/EJML-core-0.26.jar" sourcepath="ejml-v0.26-src"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/piccolo2d"/>
+	<classpathentry kind="lib" path="piccolo2d.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

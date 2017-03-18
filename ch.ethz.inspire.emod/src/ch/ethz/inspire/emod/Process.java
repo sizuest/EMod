@@ -65,6 +65,7 @@ public class Process extends ConfigReader {
 
 		try {
 			getInstance().ConfigReaderOpen();
+			getInstance().bufferedTime = null;
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			return;

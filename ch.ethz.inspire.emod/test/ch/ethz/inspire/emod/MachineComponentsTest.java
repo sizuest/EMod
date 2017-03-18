@@ -27,7 +27,7 @@ import ch.ethz.inspire.emod.model.MachineComponent;
 public class MachineComponentsTest {
 
 	/**
-	 * Test method for {@link ch.ethz.inspire.emod.model.Machine#getComponent(java.lang.String)}.
+	 * Test method for {@link Machine#getMachineComponent(String)}.
 	 */
 	@Test
 	public void testGetComponent() {

@@ -81,6 +81,12 @@ public abstract class AGraphElement extends PComposite {
 		 * ModelGraphGUI Class handle the tasks.
 		 */
 		ModelGraphGUI.removeGraphElement(this);
+		super.removeFromParent();
 	}
+
+	/**
+	 * @param b
+	 */
+	public abstract void  setSelected(boolean b);
 
 }

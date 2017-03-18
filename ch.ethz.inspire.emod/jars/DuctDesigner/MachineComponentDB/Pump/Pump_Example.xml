@@ -1,71 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-<comment>
-    Model parameter definition
-    ==========================
-      Model : Pump
-      Type  : Example
-    Parameters
-    ----------
-      PressureSamples [Pa]
-        Array of operation points for the pump
-	  FlowRateSamples [m^3/s]
-		Array of corresponding flow rate to the given pressure samples
-      ElectricalPower [W]
-      	Electrical power of the pump if running
-      Material [-]
-      	Structural material
-      EfficiencySamples [-]
-      	Pump efficiency samples
-      MassMotor [kg]
-      	Structural mass
-      MassFluid [kg]
-      	Fluid mass
-      HasMotorCooling [-]
-      	Indication whether the motor is cooled
-      IsSubmerged [-]
-      	Indication whether the pump is submerged or not
-      DiameterPump [m]
-      	Pump diameter
-      LengthPump [m]
-      	Pump length
-      DiameterMotor [m]
-      	Motor diameter
-      LengthMotor [m]
-      	Motor length
-      MaxTemperatureDifference [K]
-        Maximum temperature diff twds. amb.
-      NominalRotSpeed [rpm]
-      	Nominal rotational speed
-      NumberImpellerEyes [-]
-      	Number of impeller eyes
-      NumberStages [-]
-      	Number of pump stages
-      Nominal Flow Rate [m3/s]
-      	Structural mas
-      NominalPressure [Pa]
-      	Nominal pressure
-      
-  </comment>
-<entry key="PowerSamples">100 210 460 460</entry>
-<entry key="FlowRateSamples">0 0.00025 0.0005 0.00075</entry>
-<entry key="Material">Steel</entry>
-<entry key="PressureSamples">370000 300000 250000 0</entry>
-<entry key="EfficiencySamples">0 .4 .3 0</entry>
-
-<entry key="MassFluid">3</entry>
-<entry key="MassMotor">15</entry>
-<entry key="HasMotorCooling">true</entry>
+<comment/>
 <entry key="IsSubmerged">false</entry>
-<entry key="DiameterPump">.1</entry>
-<entry key="LengthPump">.1</entry>
-<entry key="DiameterMotor">.2</entry>
-<entry key="LengthMotor">.2</entry>
-<entry key="MaxTemperatureDifference">25</entry>
-<entry key="NominalRotSpeed">1500</entry>
+<entry key="NominalRotSpeed">1500.0 RPM (!)</entry>
+<entry key="DiameterMotor">0.2 m</entry>
+<entry key="DiameterPump">0.1 m</entry>
+<entry key="FlowRateSamples">0.0, 2.5E-4, 5.0E-4, 7.5E-4 m³/s</entry>
+<entry key="Material">Steel</entry>
+<entry key="PowerSamples">100.0, 210.0, 460.0, 460.0 W</entry>
+<entry key="LengthPump">0.1 m</entry>
+<entry key="MaxTemperatureDifference">25.0 K</entry>
+<entry key="EfficiencySamples">0.0, 0.4, 0.3, 0.0 none</entry>
 <entry key="NumberImpellerEyes">1</entry>
+<entry key="LengthMotor">0.2 m</entry>
+<entry key="HasMotorCooling">true</entry>
 <entry key="NumberStages">1</entry>
-<entry key="NominalFlowRate">0.005</entry>
-<entry key="NominalPressure">250000</entry>
+<entry key="MassMotor">15.0 kg</entry>
+<entry key="PressureSamples">370000.0, 300000.0, 250000.0, 0.0 Pa</entry>
+<entry key="MassFluid">3.0 kg</entry>
 </properties>

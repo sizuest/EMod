@@ -103,12 +103,9 @@ public class CompressedFluid extends APhysicalComponent {
 	private void init() {
 		/* Define Input parameters */
 		inputs = new ArrayList<IOContainer>();
-		vFlowDot = new IOContainer("Flow", new SiUnit(Unit.METERCUBIC_S), 0,
-				ContainerType.FLUIDDYNAMIC);
-		tempAmb = new IOContainer("TemperatureAmb", new SiUnit(Unit.KELVIN), 0,
-				ContainerType.THERMAL);
-		pAmb = new IOContainer("PressureAmb", new SiUnit(Unit.PA), 100000,
-				ContainerType.FLUIDDYNAMIC);
+		vFlowDot = new IOContainer("Flow", new SiUnit(Unit.METERCUBIC_S), 0, ContainerType.FLUIDDYNAMIC);
+		tempAmb = new IOContainer("TemperatureAmb", new SiUnit(Unit.KELVIN), 0, ContainerType.THERMAL);
+		pAmb = new IOContainer("PressureAmb", new SiUnit(Unit.PA), 100000, ContainerType.FLUIDDYNAMIC);
 		inputs.add(vFlowDot);
 		inputs.add(tempAmb);
 		inputs.add(pAmb);
@@ -144,10 +141,10 @@ public class CompressedFluid extends APhysicalComponent {
 
 		/* Read the config parameter: */
 		try {
-			rho = params.getDoubleValue("Density");
-			cp = params.getDoubleValue("HeatCapacity");
-			gamma = params.getDoubleValue("IsentropicCoefficient");
-			psupply = params.getDoubleValue("SupplyPressure");
+			rho = params.getPhysicalValue("Density", new SiUnit("kg m^-3")).getValue();
+			cp = params.getPhysicalValue("HeatCapacity", new SiUnit("J kg^-1 K^-1")).getValue();
+			gamma = params.getPhysicalValue("IsentropicCoefficient", new SiUnit("")).getValue();
+			psupply = params.getPhysicalValue("SupplyPressure", new SiUnit("Pa")).getValue();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

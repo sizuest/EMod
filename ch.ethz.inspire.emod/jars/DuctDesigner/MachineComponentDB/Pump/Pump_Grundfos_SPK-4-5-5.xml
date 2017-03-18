@@ -2,24 +2,22 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <comment/>
-<entry key="NominalFlowRate">0.000833 </entry>
-<entry key="LengthPump">.224</entry>
-<entry key="PressureSamples">256250, 	243750, 	228125, 	212500, 	193750, 	171875, 	146875, 	121875, 	93750</entry>
-<entry key="EfficiencySamples">0, 	0.219, 	0.343, 	0.438, 	0.486, 	0.514, 	0.514, 	0.495, 	0.448</entry>
-<entry key="NominalPressure">171875 </entry>
+<entry key="LengthPump">0.224 m</entry>
+<entry key="PressureSamples">256250.0, 243750.0, 228125.0, 212500.0, 193750.0, 171875.0, 146875.0, 121875.0, 93750.0 Pa</entry>
+<entry key="EfficiencySamples">0.0, 0.219, 0.343, 0.438, 0.486, 0.514, 0.514, 0.495, 0.448 none</entry>
 <entry key="NumberImpellerEyes">1</entry>
 <entry key="HasMotorCooling">true</entry>
-<entry key="PowerSamples">122, 	199 ,	266, 	310, 	354, 	376, 	388, 	399, 	388, </entry>
-<entry key="NominalRotSpeed">2860</entry>
+<entry key="PowerSamples">122.0, 199.0, 266.0, 310.0, 354.0, 376.0, 388.0, 399.0, 388.0 W</entry>
+<entry key="NominalRotSpeed">2860.0 RPM (!)</entry>
 <entry key="Material">Motor</entry>
-<entry key="MaxTemperatureDifference">15</entry>
-<entry key="DiameterPump">.1</entry>
-<entry key="MassMotor">16</entry>
+<entry key="MaxTemperatureDifference">15.0 K</entry>
+<entry key="DiameterPump">0.1 m</entry>
+<entry key="MassMotor">16.0 kg</entry>
 <entry key="NumberStages">5</entry>
-<entry key="MassFluid">1.2</entry>
+<entry key="MassFluid">1.2 kg</entry>
 <entry key="IsSubmerged">true</entry>
 <entry key="Mass">30</entry>
-<entry key="FlowRateSamples">0, 	0.000167, 	0.000333, 	0.0005, 	0.000667, 	0.000833, 	0.001, 	0.001167, 	0.001333</entry>
-<entry key="LengthMotor">.250</entry>
-<entry key="DiameterMotor">.141</entry>
+<entry key="FlowRateSamples">0.0, 1.67E-4, 3.33E-4, 5.0E-4, 6.67E-4, 8.33E-4, 0.001, 0.001167, 0.001333 m³/s</entry>
+<entry key="LengthMotor">0.25 m</entry>
+<entry key="DiameterMotor">0.141 m</entry>
 </properties>

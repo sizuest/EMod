@@ -63,6 +63,9 @@ public class DuctGraphBypass extends DuctGraphElement {
 		//textName.rotate(-Math.PI/2);
 		
 		update();
+		
+		box.setStrokeColor(Color.GRAY);
+		box.setPaint(Color.WHITE);
 	}
 	
 	@Override
@@ -110,9 +113,6 @@ public class DuctGraphBypass extends DuctGraphElement {
 			lineBottom.setTransform(t);
 				
 		}
-		
-		box.setStrokeColor(Color.GRAY);
-		box.setPaint(Color.WHITE);
 	}
 	
 	/**
@@ -148,6 +148,20 @@ public class DuctGraphBypass extends DuctGraphElement {
 			return ductGraph2;
 		else
 			return parent;
+	}
+	
+	@Override
+	public void setSelected(boolean b){
+		if(b){
+			box.setStrokeColor(Color.RED);
+			isolation.setStrokeColor(Color.ORANGE);
+			isolation.setPaint(Color.YELLOW);
+		}
+		else{
+			box.setStrokeColor(Color.GRAY);
+			isolation.setStrokeColor(Color.BLACK);
+			isolation.setPaint(Color.GRAY);
+		}
 	}
 
 

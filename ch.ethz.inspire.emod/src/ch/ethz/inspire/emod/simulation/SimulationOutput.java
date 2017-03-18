@@ -54,8 +54,7 @@ public class SimulationOutput {
 	 * @param slist
 	 *            List of simulation control objects.
 	 */
-	public SimulationOutput(String filename, ArrayList<MachineComponent> list,
-			List<ASimulationControl> slist) {
+	public SimulationOutput(String filename, ArrayList<MachineComponent> list, List<ASimulationControl> slist) {
 		/* Init variables: */
 		flushcnt = 0;
 		mclist = list;
@@ -74,6 +73,7 @@ public class SimulationOutput {
 			 * 1\t...
 			 */
 			outfile.write("Time");
+			outfile.write(separator+"State");
 			for (MachineComponent mc : mclist) {
 				for (int i = 0; i < mc.getComponent().getInputs().size(); i++) {
 					if (mc.getComponent().getInputs().get(i).hasReference())
@@ -123,6 +123,7 @@ public class SimulationOutput {
 			 * \t...
 			 */
 			outfile.write("   ");
+			outfile.write(separator);
 			for (MachineComponent mc : mclist) {
 				for (IOContainer input : mc.getComponent().getInputs()) {
 					if (input.hasReference())
@@ -168,6 +169,7 @@ public class SimulationOutput {
 			outfile.write("\n");
 			/* 3rd line: [s]\t[WATT]\t[TEMP]\t... */
 			outfile.write("[s]");
+			outfile.write(separator);
 			for (MachineComponent mc : mclist) {
 				for (IOContainer input : mc.getComponent().getInputs()) {
 					if (input.hasReference())
@@ -225,10 +227,12 @@ public class SimulationOutput {
 	 * 
 	 * @param time
 	 *            Actual time in [s].
+	 * @param mstate 
 	 */
-	public void logData(double time) {
+	public void logData(double time, MachineState mstate) {
 		try {
 			outfile.write(format.format(time));
+			outfile.write(separator+mstate.toString());
 			for (MachineComponent mc : mclist) {
 				for (IOContainer input : mc.getComponent().getInputs()) {
 					if (input.hasReference())

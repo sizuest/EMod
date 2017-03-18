@@ -416,4 +416,12 @@ public class DuctBypass extends ADuctElement {
 			double pressure, double x) {
 		return Double.NaN;
 	}
+
+	/**
+	 * @param rootDuct 
+	 */
+	public void setRootDuct(Duct rootDuct) {
+		ductPrimary.setRootDuct(rootDuct);
+		ductSecondary.setRootDuct(rootDuct);
+	}
 }

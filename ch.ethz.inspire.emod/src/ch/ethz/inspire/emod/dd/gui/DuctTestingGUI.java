@@ -170,8 +170,7 @@ public class DuctTestingGUI extends AGUITab {
 
 		/* Tabs Analysis */
 		tabAnalysis = new TabFolder(form, SWT.NONE);
-		tabAnalysis.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true,
-				1, 4));
+		tabAnalysis.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 4));
 
 		/* Testing Table */
 		tableTesting = new Table(tabAnalysis, SWT.BORDER | SWT.MULTI
@@ -215,25 +214,16 @@ public class DuctTestingGUI extends AGUITab {
 								.getItem("app.dd.testing.gui.location")
 								+ " ["
 								+ (new SiUnit("m")).toString() + "]");
-		chartTesting.getAxisSet().getXAxis(0).getTick()
-				.setForeground(Display.getDefault().getSystemColor(0));
-		chartTesting.getAxisSet().getXAxis(0).getTitle()
-				.setForeground(Display.getDefault().getSystemColor(0));
+		chartTesting.getAxisSet().getXAxis(0).getTick().setForeground(Display.getDefault().getSystemColor(0));
+		chartTesting.getAxisSet().getXAxis(0).getTitle().setForeground(Display.getDefault().getSystemColor(0));
 		chartTesting.getAxisSet().createYAxis();
 		chartTesting.getAxisSet().createYAxis();
-		chartTesting
-				.getAxisSet()
-				.getYAxis(0)
-				.getTitle()
-				.setText(
-						LocalizationHandler.getItem("app.dd.testing.gui.htc")
-								+ " [" + (new SiUnit("W/K")).toString() + "]");
-		chartTesting.getAxisSet().getYAxis(0).getTick()
-				.setForeground(colorPressure);
 		chartTesting.getAxisSet().getYAxis(0).getTitle()
-				.setForeground(colorPressure);
-		chartTesting.getAxisSet().getYAxis(1).getTick()
-				.setFormat(new DecimalFormat("0.###E0"));
+				.setText(LocalizationHandler.getItem("app.dd.testing.gui.htc")
+								+ " [" + (new SiUnit("W/K")).toString() + "]");
+		chartTesting.getAxisSet().getYAxis(0).getTick().setForeground(colorHTC);
+		chartTesting.getAxisSet().getYAxis(0).getTitle().setForeground(colorHTC);
+		chartTesting.getAxisSet().getYAxis(1).getTick().setFormat(new DecimalFormat("0.###E0"));
 		chartTesting
 				.getAxisSet()
 				.getYAxis(1)
@@ -243,9 +233,9 @@ public class DuctTestingGUI extends AGUITab {
 								.getItem("app.dd.testing.gui.pressure")
 								+ " ["
 								+ (new SiUnit("Pa")).toString() + "]");
-		chartTesting.getAxisSet().getYAxis(1).getTick().setForeground(colorHTC);
+		chartTesting.getAxisSet().getYAxis(1).getTick().setForeground(colorPressure);
 		chartTesting.getAxisSet().getYAxis(1).getTitle()
-				.setForeground(colorHTC);
+				.setForeground(colorPressure);
 		chartTesting
 				.getAxisSet()
 				.getYAxis(2)
@@ -338,9 +328,9 @@ public class DuctTestingGUI extends AGUITab {
 				.setText(
 						LocalizationHandler.getItem("app.dd.testing.gui.htc")
 								+ " [" + (new SiUnit("W/K")).toString() + "]");
-		chartCC.getAxisSet().getYAxis(0).getTick().setForeground(colorPressure);
+		chartCC.getAxisSet().getYAxis(0).getTick().setForeground(colorHTC);
 		chartCC.getAxisSet().getYAxis(0).getTitle()
-				.setForeground(colorPressure);
+				.setForeground(colorHTC);
 		chartCC.getAxisSet()
 				.getYAxis(1)
 				.getTitle()
@@ -351,8 +341,8 @@ public class DuctTestingGUI extends AGUITab {
 								+ (new SiUnit("Pa")).toString() + "]");
 		chartCC.getAxisSet().getYAxis(1).getTick()
 				.setFormat(new DecimalFormat("0.###E0"));
-		chartCC.getAxisSet().getYAxis(1).getTick().setForeground(colorHTC);
-		chartCC.getAxisSet().getYAxis(1).getTitle().setForeground(colorHTC);
+		chartCC.getAxisSet().getYAxis(1).getTick().setForeground(colorPressure);
+		chartCC.getAxisSet().getYAxis(1).getTitle().setForeground(colorPressure);
 		chartCC.getTitle().setVisible(false);
 
 		lineSeriesHTCCC = (ILineSeries) chartCC.getSeriesSet().createSeries(

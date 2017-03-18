@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment/>
+<entry key="RotspeedSamples">50.0 m</entry>
+<entry key="PowerSamples">15000.0 W</entry>
+<entry key="EfficiencyMatrix">.85</entry>
+<entry key="FrictionTorque">0.0 Nm</entry>
+<entry key="RotspeedNominal">50</entry>
+<entry key="PowerNominal">15e3</entry>
+</properties>

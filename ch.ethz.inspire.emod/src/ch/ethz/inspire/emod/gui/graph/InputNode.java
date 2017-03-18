@@ -41,7 +41,7 @@ public class InputNode extends AIONode {
 		this.ioObject = ioObject;
 		this.ioText.setText(ioObject.getName() + " ["
 				+ ioObject.getUnit().toString() + "]");
-
+		
 		setLeft();
 	}
 

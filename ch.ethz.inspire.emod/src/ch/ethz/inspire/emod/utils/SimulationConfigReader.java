@@ -67,8 +67,10 @@ public class SimulationConfigReader extends ConfigReader {
 	 * @return
 	 */
 	public ComponentState getComponentState(String machineState) {
-		return ComponentState.valueOf(props
-				.getProperty(machineState + "_state"));
+		if(props.containsKey(machineState + "_state"))
+			return ComponentState.valueOf(props.getProperty(machineState + "_state"));
+		else
+			return ComponentState.OFF;
 	}
 
 	/**

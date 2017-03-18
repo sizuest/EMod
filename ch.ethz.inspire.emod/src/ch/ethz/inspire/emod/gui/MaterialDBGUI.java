@@ -20,7 +20,6 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
@@ -42,12 +41,15 @@ public class MaterialDBGUI {
 
 	/**
 	 * window with the component db to select a component to edit
+	 * @param parent 
 	 */
-	public MaterialDBGUI() {
-		shell = new Shell(Display.getCurrent());
+	public MaterialDBGUI(Shell parent) {
+		shell = new Shell(parent, SWT.TITLE | SWT.SYSTEM_MODAL | SWT.CLOSE | SWT.MAX);
 		shell.setText(LocalizationHandler.getItem("app.gui.matdb.title"));
 		shell.setSize(400, 600);
 		shell.setLayout(new GridLayout(2, false));
+		
+		shell.setImages(parent.getImages());
 
 		// create tree element and fill it with the components from the DB
 		treeComponentDBView = new Tree(shell, SWT.SINGLE | SWT.BORDER
@@ -78,8 +80,7 @@ public class MaterialDBGUI {
 				event.data = text;
 
 				// open window editComponentEditGUI with the selected component
-				EditMaterialGUI.editMaterialGUI(shell, selection[0].getText()
-						.replace(".xml", ""));
+				EditMaterialGUI.editMaterialGUI(shell.getShell(), selection[0].getText().replace(".xml", ""));
 			}
 
 			@Override

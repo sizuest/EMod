@@ -54,10 +54,8 @@ public class EditGenergicSimulationControlGUI extends AEditInputComposite {
 
 		this.getContent().setLayout(new GridLayout(1, true));
 
-		tableInputProperties = new Table(this.getContent(), SWT.BORDER
-				| SWT.SINGLE | SWT.V_SCROLL);
-		tableInputProperties.setLayoutData(new GridData(SWT.FILL, SWT.FILL,
-				true, true, 1, 1));
+		tableInputProperties = new Table(this.getContent(), SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL);
+		tableInputProperties.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		tableInputProperties.setLinesVisible(true);
 		tableInputProperties.setHeaderVisible(true);
 

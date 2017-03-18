@@ -14,7 +14,8 @@ package ch.ethz.inspire.emod.gui;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.CopyOption;
 import java.nio.file.Files;
@@ -23,6 +24,8 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -77,6 +80,7 @@ import ch.ethz.inspire.emod.model.MachineComponent;
 import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.simulation.ASimulationControl;
+import ch.ethz.inspire.emod.utils.Defines;
 import ch.ethz.inspire.emod.utils.IOConnection;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
@@ -581,10 +585,8 @@ public class ModelGraphGUI extends AGUITab implements IGraphEditable{
 	 *            Machine Component to add to the machine table
 	 * @param p
 	 */
-	public static void addGraphItem(final MachineComponent mc,
-			GraphElementPosition p) {
-		MachineComponentGraphElement composite = new MachineComponentGraphElement(
-				mc);
+	public static void addGraphItem(final MachineComponent mc, GraphElementPosition p) {
+		MachineComponentGraphElement composite = new MachineComponentGraphElement(mc);
 
 		machineComponents.add(composite);
 
@@ -631,37 +633,45 @@ public class ModelGraphGUI extends AGUITab implements IGraphEditable{
 
 		EModStatusBarGUI.getProgressBar().setText("Preparing canvas ...");
 		EModStatusBarGUI.getProgressBar().updateProgressbar(0, false);
+		
+		canvasModelGraph.getLayer().removeAllChildren();
+		machineComponents = new ArrayList<MachineComponentGraphElement>();
+		simulationControls = new ArrayList<SimulationControlGraphElement>();
 
-		for (MachineComponentGraphElement ge : machineComponents)
-			canvasModelGraph.getLayer().removeChild(ge);
-
-		for (SimulationControlGraphElement ge : simulationControls)
-			canvasModelGraph.getLayer().removeChild(ge);
-
-		ArrayList<MachineComponent> mclist = Machine.getInstance()
-				.getMachineComponentList();
-		List<ASimulationControl> sclist = Machine.getInstance()
-				.getInputObjectList();
-
-		int i = 0, N = Math.max(1, mclist.size() + mclist.size());
+		ArrayList<MachineComponent> mclist = Machine.getInstance().getMachineComponentList();
+		List<ASimulationControl> sclist = Machine.getInstance().getInputObjectList();
+		
+		int i = 0, N;
+		if(null!=mclist & null!=sclist)
+			N = Math.max(1, mclist.size() + sclist.size());
+		else if (null!=mclist)
+			N = Math.max(1, mclist.size());
+		else if (null!=sclist)
+			N = Math.max(1, sclist.size());
+		else
+			N = 1;
+			
 
 		EModStatusBarGUI.getProgressBar().setText(
 				"Drawing machine elements ...");
-		for (MachineComponent mc : mclist) {
-			ModelGraphGUI.addGraphItem(mc);
-			EModStatusBarGUI.getProgressBar().updateProgressbar(i++ * 100 / N,
-					false);
-		}
+		
+		if (null!=mclist)
+			for (MachineComponent mc : mclist) {
+				ModelGraphGUI.addGraphItem(mc);
+				EModStatusBarGUI.getProgressBar().updateProgressbar(i++ * 100 / N, false);
+			}
 		EModStatusBarGUI.getProgressBar().setText("Drawing connections ...");
-		for (ASimulationControl sc : sclist) {
-			ModelGraphGUI.addGraphItem(sc);
-			EModStatusBarGUI.getProgressBar().updateProgressbar(i++ * 100 / N,
-					false);
-		}
+		if (null!=sclist)
+			for (ASimulationControl sc : sclist) {
+				ModelGraphGUI.addGraphItem(sc);
+				EModStatusBarGUI.getProgressBar().updateProgressbar(i++ * 100 / N, false);
+			}
 
 		EModStatusBarGUI.getProgressBar().reset();
 
 		ModelGraphGUI.redrawConnections();
+		
+		//saveImage();
 	}
 
 	private static void setZoomLevel(Point center, int level) {
@@ -669,11 +679,12 @@ public class ModelGraphGUI extends AGUITab implements IGraphEditable{
 		
 		Point2D p = (new GraphElementPosition(center, canvasModelGraph)).get();
 		
-		if(canvasModelGraph.getCamera().getViewScale()<1 | level<0)
+		if(canvasModelGraph.getCamera().getViewScale()<=2 | level<0)
 			camera.scaleViewAboutPoint(1 + level * 0.01/camera.getViewScale(), p.getX(), p.getY());
 	}
 
 	
+	@Override
 	public void showAll() {
 		double xMin = Double.POSITIVE_INFINITY, xMax = Double.NEGATIVE_INFINITY, yMin = Double.POSITIVE_INFINITY, yMax = Double.NEGATIVE_INFINITY;
 
@@ -712,16 +723,45 @@ public class ModelGraphGUI extends AGUITab implements IGraphEditable{
 			canvasModelGraph.getCamera().scaleViewAboutPoint(1/canvasModelGraph.getCamera().getViewScale(), b.getCenterX(), b.getCenterY());
 
 	}
+	
+	/**
+	 * Saves the image at the current machine folder
+	 */
+	public void saveImage(){
+		try{
+			BufferedImage image = new BufferedImage( (int) canvasModelGraph.getCamera().getViewBounds().getWidth(), 
+													 (int) canvasModelGraph.getCamera().getViewBounds().getHeight(), 
+													 BufferedImage.TYPE_INT_ARGB);
+			canvasModelGraph.getLayer().toImage(image, null);
+			
+			String prefix = PropertiesHandler.getProperty("app.MachineDataPathPrefix");
+			String machineName   = PropertiesHandler.getProperty("sim.MachineName");
+			String machineConfig = PropertiesHandler.getProperty("sim.MachineConfigName");
+			String path = prefix + "/" + machineName + "/"
+					+ Defines.MACHINECONFIGDIR + "/" + machineConfig + "/machine.png";
+			
+			
+ 			ImageIO.write(image, "png", new File(path));		
+ 			
+ 			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * Draw the given ioc
 	 * @param ioc
 	 */
 	public static void drawIOConnection(IOConnection ioc) {
-		ConnectionLine line = new ConnectionLine(ioc);
-
-		connectionLines.add(line);
-		canvasModelGraph.getLayer().addChild(line);
+		try{
+			ConnectionLine line = new ConnectionLine(ioc);
+	
+			connectionLines.add(line);
+			canvasModelGraph.getLayer().addChild(line);
+		} catch (Exception e){
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -756,18 +796,14 @@ public class ModelGraphGUI extends AGUITab implements IGraphEditable{
 	public static void removeGraphElement(AGraphElement element) {
 
 		if (element instanceof MachineComponentGraphElement) {
-			Machine.removeMachineComponent(((MachineComponentGraphElement) element)
-					.getMachineComponent());
+			Machine.removeMachineComponent(((MachineComponentGraphElement) element).getMachineComponent());
 			machineComponents.remove(element);
 		} else if (element instanceof SimulationControlGraphElement) {
-			Machine.removeInputObject(((SimulationControlGraphElement) element)
-					.getSimulationControl());
+			Machine.removeInputObject(((SimulationControlGraphElement) element).getSimulationControl());
 			simulationControls.remove(element);
 		}
 
 		redrawConnections();
-
-		canvasModelGraph.getLayer().removeChild(element);
 	}
 
 	/**
@@ -778,9 +814,10 @@ public class ModelGraphGUI extends AGUITab implements IGraphEditable{
 			canvasModelGraph.getLayer().removeChild(cl);
 
 		connectionLines = new ArrayList<ConnectionLine>();
-
-		for (IOConnection ioc : Machine.getInstance().getIOLinkList())
-			ModelGraphGUI.drawIOConnection(ioc);
+		
+		if(null!=Machine.getInstance().getIOLinkList())
+			for (IOConnection ioc : Machine.getInstance().getIOLinkList())
+				ModelGraphGUI.drawIOConnection(ioc);
 
 	}
 
@@ -874,7 +911,7 @@ public class ModelGraphGUI extends AGUITab implements IGraphEditable{
 	public static Color getIOColor(IOContainer c) {
 		switch (c.getType()) {
 		case ELECTRIC:
-			return Color.MAGENTA;
+			return Color.GREEN;
 		case THERMAL:
 			return Color.RED;
 		case CONTROL:
@@ -882,7 +919,7 @@ public class ModelGraphGUI extends AGUITab implements IGraphEditable{
 		case FLUIDDYNAMIC:
 			return Color.BLUE;
 		case MECHANIC:
-			return Color.GREEN;
+			return Color.ORANGE;
 		case INFORMATION:
 			return Color.YELLOW;
 		default:

@@ -71,6 +71,7 @@ public class Cylinder extends APhysicalComponent implements Floodable {
 	private IOContainer ploss;
 	private IOContainer phydr;
 	private IOContainer flowRate;
+	private IOContainer pDrop;
 	private FluidContainer fluidOut;
 
 	// Parameters used by the model.
@@ -132,24 +133,21 @@ public class Cylinder extends APhysicalComponent implements Floodable {
 
 		/* Define Input parameters */
 		inputs = new ArrayList<IOContainer>();
-		force = new IOContainer("Force", new SiUnit(Unit.NEWTON), 0,
-				ContainerType.MECHANIC);
-		velocity = new IOContainer("Velocity", new SiUnit(Unit.M_S), 0,
-				ContainerType.MECHANIC);
+		force = new IOContainer("Force", new SiUnit(Unit.NEWTON), 0, ContainerType.MECHANIC);
+		velocity = new IOContainer("Velocity", new SiUnit(Unit.M_S), 0, ContainerType.MECHANIC);
 		inputs.add(force);
 		inputs.add(velocity);
 
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		pmech = new IOContainer("PUse", new SiUnit(Unit.WATT), 0,
-				ContainerType.MECHANIC);
-		ploss = new IOContainer("PLoss", new SiUnit(Unit.WATT), 0,
-				ContainerType.THERMAL);
-		phydr = new IOContainer("PTotal", new SiUnit(Unit.WATT), 0,
-				ContainerType.FLUIDDYNAMIC);
+		pmech = new IOContainer("PUse", new SiUnit(Unit.WATT),   0, ContainerType.MECHANIC);
+		ploss = new IOContainer("PLoss", new SiUnit(Unit.WATT),  0, ContainerType.THERMAL);
+		phydr = new IOContainer("PTotal", new SiUnit(Unit.WATT), 0, ContainerType.FLUIDDYNAMIC);
+		pDrop = new IOContainer("PressureDifference", new SiUnit(Unit.PA), 0, ContainerType.FLUIDDYNAMIC);
 		outputs.add(pmech);
 		outputs.add(ploss);
 		outputs.add(phydr);
+		outputs.add(pDrop);
 
 		/* *********************************************************************** */
 		/* Read configuration parameters: */
@@ -165,14 +163,19 @@ public class Cylinder extends APhysicalComponent implements Floodable {
 
 		/* Read the config parameter: */
 		try {
-			pistonDiameter = params.getDoubleValue("PistonDiameter");
-			pistonThickness = params.getDoubleValue("PistonThickness");
-			stroke = params.getDoubleValue("CylinderStroke");
-			efficiency = params.getDoubleValue("Efficiency");
-			pistonRodDiameter = params.getDoubleValue("PistonRodDiameter");
-			params.getDoubleValue("ConnectionDiameter");
-			structureMass = params.getDoubleValue("StructuralMass");
+			pistonDiameter  = params.getPhysicalValue("PistonDiameter", new SiUnit("m")).getValue();
+			pistonThickness = params.getPhysicalValue("PistonThickness", new SiUnit("m")).getValue();
+			stroke          = params.getPhysicalValue("CylinderStroke", new SiUnit("m")).getValue();
+			efficiency      = params.getPhysicalValue("Efficiency", new SiUnit("")).getValue();
+			pistonRodDiameter = params.getPhysicalValue("PistonRodDiameter", new SiUnit("m")).getValue();
+			structureMass   = params.getPhysicalValue("StructuralMass", new SiUnit("kg")).getValue();
 			structureMaterial = params.getString("StructureMaterial");
+			
+			// Old parameters
+			params.deleteValue("ConnectionDiameter");
+			params.deleteValue("CylinderType");
+			params.saveValues();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -291,10 +294,8 @@ public class Cylinder extends APhysicalComponent implements Floodable {
 		double pressureDrop = 0, viscosity, density, velocity, deltaPosition, heat2Fluid, fluidRth;
 
 		/* Material properties */
-		viscosity = fluid.getMaterial().getViscosityDynamic(
-				fluidIn.getTemperature());
-		density = fluid.getMaterial().getDensity(fluidIn.getTemperature(),
-				fluidIn.getPressure());
+		viscosity = fluid.getMaterial().getViscosityDynamic(fluidIn.getTemperature());
+		density   = fluid.getMaterial().getDensity(fluidIn.getTemperature());
 
 		/* Position */
 		velocity = this.velocity.getValue();
@@ -333,7 +334,7 @@ public class Cylinder extends APhysicalComponent implements Floodable {
 				* Math.pow(pistonDiameter / 2 + H_7
 						- (pistonDiameter / 2 - h_6), 3)
 				* (pistonDiameter / 2 + H_7 + pistonDiameter / 2 - h_6)
-				/ (12 * viscosity * Math.pow(10, -6) * pistonThickness)
+				/ (12 * viscosity * pistonThickness)
 				/ density;
 
 		/* Flow Rate */
@@ -370,6 +371,8 @@ public class Cylinder extends APhysicalComponent implements Floodable {
 		fluid.integrate(timestep, flowRate.getValue(), flowRate.getValue(),
 				fluidProperties.getPressure());
 		structure.integrate(timestep);
+		
+		pDrop.setValue(pressureDrop);
 
 	}
 

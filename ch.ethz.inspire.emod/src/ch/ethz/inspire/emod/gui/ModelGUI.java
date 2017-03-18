@@ -69,6 +69,7 @@ import ch.ethz.inspire.emod.utils.PropertiesHandler;
  * @deprecated
  * 
  */
+@Deprecated
 public class ModelGUI extends AGUITab {
 
 	private static Table tableModelView;

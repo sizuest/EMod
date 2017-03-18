@@ -21,6 +21,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import ch.ethz.inspire.emod.model.MachineComponent;
+import ch.ethz.inspire.emod.simulation.MachineState;
 
 /**
  * 
@@ -60,6 +61,7 @@ public class FEMOutput {
 			/* ****** Make file header: ******* */
 			/* 1st Line: Time\tMcName1 BC 1\tMcName1 BC 2\t... */
 			outfile.write("Time");
+			outfile.write(separator+"State");
 			for (MachineComponent mc : mclist) {
 				for (int i = 0; i < mc.getComponent().getBoundaryConditions()
 						.size(); i++) {
@@ -69,6 +71,7 @@ public class FEMOutput {
 			outfile.write("\n");
 			/* 2nd line: Time\tMcName1.BCName1\tMcName1.BCName2\t... */
 			outfile.write("   ");
+			outfile.write(separator);
 			for (MachineComponent mc : mclist) {
 				for (BoundaryCondition bc : mc.getComponent()
 						.getBoundaryConditions()) {
@@ -78,6 +81,7 @@ public class FEMOutput {
 			outfile.write("\n");
 			/* 3rd line: [s]\t[WATT]\t[TEMP]\t... */
 			outfile.write("[s]");
+			outfile.write(separator);
 			for (MachineComponent mc : mclist) {
 				for (BoundaryCondition bc : mc.getComponent()
 						.getBoundaryConditions()) {
@@ -106,10 +110,12 @@ public class FEMOutput {
 	 * 
 	 * @param time
 	 *            Actual time in [s].
+	 * @param state 
 	 */
-	public void logData(double time) {
+	public void logData(double time, MachineState state) {
 		try {
 			outfile.write(format.format(time));
+			outfile.write(separator+state);
 			for (MachineComponent mc : mclist) {
 				for (BoundaryCondition bc : mc.getComponent()
 						.getBoundaryConditions()) {

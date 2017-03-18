@@ -1,34 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-<comment>
-    Model parameter definition
-    ==========================
-      Model : Material
-      Type  : HLP46
-    Parameters
-    ----------
-      TemperatureSamples [K]
-        TODO
-      PressureSamples [Pa]
-        TODO
-      ViscositySamples [mPa*s] = [10^-3 Ns/m^2]
-      	Dynamic Viscosity! dynamic Viscosity = density * kinematic Viscosity
-      DensityMatrix [kg/m3]
-      	TODO
-	  HeatCapacity [J/kg K]
-	    TODO
-	  ThermalConductivity [W/m K]
-      	TODO
-</comment>
-<entry key="TemperatureSamples">293; 303; 313; 323; 333</entry>
-<entry key="ViscositySamples">.119; .067; .040; .026; .018</entry>
-<entry key="PressureSamples">0; 10000000; 20000000; 30000000; 40000000</entry>
-<entry key="DensityMatrix">878, 874.6, 870.3, 867, 864.6;
-888, 884.6, 881.3, 878, 874.6;
-892, 888.6, 885.3, 882, 878.6;
-897, 893.6, 890.3, 887, 884.6;
-901, 897.6, 894.3, 891, 887.6;</entry>
-<entry key="HeatCapacity">1885</entry>
-<entry key="ThermalConductivity">0.127</entry>
+<comment/>
+<entry key="TemperatureSamples">293.0, 303.0, 313.0, 323.0, 333.0 K</entry>
+<entry key="ThermalConductivity">0.127 m kg s^-3 K^-1</entry>
+<entry key="ViscositySamples">0.119, 0.067, 0.04, 0.026, 0.018 m^-1 kg s^-1</entry>
+<entry key="DensityMatrix">878.0, 874.6, 870.3, 867.0, 864.6 m^-3 kg</entry>
+<entry key="HeatCapacity">1885.0 kg^-1 s K^-1</entry>
 </properties>

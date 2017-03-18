@@ -278,7 +278,7 @@ public class FluidCircuitProperties {
 	public double getMassFlowRate() {
 		double rho;
 
-		rho = getMaterial().getDensity(getTemperature(), getPressure());
+		rho = getMaterial().getDensity(getTemperature());
 
 		return getFlowRate() * rho;
 	}

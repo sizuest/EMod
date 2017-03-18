@@ -98,16 +98,12 @@ public class LineChart {
 						color++;
 					}
 
-					ILineSeries lineSeries = (ILineSeries) chart.getSeriesSet()
-							.createSeries(
-									SeriesType.LINE,
-									cd.getConsumer() + "."
-											+ cd.getNames().get(i));
+					ILineSeries lineSeries = (ILineSeries) chart.getSeriesSet().createSeries(SeriesType.LINE, cd.getConsumer() + "." + cd.getNames().get(i));
+					lineSeries.setXSeries(cd.getTime());
 					lineSeries.setYSeries(cd.getValues().get(i));
 					lineSeries.setSymbolType(PlotSymbolType.NONE);
 					lineSeries.setYAxisId(axId);
-					lineSeries.setLineColor(chart.getAxisSet().getYAxis(axId)
-							.getTick().getForeground());
+					lineSeries.setLineColor(chart.getAxisSet().getYAxis(axId).getTick().getForeground());
 					// lineSeries.enableArea(true);
 
 					lines.add(lineSeries);

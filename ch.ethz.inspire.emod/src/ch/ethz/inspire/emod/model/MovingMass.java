@@ -178,8 +178,7 @@ public class MovingMass extends APhysicalComponent {
 		 * where the Acceleration is estimated by the velocity change:
 		 * Acceleration = (v(t)-v(t-Ts))/Ts
 		 */
-		force.setValue(((curspeedLin - lastspeedLin) / timestep + Math
-				.cos(angle * Math.PI / 180) * 9.81) * mass);
+		force.setValue(((curspeedLin - lastspeedLin) / timestep + Math.cos(angle * Math.PI / 180) * 9.81) * mass);
 		torque.setValue((curspeedRot - lastspeedRot) / timestep * inertia
 				+ Math.sin(positionAng.getValue() * 2 * Math.PI) * lever * mass
 				* 9.81);

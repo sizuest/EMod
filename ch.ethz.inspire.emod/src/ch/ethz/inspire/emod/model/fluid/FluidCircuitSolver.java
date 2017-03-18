@@ -358,10 +358,16 @@ public class FluidCircuitSolver {
 
 		/* Solve and return */
 		DenseMatrix64F solution = new DenseMatrix64F(H.numCols(), 1);
+		
 		LinearSolver<DenseMatrix64F> solver = LinearSolverFactory.leastSquares(
 				H.numRows(), H.numCols());
 		solver.setA(H.getMatrix());
-		solver.solve(y.getMatrix(), solution);
+		try{
+			solver.solve(y.getMatrix(), solution);
+		}
+		catch(Exception e2){
+			System.out.println("Warning: Fluid circuit solutio can not be obtained: Bad problem formulation");
+		}
 		return new SimpleMatrix(solution);
 	}
 
@@ -369,8 +375,7 @@ public class FluidCircuitSolver {
 		ArrayList<Integer> out = new ArrayList<Integer>();
 
 		for (int i = 0; i < connections.size(); i++)
-			if (((FluidContainer) (connections.get(i).getTarget()))
-					.getFluidCircuitProperties().equals(p))
+			if (((FluidContainer) (connections.get(i).getTarget())).getFluidCircuitProperties().equals(p))
 				out.add(i);
 
 		return out;

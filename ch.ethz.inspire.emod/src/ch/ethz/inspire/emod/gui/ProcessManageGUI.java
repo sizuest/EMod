@@ -49,21 +49,21 @@ public class ProcessManageGUI extends Composite {
 	 * @param parent
 	 * @param style
 	 */
-	public ProcessManageGUI(final Composite parent, int style) {
-		super(parent, style);
+	public ProcessManageGUI(final ProcessGUI parent, int style) {
+		super(parent.getContent(), style);
 
 		this.setLayout(new GridLayout(3, false));
 		this.setLayoutData(new GridData(SWT.FILL, SWT.LEFT, true, false));
 
-		comboSelectProcess = new CCombo(this, SWT.PUSH | SWT.BORDER);
+		comboSelectProcess = new CCombo(this, SWT.PUSH );
 		comboSelectProcess.addSelectionListener(new SelectionListener() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				PropertiesHandler.setProperty("sim.ProcessName",
-						getSelectedName());
+				PropertiesHandler.setProperty("sim.ProcessName", getSelectedName());
 				Process.loadProcess(getSelectedName());
 				update();
+				parent.update();
 			}
 
 			@Override
@@ -93,6 +93,7 @@ public class ProcessManageGUI extends Composite {
 			public void widgetSelected(SelectionEvent e) {
 				Process.removeProcess(getSelectedName());
 				update();
+				parent.update();
 			}
 
 			@Override
@@ -127,15 +128,12 @@ public class ProcessManageGUI extends Composite {
 
 		for (int i = 0; i < files.length; i++) {
 			if (files[i].contains(Defines.PROCESSDEFFILE_PREFIX))
-				procFiles.add(files[i].replace(Defines.PROCESSDEFFILE_PREFIX,
-						"").replace(".xml", ""));
+				procFiles.add(files[i].replace(Defines.PROCESSDEFFILE_PREFIX, "").replace(".xml", ""));
 		}
 
 		// set the possible parameter sets to the combo
-		comboSelectProcess.setItems(procFiles.toArray(new String[procFiles
-				.size()]));
-		comboSelectProcess.setText(PropertiesHandler
-				.getProperty("sim.ProcessName"));
+		comboSelectProcess.setItems(procFiles.toArray(new String[procFiles.size()]));
+		comboSelectProcess.setText(PropertiesHandler.getProperty("sim.ProcessName"));
 
 	}
 

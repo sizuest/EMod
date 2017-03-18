@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:duct xmlns:ns2="ch.ethz.inspire.emod">
+    <name>Spindle_New_StructureDuct</name>
+    <elements>
+        <elements xsi:type="ductPipe" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Pipe</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.01</radius>
+            </profile>
+            <roughness>0.0</roughness>
+        </elements>
+        <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Drilling</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.0</radius>
+            </profile>
+            <drillDiameter>0.0</drillDiameter>
+            <length>0.0</length>
+            <count>0.0</count>
+        </elements>
+        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Fitting_Drilling-Helix</name>
+            <profile xsi:type="hpCircular">
+                <radius>NaN</radius>
+            </profile>
+        </elements>
+        <elements xsi:type="ductHelix" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <name>Helix</name>
+            <profile xsi:type="hpRectangular">
+                <height>0.01</height>
+                <width>0.01</width>
+            </profile>
+            <radius>0.0</radius>
+            <height>0.0</height>
+            <distance>0.0</distance>
+        </elements>
+    </elements>
+</ns2:duct>

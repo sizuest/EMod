@@ -1,45 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-  <comment>
-    Model parameter definition
-    ==========================
-      Model : Pump 
-      Type  : NDM200
-    Parameters
-    ----------
-      PressureSamples [Pa]
-        Array of operation points for the pump
-	  FlowRateSamples [m^3/s]
-		Array of corresponding flow rate to the given pressure samples
-      ElectricalPower [W]
-      	Electrical power of the pump if running
-      Mass [kg]
-      	Structural mass
-      Material [-]
-      	Structural material
-      EfficiencySamples [-]
-      	Pump efficiency samples
-      
-  </comment>
-
-  <entry key="PressureSamples">7000000; 6800000; 2000000;</entry>
-  <entry key="FlowRateSamples">0; 0.000021; 0.0000224</entry>
-  <entry key="PowerSamples">650; 2500; 800</entry>
-  <entry key="EfficiencySamples">0 .4 .3</entry>
-  
-  
-<entry key="MassFluid">3</entry>
-<entry key="MassMotor">15</entry>
-<entry key="HasMotorCooling">1</entry>
-<entry key="IsSubmerged">0</entry>
-<entry key="DiameterPump">.1</entry>
-<entry key="LengthPump">.1</entry>
-<entry key="DiameterMotor">.2</entry>
-<entry key="LengthMotor">.2</entry>
-<entry key="NominalRotSpeed">1500</entry>
+<comment/>
+<entry key="IsSubmerged">0.0</entry>
+<entry key="NominalRotSpeed">1500.0 RPM</entry>
+<entry key="DiameterMotor">0.2 m</entry>
+<entry key="DiameterPump">0.1 m</entry>
+<entry key="FlowRateSamples">0.0, 2.1E-5, 2.24E-5 m³/s</entry>
+<entry key="LengthPump">0.1 m</entry>
+<entry key="MaxTemperatureDifference">25.0 K</entry>
+<entry key="PowerSamples">650.0, 2500.0, 800.0 W</entry>
+<entry key="EfficiencySamples">0.0, 0.4, 0.3 none</entry>
 <entry key="NumberImpellerEyes">1</entry>
+<entry key="LengthMotor">0.2 m</entry>
+<entry key="HasMotorCooling">1.0</entry>
 <entry key="NumberStages">1</entry>
-<entry key="NominalFlowRate">0.000021/entry>
-<entry key="NominalPressure">6800000</entry>
+<entry key="MassMotor">15.0 kg</entry>
+<entry key="PressureSamples">7000000.0, 6800000.0, 2000000.0 Pa</entry>
+<entry key="MassFluid">3.0 kg</entry>
 </properties>

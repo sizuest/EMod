@@ -129,33 +129,24 @@ public class HydraulicAccumulator extends APhysicalComponent implements
 	private void init() {
 		fluid = new ThermalElement("Example", 1);
 
-		fluidCircuitPropertiesIn = new FluidCircuitProperties(new FECIdeal(),
-				fluid.getTemperature());
-		fluidCircuitPropertiesOut = new FluidCircuitProperties(new FECIdeal(),
-				fluid.getTemperature());
+		fluidCircuitPropertiesIn = new FluidCircuitProperties(new FECIdeal(), fluid.getTemperature());
+		fluidCircuitPropertiesOut = new FluidCircuitProperties(new FECIdeal(), fluid.getTemperature());
 
 		/* Define Input parameters */
 		inputs = new ArrayList<IOContainer>();
-		fluidIn = new FluidContainer("FluidIn", new SiUnit(Unit.NONE),
-				ContainerType.FLUIDDYNAMIC, fluidCircuitPropertiesIn);
-		temperatureAmb = new IOContainer("TemperatureAmb", new SiUnit(
-				Unit.KELVIN), 293.15, ContainerType.THERMAL);
-		pressureAmb = new IOContainer("PressureAmb", new SiUnit(Unit.PA), 1E5,
-				ContainerType.FLUIDDYNAMIC);
+		fluidIn = new FluidContainer("FluidIn", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidCircuitPropertiesIn);
+		temperatureAmb = new IOContainer("TemperatureAmb", new SiUnit(Unit.KELVIN), 293.15, ContainerType.THERMAL);
+		pressureAmb = new IOContainer("PressureAmb", new SiUnit(Unit.PA), 1E5, ContainerType.FLUIDDYNAMIC);
 		inputs.add(fluidIn);
 		inputs.add(temperatureAmb);
 		inputs.add(pressureAmb);
 
 		/* Define output parameters */
 		outputs = new ArrayList<IOContainer>();
-		fluidOut = new FluidContainer("FluidOut", new SiUnit(Unit.NONE),
-				ContainerType.FLUIDDYNAMIC, fluidCircuitPropertiesOut);
-		content = new IOContainer("Content", new SiUnit(Unit.METERCUBIC), 0,
-				ContainerType.FLUIDDYNAMIC);
-		pfluid = new IOContainer("State", new SiUnit(Unit.NONE), 0,
-				ContainerType.CONTROL);
-		pGas = new IOContainer("PressureGas", new SiUnit(Unit.PA), 0,
-				ContainerType.INFORMATION);
+		fluidOut = new FluidContainer("FluidOut", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidCircuitPropertiesOut);
+		content = new IOContainer("Content", new SiUnit(Unit.METERCUBIC), 0, ContainerType.FLUIDDYNAMIC);
+		pfluid = new IOContainer("State", new SiUnit(Unit.NONE), 0, ContainerType.CONTROL);
+		pGas = new IOContainer("PressureGas", new SiUnit(Unit.PA), 0, ContainerType.INFORMATION);
 		outputs.add(fluidOut);
 		outputs.add(content);
 		outputs.add(pfluid);
@@ -163,10 +154,8 @@ public class HydraulicAccumulator extends APhysicalComponent implements
 
 		/* Boundary conditions */
 		boundaryConditions = new ArrayList<BoundaryCondition>();
-		bcTemperature = new BoundaryCondition("Temeprature", new SiUnit("K"),
-				293.15, BoundaryConditionType.ROBIN);
-		bcHTC = new BoundaryCondition("HTC", new SiUnit("W/K"), 0,
-				BoundaryConditionType.ROBIN);
+		bcTemperature = new BoundaryCondition("Temeprature", new SiUnit("K"), 293.15, BoundaryConditionType.ROBIN);
+		bcHTC = new BoundaryCondition("HTC", new SiUnit("W/K"), 0, BoundaryConditionType.ROBIN);
 		boundaryConditions.add(bcTemperature);
 		boundaryConditions.add(bcHTC);
 
@@ -186,17 +175,22 @@ public class HydraulicAccumulator extends APhysicalComponent implements
 
 		/* Read the config parameter: */
 		try {
-			this.pGasInit = params.getDoubleValue("GasPressureInitial");
-			this.volGasInit = params.getDoubleValue("GasVolumeInitial");
-			this.volFluidInit = params.getDoubleValue("FluidVolumeInitial");
-			this.hystPMax = params.getDoubleValue("PressureMax");
-			this.hystPMin = params.getDoubleValue("PressureMin");
+			this.pGasInit = params.getPhysicalValue("GasPressureInitial", new SiUnit("Pa")).getValue();
+			this.volGasInit = params.getPhysicalValue("GasVolumeInitial", new SiUnit("m^3")).getValue();
+			this.volFluidInit = params.getPhysicalValue("FluidVolumeInitial", new SiUnit("m^3")).getValue();
+			this.hystPMax = params.getPhysicalValue("PressureMax", new SiUnit("Pa")).getValue();
+			this.hystPMin = params.getPhysicalValue("PressureMin", new SiUnit("Pa")).getValue();
+			
+			// Old parameters
+			params.deleteValue("PowerSamples");
+			params.deleteValue("PressureSamples");
+			params.deleteValue("VolFlowSamples");
+			params.saveValues();
 
 			this.volFluid = volFluidInit;
 
 			/* Sub Models */
-			this.fluid.setMass(volFluidInit
-					* fluid.getMaterial().getDensity(293, pGasInit));
+			this.fluid.setMass(volFluidInit * fluid.getMaterial().getDensity(293));
 
 			/*
 			 * Define fluid circuit properties In this case, the element leads
@@ -286,8 +280,7 @@ public class HydraulicAccumulator extends APhysicalComponent implements
 		fluid.setTemperatureIn(fluidIn.getTemperature());
 		fluid.setTemperatureAmb(temperatureAmb.getValue());
 		fluid.setThermalResistance(thermalResistance);
-		fluid.integrate(timestep, fluidCircuitPropertiesIn.getFlowRate(),
-				fluidCircuitPropertiesOut.getFlowRate(), pGas.getValue());
+		fluid.integrate(timestep, fluidCircuitPropertiesIn.getFlowRate(), fluidCircuitPropertiesOut.getFlowRate(), pGas.getValue());
 
 		volFluid = fluid.getVolume();
 		/*
@@ -306,8 +299,7 @@ public class HydraulicAccumulator extends APhysicalComponent implements
 		/* Hysteresis controller for the pump */
 		if (pumpOn && pGas.getValue() - pressureAmb.getValue() >= hystPMax)
 			pumpOn = false;
-		else if (!pumpOn
-				&& pGas.getValue() - pressureAmb.getValue() <= hystPMin)
+		else if (!pumpOn && pGas.getValue() - pressureAmb.getValue() <= hystPMin)
 			pumpOn = true;
 
 		if (pumpOn)

@@ -99,7 +99,7 @@ public class ConstantComponent extends APhysicalComponent {
 		}
 
 		try {
-			levels = configReader.getDoubleArray("levels");
+			levels = configReader.getPhysicalValue("levels", new SiUnit("W")).getValues();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -94,6 +94,14 @@ public class DuctDesinerGUI {
 		shell.setLocation(x, y);
 
 		shell.setLayout(new FillLayout());
+		
+		// Icon
+		shell.setImages(new Image[] {new Image(Display.getDefault(),"src/resources/icons/DuctDesignerIcon_128x128.png"), 
+				                     new Image(Display.getDefault(),"src/resources/icons/DuctDesignerIcon_48x48.png"), 
+				                     new Image(Display.getDefault(),"src/resources/icons/DuctDesignerIcon_32x32.png"), 
+				                     new Image(Display.getDefault(),"src/resources/icons/DuctDesignerIcon_22x22.png"), 
+				                     new Image(Display.getDefault(),"src/resources/icons/DuctDesignerIcon_16x16.png")});
+
 
 		// init menu bar
 		logger.log(LogLevel.DEBUG, "init menu");
@@ -106,6 +114,8 @@ public class DuctDesinerGUI {
 		initTabs();
 
 		shell.open();
+		
+		newDuct();
 		
 		ductDesigner.showAll();
 
@@ -259,12 +269,9 @@ public class DuctDesinerGUI {
 		ductDesigner = new DuctConfigGraphGUI(shell, SWT.NONE, this.duct, ShowButtons.NONE);		
 
 		// tab for console
-		final TabItem tabConsoleItem = new TabItem(ductDesigner.getTabFolder(),
-				SWT.NONE);
-		tabConsoleItem.setText(LocalizationHandler
-				.getItem("app.gui.tabs.console"));
-		tabConsoleItem.setToolTipText(LocalizationHandler
-				.getItem("app.gui.tabs.consoletooltip"));
+		final TabItem tabConsoleItem = new TabItem(ductDesigner.getTabFolder(), SWT.NONE);
+		tabConsoleItem.setText(LocalizationHandler.getItem("app.gui.tabs.console"));
+		tabConsoleItem.setToolTipText(LocalizationHandler.getItem("app.gui.tabs.consoletooltip"));
 		tabConsoleItem.setControl(initConsole(ductDesigner.getTabFolder()));
 
 		ductDesigner.getTabFolder().setSelection(0);
@@ -497,7 +504,7 @@ public class DuctDesinerGUI {
 	class compDBOpenItemListener implements SelectionListener {
 		@Override
 		public void widgetSelected(SelectionEvent event) {
-			new MachineComponentDBGUI();
+			new MachineComponentDBGUI(shell);
 		}
 
 		@Override
@@ -533,7 +540,7 @@ public class DuctDesinerGUI {
 	class matDBOpenItemListener implements SelectionListener {
 		@Override
 		public void widgetSelected(SelectionEvent event) {
-			new MaterialDBGUI();
+			new MaterialDBGUI(shell);
 		}
 
 		@Override
@@ -593,8 +600,11 @@ public class DuctDesinerGUI {
 	private void newDuct() {
 		this.path = "";
 		this.duct.clear();
+		this.duct.setName("New Duct");
 		this.ductDesigner.setDuct(duct);
 		this.ductDesigner.update();
+		
+		shell.setText("DuctDesigner: " + duct.getName());
 	}
 
 	private void saveDuct() {
@@ -602,6 +612,8 @@ public class DuctDesinerGUI {
 			saveDuctAs();
 		else
 			this.duct.saveToFile(this.path);
+		
+		shell.setText("DuctDesigner: " + duct.getName());
 	}
 
 	private void saveDuctAs() {
@@ -612,6 +624,8 @@ public class DuctDesinerGUI {
 
 		this.path = path;
 		this.duct.saveToFile(this.path);
+		
+		shell.setText("DuctDesigner: " + duct.getName());
 	}
 
 	private void openDuct() {
@@ -622,8 +636,12 @@ public class DuctDesinerGUI {
 
 		this.path = path;
 		this.duct = Duct.buildFromFile(this.path);
+		this.duct.setRootDuct();
 		this.ductDesigner.setDuct(duct);
 		this.ductDesigner.update();
+		
+		
+		shell.setText("DuctDesigner: " + duct.getName());
 	}
 
 	private String getFilePath(String titel) {
@@ -643,7 +661,7 @@ public class DuctDesinerGUI {
 	}
 
 	private void redo() {
-		this.duct.getHistory().redo();
+		this.duct.redo();
 		this.ductDesigner.update();
 		setUndoRedoAvailability();
 	}

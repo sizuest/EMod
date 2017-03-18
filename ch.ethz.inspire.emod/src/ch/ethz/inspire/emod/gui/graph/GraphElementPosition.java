@@ -220,5 +220,16 @@ public class GraphElementPosition {
 	public void setRotate(double r) {
 		this.r = r % 1.0;
 	}
+	
+	/**
+	 * @param p
+	 * @return
+	 */
+	public boolean equals(GraphElementPosition p){
+		if(this.x == p.x & this.y == p.y & this.r == p.r)
+			return true;
+		else
+			return false;
+	}
 
 }

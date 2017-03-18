@@ -16,6 +16,7 @@ package ch.ethz.inspire.emod.gui.graph;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.eclipse.swt.events.DisposeEvent;
@@ -52,6 +53,9 @@ public class GraphEventHandler extends PSelectionEventHandler {
 
 	/* Source and target node object (null if no line is to be drawn) */
 	private AIONode sourceNode, targetNode;
+	/* Selected lines points */
+	private ConnectionLine selectedLine;
+	private ArrayList<ConnectionLinePoint> selectedLinePoints;
 	/* Line during the drawing of a connection */
 	private PSWTPath line = new PSWTPath();
 	/* Point where the mouse drag action was initiated */
@@ -99,13 +103,39 @@ public class GraphEventHandler extends PSelectionEventHandler {
 	 */
 	@Override
 	protected void dragActivityFirstStep(final PInputEvent event) {
-
+		
+		/* Check, if a connection line is selected */
+		if(event.getPickedNode() instanceof ConnectionLine){
+			unselectConnectionLinePoints();
+			undecorateSelectedNode(selectedLine);
+			selectedLine = (ConnectionLine) event.getPickedNode();
+			decorateSelectedNode(selectedLine);
+			
+			if(event.getButton() == MouseEvent.BUTTON1) {
+				
+				selectedLinePoints = selectedLine.getPoints();
+				
+				selectedLine.getParent().addChildren(selectedLinePoints);
+			}
+			else if (event.getButton() == MouseEvent.BUTTON3 & null!=selectedLine) {
+				selectedLine.addPoint(event.getPosition());
+				selectedLinePoints = selectedLine.getPoints();
+				
+				selectedLine.getParent().addChildren(selectedLinePoints);
+			}
+		}
+		else if(!(event.getPickedNode() instanceof ConnectionLinePoint)){
+			unselectConnectionLinePoints();
+			undecorateSelectedNode(selectedLine);
+		}
+		
+		
 		/*
 		 * We only have to care about this action, if it is raised due to a
 		 * left-click
 		 */
 		if (event.getButton() == MouseEvent.BUTTON1) {
-
+			
 			/* Check, if a source node has been clicked */
 			sourceNode = ModelGraphGUI.getAIONode(event.getPosition());
 
@@ -137,7 +167,22 @@ public class GraphEventHandler extends PSelectionEventHandler {
 				event.getCamera().addChild(selectionMarquee);
 			}
 		}
+		
+		
 
+	}
+
+	/**
+	 * 
+	 */
+	private void unselectConnectionLinePoints() {
+		if(null==selectedLinePoints)
+			return;
+		
+		for(ConnectionLinePoint p: selectedLinePoints)
+			try {
+				p.removeFromParentOnly();
+			} catch (Exception e) {}
 	}
 
 	/**
@@ -159,6 +204,12 @@ public class GraphEventHandler extends PSelectionEventHandler {
 		 */
 		if (null != sourceNode)
 			updateLine(event);
+		else if(event.getPickedNode() instanceof ConnectionLinePoint){
+			((ConnectionLinePoint) event.getPickedNode()).readPosition();
+			decorateSelectedNode(selectedLine);
+		}
+		else if(event.getPickedNode() instanceof ConnectionLine)
+			((ConnectionLine) event.getPickedNode()).update();
 		/*
 		 * Their seams to be an other reason for an update -> let's update the
 		 * marquee
@@ -182,6 +233,11 @@ public class GraphEventHandler extends PSelectionEventHandler {
 	 */
 	@Override
 	protected void dragActivityFinalStep(final PInputEvent event) {
+		
+		if(event.getPickedNode() instanceof ConnectionLinePoint){
+			((ConnectionLinePoint) event.getPickedNode()).readPosition();
+			decorateSelectedNode(selectedLine);
+		}
 
 		/* Remove highlightning */
 		ModelGraphGUI.setHighlight(false, null);
@@ -362,4 +418,25 @@ public class GraphEventHandler extends PSelectionEventHandler {
 		/* Adapt scale to camera */
 		selectionMarquee.setScale(event.getCamera().getScale());
 	}
+	
+	@Override
+	public void decorateSelectedNode(final PNode node) {
+		if( node instanceof AGraphElement)
+			((AGraphElement) node).setSelected(true);			
+		else if(node instanceof ConnectionLine) 
+			((ConnectionLine) node).setSelected(true);
+		else if(node instanceof ConnectionLinePoint)
+			((ConnectionLinePoint) node).setSelected(true);
+		
+	}
+	
+	@Override
+	public void undecorateSelectedNode(final PNode node) {
+        if( node instanceof AGraphElement)
+			((AGraphElement) node).setSelected(false);
+        else if(node instanceof ConnectionLine)
+			((ConnectionLine) node).setSelected(false);
+        else if(node instanceof ConnectionLinePoint)
+			((ConnectionLinePoint) node).setSelected(false);
+    }
 }

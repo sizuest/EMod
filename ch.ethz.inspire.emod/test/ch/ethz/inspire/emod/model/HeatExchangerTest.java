@@ -28,7 +28,7 @@ public class HeatExchangerTest {
 		Cooler element = new Cooler("Example");
 		
 		// Turn element off
-		element.getInput("level").setValue(0);
+		element.getInput("State").setValue(0);
 		element.update();
 		
 		assertEquals("Heat flow out", 0, element.getOutput("PThermal").getValue(),   0);
@@ -41,20 +41,19 @@ public class HeatExchangerTest {
 		Cooler element = new Cooler("Example");
 		
 		// Turn element on, no heat flow
-		element.getInput("level").setValue(1);
+		element.getInput("State").setValue(1);
+		element.getInput("Temperature").setValue(200);
+		element.update();
+		
+		assertEquals("Heat flow out",     0, element.getOutput("PThermal").getValue(), 0);
+		assertEquals("Power demand",      0,   element.getOutput("PTotal").getValue(), 0);
+		
+		// Turn element on, heat flow
+		element.getInput("State").setValue(1);
+		element.getInput("Temperature").setValue(400);
 		element.update();
 		
 		assertEquals("Heat flow out",     2*500, element.getOutput("PThermal").getValue(),  0);
 		assertEquals("Power demand",      500,   element.getOutput("PTotal").getValue(), 0);
-	}
-	
-	@Test
-	public void testHeatExchangerHyfra(){
-		Cooler heex = new Cooler("Hyfra_VWK_21_1S");
-		
-		heex.getInput("level").setValue(1);
-		heex.update();
-		
-		System.out.println("PThermal: " + heex.getOutput("PThermal").getValue() + " PTotal: " + heex.getOutput("PTotal").getValue());
 	}
 }

@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:duct xmlns:ns2="ch.ethz.inspire.emod">
+    <material>
+        <type>GlykolWater_30</type>
+    </material>
+    <name>Studer_example_final.duct</name>
+    <elements>
+        <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <name>Einlass</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.01</radius>
+            </profile>
+            <length>0.02</length>
+            <count>1.0</count>
+        </elements>
+        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <name>Fitting_Einlass-Sinkleitung</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.014999999999999998</radius>
+            </profile>
+        </elements>
+        <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <name>Sinkleitung</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.005</radius>
+            </profile>
+            <length>0.3</length>
+            <count>2.0</count>
+        </elements>
+        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <name>Fitting_Sinkleitung-EinlassLagerVorne</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.014999999999999998</radius>
+            </profile>
+        </elements>
+        <elements xsi:type="ductElbowFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <name>EinlassLagerVorne</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.01</radius>
+            </profile>
+            <count>2.0</count>
+        </elements>
+        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <name>Fitting_EinlassLagerVorne-LagerVorne</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.01218181818181818</radius>
+            </profile>
+        </elements>
+        <elements xsi:type="ductHelix" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>300.0</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <isolation>
+                <thickness>0.01</thickness>
+                <type>Steel</type>
+            </isolation>
+            <name>LagerVorne</name>
+            <profile xsi:type="hpRectangular">
+                <height>0.008</height>
+                <width>0.003</width>
+            </profile>
+            <radius>0.03</radius>
+            <height>0.05</height>
+            <distance>0.01</distance>
+        </elements>
+        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <name>Fitting_LagerVorne-AuslassLagerVorne</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.01218181818181818</radius>
+            </profile>
+        </elements>
+        <elements xsi:type="ductElbowFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <name>AuslassLagerVorne</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.01</radius>
+            </profile>
+            <count>1.0</count>
+        </elements>
+        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <name>Fitting_AuslassLagerVorne-LagerStator</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.014999999999999998</radius>
+            </profile>
+        </elements>
+        <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <name>LagerStator</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.005</radius>
+            </profile>
+            <length>0.02</length>
+            <count>1.0</count>
+        </elements>
+        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <name>Fitting_LagerStator-EinlassStator</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.014999999999999998</radius>
+            </profile>
+        </elements>
+        <elements xsi:type="ductElbowFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <name>EinlassStator</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.01</radius>
+            </profile>
+            <count>1.0</count>
+        </elements>
+        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <name>Fitting_EinlassStator-Helix</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.012307692307692306</radius>
+            </profile>
+        </elements>
+        <elements xsi:type="ductHelix" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>200.0</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <isolation>
+                <thickness>0.005</thickness>
+                <type>Steel</type>
+            </isolation>
+            <name>Stator</name>
+            <profile xsi:type="hpRectangular">
+                <height>0.01</height>
+                <width>0.003</width>
+            </profile>
+            <radius>0.1</radius>
+            <height>0.15</height>
+            <distance>0.02</distance>
+        </elements>
+        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <name>Fitting_Helix-AuslassStator</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.007307692307692307</radius>
+            </profile>
+        </elements>
+        <elements xsi:type="ductElbowFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <name>AuslassStator</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.005</radius>
+            </profile>
+            <count>1.0</count>
+        </elements>
+        <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <name>StatorLager</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.005</radius>
+            </profile>
+            <length>0.02</length>
+            <count>1.0</count>
+        </elements>
+        <elements xsi:type="ductElbowFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <name>EinlassLagerHinten</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.005</radius>
+            </profile>
+            <count>1.0</count>
+        </elements>
+        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <name>Fitting_EinlassLagerHinten-LagerHinten</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.008333333333333333</radius>
+            </profile>
+        </elements>
+        <elements xsi:type="ductFlowAround" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>150.0</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <isolation>
+                <thickness>0.01</thickness>
+                <type>Steel</type>
+            </isolation>
+            <name>LagerHinten</name>
+            <profile xsi:type="hpRectangular">
+                <height>0.01</height>
+                <width>0.005</width>
+            </profile>
+            <radius>0.3</radius>
+        </elements>
+        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <name>Fitting_LagerHinten-AuslassLagerHinten</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.008333333333333333</radius>
+            </profile>
+        </elements>
+        <elements xsi:type="ductElbowFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <name>AuslassLagerHinten</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.005</radius>
+            </profile>
+            <count>1.0</count>
+        </elements>
+        <elements xsi:type="ductFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <name>Fitting_AuslassLagerHinten-Drilling</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.014999999999999998</radius>
+            </profile>
+        </elements>
+        <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <name>Steigleitung</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.005</radius>
+            </profile>
+            <length>0.05</length>
+            <count>1.0</count>
+        </elements>
+        <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <name>Auslass</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.01</radius>
+            </profile>
+            <length>0.02</length>
+            <count>1.0</count>
+        </elements>
+    </elements>
+</ns2:duct>

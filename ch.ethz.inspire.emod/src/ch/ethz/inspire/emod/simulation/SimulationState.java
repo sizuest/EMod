@@ -38,6 +38,8 @@ public class SimulationState {
 	private int actualindex; /* Index of actual (time,state) in list */
 	private double nextStateChgTime; /* Time, when next state change occurs. */
 	private MachineState actualstate; /* Actual state */
+	
+
 
 	/**
 	 * Constructor: Reads state list from a file and sets the variables

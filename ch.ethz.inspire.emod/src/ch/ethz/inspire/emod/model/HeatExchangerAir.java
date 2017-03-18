@@ -116,26 +116,19 @@ public class HeatExchangerAir extends APhysicalComponent implements Floodable {
 
 		// Inputs
 		inputs = new ArrayList<IOContainer>();
-		level = new IOContainer("State", new SiUnit(Unit.NONE), 0,
-				ContainerType.CONTROL);
-		tempAmb = new IOContainer("TemperatureAmb", new SiUnit(Unit.KELVIN),
-				293.15, ContainerType.THERMAL);
-		fluidIn = new FluidContainer("FluidIn", new SiUnit(Unit.NONE),
-				ContainerType.FLUIDDYNAMIC, fluidProperties);
+		level = new IOContainer("State", new SiUnit(Unit.NONE), 0, ContainerType.CONTROL);
+		tempAmb = new IOContainer("TemperatureAmb", new SiUnit(Unit.KELVIN), 293.15, ContainerType.THERMAL);
+		fluidIn = new FluidContainer("FluidIn", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidProperties);
 		inputs.add(level);
 		inputs.add(tempAmb);
 		inputs.add(fluidIn);
 
 		// Outputs
 		outputs = new ArrayList<IOContainer>();
-		ptotal = new IOContainer("PTotal", new SiUnit(Unit.WATT), 0,
-				ContainerType.ELECTRIC);
-		ploss = new IOContainer("PLoss", new SiUnit(Unit.WATT), 0,
-				ContainerType.THERMAL);
-		pth = new IOContainer("PThermal", new SiUnit(Unit.WATT), 0,
-				ContainerType.THERMAL);
-		fluidOut = new FluidContainer("FluidOut", new SiUnit(Unit.NONE),
-				ContainerType.FLUIDDYNAMIC, fluidProperties);
+		ptotal = new IOContainer("PTotal", new SiUnit(Unit.WATT), 0, ContainerType.ELECTRIC);
+		ploss = new IOContainer("PLoss", new SiUnit(Unit.WATT), 0, ContainerType.THERMAL);
+		pth = new IOContainer("PThermal", new SiUnit(Unit.WATT), 0, ContainerType.THERMAL);
+		fluidOut = new FluidContainer("FluidOut", new SiUnit(Unit.NONE), ContainerType.FLUIDDYNAMIC, fluidProperties);
 		outputs.add(ptotal);
 		outputs.add(ploss);
 		outputs.add(pth);
@@ -152,18 +145,19 @@ public class HeatExchangerAir extends APhysicalComponent implements Floodable {
 			e.printStackTrace();
 		}
 
+		
 		/* Read the config parameter: */
 		try {
-			zetaValue = params.getDoubleValue("PressureLossCoefficient");
+			zetaValue = params.getPhysicalValue("PressureLossCoefficient", new SiUnit("Pa s^2 m^-6")).getValue();
 
-			htc = params.getDoubleValue("HeatTransferCoefficient");
+			htc = params.getPhysicalValue("HeatTransferCoefficient", new SiUnit("W m^-2 K^-1")).getValue();
 
-			tempOn = params.getDoubleValue("TemperatureHigh");
-			tempOff = params.getDoubleValue("TemperatureLow");
+			tempOn = params.getPhysicalValue("TemperatureHigh", new SiUnit("K")).getValue();
+			tempOff = params.getPhysicalValue("TemperatureLow", new SiUnit("K")).getValue();
 
-			power = params.getDoubleValue("Power");
+			power = params.getPhysicalValue("Power", new SiUnit("W")).getValue();
 
-			volume = params.getDoubleValue("Volume");
+			volume = params.getPhysicalValue("Volume", new SiUnit("m^3")).getValue();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

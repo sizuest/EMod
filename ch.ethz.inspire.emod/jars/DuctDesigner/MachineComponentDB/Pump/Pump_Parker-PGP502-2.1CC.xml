@@ -2,24 +2,22 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <comment/>
-<entry key="NominalFlowRate">0.000051667</entry>
-<entry key="LengthPump">.099</entry>
-<entry key="PressureSamples">27500000, 25000000, 22500000, 20000000, 17500000, 15000000, 12500000, 10000000, 7500000, 5000000, 2500000, 0</entry>
-<entry key="EfficiencySamples">0.79, 0.78, 0.78, 0.77, 0.76, 0.75, 0.73, 0.71, 0.66, 0.59, 0.44, 0</entry>
-<entry key="NominalPressure">1500000</entry>
+<entry key="LengthPump">0.099 m</entry>
+<entry key="PressureSamples">2.75E7, 2.5E7, 2.25E7, 2.0E7, 1.75E7, 1.5E7, 1.25E7, 1.0E7, 7500000.0, 5000000.0, 2500000.0, 0.0 Pa</entry>
+<entry key="EfficiencySamples">0.47, 0.464, 0.464, 0.458, 0.452, 0.446, 0.434, 0.422, 0.392, 0.351, 0.262, 0.0 none</entry>
 <entry key="NumberImpellerEyes">0</entry>
 <entry key="HasMotorCooling">true</entry>
-<entry key="PowerSamples">2782, 2551, 2320, 2088, 1857, 1626, 1395, 1163, 932, 701, 470, 238</entry>
-<entry key="NominalRotSpeed">1500</entry>
+<entry key="PowerSamples">1291.0, 1184.0, 1077.0, 969.0, 862.0, 755.0, 648.0, 540.0, 433.0, 325.0, 218.0, 110.0 W</entry>
+<entry key="NominalRotSpeed">1500.0 RPM (!)</entry>
 <entry key="Material">Steel</entry>
-<entry key="MaxTemperatureDifference">25.0</entry>
-<entry key="DiameterPump">0.068</entry>
-<entry key="MassMotor">15</entry>
+<entry key="MaxTemperatureDifference">25.0 K</entry>
+<entry key="DiameterPump">0.068 m</entry>
+<entry key="MassMotor">15.0 kg</entry>
 <entry key="NumberStages">0</entry>
-<entry key="MassFluid">3</entry>
+<entry key="MassFluid">3.0 kg</entry>
 <entry key="IsSubmerged">true</entry>
 <entry key="Mass">7.5</entry>
-<entry key="FlowRateSamples">0.00005, 0.0000502, 0.0000505, 0.0000507, 0.0000509, 0.0000511, 0.0000514, 0.0000516, 0.0000518, 0.000052, 0.0000523, 0.0000525</entry>
-<entry key="LengthMotor">.15</entry>
-<entry key="DiameterMotor">.12</entry>
+<entry key="FlowRateSamples">2.32E-5, 2.33E-5, 2.34E-5, 2.35E-5, 2.36E-5, 2.37E-5, 2.39E-5, 2.4E-5, 2.405E-5, 2.41E-5, 2.43E-5, 2.44E-5 m³/s</entry>
+<entry key="LengthMotor">0.15 m</entry>
+<entry key="DiameterMotor">0.12 m</entry>
 </properties>

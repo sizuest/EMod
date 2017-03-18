@@ -31,10 +31,10 @@ import ch.ethz.inspire.emod.utils.IOContainer;
  * 
  *           Name 
  * -------------------------- 
- * |Input 1 Output 1|
- * |Input 2 Output 2|
- * |Input 3 Output 3|
- * |Input 4 Output 4| 
+ * |Input 1         Output 1|
+ * |Input 2         Output 2|
+ * |Input 3         Output 3|
+ * |Input 4         Output 4| 
  * --------------------------
  *           Type
  * 
@@ -294,6 +294,17 @@ public class MachineComponentGraphElement extends AGraphElement {
 				box.getHeight() - 5);
 
 		this.repaint();
+	}
+
+	/* (non-Javadoc)
+	 * @see ch.ethz.inspire.emod.gui.graph.AGraphElement#setSelected(boolean)
+	 */
+	@Override
+	public void setSelected(boolean b) {
+		if(b)
+			box.setPaint(Color.YELLOW);
+		else
+			box.setPaint(Color.WHITE);
 	}
 
 }

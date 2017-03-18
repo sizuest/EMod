@@ -13,13 +13,21 @@ import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 import org.junit.Test;
 
+/**
+ * @author sizuest
+ *
+ */
 public class MachineTest {
 	
+	/**
+	 * 
+	 */
 	@Test
 	public void testAddNewMachineComponent() {
 		
 		Machine.clearMachine();
 		
+		@SuppressWarnings("unused")
 		MachineComponent mc1 = Machine.addNewMachineComponent("Motor", "Siemens_1FE1115-6WT11");
 		MachineComponent mc2 = Machine.addNewMachineComponent("Motor", "Siemens_1FE1115-6WT11");
 
@@ -32,11 +40,15 @@ public class MachineTest {
 		
 	}
 	
+	/**
+	 * 
+	 */
 	@Test
 	public void testAddNewSimulator() {
 		
 		Machine.clearMachine();
 		
+		@SuppressWarnings("unused")
 		ASimulationControl sc1 = Machine.addNewInputObject("ProcessSimulationControl", new SiUnit(Unit.WATT));
 		ASimulationControl sc2 = Machine.addNewInputObject("ProcessSimulationControl", new SiUnit(Unit.WATT));
 
@@ -49,6 +61,9 @@ public class MachineTest {
 		
 	}
 	
+	/**
+	 * 
+	 */
 	@Test
 	public void testRemoveMachineComponent() {
 		
@@ -65,7 +80,6 @@ public class MachineTest {
 		Machine.addIOLink(mc1.getComponent().getOutput("PTotal"), mc3.getComponent().getInput("PDmd"));
 		Machine.addIOLink(sc1.getOutput(), mc3.getComponent().getInput("PDmd"));
 		
-		//TODO manick: add some connections with a Fluid
 		Machine.addIOLink(mc1.getComponent().getOutput("PTotal"), mc2.getComponent().getInput("PDmd"));
 		
 		System.out.println(Machine.getInstance().getIOLinkList().toString());
@@ -81,6 +95,9 @@ public class MachineTest {
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	@Test
 	public void testRemoveSimulator() {
 		
@@ -105,6 +122,9 @@ public class MachineTest {
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	@Test
 	public void testRename() {
 		Machine.clearMachine();
@@ -123,6 +143,9 @@ public class MachineTest {
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	@Test
 	public void testGetOutputs() {
 		Machine.clearMachine();
@@ -141,6 +164,9 @@ public class MachineTest {
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	@Test
 	public void testNewMachine() {
 		
@@ -163,7 +189,6 @@ public class MachineTest {
 		try {
 			Machine.newMachine("Test", "TestConfig1");
 			assertEquals("File Exists", true, (new File(prefix+"/Test/MachineConfig/TestConfig1/Machine.xml").exists()));
-			assertEquals("File Exists", true, (new File(prefix+"/Test/MachineConfig/TestConfig1/IOLinking.txt").exists()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -178,6 +203,9 @@ public class MachineTest {
 		
 	}
 	
+	/**
+	 * 
+	 */
 	@Test
 	public void testSetType(){
 		Machine.clearMachine();
@@ -195,6 +223,9 @@ public class MachineTest {
 		
 	}
 	
+	/**
+	 * 
+	 */
 	@Test
 	public void testFloodableComponent(){
 		Machine.clearMachine();

@@ -18,9 +18,17 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import ch.ethz.inspire.emod.model.HydraulicAccumulator;
+import ch.ethz.inspire.emod.model.material.Material;
 
+/**
+ * @author sizuest
+ *
+ */
 public class PumpAccumulatorTest {
 		
+	/**
+	 * 
+	 */
 	@Test
 	public void testPumpAccumulator(){
 		HydraulicAccumulator pump = new HydraulicAccumulator("Example");
@@ -28,12 +36,13 @@ public class PumpAccumulatorTest {
 
 		
 		// Set Mass flow to 1kg/s and sample time to 1s
-		pump.getInput("MassFlowOut").setValue(0.01);
+		pump.getFluidPropertiesList().get(0).setMaterial(new Material("Water"));
+		pump.getFluidPropertiesList().get(1).setFlowRatesIn(new double[]{0.01/1000});
 		pump.setSimulationTimestep(1);
 		pump.update();
 		
-		// After 1s, pump is still off
-		assertEquals("Pump power @ 1s", 0, pump.getOutput("PTotal").getValue(), 0);
+		// After 1s, pump is on
+		assertEquals("Pump state @ 1s", 1, pump.getOutput("State").getValue(), 0);
 		
 		
 		/*
@@ -42,20 +51,21 @@ public class PumpAccumulatorTest {
 		 */
 		for(int i=0; i < 31; i++) {
 			pump.update();
-			assertTrue("Pump power @ t="+i , 0 == pump.getOutput("PTotal").getValue() );
+			assertEquals("Pump state @ t="+i, 1, pump.getOutput("State").getValue(), 0 );
 		}
 	
 		pump.update();
-		assertEquals("Pump power @ 32s", 2216, pump.getOutput("PTotal").getValue(), 1);
+		assertEquals("Pump state @ 32s", 0, pump.getOutput("State").getValue(), 1);
 		
 		/*
 		 * Turning off the inflow, the pump must switch off at pmax
 		 */
-		pump.getInput("MassFlowOut").setValue(0);
-		while( 0<pump.getOutput("PTotal").getValue() )
+		pump.getFluidPropertiesList().get(1).setFlowRatesIn(new double[]{0.0});
+		pump.getFluidPropertiesList().get(0).setFlowRatesIn(new double[]{0.01/1000});
+		while( 0<pump.getOutput("State").getValue() )
 			pump.update();
 		
-		assertEquals("Pressure @ switch off", 7000000, pump.getOutput("Pressure").getValue(), 10000);
+		assertEquals("Pressure @ switch off", 200000, pump.getOutput("PressureGas").getValue(), 10000);
 	}
 
 }

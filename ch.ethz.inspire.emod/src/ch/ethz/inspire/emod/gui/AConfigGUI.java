@@ -179,8 +179,7 @@ public abstract class AConfigGUI extends Composite {
 				buttonSave.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM,
 						false, false));
 
-			buttonSave
-					.setText(LocalizationHandler.getItem("app.gui.config.ok"));
+			buttonSave.setText(LocalizationHandler.getItem("app.gui.config.ok"));
 			buttonSave.addSelectionListener(new SelectionListener() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {

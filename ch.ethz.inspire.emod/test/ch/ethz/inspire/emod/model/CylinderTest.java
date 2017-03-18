@@ -19,6 +19,10 @@ import static org.junit.Assert.assertEquals;
 import ch.ethz.inspire.emod.model.Cylinder;
 import ch.ethz.inspire.emod.utils.FluidContainer;
 
+/**
+ * @author sizuest
+ *
+ */
 public class CylinderTest {
 	
 	/**
@@ -43,7 +47,7 @@ public class CylinderTest {
 		cyl.getInput("Velocity").setValue(0);
 		cyl.update();
 		
-		assertEquals("Clamping", 606419, ((FluidContainer)cyl.getOutput("FluidOut")).getFluidCircuitProperties().getPressureDrop(), 1000);
+		assertEquals("Clamping", 606419, cyl.getOutput("PressureDifference").getValue(), 1000);
 		assertEquals("Clamping", 0, ((FluidContainer)cyl.getOutput("FluidOut")).getFluidCircuitProperties().getFlowRate(), 1E-6);
 		
 	}

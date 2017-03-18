@@ -16,6 +16,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 
 import ch.ethz.inspire.emod.model.units.SiConstants;
+import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.utils.Algo;
 import ch.ethz.inspire.emod.utils.MaterialConfigReader;
 
@@ -26,8 +27,11 @@ import ch.ethz.inspire.emod.utils.MaterialConfigReader;
  * -Density influenced by pressure and temperature
  * 
  * 
- * Config parameters: TemperaturSamples: [Kelvin] PressureSamples: [Pa]
- * Initialviscosity: [mm2/s] Initialdensity: [kg/m3]
+ * Config parameters: 
+ * 	TemperaturSamples: [Kelvin] 
+ * 	PressureSamples: [Pa]
+ * 	Viscosity: [mm2/s]
+ *  Density: [kg/m3]
  * 
  * @author sizuest, based on HydraulicOil
  * 
@@ -37,10 +41,9 @@ public class Material {
 	protected String type;
 
 	private double heatCapacity;
-	private double[] pressureSamples;
 	private double[] temperatureSamples;
 	private double[] viscositySamples;
-	private double[][] densityMatrix;
+	private double[] densitySamples;
 	private double thermalConductivity = 0.00;
 
 	// Parameters for viscosity
@@ -88,13 +91,17 @@ public class Material {
 		/* Open file containing the parameters of the model type: */
 		try {
 			params = new MaterialConfigReader("Material", type);
+			
+			// Remove old variables
+			params.deleteValue("PressureSamples");
+			params.saveValues();
 
-			pressureSamples = params.getDoubleArray("PressureSamples");
-			temperatureSamples = params.getDoubleArray("TemperatureSamples");
-			viscositySamples = params.getDoubleArray("ViscositySamples");
-			densityMatrix = params.getDoubleMatrix("DensityMatrix");
-			heatCapacity = params.getDoubleValue("HeatCapacity");
-			thermalConductivity = params.getDoubleValue("ThermalConductivity");
+			
+			temperatureSamples  = params.getPhysicalValue("TemperatureSamples", new SiUnit("K")).getValues();
+			viscositySamples    = params.getPhysicalValue("ViscositySamples", new SiUnit("Pa s")).getValues();
+			densitySamples      = params.getPhysicalValue("DensityMatrix", new SiUnit("kg m^-3")).getValues();
+			heatCapacity        = params.getPhysicalValue("HeatCapacity", new SiUnit("J kg^-1 K^-1")).getValue();
+			thermalConductivity = params.getPhysicalValue("ThermalConductivity", new SiUnit("W m^-1 K^-1")).getValue();
 
 			params.Close(); /* Model configuration file not needed anymore. */
 		} catch (Exception e) {
@@ -130,13 +137,6 @@ public class Material {
 							+ type
 							+ ": ViscositySamples and TemperatureSamples must have the same dimensions!");
 
-		// Check if sorted
-		for (int i = 1; i < pressureSamples.length; i++) {
-			if (pressureSamples[i] <= pressureSamples[i - 1]) {
-				throw new Exception("Valve, type:" + type
-						+ ": Sample vector 'PressureSamples' must be sorted!");
-			}
-		}
 		for (int i = 1; i < temperatureSamples.length; i++) {
 			if (temperatureSamples[i] <= temperatureSamples[i - 1]) {
 				throw new Exception(
@@ -158,12 +158,6 @@ public class Material {
 					+ ": Heat capacity must be bigger than zero!");
 		}
 
-		for (int i = 0; i < pressureSamples.length; i++) {
-			if (pressureSamples[i] < 0) {
-				throw new Exception("Valve, type:" + type
-						+ ": Pressure must be bigger than zero!");
-			}
-		}
 
 		for (int i = 0; i < temperatureSamples.length; i++) {
 			if (temperatureSamples[i] < 0) {
@@ -183,24 +177,22 @@ public class Material {
 	/**
 	 * Viscosity (dyn)
 	 * 
-	 * @param temperature
-	 *            [K]
-	 * @return viscosity [mPa s]
+	 * @param temperature [K]
+	 * @return viscosity  [Pa s]
 	 */
 	public double getViscosityDynamic(double temperature) {
 		double eta;
 		/*
     	 * 
     	 */
-		if (2 == viscositySamples.length & Double.isNaN(viscosityEa)
-				& Double.isNaN(viscosityEta0)) {
+		if (2 == viscositySamples.length & Double.isNaN(viscosityEa) & Double.isNaN(viscosityEta0)) {
 			double[][] H = new double[viscositySamples.length][2];
 			double[] y = new double[viscositySamples.length];
 
 			for (int i = 0; i < viscositySamples.length; i++) {
 				H[i][0] = 1;
 				H[i][1] = 1 / SiConstants.R.getValue() / temperatureSamples[i];
-				y[i] = Math.log(viscositySamples[i] / 1000);
+				y[i] = Math.log(viscositySamples[i]);
 			}
 
 			double[] p = Algo.findLeastSquares(H, y);
@@ -210,12 +202,9 @@ public class Material {
 		}
 
 		if (!Double.isNaN(viscosityEa) & !Double.isNaN(viscosityEta0))
-			eta = viscosityEta0
-					* Math.exp(viscosityEa / SiConstants.R.getValue()
-							/ temperature) * 1000;
+			eta = viscosityEta0 * Math.exp(viscosityEa / SiConstants.R.getValue() / temperature);
 		else
-			eta = Algo.logInterpolation(temperature, temperatureSamples,
-					viscositySamples);
+			eta = Algo.logInterpolation(temperature, temperatureSamples, viscositySamples);
 
 		return eta;
 	}
@@ -224,26 +213,15 @@ public class Material {
 	 * Viscosity (kin)
 	 * 
 	 * @param temperature
-	 * @param pressure
-	 * @return viscosity [m2/s]
-	 */
-	public double getViscosityKinematic(double temperature, double pressure) {
-		double rho, eta;
-
-		rho = getDensity(temperature, pressure);
-		eta = getViscosityDynamic(temperature) / 1000;
-
-		return eta / rho;
-	}
-
-	/**
-	 * Viscosity (kin) at nominal pressure
-	 * 
-	 * @param temperature
 	 * @return viscosity [m2/s]
 	 */
 	public double getViscosityKinematic(double temperature) {
-		return getViscosityKinematic(temperature, 1E5);
+		double rho, eta;
+
+		rho = getDensity(temperature);
+		eta = getViscosityDynamic(temperature);
+
+		return eta / rho;
 	}
 
 	/**
@@ -251,24 +229,10 @@ public class Material {
 	 * 
 	 * @param temperature
 	 *            [K]
-	 * @param pressure
-	 *            [Pa]
-	 * @return density [kg/m3]
-	 */
-	public double getDensity(double temperature, double pressure) {
-		return Algo.bilinearInterpolation(pressure, temperature,
-				pressureSamples, temperatureSamples, densityMatrix);
-	}
-
-	/**
-	 * Density at nominal pressure
-	 * 
-	 * @param temperature
-	 *            [K]
 	 * @return density [kg/m3]
 	 */
 	public double getDensity(double temperature) {
-		return this.getDensity(temperature, 100000);
+		return Algo.linearInterpolation(temperature, temperatureSamples, densitySamples);
 	}
 
 	/**

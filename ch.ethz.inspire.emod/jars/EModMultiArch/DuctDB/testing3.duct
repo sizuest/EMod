@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:duct xmlns:ns2="ch.ethz.inspire.emod">
+    <material>
+        <type>GlykolWater_30</type>
+    </material>
+    <history/>
+    <elements>
+        <elements xsi:type="ductBypass" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <name>Bypass</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.01</radius>
+            </profile>
+            <ductPrimary>
+                <material>
+                    <type>GlykolWater_30</type>
+                </material>
+                <name>null: 1</name>
+                <history/>
+                <elements>
+                    <elements xsi:type="ductDrilling">
+                        <heatSource>NaN</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <name>Drilling</name>
+                        <profile xsi:type="hpCircular">
+                            <radius>0.01</radius>
+                        </profile>
+                        <length>0.0</length>
+                        <count>0.0</count>
+                    </elements>
+                </elements>
+            </ductPrimary>
+            <ductSecondary>
+                <material>
+                    <type>GlykolWater_30</type>
+                </material>
+                <name>null: 2</name>
+                <history/>
+                <elements>
+                    <elements xsi:type="ductHelix">
+                        <heatSource>NaN</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <name>Helix</name>
+                        <profile xsi:type="hpCircular">
+                            <radius>0.01</radius>
+                        </profile>
+                        <radius>0.0</radius>
+                        <height>0.0</height>
+                        <distance>0.0</distance>
+                    </elements>
+                </elements>
+            </ductSecondary>
+            <parameterSet/>
+        </elements>
+        <elements xsi:type="ductElbowFitting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <name>ElbowFitting</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.01</radius>
+            </profile>
+            <count>1.0</count>
+        </elements>
+        <elements xsi:type="ductBypass" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <heatSource>NaN</heatSource>
+            <wallTemperature>NaN</wallTemperature>
+            <name>Bypass_1</name>
+            <profile xsi:type="hpCircular">
+                <radius>0.01</radius>
+            </profile>
+            <ductPrimary>
+                <material>
+                    <type>GlykolWater_30</type>
+                </material>
+                <name>null: 1</name>
+                <history/>
+                <elements>
+                    <elements xsi:type="ductHelix">
+                        <heatSource>NaN</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <name>Helix</name>
+                        <profile xsi:type="hpCircular">
+                            <radius>0.01</radius>
+                        </profile>
+                        <radius>0.0</radius>
+                        <height>0.0</height>
+                        <distance>0.0</distance>
+                    </elements>
+                </elements>
+            </ductPrimary>
+            <ductSecondary>
+                <material>
+                    <type>GlykolWater_30</type>
+                </material>
+                <name>null: 2</name>
+                <history/>
+                <elements>
+                    <elements xsi:type="ductDrilling">
+                        <heatSource>NaN</heatSource>
+                        <wallTemperature>NaN</wallTemperature>
+                        <name>Drilling</name>
+                        <profile xsi:type="hpCircular">
+                            <radius>0.01</radius>
+                        </profile>
+                        <length>0.0</length>
+                        <count>0.0</count>
+                    </elements>
+                </elements>
+            </ductSecondary>
+            <parameterSet/>
+        </elements>
+    </elements>
+</ns2:duct>

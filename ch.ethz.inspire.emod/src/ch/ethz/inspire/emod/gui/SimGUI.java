@@ -206,6 +206,9 @@ public class SimGUI extends AGUITab {
 	@Override
 	public void update() {
 		tabFolder.setSelection(0);
+		
+		statesGUI.reset();
+		initialConditionGUI.update();
 
 		/* Update simulation information */
 		if (EModSimulationMain.getRunningStatus()) {

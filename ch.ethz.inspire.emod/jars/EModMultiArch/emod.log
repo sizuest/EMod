@@ -1,0 +1,760 @@
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: java.lang.NumberFormatException: For input string: "NEUMANN"
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:2043)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.parseDouble(FloatingDecimal.java:110)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.Double.parseDouble(Double.java:538)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.addDataToConsumer(AEvaluationGUI.java:171)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.access$9(AEvaluationGUI.java:155)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI$1$1.run(AEvaluationGUI.java:270)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.RunnableLock.run(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.readAndDispatch(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.EModGUI.<init>(EModGUI.java:130)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.EModMain.main(EModMain.java:88)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.reflect.Method.invoke(Method.java:498)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.swtjar.SWTLoader.main(SWTLoader.java:48)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: Result file: Could not parse entier result file. Line 3 failed due to bad format.
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: java.lang.NumberFormatException: For input string: "ROBIN"
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:2043)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.parseDouble(FloatingDecimal.java:110)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.Double.parseDouble(Double.java:538)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.createConsumer(AEvaluationGUI.java:136)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.access$8(AEvaluationGUI.java:126)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI$1$1.run(AEvaluationGUI.java:268)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.RunnableLock.run(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.readAndDispatch(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.EModGUI.<init>(EModGUI.java:130)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.EModMain.main(EModMain.java:88)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.reflect.Method.invoke(Method.java:498)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.swtjar.SWTLoader.main(SWTLoader.java:48)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: Result file: Could not parse entier result file. Line 3 failed due to bad format.
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: java.lang.NumberFormatException: For input string: "NEUMANN"
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:2043)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.parseDouble(FloatingDecimal.java:110)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.Double.parseDouble(Double.java:538)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.addDataToConsumer(AEvaluationGUI.java:171)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.access$9(AEvaluationGUI.java:155)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI$1$1.run(AEvaluationGUI.java:270)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.RunnableLock.run(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.readAndDispatch(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.EModGUI.<init>(EModGUI.java:130)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.EModMain.main(EModMain.java:88)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.reflect.Method.invoke(Method.java:498)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.swtjar.SWTLoader.main(SWTLoader.java:48)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: Result file: Could not parse entier result file. Line 3 failed due to bad format.
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: java.lang.NumberFormatException: For input string: "ROBIN"
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:2043)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.parseDouble(FloatingDecimal.java:110)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.Double.parseDouble(Double.java:538)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.addDataToConsumer(AEvaluationGUI.java:171)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.access$9(AEvaluationGUI.java:155)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI$1$1.run(AEvaluationGUI.java:270)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.RunnableLock.run(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.readAndDispatch(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.EModGUI.<init>(EModGUI.java:130)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.EModMain.main(EModMain.java:88)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.reflect.Method.invoke(Method.java:498)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.swtjar.SWTLoader.main(SWTLoader.java:48)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: Result file: Could not parse entier result file. Line 3 failed due to bad format.
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: java.lang.NumberFormatException: For input string: "NEUMANN"
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:2043)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.parseDouble(FloatingDecimal.java:110)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.Double.parseDouble(Double.java:538)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.addDataToConsumer(AEvaluationGUI.java:171)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.access$9(AEvaluationGUI.java:155)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI$1$1.run(AEvaluationGUI.java:270)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.RunnableLock.run(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.readAndDispatch(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.EModGUI.<init>(EModGUI.java:130)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.EModMain.main(EModMain.java:88)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.reflect.Method.invoke(Method.java:498)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.swtjar.SWTLoader.main(SWTLoader.java:48)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: Result file: Could not parse entier result file. Line 3 failed due to bad format.
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: java.lang.NumberFormatException: For input string: "NEUMANN"
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:2043)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.parseDouble(FloatingDecimal.java:110)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.Double.parseDouble(Double.java:538)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.createConsumer(AEvaluationGUI.java:136)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.access$8(AEvaluationGUI.java:126)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI$1$1.run(AEvaluationGUI.java:268)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.RunnableLock.run(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.readAndDispatch(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.EModGUI.<init>(EModGUI.java:130)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.EModMain.main(EModMain.java:88)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.reflect.Method.invoke(Method.java:498)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.swtjar.SWTLoader.main(SWTLoader.java:48)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: Result file: Could not parse entier result file. Line 3 failed due to bad format.
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: java.lang.NumberFormatException: For input string: "NEUMANN"
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:2043)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.parseDouble(FloatingDecimal.java:110)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.Double.parseDouble(Double.java:538)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.createConsumer(AEvaluationGUI.java:136)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.access$8(AEvaluationGUI.java:126)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI$1$1.run(AEvaluationGUI.java:268)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.RunnableLock.run(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.readAndDispatch(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.EModGUI.<init>(EModGUI.java:130)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.EModMain.main(EModMain.java:88)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.reflect.Method.invoke(Method.java:498)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.swtjar.SWTLoader.main(SWTLoader.java:48)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: Result file: Could not parse entier result file. Line 3 failed due to bad format.
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: java.lang.NumberFormatException: For input string: "NEUMANN"
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:2043)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.parseDouble(FloatingDecimal.java:110)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.Double.parseDouble(Double.java:538)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.createConsumer(AEvaluationGUI.java:136)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.access$8(AEvaluationGUI.java:126)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI$1$1.run(AEvaluationGUI.java:268)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.RunnableLock.run(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.readAndDispatch(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.EModGUI.<init>(EModGUI.java:130)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.EModMain.main(EModMain.java:88)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.reflect.Method.invoke(Method.java:498)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.swtjar.SWTLoader.main(SWTLoader.java:48)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: Result file: Could not parse entier result file. Line 3 failed due to bad format.
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: java.lang.NumberFormatException: For input string: "NEUMANN"
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:2043)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.parseDouble(FloatingDecimal.java:110)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.Double.parseDouble(Double.java:538)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.createConsumer(AEvaluationGUI.java:136)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.access$8(AEvaluationGUI.java:126)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI$1$1.run(AEvaluationGUI.java:268)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.RunnableLock.run(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.readAndDispatch(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.EModGUI.<init>(EModGUI.java:130)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.EModMain.main(EModMain.java:88)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.reflect.Method.invoke(Method.java:498)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.swtjar.SWTLoader.main(SWTLoader.java:48)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: Result file: Could not parse entier result file. Line 3 failed due to bad format.
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: java.lang.NumberFormatException: For input string: "NEUMANN"
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:2043)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.parseDouble(FloatingDecimal.java:110)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.Double.parseDouble(Double.java:538)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.createConsumer(AEvaluationGUI.java:136)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.access$8(AEvaluationGUI.java:126)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI$1$1.run(AEvaluationGUI.java:268)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.RunnableLock.run(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.readAndDispatch(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.EModGUI.<init>(EModGUI.java:130)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.EModMain.main(EModMain.java:88)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.reflect.Method.invoke(Method.java:498)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.swtjar.SWTLoader.main(SWTLoader.java:48)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: Result file: Could not parse entier result file. Line 3 failed due to bad format.
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: java.lang.NumberFormatException: For input string: "NEUMANN"
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:2043)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.parseDouble(FloatingDecimal.java:110)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.Double.parseDouble(Double.java:538)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.createConsumer(AEvaluationGUI.java:136)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.access$8(AEvaluationGUI.java:126)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI$1$1.run(AEvaluationGUI.java:268)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.RunnableLock.run(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.readAndDispatch(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.EModGUI.<init>(EModGUI.java:130)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.EModMain.main(EModMain.java:88)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.reflect.Method.invoke(Method.java:498)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.swtjar.SWTLoader.main(SWTLoader.java:48)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: Result file: Could not parse entier result file. Line 3 failed due to bad format.
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: java.lang.NumberFormatException: For input string: "NEUMANN"
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:2043)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.parseDouble(FloatingDecimal.java:110)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.Double.parseDouble(Double.java:538)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.addDataToConsumer(AEvaluationGUI.java:171)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.access$9(AEvaluationGUI.java:155)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI$1$1.run(AEvaluationGUI.java:270)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.RunnableLock.run(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.readAndDispatch(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.EModGUI.<init>(EModGUI.java:130)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.EModMain.main(EModMain.java:88)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.reflect.Method.invoke(Method.java:498)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.swtjar.SWTLoader.main(SWTLoader.java:48)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: Result file: Could not parse entier result file. Line 3 failed due to bad format.
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: java.lang.NumberFormatException: For input string: "NEUMANN"
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:2043)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.parseDouble(FloatingDecimal.java:110)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.Double.parseDouble(Double.java:538)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.createConsumer(AEvaluationGUI.java:136)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.access$8(AEvaluationGUI.java:126)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI$1$1.run(AEvaluationGUI.java:268)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.RunnableLock.run(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.readAndDispatch(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.EModGUI.<init>(EModGUI.java:130)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.EModMain.main(EModMain.java:88)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.reflect.Method.invoke(Method.java:498)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.swtjar.SWTLoader.main(SWTLoader.java:48)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: Result file: Could not parse entier result file. Line 3 failed due to bad format.
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: java.lang.NumberFormatException: For input string: "NEUMANN"
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:2043)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.parseDouble(FloatingDecimal.java:110)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.Double.parseDouble(Double.java:538)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.createConsumer(AEvaluationGUI.java:136)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.access$8(AEvaluationGUI.java:126)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI$1$1.run(AEvaluationGUI.java:268)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.RunnableLock.run(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.readAndDispatch(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.EModGUI.<init>(EModGUI.java:130)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.EModMain.main(EModMain.java:88)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.reflect.Method.invoke(Method.java:498)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.swtjar.SWTLoader.main(SWTLoader.java:48)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: Result file: Could not parse entier result file. Line 3 failed due to bad format.
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: java.lang.NumberFormatException: For input string: "ROBIN"
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:2043)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.parseDouble(FloatingDecimal.java:110)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.Double.parseDouble(Double.java:538)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.createConsumer(AEvaluationGUI.java:136)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.access$8(AEvaluationGUI.java:126)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI$1$1.run(AEvaluationGUI.java:268)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.RunnableLock.run(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.readAndDispatch(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.EModGUI.<init>(EModGUI.java:130)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.EModMain.main(EModMain.java:88)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.reflect.Method.invoke(Method.java:498)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.swtjar.SWTLoader.main(SWTLoader.java:48)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: Result file: Could not parse entier result file. Line 3 failed due to bad format.
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: java.lang.NumberFormatException: For input string: "NEUMANN"
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:2043)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.parseDouble(FloatingDecimal.java:110)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.Double.parseDouble(Double.java:538)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.addDataToConsumer(AEvaluationGUI.java:171)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.access$9(AEvaluationGUI.java:155)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI$1$1.run(AEvaluationGUI.java:270)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.RunnableLock.run(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.readAndDispatch(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.EModGUI.<init>(EModGUI.java:130)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.EModMain.main(EModMain.java:88)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.reflect.Method.invoke(Method.java:498)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.swtjar.SWTLoader.main(SWTLoader.java:48)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: Result file: Could not parse entier result file. Line 3 failed due to bad format.
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: java.lang.NumberFormatException: For input string: "ROBIN"
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:2043)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.parseDouble(FloatingDecimal.java:110)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.Double.parseDouble(Double.java:538)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.addDataToConsumer(AEvaluationGUI.java:171)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.access$9(AEvaluationGUI.java:155)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI$1$1.run(AEvaluationGUI.java:270)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.RunnableLock.run(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.readAndDispatch(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.EModGUI.<init>(EModGUI.java:130)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.EModMain.main(EModMain.java:88)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.reflect.Method.invoke(Method.java:498)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.swtjar.SWTLoader.main(SWTLoader.java:48)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: Result file: Could not parse entier result file. Line 3 failed due to bad format.
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: java.lang.NumberFormatException: For input string: "DIRICHLET"
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:2043)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.parseDouble(FloatingDecimal.java:110)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.Double.parseDouble(Double.java:538)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.addDataToConsumer(AEvaluationGUI.java:171)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.access$9(AEvaluationGUI.java:155)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI$1$1.run(AEvaluationGUI.java:270)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.RunnableLock.run(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.readAndDispatch(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.EModGUI.<init>(EModGUI.java:130)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.EModMain.main(EModMain.java:88)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.reflect.Method.invoke(Method.java:498)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.swtjar.SWTLoader.main(SWTLoader.java:48)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: Result file: Could not parse entier result file. Line 3 failed due to bad format.
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: java.lang.NumberFormatException: For input string: "NEUMANN"
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:2043)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.misc.FloatingDecimal.parseDouble(FloatingDecimal.java:110)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.Double.parseDouble(Double.java:538)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.createConsumer(AEvaluationGUI.java:136)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.access$8(AEvaluationGUI.java:126)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI$1$1.run(AEvaluationGUI.java:268)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.RunnableLock.run(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.readAndDispatch(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.EModGUI.<init>(EModGUI.java:130)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.EModMain.main(EModMain.java:88)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.reflect.Method.invoke(Method.java:498)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.swtjar.SWTLoader.main(SWTLoader.java:48)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: Result file: Could not parse entier result file. Line 3 failed due to bad format.
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: java.lang.ArrayIndexOutOfBoundsException: 50
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.addDataToConsumer(AEvaluationGUI.java:171)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI.access$9(AEvaluationGUI.java:155)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.AEvaluationGUI$1$1.run(AEvaluationGUI.java:270)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.RunnableLock.run(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.runAsyncMessages(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.readAndDispatch(Unknown Source)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.EModGUI.<init>(EModGUI.java:130)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.EModMain.main(EModMain.java:88)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at java.lang.reflect.Method.invoke(Method.java:498)
+Mär 17, 2017 4:20:34 PM  
+SCHWERWIEGEND: 	at org.swtjar.SWTLoader.main(SWTLoader.java:48)
+Mär 17, 2017 4:20:34 PM ch.ethz.inspire.emod.gui.FEMExportGUI$6 widgetSelected
+DEBUG: atab0
+Mär 17, 2017 4:20:34 PM ch.ethz.inspire.emod.gui.FEMExportGUI$6 widgetSelected
+DEBUG: atab0
+Mär 17, 2017 4:20:34 PM ch.ethz.inspire.emod.gui.FEMExportGUI$6 widgetSelected
+DEBUG: atab0
+Mär 17, 2017 4:20:34 PM ch.ethz.inspire.emod.gui.FEMExportGUI$6 widgetSelected
+DEBUG: atab0

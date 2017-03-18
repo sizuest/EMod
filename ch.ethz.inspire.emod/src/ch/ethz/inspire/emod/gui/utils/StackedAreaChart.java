@@ -13,6 +13,7 @@
 package ch.ethz.inspire.emod.gui.utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
@@ -54,7 +55,7 @@ public class StackedAreaChart {
 		localdata = new ArrayList<ConsumerData>(data);
 
 		for (int i = localdata.size() - 1; i >= 0; i--) {
-			if (Double.isNaN(localdata.get(i).getVariance()))
+			if (Double.isNaN(localdata.get(i).getVariancePower()))
 				localdata.remove(i);
 		}
 
@@ -63,9 +64,7 @@ public class StackedAreaChart {
 		List<double[]> series = createStackedSeries();
 
 		for (int i = localdata.size() - 1; i >= 0; i--) {
-			ILineSeries lineSeries = (ILineSeries) chart.getSeriesSet()
-					.createSeries(SeriesType.LINE,
-							localdata.get(i).getConsumer());
+			ILineSeries lineSeries = (ILineSeries) chart.getSeriesSet().createSeries(SeriesType.LINE, localdata.get(i).getConsumer());
 			lineSeries.setYSeries(series.get(i));
 			lineSeries.setSymbolType(PlotSymbolType.NONE);
 
@@ -97,14 +96,16 @@ public class StackedAreaChart {
 	private static void sort() {
 		for (int i = 0; i < localdata.size(); i++) {
 			for (int j = i; j < localdata.size(); j++) {
-				if (localdata.get(i).getVariance() > localdata.get(j)
-						.getVariance()) {
-					ConsumerData temp = localdata.get(i);
-					localdata.set(i, localdata.get(j));
-					localdata.set(j, temp);
+				if (localdata.get(i).getVariancePower()/localdata.get(i).getAveragePower() > localdata.get(j).getVariancePower()/localdata.get(j).getAveragePower()) {
+					Collections.swap(localdata, i, j);
 				}
 			}
 		}
+		
+		for (int i = 0; i < localdata.size(); i++) {
+			System.out.println(localdata.get(i).getConsumer()+": "+localdata.get(i).getVariancePower()/localdata.get(i).getAveragePower());
+		}
+		
 	}
 
 	private static List<double[]> createStackedSeries() {

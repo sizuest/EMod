@@ -31,6 +31,7 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseWheelListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -124,10 +125,8 @@ public class DuctConfigGraphGUI extends AConfigGUI implements IGraphEditable{
 		canvas.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 		
 		// Remove standart handlers
-		canvas.removeInputEventListener(canvas
-				.getPanEventHandler());
-		canvas.removeInputEventListener(canvas
-				.getZoomEventHandler());
+		canvas.removeInputEventListener(canvas.getPanEventHandler());
+		canvas.removeInputEventListener(canvas.getZoomEventHandler());
 
 		// Drag handler
 		canvas.addInputEventListener(new GraphMidMouseEventHandler());
@@ -135,8 +134,7 @@ public class DuctConfigGraphGUI extends AConfigGUI implements IGraphEditable{
 		// Add mouse zoom
 		final PMouseWheelZoomEventHandler mouseWheelZoomEventHandler = new PMouseWheelZoomEventHandler();
 		mouseWheelZoomEventHandler.zoomAboutMouse();
-		canvas.removeInputEventListener(canvas
-				.getZoomEventHandler());
+		canvas.removeInputEventListener(canvas.getZoomEventHandler());
 		canvas.addMouseWheelListener(new MouseWheelListener() {
 
 			@Override
@@ -151,12 +149,9 @@ public class DuctConfigGraphGUI extends AConfigGUI implements IGraphEditable{
 		canvas.getLayer().addChild(ductGraph);
 
 		// Add Seclection
-		selectionEventHandler = new DuctGraphEventHandler(
-				ductGraph, ductGraph,
-				this.getShell());
+		selectionEventHandler = new DuctGraphEventHandler(ductGraph, ductGraph, this.getShell());
 		canvas.addInputEventListener(selectionEventHandler);
-		canvas.getRoot().getDefaultInputManager()
-				.setKeyboardFocus(selectionEventHandler);
+		canvas.getRoot().getDefaultInputManager().setKeyboardFocus(selectionEventHandler);
 
 		// Add key press handler
 		canvas.addKeyListener(new KeyEventHandler(this));
@@ -165,8 +160,7 @@ public class DuctConfigGraphGUI extends AConfigGUI implements IGraphEditable{
 		treeDuctDBView = new Tree(form, SWT.BORDER);
 		for (ADuctElement e : ductElementSelection) {
 			TreeItem childTreeItem = new TreeItem(treeDuctDBView, SWT.NONE);
-			childTreeItem.setText(e.getClass().getSimpleName()
-					.replace("Duct", ""));
+			childTreeItem.setText(e.getClass().getSimpleName().replace("Duct", ""));
 		}
 
 		ductTestingGUI = new DuctTestingGUI(tabFolder, duct);
@@ -263,8 +257,11 @@ public class DuctConfigGraphGUI extends AConfigGUI implements IGraphEditable{
 
 	@Override
 	public void update() {
+		if(this.isDisposed())
+			return;
+		
 		updateGraph();
-
+		
 		ductTestingGUI.update();
 
 		this.redraw();
@@ -377,6 +374,8 @@ public class DuctConfigGraphGUI extends AConfigGUI implements IGraphEditable{
 				}
 				
 				wasEdited();
+				
+				duct.setRootDuct();
 
 			}
 		});
@@ -434,19 +433,27 @@ public class DuctConfigGraphGUI extends AConfigGUI implements IGraphEditable{
 	 * @param type
 	 */
 	public static void editDuctGUI(Shell parent, String type) {
-		final Shell shell = new Shell(parent, SWT.TITLE | SWT.SYSTEM_MODAL
-				| SWT.CLOSE | SWT.MAX | SWT.RESIZE);
+		final Shell shell = new Shell(parent, SWT.TITLE | SWT.SYSTEM_MODAL | SWT.CLOSE | SWT.MAX | SWT.RESIZE);
 		shell.setLayout(new GridLayout(1, true));
-		DuctConfigGraphGUI gui = new DuctConfigGraphGUI(shell, SWT.NONE,
-				Duct.buildFromDB(type), ShowButtons.CANCEL | ShowButtons.OK);
+		
+		DuctConfigGraphGUI gui = new DuctConfigGraphGUI(shell, SWT.NONE, Duct.buildFromDB(type), ShowButtons.CANCEL | ShowButtons.OK);
 
 		shell.setText("DuctDesigner: " + type);
+		
+		// Icon
+		shell.setImages(new Image[] {new Image(Display.getDefault(),"src/resources/icons/DuctDesignerIcon_128x128.png"), 
+				                     new Image(Display.getDefault(),"src/resources/icons/DuctDesignerIcon_48x48.png"), 
+				                     new Image(Display.getDefault(),"src/resources/icons/DuctDesignerIcon_32x32.png"), 
+				                     new Image(Display.getDefault(),"src/resources/icons/DuctDesignerIcon_22x22.png"), 
+				                     new Image(Display.getDefault(),"src/resources/icons/DuctDesignerIcon_16x16.png")});
+
 
 		shell.pack();
 
 		shell.layout();
 		shell.redraw();
 		shell.open();
+		
 		gui.showAll();
 		gui.addDisposeListener(new DisposeListener() {
 			@Override
@@ -464,7 +471,7 @@ public class DuctConfigGraphGUI extends AConfigGUI implements IGraphEditable{
 	@Override
 	public void reset() {
 		duct.clone(Duct.buildFromDB(this.name));
-		update();
+		//update();
 	}
 
 	/**
@@ -509,7 +516,6 @@ public class DuctConfigGraphGUI extends AConfigGUI implements IGraphEditable{
 		
 		canvas.getCamera().scaleViewAboutPoint(.9, b.getCenterX(), b.getCenterY());
 		
-		System.out.println(canvas.getCamera().getViewScale());
 		if(canvas.getCamera().getViewScale()>1)
 			canvas.getCamera().scaleViewAboutPoint(1/canvas.getCamera().getViewScale(), b.getCenterX(), b.getCenterY());
 		

@@ -41,6 +41,7 @@ import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 public class ProcessGUI extends AConfigGUI {
 
+	private ProcessManageGUI processManageGUI;
 	private Table tableProcessParam;
 	ArrayList<String> scNames;
 	ArrayList<SiUnit> scUnits;
@@ -55,12 +56,13 @@ public class ProcessGUI extends AConfigGUI {
 		super(parent, style, ShowButtons.RESET | ShowButtons.OK, false);
 
 		Process.loadProcess(PropertiesHandler.getProperty("sim.ProcessName"));
+		
+		// Auswahl Prozess
+		processManageGUI = new ProcessManageGUI(this, SWT.NONE);
 
 		// Tabelle fuer Prozess initieren
-		tableProcessParam = new Table(this.getContent(), SWT.BORDER | SWT.MULTI
-				| SWT.V_SCROLL | SWT.H_SCROLL);
-		tableProcessParam.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
-				true, 1, 1));
+		tableProcessParam = new Table(this.getContent(), SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
+		tableProcessParam.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		tableProcessParam.setLinesVisible(true);
 		tableProcessParam.setHeaderVisible(true);
 
@@ -77,6 +79,7 @@ public class ProcessGUI extends AConfigGUI {
 		tableProcessParam.setEnabled(false);
 		tableProcessParam.clearAll();
 		tableProcessParam.setItemCount(0);
+		processManageGUI.update();
 
 		threadedUpdate();
 	}
@@ -161,10 +164,8 @@ public class ProcessGUI extends AConfigGUI {
 						for (TableColumn tc : tableProcessParam.getColumns())
 							tc.dispose();
 
-						TableColumn column = new TableColumn(tableProcessParam,
-								SWT.NULL);
-						column.setText(LocalizationHandler
-								.getItem("app.gui.sim.inputs.time"));
+						TableColumn column = new TableColumn(tableProcessParam, SWT.NULL);
+						column.setText(LocalizationHandler.getItem("app.gui.sim.inputs.time"));
 
 						/*
 						 * Fill the table We have two sources - Process file:
@@ -177,29 +178,21 @@ public class ProcessGUI extends AConfigGUI {
 						// Simulators
 						scNames = new ArrayList<String>();
 						scUnits = new ArrayList<SiUnit>();
-						for (ASimulationControl sc : Machine.getInstance()
-								.getVariableInputObjectList()) {
+						for (ASimulationControl sc : Machine.getInstance().getVariableInputObjectList()) {
 							scNames.add(sc.getName());
 							scUnits.add(sc.getUnit());
-							if (!(Process.getVariableNames().contains(sc
-									.getName())))
+							if (!(Process.getVariableNames().contains(sc.getName())))
 								try {
 									Process.addProcessVariable(sc.getName());
 								} catch (Exception e) {
-									System.out
-											.print("Added new variable to process file: "
-													+ sc.getName());
+									System.out.print("Added new variable to process file: " + sc.getName());
 								}
 						}
 
 						// Write Heads
 						for (String s : scNames) {
-							column = new TableColumn(tableProcessParam,
-									SWT.NULL);
-							column.setText(s
-									+ " ["
-									+ scUnits.get(scNames.indexOf(s))
-											.toString() + "]");
+							column = new TableColumn(tableProcessParam, SWT.NULL);
+							column.setText(s + " [" + scUnits.get(scNames.indexOf(s)).toString() + "]");
 						}
 
 						// Table items
@@ -208,21 +201,17 @@ public class ProcessGUI extends AConfigGUI {
 						// Time Data
 						for (int i = 0; i < Process.getNumberOfTimeStamps(); i++) {
 							item[i] = new TableItem(tableProcessParam, SWT.NONE);
-							item[i].setText(0,
-									Double.toString(Process.getTime()[i]));
+							item[i].setText(0, Double.toString(Process.getTime()[i]));
 						}
 
 						// Variable Data
 						for (int j = 0; j < scNames.size(); j++) {
-							double[] tmp = Process.getProcessVariable(scNames
-									.get(j));
+							double[] tmp = Process.getProcessVariable(scNames.get(j));
 							for (int i = 0; i < Process.getNumberOfTimeStamps(); i++) {
 								if (i < tmp.length)
-									item[i].setText(j + 1,
-											Double.toString(tmp[i]));
+									item[i].setText(j + 1, Double.toString(tmp[i]));
 								else
 									item[i].setText(j + 1, "0");
-
 							}
 
 						}
@@ -230,10 +219,8 @@ public class ProcessGUI extends AConfigGUI {
 						// Add empty entry
 						new TableItem(tableProcessParam, SWT.NONE);
 
-						EModStatusBarGUI.getProgressBar().setText(
-								"Loading process file ...");
-						EModStatusBarGUI.getProgressBar().updateProgressbar(0,
-								false);
+						EModStatusBarGUI.getProgressBar().setText( "Loading process file ...");
+						EModStatusBarGUI.getProgressBar().updateProgressbar(0, false);
 
 						// Tabelle packen
 						TableColumn[] columns = tableProcessParam.getColumns();

@@ -97,22 +97,18 @@ public class SelectMachineComponentGUI extends Dialog {
 
 	private void createContents(final Shell shell) {
 		// create tree element and fill it with the components from the DB
-		treeComponentDBView = new Tree(shell, SWT.MULTI | SWT.BORDER
-				| SWT.V_SCROLL);
-		treeComponentDBView.setLayoutData(new GridData(SWT.FILL, SWT.FILL,
-				true, true, 2, 1));
-		MachineComponentHandler.fillMachineComponentTree(filter,
-				treeComponentDBView);
+		treeComponentDBView = new Tree(shell, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL);
+		treeComponentDBView.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
+		MachineComponentHandler.fillMachineComponentTree(filter, treeComponentDBView);
 
-		/* Select Button */
-		final Button selectComponentButton = new Button(shell, SWT.PUSH);
-		selectComponentButton.setText("OK");
-		selectComponentButton.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP,
-				false, false, 1, 1));
-		selectComponentButton.addSelectionListener(new SelectionListener() {
+		/* Close Button */
+		final Button closeComponentButton = new Button(shell, SWT.PUSH);
+		closeComponentButton.setText("Close");
+		closeComponentButton.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, false, false, 1, 1));
+		closeComponentButton.addSelectionListener(new SelectionListener() {
 			@Override
 			public void widgetSelected(SelectionEvent event) {
-				input = getSelectionToString();
+				input = "";
 				shell.close();
 			}
 
@@ -121,16 +117,15 @@ public class SelectMachineComponentGUI extends Dialog {
 				// Not used
 			}
 		});
-
-		/* Close Button */
-		final Button closeComponentButton = new Button(shell, SWT.PUSH);
-		closeComponentButton.setText("Close");
-		closeComponentButton.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP,
-				false, false, 1, 1));
-		closeComponentButton.addSelectionListener(new SelectionListener() {
+		
+		/* Select Button */
+		final Button selectComponentButton = new Button(shell, SWT.PUSH);
+		selectComponentButton.setText("OK");
+		selectComponentButton.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, false, false, 1, 1));
+		selectComponentButton.addSelectionListener(new SelectionListener() {
 			@Override
 			public void widgetSelected(SelectionEvent event) {
-				input = "";
+				input = getSelectionToString();
 				shell.close();
 			}
 

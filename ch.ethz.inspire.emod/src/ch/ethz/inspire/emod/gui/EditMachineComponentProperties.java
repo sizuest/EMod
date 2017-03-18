@@ -54,8 +54,7 @@ public class EditMachineComponentProperties extends AConfigGUI {
 	 * @param style
 	 * @param mc
 	 */
-	public EditMachineComponentProperties(final Composite parent, int style,
-			final MachineComponent mc) {
+	public EditMachineComponentProperties(final Composite parent, int style, final MachineComponent mc) {
 		super(parent, style);
 
 		this.mc = mc;
@@ -131,16 +130,14 @@ public class EditMachineComponentProperties extends AConfigGUI {
 		final Button buttonEditComponent = new Button(this.getContent(),
 				SWT.PUSH);
 		buttonEditComponent.setText("...");
-		buttonEditComponent.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL,
-				true, true, 1, 1));
+		buttonEditComponent.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, true, true, 1, 1));
 		buttonEditComponent.addSelectionListener(new SelectionListener() {
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				String model = mc.getComponent().getModelType();
 				String type = comboType.getText();
 				// open window editComponentEditGUI with the selected component
-				EditMachineComponentGUI.editMachineComponentGUI(
-						parent.getShell(), model, type);
+				EditMachineComponentGUI.editMachineComponentGUI(parent.getParent().getShell(), model, type);
 			}
 
 			@Override
@@ -159,16 +156,16 @@ public class EditMachineComponentProperties extends AConfigGUI {
 	 * @param mc
 	 * @return
 	 */
-	public static Shell editMachineComponentGUI(final Shell parent,
-			final MachineComponent mc) {
-		final Shell shell = new Shell(parent, SWT.TITLE | SWT.SYSTEM_MODAL
-				| SWT.CLOSE | SWT.MAX);
+	public static Shell editMachineComponentGUI(final Shell parent, final MachineComponent mc) {
+		final Shell shell = new Shell(parent, SWT.TITLE | SWT.SYSTEM_MODAL | SWT.CLOSE | SWT.MAX);
 		shell.setText(LocalizationHandler.getItem("app.gui.compdb.editcomp"));
 		shell.setLayout(new GridLayout(1, true));
 
 		EditMachineComponentProperties gui = new EditMachineComponentProperties(
 				shell, SWT.NONE, mc);
 
+		shell.setImages(parent.getImages());
+		
 		shell.pack();
 
 		shell.layout();

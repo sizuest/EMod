@@ -44,9 +44,11 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
+import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.dd.gui.DuctConfigGraphGUI;
 import ch.ethz.inspire.emod.gui.utils.ShowButtons;
 import ch.ethz.inspire.emod.gui.utils.TableUtils;
+import ch.ethz.inspire.emod.model.parameters.PhysicalValue;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
@@ -71,12 +73,15 @@ public class EditMachineComponentGUI extends AConfigGUI {
 	 * @param type
 	 * @param parameter
 	 */
-	public EditMachineComponentGUI(Composite parent, int style, String type,
-			String parameter) {
+	public EditMachineComponentGUI(Composite parent, int style, String type, String parameter) {
 		super(parent, style, ShowButtons.ALL);
 
 		this.type = type;
 		this.parameter = parameter;
+		
+		try {
+			Machine.createNewMachineComponent(type, parameter);
+		} catch(Exception e){}
 
 		try {
 			component = new ComponentConfigReader(type, parameter);
@@ -88,10 +93,8 @@ public class EditMachineComponentGUI extends AConfigGUI {
 
 		this.getContent().setLayout(new GridLayout(1, true));
 
-		tableComponent = new Table(this.getContent(), SWT.BORDER | SWT.SINGLE
-				| SWT.V_SCROLL);
-		tableComponent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
-				true, 1, 1));
+		tableComponent = new Table(this.getContent(), SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL);
+		tableComponent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		tableComponent.setLinesVisible(true);
 		tableComponent.setHeaderVisible(true);
 
@@ -217,25 +220,26 @@ public class EditMachineComponentGUI extends AConfigGUI {
 	 * @param parent
 	 * @param type
 	 * @param parameter
+	 * @return 
 	 */
-	public static void editMachineComponentGUI(final Shell parent,
-			final String type, final String parameter) {
-		final Shell shell = new Shell(parent, SWT.TITLE | SWT.SYSTEM_MODAL
-				| SWT.CLOSE | SWT.MAX | SWT.RESIZE);
+	public static Shell editMachineComponentGUI(final Shell parent, final String type, final String parameter) {
+		final Shell shell = new Shell(parent, SWT.TITLE | SWT.SYSTEM_MODAL | SWT.CLOSE | SWT.MAX);
 		shell.setText(LocalizationHandler.getItem("app.gui.compdb.editcomp"));
 		shell.setLayout(new GridLayout(1, true));
 		shell.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		final EditMachineComponentGUI gui = new EditMachineComponentGUI(shell,
 				SWT.NONE, type, parameter);
+		
+		shell.setImages(parent.getImages());
 
 		shell.pack();
 
 		shell.layout();
 		shell.redraw();
 		shell.open();
-
-		shell.setSize(shell.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		
+		shell.setImages(parent.getShell().getImages());
 
 		shell.addControlListener(new ControlListener() {
 
@@ -261,9 +265,16 @@ public class EditMachineComponentGUI extends AConfigGUI {
 		gui.addDisposeListener(new DisposeListener() {
 			@Override
 			public void widgetDisposed(DisposeEvent e) {
-				shell.dispose();
+				try{
+					shell.dispose();
+				}
+				catch(Exception e2){
+					System.err.println("EditMachineComponentGUI: Failed to dispose shell");
+				}
 			}
 		});
+		
+		return shell;
 	}
 
 	/**
@@ -345,7 +356,15 @@ public class EditMachineComponentGUI extends AConfigGUI {
 		for (String key : keys) {
 
 			try {
-				String value = component.getString(key);
+				String value, unit;
+				try{
+					PhysicalValue pvalue = component.getPhysicalValue(key);
+					value = pvalue.valuesToString();
+					unit  = pvalue.getUnit().toString();
+				}catch (Exception e2){
+					value = component.getString(key).replace("\n", "");
+					unit = "";
+				}
 
 				int i = tableComponent.getItemCount();
 				final TableItem itemProp = new TableItem(tableComponent,
@@ -354,6 +373,7 @@ public class EditMachineComponentGUI extends AConfigGUI {
 
 				itemProp.setText(0, key);
 				itemProp.setText(1, value);
+				itemProp.setText(2, unit);
 
 				/* SPECIAL CASE: Material */
 				if (key.matches("[a-zA-Z]*Material")) {
@@ -415,8 +435,7 @@ public class EditMachineComponentGUI extends AConfigGUI {
 					final Button editDuctButton = new Button(tableComponent,
 							SWT.PUSH);
 					editDuctButton.setText("...");
-					editDuctButton.setLayoutData(new GridData(SWT.FILL,
-							SWT.TOP, false, true, 1, 1));
+					editDuctButton.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, true, 1, 1));
 					editDuctButton
 							.addSelectionListener(new SelectionListener() {
 								@Override
@@ -447,12 +466,16 @@ public class EditMachineComponentGUI extends AConfigGUI {
 		for (int j = 0; j < columns.length; j++) {
 			columns[j].pack();
 		}
+		
+		if(columns[1].getWidth()>500){
+			columns[1].setWidth(500);
+		}
 	}
 
 	@Override
 	public void save() {
 		for (TableItem ti : tableComponent.getItems()) {
-			component.setValue(ti.getText(0), ti.getText(1));
+			component.setValue(ti.getText(0), ti.getText(1)+(!ti.getText(2).equals("none") & !ti.getText(2).equals("") ? " "+ti.getText(2) : ""));
 		}
 
 		try {

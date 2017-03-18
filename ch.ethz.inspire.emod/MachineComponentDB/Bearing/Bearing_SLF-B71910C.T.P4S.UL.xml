@@ -4,8 +4,8 @@
 <comment/>
 <entry key="NumRollingBodies">21</entry>
 <entry key="LubricantMaterial">SlidewayOil-ISO-VG-22</entry>
-<entry key="MeanDiameter">.061</entry>
-<entry key="ContactAngle">15</entry>
-<entry key="C0">16600</entry>
+<entry key="MeanDiameter">0.061 m</entry>
+<entry key="ContactAngle">15.0 deg (!)</entry>
+<entry key="C0">16600.0 N</entry>
 <entry key="LubricationFactor">.7</entry>
 </properties>

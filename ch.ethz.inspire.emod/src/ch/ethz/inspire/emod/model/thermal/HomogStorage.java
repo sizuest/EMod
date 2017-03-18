@@ -321,6 +321,8 @@ public class HomogStorage extends APhysicalComponent {
 
 		// cp = material.getHeatCapacity();
 		// tmpSum = 0;
+		
+		thermalElement.setHeatInput(0);
 
 		// Sum up inputs
 		for (IOContainer in : thIn)
