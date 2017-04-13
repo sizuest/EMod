@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<eModSession>
+    <machineName>ConstantPumpValidation</machineName>
+    <processName>TestProcessConstantPump</processName>
+    <machineConfig>TestConfig1</machineConfig>
+    <simulationConfig>TestSimConfig1</simulationConfig>
+    <notes></notes>
+</eModSession>
