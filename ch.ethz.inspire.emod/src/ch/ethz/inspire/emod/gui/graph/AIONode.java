@@ -57,6 +57,8 @@ public abstract class AIONode extends PComposite {
 		this.ioText = new PSWTText("IONode");
 		this.ioText.setFont(new Font(this.ioText.getFont().getFamily(),
 				Font.PLAIN, (int) (this.ioText.getFont().getSize() * .75)));
+		
+		this.ioText.setGreekThreshold(0);
 
 		this.addChild(ioNode);
 		this.addChild(ioText);

@@ -79,6 +79,9 @@ public class MachineComponentGraphElement extends AGraphElement {
 				.getFont().getSize()));
 		type.setFont(new Font(type.getFont().getFamily(), Font.ITALIC, type
 				.getFont().getSize()));
+		
+		name.setGreekThreshold(0);
+		type.setGreekThreshold(0);
 
 		/* Combine all inputs/outputs in a PComposite to faciliate the handling */
 		inputs = getInputList();

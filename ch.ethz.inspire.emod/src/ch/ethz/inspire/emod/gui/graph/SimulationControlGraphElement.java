@@ -61,6 +61,8 @@ public class SimulationControlGraphElement extends AGraphElement {
 		type = new PSWTText(this.simulationControl.getType());
 		type.setFont(new Font(type.getFont().getFamily(), Font.ITALIC,
 				(int) (type.getFont().getSize() * .75)));
+		
+		type.setGreekThreshold(0);
 
 		node = new OutputNode(sc.getOutput());
 		box = PSWTPath.createRoundRectangle(-5, -10, (float) node.getWidth()
