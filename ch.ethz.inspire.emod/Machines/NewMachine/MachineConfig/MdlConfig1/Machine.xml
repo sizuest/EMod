@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:machine xmlns:ns2="ch.ethz.inspire.emod">
+    <machine>
+        <machineComponent>
+            <position>
+                <x>0.0</x>
+                <y>0.0</y>
+                <r>0.0</r>
+                <rotate>0.0</rotate>
+            </position>
+            <component xsi:type="amplifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <type>Emerson_SK2402</type>
+            </component>
+            <name>Amplifier</name>
+        </machineComponent>
+    </machine>
+</ns2:machine>
