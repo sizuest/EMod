@@ -90,21 +90,29 @@ public class MachineComponentGraphElement extends AGraphElement {
 		 * shadow under the box
 		 */
 		if (null != mc.getComponent().getDynamicStateList()) {
-			final PSWTPath shadow = PSWTPath
-					.createRectangle(
-							0,
-							-5,
-							(int) (inputs.getWidth() + outputs.getWidth()) + 20,
-							(int) Math.max(inputs.getHeight(),
-									outputs.getHeight()) + 20);
-			shadow.setPaint(Color.BLACK);
-			this.addChild(shadow);
+			for(int i=0; i<10; i++){
+				final PSWTPath shadow = PSWTPath
+						.createRoundRectangle(
+								0f+i,
+								-5f+i,
+								(float) (inputs.getWidth() + outputs.getWidth()) + 22 - 2*i,
+								(float) Math.max(inputs.getHeight(),
+										outputs.getHeight()) + 22 - 2*i, 
+								10f-i, 10f-i);
+				shadow.setPaint(Color.BLACK);
+				shadow.setTransparency(.1f+i*i/100f);
+				this.addChild(shadow);
+			}
 		}
 
 		/* Draw the box */
-		box = PSWTPath.createRectangle(-5, -10,
-				(int) (inputs.getWidth() + outputs.getWidth()) + 20,
-				(int) Math.max(inputs.getHeight(), outputs.getHeight()) + 20);
+//		box = PSWTPath.createRectangle(-5, -10,
+//				(int) (inputs.getWidth() + outputs.getWidth()) + 20,
+//				(int) Math.max(inputs.getHeight(), outputs.getHeight()) + 20);
+		box = PSWTPath.createRoundRectangle(-5f, -10f,
+				(float) (inputs.getWidth() + outputs.getWidth()) + 20,
+				(float) Math.max(inputs.getHeight(), outputs.getHeight()) + 20, 
+				5f, 5f);
 
 		/* Move the outputs to the right */
 		outputs.setOffset(inputs.getWidth() + 20, 0);
@@ -302,7 +310,7 @@ public class MachineComponentGraphElement extends AGraphElement {
 	@Override
 	public void setSelected(boolean b) {
 		if(b)
-			box.setPaint(Color.YELLOW);
+			box.setPaint(new Color(255, 255, 200));
 		else
 			box.setPaint(Color.WHITE);
 	}
