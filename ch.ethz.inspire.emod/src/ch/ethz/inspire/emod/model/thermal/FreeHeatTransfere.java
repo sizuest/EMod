@@ -13,16 +13,17 @@
 
 package ch.ethz.inspire.emod.model.thermal;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 
+import ch.ethz.inspire.emod.EModSession;
 import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 import ch.ethz.inspire.emod.utils.Defines;
 import ch.ethz.inspire.emod.utils.IOContainer;
-import ch.ethz.inspire.emod.utils.PropertiesHandler;
 import ch.ethz.inspire.emod.model.APhysicalComponent;
 
 /**
@@ -136,15 +137,12 @@ public class FreeHeatTransfere extends APhysicalComponent {
 		 * will be opened. Otherwise the cfg file of the parent will be opened
 		 */
 		if (parentType.isEmpty()) {
-			String path = PropertiesHandler
-					.getProperty("app.MachineDataPathPrefix")
-					+ "/"
-					+ PropertiesHandler.getProperty("sim.MachineName")
-					+ "/"
+			String path = EModSession.getRootPath()
+					+ File.separator
 					+ Defines.MACHINECONFIGDIR
-					+ "/"
-					+ PropertiesHandler.getProperty("sim.MachineConfigName")
-					+ "/"
+					+ File.separator
+					+ EModSession.getMachineConfig()
+					+ File.separator
 					+ this.getClass().getSimpleName()
 					+ "_"
 					+ type
@@ -153,7 +151,6 @@ public class FreeHeatTransfere extends APhysicalComponent {
 				params = new ComponentConfigReader(path);
 			} catch (Exception e) {
 				e.printStackTrace();
-				System.exit(-1);
 			}
 		} else {
 
@@ -162,7 +159,6 @@ public class FreeHeatTransfere extends APhysicalComponent {
 				params = new ComponentConfigReader(parentType, type);
 			} catch (Exception e) {
 				e.printStackTrace();
-				System.exit(-1);
 			}
 		}
 
@@ -174,7 +170,6 @@ public class FreeHeatTransfere extends APhysicalComponent {
 			dWall = params.getDoubleArray("thermal.WallThicknesses");
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.exit(-1);
 		}
 		params.Close(); /* Model configuration file not needed anymore. */
 
@@ -183,7 +178,6 @@ public class FreeHeatTransfere extends APhysicalComponent {
 			checkConfigParams();
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.exit(-1);
 		}
 
 		/*

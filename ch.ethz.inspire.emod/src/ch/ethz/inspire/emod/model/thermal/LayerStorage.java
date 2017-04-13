@@ -13,17 +13,18 @@
 
 package ch.ethz.inspire.emod.model.thermal;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 
+import ch.ethz.inspire.emod.EModSession;
 import ch.ethz.inspire.emod.model.units.*;
 import ch.ethz.inspire.emod.simulation.DynamicState;
 import ch.ethz.inspire.emod.utils.ComponentConfigReader;
 import ch.ethz.inspire.emod.utils.Defines;
 import ch.ethz.inspire.emod.utils.IOContainer;
-import ch.ethz.inspire.emod.utils.PropertiesHandler;
 import ch.ethz.inspire.emod.model.APhysicalComponent;
 
 /**
@@ -255,17 +256,17 @@ public class LayerStorage extends APhysicalComponent {
 		 * will be opened. Otherwise the cfg file of the parent will be opened
 		 */
 		if (parentType.isEmpty()) {
-			path = PropertiesHandler.getProperty("app.MachineDataPathPrefix")
-					+ "/" + PropertiesHandler.getProperty("sim.MachineName")
-					+ "/" + Defines.MACHINECONFIGDIR + "/"
-					+ PropertiesHandler.getProperty("sim.MachineConfigName")
-					+ "/" + this.getClass().getSimpleName() + "_" + type
+			path =EModSession.getRootPath()
+					+ File.separator
+					+ Defines.MACHINECONFIGDIR
+					+ File.separator
+					+ EModSession.getMachineConfig()
+					+ File.separator + this.getClass().getSimpleName() + "_" + type
 					+ ".xml";
 			try {
 				params = new ComponentConfigReader(path);
 			} catch (Exception e) {
 				e.printStackTrace();
-				System.exit(-1);
 			}
 		} else {
 
@@ -274,7 +275,6 @@ public class LayerStorage extends APhysicalComponent {
 				params = new ComponentConfigReader(parentType, type);
 			} catch (Exception e) {
 				e.printStackTrace();
-				System.exit(-1);
 			}
 		}
 
@@ -300,7 +300,6 @@ public class LayerStorage extends APhysicalComponent {
 			fluidType = params.getString("Material");
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.exit(-1);
 		}
 		params.Close(); /* Model configuration file not needed anymore. */
 	}

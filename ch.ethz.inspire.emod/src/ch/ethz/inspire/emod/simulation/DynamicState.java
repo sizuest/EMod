@@ -15,11 +15,10 @@ package ch.ethz.inspire.emod.simulation;
 
 import java.lang.reflect.Method;
 
+import ch.ethz.inspire.emod.EModSession;
 import ch.ethz.inspire.emod.model.APhysicalComponent;
 import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.utils.ConfigReader;
-import ch.ethz.inspire.emod.utils.Defines;
-import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 /**
  * Implements an initial condition for a {@link APhysicalComponent}
@@ -263,11 +262,7 @@ public class DynamicState {
 	}
 
 	private String configPath() {
-		return PropertiesHandler.getProperty("app.MachineDataPathPrefix") + "/"
-				+ PropertiesHandler.getProperty("sim.MachineName") + "/"
-				+ Defines.SIMULATIONCONFIGDIR + "/"
-				+ PropertiesHandler.getProperty("sim.SimulationConfigName")
-				+ "/" + Defines.SIMULATIONCONFIGFILE;
+		return EModSession.getSimulationConfigPath();
 	}
 
 	/**

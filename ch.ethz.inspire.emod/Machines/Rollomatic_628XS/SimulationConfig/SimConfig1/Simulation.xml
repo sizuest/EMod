@@ -39,6 +39,6 @@
 <entry key="InitialValue_AxisB_TemperatureCoolant">293.15</entry>
 <entry key="InitialValue_Cylinder_TemperatureStructure">293.15</entry>
 <entry key="InitialValue_AxisA_TemperatureCoolant">293.15</entry>
-<entry key="InitialValue_TankHydraulic_Mass">11.800978560000003</entry>
+<entry key="InitialValue_TankHydraulic_Mass">11.799634560000001</entry>
 <entry key="InitialValue_LinAxis_TemperatureStructure">293.15</entry>
 </properties>

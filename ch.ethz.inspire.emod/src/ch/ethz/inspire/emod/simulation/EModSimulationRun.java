@@ -1,8 +1,8 @@
 package ch.ethz.inspire.emod.simulation;
 
+import ch.ethz.inspire.emod.EModSession;
 import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.Process;
-import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 /**
  * A EMod Simulation run based on machine and config names
@@ -17,7 +17,7 @@ public class EModSimulationRun {
 	 */
 	public static void EModSimRun() {
 		// Get name of machine
-		String machineName = PropertiesHandler.getProperty("sim.MachineName");
+		String machineName = EModSession.getMachineName();
 
 		if (machineName == null) {
 			Exception e = new Exception(
@@ -27,8 +27,7 @@ public class EModSimulationRun {
 		}
 
 		// Get name of the machine configuration
-		String machineConfigName = PropertiesHandler
-				.getProperty("sim.MachineConfigName");
+		String machineConfigName = EModSession.getMachineConfig();
 		if (machineConfigName == null) {
 			Exception e = new Exception(
 					"No machine config name defined in the application configuration (app.config)!");
@@ -37,8 +36,7 @@ public class EModSimulationRun {
 		}
 
 		// Get name of the simulation configuration
-		String simulationConfigName = PropertiesHandler
-				.getProperty("sim.SimulationConfigName");
+		String simulationConfigName = EModSession.getSimulationConfig();
 		if (simulationConfigName == null) {
 			Exception e = new Exception(
 					"No simulation config name defined in the application configuration (app.config)!");
@@ -60,7 +58,7 @@ public class EModSimulationRun {
 		sim.setInputparamObjectList(Machine.getInstance().getInputObjectList());
 
 		/* Setup the process */
-		Process.loadProcess(PropertiesHandler.getProperty("sim.ProcessName"));
+		Process.loadProcess(EModSession.getProcessName());
 
 		/* Set process parameters for simulation */
 		sim.setProcessParamsforSimulation();

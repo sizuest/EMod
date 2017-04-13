@@ -44,4 +44,16 @@ public class Defines {
 	 * TEMP FILE SPACE
 	 */
 	public static final String TEMPFILESPACE = "Temp";
+	/**
+	 * LIB FILE SPACE
+	 */
+	public static final String LIBFILESPACE = "Machines";
+	/**
+	 * SESSION FILE NAME
+	 */
+	public static final String SESSIONFILE = "Session.xml";
+	/**
+	 * RESULT FOLDER NAME
+	 */
+	public static final String RESULTDIR = "Results";
 }

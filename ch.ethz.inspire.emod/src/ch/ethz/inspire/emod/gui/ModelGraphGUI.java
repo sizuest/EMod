@@ -62,6 +62,7 @@ import org.piccolo2d.extras.event.PSelectionEventHandler;
 import org.piccolo2d.extras.swt.PSWTCanvas;
 import org.piccolo2d.util.PBounds;
 
+import ch.ethz.inspire.emod.EModSession;
 import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.gui.graph.AGraphElement;
 import ch.ethz.inspire.emod.gui.graph.AIONode;
@@ -483,9 +484,7 @@ public class ModelGraphGUI extends AGUITab implements IGraphEditable{
 					// create new simulation control
 					System.out.println("simulationcontrol " + string);
 
-					final String path = PropertiesHandler
-							.getProperty("app.MachineComponentDBPathPrefix")
-							+ "/";
+					final String path = PropertiesHandler.getProperty("app.MachineComponentDBPathPrefix")+ "/";
 					Path source = Paths.get(path + "/SimulationControl/"
 							+ string + "_Example.xml");
 					Path target = Paths.get(
@@ -727,6 +726,7 @@ public class ModelGraphGUI extends AGUITab implements IGraphEditable{
 	/**
 	 * Saves the image at the current machine folder
 	 */
+	@Deprecated
 	public void saveImage(){
 		try{
 			BufferedImage image = new BufferedImage( (int) canvasModelGraph.getCamera().getViewBounds().getWidth(), 
@@ -734,11 +734,9 @@ public class ModelGraphGUI extends AGUITab implements IGraphEditable{
 													 BufferedImage.TYPE_INT_ARGB);
 			canvasModelGraph.getLayer().toImage(image, null);
 			
-			String prefix = PropertiesHandler.getProperty("app.MachineDataPathPrefix");
-			String machineName   = PropertiesHandler.getProperty("sim.MachineName");
-			String machineConfig = PropertiesHandler.getProperty("sim.MachineConfigName");
-			String path = prefix + "/" + machineName + "/"
-					+ Defines.MACHINECONFIGDIR + "/" + machineConfig + "/machine.png";
+			String prefix = EModSession.getRootPath();
+			String machineConfig = EModSession.getMachineConfig();
+			String path = prefix + File.separator + Defines.MACHINECONFIGDIR + "/" + machineConfig + "/machine.png";
 			
 			
  			ImageIO.write(image, "png", new File(path));		

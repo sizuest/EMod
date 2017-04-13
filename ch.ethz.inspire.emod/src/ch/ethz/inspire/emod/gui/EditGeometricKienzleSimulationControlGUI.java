@@ -12,6 +12,7 @@
  ***********************************/
 package ch.ethz.inspire.emod.gui;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -27,14 +28,15 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
+import ch.ethz.inspire.emod.EModSession;
 import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.gui.utils.TableUtils;
 import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.simulation.ASimulationControl;
 import ch.ethz.inspire.emod.simulation.GeometricKienzleSimulationControl;
 import ch.ethz.inspire.emod.utils.ConfigReader;
+import ch.ethz.inspire.emod.utils.Defines;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
-import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 /**
  * GUI to edit process control
@@ -86,14 +88,12 @@ public class EditGeometricKienzleSimulationControlGUI extends
 			e.printStackTrace();
 		}
 
-		String path = PropertiesHandler
-				.getProperty("app.MachineDataPathPrefix")
-				+ "/"
-				+ PropertiesHandler.getProperty("sim.MachineName")
-				+ "/"
-				+ "MachineConfig/"
-				+ PropertiesHandler.getProperty("sim.MachineConfigName")
-				+ "/"
+		String path = EModSession.getRootPath()
+				+ File.separator
+				+ Defines.MACHINECONFIGDIR
+				+ File.separator
+				+ EModSession.getMachineConfig()
+				+ File.separator
 				+ sc.getType() + "_" + sc.getName() + ".xml";
 
 		try {

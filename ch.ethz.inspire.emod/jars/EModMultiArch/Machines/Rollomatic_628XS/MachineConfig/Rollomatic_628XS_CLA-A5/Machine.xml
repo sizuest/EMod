@@ -1257,8 +1257,8 @@
             <sourceName>AxisZ.CoolantOut</sourceName>
             <targetName>Tank.FluidIn</targetName>
             <points>
-                <x>1734.993671629938</x>
-                <y>-154.35287961821734</y>
+                <x>1730.641453651434</x>
+                <y>-152.17677062896527</y>
                 <r>0.0</r>
                 <rotate>0.0</rotate>
             </points>

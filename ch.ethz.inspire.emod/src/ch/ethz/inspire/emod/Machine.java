@@ -142,33 +142,6 @@ public class Machine {
 		logger.info("Load machine from file: " + path + Defines.MACHINEFILENAME);
 		initMachineFromFile(path + Defines.MACHINEFILENAME);
 
-		/* ****************************************************************** */
-		/*
-		 * Link outputs to inputs /*
-		 * ******************************************************************
-		 */
-		
-		for(int i=getInstance().getIOLinkList().size()-1; i>=0; i--)
-			if(!(getInstance().getIOLinkList().get(i).createIOConnection()))
-				getInstance().getIOLinkList().remove(i);
-				
-		/* Not used anymore, only for cold configs
-		 * 
-		 * Assumption: If ioList is still empty, try to load old config
-		 */
-		if(null == getInstance().getIOLinkList() | 
-				getInstance().getIOLinkList().size() == 0 ){
-			logger.info("No connections found. Trying to read old file");
-			try {
-				makeInputOutputLinkList(path);
-			} catch (Exception e) {
-				logger.warning("Trying to read old file failed");
-			}
-		}
-			
-
-		/* Check link list: Every input must be connected. */
-		checkMachineConfig();
 
 	}
 
@@ -185,14 +158,11 @@ public class Machine {
 		 * Generate path to machine config: e.g.
 		 * Machines/NDM200/MachineConfig/TestConfig1/
 		 */
-		String prefix = PropertiesHandler.getProperty("app.MachineDataPathPrefix");
-		String path = prefix + "/" + machineName + "/" + Defines.MACHINECONFIGDIR + "/" + machineConfig + "/";
+		String prefix = EModSession.getRootPath();
+		String path = prefix + "/" + Defines.MACHINECONFIGDIR + "/" + machineConfig + "/";
 
 		/* Saves the machine */
 		saveMachineToFile(path);
-
-		/* Saves the linking */
-		//saveIOLinking(path);
 
 		/* Clean up old simulator configs */
 		cleanUpConfigurations(path);
@@ -256,8 +226,7 @@ public class Machine {
 		clearMachine();
 
 		// Check for config dir
-		String prefix = PropertiesHandler
-				.getProperty("app.MachineDataPathPrefix");
+		String prefix = PropertiesHandler.getProperty("app.MachineDataPathPrefix");
 
 		// TOOD manick: the correct filepath is
 		// machineName/MachineConfig/machineConfigDir!
@@ -306,6 +275,35 @@ public class Machine {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		/* ****************************************************************** */
+		/*
+		 * Link outputs to inputs /*
+		 * ******************************************************************
+		 */
+		
+		if(null != getInstance().getIOLinkList())
+			for(int i=getInstance().getIOLinkList().size()-1; i>=0; i--)
+				if(!(getInstance().getIOLinkList().get(i).createIOConnection()))
+					getInstance().getIOLinkList().remove(i);
+				
+		/* Not used anymore, only for cold configs
+		 * 
+		 * Assumption: If ioList is still empty, try to load old config
+		 */
+		/*if(null == getInstance().getIOLinkList() | 
+				getInstance().getIOLinkList().size() == 0 ){
+			logger.info("No connections found. Trying to read old file");
+			try {
+				makeInputOutputLinkList(file);
+			} catch (Exception e) {
+				logger.warning("Trying to read old file failed");
+			}
+		}*/
+			
+
+		/* Check link list: Every input must be connected. */
+		checkMachineConfig();
 	}
 
 	/**
@@ -387,6 +385,7 @@ public class Machine {
 	 * 
 	 * @param file
 	 */
+	@Deprecated
 	public static void loadIOLinking(String file) {
 		makeInputOutputLinkList(file);
 	}
@@ -411,13 +410,14 @@ public class Machine {
 		/*
 		 * Create the set of required simulator config files
 		 */
-		for (ASimulationControl sc : getInstance().simulators)
-			try {
-				simConfigFileNames.add(sc.getSimulationConfigReader()
-						.getFileName());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		if(null!=getInstance().simulators)
+			for (ASimulationControl sc : getInstance().simulators)
+				try {
+					simConfigFileNames.add(sc.getSimulationConfigReader()
+							.getFileName());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 
 		/*
 		 * Loop through all files and check if they are still required
@@ -455,6 +455,7 @@ public class Machine {
 	 * 
 	 * @param file
 	 */
+	@Deprecated
 	public static void saveIOLinking(String file) {
 		List<IOConnection> connections = getInstance().getIOLinkList();
 		List<MachineComponent> components = getInstance()
@@ -536,6 +537,7 @@ public class Machine {
 	 *            Path to the linking file
 	 * 
 	 */
+	@Deprecated
 	private static void makeInputOutputLinkList(String path) {
 
 		/* Path and filename with linking definitions. */
@@ -902,6 +904,10 @@ public class Machine {
 		if (machineModel == null) {
 			System.out.print("No machine existing: Creating empty machine");
 			machineModel = new Machine();
+			
+			machineModel.componentList  = new ArrayList<MachineComponent>();
+			machineModel.connectionList = new ArrayList<IOConnection>();
+			machineModel.simulators     = new ArrayList<ASimulationControl>();
 		}
 		return machineModel;
 	}
@@ -1328,13 +1334,12 @@ public class Machine {
 			sc.setName(getUniqueInputObjectName(newname));
 
 		// change the name of file that belongs to the given simulator
-		String prefix = PropertiesHandler
-				.getProperty("app.MachineDataPathPrefix")
-				+ "/"
-				+ PropertiesHandler.getProperty("sim.MachineName")
-				+ "/"
-				+ "MachineConfig/"
-				+ PropertiesHandler.getProperty("sim.MachineConfigName") + "/";
+		String prefix = EModSession.getRootPath()
+				+ File.separator
+				+ Defines.MACHINECONFIGDIR
+				+ File.separator
+				+ EModSession.getMachineConfig()
+				+ File.separator;
 
 		Path source = Paths.get(prefix, sc.getType() + "_" + name + ".xml");
 

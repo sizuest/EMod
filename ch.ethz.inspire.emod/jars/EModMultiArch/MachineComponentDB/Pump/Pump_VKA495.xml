@@ -10,7 +10,7 @@
 <entry key="Material">Steel</entry>
 <entry key="PowerSamples">650.0, 780.0, 900.0, 1000.0, 1100.0, 1200.0, 1300.0, 1380.0, 1450.0, 1500.0, 1530.0, 1550.0, 1550.0, 1530.0, 1510.0, 1480.0, 1450.0, 1430.0 W</entry>
 <entry key="LengthPump">0.1 m</entry>
-<entry key="MaxTemperatureDifference">25.0</entry>
+<entry key="MaxTemperatureDifference">25.0 K</entry>
 <entry key="EfficiencySamples">0.0, 0.13, 0.219, 0.286, 0.337, 0.373, 0.398, 0.422, 0.435, 0.45, 0.463, 0.461, 0.447, 0.422, 0.371, 0.302, 0.212, 0.091 none</entry>
 <entry key="NumberImpellerEyes">0</entry>
 <entry key="LengthMotor">0.2 m</entry>

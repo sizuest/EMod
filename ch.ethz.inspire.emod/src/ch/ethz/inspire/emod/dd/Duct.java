@@ -229,8 +229,6 @@ public class Duct implements Cloneable {
 	 */
 	public static Duct initFromFile(String path) {
 		Duct duct = null;
-		
-		
 
 		File file = new File(path);
 		if (!file.exists() || file.isDirectory())

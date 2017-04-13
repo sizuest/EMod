@@ -22,9 +22,9 @@ import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
+import ch.ethz.inspire.emod.EModSession;
 import ch.ethz.inspire.emod.gui.utils.ProgressbarGUI;
 import ch.ethz.inspire.emod.gui.utils.ConfigStatusGUI;
-import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 /**
  * Status bar for the EModGUI
@@ -149,16 +149,10 @@ public class EModStatusBarGUI {
 			getInstance().container.update();
 
 			/* Machine and config names */
-			getInstance().labelMachine.setText(PropertiesHandler
-					.getProperty("sim.MachineName"));
-			getInstance().labelMachineCfg.setText("M: "
-					+ PropertiesHandler.getProperty("sim.MachineConfigName"));
-			getInstance().labelSimulationCgf
-					.setText("S: "
-							+ PropertiesHandler
-									.getProperty("sim.SimulationConfigName"));
-			getInstance().labelProcessName.setText("P: "
-					+ PropertiesHandler.getProperty("sim.ProcessName"));
+			getInstance().labelMachine.setText(EModSession.getMachineName());
+			getInstance().labelMachineCfg.setText("M: " + EModSession.getMachineConfig());
+			getInstance().labelSimulationCgf.setText("S: " + EModSession.getSimulationConfig());
+			getInstance().labelProcessName.setText("P: " + EModSession.getProcessName());
 
 			// getInstance().container.layout();
 		} catch (Exception e) {

@@ -1,900 +1,1590 @@
-Feb 14, 2017 8:26:26 AM ch.ethz.inspire.emod.dd.DuctDesignerMain <init>
-INFORMATION: Start DuctDesigner
-Feb 14, 2017 8:26:26 AM  
-INFORMATION: DuctDesignerMain called DuctDesignerGUI
-Feb 14, 2017 8:26:27 AM ch.ethz.inspire.emod.dd.gui.DuctDesinerGUI <init>
-DEBUG: init menu
-Feb 14, 2017 8:26:27 AM ch.ethz.inspire.emod.dd.gui.DuctDesinerGUI <init>
+Mär 29, 2017 2:09:44 PM ch.ethz.inspire.emod.dd.gui.DuctDesinerGUI <init>
 DEBUG: init tabs
-Feb 14, 2017 8:26:30 AM sun.awt.X11.XToolkit setupModifierMap
+Mär 29, 2017 2:09:46 PM sun.awt.X11.XToolkit setupModifierMap
 FEIN: In setupModifierMap
-Feb 14, 2017 8:26:30 AM sun.awt.X11.XToolkit setupModifierMap
+Mär 29, 2017 2:09:46 PM sun.awt.X11.XToolkit setupModifierMap
 FEIN: metaMask = 0
-Feb 14, 2017 8:26:30 AM sun.awt.X11.XToolkit setupModifierMap
+Mär 29, 2017 2:09:46 PM sun.awt.X11.XToolkit setupModifierMap
 FEIN: altMask = 8
-Feb 14, 2017 8:26:30 AM sun.awt.X11.XToolkit setupModifierMap
+Mär 29, 2017 2:09:46 PM sun.awt.X11.XToolkit setupModifierMap
 FEIN: numLockMask = 16
-Feb 14, 2017 8:26:30 AM sun.awt.X11.XToolkit setupModifierMap
+Mär 29, 2017 2:09:46 PM sun.awt.X11.XToolkit setupModifierMap
 FEIN: modeSwitchMask = 128
-Feb 14, 2017 8:26:30 AM sun.awt.X11.XToolkit setupModifierMap
+Mär 29, 2017 2:09:46 PM sun.awt.X11.XToolkit setupModifierMap
 FEIN: modLockIsShiftLock = 0
-Feb 14, 2017 8:26:30 AM sun.awt.X11.XToolkit setBackingStoreType
+Mär 29, 2017 2:09:46 PM sun.awt.X11.XToolkit setBackingStoreType
 KONFIGURATION: The system property sun.awt.backingStore is not set, by default backingStore=NotUseful
-Feb 14, 2017 8:26:30 AM sun.awt.X11.XNETProtocol detect
-FEIN: ### sun.awt.X11.XNETProtocol@13805618 is active: true
-Feb 14, 2017 8:26:30 AM sun.awt.X11.XWM getWMID
+Mär 29, 2017 2:09:46 PM sun.awt.X11.XNETProtocol detect
+FEIN: ### sun.awt.X11.XNETProtocol@73846619 is active: true
+Mär 29, 2017 2:09:46 PM sun.awt.X11.XWM getWMID
 FEIN: _NET_WM_NAME is Xfwm4
-Feb 14, 2017 8:26:30 AM sun.awt.X11.XWINProtocol detect
-FEIN: ### sun.awt.X11.XWINProtocol@1ed4004b is active: false
-Feb 14, 2017 8:26:30 AM sun.awt.X11.XNETProtocol isWMName
+Mär 29, 2017 2:09:46 PM sun.awt.X11.XWINProtocol detect
+FEIN: ### sun.awt.X11.XWINProtocol@5649fd9b is active: false
+Mär 29, 2017 2:09:46 PM sun.awt.X11.XNETProtocol isWMName
 FEIN: ### WM_NAME = Xfwm4
-Feb 14, 2017 8:26:30 AM sun.awt.X11.XNETProtocol isWMName
+Mär 29, 2017 2:09:46 PM sun.awt.X11.XNETProtocol isWMName
 FEIN: ### WM_NAME = Xfwm4
-Feb 14, 2017 8:26:30 AM sun.awt.X11.XNETProtocol isWMName
+Mär 29, 2017 2:09:46 PM sun.awt.X11.XNETProtocol isWMName
 FEIN: ### WM_NAME = Xfwm4
-Feb 14, 2017 8:26:30 AM sun.awt.X11.XNETProtocol isWMName
+Mär 29, 2017 2:09:46 PM sun.awt.X11.XNETProtocol isWMName
 FEIN: ### WM_NAME = Xfwm4
-Feb 14, 2017 8:26:30 AM sun.awt.X11.XNETProtocol isWMName
+Mär 29, 2017 2:09:46 PM sun.awt.X11.XNETProtocol isWMName
 FEIN: ### WM_NAME = Xfwm4
-Feb 14, 2017 8:26:30 AM sun.awt.X11.XNETProtocol isWMName
+Mär 29, 2017 2:09:46 PM sun.awt.X11.XNETProtocol isWMName
 FEIN: ### WM_NAME = Xfwm4
-Feb 14, 2017 8:26:30 AM sun.awt.X11.XNETProtocol isWMName
+Mär 29, 2017 2:09:46 PM sun.awt.X11.XNETProtocol isWMName
 FEIN: ### WM_NAME = Xfwm4
-Feb 14, 2017 8:26:30 AM sun.awt.X11.XNETProtocol isWMName
+Mär 29, 2017 2:09:46 PM sun.awt.X11.XNETProtocol isWMName
 FEIN: ### WM_NAME = Xfwm4
-Feb 14, 2017 8:26:30 AM sun.awt.X11.XProtocol checkProtocol
-FEIN: sun.awt.X11.XNETProtocol@13805618:_NET_SUPPORTED:486 supports [401, _NET_SUPPORTING_WM_CHECK:391, 398, 560, 561, 562, 563, 564, 437, 565, 566, 567, 568, 569, _NET_WM_STATE_SHADED:570, 443, 571, 444, 445, 446, 447, 547, 548, 422, 423, 552, _NET_REQUEST_FRAME_EXTENTS:553, 554, 555, 556, 557, 558, 559, _NET_ACTIVE_WINDOW:337, 338, _NET_FRAME_EXTENTS:339, 340, 342, 343, 344, _NET_WM_NAME:345, 474, 346, 347, _NET_WM_STATE:348, _NET_WM_STATE_ABOVE:349, _NET_WM_STATE_BELOW:350, _NET_WM_STATE_FULLSCREEN:351, 448, 449, 451, _NET_WM_WINDOW_TYPE_UTILITY:370, 371, 372, 375, _NET_WM_STATE_HIDDEN:352, _NET_WM_STATE_MODAL:353, _NET_WM_STATE_MAXIMIZED_VERT:354, _NET_WM_STATE_MAXIMIZED_HORZ:355, _NET_WM_STATE_SKIP_TASKBAR:356, _NET_WM_STATE_SKIP_PAGER:357, _NET_SUPPORTED:486, 358, 359, 487, 488, 360, 489, _NET_WM_WINDOW_TYPE:361, _NET_WM_WINDOW_OPACITY:490, _NET_WM_WINDOW_TYPE_DIALOG:363, 492, 366, 494, _NET_WM_WINDOW_TYPE_NORMAL:367, 495]
-Feb 14, 2017 8:26:30 AM sun.awt.X11.XWM <init>
+Mär 29, 2017 2:09:46 PM sun.awt.X11.XProtocol checkProtocol
+FEIN: sun.awt.X11.XNETProtocol@73846619:_NET_SUPPORTED:431 supports [420, 421, 422, 423, 424, 425, 426, 427, 428, _NET_REQUEST_FRAME_EXTENTS:429, 430, _NET_SUPPORTED:431, 432, 433, 434, 435, 436, 437, 438, 439, 440, 441, 442, 443, 444, 445, 446, 447, _NET_SUPPORTING_WM_CHECK:391, 398, 401, 414, 415, _NET_WM_STATE_HIDDEN:352, _NET_WM_STATE_MODAL:353, _NET_WM_STATE_MAXIMIZED_VERT:354, _NET_WM_STATE_MAXIMIZED_HORZ:355, _NET_WM_STATE_SKIP_TASKBAR:356, _NET_WM_STATE_SKIP_PAGER:357, 358, 359, 360, _NET_WM_WINDOW_TYPE:361, _NET_WM_WINDOW_TYPE_DIALOG:363, 366, _NET_WM_WINDOW_TYPE_NORMAL:367, _NET_WM_WINDOW_TYPE_UTILITY:370, 371, 372, 375, 448, 449, _NET_WM_WINDOW_OPACITY:450, 451, 452, _NET_WM_STATE_SHADED:453, 454, 455, 456, 457, 458, 459, _NET_ACTIVE_WINDOW:337, 338, _NET_FRAME_EXTENTS:339, 340, 342, 343, 344, _NET_WM_NAME:345, 346, 347, _NET_WM_STATE:348, _NET_WM_STATE_ABOVE:349, _NET_WM_STATE_BELOW:350, _NET_WM_STATE_FULLSCREEN:351]
+Mär 29, 2017 2:09:46 PM sun.awt.X11.XWM <init>
 FEIN: Window manager: Other WM
-Feb 14, 2017 8:26:42 AM javax.xml.bind.ContextFinder find
+Mär 29, 2017 2:09:52 PM javax.xml.bind.ContextFinder find
 FEIN: Trying to locate ch/ethz/inspire/emod/dd/jaxb.properties
-Feb 14, 2017 8:26:42 AM javax.xml.bind.ContextFinder find
+Mär 29, 2017 2:09:52 PM javax.xml.bind.ContextFinder find
 FEIN:   not found
-Feb 14, 2017 8:26:42 AM javax.xml.bind.ContextFinder find
+Mär 29, 2017 2:09:52 PM javax.xml.bind.ContextFinder find
 FEIN: Checking system property javax.xml.bind.context.factory
-Feb 14, 2017 8:26:42 AM javax.xml.bind.ContextFinder find
+Mär 29, 2017 2:09:52 PM javax.xml.bind.ContextFinder find
 FEIN:   not found
-Feb 14, 2017 8:26:42 AM javax.xml.bind.ContextFinder find
+Mär 29, 2017 2:09:52 PM javax.xml.bind.ContextFinder find
 FEIN: Checking system property javax.xml.bind.JAXBContext
-Feb 14, 2017 8:26:42 AM javax.xml.bind.ContextFinder find
+Mär 29, 2017 2:09:52 PM javax.xml.bind.ContextFinder find
 FEIN:   not found
-Feb 14, 2017 8:26:42 AM javax.xml.bind.ContextFinder lookupJaxbContextUsingOsgiServiceLoader
+Mär 29, 2017 2:09:52 PM javax.xml.bind.ContextFinder lookupJaxbContextUsingOsgiServiceLoader
 FEIN: Unable to find from OSGi: javax.xml.bind.JAXBContext
-Feb 14, 2017 8:26:42 AM javax.xml.bind.ContextFinder find
+Mär 29, 2017 2:09:52 PM javax.xml.bind.ContextFinder find
 FEIN: Checking META-INF/services
-Feb 14, 2017 8:26:42 AM javax.xml.bind.ContextFinder find
+Mär 29, 2017 2:09:52 PM javax.xml.bind.ContextFinder find
 FEIN: Unable to find: META-INF/services/javax.xml.bind.JAXBContext
-Feb 14, 2017 8:26:42 AM javax.xml.bind.ContextFinder find
+Mär 29, 2017 2:09:52 PM javax.xml.bind.ContextFinder find
 FEIN: Trying to create the platform default provider
-Feb 14, 2017 8:26:42 AM javax.xml.bind.ContextFinder safeLoadClass
+Mär 29, 2017 2:09:52 PM javax.xml.bind.ContextFinder safeLoadClass
 FEIN: Trying to load com.sun.xml.internal.bind.v2.ContextFactory
-Feb 14, 2017 8:26:42 AM javax.xml.bind.ContextFinder newInstance
+Mär 29, 2017 2:09:52 PM javax.xml.bind.ContextFinder newInstance
 FEIN: loaded com.sun.xml.internal.bind.v2.ContextFactory from jar:file:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/rt.jar!/com/sun/xml/internal/bind/v2/ContextFactory.class
-Feb 14, 2017 8:26:42 AM com.sun.xml.internal.bind.v2.ContextFactory createContext
+Mär 29, 2017 2:09:52 PM com.sun.xml.internal.bind.v2.ContextFactory createContext
 FEIN: Property com.sun.xml.internal.bind.XmlAccessorFactoryis not active.  Using JAXB's implementation
-Feb 14, 2017 8:26:43 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mär 29, 2017 2:09:52 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.material.Material.type
-Feb 14, 2017 8:26:43 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mär 29, 2017 2:09:52 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.material.Material.type
-Feb 14, 2017 8:26:43 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mär 29, 2017 2:09:52 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected double ch.ethz.inspire.emod.dd.model.ADuctElement.heatSource
-Feb 14, 2017 8:26:43 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mär 29, 2017 2:09:52 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected double ch.ethz.inspire.emod.dd.model.ADuctElement.wallTemperature
-Feb 14, 2017 8:26:43 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mär 29, 2017 2:09:52 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for public ch.ethz.inspire.emod.dd.model.Isolation ch.ethz.inspire.emod.dd.model.ADuctElement.getIsolation() and public void ch.ethz.inspire.emod.dd.model.ADuctElement.setIsolation(ch.ethz.inspire.emod.dd.model.Isolation)
-Feb 14, 2017 8:26:43 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mär 29, 2017 2:09:52 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for public java.lang.String ch.ethz.inspire.emod.dd.model.ADuctElement.getName() and public void ch.ethz.inspire.emod.dd.model.ADuctElement.setName(java.lang.String)
-Feb 14, 2017 8:26:43 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mär 29, 2017 2:09:52 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for public java.lang.String ch.ethz.inspire.emod.dd.model.ADuctElement.getName() and public void ch.ethz.inspire.emod.dd.model.ADuctElement.setName(java.lang.String)
-Feb 14, 2017 8:26:43 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mär 29, 2017 2:09:52 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for public ch.ethz.inspire.emod.dd.model.AHydraulicProfile ch.ethz.inspire.emod.dd.model.ADuctElement.getProfile() and public void ch.ethz.inspire.emod.dd.model.ADuctElement.setProfile(ch.ethz.inspire.emod.dd.model.AHydraulicProfile)
-Feb 14, 2017 8:26:43 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mär 29, 2017 2:09:52 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for double ch.ethz.inspire.emod.dd.model.DuctElbowFitting.count
-Feb 14, 2017 8:26:43 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mär 29, 2017 2:09:52 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for double ch.ethz.inspire.emod.dd.model.DuctFlowAround.radius
-Feb 14, 2017 8:26:43 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mär 29, 2017 2:09:52 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for double ch.ethz.inspire.emod.dd.model.DuctHelix.radius
-Feb 14, 2017 8:26:43 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mär 29, 2017 2:09:52 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for double ch.ethz.inspire.emod.dd.model.DuctHelix.height
-Feb 14, 2017 8:26:43 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mär 29, 2017 2:09:52 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for double ch.ethz.inspire.emod.dd.model.DuctHelix.distance
-Feb 14, 2017 8:26:43 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mär 29, 2017 2:09:52 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for double ch.ethz.inspire.emod.dd.model.DuctDefinedValues.zeta
-Feb 14, 2017 8:26:43 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mär 29, 2017 2:09:53 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for double ch.ethz.inspire.emod.dd.model.DuctDefinedValues.alpha
-Feb 14, 2017 8:26:43 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mär 29, 2017 2:09:53 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for double ch.ethz.inspire.emod.dd.model.DuctDefinedValues.surface
-Feb 14, 2017 8:26:43 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mär 29, 2017 2:09:53 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for double ch.ethz.inspire.emod.dd.model.DuctDefinedValues.length
-Feb 14, 2017 8:26:43 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mär 29, 2017 2:09:53 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for double ch.ethz.inspire.emod.dd.model.DuctDefinedValues.volume
-Feb 14, 2017 8:26:43 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mär 29, 2017 2:09:53 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for ch.ethz.inspire.emod.dd.Duct ch.ethz.inspire.emod.dd.model.DuctBypass.ductPrimary
-Feb 14, 2017 8:26:43 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mär 29, 2017 2:09:53 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for ch.ethz.inspire.emod.dd.Duct ch.ethz.inspire.emod.dd.model.DuctBypass.ductSecondary
-Feb 14, 2017 8:26:43 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mär 29, 2017 2:09:53 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for public ch.ethz.inspire.emod.model.parameters.ParameterSet ch.ethz.inspire.emod.dd.model.DuctBypass.getParameterSet() and public void ch.ethz.inspire.emod.dd.model.DuctBypass.setParameterSet(ch.ethz.inspire.emod.model.parameters.ParameterSet)
-Feb 14, 2017 8:26:43 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mär 29, 2017 2:09:53 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for public java.lang.String ch.ethz.inspire.emod.model.parameters.ParameterSet.getComment() and public void ch.ethz.inspire.emod.model.parameters.ParameterSet.setComment(java.lang.String)
-Feb 14, 2017 8:26:43 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mär 29, 2017 2:09:53 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for public java.lang.String ch.ethz.inspire.emod.model.parameters.ParameterSet.getComment() and public void ch.ethz.inspire.emod.model.parameters.ParameterSet.setComment(java.lang.String)
-Feb 14, 2017 8:26:43 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mär 29, 2017 2:09:53 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for public ch.ethz.inspire.emod.model.parameters.ParameterSet ch.ethz.inspire.emod.dd.model.DuctArc.getParameterSet() and public void ch.ethz.inspire.emod.dd.model.DuctArc.setParameterSet(ch.ethz.inspire.emod.model.parameters.ParameterSet)
-Feb 14, 2017 8:26:43 AM com.sun.xml.internal.bind.v2.util.XmlFactory createParserFactory
+Mär 29, 2017 2:09:53 PM com.sun.xml.internal.bind.v2.util.XmlFactory createParserFactory
 FEIN: SAXParserFactory instance: com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl@11438d26
-Mär 17, 2017 11:14:39 AM ch.ethz.inspire.emod.dd.DuctDesignerMain <init>
-INFORMATION: Start DuctDesigner
-Mär 17, 2017 11:14:39 AM  
-INFORMATION: DuctDesignerMain called DuctDesignerGUI
-Mär 17, 2017 11:14:39 AM ch.ethz.inspire.emod.dd.gui.DuctDesinerGUI <init>
-DEBUG: init menu
-Mär 17, 2017 11:14:39 AM ch.ethz.inspire.emod.dd.gui.DuctDesinerGUI <init>
-DEBUG: init tabs
-Mär 17, 2017 11:14:41 AM sun.awt.X11.XToolkit setupModifierMap
-FEIN: In setupModifierMap
-Mär 17, 2017 11:14:41 AM sun.awt.X11.XToolkit setupModifierMap
-FEIN: metaMask = 0
-Mär 17, 2017 11:14:41 AM sun.awt.X11.XToolkit setupModifierMap
-FEIN: altMask = 8
-Mär 17, 2017 11:14:41 AM sun.awt.X11.XToolkit setupModifierMap
-FEIN: numLockMask = 16
-Mär 17, 2017 11:14:41 AM sun.awt.X11.XToolkit setupModifierMap
-FEIN: modeSwitchMask = 128
-Mär 17, 2017 11:14:41 AM sun.awt.X11.XToolkit setupModifierMap
-FEIN: modLockIsShiftLock = 0
-Mär 17, 2017 11:14:41 AM sun.awt.X11.XToolkit setBackingStoreType
-KONFIGURATION: The system property sun.awt.backingStore is not set, by default backingStore=NotUseful
-Mär 17, 2017 11:14:41 AM sun.awt.X11.XNETProtocol detect
-FEIN: ### sun.awt.X11.XNETProtocol@15bb6bea is active: true
-Mär 17, 2017 11:14:41 AM sun.awt.X11.XWM getWMID
-FEIN: _NET_WM_NAME is Xfwm4
-Mär 17, 2017 11:14:41 AM sun.awt.X11.XWINProtocol detect
-FEIN: ### sun.awt.X11.XWINProtocol@4c40b76e is active: false
-Mär 17, 2017 11:14:41 AM sun.awt.X11.XNETProtocol isWMName
-FEIN: ### WM_NAME = Xfwm4
-Mär 17, 2017 11:14:41 AM sun.awt.X11.XNETProtocol isWMName
-FEIN: ### WM_NAME = Xfwm4
-Mär 17, 2017 11:14:41 AM sun.awt.X11.XNETProtocol isWMName
-FEIN: ### WM_NAME = Xfwm4
-Mär 17, 2017 11:14:41 AM sun.awt.X11.XNETProtocol isWMName
-FEIN: ### WM_NAME = Xfwm4
-Mär 17, 2017 11:14:41 AM sun.awt.X11.XNETProtocol isWMName
-FEIN: ### WM_NAME = Xfwm4
-Mär 17, 2017 11:14:41 AM sun.awt.X11.XNETProtocol isWMName
-FEIN: ### WM_NAME = Xfwm4
-Mär 17, 2017 11:14:41 AM sun.awt.X11.XNETProtocol isWMName
-FEIN: ### WM_NAME = Xfwm4
-Mär 17, 2017 11:14:41 AM sun.awt.X11.XNETProtocol isWMName
-FEIN: ### WM_NAME = Xfwm4
-Mär 17, 2017 11:14:41 AM sun.awt.X11.XProtocol checkProtocol
-FEIN: sun.awt.X11.XNETProtocol@15bb6bea:_NET_SUPPORTED:457 supports [_NET_WM_NAME:368, 369, 370, _NET_WM_STATE:371, _NET_WM_STATE_ABOVE:372, _NET_WM_STATE_BELOW:373, _NET_WM_STATE_FULLSCREEN:374, _NET_WM_STATE_HIDDEN:375, _NET_WM_STATE_MODAL:376, _NET_WM_STATE_MAXIMIZED_VERT:377, _NET_WM_STATE_MAXIMIZED_HORZ:378, _NET_WM_STATE_SKIP_TASKBAR:379, _NET_WM_STATE_SKIP_PAGER:380, 381, 382, 383, 480, _NET_ACTIVE_WINDOW:360, 361, _NET_FRAME_EXTENTS:362, 363, 365, 366, 367, 464, 465, 466, 467, 468, 469, 470, 471, 472, 473, 474, 475, 476, 477, _NET_WM_STATE_SHADED:478, 479, 448, 449, 450, 451, 452, 453, 454, _NET_REQUEST_FRAME_EXTENTS:455, 456, _NET_SUPPORTED:457, 458, 459, 460, 461, 462, 463, _NET_WM_WINDOW_OPACITY:437, 438, 441, 442, 446, 447, 427, 428, 429, _NET_SUPPORTING_WM_CHECK:407, 408, 411, _NET_WM_WINDOW_TYPE:384, _NET_WM_WINDOW_TYPE_DIALOG:386, 389, _NET_WM_WINDOW_TYPE_NORMAL:390, _NET_WM_WINDOW_TYPE_UTILITY:393, 394, 395, 398]
-Mär 17, 2017 11:14:41 AM sun.awt.X11.XWM <init>
-FEIN: Window manager: Other WM
-Mär 17, 2017 11:14:55 AM  
+Mär 29, 2017 2:10:02 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:02 PM  
+INFORMATION: 686.0 : 609.9619672382031
+Mär 29, 2017 2:10:02 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:02 PM  
+INFORMATION: 686.0 : 609.9619672382031
+Mär 29, 2017 2:10:02 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:02 PM  
+INFORMATION: 686.0 : 606.2156754653555
+Mär 29, 2017 2:10:02 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:02 PM  
+INFORMATION: 686.0 : 603.7181476167905
+Mär 29, 2017 2:10:02 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:02 PM  
+INFORMATION: 686.0 : 594.9768001468128
+Mär 29, 2017 2:10:02 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:02 PM  
+INFORMATION: 686.0 : 582.4891609039876
+Mär 29, 2017 2:10:02 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:02 PM  
+INFORMATION: 686.0 : 570.0015216611623
+Mär 29, 2017 2:10:02 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:02 PM  
+INFORMATION: 686.0 : 561.2601741911847
+Mär 29, 2017 2:10:02 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:02 PM  
+INFORMATION: 686.0 : 558.7626463426196
+Mär 29, 2017 2:10:02 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:02 PM  
+INFORMATION: 686.0 : 552.518826721207
+Mär 29, 2017 2:10:02 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:02 PM  
+INFORMATION: 686.0 : 543.7774792512292
+Mär 29, 2017 2:10:02 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:02 PM  
+INFORMATION: 686.0 : 536.2848957055342
+Mär 29, 2017 2:10:02 PM  
+INFORMATION: 9
+Mär 29, 2017 2:10:02 PM  
+INFORMATION: 638.0 : 486.33433873423314
+Mär 29, 2017 2:10:02 PM  
+INFORMATION: 8
+Mär 29, 2017 2:10:02 PM  
+INFORMATION: 590.0 : 420.14985074725934
+Mär 29, 2017 2:10:02 PM  
+INFORMATION: 7
+Mär 29, 2017 2:10:02 PM  
+INFORMATION: 542.0 : 396.4233361858914
+Mär 29, 2017 2:10:02 PM  
+INFORMATION: 6
+Mär 29, 2017 2:10:02 PM  
+INFORMATION: 494.0 : 362.70671023026324
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 6
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 494.0 : 348.9703070631555
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 5
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 446.0 : 325.2437925017875
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 5
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 446.0 : 337.73143174461273
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 5
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 446.0 : 350.219070987438
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 5
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 446.0 : 353.96536276028553
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 5
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 446.0 : 367.7017659273933
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 5
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 446.0 : 387.6819887159137
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 5
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 446.0 : 412.6572672015642
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 5
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 446.0 : 438.8813096114972
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 5
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 432.96538987991073 : 473.8466994914079
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 6
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 543.4035860940369 : 571.2502855854448
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 7
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 531.4629177284758 : 608.7132033139205
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 8
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 569.4728063342155 : 636.1860096481361
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 9
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 598.7413474699777 : 644.9273571181137
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 686.0 : 632.4397178752886
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 686.0 : 628.693426102441
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 686.0 : 626.195898253876
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 686.0 : 626.195898253876
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 686.0 : 626.195898253876
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:03 PM  
+INFORMATION: 686.0 : 626.195898253876
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 686.0 : 626.195898253876
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 686.0 : 626.195898253876
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 686.0 : 626.195898253876
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 686.0 : 626.195898253876
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 686.0 : 626.195898253876
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 686.0 : 626.195898253876
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 686.0 : 626.195898253876
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 686.0 : 626.195898253876
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 686.0 : 626.195898253876
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 686.0 : 626.195898253876
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 686.0 : 626.195898253876
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 686.0 : 626.195898253876
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 686.0 : 626.195898253876
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 686.0 : 626.195898253876
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 686.0 : 626.195898253876
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 686.0 : 626.195898253876
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 686.0 : 626.195898253876
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 686.0 : 626.195898253876
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 686.0 : 626.195898253876
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 686.0 : 626.195898253876
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 686.0 : 626.195898253876
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 686.0 : 626.195898253876
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 686.0 : 626.195898253876
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 686.0 : 626.195898253876
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 686.0 : 626.195898253876
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 686.0 : 626.195898253876
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 686.0 : 626.195898253876
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 686.0 : 626.195898253876
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 686.0 : 623.6983704053108
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 686.0 : 617.4545507838982
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 686.0 : 607.4644393896381
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 686.0 : 594.9768001468128
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 686.0 : 586.2354526768352
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 686.0 : 572.4990495097273
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 686.0 : 562.5089381154671
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 686.0 : 547.5237710240768
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 686.0 : 536.2848957055342
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 9
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 638.0 : 517.5534368412963
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 9
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 638.0 : 510.06085329560113
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 9
+Mär 29, 2017 2:10:04 PM  
+INFORMATION: 638.0 : 502.568269749906
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 9
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 638.0 : 500.0707419013409
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 9
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 638.0 : 496.32445012849337
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 9
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 638.0 : 491.32939443136326
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 8
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 590.0 : 481.33928303710303
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 8
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 590.0 : 473.8466994914079
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 8
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 590.0 : 466.35411594571275
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 8
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 590.0 : 463.8565880971477
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 8
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 590.0 : 463.8565880971477
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 8
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 590.0 : 461.35906024858264
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 8
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 590.0 : 461.35906024858264
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 8
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 590.0 : 461.35906024858264
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 8
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 590.0 : 466.35411594571275
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 8
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 590.0 : 482.5880469613856
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 8
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 590.0 : 507.56332544703605
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 8
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 590.0 : 535.0361317812516
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 8
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 590.0 : 553.7675906454895
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 8
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 590.0 : 568.7527577368797
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 8
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 590.0 : 579.9916330554225
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 8
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 590.0 : 587.4842166011176
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 8
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 551.9901113942602 : 597.4743279953778
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 9
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 638.0 : 609.9619672382031
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 9
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 638.0 : 614.9570229353332
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 9
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 638.0 : 621.2008425567458
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 9
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 638.0 : 626.195898253876
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 9
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 638.0 : 631.190953951006
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 9
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 638.0 : 634.9372457238536
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 9
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 638.0 : 637.4347735724186
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 9
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 592.497527848565 : 639.9323014209837
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 686.0 : 647.4248849666789
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 686.0 : 651.1711767395263
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 686.0 : 653.6687045880915
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 686.0 : 654.917468512374
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 686.0 : 654.917468512374
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 686.0 : 654.917468512374
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 686.0 : 654.917468512374
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 686.0 : 654.917468512374
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 686.0 : 654.917468512374
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 686.0 : 652.4199406638089
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 686.0 : 649.9224128152439
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:05 PM  
+INFORMATION: 686.0 : 644.9273571181137
+Mär 29, 2017 2:10:06 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:06 PM  
+INFORMATION: 686.0 : 641.1810653452662
+Mär 29, 2017 2:10:06 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:06 PM  
+INFORMATION: 686.0 : 638.6835374967012
+Mär 29, 2017 2:10:06 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:06 PM  
+INFORMATION: 686.0 : 637.4347735724186
+Mär 29, 2017 2:10:06 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:06 PM  
+INFORMATION: 686.0 : 637.4347735724186
+Mär 29, 2017 2:10:06 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:06 PM  
+INFORMATION: 686.0 : 637.4347735724186
+Mär 29, 2017 2:10:06 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:06 PM  
+INFORMATION: 686.0 : 637.4347735724186
+Mär 29, 2017 2:10:06 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:06 PM  
+INFORMATION: 686.0 : 637.4347735724186
+Mär 29, 2017 2:10:06 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:06 PM  
+INFORMATION: 686.0 : 637.4347735724186
+Mär 29, 2017 2:10:06 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:06 PM  
+INFORMATION: 686.0 : 637.4347735724186
+Mär 29, 2017 2:10:06 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:06 PM  
+INFORMATION: 686.0 : 637.4347735724186
+Mär 29, 2017 2:10:06 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:06 PM  
+INFORMATION: 686.0 : 637.4347735724186
+Mär 29, 2017 2:10:06 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:06 PM  
+INFORMATION: 686.0 : 637.4347735724186
+Mär 29, 2017 2:10:06 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:06 PM  
+INFORMATION: 686.0 : 637.4347735724186
+Mär 29, 2017 2:10:06 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:06 PM  
+INFORMATION: 686.0 : 637.4347735724186
+Mär 29, 2017 2:10:06 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:06 PM  
+INFORMATION: 686.0 : 637.4347735724186
+Mär 29, 2017 2:10:06 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:06 PM  
+INFORMATION: 686.0 : 637.4347735724186
+Mär 29, 2017 2:10:06 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:06 PM  
+INFORMATION: 686.0 : 637.4347735724186
+Mär 29, 2017 2:10:06 PM  
+INFORMATION: 10
+Mär 29, 2017 2:10:06 PM  
+INFORMATION: 686.0 : 637.4347735724186
+Mär 29, 2017 2:10:10 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:10 PM  
+INFORMATION: 350.0 : 284.0345830004641
+Mär 29, 2017 2:10:10 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:10 PM  
+INFORMATION: 350.0 : 282.7858190761816
+Mär 29, 2017 2:10:10 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:10 PM  
+INFORMATION: 350.0 : 280.2882912276166
+Mär 29, 2017 2:10:10 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:10 PM  
+INFORMATION: 350.0 : 274.04447160620396
+Mär 29, 2017 2:10:10 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:10 PM  
+INFORMATION: 350.0 : 262.8055962876612
+Mär 29, 2017 2:10:10 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:10 PM  
+INFORMATION: 350.0 : 251.5667209691185
+Mär 29, 2017 2:10:10 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:10 PM  
+INFORMATION: 350.0 : 241.5766095748583
+Mär 29, 2017 2:10:10 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:10 PM  
+INFORMATION: 350.0 : 232.83526210488063
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 350.0 : 227.84020640775054
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 350.0 : 216.6013310892078
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 350.0 : 205.3624557706651
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 2
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 302.0 : 172.89459373931945
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 2
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 302.0 : 165.4020101936243
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 2
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 302.0 : 160.40695449649422
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 2
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 302.0 : 152.91437095079905
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 1
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 254.0 : 130.43662031371363
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 1
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 254.0 : 121.69527284373595
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 1
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 254.0 : 112.95392537375828
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 1
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 254.0 : 106.71010575234565
+Mär 29, 2017 2:10:11 PM  
 INFORMATION: 0
-Mär 17, 2017 11:14:55 AM  
-INFORMATION: 90.0 : 32.828427076339686
-Mär 17, 2017 11:14:55 AM  
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 206.0 : 100.46628613093303
+Mär 29, 2017 2:10:11 PM  
 INFORMATION: 0
-Mär 17, 2017 11:14:55 AM  
-INFORMATION: 90.0 : 51.82842707633963
-Mär 17, 2017 11:14:55 AM  
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 206.0 : 94.2224665095204
+Mär 29, 2017 2:10:11 PM  
 INFORMATION: 0
-Mär 17, 2017 11:14:55 AM  
-INFORMATION: 90.0 : 72.82842707633957
-Mär 17, 2017 11:14:55 AM  
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 206.0 : 91.72493866095536
+Mär 29, 2017 2:10:11 PM  
 INFORMATION: 0
-Mär 17, 2017 11:14:55 AM  
-INFORMATION: 90.0 : 83.82842707633954
-Mär 17, 2017 11:14:55 AM  
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 206.0 : 90.47617473667283
+Mär 29, 2017 2:10:11 PM  
 INFORMATION: 0
-Mär 17, 2017 11:14:55 AM  
-INFORMATION: 64.99999999999994 : 103.82842707633948
-Mär 17, 2017 11:14:55 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:55 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:55 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:55 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:55 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:55 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:55 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:55 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:55 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:55 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:55 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:55 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:55 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:55 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:55 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:55 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:55 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:55 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:55 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:58 AM  
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 206.0 : 90.47617473667283
+Mär 29, 2017 2:10:11 PM  
 INFORMATION: 0
-Mär 17, 2017 11:14:58 AM  
-INFORMATION: 90.0 : 30.82842707633969
-Mär 17, 2017 11:14:58 AM  
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 206.0 : 90.47617473667283
+Mär 29, 2017 2:10:11 PM  
 INFORMATION: 0
-Mär 17, 2017 11:14:58 AM  
-INFORMATION: 90.0 : 30.82842707633969
-Mär 17, 2017 11:14:58 AM  
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 206.0 : 89.2274108123903
+Mär 29, 2017 2:10:11 PM  
 INFORMATION: 0
-Mär 17, 2017 11:14:58 AM  
-INFORMATION: 90.0 : 30.82842707633969
-Mär 17, 2017 11:14:58 AM  
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 206.0 : 89.2274108123903
+Mär 29, 2017 2:10:11 PM  
 INFORMATION: 0
-Mär 17, 2017 11:14:58 AM  
-INFORMATION: 90.0 : 31.828427076339686
-Mär 17, 2017 11:14:58 AM  
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 206.0 : 89.2274108123903
+Mär 29, 2017 2:10:11 PM  
 INFORMATION: 0
-Mär 17, 2017 11:14:58 AM  
-INFORMATION: 90.0 : 37.82842707633967
-Mär 17, 2017 11:14:58 AM  
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 206.0 : 96.71999435808546
+Mär 29, 2017 2:10:11 PM  
 INFORMATION: 0
-Mär 17, 2017 11:14:58 AM  
-INFORMATION: 90.0 : 61.8284270763396
-Mär 17, 2017 11:14:58 AM  
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 206.0 : 106.71010575234565
+Mär 29, 2017 2:10:11 PM  
 INFORMATION: 0
-Mär 17, 2017 11:14:58 AM  
-INFORMATION: 90.0 : 89.82842707633952
-Mär 17, 2017 11:14:58 AM  
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 206.0 : 120.44650891945342
+Mär 29, 2017 2:10:11 PM  
 INFORMATION: 0
-Mär 17, 2017 11:14:58 AM  
-INFORMATION: 55.99999999999997 : 100.8284270763395
-Mär 17, 2017 11:14:58 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:58 AM  
-INFORMATION: 135.0 : 109.82842707633947
-Mär 17, 2017 11:14:58 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:58 AM  
-INFORMATION: 135.0 : 112.82842707633945
-Mär 17, 2017 11:14:58 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:58 AM  
-INFORMATION: 135.0 : 120.82842707633942
-Mär 17, 2017 11:14:58 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:58 AM  
-INFORMATION: 135.0 : 129.8284270763394
-Mär 17, 2017 11:14:58 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:58 AM  
-INFORMATION: 95.99999999999999 : 135.82842707633938
-Mär 17, 2017 11:14:58 AM  
-INFORMATION: 2
-Mär 17, 2017 11:14:58 AM  
-INFORMATION: 2
-Mär 17, 2017 11:14:58 AM  
-INFORMATION: 2
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 2
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 2
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 2
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 2
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 2
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 2
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 2
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 2
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 2
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 2
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 2
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 2
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 2
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 2
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 2
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 2
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 2
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 2
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 2
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 2
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 2
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 2
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 2
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 2
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 2
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 2
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 2
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 135.0 : 37.82842707633967
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 135.0 : 36.82842707633967
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 135.0 : 36.82842707633967
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 135.0 : 36.82842707633967
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 135.0 : 36.82842707633967
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 135.0 : 37.82842707633967
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 135.0 : 37.82842707633967
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 135.0 : 37.82842707633967
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 135.0 : 37.82842707633967
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 135.0 : 37.82842707633967
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 135.0 : 37.82842707633967
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 135.0 : 38.828427076339665
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 135.0 : 38.828427076339665
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 135.0 : 38.828427076339665
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 135.0 : 38.828427076339665
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 135.0 : 38.828427076339665
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 135.0 : 38.828427076339665
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 135.0 : 40.82842707633966
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 1
-Mär 17, 2017 11:14:59 AM  
-INFORMATION: 135.0 : 40.82842707633966
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 1
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 135.0 : 40.82842707633966
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 1
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 135.0 : 40.82842707633966
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 1
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 135.0 : 40.82842707633966
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 1
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 135.0 : 40.82842707633966
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 1
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 135.0 : 40.82842707633966
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 1
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 135.0 : 40.82842707633966
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 1
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 135.0 : 40.82842707633966
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 1
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 135.0 : 37.82842707633967
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 1
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 135.0 : 35.82842707633967
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 1
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 135.0 : 30.82842707633969
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 1
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 135.0 : 29.828427076339693
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 1
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 135.0 : 28.828427076339697
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 1
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 135.0 : 26.8284270763397
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 1
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 135.0 : 23.82842707633971
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 1
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 135.0 : 16.82842707633973
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 1
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 135.0 : 13.82842707633974
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 1
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 135.0 : 13.82842707633974
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 1
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 135.0 : 12.828427076339741
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 1
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 135.0 : 12.828427076339741
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 1
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 135.0 : 12.828427076339741
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 1
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 135.0 : 12.828427076339741
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 1
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 135.0 : 9.82842707633975
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 1
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 135.0 : 7.828427076339756
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 1
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 135.0 : 5.828427076339762
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 1
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 135.0 : 4.828427076339764
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 1
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 135.0 : 3.8284270763397674
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 1
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 135.0 : 1.8284270763397732
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 1
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 135.0 : -0.17157292366022098
-Mär 17, 2017 11:15:00 AM  
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 206.0 : 127.93909246514858
+Mär 29, 2017 2:10:11 PM  
 INFORMATION: 0
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 90.0 : -3.171572923660212
-Mär 17, 2017 11:15:00 AM  
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 206.0 : 142.92425955653886
+Mär 29, 2017 2:10:11 PM  
 INFORMATION: 0
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 90.0 : -5.171572923660206
-Mär 17, 2017 11:15:00 AM  
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 206.0 : 166.65077411790682
+Mär 29, 2017 2:10:11 PM  
 INFORMATION: 0
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 90.0 : -8.171572923660198
-Mär 17, 2017 11:15:00 AM  
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 206.0 : 184.1334690578622
+Mär 29, 2017 2:10:11 PM  
 INFORMATION: 0
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 90.0 : -10.171572923660191
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 0
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 90.0 : -12.171572923660186
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 0
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 90.0 : -13.171572923660184
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 0
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 90.0 : -14.17157292366018
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 0
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 90.0 : -17.17157292366017
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 0
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 90.0 : -18.171572923660168
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 0
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 90.0 : -20.171572923660165
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 0
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 90.0 : -22.171572923660158
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 0
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 90.0 : -23.171572923660154
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 0
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 90.0 : -23.171572923660154
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 0
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 90.0 : -23.171572923660154
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 0
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 90.0 : -23.171572923660154
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 0
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 90.0 : -23.171572923660154
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 0
-Mär 17, 2017 11:15:00 AM  
-INFORMATION: 90.0 : -22.171572923660158
-Mär 17, 2017 11:15:01 AM  
-INFORMATION: 0
-Mär 17, 2017 11:15:01 AM  
-INFORMATION: 90.0 : -19.171572923660165
-Mär 17, 2017 11:15:01 AM  
-INFORMATION: 0
-Mär 17, 2017 11:15:01 AM  
-INFORMATION: 90.0 : -15.171572923660177
-Mär 17, 2017 11:15:01 AM  
-INFORMATION: 0
-Mär 17, 2017 11:15:01 AM  
-INFORMATION: 90.0 : -2.1715729236602153
-Mär 17, 2017 11:15:01 AM  
-INFORMATION: 0
-Mär 17, 2017 11:15:01 AM  
-INFORMATION: 90.0 : 2.8284270763397705
-Mär 17, 2017 11:15:01 AM  
-INFORMATION: 0
-Mär 17, 2017 11:15:01 AM  
-INFORMATION: 90.0 : 11.828427076339745
-Mär 17, 2017 11:15:01 AM  
-INFORMATION: 0
-Mär 17, 2017 11:15:01 AM  
-INFORMATION: 90.0 : 22.82842707633971
-Mär 17, 2017 11:15:01 AM  
-INFORMATION: 0
-Mär 17, 2017 11:15:01 AM  
-INFORMATION: 90.0 : 28.828427076339697
-Mär 17, 2017 11:15:01 AM  
-INFORMATION: 0
-Mär 17, 2017 11:15:01 AM  
-INFORMATION: 90.0 : 43.82842707633965
-Mär 17, 2017 11:15:01 AM  
-INFORMATION: 0
-Mär 17, 2017 11:15:01 AM  
-INFORMATION: 90.0 : 59.82842707633961
-Mär 17, 2017 11:15:01 AM  
-INFORMATION: 0
-Mär 17, 2017 11:15:01 AM  
-INFORMATION: 90.0 : 76.82842707633955
-Mär 17, 2017 11:15:01 AM  
-INFORMATION: 0
-Mär 17, 2017 11:15:01 AM  
-INFORMATION: 58.99999999999996 : 90.82842707633952
-Mär 17, 2017 11:15:01 AM  
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 184.22404240993302 : 210.3575114677952
+Mär 29, 2017 2:10:11 PM  
 INFORMATION: 1
-Mär 17, 2017 11:15:01 AM  
-INFORMATION: 135.0 : 102.82842707633948
-Mär 17, 2017 11:15:01 AM  
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 249.70673734988836 : 254.06424881768356
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 2
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 302.0 : 284.0345830004641
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 2
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 302.0 : 287.7808747733117
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 2
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 302.0 : 292.77593047044184
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 2
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 302.0 : 295.27345831900686
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 2
+Mär 29, 2017 2:10:11 PM  
+INFORMATION: 302.0 : 297.7709861675719
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 2
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 302.0 : 297.7709861675719
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 2
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 302.0 : 301.5172779404195
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 2
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 256.497527848565 : 304.0148057889845
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 304.0148057889845
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 304.0148057889845
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 304.0148057889845
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 304.0148057889845
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 304.0148057889845
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 304.0148057889845
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 304.0148057889845
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 306.5123336375496
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 315.25368110752726
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 318.99997288037486
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 322.74626465322245
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 325.2437925017875
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 325.2437925017875
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 325.2437925017875
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 325.2437925017875
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 325.2437925017875
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 325.2437925017875
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 325.2437925017875
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 325.2437925017875
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 325.2437925017875
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 325.2437925017875
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 322.74626465322245
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 318.99997288037486
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 315.25368110752726
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 309.00986148611463
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 304.0148057889845
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 301.5172779404195
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 299.01975009185446
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 299.01975009185446
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 299.01975009185446
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 297.7709861675719
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 296.5222222432894
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 296.5222222432894
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 297.7709861675719
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 297.7709861675719
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 297.7709861675719
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 297.7709861675719
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:12 PM  
+INFORMATION: 350.0 : 297.7709861675719
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 300.268514016137
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 301.5172779404195
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 301.5172779404195
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 301.5172779404195
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 305.26356971326703
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 306.5123336375496
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 306.5123336375496
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 306.5123336375496
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 304.0148057889845
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 301.5172779404195
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 301.5172779404195
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 304.0148057889845
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 304.0148057889845
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 304.0148057889845
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 302.766041864702
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 301.5172779404195
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 301.5172779404195
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 301.5172779404195
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 301.5172779404195
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 301.5172779404195
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 301.5172779404195
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 300.268514016137
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 299.01975009185446
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 299.01975009185446
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 296.5222222432894
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 296.5222222432894
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 296.5222222432894
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 296.5222222432894
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 296.5222222432894
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 296.5222222432894
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 296.5222222432894
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 297.7709861675719
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 297.7709861675719
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 297.7709861675719
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 297.7709861675719
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 299.01975009185446
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 300.268514016137
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 301.5172779404195
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 301.5172779404195
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 299.01975009185446
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 296.5222222432894
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:13 PM  
+INFORMATION: 350.0 : 294.02469439472435
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 291.52716654615926
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 286.5321108490292
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 284.0345830004641
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 281.5370551518991
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 281.5370551518991
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 281.5370551518991
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 281.5370551518991
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 281.5370551518991
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 281.5370551518991
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 279.03952730333407
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 276.541999454769
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 272.79570768192144
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 272.79570768192144
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 272.79570768192144
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 272.79570768192144
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 272.79570768192144
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 272.79570768192144
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 275.29323553048647
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 277.7907633790515
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 277.7907633790515
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 277.7907633790515
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 280.2882912276166
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 280.2882912276166
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 281.5370551518991
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 281.5370551518991
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 281.5370551518991
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 282.7858190761816
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 285.28334692474664
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 286.5321108490292
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 287.7808747733117
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 289.02963869759424
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 290.27840262187675
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 292.77593047044184
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 292.77593047044184
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 295.27345831900686
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 296.5222222432894
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 297.7709861675719
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 299.01975009185446
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:14 PM  
+INFORMATION: 350.0 : 299.01975009185446
+Mär 29, 2017 2:10:15 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:15 PM  
+INFORMATION: 350.0 : 300.268514016137
+Mär 29, 2017 2:10:15 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:15 PM  
+INFORMATION: 350.0 : 300.268514016137
+Mär 29, 2017 2:10:15 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:15 PM  
+INFORMATION: 350.0 : 300.268514016137
+Mär 29, 2017 2:10:15 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:15 PM  
+INFORMATION: 350.0 : 302.766041864702
+Mär 29, 2017 2:10:15 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:15 PM  
+INFORMATION: 350.0 : 312.75615325896223
+Mär 29, 2017 2:10:15 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:15 PM  
+INFORMATION: 350.0 : 328.9900842746351
+Mär 29, 2017 2:10:15 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:15 PM  
+INFORMATION: 350.0 : 337.73143174461273
+Mär 29, 2017 2:10:15 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:15 PM  
+INFORMATION: 316.9851670913903 : 352.716598836003
+Mär 29, 2017 2:10:15 PM  
+INFORMATION: 4
+Mär 29, 2017 2:10:15 PM  
+INFORMATION: 4
+Mär 29, 2017 2:10:15 PM  
+INFORMATION: 4
+Mär 29, 2017 2:10:15 PM  
+INFORMATION: 4
+Mär 29, 2017 2:10:15 PM  
+INFORMATION: 4
+Mär 29, 2017 2:10:15 PM  
+INFORMATION: 4
+Mär 29, 2017 2:10:15 PM  
+INFORMATION: 4
+Mär 29, 2017 2:10:15 PM  
+INFORMATION: 4
+Mär 29, 2017 2:10:15 PM  
+INFORMATION: 4
+Mär 29, 2017 2:10:15 PM  
+INFORMATION: 4
+Mär 29, 2017 2:10:15 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:15 PM  
+INFORMATION: 350.0 : 125.44156461658352
+Mär 29, 2017 2:10:15 PM  
+INFORMATION: 2
+Mär 29, 2017 2:10:15 PM  
+INFORMATION: 302.0 : 64.25213232673983
+Mär 29, 2017 2:10:15 PM  
 INFORMATION: 1
-Mär 17, 2017 11:15:01 AM  
-INFORMATION: 135.0 : 108.82842707633947
-Mär 17, 2017 11:15:01 AM  
+Mär 29, 2017 2:10:15 PM  
+INFORMATION: 254.0 : 48.018201311067
+Mär 29, 2017 2:10:15 PM  
+INFORMATION: 0
+Mär 29, 2017 2:10:15 PM  
+INFORMATION: 206.0 : 144.1730234808214
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 0
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 206.0 : 175.3921215878845
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 0
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 195.46291772847573 : 212.85503931636023
+Mär 29, 2017 2:10:16 PM  
 INFORMATION: 1
-Mär 17, 2017 11:15:01 AM  
-INFORMATION: 135.0 : 118.82842707633944
-Mär 17, 2017 11:15:01 AM  
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 254.0 : 247.82042919627094
+Mär 29, 2017 2:10:16 PM  
 INFORMATION: 1
-Mär 17, 2017 11:15:01 AM  
-INFORMATION: 135.0 : 129.8284270763394
-Mär 17, 2017 11:15:01 AM  
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 254.0 : 247.82042919627094
+Mär 29, 2017 2:10:16 PM  
 INFORMATION: 1
-Mär 17, 2017 11:15:01 AM  
-INFORMATION: 96.99999999999997 : 136.82842707633938
-Mär 17, 2017 11:15:01 AM  
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 254.0 : 247.82042919627094
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 1
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 254.0 : 247.82042919627094
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 1
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 254.0 : 245.32290134770588
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 1
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 254.0 : 240.3278456505758
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 1
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 254.0 : 236.5815538777282
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 1
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 254.0 : 232.83526210488063
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 1
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 254.0 : 230.3377342563156
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 1
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 254.0 : 230.3377342563156
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 1
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 254.0 : 235.33278995344568
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 1
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 254.0 : 242.82537349914082
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 1
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 254.0 : 247.82042919627094
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 1
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 212.24381962141263 : 254.06424881768356
+Mär 29, 2017 2:10:16 PM  
 INFORMATION: 2
-Mär 17, 2017 11:15:01 AM  
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 302.0 : 280.2882912276166
+Mär 29, 2017 2:10:16 PM  
 INFORMATION: 2
-Mär 17, 2017 11:15:01 AM  
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 302.0 : 287.7808747733117
+Mär 29, 2017 2:10:16 PM  
 INFORMATION: 2
-Mär 17, 2017 11:15:01 AM  
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 302.0 : 290.27840262187675
+Mär 29, 2017 2:10:16 PM  
 INFORMATION: 2
-Mär 17, 2017 11:15:01 AM  
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 302.0 : 295.27345831900686
+Mär 29, 2017 2:10:16 PM  
 INFORMATION: 2
-Mär 17, 2017 11:15:01 AM  
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 302.0 : 295.27345831900686
+Mär 29, 2017 2:10:16 PM  
 INFORMATION: 2
-Mär 17, 2017 11:15:01 AM  
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 302.0 : 295.27345831900686
+Mär 29, 2017 2:10:16 PM  
 INFORMATION: 2
-Mär 17, 2017 11:15:01 AM  
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 302.0 : 295.27345831900686
+Mär 29, 2017 2:10:16 PM  
 INFORMATION: 2
-Mär 17, 2017 11:15:01 AM  
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 302.0 : 295.27345831900686
+Mär 29, 2017 2:10:16 PM  
 INFORMATION: 2
-Mär 17, 2017 11:15:01 AM  
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 302.0 : 295.27345831900686
+Mär 29, 2017 2:10:16 PM  
 INFORMATION: 2
-Mär 17, 2017 11:15:01 AM  
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 302.0 : 295.27345831900686
+Mär 29, 2017 2:10:16 PM  
 INFORMATION: 2
-Mär 17, 2017 11:15:01 AM  
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 302.0 : 295.27345831900686
+Mär 29, 2017 2:10:16 PM  
 INFORMATION: 2
-Mär 17, 2017 11:15:01 AM  
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 302.0 : 295.27345831900686
+Mär 29, 2017 2:10:16 PM  
 INFORMATION: 2
-Mär 17, 2017 11:15:01 AM  
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 302.0 : 297.7709861675719
+Mär 29, 2017 2:10:16 PM  
 INFORMATION: 2
-Mär 17, 2017 11:15:01 AM  
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 302.0 : 297.7709861675719
+Mär 29, 2017 2:10:16 PM  
 INFORMATION: 2
-Mär 17, 2017 11:15:01 AM  
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 302.0 : 299.01975009185446
+Mär 29, 2017 2:10:16 PM  
 INFORMATION: 2
-Mär 17, 2017 11:15:01 AM  
-INFORMATION: 2
-Mär 17, 2017 11:15:01 AM  
-INFORMATION: 2
-Mär 17, 2017 11:15:01 AM  
-INFORMATION: 2
-Mär 17, 2017 11:15:40 AM javax.xml.bind.ContextFinder find
-FEIN: Trying to locate ch/ethz/inspire/emod/dd/jaxb.properties
-Mär 17, 2017 11:15:40 AM javax.xml.bind.ContextFinder find
-FEIN:   not found
-Mär 17, 2017 11:15:40 AM javax.xml.bind.ContextFinder find
-FEIN: Checking system property javax.xml.bind.context.factory
-Mär 17, 2017 11:15:40 AM javax.xml.bind.ContextFinder find
-FEIN:   not found
-Mär 17, 2017 11:15:40 AM javax.xml.bind.ContextFinder find
-FEIN: Checking system property javax.xml.bind.JAXBContext
-Mär 17, 2017 11:15:40 AM javax.xml.bind.ContextFinder find
-FEIN:   not found
-Mär 17, 2017 11:15:40 AM javax.xml.bind.ContextFinder lookupJaxbContextUsingOsgiServiceLoader
-FEIN: Unable to find from OSGi: javax.xml.bind.JAXBContext
-Mär 17, 2017 11:15:40 AM javax.xml.bind.ContextFinder find
-FEIN: Checking META-INF/services
-Mär 17, 2017 11:15:40 AM javax.xml.bind.ContextFinder find
-FEIN: Unable to find: META-INF/services/javax.xml.bind.JAXBContext
-Mär 17, 2017 11:15:40 AM javax.xml.bind.ContextFinder find
-FEIN: Trying to create the platform default provider
-Mär 17, 2017 11:15:40 AM javax.xml.bind.ContextFinder safeLoadClass
-FEIN: Trying to load com.sun.xml.internal.bind.v2.ContextFactory
-Mär 17, 2017 11:15:40 AM javax.xml.bind.ContextFinder newInstance
-FEIN: loaded com.sun.xml.internal.bind.v2.ContextFactory from jar:file:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/rt.jar!/com/sun/xml/internal/bind/v2/ContextFactory.class
-Mär 17, 2017 11:15:40 AM com.sun.xml.internal.bind.v2.ContextFactory createContext
-FEIN: Property com.sun.xml.internal.bind.XmlAccessorFactoryis not active.  Using JAXB's implementation
-Mär 17, 2017 11:15:40 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.material.Material.type
-Mär 17, 2017 11:15:40 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.material.Material.type
-Mär 17, 2017 11:15:40 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected double ch.ethz.inspire.emod.dd.model.ADuctElement.heatSource
-Mär 17, 2017 11:15:40 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected double ch.ethz.inspire.emod.dd.model.ADuctElement.wallTemperature
-Mär 17, 2017 11:15:40 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for public ch.ethz.inspire.emod.dd.model.Isolation ch.ethz.inspire.emod.dd.model.ADuctElement.getIsolation() and public void ch.ethz.inspire.emod.dd.model.ADuctElement.setIsolation(ch.ethz.inspire.emod.dd.model.Isolation)
-Mär 17, 2017 11:15:40 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for public java.lang.String ch.ethz.inspire.emod.dd.model.ADuctElement.getName() and public void ch.ethz.inspire.emod.dd.model.ADuctElement.setName(java.lang.String)
-Mär 17, 2017 11:15:40 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for public java.lang.String ch.ethz.inspire.emod.dd.model.ADuctElement.getName() and public void ch.ethz.inspire.emod.dd.model.ADuctElement.setName(java.lang.String)
-Mär 17, 2017 11:15:40 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for public ch.ethz.inspire.emod.dd.model.AHydraulicProfile ch.ethz.inspire.emod.dd.model.ADuctElement.getProfile() and public void ch.ethz.inspire.emod.dd.model.ADuctElement.setProfile(ch.ethz.inspire.emod.dd.model.AHydraulicProfile)
-Mär 17, 2017 11:15:40 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for double ch.ethz.inspire.emod.dd.model.DuctElbowFitting.count
-Mär 17, 2017 11:15:40 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for double ch.ethz.inspire.emod.dd.model.DuctFlowAround.radius
-Mär 17, 2017 11:15:40 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for double ch.ethz.inspire.emod.dd.model.DuctHelix.radius
-Mär 17, 2017 11:15:40 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for double ch.ethz.inspire.emod.dd.model.DuctHelix.height
-Mär 17, 2017 11:15:40 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for double ch.ethz.inspire.emod.dd.model.DuctHelix.distance
-Mär 17, 2017 11:15:40 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for double ch.ethz.inspire.emod.dd.model.DuctDefinedValues.zeta
-Mär 17, 2017 11:15:40 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for double ch.ethz.inspire.emod.dd.model.DuctDefinedValues.alpha
-Mär 17, 2017 11:15:40 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for double ch.ethz.inspire.emod.dd.model.DuctDefinedValues.surface
-Mär 17, 2017 11:15:40 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for double ch.ethz.inspire.emod.dd.model.DuctDefinedValues.length
-Mär 17, 2017 11:15:40 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for double ch.ethz.inspire.emod.dd.model.DuctDefinedValues.volume
-Mär 17, 2017 11:15:40 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for ch.ethz.inspire.emod.dd.Duct ch.ethz.inspire.emod.dd.model.DuctBypass.ductPrimary
-Mär 17, 2017 11:15:40 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for ch.ethz.inspire.emod.dd.Duct ch.ethz.inspire.emod.dd.model.DuctBypass.ductSecondary
-Mär 17, 2017 11:15:40 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for public ch.ethz.inspire.emod.model.parameters.ParameterSet ch.ethz.inspire.emod.dd.model.DuctBypass.getParameterSet() and public void ch.ethz.inspire.emod.dd.model.DuctBypass.setParameterSet(ch.ethz.inspire.emod.model.parameters.ParameterSet)
-Mär 17, 2017 11:15:40 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for public java.lang.String ch.ethz.inspire.emod.model.parameters.ParameterSet.getComment() and public void ch.ethz.inspire.emod.model.parameters.ParameterSet.setComment(java.lang.String)
-Mär 17, 2017 11:15:40 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for public java.lang.String ch.ethz.inspire.emod.model.parameters.ParameterSet.getComment() and public void ch.ethz.inspire.emod.model.parameters.ParameterSet.setComment(java.lang.String)
-Mär 17, 2017 11:15:40 AM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for public ch.ethz.inspire.emod.model.parameters.ParameterSet ch.ethz.inspire.emod.dd.model.DuctArc.getParameterSet() and public void ch.ethz.inspire.emod.dd.model.DuctArc.setParameterSet(ch.ethz.inspire.emod.model.parameters.ParameterSet)
-Mär 17, 2017 11:15:40 AM com.sun.xml.internal.bind.v2.util.XmlFactory createParserFactory
-FEIN: SAXParserFactory instance: com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl@ef9296d
-Mär 17, 2017 4:28:11 PM ch.ethz.inspire.emod.dd.DuctDesignerMain <init>
-INFORMATION: Start DuctDesigner
-Mär 17, 2017 4:28:12 PM  
-INFORMATION: DuctDesignerMain called DuctDesignerGUI
-Mär 17, 2017 4:28:12 PM ch.ethz.inspire.emod.dd.gui.DuctDesinerGUI <init>
-DEBUG: init menu
-Mär 17, 2017 4:28:12 PM ch.ethz.inspire.emod.dd.gui.DuctDesinerGUI <init>
-DEBUG: init tabs
-Mär 17, 2017 4:28:14 PM sun.awt.X11.XToolkit setupModifierMap
-FEIN: In setupModifierMap
-Mär 17, 2017 4:28:14 PM sun.awt.X11.XToolkit setupModifierMap
-FEIN: metaMask = 0
-Mär 17, 2017 4:28:14 PM sun.awt.X11.XToolkit setupModifierMap
-FEIN: altMask = 8
-Mär 17, 2017 4:28:14 PM sun.awt.X11.XToolkit setupModifierMap
-FEIN: numLockMask = 16
-Mär 17, 2017 4:28:14 PM sun.awt.X11.XToolkit setupModifierMap
-FEIN: modeSwitchMask = 128
-Mär 17, 2017 4:28:14 PM sun.awt.X11.XToolkit setupModifierMap
-FEIN: modLockIsShiftLock = 0
-Mär 17, 2017 4:28:14 PM sun.awt.X11.XToolkit setBackingStoreType
-KONFIGURATION: The system property sun.awt.backingStore is not set, by default backingStore=NotUseful
-Mär 17, 2017 4:28:14 PM sun.awt.X11.XNETProtocol detect
-FEIN: ### sun.awt.X11.XNETProtocol@15bb6bea is active: true
-Mär 17, 2017 4:28:14 PM sun.awt.X11.XWM getWMID
-FEIN: _NET_WM_NAME is Xfwm4
-Mär 17, 2017 4:28:14 PM sun.awt.X11.XWINProtocol detect
-FEIN: ### sun.awt.X11.XWINProtocol@4c40b76e is active: false
-Mär 17, 2017 4:28:14 PM sun.awt.X11.XNETProtocol isWMName
-FEIN: ### WM_NAME = Xfwm4
-Mär 17, 2017 4:28:14 PM sun.awt.X11.XNETProtocol isWMName
-FEIN: ### WM_NAME = Xfwm4
-Mär 17, 2017 4:28:14 PM sun.awt.X11.XNETProtocol isWMName
-FEIN: ### WM_NAME = Xfwm4
-Mär 17, 2017 4:28:14 PM sun.awt.X11.XNETProtocol isWMName
-FEIN: ### WM_NAME = Xfwm4
-Mär 17, 2017 4:28:14 PM sun.awt.X11.XNETProtocol isWMName
-FEIN: ### WM_NAME = Xfwm4
-Mär 17, 2017 4:28:14 PM sun.awt.X11.XNETProtocol isWMName
-FEIN: ### WM_NAME = Xfwm4
-Mär 17, 2017 4:28:14 PM sun.awt.X11.XNETProtocol isWMName
-FEIN: ### WM_NAME = Xfwm4
-Mär 17, 2017 4:28:14 PM sun.awt.X11.XNETProtocol isWMName
-FEIN: ### WM_NAME = Xfwm4
-Mär 17, 2017 4:28:14 PM sun.awt.X11.XProtocol checkProtocol
-FEIN: sun.awt.X11.XNETProtocol@15bb6bea:_NET_SUPPORTED:457 supports [_NET_SUPPORTING_WM_CHECK:407, 408, 411, _NET_WM_WINDOW_TYPE:384, _NET_WM_WINDOW_TYPE_DIALOG:386, 389, _NET_WM_WINDOW_TYPE_NORMAL:390, _NET_WM_WINDOW_TYPE_UTILITY:393, 394, 395, 398, _NET_WM_WINDOW_OPACITY:437, 438, 441, 442, 446, 447, 427, 428, 429, 464, 465, 466, 467, 468, 469, 470, 471, 472, 473, 474, 475, 476, 477, _NET_WM_STATE_SHADED:478, 479, 448, 449, 450, 451, 452, 453, 454, _NET_REQUEST_FRAME_EXTENTS:455, 456, _NET_SUPPORTED:457, 458, 459, 460, 461, 462, 463, _NET_WM_NAME:368, 369, 370, _NET_WM_STATE:371, _NET_WM_STATE_ABOVE:372, _NET_WM_STATE_BELOW:373, _NET_WM_STATE_FULLSCREEN:374, _NET_WM_STATE_HIDDEN:375, _NET_WM_STATE_MODAL:376, _NET_WM_STATE_MAXIMIZED_VERT:377, _NET_WM_STATE_MAXIMIZED_HORZ:378, _NET_WM_STATE_SKIP_TASKBAR:379, _NET_WM_STATE_SKIP_PAGER:380, 381, 382, 383, 480, _NET_ACTIVE_WINDOW:360, 361, _NET_FRAME_EXTENTS:362, 363, 365, 366, 367]
-Mär 17, 2017 4:28:14 PM sun.awt.X11.XWM <init>
-FEIN: Window manager: Other WM
-Mär 17, 2017 4:28:30 PM javax.xml.bind.ContextFinder find
-FEIN: Trying to locate ch/ethz/inspire/emod/dd/jaxb.properties
-Mär 17, 2017 4:28:30 PM javax.xml.bind.ContextFinder find
-FEIN:   not found
-Mär 17, 2017 4:28:30 PM javax.xml.bind.ContextFinder find
-FEIN: Checking system property javax.xml.bind.context.factory
-Mär 17, 2017 4:28:30 PM javax.xml.bind.ContextFinder find
-FEIN:   not found
-Mär 17, 2017 4:28:30 PM javax.xml.bind.ContextFinder find
-FEIN: Checking system property javax.xml.bind.JAXBContext
-Mär 17, 2017 4:28:30 PM javax.xml.bind.ContextFinder find
-FEIN:   not found
-Mär 17, 2017 4:28:30 PM javax.xml.bind.ContextFinder lookupJaxbContextUsingOsgiServiceLoader
-FEIN: Unable to find from OSGi: javax.xml.bind.JAXBContext
-Mär 17, 2017 4:28:30 PM javax.xml.bind.ContextFinder find
-FEIN: Checking META-INF/services
-Mär 17, 2017 4:28:30 PM javax.xml.bind.ContextFinder find
-FEIN: Unable to find: META-INF/services/javax.xml.bind.JAXBContext
-Mär 17, 2017 4:28:30 PM javax.xml.bind.ContextFinder find
-FEIN: Trying to create the platform default provider
-Mär 17, 2017 4:28:30 PM javax.xml.bind.ContextFinder safeLoadClass
-FEIN: Trying to load com.sun.xml.internal.bind.v2.ContextFactory
-Mär 17, 2017 4:28:30 PM javax.xml.bind.ContextFinder newInstance
-FEIN: loaded com.sun.xml.internal.bind.v2.ContextFactory from jar:file:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/rt.jar!/com/sun/xml/internal/bind/v2/ContextFactory.class
-Mär 17, 2017 4:28:30 PM com.sun.xml.internal.bind.v2.ContextFactory createContext
-FEIN: Property com.sun.xml.internal.bind.XmlAccessorFactoryis not active.  Using JAXB's implementation
-Mär 17, 2017 4:28:30 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.material.Material.type
-Mär 17, 2017 4:28:30 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.material.Material.type
-Mär 17, 2017 4:28:30 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected double ch.ethz.inspire.emod.dd.model.ADuctElement.heatSource
-Mär 17, 2017 4:28:30 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected double ch.ethz.inspire.emod.dd.model.ADuctElement.wallTemperature
-Mär 17, 2017 4:28:30 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for public ch.ethz.inspire.emod.dd.model.Isolation ch.ethz.inspire.emod.dd.model.ADuctElement.getIsolation() and public void ch.ethz.inspire.emod.dd.model.ADuctElement.setIsolation(ch.ethz.inspire.emod.dd.model.Isolation)
-Mär 17, 2017 4:28:30 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for public java.lang.String ch.ethz.inspire.emod.dd.model.ADuctElement.getName() and public void ch.ethz.inspire.emod.dd.model.ADuctElement.setName(java.lang.String)
-Mär 17, 2017 4:28:30 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for public java.lang.String ch.ethz.inspire.emod.dd.model.ADuctElement.getName() and public void ch.ethz.inspire.emod.dd.model.ADuctElement.setName(java.lang.String)
-Mär 17, 2017 4:28:30 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for public ch.ethz.inspire.emod.dd.model.AHydraulicProfile ch.ethz.inspire.emod.dd.model.ADuctElement.getProfile() and public void ch.ethz.inspire.emod.dd.model.ADuctElement.setProfile(ch.ethz.inspire.emod.dd.model.AHydraulicProfile)
-Mär 17, 2017 4:28:30 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for double ch.ethz.inspire.emod.dd.model.DuctElbowFitting.count
-Mär 17, 2017 4:28:30 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for double ch.ethz.inspire.emod.dd.model.DuctFlowAround.radius
-Mär 17, 2017 4:28:30 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for double ch.ethz.inspire.emod.dd.model.DuctHelix.radius
-Mär 17, 2017 4:28:30 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for double ch.ethz.inspire.emod.dd.model.DuctHelix.height
-Mär 17, 2017 4:28:30 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for double ch.ethz.inspire.emod.dd.model.DuctHelix.distance
-Mär 17, 2017 4:28:30 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for double ch.ethz.inspire.emod.dd.model.DuctDefinedValues.zeta
-Mär 17, 2017 4:28:30 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for double ch.ethz.inspire.emod.dd.model.DuctDefinedValues.alpha
-Mär 17, 2017 4:28:30 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for double ch.ethz.inspire.emod.dd.model.DuctDefinedValues.surface
-Mär 17, 2017 4:28:30 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for double ch.ethz.inspire.emod.dd.model.DuctDefinedValues.length
-Mär 17, 2017 4:28:30 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for double ch.ethz.inspire.emod.dd.model.DuctDefinedValues.volume
-Mär 17, 2017 4:28:30 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for ch.ethz.inspire.emod.dd.Duct ch.ethz.inspire.emod.dd.model.DuctBypass.ductPrimary
-Mär 17, 2017 4:28:30 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for ch.ethz.inspire.emod.dd.Duct ch.ethz.inspire.emod.dd.model.DuctBypass.ductSecondary
-Mär 17, 2017 4:28:30 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for public ch.ethz.inspire.emod.model.parameters.ParameterSet ch.ethz.inspire.emod.dd.model.DuctBypass.getParameterSet() and public void ch.ethz.inspire.emod.dd.model.DuctBypass.setParameterSet(ch.ethz.inspire.emod.model.parameters.ParameterSet)
-Mär 17, 2017 4:28:30 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for public java.lang.String ch.ethz.inspire.emod.model.parameters.ParameterSet.getComment() and public void ch.ethz.inspire.emod.model.parameters.ParameterSet.setComment(java.lang.String)
-Mär 17, 2017 4:28:30 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for public java.lang.String ch.ethz.inspire.emod.model.parameters.ParameterSet.getComment() and public void ch.ethz.inspire.emod.model.parameters.ParameterSet.setComment(java.lang.String)
-Mär 17, 2017 4:28:30 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for public ch.ethz.inspire.emod.model.parameters.ParameterSet ch.ethz.inspire.emod.dd.model.DuctArc.getParameterSet() and public void ch.ethz.inspire.emod.dd.model.DuctArc.setParameterSet(ch.ethz.inspire.emod.model.parameters.ParameterSet)
-Mär 17, 2017 4:28:30 PM com.sun.xml.internal.bind.v2.util.XmlFactory createParserFactory
-FEIN: SAXParserFactory instance: com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl@1ffe63b9
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 257.7462917728476 : 302.766041864702
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 350.0 : 306.5123336375496
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 350.0 : 306.5123336375496
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:16 PM  
+INFORMATION: 350.0 : 306.5123336375496
+Mär 29, 2017 2:10:17 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:17 PM  
+INFORMATION: 350.0 : 306.5123336375496
+Mär 29, 2017 2:10:17 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:17 PM  
+INFORMATION: 350.0 : 306.5123336375496
+Mär 29, 2017 2:10:17 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:17 PM  
+INFORMATION: 350.0 : 306.5123336375496
+Mär 29, 2017 2:10:17 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:17 PM  
+INFORMATION: 350.0 : 306.5123336375496
+Mär 29, 2017 2:10:17 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:17 PM  
+INFORMATION: 350.0 : 309.00986148611463
+Mär 29, 2017 2:10:17 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:17 PM  
+INFORMATION: 350.0 : 312.75615325896223
+Mär 29, 2017 2:10:17 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:17 PM  
+INFORMATION: 350.0 : 314.00491718324474
+Mär 29, 2017 2:10:17 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:17 PM  
+INFORMATION: 350.0 : 314.00491718324474
+Mär 29, 2017 2:10:17 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:17 PM  
+INFORMATION: 350.0 : 314.00491718324474
+Mär 29, 2017 2:10:17 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:17 PM  
+INFORMATION: 350.0 : 315.25368110752726
+Mär 29, 2017 2:10:17 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:17 PM  
+INFORMATION: 350.0 : 315.25368110752726
+Mär 29, 2017 2:10:17 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:17 PM  
+INFORMATION: 350.0 : 315.25368110752726
+Mär 29, 2017 2:10:17 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:17 PM  
+INFORMATION: 350.0 : 315.25368110752726
+Mär 29, 2017 2:10:17 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:17 PM  
+INFORMATION: 350.0 : 315.25368110752726
+Mär 29, 2017 2:10:17 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:17 PM  
+INFORMATION: 350.0 : 315.25368110752726
+Mär 29, 2017 2:10:17 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:17 PM  
+INFORMATION: 350.0 : 315.25368110752726
+Mär 29, 2017 2:10:17 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:17 PM  
+INFORMATION: 350.0 : 312.75615325896223
+Mär 29, 2017 2:10:17 PM  
+INFORMATION: 3
+Mär 29, 2017 2:10:17 PM  
+INFORMATION: 350.0 : 311.50738933467966

@@ -80,6 +80,15 @@ public class EModMain {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+		
+		// Load Machine
+		if(args.length > 0){
+			EModFileHandling.open(args[0]);
+		}
+		else{
+			EModSession.newSession("NewMachine", "MdlConfig1", "SimConfig1", "default");
+		}
+		
 
 		// start program
 		new EModMain();

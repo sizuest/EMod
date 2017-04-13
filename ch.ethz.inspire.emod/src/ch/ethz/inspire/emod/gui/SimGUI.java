@@ -28,6 +28,7 @@ import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
 
 import ch.ethz.inspire.emod.ConfigurationChecker;
+import ch.ethz.inspire.emod.EModSession;
 import ch.ethz.inspire.emod.LogLevel;
 import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.States;
@@ -37,9 +38,7 @@ import ch.ethz.inspire.emod.simulation.EModSimulationMain;
 import ch.ethz.inspire.emod.simulation.EModSimulationSimulationThread;
 import ch.ethz.inspire.emod.simulation.SimulationState;
 import ch.ethz.inspire.emod.utils.ConfigReader;
-import ch.ethz.inspire.emod.utils.Defines;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
-import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 /**
  * @author manick
@@ -59,6 +58,8 @@ public class SimGUI extends AGUITab {
 	private ConfigCheckResultGUI checkResults;
 
 	private Button buttonCheckCfg, buttonRunSim;
+	
+	private Text valueStepSize;
 
 	private boolean simulationWasRunning = false;
 
@@ -77,13 +78,12 @@ public class SimGUI extends AGUITab {
 	public void init() {
 
 		machineState = new SimulationState(
-				PropertiesHandler.getProperty("sim.MachineName"),
-				PropertiesHandler.getProperty("sim.SimulationConfigName"));
+				EModSession.getMachineName(),
+				EModSession.getSimulationConfig());
 
 		// Tab folder for elements
 		tabFolder = new TabFolder(this, SWT.NONE);
-		tabFolder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1,
-				1));
+		tabFolder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
 		initTabGeneral(tabFolder);
 
@@ -173,19 +173,8 @@ public class SimGUI extends AGUITab {
 		}
 	}
 	
-	private String getSimConfigFilePath(){
-		// Simulation config file
-		String path = PropertiesHandler
-				.getProperty("app.MachineDataPathPrefix")
-				+ "/"
-				+ PropertiesHandler.getProperty("sim.MachineName")
-				+ "/"
-				+ Defines.SIMULATIONCONFIGDIR
-				+ "/"
-				+ PropertiesHandler.getProperty("sim.SimulationConfigName");
-		String file = path + "/" + Defines.SIMULATIONCONFIGFILE;
-		
-		return file;
+	private String getSimConfigFilePath(){	
+		return EModSession.getSimulationConfigPath();
 	}
 
 	private void checkIfActual() {
@@ -225,6 +214,8 @@ public class SimGUI extends AGUITab {
 			EModStatusBarGUI.getProgressBar().reset();
 			simulationWasRunning = false;
 		}
+		
+		valueStepSize.setText(getSimulationPeriod()+"");
 
 		this.redraw();
 	}
@@ -232,8 +223,7 @@ public class SimGUI extends AGUITab {
 	private void initTabGeneral(TabFolder tabFolder) {
 		// Tab for State sequence
 		TabItem tabGenerlItem = new TabItem(tabFolder, SWT.NONE);
-		tabGenerlItem.setText(LocalizationHandler
-				.getItem("app.gui.sim.general.title"));
+		tabGenerlItem.setText(LocalizationHandler.getItem("app.gui.sim.general.title"));
 
 		// add composite to the tabfolder for different values to change
 		Composite composite = new Composite(tabFolder, SWT.NONE);
@@ -293,16 +283,12 @@ public class SimGUI extends AGUITab {
 
 		// add text for stepsize
 		Label textStepSize = new Label(groupRun, SWT.NONE);
-		textStepSize.setLayoutData(new GridData(SWT.BEGINNING, SWT.FILL, false,
-				false, 1, 1));
-		textStepSize.setText(LocalizationHandler
-				.getItem("app.gui.sim.general.stepsize")+" [s]");
+		textStepSize.setLayoutData(new GridData(SWT.BEGINNING, SWT.FILL, false, false, 1, 1));
+		textStepSize.setText(LocalizationHandler.getItem("app.gui.sim.general.stepsize")+" [s]");
 
 		// add value_field for stepsize
-		final Text valueStepSize = new Text(groupRun, SWT.BORDER);
-		valueStepSize.setLayoutData(new GridData(SWT.BEGINNING, SWT.FILL,
-				false, false, 1, 1));
-		valueStepSize.setText(getSimulationPeriod()+"");
+		valueStepSize = new Text(groupRun, SWT.BORDER);
+		valueStepSize.setLayoutData(new GridData(SWT.BEGINNING, SWT.FILL, false, false, 1, 1));
 		
 
 		buttonRunSim = new Button(groupRun, SWT.NONE);
@@ -349,10 +335,8 @@ public class SimGUI extends AGUITab {
 		System.out
 				.println("Simulation start initialization: Saving Machine and IOLinking");
 		// Save all
-		Machine.saveMachine(PropertiesHandler.getProperty("sim.MachineName"),
-				PropertiesHandler.getProperty("sim.MachineConfigName"));
-		States.saveStates(PropertiesHandler.getProperty("sim.MachineName"),
-				PropertiesHandler.getProperty("sim.SimulationConfigName"));
+		Machine.saveMachine(EModSession.getMachineName(), EModSession.getMachineConfig());
+		States.saveStates(EModSession.getMachineName(), EModSession.getSimulationConfig());
 
 		// EModSimulationRun.EModSimRun();
 		(new EModSimulationSimulationThread()).start();

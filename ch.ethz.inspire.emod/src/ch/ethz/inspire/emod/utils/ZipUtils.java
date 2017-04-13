@@ -12,6 +12,7 @@
  ***********************************/
 package ch.ethz.inspire.emod.utils;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 /**
@@ -27,34 +29,80 @@ import java.util.zip.ZipOutputStream;
  *
  */
 public class ZipUtils {
+	
+	/**
+	 * Unzips the stated file to the given folder
+	 * 
+	 * @param source
+	 * @param targetFolder
+	 * @throws IOException 
+	 */
+	public static void unzipFolder(String source, String targetFolder) throws IOException{
+		FileInputStream fis = null;
+		ZipInputStream zis = null;
+		
+		try{
+			fis = new FileInputStream(source);
+			zis = new ZipInputStream(fis);
+			
+			ZipEntry ze = zis.getNextEntry();
+			
+			while(ze!=null){
+				String path = targetFolder + File.separator + ze.getName();
+				
+				if(!ze.isDirectory()) {
+					(new File(path)).mkdirs();
+					(new File(path)).delete();
+					
+					BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(path));
+			        byte[] bytesIn = new byte[1024];
+			        int read = 0;
+			        while ((read = zis.read(bytesIn)) != -1) {
+			            bos.write(bytesIn, 0, read);
+			        }
+			        bos.close();
+				}
+				else{
+					File dir = new File(path);
+					dir.mkdir();
+				}
+				
+				ze = zis.getNextEntry();
+			}
+			zis.close();
+			fis.close();
+		}
+		catch (IOException ex) {
+			throw ex;
+		} finally {
+			try {
+				zis.close();
+			} catch (IOException e) {
+				throw e;
+			}
+		}
+	}
 
 	/**
 	 * @param sourceFolder
 	 * @param target
+	 * @throws IOException 
 	 */
-	public static void zipFolder(String sourceFolder, String target){
+	public static void zipFolder(String sourceFolder, String target) throws IOException{
 		
 		List<String> fileList = generateFileList(sourceFolder, new File(sourceFolder));
 		
 		byte[] buffer = new byte[1024];
-		String source = "";
 		FileOutputStream fos = null;
 		ZipOutputStream zos = null;
 		try {
-			try {
-				source = sourceFolder.substring(
-						 sourceFolder.lastIndexOf("\\") + 1,
-						 sourceFolder.length());
-			} catch (Exception e) {
-				source = sourceFolder;
-			}
 			fos = new FileOutputStream(target);
 			zos = new ZipOutputStream(fos);
 
 			FileInputStream in = null;
 
 			for (String file : fileList) {
-				ZipEntry ze = new ZipEntry(source + File.separator + file);
+				ZipEntry ze = new ZipEntry(file);
 				zos.putNextEntry(ze);
 				try {
 					in = new FileInputStream(sourceFolder + File.separator + file);
@@ -70,12 +118,12 @@ public class ZipUtils {
 			zos.closeEntry();
 
 		} catch (IOException ex) {
-			ex.printStackTrace();
+			throw ex;
 		} finally {
 			try {
 				zos.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw e;
 			}
 		}
 	}

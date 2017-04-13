@@ -23,6 +23,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
+import ch.ethz.inspire.emod.EModSession;
 import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.Process;
 import ch.ethz.inspire.emod.gui.utils.ShowButtons;
@@ -30,7 +31,6 @@ import ch.ethz.inspire.emod.gui.utils.TableUtils;
 import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.simulation.ASimulationControl;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
-import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 /**
  * GUI for process editing
@@ -55,7 +55,7 @@ public class ProcessGUI extends AConfigGUI {
 	public ProcessGUI(Composite parent, int style) {
 		super(parent, style, ShowButtons.RESET | ShowButtons.OK, false);
 
-		Process.loadProcess(PropertiesHandler.getProperty("sim.ProcessName"));
+		Process.loadProcess(EModSession.getProcessName());
 		
 		// Auswahl Prozess
 		processManageGUI = new ProcessManageGUI(this, SWT.NONE);
@@ -141,7 +141,7 @@ public class ProcessGUI extends AConfigGUI {
 
 	@Override
 	public void reset() {
-		Process.loadProcess(PropertiesHandler.getProperty("sim.ProcessName"));
+		Process.loadProcess(EModSession.getProcessName());
 		update();
 	}
 

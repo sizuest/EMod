@@ -54,6 +54,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
+import ch.ethz.inspire.emod.EModSession;
 import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.gui.utils.MachineComponentHandler;
 import ch.ethz.inspire.emod.model.MachineComponent;
@@ -61,6 +62,7 @@ import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.model.units.SiUnitDefinition;
 import ch.ethz.inspire.emod.model.units.Unit;
 import ch.ethz.inspire.emod.simulation.ASimulationControl;
+import ch.ethz.inspire.emod.utils.Defines;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
@@ -210,16 +212,12 @@ public class ModelGUI extends AGUITab {
 
 										// change the name of file that belongs
 										// to the given simulator
-										String prefix = PropertiesHandler
-												.getProperty("app.MachineDataPathPrefix")
-												+ "/"
-												+ PropertiesHandler
-														.getProperty("sim.MachineName")
-												+ "/"
-												+ "MachineConfig/"
-												+ PropertiesHandler
-														.getProperty("sim.MachineConfigName")
-												+ "/";
+										String prefix = EModSession.getRootPath()
+												+ File.separator
+												+ Defines.MACHINECONFIGDIR
+												+ File.separator
+												+ EModSession.getMachineConfig()
+												+ File.separator;
 										String type = row.getText(1).replace(
 												"Input ", "");
 										Path source = Paths.get(prefix, type
@@ -707,14 +705,11 @@ public class ModelGUI extends AGUITab {
 				// remove component from machine
 				if (Machine.removeInputObject(sc.getName())) {
 					// delete the according file
-					String prefix = PropertiesHandler
-							.getProperty("app.MachineDataPathPrefix")
-							+ "/"
-							+ PropertiesHandler.getProperty("sim.MachineName")
-							+ "/"
-							+ "MachineConfig/"
-							+ PropertiesHandler
-									.getProperty("sim.MachineConfigName") + "/";
+					String prefix = EModSession.getRootPath()
+							+ File.separator
+							+ Defines.SIMULATIONCONFIGDIR 
+							+ File.separator
+							+ EModSession.getSimulationConfig() + File.separator;
 					String type = item.getText(1).replace("Input ", "");
 					Path file = Paths.get(prefix, type + "_" + item.getText(0)
 							+ ".xml");

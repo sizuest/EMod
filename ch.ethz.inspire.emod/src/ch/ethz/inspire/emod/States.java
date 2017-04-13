@@ -79,11 +79,7 @@ public class States {
 		 * Generate file name with path: e.g.
 		 * Machines/NDM200/MachineConfig/TestConfig1/MachineStateSequence.txt
 		 */
-		String prefix = PropertiesHandler
-				.getProperty("app.MachineDataPathPrefix");
-		String file = prefix + "/" + machineName + "/"
-				+ Defines.SIMULATIONCONFIGDIR + "/" + simConfigName + "/"
-				+ Defines.MACHINESTATEFNAME;
+		String file = EModSession.getStateSequenceConfigPath();
 
 		getInstance().readStatesFromFile(file);
 	}
@@ -177,7 +173,6 @@ public class States {
 		} catch (Exception e) {
 			System.err.println("Writing error in file '" + file + "'");
 			e.printStackTrace();
-			System.exit(-1);
 		}
 	}
 

@@ -41,12 +41,11 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
+import ch.ethz.inspire.emod.EModFileHandling;
+import ch.ethz.inspire.emod.EModSession;
 import ch.ethz.inspire.emod.LogLevel;
-import ch.ethz.inspire.emod.Machine;
-import ch.ethz.inspire.emod.States;
 import ch.ethz.inspire.emod.dd.gui.DuctConfigGraphGUI;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
-import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 /**
  * main gui class for emod application
@@ -116,7 +115,7 @@ public class EModGUI {
 		
 
 		// manick: Startup GUI for Settings of machine/sim confg
-		Shell startupShell = EModStartupGUI.loadMachineGUI(shell);
+		/*Shell startupShell = EModStartupGUI.loadMachineGUI(shell);
 
 		startupShell.addDisposeListener(new DisposeListener() {
 
@@ -124,7 +123,7 @@ public class EModGUI {
 			public void widgetDisposed(DisposeEvent e) {
 				update();
 			}
-		});
+		});*/
 
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) {
@@ -168,6 +167,15 @@ public class EModGUI {
 				"src/resources/Open16.gif"));
 		fileOpenItem.setText(LocalizationHandler
 				.getItem("app.gui.menu.file.open"));
+		MenuItem fileSessionItem = new MenuItem(fileMenu, SWT.PUSH);
+		fileSessionItem.setImage(new Image(Display.getDefault(), "src/resources/Preferences16.gif"));
+		fileSessionItem.setText(LocalizationHandler.getItem("app.gui.menu.file.session"));
+		/*
+		MenuItem fileOpenLibItem = new MenuItem(fileMenu, SWT.PUSH);
+		fileOpenLibItem.setImage(new Image(Display.getDefault(),
+				"src/resources/Open16.gif"));
+		fileOpenLibItem.setText(LocalizationHandler
+				.getItem("app.gui.menu.file.openlib"));*/
 		MenuItem fileSaveItem = new MenuItem(fileMenu, SWT.PUSH);
 		fileSaveItem.setImage(new Image(Display.getDefault(),
 				"src/resources/Save16.gif"));
@@ -249,6 +257,8 @@ public class EModGUI {
 		// add listeners
 		fileNewItem.addSelectionListener(new fileNewItemListener());
 		fileOpenItem.addSelectionListener(new fileOpenItemListener());
+		fileSessionItem.addSelectionListener(new fileSessionListener());
+		//fileOpenLibItem.addSelectionListener(new fileOpenLibItemListener());
 		fileSaveItem.addSelectionListener(new fileSaveItemListener());
 		fileSaveAsItem.addSelectionListener(new fileSaveAsItemListener());
 		filePropertiesItem
@@ -343,44 +353,14 @@ public class EModGUI {
 
 				if (tabFolder.getItem(tabFolder.getSelectionIndex()).equals(
 						tabAnalysisItem)) {
-					String path = PropertiesHandler
-							.getProperty("app.MachineDataPathPrefix")
-							+ "/"
-							+ PropertiesHandler.getProperty("sim.MachineName")
-							+ "/"
-							+ PropertiesHandler
-									.getProperty("app.SimulationResultsPathPrefix")
-							+ "/"
-							+ PropertiesHandler
-									.getProperty("sim.MachineConfigName")
-							+ "_"
-							+ PropertiesHandler
-									.getProperty("sim.SimulationConfigName")
-							+ "_"
-							+ PropertiesHandler.getProperty("sim.ProcessName")
-							+ ".dat";
+					String path = EModSession.getResultFilePath();
 					((AEvaluationGUI) tabAnalysisControl).setDataFile(path);
 					tabAnalysisControl.update();
 					logger.log(LogLevel.DEBUG, "updating analysis tabs");
 				}
 				if (tabFolder.getItem(tabFolder.getSelectionIndex()).equals(
 						tabFEMItem)) {
-					String path = PropertiesHandler
-							.getProperty("app.MachineDataPathPrefix")
-							+ "/"
-							+ PropertiesHandler.getProperty("sim.MachineName")
-							+ "/"
-							+ PropertiesHandler
-									.getProperty("app.SimulationResultsPathPrefix")
-							+ "/"
-							+ PropertiesHandler
-									.getProperty("sim.MachineConfigName")
-							+ "_"
-							+ PropertiesHandler
-									.getProperty("sim.SimulationConfigName")
-							+ "_"
-							+ PropertiesHandler.getProperty("sim.ProcessName")
-							+ "_FEM.dat";
+					String path = EModSession.getFEMExportFilePath();
 					((AEvaluationGUI) tabFEMControl).setDataFile(path);
 					tabFEMControl.update();
 					logger.log(LogLevel.DEBUG, "updating fem tabs");
@@ -476,6 +456,25 @@ public class EModGUI {
 		// TODO: input file config
 		return console;
 	}
+	
+	/**
+	 * 
+	 */
+	private void saveAs() {
+		logger.log(LogLevel.DEBUG, "menu save as item selected");
+		FileDialog fd = new FileDialog(shell, SWT.SAVE);
+		fd.setText(LocalizationHandler.getItem("app.gui.save"));
+		fd.setFilterPath("C:/");
+		String[] filterExt = { "*.emod" };
+		fd.setFilterExtensions(filterExt);
+		String selected = fd.open();
+		if (selected == null) {
+			logger.log(LogLevel.DEBUG, "no file specified, closed");
+			return;
+		}
+		logger.log(LogLevel.DEBUG, "File to save to: " + selected);
+		EModFileHandling.save(selected);
+	}
 
 	/**
 	 * menu item action listener for save item
@@ -486,7 +485,10 @@ public class EModGUI {
 	class fileNewItemListener implements SelectionListener {
 		@Override
 		public void widgetSelected(SelectionEvent event) {
-			EModStartupGUI.createNewMachineGUI();
+			//EModStartupGUI.createNewMachineGUI();
+			EModSession.newSession("New machine", "ModelConfig1", "SimConfig1", "default");
+			EditSessionGUI.openEditSessionGUI(shell);
+			update();
 		}
 
 		@Override
@@ -504,13 +506,10 @@ public class EModGUI {
 	class fileSaveItemListener implements SelectionListener {
 		@Override
 		public void widgetSelected(SelectionEvent event) {
-			logger.log(LogLevel.DEBUG, "menu save item selected");
-			Machine.saveMachine(
-					PropertiesHandler.getProperty("sim.MachineName"),
-					PropertiesHandler.getProperty("sim.MachineConfigName"));
-			Machine.saveInitialConditions();
-			States.saveStates(PropertiesHandler.getProperty("sim.MachineName"),
-					PropertiesHandler.getProperty("sim.SimulationConfigName"));
+			if(null!=EModSession.getPath())
+				EModFileHandling.save(EModSession.getPath());
+			else
+				saveAs();
 		}
 
 		/*
@@ -529,17 +528,43 @@ public class EModGUI {
 	/**
 	 * menu item action listener for save as item
 	 * 
-	 * @author dhampl
+	 * @author dhampl			Process.
 	 * 
 	 */
 	class fileSaveAsItemListener implements SelectionListener {
 		@Override
 		public void widgetSelected(SelectionEvent event) {
-			logger.log(LogLevel.DEBUG, "menu save as item selected");
-			FileDialog fd = new FileDialog(shell, SWT.SAVE);
-			fd.setText(LocalizationHandler.getItem("app.gui.save"));
+			saveAs();
+		}
+
+		
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org
+		 * .eclipse.swt.events.SelectionEvent)
+		 */
+		@Override
+		public void widgetDefaultSelected(SelectionEvent event) {
+			// Not used
+		}
+	}
+	
+	/**
+	 * menu item action listener for save as item
+	 * 
+	 * @author dhampl			Process.
+	 * 
+	 */
+	class fileOpenItemListener implements SelectionListener {
+		@Override
+		public void widgetSelected(SelectionEvent event) {
+			FileDialog fd = new FileDialog(shell, SWT.OPEN);
+			fd.setText(LocalizationHandler.getItem("app.gui.open"));
 			fd.setFilterPath("C:/");
-			String[] filterExt = { "*.xml", "*.*" };
+			String[] filterExt = { "*.emod" };
 			fd.setFilterExtensions(filterExt);
 			String selected = fd.open();
 			if (selected == null) {
@@ -547,7 +572,34 @@ public class EModGUI {
 				return;
 			}
 			logger.log(LogLevel.DEBUG, "File to save to: " + selected);
-			Machine.saveMachineToNewFile(selected);
+			EModFileHandling.open(selected);
+			
+			update();
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org
+		 * .eclipse.swt.events.SelectionEvent)
+		 */
+		@Override
+		public void widgetDefaultSelected(SelectionEvent event) {
+			// Not used
+		}
+	}
+	
+	/**
+	 * menu item action listener for save as item
+	 * 
+	 * @author dhampl			Process.
+	 * 
+	 */
+	class fileSessionListener implements SelectionListener {
+		@Override
+		public void widgetSelected(SelectionEvent event) {
+			EditSessionGUI.openEditSessionGUI(shell);
 		}
 
 		/*
@@ -569,7 +621,7 @@ public class EModGUI {
 	 * @author dhampl
 	 * 
 	 */
-	class fileOpenItemListener implements SelectionListener {
+	class fileOpenLibItemListener implements SelectionListener {
 		@Override
 		public void widgetSelected(SelectionEvent event) {
 

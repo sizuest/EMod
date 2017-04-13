@@ -2,8 +2,8 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <comment/>
-<entry key="Alpha">0.0 deg</entry>
-<entry key="Transmission">0.05 m/rev</entry>
+<entry key="Alpha">90.0 deg (!)</entry>
+<entry key="Transmission">0.05 m/rev (!)</entry>
 <entry key="PowerBreakOff">0.0 W</entry>
 <entry key="StructureMass">5.3</entry>
 <entry key="MotorType">MotorDC_FanucAlphaiS4_5000</entry>

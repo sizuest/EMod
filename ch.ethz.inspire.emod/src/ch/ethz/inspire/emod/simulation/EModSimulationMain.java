@@ -16,19 +16,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import ch.ethz.inspire.emod.EModSession;
 import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.Process;
-import ch.ethz.inspire.emod.utils.ConfigReader;
-import ch.ethz.inspire.emod.utils.Defines;
-import ch.ethz.inspire.emod.utils.Floodable;
-import ch.ethz.inspire.emod.utils.IOConnection;
-import ch.ethz.inspire.emod.utils.LocalizationHandler;
-import ch.ethz.inspire.emod.utils.PropertiesHandler;
 import ch.ethz.inspire.emod.femexport.FEMOutput;
 import ch.ethz.inspire.emod.model.MachineComponent;
 import ch.ethz.inspire.emod.model.fluid.FluidCircuitProperties;
 import ch.ethz.inspire.emod.model.fluid.FluidCircuitSolver;
-import ch.ethz.inspire.emod.simulation.ProcessSimulationControl;
+import ch.ethz.inspire.emod.utils.ConfigReader;
+import ch.ethz.inspire.emod.utils.Floodable;
+import ch.ethz.inspire.emod.utils.IOConnection;
+import ch.ethz.inspire.emod.utils.LocalizationHandler;
 
 /**
  * Main simulation class
@@ -116,15 +114,7 @@ public class EModSimulationMain {
 	}
 
 	private void readConfig() {
-		String path = PropertiesHandler
-				.getProperty("app.MachineDataPathPrefix")
-				+ "/"
-				+ PropertiesHandler.getProperty("sim.MachineName")
-				+ "/"
-				+ Defines.SIMULATIONCONFIGDIR
-				+ "/"
-				+ PropertiesHandler.getProperty("sim.SimulationConfigName");
-		String file = path + "/" + Defines.SIMULATIONCONFIGFILE;
+		String file = EModSession.getSimulationConfigPath();
 
 		ConfigReader cr = null;
 		try {
@@ -168,6 +158,9 @@ public class EModSimulationMain {
 	 * objects.
 	 */
 	public void setProcessParamsforSimulation() {
+		if(null==simulators)
+			return;
+		
 		for (ASimulationControl sc : simulators) {
 			if (sc.getClass() == ProcessSimulationControl.class) {
 				/* Set samples for process parameters */
@@ -223,38 +216,12 @@ public class EModSimulationMain {
 		/*
 		 * Create simulation output file to store the simulation data.
 		 */
-		String path = PropertiesHandler
-				.getProperty("app.MachineDataPathPrefix")
-				+ "/"
-				+ PropertiesHandler.getProperty("sim.MachineName")
-				+ "/"
-				+ PropertiesHandler
-						.getProperty("app.SimulationResultsPathPrefix")
-				+ "/"
-				+ PropertiesHandler.getProperty("sim.MachineConfigName")
-				+ "_"
-				+ PropertiesHandler.getProperty("sim.SimulationConfigName")
-				+ "_"
-				+ PropertiesHandler.getProperty("sim.ProcessName")
-				+ ".dat";
+		String path = EModSession.getResultFilePath();
 
 		SimulationOutput simoutput = new SimulationOutput(path,
 				machineComponentList, simulators);
 
-		String fempath = PropertiesHandler
-				.getProperty("app.MachineDataPathPrefix")
-				+ "/"
-				+ PropertiesHandler.getProperty("sim.MachineName")
-				+ "/"
-				+ PropertiesHandler
-						.getProperty("app.SimulationResultsPathPrefix")
-				+ "/"
-				+ PropertiesHandler.getProperty("sim.MachineConfigName")
-				+ "_"
-				+ PropertiesHandler.getProperty("sim.SimulationConfigName")
-				+ "_"
-				+ PropertiesHandler.getProperty("sim.ProcessName")
-				+ "_FEM.dat";
+		String fempath = EModSession.getFEMExportFilePath();
 
 		FEMOutput femoutput = new FEMOutput(fempath, machineComponentList);
 
@@ -368,8 +335,9 @@ public class EModSimulationMain {
 	 * Sets the simulation period for all components
 	 */
 	public void updateSimulationPeriod() {
-		for (ASimulationControl sc : simulators)
-			sc.setSimulationPeriod(sampleperiod);
+		if(null!=simulators)
+			for (ASimulationControl sc : simulators)
+				sc.setSimulationPeriod(sampleperiod);
 
 		for (MachineComponent mc : machineComponentList)
 			mc.getComponent().setSimulationTimestep(sampleperiod);

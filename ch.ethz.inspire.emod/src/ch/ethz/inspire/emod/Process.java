@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import ch.ethz.inspire.emod.utils.Algo;
 import ch.ethz.inspire.emod.utils.ConfigReader;
 import ch.ethz.inspire.emod.utils.Defines;
-import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 /**
  * Read the process definition from file.
@@ -51,14 +50,11 @@ public class Process extends ConfigReader {
 	 * 
 	 */
 	public static void loadProcess(String name) {
-		String path = PropertiesHandler
-				.getProperty("app.MachineDataPathPrefix")
-				+ "/"
-				+ PropertiesHandler.getProperty("sim.MachineName")
-				+ "/"
-				+ Defines.SIMULATIONCONFIGDIR
-				+ "/"
-				+ PropertiesHandler.getProperty("sim.SimulationConfigName");
+		String path = EModSession.getRootPath()
+				+ File.separator
+				+ Defines.SIMULATIONCONFIGDIR 
+				+ File.separator
+				+ EModSession.getSimulationConfig();
 
 		getInstance().filePath = path + "/" + Defines.PROCESSDEFFILE_PREFIX
 				+ name + ".xml";
@@ -79,14 +75,11 @@ public class Process extends ConfigReader {
 	public static void newProcess(String name) {
 
 		/* Set new file name */
-		String path = PropertiesHandler
-				.getProperty("app.MachineDataPathPrefix")
-				+ "/"
-				+ PropertiesHandler.getProperty("sim.MachineName")
-				+ "/"
-				+ Defines.SIMULATIONCONFIGDIR
-				+ "/"
-				+ PropertiesHandler.getProperty("sim.SimulationConfigName");
+		String path = EModSession.getRootPath()
+				+ File.separator
+				+ Defines.SIMULATIONCONFIGDIR 
+				+ File.separator
+				+ EModSession.getSimulationConfig();
 
 		getInstance().filePath = path + "/" + Defines.PROCESSDEFFILE_PREFIX
 				+ name + ".xml";
@@ -115,14 +108,11 @@ public class Process extends ConfigReader {
 	 */
 	public static void removeProcess(String name) {
 		/* Set new file name */
-		String path = PropertiesHandler
-				.getProperty("app.MachineDataPathPrefix")
-				+ "/"
-				+ PropertiesHandler.getProperty("sim.MachineName")
-				+ "/"
-				+ Defines.SIMULATIONCONFIGDIR
-				+ "/"
-				+ PropertiesHandler.getProperty("sim.SimulationConfigName");
+		String path = EModSession.getRootPath()
+				+ File.separator
+				+ Defines.SIMULATIONCONFIGDIR 
+				+ File.separator
+				+ EModSession.getSimulationConfig();
 
 		File processDir = new File(path);
 		File processFile = new File(path + "/" + Defines.PROCESSDEFFILE_PREFIX
@@ -156,7 +146,7 @@ public class Process extends ConfigReader {
 		} else
 			loadProcess(newProcessName);
 
-		PropertiesHandler.setProperty("sim.ProcessName", newProcessName);
+		EModSession.setProcessName(newProcessName);
 
 	}
 

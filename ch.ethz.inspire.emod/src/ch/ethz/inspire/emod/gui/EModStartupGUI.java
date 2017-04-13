@@ -29,6 +29,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import ch.ethz.inspire.emod.EModSession;
 import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
@@ -64,6 +65,8 @@ public class EModStartupGUI {
 	 * window to load existing machine configuration
 	 */
 	protected static Shell loadMachineGUI(Shell parent) {
+		
+		PropertiesHandler.setProperty("app.MachineDataPathPrefix", "Machines");
 
 		// new shell in style modal to prevent user from skipping window
 		shell = new Shell(parent, SWT.APPLICATION_MODAL);
@@ -71,10 +74,10 @@ public class EModStartupGUI {
 		shell.setLayout(new GridLayout(2, true));
 
 		// get machineName and machineConfigName from app.config file
-		machineName       = PropertiesHandler.getProperty("sim.MachineName");
-		machineConfigName = PropertiesHandler.getProperty("sim.MachineConfigName");
-		simConfigName     = PropertiesHandler.getProperty("sim.SimulationConfigName");
-		procName          = PropertiesHandler.getProperty("sim.ProcessName");
+		machineName       = EModSession.getMachineName();
+		machineConfigName = EModSession.getMachineConfig();
+		simConfigName     = EModSession.getSimulationConfig();
+		procName          = EModSession.getProcessName();
 
 		// text load machine config
 		Label textLoadMachConfig = new Label(shell, SWT.TRANSPARENT);
@@ -246,16 +249,14 @@ public class EModStartupGUI {
 					System.out
 							.println("------******------ keine Maschkonfig ausgew�hlt");
 					return;
-				}
-
-				// set the machinename and conifgname to app.config, to restore
-				// at next run
-				PropertiesHandler.setProperty("sim.MachineName", machine);
-				PropertiesHandler.setProperty("sim.MachineConfigName",
-						machConfig);
-				PropertiesHandler.setProperty("sim.SimulationConfigName",
-						simConfig);
-				PropertiesHandler.setProperty("sim.ProcessName", procName);
+				}				
+				
+				EModSession.setMachineName(machine);
+				EModSession.setMachineConfig(machConfig);
+				EModSession.setSimulationConfig(simConfig);
+				EModSession.setProcessName(procName);
+				
+				EModSession.save();
 
 				// build machine and add components to the table of the model
 				// gui tab
@@ -384,38 +385,29 @@ public class EModStartupGUI {
 	protected static void createNewMachine(String machine, String config) {
 
 		String simconfig = "SimConfig", process = "default";
+		
+		EModSession.setMachineName(machine);
+		EModSession.setMachineConfig(config);
+		EModSession.setSimulationConfig(simconfig);
+		EModSession.setProcessName(process);
 
 		// create the according folders and files (machine.xml, iolinking.txt)
-		String path = PropertiesHandler
-				.getProperty("app.MachineDataPathPrefix") + "/";
-		File machinexml = new File(path + machine + "/MachineConfig/" + config
-				+ "/Machine.xml");
-		File iolinking = new File(path + machine + "/MachineConfig/" + config
-				+ "/IOLinking.txt");
-		File simxml = new File(path + machine + "/SimulationConfig/"
-				+ simconfig + "/Simulation.xml");
-		File processxml = new File(path + machine + "/SimulationConfig/"
-				+ simconfig + "/process_" + process + ".xml");
-		File stateseq = new File(path + machine + "/SimulationConfig/"
-				+ simconfig + "/MachineStateSequence.xml");
+		File machinexml = new File(EModSession.getMachineConfigPath());
+		File simxml     = new File(EModSession.getSimulationConfigPath());
+		File processxml = new File(EModSession.getProcessConfigPath());
+		File stateseq   = new File(EModSession.getStateSequenceConfigPath());
 		try {
 			machinexml.getParentFile().mkdirs();
 			simxml.getParentFile().mkdirs();
 			machinexml.createNewFile();
-			iolinking.createNewFile();
 			simxml.createNewFile();
 			processxml.createNewFile();
 			stateseq.createNewFile();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-
-		// set machinename and machinconfigname to app.config file to restore at
-		// next run
-		PropertiesHandler.setProperty("sim.MachineName", machine);
-		PropertiesHandler.setProperty("sim.MachineConfigName", config);
-		PropertiesHandler.setProperty("sim.ProcessName", process);
-		PropertiesHandler.setProperty("sim.SimulationConfigName", simconfig);
+		}	
+		
+		EModSession.save();
 	}
 
 	/**

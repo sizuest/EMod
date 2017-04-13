@@ -16,6 +16,7 @@ package ch.ethz.inspire.emod.gui;
 import java.io.File;
 import java.util.ArrayList;
 
+import ch.ethz.inspire.emod.EModSession;
 import ch.ethz.inspire.emod.Process;
 import ch.ethz.inspire.emod.utils.Defines;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
@@ -60,7 +61,7 @@ public class ProcessManageGUI extends Composite {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				PropertiesHandler.setProperty("sim.ProcessName", getSelectedName());
+				EModSession.setProcessName(getSelectedName());
 				Process.loadProcess(getSelectedName());
 				update();
 				parent.update();
@@ -112,11 +113,11 @@ public class ProcessManageGUI extends Composite {
 		String path = PropertiesHandler
 				.getProperty("app.MachineDataPathPrefix")
 				+ "/"
-				+ PropertiesHandler.getProperty("sim.MachineName")
+				+ EModSession.getMachineName()
 				+ "/"
 				+ Defines.SIMULATIONCONFIGDIR
 				+ "/"
-				+ PropertiesHandler.getProperty("sim.SimulationConfigName");
+				+ EModSession.getSimulationConfig();
 
 		File procDir = new File(path);
 		ArrayList<String> procFiles = new ArrayList<String>();
@@ -133,7 +134,7 @@ public class ProcessManageGUI extends Composite {
 
 		// set the possible parameter sets to the combo
 		comboSelectProcess.setItems(procFiles.toArray(new String[procFiles.size()]));
-		comboSelectProcess.setText(PropertiesHandler.getProperty("sim.ProcessName"));
+		comboSelectProcess.setText(EModSession.getProcessName());
 
 	}
 
@@ -196,7 +197,7 @@ public class ProcessManageGUI extends Composite {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Process.newProcess(text.getText());
-				PropertiesHandler.setProperty("sim.ProcessName", text.getText());
+				EModSession.setProcessName(text.getText());
 				update();
 				shell.dispose();
 			}

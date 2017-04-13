@@ -28,12 +28,12 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
+import ch.ethz.inspire.emod.EModSession;
 import ch.ethz.inspire.emod.States;
 import ch.ethz.inspire.emod.gui.utils.ShowButtons;
 import ch.ethz.inspire.emod.gui.utils.TableUtils;
 import ch.ethz.inspire.emod.simulation.MachineState;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
-import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 /**
  * GUI for state sequence editing
@@ -245,8 +245,7 @@ public class StatesGUI extends AConfigGUI {
 	@Override
 	public void reset() {
 		// Load state Data
-		States.readStates(PropertiesHandler.getProperty("sim.MachineName"),
-				PropertiesHandler.getProperty("sim.SimulationConfigName"));
+		States.readStates(EModSession.getMachineName(), EModSession.getSimulationConfig());
 
 		update();
 	}
@@ -279,7 +278,6 @@ public class StatesGUI extends AConfigGUI {
 
 		update();
 
-		States.saveStates(PropertiesHandler.getProperty("sim.MachineName"),
-				PropertiesHandler.getProperty("sim.SimulationConfigName"));
+		States.saveStates(EModSession.getMachineName(), EModSession.getSimulationConfig());
 	}
 }

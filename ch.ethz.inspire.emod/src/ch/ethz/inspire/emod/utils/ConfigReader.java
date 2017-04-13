@@ -70,16 +70,20 @@ public class ConfigReader {
 		 * key="parameter1">123.0</entry> <entry key="parameter2">12, 13,
 		 * 14</entry> </properties>
 		 */
-
+		
+		InputStream iostream;
 		try {
-			InputStream iostream = new FileInputStream(filePath);
-			props = new Properties();
-			props.loadFromXML(iostream);
-			iostream.close();
+			iostream = new FileInputStream(filePath);
 		} catch (Exception e) {
 			throw new Exception("Error in reading properties from file '"
 					+ filePath + "' bad format. \n" + e.getMessage());
 		}
+		
+		try {
+			props = new Properties();
+			props.loadFromXML(iostream);
+			iostream.close();
+		} catch (Exception e) {}
 
 	}
 

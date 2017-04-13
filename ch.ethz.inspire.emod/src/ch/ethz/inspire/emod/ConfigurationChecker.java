@@ -102,25 +102,29 @@ public class ConfigurationChecker {
 		 */
 		int mc_in_iolist_cnt = 0;
 		
-		for (MachineComponent mc : Machine.getInstance().getMachineComponentList()) {
-			for (IOContainer mcinput : mc.getComponent().getInputs()) {
-				mc_in_iolist_cnt = 0;
-				for (IOConnection iolink : Machine.getInstance().getIOLinkList()) {
-					if (mcinput == iolink.getTarget()) {
-						mc_in_iolist_cnt++;
+		if(null==Machine.getInstance().getIOLinkList()){
+			result.add(ConfigState.WARNING, "IOLinking", "No connections defined!");
+		}
+		else
+			for (MachineComponent mc : Machine.getInstance().getMachineComponentList()) {
+				for (IOContainer mcinput : mc.getComponent().getInputs()) {
+					mc_in_iolist_cnt = 0;
+					for (IOConnection iolink : Machine.getInstance().getIOLinkList()) {
+						if (mcinput == iolink.getTarget()) {
+							mc_in_iolist_cnt++;
+						}
+					}
+					if (mc_in_iolist_cnt == 0) {
+						result.add(ConfigState.WARNING, "IOLinking", "Input "
+								+ mc.getName() + "." + mcinput.getName()
+								+ " is not connected!");
+					} else if (mc_in_iolist_cnt >= 2) {
+						result.add(ConfigState.ERROR, "IOLinking", "Input "
+								+ mc.getName() + "." + mcinput.getName()
+								+ " is linked multiple times!");
 					}
 				}
-				if (mc_in_iolist_cnt == 0) {
-					result.add(ConfigState.WARNING, "IOLinking", "Input "
-							+ mc.getName() + "." + mcinput.getName()
-							+ " is not connected!");
-				} else if (mc_in_iolist_cnt >= 2) {
-					result.add(ConfigState.ERROR, "IOLinking", "Input "
-							+ mc.getName() + "." + mcinput.getName()
-							+ " is linked multiple times!");
-				}
 			}
-		}
 		
 		if(result.getMessages().size() == 0)
 			result.add(ConfigState.OK, "IOLinking", "Test passed");
@@ -187,6 +191,7 @@ public class ConfigurationChecker {
 				result.add(ConfigState.ERROR, "Process", "Process configuration does not includes a value vector for '"+sc.getName()+"'");
 		
 		// At least one time step is required
+		Process.loadProcess(EModSession.getProcessName());
 		if(Process.getTime().length==0)
 			result.add(ConfigState.ERROR, "Process", "Process configuration does not include any time step");
 		else if(Process.getTime().length==1)

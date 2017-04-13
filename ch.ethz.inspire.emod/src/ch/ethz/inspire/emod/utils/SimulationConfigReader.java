@@ -12,9 +12,11 @@
  ***********************************/
 package ch.ethz.inspire.emod.utils;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
+import ch.ethz.inspire.emod.EModSession;
 import ch.ethz.inspire.emod.simulation.ComponentState;
 
 /**
@@ -37,14 +39,12 @@ public class SimulationConfigReader extends ConfigReader {
 	public SimulationConfigReader(String type, String component)
 			throws Exception {
 
-		String path = PropertiesHandler
-				.getProperty("app.MachineDataPathPrefix")
-				+ "/"
-				+ PropertiesHandler.getProperty("sim.MachineName")
-				+ "/"
+		String path = EModSession.getRootPath()
+				+ File.separator
 				+ Defines.MACHINECONFIGDIR
-				+ "/"
-				+ PropertiesHandler.getProperty("sim.MachineConfigName");
+				+ File.separator
+				+ EModSession.getMachineConfig()
+				+ File.separator;;
 		fileName = type + "_" + component + ".xml";
 		filePath = path + "/" + fileName;
 
@@ -84,14 +84,12 @@ public class SimulationConfigReader extends ConfigReader {
 	 */
 	public static boolean SimulationConfigReaderExist(String type,
 			String component) {
-		String path = PropertiesHandler
-				.getProperty("app.MachineDataPathPrefix")
-				+ "/"
-				+ PropertiesHandler.getProperty("sim.MachineName")
-				+ "/"
+		String path = EModSession.getRootPath()
+				+ File.separator
 				+ Defines.MACHINECONFIGDIR
-				+ "/"
-				+ PropertiesHandler.getProperty("sim.MachineConfigName");
+				+ File.separator
+				+ EModSession.getMachineConfig()
+				+ File.separator;
 		String fname = path + "/" + type + "_" + component + ".xml";
 
 		try {
