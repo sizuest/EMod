@@ -142,10 +142,15 @@ public class SimulationControlGraphElement extends AGraphElement {
 	 */
 	@Override
 	public void setSelected(boolean b) {
-		if(b)
-			box.setPaint(Color.YELLOW);
-		else
+		if(b){
+			Color col = new Color(255, 255, 200);
+			box.setPaint(col);
+			node.setTextBackground(col);
+		}
+		else{
 			box.setPaint(Color.WHITE);
+			node.setTextBackground(Color.WHITE);
+		}
 	}
 
 }

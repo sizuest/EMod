@@ -157,6 +157,7 @@ public class ConnectionLine extends PSWTPath {
 			          pointsLine[pointsLine.length-1].getX()+rx, pointsLine[pointsLine.length-1].getY()+ry, 
 			          pointsLine[pointsLine.length-1].getX(), pointsLine[pointsLine.length-1].getY());
 		
+		//PFixedWidthStroke p = new PFixedWidthStroke(2);
 
 		//this.setPathToPolyline(pointsLine);
 		this.setShape(path);
