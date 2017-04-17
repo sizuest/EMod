@@ -27,6 +27,7 @@ import org.piccolo2d.PNode;
 import org.piccolo2d.event.PInputEvent;
 import org.piccolo2d.extras.event.PSelectionEventHandler;
 import org.piccolo2d.extras.swt.PSWTPath;
+import org.piccolo2d.util.PPickPath;
 
 import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.gui.EditInputGUI;
@@ -60,8 +61,10 @@ public class GraphEventHandler extends PSelectionEventHandler {
 	private PSWTPath line = new PSWTPath();
 	/* Point where the mouse drag action was initiated */
 	private Point2D dragSource;
+	private Point2D dragSourceScaled;
 	/* Line (rect) for the selection marquee */
 	private PSWTPath selectionMarquee = new PSWTPath();
+
 	/*
 	 * Parent shell, required when opening editor windows of type {@link
 	 * AConfigGUI.java}
@@ -141,6 +144,7 @@ public class GraphEventHandler extends PSelectionEventHandler {
 
 			/* Save the source of the drag event */
 			dragSource = event.getCanvasPosition();
+			dragSourceScaled = event.getPosition();
 
 			/* If a AIONode is selected -> start drawing the connection line */
 			if (null != sourceNode) {
@@ -197,7 +201,7 @@ public class GraphEventHandler extends PSelectionEventHandler {
 	 */
 	@Override
 	protected void dragActivityStep(final PInputEvent event) {
-
+		 
 		/*
 		 * Only if their is a mouse drag source different from null, a
 		 * connection line needs an update
@@ -208,8 +212,45 @@ public class GraphEventHandler extends PSelectionEventHandler {
 			((ConnectionLinePoint) event.getPickedNode()).readPosition();
 			decorateSelectedNode(selectedLine);
 		}
-		else if(event.getPickedNode() instanceof ConnectionLine)
+		else if(event.getPickedNode() instanceof ConnectionLine){
 			((ConnectionLine) event.getPickedNode()).update();
+			/* If the user trys to drag a line, a new point is added to 
+			 * the line and the selection is changed to this new point. 
+			 */
+			/*
+			 * Minimum drag distance for a new point: 10px
+			 * Warning: If this is threshold is set to small, a new point
+			 * will be added as soon as the line is selected. ZS
+			 */
+			if(dragSource.distance(event.getCanvasPosition())>2){
+				// Idx: Position in the line point array
+				int idx = selectedLine.addPoint(dragSourceScaled);
+				
+				if(idx>=0){
+					
+					// Remove all old line points and fetch & display the new ones
+					unselectConnectionLinePoints();
+					selectedLinePoints = selectedLine.getPoints();
+					selectedLine.getParent().addChildren(selectedLinePoints);
+					
+					// Build a new pick path to simulated the selection of the new line point
+					PPickPath path = event.getPath();
+					path.popNode(null);
+					path.pushNode(selectedLinePoints.get(idx));
+					
+					// Unselect the line
+					// if skipped, the handler will try to move the line, this does not
+					// look like at all. ZS
+					unselectAll();
+					// select the new point
+					select(selectedLinePoints.get(idx));
+					
+					// Call the mouse pressed event to emulate a mouse down event on the new line point
+					event.setPath(path);
+					mousePressed(event);
+				}
+			}
+		}
 		/*
 		 * Their seams to be an other reason for an update -> let's update the
 		 * marquee
