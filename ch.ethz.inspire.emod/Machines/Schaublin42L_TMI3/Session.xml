@@ -4,5 +4,5 @@
     <processName>reference</processName>
     <machineConfig>MdlConfig1</machineConfig>
     <simulationConfig>SimConfig1</simulationConfig>
-    <notes></notes>
+    <notes>Basierend  auf dem Mdl nach MSc Züst 2012</notes>
 </eModSession>
