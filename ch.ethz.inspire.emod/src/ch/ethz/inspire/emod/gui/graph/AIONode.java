@@ -46,6 +46,8 @@ public abstract class AIONode extends PComposite {
 	protected PSWTPath ioNode;
 	/* Describtive text (name) */
 	protected PSWTText ioText;
+	/* Gloom (if selected) */
+	protected PComposite gloom = null;
 
 	/**
 	 * Constructor
@@ -57,6 +59,8 @@ public abstract class AIONode extends PComposite {
 		this.ioText = new PSWTText("IONode");
 		this.ioText.setFont(new Font(this.ioText.getFont().getFamily(),
 				Font.PLAIN, (int) (this.ioText.getFont().getSize() * .75)));
+		
+		this.ioText.setGreekThreshold(0);
 
 		this.addChild(ioNode);
 		this.addChild(ioText);
@@ -132,10 +136,25 @@ public abstract class AIONode extends PComposite {
 	 * @param b
 	 */
 	public void setHighlight(boolean b) {
-		if (b)
-			ioNode.setPaint(ModelGraphGUI.getIOColor(ioObject));
-		else
+		if (b){
+			Color col = ModelGraphGUI.getIOColor(ioObject);
+			ioNode.setPaint(col);
+			gloom = GraphDecorationUtils.addGloomToRectangle(this, ioNode, col);
+		}
+		else {
 			ioNode.setPaint(Color.WHITE);
+			if(null!=gloom){
+				gloom.removeFromParent();
+			}
+		}
+	}
+	
+	/**
+	 * Set the color of the text label
+	 * @param color
+	 */
+	public void setTextBackground(Color color){
+		ioText.setBackgroundColor(color);
 	}
 
 	/**

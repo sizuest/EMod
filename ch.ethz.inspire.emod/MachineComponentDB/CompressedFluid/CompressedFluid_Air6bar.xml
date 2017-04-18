@@ -4,6 +4,6 @@
 <comment/>
 <entry key="SupplyPressure">600000.0 Pa</entry>
 <entry key="IsentropicCoefficient">1.4</entry>
-<entry key="Density">1.2 kg/m³</entry>
 <entry key="HeatCapacity">1005.0 J/kg/K</entry>
+<entry key="Density">1.2 kg/m^3</entry>
 </properties>

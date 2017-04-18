@@ -61,6 +61,8 @@ public class SimulationControlGraphElement extends AGraphElement {
 		type = new PSWTText(this.simulationControl.getType());
 		type.setFont(new Font(type.getFont().getFamily(), Font.ITALIC,
 				(int) (type.getFont().getSize() * .75)));
+		
+		type.setGreekThreshold(0);
 
 		node = new OutputNode(sc.getOutput());
 		box = PSWTPath.createRoundRectangle(-5, -10, (float) node.getWidth()
@@ -140,10 +142,15 @@ public class SimulationControlGraphElement extends AGraphElement {
 	 */
 	@Override
 	public void setSelected(boolean b) {
-		if(b)
-			box.setPaint(Color.YELLOW);
-		else
+		if(b){
+			Color col = new Color(255, 255, 200);
+			box.setPaint(col);
+			node.setTextBackground(col);
+		}
+		else{
 			box.setPaint(Color.WHITE);
+			node.setTextBackground(Color.WHITE);
+		}
 	}
 
 }

@@ -157,6 +157,7 @@ public class ConnectionLine extends PSWTPath {
 			          pointsLine[pointsLine.length-1].getX()+rx, pointsLine[pointsLine.length-1].getY()+ry, 
 			          pointsLine[pointsLine.length-1].getX(), pointsLine[pointsLine.length-1].getY());
 		
+		//PFixedWidthStroke p = new PFixedWidthStroke(2);
 
 		//this.setPathToPolyline(pointsLine);
 		this.setShape(path);
@@ -254,8 +255,9 @@ public class ConnectionLine extends PSWTPath {
 
 	/**
 	 * @param position
+	 * @return 
 	 */
-	public void addPoint(Point2D position) {
+	public int addPoint(Point2D position) {
 		/*
 		 * We have to go through all positions, and determine where to add the new point
 		 */
@@ -263,7 +265,7 @@ public class ConnectionLine extends PSWTPath {
 		
 		if(pointsLine.length == 2){
 			this.ioc.getPoints().add(new GraphElementPosition(position));
-			return;
+			return 0;
 		}
 		
 		double rx, ry;
@@ -274,10 +276,12 @@ public class ConnectionLine extends PSWTPath {
 			
 			if(Math.abs(rx)<1 & Math.abs(rx/ry-1)<.1) {
 				this.ioc.getPoints().add(i, new GraphElementPosition(position));
-				return;
+				return i;
 			}
 			
 		}
+		
+		return -1;
 	}
 
 	/**

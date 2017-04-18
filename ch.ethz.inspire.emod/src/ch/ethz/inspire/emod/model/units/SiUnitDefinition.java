@@ -107,11 +107,11 @@ public class SiUnitDefinition {
 		convMap.put("Pa", (new SiUnit("kg m^-1 s^-2")));
 		convMap.put("Nm", (new SiUnit("N m")));
 		convMap.put("m/s", (new SiUnit("m s^-1")));
-		convMap.put("m³/s", (new SiUnit("m^3 s^-1")));
-		convMap.put("m²", (new SiUnit("m^2")));
-		convMap.put("m³", (new SiUnit("m^3")));
+		convMap.put("m^3/s", (new SiUnit("m^3 s^-1")));
+		convMap.put("m^2", (new SiUnit("m^2")));
+		convMap.put("m^3", (new SiUnit("m^3")));
 		convMap.put("W/K", (new SiUnit("W K^-1")));
-		convMap.put("W/m²/K", (new SiUnit("W m^-2 K^-1")));
+		convMap.put("W/m^2/K", (new SiUnit("W m^-2 K^-1")));
 		convMap.put("W", (new SiUnit("m^2 kg s^-3")));
 		convMap.put("C", (new SiUnit("A s")));
 		convMap.put("V", (new SiUnit("m^2 kg s^-3 A^-1")));
@@ -128,11 +128,11 @@ public class SiUnitDefinition {
 		convMap.put("Sv", (new SiUnit("m^2 s^-2")));
 		convMap.put("kat", (new SiUnit("mol s^-1")));
 		//Nice outputs
-		convMap.put("kg/m³", (new SiUnit("kg m^-3")));
+		convMap.put("kg/m^3", (new SiUnit("kg m^-3")));
 		convMap.put("J/kg/K", (new SiUnit("J kg^-1 K^-1")));
 		convMap.put("N/m", (new SiUnit("N m^-1")));
 		convMap.put("W/m/K", (new SiUnit("W m^-1 K^-1")));
-		convMap.put("s²Pa/m⁶", (new SiUnit("Pa s^2 m^-6")));
+		convMap.put("s^2 Pa/m^6", (new SiUnit("Pa s^2 m^-6")));
 		convMap.put("Pas", (new SiUnit("Pa s")));
 
 	}
@@ -242,7 +242,7 @@ public class SiUnitDefinition {
 		Matcher m = p.matcher(s);
 
 		// Prepare other search units
-		Pattern pUnit = Pattern.compile("[a-zA-Z\\/¹²³⁴⁵⁶⁷⁸⁹]+|([-+]?\\d)+");
+		Pattern pUnit = Pattern.compile("[a-zA-Z\\/]+|([-+]?\\d)+");
 		Matcher mUnit;
 		
 		boolean foundOne = false;
