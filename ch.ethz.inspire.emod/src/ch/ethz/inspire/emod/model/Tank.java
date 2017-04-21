@@ -153,12 +153,9 @@ public class Tank extends APhysicalComponent implements Floodable {
 		inputs = new ArrayList<IOContainer>();
 		temperatureAmb = new IOContainer("TemperatureAmb", new SiUnit(
 				Unit.KELVIN), temperatureInit, ContainerType.THERMAL);
-		pressureAmb = new IOContainer("PressureAmb", new SiUnit(Unit.PA), 0.00,
-				ContainerType.FLUIDDYNAMIC);
-		heatFlowIn = new IOContainer("HeatFlowIn", new SiUnit(Unit.WATT), 0.00,
-				ContainerType.THERMAL);
-		heatExchangerOut = new IOContainer("HeatExchangerOut", new SiUnit(
-				Unit.WATT), 0.00, ContainerType.THERMAL);
+		pressureAmb = new IOContainer("PressureAmb", new SiUnit(Unit.PA), 0.00,	ContainerType.FLUIDDYNAMIC);
+		heatFlowIn = new IOContainer("HeatFlowIn", new SiUnit(Unit.WATT), 0.00,	ContainerType.THERMAL);
+		heatExchangerOut = new IOContainer("HeatExchangerOut", new SiUnit(	Unit.WATT), 0.00, ContainerType.THERMAL);
 		inputs.add(temperatureAmb);
 		inputs.add(pressureAmb);
 		inputs.add(heatExchangerOut);
@@ -186,7 +183,6 @@ public class Tank extends APhysicalComponent implements Floodable {
 			params = new ComponentConfigReader(getModelType(), type);
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.exit(-1);
 		}
 
 		/* Read the config parameter: */
@@ -227,7 +223,6 @@ public class Tank extends APhysicalComponent implements Floodable {
 			checkConfigParams();
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.exit(-1);
 		}
 
 		// TODO manick: test for Fluid

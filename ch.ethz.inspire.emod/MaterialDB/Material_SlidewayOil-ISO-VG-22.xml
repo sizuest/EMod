@@ -6,5 +6,5 @@
 <entry key="ThermalConductivity">0.127 W/m/K</entry>
 <entry key="ViscositySamples">0.02024, 0.0046 m^-1 kg s^-1</entry>
 <entry key="HeatCapacity">1890.0 J/kg/K</entry>
-<entry key="DensityMatrix">0.92, 0.92 kg/m³</entry>
+<entry key="DensityMatrix">0.92, 0.92 kg/m^3</entry>
 </properties>
