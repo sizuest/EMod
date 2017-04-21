@@ -17,7 +17,7 @@
 <entry key="MassFluid">3.0 kg</entry>
 <entry key="IsSubmerged">true</entry>
 <entry key="Mass">7.5</entry>
-<entry key="FlowRateSamples">2.32E-5, 2.33E-5, 2.34E-5, 2.35E-5, 2.36E-5, 2.37E-5, 2.39E-5, 2.4E-5, 2.405E-5, 2.41E-5, 2.43E-5, 2.44E-5 m³/s</entry>
+<entry key="FlowRateSamples">2.32E-5, 2.33E-5, 2.34E-5, 2.35E-5, 2.36E-5, 2.37E-5, 2.39E-5, 2.4E-5, 2.405E-5, 2.41E-5, 2.43E-5, 2.44E-5 m^3/s</entry>
 <entry key="LengthMotor">0.15 m</entry>
 <entry key="DiameterMotor">0.12 m</entry>
 </properties>

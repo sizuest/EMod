@@ -8,9 +8,9 @@
 <entry key="StructureMass">5.3 kg</entry>
 <entry key="MotorType">MotorDC_FanucAlphaiF2_5000</entry>
 <entry key="BearingType"/>
-<entry key="PowerBreakOn">0.0 W</entry>
-<entry key="Lever">0.0 m</entry>
 <entry key="StructureDuct">StructureDuct</entry>
+<entry key="Lever">0.0 m</entry>
+<entry key="PowerBreakOn">0.0 W</entry>
 <entry key="StructureMaterial">Motor</entry>
 <entry key="Mass">5.3 kg</entry>
 </properties>

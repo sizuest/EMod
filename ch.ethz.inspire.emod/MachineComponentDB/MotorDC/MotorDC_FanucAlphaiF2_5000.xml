@@ -5,6 +5,6 @@
 <entry key="PolePairs">3</entry>
 <entry key="StaticFriction">0.2 Nm</entry>
 <entry key="KappaA">0.57 Wb</entry>
-<entry key="KappaI">0.02 Vs/rad</entry>
 <entry key="ArmatureResistance">1.1 Ohm</entry>
+<entry key="KappaI">0.02 Vs/rad</entry>
 </properties>

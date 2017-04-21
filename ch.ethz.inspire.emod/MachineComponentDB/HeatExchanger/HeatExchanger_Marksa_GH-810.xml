@@ -2,12 +2,12 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <comment/>
+<entry key="PressureLossCoefficient2">2.5E11 s^2 Pa/m^6</entry>
 <entry key="Power">135.0 W</entry>
-<entry key="PressureLossCoefficient2">2.5E11 s²Pa/m⁶</entry>
-<entry key="PressureLossCoefficient1">4.28E11 s²Pa/m⁶</entry>
+<entry key="PressureLossCoefficient1">4.28E11 s^2 Pa/m^6</entry>
 <entry key="TemperatureHigh">293.65 K</entry>
-<entry key="Volume2">0.005 m³</entry>
-<entry key="Volume1">0.005 m³</entry>
+<entry key="Volume2">0.005 m^3</entry>
+<entry key="Volume1">0.005 m^3</entry>
 <entry key="TemperatureLow">293.55 K</entry>
 <entry key="HeatTransferCoefficient">1600.0 m^2 kg s^-3 K^-1</entry>
 </properties>

@@ -52,7 +52,9 @@ public class EModFileHandling {
 			clearTempPath();
 			ZipUtils.unzipFolder(path, file.getPath());
 			EModSession.initSessionFromFile(getMachineTempPath()+File.separator+"temp"+File.separator+Defines.SESSIONFILE);
-			file.renameTo(new File(getMachineTempPath()+File.separator+EModSession.getMachineName()));
+			while( !file.renameTo(new File(getMachineTempPath()+File.separator+EModSession.getMachineName())) ) {
+				Thread.sleep(1000);
+			}
 			PropertiesHandler.setProperty("app.MachineDataPathPrefix", Defines.TEMPFILESPACE);
 			
 			Machine.initMachineFromFile(EModSession.getMachineConfigPath());
