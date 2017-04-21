@@ -3,8 +3,8 @@
 <properties>
 <comment/>
 <entry key="GasPressureInitial">50000.0 Pa</entry>
-<entry key="GasVolumeInitial">0.01 m³</entry>
+<entry key="GasVolumeInitial">0.01 m^3</entry>
 <entry key="PressureMin">50000.0 Pa</entry>
-<entry key="FluidVolumeInitial">0.01 m³</entry>
+<entry key="FluidVolumeInitial">0.01 m^3</entry>
 <entry key="PressureMax">100000.0 Pa</entry>
 </properties>

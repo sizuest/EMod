@@ -29,17 +29,17 @@ public class ConstantComponentTest {
 		// Check ptotal for input level 0
 		cc.getInput("level").setValue(0);
 		cc.update();
-		assertEquals("Level0", 0.0, cc.getOutput("ptotal").getValue(), 0.0001);
+		assertEquals("Level0", 0.0, cc.getOutput("PTotal").getValue(), 0.0001);
 		
 		// Check ptotal for input level 1
 		cc.getInput("level").setValue(1);
 		cc.update();
-		assertEquals("Level1", 50.0, cc.getOutput("ptotal").getValue(), 0.0001);
+		assertEquals("Level1", 50.0, cc.getOutput("PTotal").getValue(), 0.0001);
 		
 		// Check ptotal for input level 2
 		cc.getInput("level").setValue(2);
 		cc.update();
-		assertEquals("Level2", 250.0, cc.getOutput("ptotal").getValue(), 0.0001);
+		assertEquals("Level2", 250.0, cc.getOutput("PTotal").getValue(), 0.0001);
 		
 	}
 }

@@ -208,8 +208,8 @@ public class CompressedFluid extends APhysicalComponent {
 		}
 		/*
 		 * Calculate power required to generate the flow PTotal [W] = cp
-		 * [J/Kg/K] * Tamb [K] * [ (psupply [Pa] /pamb [Pa] )^{(kappa-1)/kappa}
-		 * ] * rho [kg/m3] * Vdot [m³/s] / 1000 [l/m3]
+		 * [J/kg/K] * Tamb [K] * [ (psupply [Pa] /pamb [Pa] )^{(kappa-1)/kappa}
+		 * ] * rho [kg/m3] * Vdot [m3/s]
 		 */
 		ptotal.setValue(cp * tempAmb.getValue()
 				* (Math.pow(psupply / pAmb.getValue(), gamma - 1) - 1) * rho

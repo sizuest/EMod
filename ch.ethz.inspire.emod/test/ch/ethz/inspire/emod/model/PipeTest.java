@@ -22,27 +22,6 @@ import ch.ethz.inspire.emod.utils.FluidContainer;
 
 public class PipeTest {
 	
-	/**
-	 * Test Pipe class
-	 * @throws Exception 
-	 */
-	@Test
-	public void testPipe() throws Exception{
-		Pipe pip = new Pipe("Example", 303, "Example");
-		
-		pip.setSimulationTimestep(1);
-		pip.getInput("TemperatureAmb").setValue(293);
-	
-
-		pip.getInput("TemperatureAmb").setValue(293);
-		for(int i= 0; i < 100; i++){
-			pip.update();
-		}
-		
-		assertEquals("PressureLoss", 1500, pip.getOutput("PressureLoss").getValue(), 20);
-		assertEquals("TemperatureOut", 293, ((FluidContainer)pip.getOutput("FluidOut")).getTemperature(), .5);
-	}
-	
 	@Test
 	public void testPipeConnection() throws Exception{
 		Pipe pip1 = new Pipe("Example", 303, "Example");

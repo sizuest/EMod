@@ -24,7 +24,7 @@ public class CompressedFluidTest {
 	 * Test Amplifier class
 	 */
 	@Test
-	public void testAmplifier(){
+	public void testCompressedFluid(){
 		CompressedFluid cf = new CompressedFluid("Example");
 		
 		// No flow, nominal conditions 
@@ -35,9 +35,9 @@ public class CompressedFluidTest {
 		assertEquals("Power", 0, cf.getOutput("PTotal").getValue(), 0);
 		
 		// flow 1m3/s
-		cf.getInput("Flow").setValue(1);
+		cf.getInput("Flow").setValue(1.0);
 		cf.update();
-		assertEquals("Power", 493.5, cf.getOutput("PTotal").getValue(), 1);
+		assertEquals("Power", 500000, cf.getOutput("PTotal").getValue(), 1e4);
 	}
 	
 

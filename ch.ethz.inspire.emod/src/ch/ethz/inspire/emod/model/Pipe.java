@@ -295,6 +295,9 @@ public class Pipe extends APhysicalComponent implements Floodable {
 
 		/* Local variables */
 		double alphaFluid, alphaAir;
+		
+		/* Pressure loss */
+		pressureloss.setValue(fluidProperties.getPressureDrop());
 
 		/* Set fluid obj. boundary positions */
 		fluid.setTemperatureIn(fluidIn.getTemperature());

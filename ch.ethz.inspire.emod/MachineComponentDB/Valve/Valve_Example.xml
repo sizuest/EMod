@@ -2,7 +2,7 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <comment/>
+<entry key="Area">1.0E-4 m^2</entry>
 <entry key="PressureLossCoefficient">100</entry>
-<entry key="Area">1.0E-4 m²</entry>
 <entry key="ElectricPower">0.0 W</entry>
 </properties>

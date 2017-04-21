@@ -26,21 +26,21 @@ public class MovingMassTest {
 	@Test
 	public void testMovingMass() {
 		// New Mass with 75kg, moving at an 90° angle
-		MovingMass mm = new MovingMass(75,1,90,0);
+		MovingMass mm = new MovingMass(75,1,0,0);
 		
 		// Set time step to 1s
 		mm.setSimulationTimestep(1);
 		
 		// 1ST TEST
-		// Set speed [mm/min]
-		mm.getInput("Speed").setValue(0);
+		// Set speed [m/s]
+		mm.getInput("SpeedLin").setValue(0);
 		// update outputs
 		mm.update();
 		assertEquals("Force", 735.75, mm.getOutput("Force").getValue(), 0.01);
 		
 		//2ND TEST
-		// Set speed [mm/min]
-		mm.getInput("Speed").setValue(60000);
+		// Set speed [m/s]
+		mm.getInput("SpeedLin").setValue(1);
 		// update outputs
 		mm.update();
 		assertEquals("Force", 810.75, mm.getOutput("Force").getValue(), 0.01);
