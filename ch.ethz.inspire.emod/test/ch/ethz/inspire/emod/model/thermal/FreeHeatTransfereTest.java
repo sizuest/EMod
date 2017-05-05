@@ -18,10 +18,14 @@ import static org.junit.Assert.assertEquals;
 
 import ch.ethz.inspire.emod.model.thermal.FreeHeatTransfere;
 
+/**
+ * @author simon
+ *
+ */
 public class FreeHeatTransfereTest {
 	
 	/**
-	 * Test Amplifier class
+	 * Test FreeHeatTransfer class
 	 */
 	@Test
 	public void testFreeHeatTransfere(){

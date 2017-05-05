@@ -1110,6 +1110,19 @@ public class Machine {
 	 * @return {@link ASimulationControl} with the simulator
 	 */
 	public static ASimulationControl addNewInputObject(String name, SiUnit unit) {
+		
+		final String path = PropertiesHandler.getProperty("app.MachineComponentDBPathPrefix")+ "/";
+		Path source = Paths.get(path + "/SimulationControl/" + name + "_Example.xml");
+		Path target = Paths.get(EModSession.getMachineConfigDirPath() + "/", name + "_" + name + ".xml");
+		// overwrite existing file, if existsR
+		CopyOption[] options = new CopyOption[] {
+				StandardCopyOption.REPLACE_EXISTING,
+				StandardCopyOption.COPY_ATTRIBUTES };
+		try {
+			Files.copy(source, target, options);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		ASimulationControl simulator = null;
 

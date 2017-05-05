@@ -25,8 +25,8 @@ public class ServoMotorTest {
 		MotorDC servo = new MotorDC("Example");
 
 		// Disable apply torque and speed
-		servo.getInput("Torque").setValue(10);
-		servo.getInput("RotSpeed").setValue(10);
+		servo.getInput("Torque").setValue(11);
+		servo.getInput("RotSpeed").setValue(10/60);
 		servo.update();
 		
 		assertEquals("Servo power", 3*(10+1)/1*(0.1*10+2*(10+1)/1), 

@@ -484,29 +484,29 @@ public class ModelGraphGUI extends AGUITab implements IGraphEditable{
 					// create new simulation control
 					System.out.println("simulationcontrol " + string);
 
-					final String path = PropertiesHandler.getProperty("app.MachineComponentDBPathPrefix")+ "/";
-					Path source = Paths.get(path + "/SimulationControl/"
-							+ string + "_Example.xml");
-					Path target = Paths.get(
-							PropertiesHandler
-									.getProperty("app.MachineDataPathPrefix")
-									+ "/"
-									+ PropertiesHandler
-											.getProperty("sim.MachineName")
-									+ "/"
-									+ "MachineConfig/"
-									+ PropertiesHandler
-											.getProperty("sim.MachineConfigName")
-									+ "/", string + "_" + string + ".xml");
-					// overwrite existing file, if exists
-					CopyOption[] options = new CopyOption[] {
-							StandardCopyOption.REPLACE_EXISTING,
-							StandardCopyOption.COPY_ATTRIBUTES };
-					try {
-						Files.copy(source, target, options);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+//					final String path = PropertiesHandler.getProperty("app.MachineComponentDBPathPrefix")+ "/";
+//					Path source = Paths.get(path + "/SimulationControl/"
+//							+ string + "_Example.xml");
+//					Path target = Paths.get(
+//							PropertiesHandler
+//									.getProperty("app.MachineDataPathPrefix")
+//									+ "/"
+//									+ PropertiesHandler
+//											.getProperty("sim.MachineName")
+//									+ "/"
+//									+ "MachineConfig/"
+//									+ PropertiesHandler
+//											.getProperty("sim.MachineConfigName")
+//									+ "/", string + "_" + string + ".xml");
+//					// overwrite existing file, if exists
+//					CopyOption[] options = new CopyOption[] {
+//							StandardCopyOption.REPLACE_EXISTING,
+//							StandardCopyOption.COPY_ATTRIBUTES };
+//					try {
+//						Files.copy(source, target, options);
+//					} catch (IOException e) {
+//						e.printStackTrace();
+//					}
 
 					final ASimulationControl sc = Machine.addNewInputObject(
 							string, new SiUnit(Unit.NONE));
@@ -549,10 +549,8 @@ public class ModelGraphGUI extends AGUITab implements IGraphEditable{
 	 *            simulation control to add to the machine table
 	 * @param p
 	 */
-	public static void addGraphItem(final ASimulationControl sc,
-			GraphElementPosition p) {
-		SimulationControlGraphElement composite = new SimulationControlGraphElement(
-				sc);
+	public static void addGraphItem(final ASimulationControl sc, GraphElementPosition p) {
+		SimulationControlGraphElement composite = new SimulationControlGraphElement(sc);
 		
 		
 

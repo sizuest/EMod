@@ -12,8 +12,15 @@ import ch.ethz.inspire.emod.dd.model.HPRectangular;
 import ch.ethz.inspire.emod.dd.model.Isolation;
 import ch.ethz.inspire.emod.model.material.Material;
 
+/**
+ * @author simon
+ *
+ */
 public class DuctTest {
 	
+	/**
+	 * Test {@link Duct#save()} and {@link Duct#initFromFile(String)}
+	 */
 	@Test
 	public void testInitSaveLoad(){
 		Duct duct1 = new Duct("Test");
@@ -31,8 +38,14 @@ public class DuctTest {
 		duct1.save();
 		
 		duct2 = Duct.buildFromDB("Test");
+		
+		assertEquals("Number of elements", 6, duct2.getElements().size(), 0);
+		
 	}
 	
+	/**
+	 * Test {@link Duct#removeElement(String)}
+	 */
 	@Test
 	public void testRemove(){
 		Duct duct = new Duct("Test");
@@ -49,10 +62,14 @@ public class DuctTest {
 		assertEquals("Number of elements", 5, duct.getElements().size(), 0);
 		
 		duct.removeElement("Statorkühlung");
+		duct.cleanUpFittings();
 		
 		assertEquals("Number of elements", 2, duct.getElements().size(), 0);
 	}
 	
+	/**
+	 * Test {@link Material#setMaterial(Material)}
+	 */
 	@Test
 	public void testSetMaterial(){
 		Duct duct = new Duct("Test");
@@ -66,6 +83,9 @@ public class DuctTest {
 		assertTrue("Material", duct.getElement(0).getMaterial().equals(duct.getElement(1).getMaterial()));
 	}
 	
+	/**
+	 * Test HTC calculation
+	 */
 	@Test
 	public void testHTC(){
 		Duct duct1 = new Duct("Test");
@@ -83,10 +103,13 @@ public class DuctTest {
 		htc1 = duct1.getThermalResistance(0, 1E5, 293.15, 293.15);
 		htc2 = duct1.getThermalResistance(1.0/60000, 1E5, 293.15, 293.15);
 		
-		assertEquals("No Flow", 0, htc1, 0);
-		assertEquals("1 l/min", 2600, htc2, 100);
+		assertEquals("No Flow", 30, htc1, 3);
+		assertEquals("1 l/min", 175, htc2, 7);
 	}
 	
+	/**
+	 * Test pressure loss calculation
+	 */
 	@Test
 	public void testPressureLoss(){
 		
@@ -106,7 +129,7 @@ public class DuctTest {
 		dp2 = duct1.getPressureDrop(1.0/60000, 1E5, 293.15);
 		
 		assertEquals("No Flow", 0, dp1, 0);
-		assertEquals("1 l/min", 65E3, dp2, 1E3);
+		assertEquals("1 l/min", 3E3, dp2, 100);
 		
 	}
 

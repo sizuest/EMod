@@ -6,7 +6,16 @@ import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.model.MachineComponent;
 import ch.ethz.inspire.emod.model.fluid.FluidCircuit;
 
+/**
+ * @author simon
+ *
+ */
 public class FluidCircuitTest {
+	/**
+	 * Test function for {@link Machine#addIOLink(IOContainer, IOContainer)}, where
+	 * the arguments are of type {@link FluidConnection}
+	 * @throws Exception
+	 */
 	@Test
 	public void testFluidConnection() throws Exception{
 		Machine.clearMachine();

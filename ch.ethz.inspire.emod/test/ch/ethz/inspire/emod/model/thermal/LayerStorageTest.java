@@ -18,10 +18,14 @@ import static org.junit.Assert.assertEquals;
 
 import ch.ethz.inspire.emod.model.thermal.LayerStorage;
 
+/**
+ * @author simon
+ *
+ */
 public class LayerStorageTest {
 	
 	/**
-	 * Test Amplifier class
+	 * Test LayerStorage class
 	 */
 	@Test
 	public void testLayerStorageTest(){
@@ -36,7 +40,7 @@ public class LayerStorageTest {
 		ls.update();
 		
 		assertEquals("Outflow temperature", 293, ls.getOutput("TemperatureOut").getValue(), 0);
-		assertEquals("Thermal Loss",          0, ls.getOutput("PLoss").getValue(), 0);
+		assertEquals("Thermal Loss",        0.0, ls.getOutput("PLoss").getValue(), 1E-9);
 		
 		ls.getInput("TemperatureAmb").setValue(0);
 		ls.getInput("MassFlow").setValue(1);

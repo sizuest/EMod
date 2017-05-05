@@ -94,19 +94,27 @@ public abstract class ASimulationControl {
 
 		stateMap = new EnumMap<MachineState, ComponentState>(MachineState.class);
 		if (name != null) {
+			SimulationConfigReader scr = null;
 			try {
-				SimulationConfigReader scr = null;
-				try {
-					scr = getSimulationConfigReader();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
+				scr = getSimulationConfigReader();
+			}
+			catch(Exception e){
+				for (MachineState ms : MachineState.values())
+					switch(ms){
+						case OFF:
+							stateMap.put(ms, ComponentState.OFF);
+							break;
+						case STANDBY:
+							stateMap.put(ms, ComponentState.STANDBY);
+							break;
+						default:
+							stateMap.put(ms, ComponentState.ON);
+					}
+					
+			}
+			if(null!=scr)
 				for (MachineState ms : MachineState.values())
 					stateMap.put(ms, scr.getComponentState(ms.name()));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 		}
 	}
 

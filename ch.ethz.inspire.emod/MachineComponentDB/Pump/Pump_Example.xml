@@ -8,9 +8,9 @@
 <entry key="DiameterPump">0.1 m</entry>
 <entry key="FlowRateSamples">0.0, 2.5E-4, 5.0E-4, 7.5E-4 m^3/s</entry>
 <entry key="Material">Steel</entry>
-<entry key="PowerSamples">100.0, 210.0, 460.0, 460.0 W</entry>
-<entry key="LengthPump">0.1 m</entry>
 <entry key="MaxTemperatureDifference">25.0 K</entry>
+<entry key="LengthPump">0.1 m</entry>
+<entry key="PowerSamples">100.0, 210.0, 460.0, 460.0 W</entry>
 <entry key="EfficiencySamples">0.0, 0.4, 0.3, 0.0 none</entry>
 <entry key="NumberImpellerEyes">1</entry>
 <entry key="LengthMotor">0.2 m</entry>

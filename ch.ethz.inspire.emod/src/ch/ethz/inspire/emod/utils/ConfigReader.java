@@ -466,7 +466,8 @@ public class ConfigReader {
 	 * @param value
 	 */
 	public void setValue(String name, double value) {
-		props.setProperty(name, Double.toString(value));
+		if(null!=props)
+			props.setProperty(name, Double.toString(value));
 	}
 
 	/**
@@ -489,7 +490,9 @@ public class ConfigReader {
 		String valueAsString = "";
 		for (double v : value)
 			valueAsString += Double.toString(v) + ",";
-		props.setProperty(name, valueAsString);
+		
+		if(null!=props)
+			props.setProperty(name, valueAsString);
 	}
 
 	/**

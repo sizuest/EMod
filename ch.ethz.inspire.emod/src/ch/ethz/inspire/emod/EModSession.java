@@ -207,9 +207,17 @@ public class EModSession {
 	 * @return
 	 */
 	public static String getMachineConfigPath(){
+		 return getMachineConfigDirPath() + File.separator + Defines.MACHINEFILENAME;
+	}
+	
+	/**
+	 * Returns the path of the current machine config directory
+	 * @return
+	 */
+	public static String getMachineConfigDirPath(){
 		return  getRootPath() + File.separator + 
 				Defines.MACHINECONFIGDIR + File.separator +
-				getMachineConfig() + File.separator + Defines.MACHINEFILENAME;
+				getMachineConfig();
 	}
 	
 	/**
@@ -363,8 +371,9 @@ public class EModSession {
 	 */
 	public static void newSession(String machineName, String machineConfig, String simConfig, String processName){
 		
+		getInstance();
 		// Exit library mode
-		setLibrary(false);
+		EModSession.setLibrary(false);
 		EModFileHandling.clearTempPath();
 
 		// create the according folders and files (machine.xml, iolinking.txt)

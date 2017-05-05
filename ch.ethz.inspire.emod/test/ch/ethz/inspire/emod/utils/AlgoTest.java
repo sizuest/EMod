@@ -95,6 +95,9 @@ public class AlgoTest {
 		assertEquals("larger than last item", 9, Algo.findInterval(12, vals));
 	}
 	
+	/**
+	 * Test function for {@link Algo#findRoots(double...)}
+	 */
 	@Test
 	public void testFindRoots(){
 		/* (x+1)*(x-3)*x = x^3 - 2x^2 - 3x
@@ -120,6 +123,9 @@ public class AlgoTest {
 		
 	}
 	
+	/**
+	 * Test function for {@link Algo#findLeastSquares(double[][], double[])}
+	 */
 	@Test
 	public void testLeastSquares(){
 		double[][] H = {{1, 1}, {1, 2}};

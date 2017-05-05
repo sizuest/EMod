@@ -46,7 +46,7 @@ public class SimulationConfigReader extends ConfigReader {
 				+ EModSession.getMachineConfig()
 				+ File.separator;;
 		fileName = type + "_" + component + ".xml";
-		filePath = path + "/" + fileName;
+		filePath = path + fileName;
 
 		ConfigReaderOpen();
 	}

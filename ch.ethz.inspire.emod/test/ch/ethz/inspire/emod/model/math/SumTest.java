@@ -19,8 +19,15 @@ import static org.junit.Assert.assertEquals;
 import ch.ethz.inspire.emod.model.math.Sum;
 import ch.ethz.inspire.emod.model.units.Unit;
 
+/**
+ * @author simon
+ *
+ */
 public class SumTest {
 	
+	/**
+	 * Test function for {@link Sum}
+	 */
 	@Test
 	public void testServoMotor(){
 		Sum s = new Sum(Unit.WATT);

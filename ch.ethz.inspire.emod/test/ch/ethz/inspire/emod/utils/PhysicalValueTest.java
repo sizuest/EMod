@@ -5,9 +5,18 @@ import org.junit.Test;
 import ch.ethz.inspire.emod.model.parameters.PhysicalValue;
 import static org.junit.Assert.assertEquals;
 
-
+/**
+ * 
+ * @author simon
+ *
+ */
 public class PhysicalValueTest {
 	
+	
+	/**
+	 * Test method for {@link ch.ethz.inspire.emod.model.parameters.PhysicalValue}
+	 * @throws Exception
+	 */
 	@Test
 	public void testPhysicalValue() throws Exception{
 		
@@ -48,6 +57,10 @@ public class PhysicalValueTest {
 		
 	}
 	
+	/**
+	 * Test method for the file handling in
+	 * {@link ch.ethz.inspire.emod.model.parameters.PhysicalValue}
+	 */
 	@Test
 	public void rwPhysicalUnit(){
 		PhysicalValue pvF   = new PhysicalValue();
@@ -58,7 +71,7 @@ public class PhysicalValueTest {
 		
 		pvF.set(1.0,  "N");
 		pvV.set(5.0,  "Pa s");
-		pvQ.set( Q, "m³/s");
+		pvQ.set( Q, "m^3/s");
 		
 		System.out.println(pvF.getUnit().toString());
 		System.out.println(pvV.getUnit().toString());
@@ -84,7 +97,7 @@ public class PhysicalValueTest {
 		assertEquals("Unit", "N", pvF.getUnit().toString());
 		
 		assertEquals("Value", 5, pvV.getValue(), 0);
-		assertEquals("Unit", "m^-1 kg s^-1", pvV.getUnit().toString());
+		assertEquals("Unit", "Pas", pvV.getUnit().toString());
 		
 		
 	}

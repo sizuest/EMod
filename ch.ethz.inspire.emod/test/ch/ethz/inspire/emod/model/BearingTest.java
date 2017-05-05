@@ -37,14 +37,14 @@ public class BearingTest {
 		assertEquals("Losses",          0,  b.getOutput("PLoss").getValue(),  0);
 		
 		// Set speed to 42000 rpm and Fa to 944N
-		b.getInput("RotSpeed").setValue(42000);
+		b.getInput("RotSpeed").setValue(700);
 		b.getInput("ForceAxial").setValue(944);
 		
 		b.update();
 		
 		// Reaction force must be zero
-		assertEquals("Friction torque", 0.0888 , b.getOutput("Torque").getValue(), 0.005);
-		assertEquals("Losses",          390,     b.getOutput("PLoss").getValue(),   4);
+		assertEquals("Friction torque", 0.0565 , b.getOutput("Torque").getValue(), 0.005);
+		assertEquals("Losses",          250,     b.getOutput("PLoss").getValue(),   4);
 		
 		
 	}
@@ -65,14 +65,14 @@ public class BearingTest {
 		assertEquals("Losses",          0,  b.getOutput("PLoss").getValue(),  0);
 		
 		// Set speed to 42000 rpm and Fa to 944N
-		b.getInput("RotSpeed").setValue(42000);
+		b.getInput("RotSpeed").setValue(700);
 		b.getInput("ForceAxial").setValue(944);
 		
 		b.update();
 		
 		// Reaction force must be zero
-		assertEquals("Friction torque", 0.0888 , b.getOutput("Torque").getValue(), 0.005);
-		assertEquals("Losses",          390,     b.getOutput("PLoss").getValue(),   4);
+		assertEquals("Friction torque", 0.0265 , b.getOutput("Torque").getValue(), 0.005);
+		assertEquals("Losses",          115,     b.getOutput("PLoss").getValue(),   4);
 		
 		
 	}

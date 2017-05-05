@@ -18,10 +18,14 @@ import static org.junit.Assert.assertEquals;
 
 import ch.ethz.inspire.emod.model.thermal.HomogStorage;
 
+/**
+ * @author simon
+ *
+ */
 public class HomogStorageTest {
 	
 	/**
-	 * Test Amplifier class
+	 * Test HomogStorage class
 	 */
 	@Test
 	public void testHomogStorage(){

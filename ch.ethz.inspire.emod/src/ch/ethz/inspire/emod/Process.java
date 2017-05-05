@@ -50,14 +50,8 @@ public class Process extends ConfigReader {
 	 * 
 	 */
 	public static void loadProcess(String name) {
-		String path = EModSession.getRootPath()
-				+ File.separator
-				+ Defines.SIMULATIONCONFIGDIR 
-				+ File.separator
-				+ EModSession.getSimulationConfig();
 
-		getInstance().filePath = path + "/" + Defines.PROCESSDEFFILE_PREFIX
-				+ name + ".xml";
+		getInstance().filePath = EModSession.getProcessConfigPath();
 
 		try {
 			getInstance().ConfigReaderOpen();
@@ -364,8 +358,7 @@ public class Process extends ConfigReader {
 		// All ok
 		getInstance().setValue("Time", time);
 
-		getInstance().setValue("SamplePeriod",
-				Algo.greatestCommonDivisor(Algo.getIncrements(time)));
+		getInstance().setValue("SamplePeriod", Algo.greatestCommonDivisor(Algo.getIncrements(time)));
 
 		getInstance().bufferedTime = null;
 

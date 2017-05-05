@@ -58,6 +58,15 @@ public class PropertiesHandler {
 	 * @param value
 	 */
 	public static void setProperty(String property, String value) {
+		
+		if(null==prop)
+			try {
+				new PropertiesHandler();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+				return;
+			}
+		
 		prop.setProperty(property, value);
 
 		OutputStream os = null;

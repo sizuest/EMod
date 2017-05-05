@@ -18,8 +18,15 @@ import org.junit.Test;
 
 import ch.ethz.inspire.emod.model.material.Material;
 
+/**
+ * @author simon
+ *
+ */
 public class FluidTest {
 	
+	/**
+	 * Test {@link Fluid#pressureLossFrictionPipe(Material, double, double, ch.ethz.inspire.emod.dd.model.AHydraulicProfile, double, double)}
+	 */
 	@Test
 	public void testFriction(){
 		/* Test set-up
@@ -42,6 +49,9 @@ public class FluidTest {
 		assertEquals("Pressure loss", 0.038*1000*L/D/2*Math.pow(Q/(Math.pow(D, 2)/4*Math.PI),2), dp, 0.002*1000*L/D/2*Math.pow(Q/(Math.pow(D, 2)/4*Math.PI),2));
 	}
 	
+	/**
+	 * Test {@link Fluid#convectionForcedPipe(Material, double, double, double, double)}
+	 */
 	@Test
 	public void testConvectionForcedPipe(){
 		/* Test set-up (from VDI Wärmeatlas

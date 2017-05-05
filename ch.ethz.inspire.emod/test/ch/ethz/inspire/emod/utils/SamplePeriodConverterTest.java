@@ -23,7 +23,7 @@ import org.junit.Test;
 public class SamplePeriodConverterTest {
 
 	/**
-	 * Test method for {@link ch.ethz.inspire.emod.utils.SamplePeriodConverter#convertSamples(double, double, double[])}.
+	 * Test method for {@link ch.ethz.inspire.emod.utils.SamplePeriodConverter#convertSamples(double, double, double[], boolean)}.
 	 */
 	@Test
 	public void testConvertSamples() {

@@ -20,8 +20,15 @@ import ch.ethz.inspire.emod.model.math.Gain;
 import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.model.units.Unit;
 
+/**
+ * @author simon
+ *
+ */
 public class GainTest {
 	
+	/**
+	 * Test function for {@link Gain}
+	 */
 	@Test
 	public void testGain(){
 		Gain g = new Gain(new SiUnit(Unit.WATT), 3);
