@@ -15,13 +15,17 @@ package ch.ethz.inspire.emod.model;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import ch.ethz.inspire.emod.model.Pipe;
 import ch.ethz.inspire.emod.utils.FluidConnection;
-import ch.ethz.inspire.emod.utils.FluidContainer;
 
+/**
+ * @author Simon Züst
+ *
+ */
 public class PipeTest {
 	
+	/**
+	 * @throws Exception
+	 */
 	@Test
 	public void testPipeConnection() throws Exception{
 		Pipe pip1 = new Pipe("Example", 303, "Example");

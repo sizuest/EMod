@@ -18,6 +18,10 @@ import static org.junit.Assert.assertEquals;
 
 import ch.ethz.inspire.emod.model.Valve;
 
+/**
+ * @author Simon Züst
+ *
+ */
 public class ValveTest {
 	
 	/**
@@ -28,16 +32,11 @@ public class ValveTest {
 		Valve val = new Valve("Example");
 		
 		// TODO
-		
-		val.getInput("PressureOut").setValue(200000);
-		val.getInput("MassFlowOut").setValue(0.25);
+		val.getFluidPropertiesList().get(0).setFlowRatesIn(new double[]{.25/1000});
+		val.getInput("ValveCtrl").setValue(1);
 		val.update();
 		
-		assertEquals("PressureLoss", 350000, val.getOutput("PressureLoss").getValue(), 30000);
-		assertEquals("Ploss",        87.5,   val.getOutput("PLoss").getValue(),        0.1);
-		assertEquals("MassFlow",     0.25,   val.getOutput("MassFlowIn").getValue(),   0.1);
-		assertEquals("PressureIn",   550000, val.getOutput("PressureIn").getValue(),   30000);
-		
+		assertEquals("PressureLoss", 312500, val.getPressure(val.getFluidPropertiesList().get(0).getFlowRate()), 30000);		
 	}
 
 }

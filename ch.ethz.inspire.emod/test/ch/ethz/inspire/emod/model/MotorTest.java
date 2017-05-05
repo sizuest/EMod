@@ -18,6 +18,10 @@ import static org.junit.Assert.assertEquals;
 
 import ch.ethz.inspire.emod.model.Motor;
 
+/**
+ * @author Simon Züst
+ *
+ */
 public class MotorTest {
 
 	/**
@@ -49,6 +53,9 @@ public class MotorTest {
 	}
 	
 	
+	/**
+	 * 
+	 */
 	@Test
 	public void testKesslerMotor(){
 		Motor moto = new Motor("Kessler_000101561");

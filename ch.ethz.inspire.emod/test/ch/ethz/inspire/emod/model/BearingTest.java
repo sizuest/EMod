@@ -16,6 +16,10 @@ package ch.ethz.inspire.emod.model;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
+/**
+ * @author Simon Züst
+ *
+ */
 public class BearingTest {
 	
 	/**
@@ -49,6 +53,9 @@ public class BearingTest {
 		
 	}
 	
+	/**
+	 * 
+	 */
 	@Test
 	public void testBearing2(){
 		Bearing b = new Bearing("SKF-7009");

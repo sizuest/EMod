@@ -2,8 +2,15 @@ package ch.ethz.inspire.emod.model;
 
 import org.junit.Test;
 
+/**
+ * @author Simon Züst
+ *
+ */
 public class TankTest {
 	
+	/**
+	 * 
+	 */
 	@Test
 	public void testCreateTank(){
 		Tank tank1 = new Tank("Example");
@@ -15,6 +22,9 @@ public class TankTest {
 		System.out.println(tank2.getVolume());
 	}
 	
+	/**
+	 * 
+	 */
 	@Test
 	public void testTank(){
 		//create new Tank of Type Schaublin42L
@@ -30,22 +40,6 @@ public class TankTest {
 		for(int i=0; i<60; i++){
 			tank1.update();
 			//tank1.getFluid().toString();
-		}
-	}
-	
-	@Test
-	public void testTank2(){
-		//create new Tank with 1m^3
-		Tank tank = new Tank("Test",293);
-		tank.setSimulationTimestep(10);
-		tank.getInput("TemperatureAmb").setValue(293);
-		
-
-		
-		//tank.getInput("HeatFlowIn").setValue(1);
-		
-		for(int i=0; i<10000; i++){
-			tank.update();
 		}
 	}
 }

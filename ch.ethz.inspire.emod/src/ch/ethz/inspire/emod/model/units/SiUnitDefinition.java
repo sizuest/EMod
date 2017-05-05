@@ -120,7 +120,7 @@ public class SiUnitDefinition {
 		convMap.put("Wb", (new SiUnit("m^2 kg s^-2 A^-1")));
 		convMap.put("T", (new SiUnit("kg s^-2 A^-1")));
 		convMap.put("H", (new SiUnit("m^2 kg s^-2 A^-2")));
-		convMap.put("Â°C", (new SiUnit("K")));
+		convMap.put("°C", (new SiUnit("K")));
 		convMap.put("lm", (new SiUnit("cd")));
 		convMap.put("lx", (new SiUnit("m^-2 cd")));
 		// convMap.put("Bq", (new SiUnit("s^-1")));
@@ -228,6 +228,7 @@ public class SiUnitDefinition {
 			return new SiUnit();
 		}
 		
+		
 		s.replace(" ", "");
 		
 		double[] exp = { 0, 0, 0, 0, 0, 0, 0 };
@@ -236,6 +237,9 @@ public class SiUnitDefinition {
 		double expOut = 1;
 
 		String subUnit;
+		
+		if(null!=getInstance().convMap.get(s))
+			return getInstance().convMap.get(s);
 
 		// Search for numbers
 		Pattern p = Pattern.compile(getInstance().getRegexPattern());

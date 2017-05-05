@@ -13,6 +13,7 @@
 
 package ch.ethz.inspire.emod.utils;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -72,6 +73,12 @@ public class ConfigReader {
 		 */
 		
 		InputStream iostream;
+		
+		File file = new File(filePath);
+		if(!(file.exists()))
+			file.createNewFile();
+		
+		
 		try {
 			iostream = new FileInputStream(filePath);
 		} catch (Exception e) {
@@ -177,7 +184,8 @@ public class ConfigReader {
 		}
 
 		value = parseDoubleArray(valstr.replaceFirst("[a-df-zA-DF-Z].*$", ""));
-		unit = valstr.replaceFirst("(([-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?)[,;]?)+","");
+		//unit = valstr.replaceFirst("(([-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?)[,;]?)+","");
+		unit = valstr.replace(valstr.replaceFirst("[a-df-zA-DF-Z].*$", ""), "");
 
 		out.set(value, unit);
 

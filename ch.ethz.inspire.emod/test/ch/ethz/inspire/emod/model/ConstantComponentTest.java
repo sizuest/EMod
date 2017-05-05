@@ -17,6 +17,10 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+/**
+ * @author Simon Züst
+ *
+ */
 public class ConstantComponentTest {
 
 	/**

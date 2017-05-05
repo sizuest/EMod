@@ -18,6 +18,10 @@ import static org.junit.Assert.assertEquals;
 
 import ch.ethz.inspire.emod.model.CompressedFluid;
 
+/**
+ * @author Simon Züst
+ *
+ */
 public class CompressedFluidTest {
 	
 	/**

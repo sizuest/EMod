@@ -15,8 +15,6 @@ package ch.ethz.inspire.emod.model;
 
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import ch.ethz.inspire.emod.model.HydraulicAccumulator;
 import ch.ethz.inspire.emod.model.material.Material;
 

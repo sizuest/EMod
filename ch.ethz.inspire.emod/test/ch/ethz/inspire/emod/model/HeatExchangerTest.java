@@ -18,6 +18,10 @@ import static org.junit.Assert.assertEquals;
 
 import ch.ethz.inspire.emod.model.Cooler;;
 
+/**
+ * @author Simon Züst
+ *
+ */
 public class HeatExchangerTest {
 	
 	/**
@@ -36,6 +40,9 @@ public class HeatExchangerTest {
 		
 	}
 	
+	/**
+	 * 
+	 */
 	@Test
 	public void testHeatExchangerOn(){
 		Cooler element = new Cooler("Example");

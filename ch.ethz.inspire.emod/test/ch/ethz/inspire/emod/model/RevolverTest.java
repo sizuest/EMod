@@ -18,8 +18,15 @@ import static org.junit.Assert.assertEquals;
 
 import ch.ethz.inspire.emod.model.Revolver;
 
+/**
+ * @author Simon Züst
+ *
+ */
 public class RevolverTest {
 	
+	/**
+	 * 
+	 */
 	@Test
 	public void testRevolver(){
 		Revolver rev = new Revolver("Example");

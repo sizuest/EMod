@@ -18,6 +18,10 @@ import static org.junit.Assert.assertEquals;
 
 import ch.ethz.inspire.emod.model.Fan;
 
+/**
+ * @author Simon Züst
+ *
+ */
 public class FanTest {
 	
 	/**
@@ -37,6 +41,9 @@ public class FanTest {
 		assertEquals("Mass flow", 0, fan.getOutput("MassFlow").getValue(), 0);
 	}
 	
+	/**
+	 * 
+	 */
 	@Test
 	public void testFanNominal(){
 		Fan fan = new Fan("Example");
@@ -51,6 +58,9 @@ public class FanTest {
 		assertEquals("Mass flow", 0.5*1.2 , fan.getOutput("MassFlow").getValue(), 0);
 	}
 	
+	/**
+	 * 
+	 */
 	@Test
 	public void testFanDemandCtrl(){
 		Fan fan = new Fan("Example");
