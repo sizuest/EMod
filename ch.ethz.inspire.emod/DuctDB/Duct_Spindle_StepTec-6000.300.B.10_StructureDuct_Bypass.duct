@@ -3,8 +3,7 @@
     <material>
         <type>GlykolWater_30</type>
     </material>
-    <name>Spindle_StepTec-6000.300.B.10_StructureDuct</name>
-    <history/>
+    <name>Duct_Spindle_StepTec-6000.300.B.10_StructureDuct_Bypass.duct</name>
     <elements>
         <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <heatSource>NaN</heatSource>
@@ -46,7 +45,6 @@
                     <type>GlykolWater_30</type>
                 </material>
                 <name>null: 1</name>
-                <history/>
                 <elements>
                     <elements xsi:type="ductDrilling">
                         <heatSource>NaN</heatSource>
@@ -61,7 +59,7 @@
                     <elements xsi:type="ductElbowFitting">
                         <heatSource>NaN</heatSource>
                         <wallTemperature>NaN</wallTemperature>
-                        <name>Lagerkühlung Einlass</name>
+                        <name>Lagerkuehlung Einlass</name>
                         <profile xsi:type="hpCircular">
                             <radius>0.0025</radius>
                         </profile>
@@ -82,7 +80,7 @@
                             <thickness>0.011</thickness>
                             <type>Steel</type>
                         </isolation>
-                        <name>Lagerkühlung I</name>
+                        <name>Lagerkuehlung I</name>
                         <profile xsi:type="hpRectangular">
                             <height>0.0115</height>
                             <width>0.003</width>
@@ -100,7 +98,7 @@
                     <elements xsi:type="ductDrilling">
                         <heatSource>NaN</heatSource>
                         <wallTemperature>NaN</wallTemperature>
-                        <name>Lagerkühlung Verbindung</name>
+                        <name>Lagerkuehlung Verbindung</name>
                         <profile xsi:type="hpRectangular">
                             <height>0.003</height>
                             <width>0.015</width>
@@ -123,7 +121,7 @@
                             <thickness>0.011</thickness>
                             <type>Steel</type>
                         </isolation>
-                        <name>Lagerkühlung II</name>
+                        <name>Lagerkuehlung II</name>
                         <profile xsi:type="hpRectangular">
                             <height>0.0115</height>
                             <width>0.003</width>
@@ -141,7 +139,7 @@
                     <elements xsi:type="ductElbowFitting">
                         <heatSource>NaN</heatSource>
                         <wallTemperature>NaN</wallTemperature>
-                        <name>Lagerkühlung Auslass</name>
+                        <name>Lagerkuehlung Auslass</name>
                         <profile xsi:type="hpCircular">
                             <radius>0.0025</radius>
                         </profile>
@@ -168,7 +166,7 @@
                     <elements xsi:type="ductElbowFitting">
                         <heatSource>NaN</heatSource>
                         <wallTemperature>NaN</wallTemperature>
-                        <name>Statorendkühlung Einlass</name>
+                        <name>Statorendkuehlung Einlass</name>
                         <profile xsi:type="hpCircular">
                             <radius>0.00225</radius>
                         </profile>
@@ -185,7 +183,7 @@
                     <elements xsi:type="ductHelix">
                         <heatSource>NaN</heatSource>
                         <wallTemperature>NaN</wallTemperature>
-                        <name>Statorendkühlung I</name>
+                        <name>Statorendkuehlung I</name>
                         <profile xsi:type="hpRectangular">
                             <height>0.0048</height>
                             <width>0.0065</width>
@@ -197,7 +195,7 @@
                     <elements xsi:type="ductElbowFitting">
                         <heatSource>NaN</heatSource>
                         <wallTemperature>NaN</wallTemperature>
-                        <name>Statorendkühlung Übergang I</name>
+                        <name>Statorendkuehlung Uebergang I</name>
                         <profile xsi:type="hpRectangular">
                             <height>0.0048</height>
                             <width>0.0065</width>
@@ -207,7 +205,7 @@
                     <elements xsi:type="ductElbowFitting">
                         <heatSource>NaN</heatSource>
                         <wallTemperature>NaN</wallTemperature>
-                        <name>Statorendkühlung Übergang II</name>
+                        <name>Statorendkuehlung Uebergang II</name>
                         <profile xsi:type="hpRectangular">
                             <height>0.0048</height>
                             <width>0.0065</width>
@@ -217,7 +215,7 @@
                     <elements xsi:type="ductHelix">
                         <heatSource>NaN</heatSource>
                         <wallTemperature>NaN</wallTemperature>
-                        <name>Statorendkühlung II</name>
+                        <name>Statorendkuehlung II</name>
                         <profile xsi:type="hpRectangular">
                             <height>0.0048</height>
                             <width>0.0065</width>
@@ -237,7 +235,7 @@
                     <elements xsi:type="ductElbowFitting">
                         <heatSource>NaN</heatSource>
                         <wallTemperature>NaN</wallTemperature>
-                        <name>Statorendkühlung Übergang III</name>
+                        <name>Statorendkuehlung Uebergang III</name>
                         <profile xsi:type="hpRectangular">
                             <height>0.003</height>
                             <width>0.011</width>
@@ -255,7 +253,7 @@
                     <elements xsi:type="ductFlowAround">
                         <heatSource>NaN</heatSource>
                         <wallTemperature>NaN</wallTemperature>
-                        <name>Statorendkühlung III</name>
+                        <name>Statorendkuehlung III</name>
                         <profile xsi:type="hpRectangular">
                             <height>0.015</height>
                             <width>0.003</width>
@@ -273,7 +271,7 @@
                     <elements xsi:type="ductElbowFitting">
                         <heatSource>NaN</heatSource>
                         <wallTemperature>NaN</wallTemperature>
-                        <name>Statorkühlung Einlass</name>
+                        <name>Statorkuehlung Einlass</name>
                         <profile xsi:type="hpRectangular">
                             <height>0.011</height>
                             <width>0.003</width>
@@ -287,7 +285,7 @@
                             <thickness>0.0235</thickness>
                             <type>Steel</type>
                         </isolation>
-                        <name>Statorkühlung</name>
+                        <name>Statorkuehlung</name>
                         <profile xsi:type="hpRectangular">
                             <height>0.011</height>
                             <width>0.003</width>
@@ -307,7 +305,7 @@
                     <elements xsi:type="ductElbowFitting">
                         <heatSource>NaN</heatSource>
                         <wallTemperature>NaN</wallTemperature>
-                        <name>Statorkühlung Auslass</name>
+                        <name>Statorkuehlung Auslass</name>
                         <profile xsi:type="hpCircular">
                             <radius>0.0025</radius>
                         </profile>
@@ -330,7 +328,6 @@
                     <type>GlykolWater_30</type>
                 </material>
                 <name>null: 2</name>
-                <history/>
                 <elements>
                     <elements xsi:type="ductPipe">
                         <heatSource>NaN</heatSource>
@@ -349,7 +346,7 @@
                     <elements xsi:type="ductElbowFitting">
                         <heatSource>NaN</heatSource>
                         <wallTemperature>NaN</wallTemperature>
-                        <name>Lagerkühlung oben Einlass</name>
+                        <name>Lagerkuehlung oben Einlass</name>
                         <profile xsi:type="hpCircular">
                             <radius>0.001</radius>
                         </profile>
@@ -370,7 +367,7 @@
                             <thickness>0.0055</thickness>
                             <type>Steel</type>
                         </isolation>
-                        <name>Lagerkühlung oben</name>
+                        <name>Lagerkuehlung oben</name>
                         <profile xsi:type="hpRectangular">
                             <height>0.004</height>
                             <width>0.005</width>
@@ -388,7 +385,7 @@
                     <elements xsi:type="ductElbowFitting">
                         <heatSource>NaN</heatSource>
                         <wallTemperature>NaN</wallTemperature>
-                        <name>Lagerkühlung oben Auslass</name>
+                        <name>Lagerkuehlung oben Auslass</name>
                         <profile xsi:type="hpCircular">
                             <radius>0.001</radius>
                         </profile>
@@ -401,7 +398,7 @@
                             <thickness>0.001</thickness>
                             <type>PUR</type>
                         </isolation>
-                        <name>Rücklauf</name>
+                        <name>Ruecklauf</name>
                         <profile xsi:type="hpCircular">
                             <radius>0.001</radius>
                         </profile>

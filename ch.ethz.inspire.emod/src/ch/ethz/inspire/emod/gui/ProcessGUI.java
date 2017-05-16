@@ -67,8 +67,7 @@ public class ProcessGUI extends AConfigGUI {
 		tableProcessParam.setHeaderVisible(true);
 
 		try {
-			TableUtils.addCellEditor(tableProcessParam,
-					AConfigGUI.class.getDeclaredMethod("wasEdited"), this);
+			TableUtils.addCellEditor(tableProcessParam, this, null);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -138,6 +137,34 @@ public class ProcessGUI extends AConfigGUI {
 
 		update();
 	}
+	
+	@Override
+	public void wasEdited(){
+		super.wasEdited();
+		
+		addEmptyLine();
+	}
+	
+	/**
+	 * Checks if the last line is empty, if not, an empty
+	 * line is added
+	 */
+	private void addEmptyLine(){
+		
+		if(0>=tableProcessParam.getItemCount()){
+			new TableItem(tableProcessParam, SWT.NONE);
+			return;
+		}
+		
+		TableItem lastItem = tableProcessParam.getItem(tableProcessParam.getItemCount()-1);
+		
+		for(int i=0; i<tableProcessParam.getColumnCount(); i++){
+			if(!lastItem.getText().equals("")){
+				new TableItem(tableProcessParam, SWT.NONE);
+				return;
+			}
+		}
+	}
 
 	@Override
 	public void reset() {
@@ -165,7 +192,7 @@ public class ProcessGUI extends AConfigGUI {
 							tc.dispose();
 
 						TableColumn column = new TableColumn(tableProcessParam, SWT.NULL);
-						column.setText(LocalizationHandler.getItem("app.gui.sim.inputs.time"));
+						column.setText(LocalizationHandler.getItem("app.gui.sim.inputs.time")+" [s]");
 
 						/*
 						 * Fill the table We have two sources - Process file:
@@ -217,7 +244,7 @@ public class ProcessGUI extends AConfigGUI {
 						}
 
 						// Add empty entry
-						new TableItem(tableProcessParam, SWT.NONE);
+						addEmptyLine();
 
 						EModStatusBarGUI.getProgressBar().setText( "Loading process file ...");
 						EModStatusBarGUI.getProgressBar().updateProgressbar(0, false);

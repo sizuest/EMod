@@ -16,12 +16,6 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.CopyOption;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,7 +79,6 @@ import ch.ethz.inspire.emod.utils.Defines;
 import ch.ethz.inspire.emod.utils.IOConnection;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
-import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 /**
  * @author sizuest
@@ -483,30 +476,6 @@ public class ModelGraphGUI extends AGUITab implements IGraphEditable{
 				if (string.contains("SimulationControl")) {
 					// create new simulation control
 					System.out.println("simulationcontrol " + string);
-
-//					final String path = PropertiesHandler.getProperty("app.MachineComponentDBPathPrefix")+ "/";
-//					Path source = Paths.get(path + "/SimulationControl/"
-//							+ string + "_Example.xml");
-//					Path target = Paths.get(
-//							PropertiesHandler
-//									.getProperty("app.MachineDataPathPrefix")
-//									+ "/"
-//									+ PropertiesHandler
-//											.getProperty("sim.MachineName")
-//									+ "/"
-//									+ "MachineConfig/"
-//									+ PropertiesHandler
-//											.getProperty("sim.MachineConfigName")
-//									+ "/", string + "_" + string + ".xml");
-//					// overwrite existing file, if exists
-//					CopyOption[] options = new CopyOption[] {
-//							StandardCopyOption.REPLACE_EXISTING,
-//							StandardCopyOption.COPY_ATTRIBUTES };
-//					try {
-//						Files.copy(source, target, options);
-//					} catch (IOException e) {
-//						e.printStackTrace();
-//					}
 
 					final ASimulationControl sc = Machine.addNewInputObject(
 							string, new SiUnit(Unit.NONE));

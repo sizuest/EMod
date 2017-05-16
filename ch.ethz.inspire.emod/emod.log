@@ -1,110 +1,354 @@
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected double ch.ethz.inspire.emod.model.MovingMass.inertia
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected double ch.ethz.inspire.emod.model.MovingMass.angle
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected double ch.ethz.inspire.emod.model.MovingMass.lever
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.Bearing.type
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.Bearing.type
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:20 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.Spindle.type
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.Spindle.type
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:20 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.Tank.type
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:20 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.Tank.type
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:20 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.Pump.type
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:20 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.Pump.type
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:20 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.ForcedFluidFlow.type
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:20 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.ForcedFluidFlow.type
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:20 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.control.HysteresisControl.type
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:20 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.control.HysteresisControl.type
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:20 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.control.SwitchControl.signalUnit
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:20 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.control.SwitchControl.signalUnit
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:20 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.control.SwitchControl.controlUnit
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:20 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.control.SwitchControl.controlUnit
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:20 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected double ch.ethz.inspire.emod.model.control.SwitchControl.threshold
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:20 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected boolean ch.ethz.inspire.emod.model.control.SwitchControl.passHigh
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:20 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.math.Sum.unit
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:20 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.math.Sum.unit
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:20 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.math.Gain.unit
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:20 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.math.Gain.unit
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:20 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected double ch.ethz.inspire.emod.model.math.Gain.gain
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:20 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.thermal.HomogStorage.name
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:20 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.thermal.HomogStorage.name
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:20 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.thermal.HomogStorage.type
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:20 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.thermal.HomogStorage.type
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:21 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.thermal.HomogStorage.parentType
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:21 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.thermal.HomogStorage.parentType
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:21 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.thermal.LayerStorage.type
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:21 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.thermal.LayerStorage.type
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:21 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.thermal.LayerStorage.parentType
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:21 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.thermal.LayerStorage.parentType
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:21 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.thermal.ForcedHeatTransfere.type
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:21 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.thermal.ForcedHeatTransfere.type
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:21 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.thermal.ForcedHeatTransfere.parentType
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:21 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.thermal.ForcedHeatTransfere.parentType
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:21 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.thermal.FreeHeatTransfere.type
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:21 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.thermal.FreeHeatTransfere.type
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:21 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.thermal.FreeHeatTransfere.parentType
-Mai 05, 2017 2:41:54 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
+Mai 16, 2017 5:59:21 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
 FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.thermal.FreeHeatTransfere.parentType
-Mai 05, 2017 2:41:55 PM  
+Mai 16, 2017 5:59:21 PM  
 INFORMATION: No state map existing: Creating empty state map
-Mai 05, 2017 2:41:55 PM ch.ethz.inspire.emod.States saveStatesToFile
+Mai 16, 2017 5:59:21 PM ch.ethz.inspire.emod.States saveStatesToFile
 INFORMATION: Saving machine state sequence to file: Temp/NewMachine/SimulationConfig/SimConfig1/MachineStateSequence.txt
-Mai 05, 2017 2:41:55 PM ch.ethz.inspire.emod.EModMain <init>
+Mai 16, 2017 5:59:21 PM ch.ethz.inspire.emod.EModMain <init>
 INFORMATION: Start EModMain
-Mai 05, 2017 2:41:55 PM ch.ethz.inspire.emod.EModMain main
+Mai 16, 2017 5:59:21 PM ch.ethz.inspire.emod.EModMain main
 INFORMATION: EModMain called EModGUI
-Mai 05, 2017 2:41:55 PM ch.ethz.inspire.emod.gui.EModGUI <init>
+Mai 16, 2017 5:59:21 PM ch.ethz.inspire.emod.gui.EModGUI <init>
 DEBUG: init menu
-Mai 05, 2017 2:41:56 PM ch.ethz.inspire.emod.gui.EModGUI <init>
+Mai 16, 2017 5:59:21 PM ch.ethz.inspire.emod.gui.EModGUI <init>
 DEBUG: init tabs
-Mai 05, 2017 2:41:56 PM ch.ethz.inspire.emod.States readStatesFromFile
+Mai 16, 2017 5:59:21 PM ch.ethz.inspire.emod.States readStatesFromFile
 INFORMATION: Read machine state sequence from file: Temp\NewMachine\SimulationConfig\SimConfig1\MachineStateSequence.txt
-Mai 05, 2017 2:41:57 PM sun.awt.windows.WToolkit <clinit>
+Mai 16, 2017 5:59:23 PM sun.awt.windows.WToolkit <clinit>
 FEIN: Win version: 0x3839000a = 943259658 (Windows Vista)
-Mai 05, 2017 2:42:01 PM  
+Mai 16, 2017 5:59:24 PM ch.ethz.inspire.emod.gui.EModGUI$1 widgetSelected
+DEBUG: tabAnalysis selected
+Mai 16, 2017 5:59:24 PM  
+INFORMATION: tab Analysis selected
+Mai 16, 2017 5:59:24 PM ch.ethz.inspire.emod.gui.EModGUI$1 widgetSelected
+DEBUG: updating analysis tabs
+Mai 16, 2017 5:59:24 PM ch.ethz.inspire.emod.gui.AEvaluationGUI$1$1 run
+INFORMATION: reading simulation data from file 'Temp\NewMachine\Results\MdlConfig1_SimConfig1_default.dat'
+Mai 16, 2017 5:59:24 PM  
+SCHWERWIEGEND: Result file Temp\NewMachine\Results\MdlConfig1_SimConfig1_default.dat is non existent
+Mai 16, 2017 5:59:25 PM ch.ethz.inspire.emod.gui.EModGUI$1 widgetSelected
+DEBUG: tabSimulation selected
+Mai 16, 2017 5:59:25 PM  
+INFORMATION: tab Simulation selected
+Mai 16, 2017 5:59:25 PM ch.ethz.inspire.emod.States readStatesFromFile
+INFORMATION: Read machine state sequence from file: Temp\NewMachine\SimulationConfig\SimConfig1\MachineStateSequence.txt
+Mai 16, 2017 5:59:25 PM ch.ethz.inspire.emod.gui.EModGUI$1 widgetSelected
+DEBUG: updating simulation configuration tabs
+Mai 16, 2017 5:59:29 PM  
+SCHWERWIEGEND: java.lang.Exception: No property 'Time' found in 'Temp\NewMachine\SimulationConfig\SimConfig1\process_default'!
+Mai 16, 2017 5:59:29 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.utils.ConfigReader.getDoubleArray(ConfigReader.java:331)
+Mai 16, 2017 5:59:29 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.Process.getTime(Process.java:330)
+Mai 16, 2017 5:59:29 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.Process.getNumberOfTimeStamps(Process.java:306)
+Mai 16, 2017 5:59:29 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.ProcessGUI$1$1.run(ProcessGUI.java:226)
+Mai 16, 2017 5:59:29 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.RunnableLock.run(Unknown Source)
+Mai 16, 2017 5:59:29 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Unknown Source)
+Mai 16, 2017 5:59:29 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.runAsyncMessages(Unknown Source)
+Mai 16, 2017 5:59:29 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.readAndDispatch(Unknown Source)
+Mai 16, 2017 5:59:29 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.EModGUI.<init>(EModGUI.java:129)
+Mai 16, 2017 5:59:29 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.EModMain.main(EModMain.java:97)
+Mai 16, 2017 5:59:29 PM  
+SCHWERWIEGEND: java.lang.Exception: No property 'Time' found in 'Temp\NewMachine\SimulationConfig\SimConfig1\process_default'!
+Mai 16, 2017 5:59:29 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.utils.ConfigReader.getDoubleArray(ConfigReader.java:331)
+Mai 16, 2017 5:59:29 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.Process.getTime(Process.java:330)
+Mai 16, 2017 5:59:29 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.Process.getNumberOfTimeStamps(Process.java:306)
+Mai 16, 2017 5:59:29 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.ProcessGUI$1$1.run(ProcessGUI.java:229)
+Mai 16, 2017 5:59:29 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.RunnableLock.run(Unknown Source)
+Mai 16, 2017 5:59:29 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Unknown Source)
+Mai 16, 2017 5:59:29 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.runAsyncMessages(Unknown Source)
+Mai 16, 2017 5:59:29 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.readAndDispatch(Unknown Source)
+Mai 16, 2017 5:59:29 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.EModGUI.<init>(EModGUI.java:129)
+Mai 16, 2017 5:59:29 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.EModMain.main(EModMain.java:97)
+Mai 16, 2017 5:59:55 PM  
+SCHWERWIEGEND: java.lang.reflect.InvocationTargetException
+Mai 16, 2017 5:59:55 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+Mai 16, 2017 5:59:55 PM  
+SCHWERWIEGEND: 	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+Mai 16, 2017 5:59:55 PM  
+SCHWERWIEGEND: 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+Mai 16, 2017 5:59:55 PM  
+SCHWERWIEGEND: 	at java.lang.reflect.Method.invoke(Unknown Source)
+Mai 16, 2017 5:59:55 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.utils.TableUtils$1$1.widgetDisposed(TableUtils.java:110)
+Mai 16, 2017 5:59:55 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.TypedListener.handleEvent(Unknown Source)
+Mai 16, 2017 5:59:55 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.EventTable.sendEvent(Unknown Source)
+Mai 16, 2017 5:59:55 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Widget.sendEvent(Unknown Source)
+Mai 16, 2017 5:59:55 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Widget.sendEvent(Unknown Source)
+Mai 16, 2017 5:59:55 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Widget.sendEvent(Unknown Source)
+Mai 16, 2017 5:59:55 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Widget.release(Unknown Source)
+Mai 16, 2017 5:59:55 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Widget.dispose(Unknown Source)
+Mai 16, 2017 5:59:55 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.utils.ParameterEditor$1.focusLost(ParameterEditor.java:160)
+Mai 16, 2017 5:59:55 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.TypedListener.handleEvent(Unknown Source)
+Mai 16, 2017 5:59:55 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.EventTable.sendEvent(Unknown Source)
+Mai 16, 2017 5:59:55 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Widget.sendEvent(Unknown Source)
+Mai 16, 2017 5:59:55 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Widget.sendEvent(Unknown Source)
+Mai 16, 2017 5:59:55 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Widget.sendEvent(Unknown Source)
+Mai 16, 2017 5:59:55 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Control.sendFocusEvent(Unknown Source)
+Mai 16, 2017 5:59:55 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Widget.wmKillFocus(Unknown Source)
+Mai 16, 2017 5:59:55 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Control.WM_KILLFOCUS(Unknown Source)
+Mai 16, 2017 5:59:55 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Control.windowProc(Unknown Source)
+Mai 16, 2017 5:59:55 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Text.windowProc(Unknown Source)
+Mai 16, 2017 5:59:55 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.windowProc(Unknown Source)
+Mai 16, 2017 5:59:56 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.internal.win32.OS.SetFocus(Native Method)
+Mai 16, 2017 5:59:56 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Table.sendMouseDownEvent(Unknown Source)
+Mai 16, 2017 5:59:56 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Table.WM_LBUTTONDOWN(Unknown Source)
+Mai 16, 2017 5:59:56 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Control.windowProc(Unknown Source)
+Mai 16, 2017 5:59:56 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Table.windowProc(Unknown Source)
+Mai 16, 2017 5:59:56 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.windowProc(Unknown Source)
+Mai 16, 2017 5:59:56 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.internal.win32.OS.DispatchMessageW(Native Method)
+Mai 16, 2017 5:59:56 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.internal.win32.OS.DispatchMessage(Unknown Source)
+Mai 16, 2017 5:59:56 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.readAndDispatch(Unknown Source)
+Mai 16, 2017 5:59:56 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.EModGUI.<init>(EModGUI.java:129)
+Mai 16, 2017 5:59:56 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.EModMain.main(EModMain.java:97)
+Mai 16, 2017 5:59:56 PM  
+SCHWERWIEGEND: Caused by: java.lang.IllegalArgumentException: Index out of bounds
+Mai 16, 2017 5:59:56 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.SWT.error(Unknown Source)
+Mai 16, 2017 5:59:56 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.SWT.error(Unknown Source)
+Mai 16, 2017 5:59:56 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.SWT.error(Unknown Source)
+Mai 16, 2017 5:59:56 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Widget.error(Unknown Source)
+Mai 16, 2017 5:59:56 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Table.getItem(Unknown Source)
+Mai 16, 2017 5:59:56 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.ProcessGUI.addEmptyLine(ProcessGUI.java:159)
+Mai 16, 2017 5:59:56 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.ProcessGUI.wasEdited(ProcessGUI.java:145)
+Mai 16, 2017 5:59:56 PM  
+SCHWERWIEGEND: 	... 35 more
+Mai 16, 2017 6:00:27 PM  
+SCHWERWIEGEND: java.lang.Exception: No property 'Time' found in 'Temp\NewMachine\SimulationConfig\SimConfig1\process_default'!
+Mai 16, 2017 6:00:27 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.utils.ConfigReader.getDoubleArray(ConfigReader.java:331)
+Mai 16, 2017 6:00:27 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.Process.getTime(Process.java:330)
+Mai 16, 2017 6:00:27 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.Process.getNumberOfTimeStamps(Process.java:306)
+Mai 16, 2017 6:00:27 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.ProcessGUI$1$1.run(ProcessGUI.java:226)
+Mai 16, 2017 6:00:27 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.RunnableLock.run(Unknown Source)
+Mai 16, 2017 6:00:27 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Unknown Source)
+Mai 16, 2017 6:00:27 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.runAsyncMessages(Unknown Source)
+Mai 16, 2017 6:00:27 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.readAndDispatch(Unknown Source)
+Mai 16, 2017 6:00:27 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.EModGUI.<init>(EModGUI.java:129)
+Mai 16, 2017 6:00:27 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.EModMain.main(EModMain.java:97)
+Mai 16, 2017 6:00:27 PM  
+SCHWERWIEGEND: java.lang.Exception: No property 'Time' found in 'Temp\NewMachine\SimulationConfig\SimConfig1\process_default'!
+Mai 16, 2017 6:00:27 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.utils.ConfigReader.getDoubleArray(ConfigReader.java:331)
+Mai 16, 2017 6:00:27 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.Process.getTime(Process.java:330)
+Mai 16, 2017 6:00:27 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.Process.getNumberOfTimeStamps(Process.java:306)
+Mai 16, 2017 6:00:27 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.ProcessGUI$1$1.run(ProcessGUI.java:229)
+Mai 16, 2017 6:00:27 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.RunnableLock.run(Unknown Source)
+Mai 16, 2017 6:00:27 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Unknown Source)
+Mai 16, 2017 6:00:27 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.runAsyncMessages(Unknown Source)
+Mai 16, 2017 6:00:27 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.readAndDispatch(Unknown Source)
+Mai 16, 2017 6:00:27 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.EModGUI.<init>(EModGUI.java:129)
+Mai 16, 2017 6:00:27 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.EModMain.main(EModMain.java:97)
+Mai 16, 2017 6:00:34 PM  
+SCHWERWIEGEND: java.lang.Exception: No property 'Time' found in 'Temp\NewMachine\SimulationConfig\SimConfig1\process_default'!
+Mai 16, 2017 6:00:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.utils.ConfigReader.getDoubleArray(ConfigReader.java:331)
+Mai 16, 2017 6:00:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.Process.getTime(Process.java:330)
+Mai 16, 2017 6:00:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.Process.getNumberOfTimeStamps(Process.java:306)
+Mai 16, 2017 6:00:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.ProcessGUI$1$1.run(ProcessGUI.java:226)
+Mai 16, 2017 6:00:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.RunnableLock.run(Unknown Source)
+Mai 16, 2017 6:00:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Unknown Source)
+Mai 16, 2017 6:00:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.runAsyncMessages(Unknown Source)
+Mai 16, 2017 6:00:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.readAndDispatch(Unknown Source)
+Mai 16, 2017 6:00:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.EModGUI.<init>(EModGUI.java:129)
+Mai 16, 2017 6:00:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.EModMain.main(EModMain.java:97)
+Mai 16, 2017 6:00:34 PM  
+SCHWERWIEGEND: java.lang.Exception: No property 'Time' found in 'Temp\NewMachine\SimulationConfig\SimConfig1\process_default'!
+Mai 16, 2017 6:00:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.utils.ConfigReader.getDoubleArray(ConfigReader.java:331)
+Mai 16, 2017 6:00:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.Process.getTime(Process.java:330)
+Mai 16, 2017 6:00:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.Process.getNumberOfTimeStamps(Process.java:306)
+Mai 16, 2017 6:00:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.ProcessGUI$1$1.run(ProcessGUI.java:229)
+Mai 16, 2017 6:00:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.RunnableLock.run(Unknown Source)
+Mai 16, 2017 6:00:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Unknown Source)
+Mai 16, 2017 6:00:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.runAsyncMessages(Unknown Source)
+Mai 16, 2017 6:00:34 PM  
+SCHWERWIEGEND: 	at org.eclipse.swt.widgets.Display.readAndDispatch(Unknown Source)
+Mai 16, 2017 6:00:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.gui.EModGUI.<init>(EModGUI.java:129)
+Mai 16, 2017 6:00:34 PM  
+SCHWERWIEGEND: 	at ch.ethz.inspire.emod.EModMain.main(EModMain.java:97)
+Mai 16, 2017 6:01:21 PM ch.ethz.inspire.emod.gui.EModGUI$1 widgetSelected
+DEBUG: tabMachine Model selected
+Mai 16, 2017 6:01:21 PM  
+INFORMATION: tab Machine Model selected
+Mai 16, 2017 6:01:23 PM  
 INFORMATION: simulationcontrol ConstantSimulationControl
-Mai 05, 2017 2:42:01 PM  
+Mai 16, 2017 6:01:23 PM  
 INFORMATION: *** Machine.addNewInputObject: class ch.ethz.inspire.emod.simulation.ConstantSimulationControl public ch.ethz.inspire.emod.simulation.ConstantSimulationControl(java.lang.String,ch.ethz.inspire.emod.model.units.SiUnit)
-Mai 05, 2017 2:42:37 PM ch.ethz.inspire.emod.simulation.ASimulationControl readConfig
-DEBUG: reading state mapping for: ConstantSimulationControl_Juhu
+Mai 16, 2017 6:01:28 PM  
+INFORMATION: simulationcontrol ProcessSimulationControl
+Mai 16, 2017 6:01:28 PM  
+INFORMATION: *** Machine.addNewInputObject: class ch.ethz.inspire.emod.simulation.ProcessSimulationControl public ch.ethz.inspire.emod.simulation.ProcessSimulationControl(java.lang.String,ch.ethz.inspire.emod.model.units.SiUnit)
+Mai 16, 2017 6:01:28 PM ch.ethz.inspire.emod.simulation.ASimulationControl readConfig
+DEBUG: reading state mapping for: ProcessSimulationControl_ProcessSimulationControl
+Mai 16, 2017 6:01:30 PM ch.ethz.inspire.emod.gui.EModGUI$1 widgetSelected
+DEBUG: tabSimulation selected
+Mai 16, 2017 6:01:30 PM  
+INFORMATION: tab Simulation selected
+Mai 16, 2017 6:01:30 PM ch.ethz.inspire.emod.States readStatesFromFile
+INFORMATION: Read machine state sequence from file: Temp\NewMachine\SimulationConfig\SimConfig1\MachineStateSequence.txt
+Mai 16, 2017 6:01:30 PM ch.ethz.inspire.emod.gui.EModGUI$1 widgetSelected
+DEBUG: updating simulation configuration tabs

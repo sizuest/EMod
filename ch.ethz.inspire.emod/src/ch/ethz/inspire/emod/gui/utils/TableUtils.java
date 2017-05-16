@@ -1,5 +1,6 @@
 package ch.ethz.inspire.emod.gui.utils;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.eclipse.swt.SWT;
@@ -7,6 +8,8 @@ import org.eclipse.swt.custom.ControlEditor;
 import org.eclipse.swt.custom.TableCursor;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.TextTransfer;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.SelectionEvent;
@@ -70,8 +73,7 @@ public class TableUtils {
 	 * @param funObj
 	 * @param idx
 	 */
-	public static void addCellEditor(final Table table, final Method fun,
-			final Object funObj, final int[] idx) {
+	public static void addCellEditor(final Table table, final Method fun, final Object funObj, final int[] idx) {
 		// SOURCE
 		// http://www.tutorials.de/threads/in-editierbarer-swt-tabelle-ohne-eingabe-von-enter-werte-aendern.299858/
 		// create a TableCursor to navigate around the table
@@ -98,11 +100,27 @@ public class TableUtils {
 				/* Add input field */
 				final ParameterEditor text = new ParameterEditor(SWT.NONE, cursor);
 				
+				// If a function is defined, call it as soon as the editor is disposed
+				if(fun!=null & funObj!=null)
+					text.addDisposeListener(new DisposeListener() {
+						
+						@Override
+						public void widgetDisposed(DisposeEvent e) {
+							try {
+								fun.invoke(funObj);
+							} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						}
+					});
+				
 				TableItem row = cursor.getRow();
 				int column = cursor.getColumn();
 				text.setText(row.getText(column));
 
 				editor.setEditor(text);
+				
 			}
 			
 			@Override
