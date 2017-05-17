@@ -141,10 +141,8 @@ public class ProcessSimulationControl extends ASimulationControl {
 	 * @param time
 	 */
 	public void setProcessSamples(double[] samps, double[] time) {
-		simulationPeriod = Math.max(
-				Algo.greatestCommonDivisor(Algo.getIncrements(time)), 1);
-		processsamples = SamplePeriodConverter.convertSamples(simulationPeriod,
-				time, samps);
+		simulationPeriod = Math.max(Algo.greatestCommonDivisor(Algo.getIncrements(time)), 1);
+		processsamples   = SamplePeriodConverter.convertSamples(simulationPeriod, time, samps);
 	}
 
 	/*
