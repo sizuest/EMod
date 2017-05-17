@@ -22,10 +22,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
-import org.eclipse.swt.widgets.Text;
 
 import ch.ethz.inspire.emod.ConfigurationChecker;
 import ch.ethz.inspire.emod.EModSession;
@@ -37,7 +35,6 @@ import ch.ethz.inspire.emod.simulation.ConfigCheckResult;
 import ch.ethz.inspire.emod.simulation.EModSimulationMain;
 import ch.ethz.inspire.emod.simulation.EModSimulationSimulationThread;
 import ch.ethz.inspire.emod.simulation.SimulationState;
-import ch.ethz.inspire.emod.utils.ConfigReader;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
 
 /**
@@ -58,12 +55,15 @@ public class SimGUI extends AGUITab {
 	private ConfigCheckResultGUI checkResults;
 
 	private Button buttonCheckCfg, buttonRunSim;
-	
-	private Text valueStepSize;
 
 	private boolean simulationWasRunning = false;
 
 	SimulationState machineState;
+	
+	
+	private EditSimTimeStepGUI guiTimeStep;
+	private EditFluidSolverParametersGUI guiFluidSolver;
+	private EditOutputGUI guiOutputCtrl;
 
 	/**
 	 * @param parent
@@ -147,35 +147,6 @@ public class SimGUI extends AGUITab {
 			}
 		});
 	}
-	
-	private void setSimulationPeriod(double t){
-		if(Double.isNaN(t))
-			return;
-		
-		try {
-			ConfigReader simulationConfigReader = new ConfigReader(getSimConfigFilePath());
-			simulationConfigReader.ConfigReaderOpen();
-			simulationConfigReader.setValue("simulationPeriod", t);
-			simulationConfigReader.saveValues();
-			simulationConfigReader.Close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	private double getSimulationPeriod(){
-		try {
-			ConfigReader simulationConfigReader = new ConfigReader(getSimConfigFilePath());
-			simulationConfigReader.ConfigReaderOpen();
-			return simulationConfigReader.getDoubleValue("simulationPeriod");
-		} catch (Exception e) {
-			return Double.NaN;
-		}
-	}
-	
-	private String getSimConfigFilePath(){	
-		return EModSession.getSimulationConfigPath();
-	}
 
 	private void checkIfActual() {
 		initialConditionGUI.askForSaving();
@@ -215,7 +186,9 @@ public class SimGUI extends AGUITab {
 			simulationWasRunning = false;
 		}
 		
-		valueStepSize.setText(getSimulationPeriod()+"");
+		guiFluidSolver.update();
+		guiOutputCtrl.update();
+		guiTimeStep.update();
 
 		this.redraw();
 	}
@@ -227,19 +200,39 @@ public class SimGUI extends AGUITab {
 
 		// add composite to the tabfolder for different values to change
 		Composite composite = new Composite(tabFolder, SWT.NONE);
-		composite.setLayout(new GridLayout(2, false));
+		composite.setLayout(new GridLayout(2, true));
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		
-		Group groupCheck = new Group(composite, SWT.BORDER);
+		Group groupCheck = new Group(composite, SWT.NONE);
 		groupCheck.setText(LocalizationHandler.getItem("app.gui.sim.general.checkcfg"));
 		groupCheck.setLayout(new GridLayout(1, false));
-		groupCheck.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		groupCheck.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 4));
 		
+		Group groupIntegrator  = new Group(composite, SWT.NONE);
+		groupIntegrator.setLayout(new GridLayout(1, false));
+		groupIntegrator.setText(LocalizationHandler.getItem("app.gui.sim.integrator.titel"));
+		groupIntegrator.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false, 1, 1));
 		
-		Group groupRun = new Group(composite, SWT.BORDER);
+		Group groupFluid = new Group(composite, SWT.NONE);
+		groupFluid.setLayout(new GridLayout(1, false));
+		groupFluid.setText(LocalizationHandler.getItem("app.gui.sim.fc.titel"));
+		groupFluid.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false, 1, 1));
+		
+		Group groupOutput = new Group(composite, SWT.NONE);
+		groupOutput.setLayout(new GridLayout(1, false));
+		groupOutput.setText(LocalizationHandler.getItem("app.gui.sim.output.title"));
+		groupOutput.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false, 1, 1));
+		
+		Group groupRun = new Group(composite, SWT.NONE);
 		groupRun.setText(LocalizationHandler.getItem("app.gui.sim.general.runsim"));
 		groupRun.setLayout(new GridLayout(2, false));
-		groupRun.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1));
+		groupRun.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false, 1, 1));
+		
+		
+		/* Create sub controls */
+		guiTimeStep    = new EditSimTimeStepGUI(groupIntegrator, SWT.NONE);
+		guiFluidSolver = new EditFluidSolverParametersGUI(groupFluid, SWT.NONE);
+		guiOutputCtrl  = new EditOutputGUI(groupOutput, SWT.NONE);
 		
 		
 		checkResults = new ConfigCheckResultGUI(groupCheck, SWT.BORDER);
@@ -279,17 +272,6 @@ public class SimGUI extends AGUITab {
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {/* Not used*/}
 		});
-		
-
-		// add text for stepsize
-		Label textStepSize = new Label(groupRun, SWT.NONE);
-		textStepSize.setLayoutData(new GridData(SWT.BEGINNING, SWT.FILL, false, false, 1, 1));
-		textStepSize.setText(LocalizationHandler.getItem("app.gui.sim.general.stepsize")+" [s]");
-
-		// add value_field for stepsize
-		valueStepSize = new Text(groupRun, SWT.BORDER);
-		valueStepSize.setLayoutData(new GridData(SWT.BEGINNING, SWT.FILL, false, false, 1, 1));
-		
 
 		buttonRunSim = new Button(groupRun, SWT.NONE);
 		buttonRunSim.setText("Run");
@@ -300,12 +282,6 @@ public class SimGUI extends AGUITab {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				try{
-					setSimulationPeriod(Double.valueOf(valueStepSize.getText()));
-				} catch(Exception ee){
-					ee.printStackTrace();
-					valueStepSize.setText(getSimulationPeriod()+"");
-				}
 				
 				buttonRunSim.setEnabled(false);
 				simulationWasRunning = true;

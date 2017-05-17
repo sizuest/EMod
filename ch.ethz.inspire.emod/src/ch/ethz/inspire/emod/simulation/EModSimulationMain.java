@@ -240,16 +240,32 @@ public class EModSimulationMain {
 		/* Create solver for fluid circuits */
 		message = "Initializing fluid circuit solver ...";
 		ArrayList<FluidCircuitProperties> fluidPropertyList = new ArrayList<FluidCircuitProperties>();
-		for (MachineComponent mc : Machine.getInstance()
-				.getFloodableMachineComponentList())
-			fluidPropertyList.addAll(((Floodable) (mc.getComponent()))
-					.getFluidPropertiesList());
-		fluidSolver = new FluidCircuitSolver(fluidPropertyList, Machine
-				.getInstance().getFluidConnectionList());
+		for (MachineComponent mc : Machine.getInstance().getFloodableMachineComponentList())
+			fluidPropertyList.addAll(((Floodable) (mc.getComponent())).getFluidPropertiesList());
+		fluidSolver = new FluidCircuitSolver(fluidPropertyList, Machine.getInstance().getFluidConnectionList());
+		
+		/* Read fluid solver and output settings */
+		int fsMaxIter;
+		double fsRelTol, fsMinFlowRate;
+		try {
+			ConfigReader simulationConfigReader = new ConfigReader(EModSession.getSimulationConfigPath());
+			simulationConfigReader.ConfigReaderOpen();
+			
+			fsMaxIter     = simulationConfigReader.getValue("FluidSolver.MaxIter", 20);
+			fsRelTol      = simulationConfigReader.getValue("FluidSolver.RelTol", 1E-4);
+			fsMinFlowRate = simulationConfigReader.getValue("FluidSolver.MinFlowRate", 1E-9);
+			doFEMOutput   = simulationConfigReader.getValue("Output.FEM", true);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			fsMaxIter     = 20;
+			fsRelTol      = 1E-4;
+			fsMinFlowRate = 1E-9;
+		}
 
 		/* Find steady state for fluid circuits */
 		try {
-			fluidSolver.solve(1000);
+			fluidSolver.solve(50*fsMaxIter, fsRelTol, fsMinFlowRate);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -288,14 +304,12 @@ public class EModSimulationMain {
 					if (doFEMOutput)
 						mc.getComponent().updateBoundaryConditions();
 				} catch (Exception e) {
-					System.out
-							.println("EModSimulationMain.runSimulation(): update component not working for: "
-									+ mc.getComponent().toString());
+					System.out.println("EModSimulationMain.runSimulation(): update component not working for: " + mc.getComponent().toString());
 				}
 
 			/* Solve fluid circuits */
 			try {
-				fluidSolver.solve(20);
+				fluidSolver.solve(fsMaxIter, fsRelTol, fsMinFlowRate);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

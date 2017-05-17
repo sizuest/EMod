@@ -43,8 +43,6 @@ public class FluidCircuitSolver {
 	private Map<Integer, ArrayList<Integer>> preIndexes = new HashMap<Integer, ArrayList<Integer>>(),
 			postIndexes = new HashMap<Integer, ArrayList<Integer>>();
 
-	double flowRateLim = 1E-9;
-
 	/**
 	 * @param fluidPropertyList
 	 * @param connections
@@ -209,9 +207,11 @@ public class FluidCircuitSolver {
 	 * Solve the linearized problem iteratively
 	 * 
 	 * @param maxIterations
+	 * @param maxRelChange 
+	 * @param flowRateLimit 
 	 * @throws Exception
 	 */
-	public void solve(int maxIterations) throws Exception {
+	public void solve(int maxIterations, double maxRelChange, double flowRateLimit) throws Exception {
 		double[] a1, a0, e, prefIn, prefOut;
 
 		a1 = new double[fluidPropertyList.size()];
@@ -232,7 +232,7 @@ public class FluidCircuitSolver {
 		int iteration = 0;
 		double relChange = Double.POSITIVE_INFINITY;
 
-		while (iteration < maxIterations & relChange > 1E-4) {
+		while (iteration < maxIterations & relChange > maxRelChange) {
 
 			// Read new op
 			for (int i = 0; i < numE; i++) {
@@ -267,11 +267,11 @@ public class FluidCircuitSolver {
 				if (Double.isNaN(sol.get(i)))
 					System.out.println();
 
-				if ((sol.get(i) <= flowRateLim & fluidPropertyList.get(i)
-						.getFlowRate() > flowRateLim))
+				if ((sol.get(i) <= flowRateLimit & fluidPropertyList.get(i)
+						.getFlowRate() > flowRateLimit))
 					cand = 1;
-				else if (sol.get(i) <= flowRateLim
-						& fluidPropertyList.get(i).getFlowRate() <= flowRateLim)
+				else if (sol.get(i) <= flowRateLimit
+						& fluidPropertyList.get(i).getFlowRate() <= flowRateLimit)
 					cand = 0;
 				else
 					cand = Math.abs(1 - fluidPropertyList.get(i).getFlowRate()

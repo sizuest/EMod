@@ -52,8 +52,7 @@ public class EModSimulationRun {
 				simulationConfigName);
 
 		/* Connect simulation with machine config */
-		sim.setMachineComponentList(Machine.getInstance()
-				.getMachineComponentList());
+		sim.setMachineComponentList(Machine.getInstance().getMachineComponentList());
 		sim.setIOConnectionList(Machine.getInstance().getIOLinkList());
 		sim.setInputparamObjectList(Machine.getInstance().getInputObjectList());
 

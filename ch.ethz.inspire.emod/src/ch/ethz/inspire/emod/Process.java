@@ -50,7 +50,8 @@ public class Process extends ConfigReader {
 	 * 
 	 */
 	public static void loadProcess(String name) {
-
+		
+		EModSession.setProcessName(name);
 		getInstance().filePath = EModSession.getProcessConfigPath();
 
 		try {
@@ -75,8 +76,7 @@ public class Process extends ConfigReader {
 				+ File.separator
 				+ EModSession.getSimulationConfig();
 
-		getInstance().filePath = path + "/" + Defines.PROCESSDEFFILE_PREFIX
-				+ name + ".xml";
+		getInstance().filePath = path + "/" + Defines.PROCESSDEFFILE_PREFIX + name + ".xml";
 
 		/* empty time and variable verctors */
 		try {
@@ -327,12 +327,10 @@ public class Process extends ConfigReader {
 	public static double[] getTime() {
 		try {
 			if (getInstance().bufferedTime == null)
-				getInstance().bufferedTime = getInstance().getDoubleArray(
-						"Time");
+				getInstance().bufferedTime = getInstance().getDoubleArray("Time");
 			return getInstance().bufferedTime;
 		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+			return new double[] {};
 		}
 	}
 

@@ -237,7 +237,7 @@ public class EModSession {
 	public static String getProcessConfigPath(){
 		return  getRootPath() + File.separator +
 				Defines.SIMULATIONCONFIGDIR + File.separator +
-				getSimulationConfig() + File.separator + Defines.PROCESSDEFFILE_PREFIX + getProcessName();
+				getSimulationConfig() + File.separator + Defines.PROCESSDEFFILE_PREFIX + getProcessName() + ".xml";
 	}
 	
 	/**

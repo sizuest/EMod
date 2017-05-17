@@ -2,11 +2,10 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <comment/>
-<entry key="BearingType">SLF-B7010C.2RSD.T.P4S.UL, SLF-B7010C.T.P4S.UL, SLF-B71910C.2RSD.T.P4S.UL  , SLF-B71910C.T.P4S.UL</entry>
 <entry key="StructureMaterial">Steel</entry>
+<entry key="BearingType">SLF-B7010C.2RSD.T.P4S.UL, SLF-B7010C.T.P4S.UL, SLF-B71910C.2RSD.T.P4S.UL  , SLF-B71910C.T.P4S.UL</entry>
 <entry key="StructureMass">30.0 kg</entry>
-<entry key="PreloadForce">120.0,120.0,120.0,120.0, N</entry>
 <entry key="StructureDuct">StructureDuct</entry>
-<entry key="AirGapFrictionCoeff">0.0, 0.0 none</entry>
+<entry key="PreloadForce">120.0,120.0,120.0,120.0, N</entry>
 <entry key="MotorType">MotorAC_E+A-mW15-9-4-48a-74ar0</entry>
 </properties>

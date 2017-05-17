@@ -75,7 +75,10 @@ public class ConfigurationChecker {
 	 */
 	public static ConfigCheckResult checkMachineComponentConfigurations(){
 		ConfigCheckResult result = new ConfigCheckResult();
-		//TODO
+		
+		if(Machine.getInstance().getMachineComponentList().size() == 0)
+			result.add(ConfigState.ERROR, "ComponetModels", "Model does not include any components");
+		
 		return result;
 	}
 	
@@ -183,6 +186,9 @@ public class ConfigurationChecker {
 	public static ConfigCheckResult checkProcess(){
 		ConfigCheckResult result = new ConfigCheckResult();
 		
+		// Load the process first
+		Process.loadProcess(EModSession.getProcessName());
+		
 		List<ASimulationControl> simulators = Machine.getInstance().getVariableInputObjectList();
 		
 		// For each simulator, the process file must contain a value vector
@@ -191,7 +197,6 @@ public class ConfigurationChecker {
 				result.add(ConfigState.ERROR, "Process", "Process configuration does not includes a value vector for '"+sc.getName()+"'");
 		
 		// At least one time step is required
-		Process.loadProcess(EModSession.getProcessName());
 		if(Process.getTime().length==0)
 			result.add(ConfigState.ERROR, "Process", "Process configuration does not include any time step");
 		else if(Process.getTime().length==1)
