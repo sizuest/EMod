@@ -85,7 +85,6 @@ public class Spindle extends APhysicalComponent implements Floodable {
 	private double massStructure;
 	private double alphaCoolant, volumeCoolant;
 	private double lastTemperatureIn = Double.NaN;
-	private double[] agFrictCoeff;
 
 	// Submodels
 	private AMotor motor;
@@ -170,7 +169,8 @@ public class Spindle extends APhysicalComponent implements Floodable {
 			preloadForce  = params.getPhysicalValue("PreloadForce", new SiUnit("N")).getValues();
 			bearingType   = params.getStringArray("BearingType");
 			massStructure = params.getPhysicalValue("StructureMass", new SiUnit("kg")).getValue();
-			agFrictCoeff  = params.getPhysicalValue("AirGapFrictionCoeff", new SiUnit()).getValues();
+			params.deleteValue("AirGapFrictionCoeff");
+			params.saveValues();
 
 			String[] mdlType = motorType.split("_", 2);
 
@@ -294,28 +294,22 @@ public class Spindle extends APhysicalComponent implements Floodable {
 			// Bearings
 			if (rotspeed.getValue() != 0)
 				for (int i = 0; i < bearings.length; i++) {
-					bearings[i].getInput("RotSpeed").setValue(
-							rotspeed.getValue());
+					bearings[i].getInput("RotSpeed").setValue( rotspeed.getValue());
 					bearings[i].getInput("ForceRadial").setValue(0);// TODO
-					bearings[i].getInput("ForceAxial")
-							.setValue(preloadForce[i]);
-					bearings[i].getInput("Temperature1").setValue(
-							structure.getTemperature().getValue());
-					bearings[i].getInput("Temperature2").setValue(
-							structure.getTemperature().getValue());
+					bearings[i].getInput("ForceAxial").setValue(preloadForce[i]);
+					bearings[i].getInput("Temperature1").setValue( structure.getTemperature().getValue());
+					bearings[i].getInput("Temperature2").setValue(structure.getTemperature().getValue());
 					bearings[i].update();
 
-					frictionTorque += bearings[i].getOutput("Torque")
-							.getValue();
+					frictionTorque += bearings[i].getOutput("Torque").getValue();
 					frictionLosses += bearings[i].getOutput("PLoss").getValue();
 				}
 
 			// Air Gap
-			frictionAirGap = Math.pow(rotspeed.getValue() * 2 * Math.PI, agFrictCoeff[0]) * agFrictCoeff[1];
+			frictionAirGap = 0; //TODO Math.pow(rotspeed.getValue() * 2 * Math.PI, agFrictCoeff[0]) * agFrictCoeff[1];
 
 			frictionTorque += frictionAirGap;
-			frictionLosses += frictionAirGap * rotspeed.getValue() * 2
-					* Math.PI;
+			frictionLosses += frictionAirGap * rotspeed.getValue() * 2 * Math.PI;
 
 			motor.getInput("RotSpeed").setValue(rotspeed.getValue());
 			motor.getInput("Torque").setValue(
