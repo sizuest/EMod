@@ -13,13 +13,19 @@
 package ch.ethz.inspire.emod.gui.utils;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
+import ch.ethz.inspire.emod.ConfigurationChecker;
+import ch.ethz.inspire.emod.gui.EModStatusBarGUI;
 import ch.ethz.inspire.emod.simulation.ConfigCheckResult;
 import ch.ethz.inspire.emod.simulation.ConfigCheckResult.MessageBundle;
 
@@ -31,6 +37,7 @@ public class ConfigCheckResultGUI extends Composite {
 	
 	private ConfigCheckResult results;
 	private Table table;
+	private Button buttonCheckCfg;
 
 	/**
 	 * @param parent
@@ -41,11 +48,18 @@ public class ConfigCheckResultGUI extends Composite {
 		
 		results = new ConfigCheckResult();
 		
-		this.setLayout(new FillLayout());
+		this.setLayout(new GridLayout(1, false));
 		
-		table = new Table(this, SWT.NONE);
+		table = new Table(this, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
+		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
+		
+		try {
+			TableUtils.addCopyToClipboard(table);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		String[] heads = {"", "Origin", "Message"};
 		for(String s: heads){
@@ -53,7 +67,44 @@ public class ConfigCheckResultGUI extends Composite {
 			col.setText(s);
 		}
 		
+		buttonCheckCfg = new Button(this, SWT.NONE);
+		buttonCheckCfg.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false, false));
+		buttonCheckCfg.setText("Run");
+		buttonCheckCfg.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				buttonCheckCfg.setEnabled(false);
+				
+				ConfigCheckResult ccrMachine = new ConfigCheckResult();
+				ConfigCheckResult ccrSimCfg = new ConfigCheckResult();
+				ConfigCheckResult ccrProcess = new ConfigCheckResult();
+				ConfigCheckResult ccrAll = new ConfigCheckResult();
+				
+				
+				ccrMachine.addAll(ConfigurationChecker.checkMachineConfig());
+				ccrSimCfg.addAll(ConfigurationChecker.checkSimulationConfig());
+				ccrProcess.addAll(ConfigurationChecker.checkProcess());
+				
+				ccrAll.addAll(ccrMachine);
+				ccrAll.addAll(ccrSimCfg);
+				ccrAll.addAll(ccrProcess);
+				
+				setResults(ccrAll);
+				
+				EModStatusBarGUI.getConfigStatus().setMachineConfigState(ccrMachine.getStatus());
+				EModStatusBarGUI.getConfigStatus().setSimulationConfigState(ccrSimCfg.getStatus());
+				EModStatusBarGUI.getConfigStatus().setProcessConfigState(ccrProcess.getStatus());
+				
+				buttonCheckCfg.setEnabled(true);
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {/* Not used*/}
+		});
+		
 		this.layout();
+		this.update();
 	}
 	
 	
@@ -75,9 +126,11 @@ public class ConfigCheckResultGUI extends Composite {
 			ti.dispose();
 		table.setItemCount(0);
 		
+		TableItem item;
+		
 		// Fill Table
 		for(MessageBundle mb: results.getMessages()){
-			TableItem item = new TableItem(table, SWT.NONE);
+			item = new TableItem(table, SWT.NONE);
 			item.setText(0, "  ");
 			item.setText(1, mb.getOrigin()+"  ");
 			item.setText(2, mb.getMessage());
@@ -93,6 +146,9 @@ public class ConfigCheckResultGUI extends Composite {
 				item.setBackground(0, new Color(getDisplay(), 255, 0, 0)); // Red
 			}
 		}
+		
+		if(results.getMessages().size() == 0)
+			item = new TableItem(table, SWT.NONE);
 		
 		// Pack
 		for(TableColumn col: table.getColumns())

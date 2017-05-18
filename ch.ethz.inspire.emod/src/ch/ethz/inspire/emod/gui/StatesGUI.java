@@ -54,7 +54,7 @@ public class StatesGUI extends AConfigGUI {
 	 * @param style
 	 */
 	public StatesGUI(Composite parent, int style) {
-		super(parent, style, ShowButtons.RESET | ShowButtons.OK, false);
+		super(parent, style, ShowButtons.NONE, false);
 
 		tableStateSequence = new Table(this.getContent(), SWT.BORDER
 				| SWT.MULTI | SWT.V_SCROLL);
@@ -71,7 +71,7 @@ public class StatesGUI extends AConfigGUI {
 						.getItem("app.gui.sim.machinestatesequence.duration"),
 				LocalizationHandler
 						.getItem("app.gui.sim.machinestatesequence.state"),
-				"       ", "       " };
+				"       ", "       ", "       ", "       " };
 		for (int i = 0; i < bTitles.length; i++) {
 			TableColumn column = new TableColumn(tableStateSequence, SWT.NULL);
 			column.setText(bTitles[i]);
@@ -96,8 +96,13 @@ public class StatesGUI extends AConfigGUI {
 		}
 
 	}
+	
+	@Override
+	public void wasEdited() {		
+		save();
+	}
 
-	private void addStateSequenceItem(int index) {
+	private void addStateSequenceItem(final int index) {
 		tableStateSequence.setRedraw(false);
 
 		// create new table item in the tableModelView
@@ -108,6 +113,10 @@ public class StatesGUI extends AConfigGUI {
 		final CCombo comboEditState = new CCombo(tableStateSequence, SWT.PUSH);
 		// create button to append a new state
 		final Button buttonAddState = new Button(tableStateSequence, SWT.PUSH);
+		// create button to move state up
+		final Button buttonUpState = new Button(tableStateSequence, SWT.PUSH);
+		// create button to move state down
+		final Button buttonDownState = new Button(tableStateSequence, SWT.PUSH);
 		// create button to delete the last state of the list
 		final Button buttonDeleteState = new Button(tableStateSequence,
 				SWT.PUSH);
@@ -166,62 +175,106 @@ public class StatesGUI extends AConfigGUI {
 		editor.horizontalAlignment = SWT.LEFT;
 		editor.setEditor(comboEditState, item, 3);
 
-		// the last entry of the list has a delete/add button
-		if (index == States.getStateCount() - 1) {
+		// create button to add a new row
+		Image imageAdd = new Image(Display.getDefault(), "src/resources/Add16.gif");
+		buttonAddState.setImage(imageAdd);
+		buttonAddState.addSelectionListener(new SelectionListener() {
+			@Override
+			public void widgetSelected(SelectionEvent event) {
+				// append a state with duration 0 and state OFF
+				//States.appendState(0, MachineState.OFF);
+				States.insertState(index+1, 0, MachineState.OFF);
+				// get rid of the buttons, refresh table
+				buttonAddState.dispose();
+				buttonDeleteState.dispose();
+				update();
+			}
 
-			// create button to add a new row
-			Image imageAdd = new Image(Display.getDefault(),
-					"src/resources/Add16.gif");
-			buttonAddState.setImage(imageAdd);
-			buttonAddState.addSelectionListener(new SelectionListener() {
+			@Override
+			public void widgetDefaultSelected(SelectionEvent event) {
+				// Not used
+			}
+		});
+		// pack the button and set it into the cell
+		buttonAddState.pack();
+		TableEditor editor2 = new TableEditor(tableStateSequence);
+		editor2.minimumWidth = buttonAddState.getSize().x;
+		editor2.horizontalAlignment = SWT.LEFT;
+		editor2.setEditor(buttonAddState, item, 4);
+		
+		// create button to move element up
+		if(index>0){
+			Image imageUp = new Image(Display.getDefault(), "src/resources/Up16.gif");
+			buttonUpState.setImage(imageUp);
+			buttonUpState.addSelectionListener(new SelectionListener() {
 				@Override
 				public void widgetSelected(SelectionEvent event) {
-					// append a state with duration 0 and state OFF
-					States.appendState(0, MachineState.OFF);
-					// get rid of the buttons, refresh table
-					buttonAddState.dispose();
-					buttonDeleteState.dispose();
+					States.moveStateUp(index);
 					update();
 				}
-
+	
 				@Override
 				public void widgetDefaultSelected(SelectionEvent event) {
 					// Not used
 				}
 			});
 			// pack the button and set it into the cell
-			buttonAddState.pack();
-			TableEditor editor2 = new TableEditor(tableStateSequence);
-			editor2.minimumWidth = buttonAddState.getSize().x;
-			editor2.horizontalAlignment = SWT.LEFT;
-			editor2.setEditor(buttonAddState, item, 5);
-
-			// create button to delete last row
-			Image imageDelete = new Image(Display.getDefault(),
-					"src/resources/Delete16.gif");
-			buttonDeleteState.setImage(imageDelete);
-			buttonDeleteState.addSelectionListener(new SelectionListener() {
-				@Override
-				public void widgetSelected(SelectionEvent event) {
-					// delete the cell, remove the state from the statesList,
-					// refresh table
-					item.dispose();
-					States.getStateMap().remove(id);
-					update();
-				}
-
-				@Override
-				public void widgetDefaultSelected(SelectionEvent event) {
-					// Not used
-				}
-			});
-			// pack the button and set it into the cell
-			buttonDeleteState.pack();
+			buttonUpState.pack();
 			TableEditor editor3 = new TableEditor(tableStateSequence);
-			editor3.minimumWidth = buttonDeleteState.getSize().x;
+			editor3.minimumWidth = buttonUpState.getSize().x;
 			editor3.horizontalAlignment = SWT.LEFT;
-			editor3.setEditor(buttonDeleteState, item, 4);
+			editor3.setEditor(buttonUpState, item, 5);
 		}
+		
+		// create button to move element up
+		if(index+1<States.getStateCount()){
+			Image imageDown = new Image(Display.getDefault(), "src/resources/Down16.gif");
+			buttonDownState.setImage(imageDown);
+			buttonDownState.addSelectionListener(new SelectionListener() {
+				@Override
+				public void widgetSelected(SelectionEvent event) {
+	
+					States.moveStateDown(index);
+					update();
+				}
+	
+				@Override
+				public void widgetDefaultSelected(SelectionEvent event) {
+					// Not used
+				}
+			});
+			// pack the button and set it into the cell
+			buttonDownState.pack();
+			TableEditor editor4 = new TableEditor(tableStateSequence);
+			editor4.minimumWidth = buttonDownState.getSize().x;
+			editor4.horizontalAlignment = SWT.LEFT;
+			editor4.setEditor(buttonDownState, item, 6);
+		}
+
+		// create button to delete last row
+		Image imageDelete = new Image(Display.getDefault(), "src/resources/Delete16.gif");
+		buttonDeleteState.setImage(imageDelete);
+		buttonDeleteState.addSelectionListener(new SelectionListener() {
+			@Override
+			public void widgetSelected(SelectionEvent event) {
+				// delete the cell, remove the state from the statesList,
+				// refresh table
+				item.dispose();
+				States.getStateMap().remove(id);
+				update();
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent event) {
+				// Not used
+			}
+		});
+		// pack the button and set it into the cell
+		buttonDeleteState.pack();
+		TableEditor editor5 = new TableEditor(tableStateSequence);
+		editor5.minimumWidth = buttonDeleteState.getSize().x;
+		editor5.horizontalAlignment = SWT.LEFT;
+		editor5.setEditor(buttonDeleteState, item, 7);
 
 		TableColumn[] columns = tableStateSequence.getColumns();
 		for (int i = 0; i < columns.length; i++) {
@@ -237,6 +290,8 @@ public class StatesGUI extends AConfigGUI {
 				comboEditState.dispose();
 				buttonAddState.dispose();
 				buttonDeleteState.dispose();
+				buttonDownState.dispose();
+				buttonUpState.dispose();
 			}
 		});
 		tableStateSequence.setRedraw(true);

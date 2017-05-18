@@ -25,13 +25,11 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
-import ch.ethz.inspire.emod.ConfigurationChecker;
 import ch.ethz.inspire.emod.EModSession;
 import ch.ethz.inspire.emod.LogLevel;
 import ch.ethz.inspire.emod.Machine;
 import ch.ethz.inspire.emod.States;
 import ch.ethz.inspire.emod.gui.utils.ConfigCheckResultGUI;
-import ch.ethz.inspire.emod.simulation.ConfigCheckResult;
 import ch.ethz.inspire.emod.simulation.EModSimulationMain;
 import ch.ethz.inspire.emod.simulation.EModSimulationSimulationThread;
 import ch.ethz.inspire.emod.simulation.SimulationState;
@@ -94,20 +92,17 @@ public class SimGUI extends AGUITab {
 
 		// Tab for IC
 		TabItem tabCompDBItem = new TabItem(tabFolder, SWT.NONE);
-		tabCompDBItem.setText(LocalizationHandler
-				.getItem("app.gui.sim.initialconditions.title"));
+		tabCompDBItem.setText(LocalizationHandler.getItem("app.gui.sim.initialconditions.title"));
 		tabCompDBItem.setControl(initialConditionGUI);
 
 		// Tab for State sequence
 		TabItem tabStatesItem = new TabItem(tabFolder, SWT.NONE);
-		tabStatesItem.setText(LocalizationHandler
-				.getItem("app.gui.sim.machinestatesequence.title"));
+		tabStatesItem.setText(LocalizationHandler.getItem("app.gui.sim.machinestatesequence.title"));
 		tabStatesItem.setControl(statesGUI);
 
 		// Tab for State sequence
 		TabItem tabProcessItem = new TabItem(tabFolder, SWT.NONE);
-		tabProcessItem.setText(LocalizationHandler
-				.getItem("app.gui.sim.inputs.title"));
+		tabProcessItem.setText(LocalizationHandler.getItem("app.gui.sim.inputs.title"));
 		tabProcessItem.setControl(processGUI);
 
 		// Selection Listener
@@ -235,43 +230,9 @@ public class SimGUI extends AGUITab {
 		guiOutputCtrl  = new EditOutputGUI(groupOutput, SWT.NONE);
 		
 		
-		checkResults = new ConfigCheckResultGUI(groupCheck, SWT.BORDER);
+		checkResults = new ConfigCheckResultGUI(groupCheck, SWT.NONE);
 		checkResults.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		
-		buttonCheckCfg = new Button(groupCheck, SWT.NONE);
-		buttonCheckCfg.setText("Run");
-		buttonCheckCfg.addSelectionListener(new SelectionListener() {
-			
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				buttonCheckCfg.setEnabled(false);
-				
-				ConfigCheckResult ccrMachine = new ConfigCheckResult();
-				ConfigCheckResult ccrSimCfg = new ConfigCheckResult();
-				ConfigCheckResult ccrProcess = new ConfigCheckResult();
-				ConfigCheckResult ccrAll = new ConfigCheckResult();
-				
-				
-				ccrMachine.addAll(ConfigurationChecker.checkMachineConfig());
-				ccrSimCfg.addAll(ConfigurationChecker.checkSimulationConfig());
-				ccrProcess.addAll(ConfigurationChecker.checkProcess());
-				
-				ccrAll.addAll(ccrMachine);
-				ccrAll.addAll(ccrSimCfg);
-				ccrAll.addAll(ccrProcess);
-				
-				checkResults.setResults(ccrAll);
-				
-				EModStatusBarGUI.getConfigStatus().setMachineConfigState(ccrMachine.getStatus());
-				EModStatusBarGUI.getConfigStatus().setSimulationConfigState(ccrSimCfg.getStatus());
-				EModStatusBarGUI.getConfigStatus().setProcessConfigState(ccrProcess.getStatus());
-				
-				buttonCheckCfg.setEnabled(true);
-			}
-			
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {/* Not used*/}
-		});
 
 		buttonRunSim = new Button(groupRun, SWT.NONE);
 		buttonRunSim.setText("Run");

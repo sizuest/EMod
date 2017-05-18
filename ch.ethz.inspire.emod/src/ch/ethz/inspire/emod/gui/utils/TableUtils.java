@@ -1,5 +1,7 @@
 package ch.ethz.inspire.emod.gui.utils;
 
+import java.awt.Toolkit;
+import java.awt.datatransfer.DataFlavor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -16,6 +18,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import ch.ethz.inspire.emod.gui.AConfigGUI;
@@ -166,15 +169,50 @@ public class TableUtils {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.stateMask == SWT.CTRL && e.keyCode == 'c') {
-					String text = TableUtils.toText(table, true);
+					String text = TableUtils.toText(table, false);
 					Clipboard clip = new Clipboard(Display.getCurrent());
-					clip.setContents(new Object[] { text },
-							new TextTransfer[] { TextTransfer.getInstance() });
+					clip.setContents(new Object[] { text }, new TextTransfer[] { TextTransfer.getInstance() });
 					clip.dispose();
 				}
-
-				if (e.stateMask == SWT.CTRL && e.keyCode == 'p') {
-					// Todo
+			}
+		});
+	}
+	
+	/**
+	 * Copy the clip board content to the stated table
+	 * @param table
+	 * @param checkForHeaders 
+	 */
+	public static void addPastFromClipboard(final Table table, final boolean checkForHeaders) {
+		table.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.stateMask == SWT.CTRL && e.keyCode == 'v') {
+					Clipboard clip = new Clipboard(Display.getCurrent());
+					try {
+						String text = (String) Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor);
+						System.out.println(text);
+						
+						if(checkForHeaders){
+							String[] cols = text.split("\n");
+							
+							if(cols.length==0)
+								return;
+							
+							if(!checkHeaders(table, cols[0].split("\t")))
+								return;
+							
+							// Strip header
+							text = text.replace(cols[0]+"\n", "");
+						}
+						
+						fromText(table, text);
+						
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} 
+					clip.dispose();
 				}
 			}
 		});
@@ -188,6 +226,73 @@ public class TableUtils {
 	public static String toText(Table table) {
 		return toText(table, false);
 	}
+	
+	
+	/**
+	 * Tests if the tables column titles match the heads
+	 * @param table
+	 * @param heads
+	 * @return
+	 */
+	public static boolean checkHeaders(Table table, String[] heads){
+		TableColumn[] cols = table.getColumns();
+		
+		if(cols.length != heads.length)
+			return false;
+		
+		for(int i=0; i<cols.length; i++){
+			if(!(cols[i].getText().equals(heads[i])))
+				return false;
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Converts the text to table entries
+	 * @param table
+	 * @param text
+	 * @return
+	 */
+	public static boolean fromText(Table table, String text){
+		
+		String[] cols = text.split("\n");
+		
+		if(cols.length==0)
+			return false;
+		
+		String[] firstLineEntries = cols[0].split("\t");
+		
+		if(table.getColumnCount()!=firstLineEntries.length)
+			return false;
+		
+		/* Clear the table */
+		for(TableItem ti: table.getItems())
+			ti.dispose();
+		
+		table.setItemCount(0);
+		
+		/* Write the entries */
+		for(String lineText: cols){
+			String[] lineEntries = lineText.split("\t");
+			if(table.getColumnCount()!=lineEntries.length)
+				return false;
+			
+			TableItem item = new TableItem(table, SWT.NONE);
+			item.setText(lineEntries);
+		}
+		
+		
+		// Tabelle packen
+		TableColumn[] columns = table.getColumns();
+		for (int i = 0; i < columns.length; i++) {
+			columns[i].pack();
+		}
+		
+		return true;
+		
+		
+	}
 
 	/**
 	 * Convert the selected table entries to csv text
@@ -197,7 +302,7 @@ public class TableUtils {
 	 */
 	public static String toText(Table table, boolean selectionOnly) {
 		String out = "";
-		String sep = ";";
+		String sep = "\t";
 		String eol = "\r\n";
 
 		// Headers

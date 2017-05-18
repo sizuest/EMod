@@ -173,8 +173,7 @@ public class DuctTestingGUI extends AGUITab {
 		tabAnalysis.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 4));
 
 		/* Testing Table */
-		tableTesting = new Table(tabAnalysis, SWT.BORDER | SWT.MULTI
-				| SWT.V_SCROLL);
+		tableTesting = new Table(tabAnalysis, SWT.BORDER | SWT.MULTI| SWT.V_SCROLL);
 		tableTesting.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true,
 				1, 1));
 		tableTesting.setLinesVisible(true);

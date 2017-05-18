@@ -18,6 +18,7 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
@@ -214,11 +215,9 @@ public class States {
 	 * @param duration
 	 * @param state
 	 */
-	public static void insertState(int index, double duration,
-			MachineState state) {
+	public static void insertState(int index, double duration, MachineState state) {
 
-		getInstance().timeStateMap.add(index,
-				new TimeStateMapper<MachineState>(Double.NaN, duration, state));
+		getInstance().timeStateMap.add(index, new TimeStateMapper<MachineState>(Double.NaN, duration, state));
 		getInstance().updateTime();
 	}
 
@@ -234,8 +233,31 @@ public class States {
 	 * @param state
 	 */
 	public static void appendState(double duration, MachineState state) {
-		getInstance().timeStateMap.add(new TimeStateMapper<MachineState>(
-				Double.NaN, duration, state));
+		getInstance().timeStateMap.add(new TimeStateMapper<MachineState>(Double.NaN, duration, state));
+		getInstance().updateTime();
+	}
+	
+	/**
+	 * Switches places with the previous state
+	 * @param index
+	 */
+	public static void moveStateUp(int index){
+		if(index == 0)
+			return;
+		
+		Collections.swap(getInstance().timeStateMap, index, index - 1);
+		getInstance().updateTime();
+	}
+	
+	/**
+	 * Switches places with the next state
+	 * @param index
+	 */
+	public static void moveStateDown(int index){
+		if(getInstance().timeStateMap.size()-1 == index)
+			return;
+		
+		Collections.swap(getInstance().timeStateMap, index, index + 1);
 		getInstance().updateTime();
 	}
 

@@ -39,7 +39,7 @@ public class InitialConditionGUI extends AConfigGUI {
 	 * @param style
 	 */
 	public InitialConditionGUI(Composite parent, int style) {
-		super(parent, style, ShowButtons.RESET | ShowButtons.OK, false);
+		super(parent, style, ShowButtons.NONE, false);
 
 		// Machine.loadInitialConditions();
 
@@ -51,14 +51,10 @@ public class InitialConditionGUI extends AConfigGUI {
 
 		// Titel der Spalten setzen
 		String[] aTitles = {
-				LocalizationHandler
-						.getItem("app.gui.sim.initialconditions.component"),
-				LocalizationHandler
-						.getItem("app.gui.sim.initialconditions.state"),
-				LocalizationHandler
-						.getItem("app.gui.sim.initialconditions.value"),
-				LocalizationHandler
-						.getItem("app.gui.sim.initialconditions.unit") };
+				LocalizationHandler.getItem("app.gui.sim.initialconditions.component"),
+				LocalizationHandler.getItem("app.gui.sim.initialconditions.state"),
+				LocalizationHandler.getItem("app.gui.sim.initialconditions.value"),
+				LocalizationHandler.getItem("app.gui.sim.initialconditions.unit") };
 
 		for (int i = 0; i < aTitles.length; i++) {
 			TableColumn column = new TableColumn(tableSimParam, SWT.NULL);
@@ -70,6 +66,11 @@ public class InitialConditionGUI extends AConfigGUI {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@Override
+	public void wasEdited() {		
+		save();
 	}
 
 	@Override
@@ -101,8 +102,7 @@ public class InitialConditionGUI extends AConfigGUI {
 	public void save() {
 
 		for (TableItem ti : tableSimParam.getItems()) {
-			Machine.getInstance().getDynamicState(ti.getText(1), ti.getText(0))
-					.setInitialCondition(Double.parseDouble(ti.getText(2)));
+			Machine.getInstance().getDynamicState(ti.getText(1), ti.getText(0)).setInitialCondition(Double.parseDouble(ti.getText(2)));
 		}
 
 		Machine.saveInitialConditions();

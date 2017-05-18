@@ -49,8 +49,7 @@ public abstract class AConfigGUI extends Composite {
 	 * @param buttons
 	 * @param closeOnSave
 	 */
-	public AConfigGUI(Composite parent, int style, int buttons,
-			boolean closeOnSave) {
+	public AConfigGUI(Composite parent, int style, int buttons, boolean closeOnSave) {
 		super(parent, style);
 		this.closeOnSave = closeOnSave;
 		init(buttons);

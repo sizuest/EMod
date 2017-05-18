@@ -68,6 +68,8 @@ public class ProcessGUI extends AConfigGUI {
 
 		try {
 			TableUtils.addCellEditor(tableProcessParam, this, null);
+			TableUtils.addCopyToClipboard(tableProcessParam);
+			TableUtils.addPastFromClipboard(tableProcessParam, true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
