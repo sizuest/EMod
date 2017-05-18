@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project name="Create Runnable Jar for Project ch.ethz.inspire.emod.dd">
+<project name="Create Runnable Jar for Project ch.ethz.inspire.emod">
     <!--this file was created by Eclipse Runnable JAR Export Wizard-->
     <!--ANT 1.7 is required                                        -->
 	<taskdef name="swtjar" classname="org.swtjar.ant.SWTJarTask" classpath="./lib/swtjar.jar"/>
@@ -9,6 +9,8 @@
             <attribute name="Main-Class" value="ch.ethz.inspire.emod.EModMain"/>
             <attribute name="Class-Path" value="."/>
         </manifest>
+    	
+    	
         <fileset dir="./bin" includes="**/*.class"/>
     	<fileset dir="./src" includes="lang/*"/>
 
@@ -21,7 +23,7 @@
 
     </swtjar>
 	
-
+	
 	
 	<copy file="./app.config" todir="./jars/EModMultiArch"/>
 
