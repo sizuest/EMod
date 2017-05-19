@@ -82,6 +82,7 @@ public class SimGUI extends AGUITab {
 		// Tab folder for elements
 		tabFolder = new TabFolder(this, SWT.NONE);
 		tabFolder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		tabFolder.setBackground(getParent().getBackground());
 
 		initTabGeneral(tabFolder);
 
@@ -206,28 +207,31 @@ public class SimGUI extends AGUITab {
 		Group groupIntegrator  = new Group(composite, SWT.NONE);
 		groupIntegrator.setLayout(new GridLayout(1, false));
 		groupIntegrator.setText(LocalizationHandler.getItem("app.gui.sim.integrator.titel"));
-		groupIntegrator.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false, 1, 1));
+		groupIntegrator.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
 		
 		Group groupFluid = new Group(composite, SWT.NONE);
 		groupFluid.setLayout(new GridLayout(1, false));
 		groupFluid.setText(LocalizationHandler.getItem("app.gui.sim.fc.titel"));
-		groupFluid.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false, 1, 1));
+		groupFluid.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
 		
 		Group groupOutput = new Group(composite, SWT.NONE);
 		groupOutput.setLayout(new GridLayout(1, false));
 		groupOutput.setText(LocalizationHandler.getItem("app.gui.sim.output.title"));
-		groupOutput.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false, 1, 1));
+		groupOutput.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
 		
 		Group groupRun = new Group(composite, SWT.NONE);
 		groupRun.setText(LocalizationHandler.getItem("app.gui.sim.general.runsim"));
 		groupRun.setLayout(new GridLayout(2, false));
-		groupRun.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false, 1, 1));
+		groupRun.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
 		
 		
 		/* Create sub controls */
 		guiTimeStep    = new EditSimTimeStepGUI(groupIntegrator, SWT.NONE);
+		guiTimeStep.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		guiFluidSolver = new EditFluidSolverParametersGUI(groupFluid, SWT.NONE);
+		guiFluidSolver.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		guiOutputCtrl  = new EditOutputGUI(groupOutput, SWT.NONE);
+		guiOutputCtrl.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		
 		
 		checkResults = new ConfigCheckResultGUI(groupCheck, SWT.NONE);
@@ -265,6 +269,7 @@ public class SimGUI extends AGUITab {
 		tabGenerlItem.setControl(composite);
 		tabFolder.pack();
 
+		this.layout();
 		
 	}
 

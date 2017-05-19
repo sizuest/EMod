@@ -29,7 +29,7 @@ import ch.ethz.inspire.emod.utils.Defines;
 import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 /**
- * Generic class to save a modelling sessions parameters
+ * Generic class to save a modeling sessions parameters
  * @author sizuest
  *
  */
@@ -315,12 +315,12 @@ public class EModSession {
 		EModSession.setProcessName(processName);
 		
 		File simxml     = new File(EModSession.getSimulationConfigPath());
-		File processxml = new File(EModSession.getProcessConfigPath());
+		//File processxml = new File(EModSession.getProcessConfigPath());
 		File stateseq   = new File(EModSession.getStateSequenceConfigPath());
 		try {
 			simxml.getParentFile().mkdirs();
 			simxml.createNewFile();
-			processxml.createNewFile();
+			//processxml.createNewFile();
 			stateseq.createNewFile();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -330,11 +330,7 @@ public class EModSession {
 		States.appendState(10, MachineState.ON);
 		States.saveStates(getMachineName(), getSimulationConfig());
 		
-		try {
-			Process.setTimeVector(new double[]{0,1,2,3,4,5});
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		newProcess(processName);
 		
 		
 	}
@@ -355,7 +351,9 @@ public class EModSession {
 		}
 		
 		try {
-			Process.setTimeVector(new double[]{0,1,2,3,4,5});
+			Process.loadProcess(processName);
+			Process.setTimeVector(new double[]{0.0, 1.0});
+			Process.getInstance().saveValues();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -16,7 +16,7 @@ import ch.ethz.inspire.emod.utils.LocalizationHandler;
 
 /**
  * Implements a GUI to configure the simulation time step
- * @author Simon Züst
+ * @author Simon Zï¿½st
  *
  */
 public class EditSimTimeStepGUI extends Composite{
@@ -46,17 +46,18 @@ public class EditSimTimeStepGUI extends Composite{
 		spinnTimeStep.setSelection(1);
 		
 		scaleTimeStep = new Scale(this, SWT.NONE);
-		scaleTimeStep.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, true, 1, 1));
+		scaleTimeStep.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		scaleTimeStep.setMinimum(1);
 		scaleTimeStep.setMaximum(10);
 		scaleTimeStep.setSelection(1);
 		scaleTimeStep.setIncrement(1);
+		scaleTimeStep.setBackground(parent.getBackground());
 		
 		coupleInputs(spinnTimeStep, scaleTimeStep);
 		
 		loadFromSimConfigFile();
 		
-		this.pack();
+		this.layout();
 	}
 	
 	/**

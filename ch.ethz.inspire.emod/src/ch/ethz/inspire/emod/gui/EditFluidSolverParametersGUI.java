@@ -23,7 +23,7 @@ import ch.ethz.inspire.emod.utils.LocalizationHandler;
  * Implements the SWT interface to edit the parameters of 
  * a fluid circuit solver
  * 
- * @author Simon Züst
+ * @author Simon Zï¿½st
  *
  */
 public class EditFluidSolverParametersGUI extends Composite{
@@ -72,7 +72,7 @@ public class EditFluidSolverParametersGUI extends Composite{
 		spinnMaxIter.setSelection(50);
 		
 		scaleMaxIter = new Scale(this, SWT.NONE);
-		scaleMaxIter.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, true, 1, 1));
+		scaleMaxIter.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		scaleMaxIter.setMinimum(1);
 		scaleMaxIter.setMaximum(100);
 		scaleMaxIter.setSelection(20);
@@ -87,7 +87,7 @@ public class EditFluidSolverParametersGUI extends Composite{
 		spinnTolE.setText(""+1E-4);
 		
 		scaleTolE = new Scale(this, SWT.NONE);
-		scaleTolE.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, true, 1, 1));
+		scaleTolE.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		scaleTolE.setMinimum(0);
 		scaleTolE.setMaximum(maxExpTolE-minExpTolE);
 		scaleTolE.setSelection(1);
@@ -102,7 +102,7 @@ public class EditFluidSolverParametersGUI extends Composite{
 		spinnMinFlowRate.setText(""+1E-9);
 		
 		scaleMinFlowRate = new Scale(this, SWT.NONE);
-		scaleMinFlowRate.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, true, 1, 1));
+		scaleMinFlowRate.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		scaleMinFlowRate.setMinimum(0);
 		scaleMinFlowRate.setMaximum(maxMinFlowRate-minMinFlowRate);
 		scaleMinFlowRate.setSelection(1);

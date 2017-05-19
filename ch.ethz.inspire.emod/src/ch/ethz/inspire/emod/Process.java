@@ -355,8 +355,11 @@ public class Process extends ConfigReader {
 		}
 		// All ok
 		getInstance().setValue("Time", time);
-
-		getInstance().setValue("SamplePeriod", Algo.greatestCommonDivisor(Algo.getIncrements(time)));
+		
+		if(time.length<2)
+			getInstance().setValue("SamplePeriod", 1);
+		else
+			getInstance().setValue("SamplePeriod", Algo.greatestCommonDivisor(Algo.getIncrements(time)));
 
 		getInstance().bufferedTime = null;
 
