@@ -213,12 +213,9 @@ public class EModSimulationMain {
 		 * Create simulation output file to store the simulation data.
 		 */
 		String path = EModSession.getResultFilePath();
-
-		SimulationOutput simoutput = new SimulationOutput(path,
-				machineComponentList, simulators);
+		SimulationOutput simoutput = new SimulationOutput(path,	machineComponentList, simulators);
 
 		String fempath = EModSession.getFEMExportFilePath();
-
 		FEMOutput femoutput = new FEMOutput(fempath, machineComponentList);
 
 		logger.info("initializing model");
@@ -326,6 +323,7 @@ public class EModSimulationMain {
 
 		/* Close simulation output */
 		simoutput.close();
+		femoutput.close();
 
 		/* Reset flag */
 		running = false;

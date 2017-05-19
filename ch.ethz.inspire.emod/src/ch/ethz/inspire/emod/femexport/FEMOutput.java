@@ -63,8 +63,7 @@ public class FEMOutput {
 			outfile.write("Time");
 			outfile.write(separator+"State");
 			for (MachineComponent mc : mclist) {
-				for (int i = 0; i < mc.getComponent().getBoundaryConditions()
-						.size(); i++) {
+				for (int i = 0; i < mc.getComponent().getBoundaryConditions().size(); i++) {
 					outfile.write(separator + mc.getName() + "-BC-" + (i + 1));
 				}
 			}
@@ -73,8 +72,7 @@ public class FEMOutput {
 			outfile.write("   ");
 			outfile.write(separator);
 			for (MachineComponent mc : mclist) {
-				for (BoundaryCondition bc : mc.getComponent()
-						.getBoundaryConditions()) {
+				for (BoundaryCondition bc : mc.getComponent().getBoundaryConditions()) {
 					outfile.write(separator + mc.getName() + "." + bc.getName());
 				}
 			}
@@ -83,18 +81,15 @@ public class FEMOutput {
 			outfile.write("[s]");
 			outfile.write(separator);
 			for (MachineComponent mc : mclist) {
-				for (BoundaryCondition bc : mc.getComponent()
-						.getBoundaryConditions()) {
-					outfile.write(separator + "[" + bc.getUnit().toString()
-							+ "]");
+				for (BoundaryCondition bc : mc.getComponent().getBoundaryConditions()) {
+					outfile.write(separator + "[" + bc.getUnit().toString() + "]");
 				}
 			}
 			outfile.write("\n");
 			/* 4th line: */
 			outfile.write("-");
 			for (MachineComponent mc : mclist) {
-				for (BoundaryCondition bc : mc.getComponent()
-						.getBoundaryConditions()) {
+				for (BoundaryCondition bc : mc.getComponent().getBoundaryConditions()) {
 					outfile.write(separator + bc.getType().toString());
 				}
 			}

@@ -25,6 +25,7 @@ import ch.ethz.inspire.emod.utils.Floodable;
 import ch.ethz.inspire.emod.utils.FluidContainer;
 import ch.ethz.inspire.emod.utils.IOContainer;
 import ch.ethz.inspire.emod.model.MachineComponent;
+import ch.ethz.inspire.emod.model.units.ContainerType;
 import ch.ethz.inspire.emod.model.units.SiUnit;
 import ch.ethz.inspire.emod.model.units.Unit;
 
@@ -214,6 +215,42 @@ public class SimulationOutput {
 				outfile.write(separator + "       ");
 				outfile.write(separator + "["
 						+ sc.getOutput().getUnit().toString() + "]");
+			}
+			outfile.write("\n");
+			/* 4th line: -\tType\tType\t... */
+			outfile.write("TIME");
+			outfile.write(separator);
+			for (MachineComponent mc : mclist) {
+				for (IOContainer input : mc.getComponent().getInputs()) {
+					if (input.hasReference())
+						continue;
+					if (mc.getComponent() instanceof Floodable
+							& input instanceof FluidContainer) {
+						outfile.write(separator + ContainerType.FLUIDDYNAMIC.toString());
+						outfile.write(separator + ContainerType.FLUIDDYNAMIC.toString());
+						outfile.write(separator + ContainerType.FLUIDDYNAMIC.toString());
+					} else
+						outfile.write(separator + input.getType().toString());
+				}
+				for (IOContainer output : mc.getComponent().getOutputs()) {
+					if (output.hasReference())
+						continue;
+					if (mc.getComponent() instanceof Floodable
+							& output instanceof FluidContainer) {
+						outfile.write(separator + ContainerType.FLUIDDYNAMIC.toString());
+						outfile.write(separator + ContainerType.FLUIDDYNAMIC.toString());
+						outfile.write(separator + ContainerType.FLUIDDYNAMIC.toString());
+					} else
+						outfile.write(separator + output.getType().toString());
+				}
+				if (null != mc.getComponent().getDynamicStateList())
+					for (int i = 0; i < mc.getComponent().getDynamicStateList().size(); i++) {
+						outfile.write(separator + "STATE");
+					}
+			}
+			for (int i = 0; i < simlist.size(); i++) {
+				outfile.write(separator + "       ");
+				outfile.write(separator + "INPUT");
 			}
 			outfile.write("\n");
 

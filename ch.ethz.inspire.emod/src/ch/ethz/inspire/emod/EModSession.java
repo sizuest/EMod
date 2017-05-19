@@ -340,23 +340,7 @@ public class EModSession {
 	 * @param processName
 	 */
 	public static void newProcess(String processName){
-		EModSession.setProcessName(processName);
-		
-		File processxml = new File(EModSession.getProcessConfigPath());
-		try {
-			processxml.getParentFile().mkdirs();
-			processxml.createNewFile();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		try {
-			Process.loadProcess(processName);
-			Process.setTimeVector(new double[]{0.0, 1.0});
-			Process.getInstance().saveValues();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		Process.newProcess(processName);
 	}
 		
 	

@@ -55,6 +55,16 @@ public class ConfigReader {
 	 */
 	public ConfigReader() {
 	}
+	
+	/**
+	 * Creates the config file and sub-folders on the file path if required
+	 * @throws IOException
+	 */
+	public void createFile() throws IOException{
+		File file = new File(filePath);
+		file.getParentFile().mkdirs();
+		file.createNewFile();
+	}
 
 	/**
 	 * @throws Exception
@@ -640,7 +650,6 @@ public class ConfigReader {
 				throw new Exception("ConfigReader: No action defined for type "
 						+ defVal.getClass().getSimpleName());
 		} catch (Exception e) {
-			System.err.println(e.getMessage());
 			
 			if((value instanceof String[]))
 				if(((String[]) value).length==0)

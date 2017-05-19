@@ -70,22 +70,20 @@ public class Process extends ConfigReader {
 	public static void newProcess(String name) {
 
 		/* Set new file name */
-		String path = EModSession.getRootPath()
-				+ File.separator
-				+ Defines.SIMULATIONCONFIGDIR 
-				+ File.separator
-				+ EModSession.getSimulationConfig();
+		EModSession.setProcessName(name);
 
-		getInstance().filePath = path + "/" + Defines.PROCESSDEFFILE_PREFIX + name + ".xml";
+		getInstance().filePath = EModSession.getProcessConfigPath();
+		
+		/* Create file */
+		try {
+			getInstance().createFile();
+			getInstance().ConfigReaderOpen();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		/* empty time and variable verctors */
-		try {
-			Process.setTimeVector(new double[] { 0.0 });
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
-		for (String key : Process.getVariableNames())
-			getInstance().setValue(key, 0);
+		clearProcess();
 
 		/* save */
 		try {

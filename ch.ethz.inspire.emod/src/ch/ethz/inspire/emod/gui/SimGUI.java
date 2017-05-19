@@ -52,7 +52,7 @@ public class SimGUI extends AGUITab {
 	
 	private ConfigCheckResultGUI checkResults;
 
-	private Button buttonCheckCfg, buttonRunSim;
+	private Button buttonRunSim;
 
 	private boolean simulationWasRunning = false;
 
@@ -176,7 +176,6 @@ public class SimGUI extends AGUITab {
 			EModSimulationMain.setForcedStop(EModStatusBarGUI.getProgressBar()
 					.getCancelStatus());
 		} else if (simulationWasRunning) {
-			buttonCheckCfg.setEnabled(true);
 			buttonRunSim.setEnabled(true);
 			EModStatusBarGUI.getProgressBar().reset();
 			simulationWasRunning = false;

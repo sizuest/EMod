@@ -92,9 +92,9 @@ public abstract class AEvaluationGUI extends AGUITab {
 	
 	private void getTimeVector(int col){
 		double[] values = new double[lines.size() - 3];
-		for (int i = 3; i < lines.size(); i++)
+		for (int i = 4; i < lines.size(); i++)
 			try {
-				values[i - 3] = Double.parseDouble(lines.get(i)[col]);
+				values[i - 4] = Double.parseDouble(lines.get(i)[col]);
 			} catch (Exception e) {
 				System.err.print("Result file: Could not parse entier result file. Line " + i + " failed due to bad format.");
 				e.printStackTrace();
@@ -105,9 +105,9 @@ public abstract class AEvaluationGUI extends AGUITab {
 	
 	private void getStateVector(int col){
 		MachineState[] values = new MachineState[lines.size() - 3];
-		for (int i = 3; i < lines.size(); i++)
+		for (int i = 4; i < lines.size(); i++)
 			try {
-				values[i - 3] = MachineState.valueOf(lines.get(i)[col]);
+				values[i - 4] = MachineState.valueOf(lines.get(i)[col]);
 			} catch (Exception e) {
 				System.err.print("Result file: Could not parse entier result file. Line " + i + " failed due to bad format.");
 				e.printStackTrace();
@@ -131,9 +131,9 @@ public abstract class AEvaluationGUI extends AGUITab {
 		String unit = lines.get(2)[col].replace("[", "").replace("]", "");
 		data.addUnit(new SiUnit(unit));
 		double[] values = new double[lines.size() - 3];
-		for (int i = 3; i < lines.size(); i++)
+		for (int i = 4; i < lines.size(); i++)
 			try {
-				values[i - 3] = Double.parseDouble(lines.get(i)[col]);
+				values[i - 4] = Double.parseDouble(lines.get(i)[col]);
 			} catch (Exception e) {
 				System.err
 						.print("Result file: Could not parse entier result file. Line "
@@ -166,9 +166,9 @@ public abstract class AEvaluationGUI extends AGUITab {
 		String unit = lines.get(2)[col].replace("[", "").replace("]", "");
 		temp.addUnit(new SiUnit(unit));
 		double[] values = new double[lines.size() - 3];
-		for (int i = 3; i < lines.size(); i++)
+		for (int i = 4; i < lines.size(); i++)
 			try {
-				values[i - 3] = Double.parseDouble(lines.get(i)[col]);
+				values[i - 4] = Double.parseDouble(lines.get(i)[col]);
 			} catch (Exception e) {
 				System.err
 						.print("Result file: Could not parse entier result file. Line "
