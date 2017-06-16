@@ -69,7 +69,7 @@ public class EditSessionGUI extends AConfigGUI {
 	 * @param style
 	 */
 	public EditSessionGUI(Composite parent, int style){
-		super(parent, style, ShowButtons.ALL, true);
+		super(parent, style, ShowButtons.ALL, false);
 		
 		init();
 	}
@@ -345,6 +345,9 @@ public class EditSessionGUI extends AConfigGUI {
 		EModSession.save();
 		
 		EModStatusBarGUI.updateMachineInfo();
+		
+		updatecomboMachineConfigName();
+		updatecomboSimConfigName();
 	}
 
 	/* (non-Javadoc)

@@ -514,10 +514,10 @@ public class EModSession {
 	 * @param name Name of the process to delete
 	 */
 	public static void removeProcess(String name){
-		String path = getRootPath() + File.separator + Defines.MACHINECONFIGDIR + File.separator + "process_" + name;
+		String path = getRootPath() + File.separator + Defines.SIMULATIONCONFIGDIR + File.separator + getSimulationConfig() + File.separator + "process_" + name +".xml";
 		File file = new File(path);
 		
-		if(file.exists() && !file.isDirectory())
+		if(file.exists())
 			file.delete();
 		
 		if(getProcessNames().length == 0)
