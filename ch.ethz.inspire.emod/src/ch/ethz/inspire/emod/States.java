@@ -15,6 +15,7 @@ package ch.ethz.inspire.emod;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
@@ -152,8 +153,8 @@ public class States {
 		 */
 		String prefix = PropertiesHandler
 				.getProperty("app.MachineDataPathPrefix");
-		String file = prefix + "/" + machineName + "/"
-				+ Defines.SIMULATIONCONFIGDIR + "/" + simConfigName + "/"
+		String file = prefix + File.separator + machineName + File.separator
+				+ Defines.SIMULATIONCONFIGDIR + File.separator + simConfigName + File.separator
 				+ Defines.MACHINESTATEFNAME;
 
 		getInstance().saveStatesToFile(file);

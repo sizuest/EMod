@@ -99,8 +99,9 @@ public class ConfigReader {
 		try {
 			props = new Properties();
 			props.loadFromXML(iostream);
-			iostream.close();
 		} catch (Exception e) {}
+		
+		iostream.close();
 
 	}
 
@@ -109,6 +110,7 @@ public class ConfigReader {
 	 */
 	public void Close() {
 		props.clear();
+		
 	}
 
 	/**
@@ -539,6 +541,8 @@ public class ConfigReader {
 	public void saveValues() throws IOException {
 		OutputStream ioStream = new FileOutputStream(filePath);
 		props.storeToXML(ioStream, comment);
+		ioStream.flush();
+		ioStream.close();
 	}
 
 	/**

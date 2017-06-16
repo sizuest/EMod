@@ -159,10 +159,10 @@ public class Machine {
 		 * Machines/NDM200/MachineConfig/TestConfig1/
 		 */
 		String prefix = EModSession.getRootPath();
-		String path = prefix + "/" + Defines.MACHINECONFIGDIR + "/" + machineConfig + "/";
+		String path = prefix + File.separator + Defines.MACHINECONFIGDIR + File.separator + machineConfig + File.separator;
 
 		/* Saves the machine */
-		saveMachineToFile(path);
+		saveMachineToFile(path + Defines.MACHINEFILENAME);
 
 		/* Clean up old simulator configs */
 		cleanUpConfigurations(path);
@@ -318,7 +318,7 @@ public class Machine {
 			Marshaller m = context.createMarshaller();
 			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
-			Writer w = new FileWriter(file + Defines.MACHINEFILENAME);
+			Writer w = new FileWriter(file);
 			m.marshal(machineModel, w);
 			w.close();
 		} catch (Exception e) {

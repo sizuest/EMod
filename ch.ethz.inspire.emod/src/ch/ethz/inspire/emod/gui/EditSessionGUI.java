@@ -12,8 +12,6 @@
  ***********************************/
 package ch.ethz.inspire.emod.gui;
 
-import java.io.File;
-import java.util.Arrays;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlEvent;
@@ -22,10 +20,13 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
@@ -33,7 +34,6 @@ import org.eclipse.swt.widgets.Text;
 import ch.ethz.inspire.emod.EModSession;
 import ch.ethz.inspire.emod.gui.utils.ShowButtons;
 import ch.ethz.inspire.emod.utils.LocalizationHandler;
-import ch.ethz.inspire.emod.utils.PropertiesHandler;
 
 /**
  * Selection of the machine to be displayed
@@ -133,10 +133,10 @@ public class EditSessionGUI extends AConfigGUI {
 	 */
 	protected void init() {
 		
-		PropertiesHandler.setProperty("app.MachineDataPathPrefix", "Machines");
+		// PropertiesHandler.setProperty("app.MachineDataPathPrefix", "Machines");
 
 		// Define content layout
-		getContent().setLayout(new GridLayout(2, false));
+		getContent().setLayout(new GridLayout(3, false));
 
 		// get machineName and machineConfigName from app.config file
 		machineName       = EModSession.getMachineName();
@@ -147,38 +147,51 @@ public class EditSessionGUI extends AConfigGUI {
 		// text load machine config
 		Label textLoadMachConfig = new Label(getContent(), SWT.TRANSPARENT);
 		textLoadMachConfig.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
-		textLoadMachConfig.setText(LocalizationHandler.getItem("app.gui.startup.machinename"));
+		textLoadMachConfig.setText(LocalizationHandler.getItem("app.gui.session.machinename"));
 
 		// combo for the user to select the desired MachConfig
 		textMachineName = new Text(getContent(), SWT.BORDER);
-		textMachineName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		textMachineName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 		textMachineName.setText(machineName);
 
 		// text load machine config
 		Label textLoadMachineConfig = new Label(getContent(), SWT.TRANSPARENT);
 		textLoadMachineConfig.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
-		textLoadMachineConfig.setText(LocalizationHandler.getItem("app.gui.startup.machineconfigname"));
+		textLoadMachineConfig.setText(LocalizationHandler.getItem("app.gui.session.machineconfigname"));
 
 		// combo for the user to select the desired SimConfig
 		comboMachineConfigName = new Combo(getContent(), SWT.NONE);
 		comboMachineConfigName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		// possible items of the combo are all SimConfig that match to the
 		// selected MachConfig
-		updatecomboMachineConfigName(machineName);
+		updatecomboMachineConfigName();
 		// prefill the last used SimConfig as default value into the combo
 		comboMachineConfigName.setText(machineConfigName);
+		
+		Image imageDelete = new Image(Display.getDefault(), "src/resources/Delete16.gif");
+		Button buttonDelete = new Button(getContent(), SWT.PUSH);
+		buttonDelete.setImage(imageDelete);
+		buttonDelete.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		buttonDelete.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				EModSession.removeMachineConfig(comboMachineConfigName.getText());
+				updatecomboMachineConfigName();
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {}
+		});
 
 		// text load simulation config
 		Label textLoadSimConfig = new Label(getContent(), SWT.TRANSPARENT);
 		textLoadSimConfig.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
-		textLoadSimConfig.setText(LocalizationHandler.getItem("app.gui.startup.simulationconfigname"));
+		textLoadSimConfig.setText(LocalizationHandler.getItem("app.gui.session.simulationconfigname"));
 
 		// combo for the user to select the desired SimConfig
 		comboSimConfigName = new Combo(getContent(), SWT.NONE);
 		comboSimConfigName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		// possible items of the combo are all SimConfig that match to the
-		// selected MachConfig
-		updatecomboSimConfigName(machineName);
 		// prefill the last used SimConfig as default value into the combo
 		comboSimConfigName.setText(simConfigName);
 
@@ -190,12 +203,10 @@ public class EditSessionGUI extends AConfigGUI {
 				// updatecomboMachineConfigName
 				comboProcName.setEnabled(false);
 
-				// get Text of chosen MachineConfig
-				String stringMachConfig = textMachineName.getText();
 				String stringSimConfig = comboSimConfigName.getText();
 				// update comboMachineConfigName according to the Selection of
 				// MachineConfig
-				updatecomboProcName(stringMachConfig, stringSimConfig);
+				updatecomboProcName(stringSimConfig);
 
 				// enable comboMachineConfigName after update
 				comboProcName.setEnabled(true);
@@ -206,32 +217,62 @@ public class EditSessionGUI extends AConfigGUI {
 				// Not used
 			}
 		});
+		
+		buttonDelete = new Button(getContent(), SWT.PUSH);
+		buttonDelete.setImage(imageDelete);
+		buttonDelete.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		buttonDelete.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				EModSession.removeSimulationConfig(comboSimConfigName.getText());
+				updatecomboSimConfigName();
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {}
+		});
 
 		// text load process config
 		Label textLoadProcConfig = new Label(getContent(), SWT.TRANSPARENT);
 		textLoadProcConfig.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
-		textLoadProcConfig.setText(LocalizationHandler.getItem("app.gui.startup.processconfigname"));
+		textLoadProcConfig.setText(LocalizationHandler.getItem("app.gui.session.processconfigname"));
 
 		// combo for the user to select the desired process
 		comboProcName = new Combo(getContent(), SWT.NONE);
 		comboProcName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
 				false, 1, 1));
-		// possible items of the combo are all process that match to the
-		// selected MachConfig and SimConfig
-		updatecomboProcName(machineName, simConfigName);
 		// prefill the last used process as default value into the combo
 		comboProcName.setText(procName);
+		
+		buttonDelete = new Button(getContent(), SWT.PUSH);
+		buttonDelete.setImage(imageDelete);
+		buttonDelete.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		buttonDelete.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				EModSession.removeProcess(comboProcName.getText());
+				updatecomboProcName(comboSimConfigName.getText());
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {}
+		});
 		
 		// text comment
 		Label textLoadComment = new Label(getContent(), SWT.TRANSPARENT);
 		textLoadComment.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1));
-		textLoadComment.setText(LocalizationHandler.getItem("app.gui.startup.comment"));
+		textLoadComment.setText(LocalizationHandler.getItem("app.gui.session.comment"));
 
 		textComment = new Text(getContent(), SWT.MULTI | SWT.BORDER | SWT.V_SCROLL);
-		textComment.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		textComment.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 		textComment.setText(EModSession.getNotes());
+		textComment.setEditable(false);
 						
 		getContent().pack();
+		
+		updatecomboSimConfigName();
 
 	}
 
@@ -242,94 +283,48 @@ public class EditSessionGUI extends AConfigGUI {
 	 * @param stringMachConfig
 	 *            update the selection of possible machine conifgurations
 	 */
-	protected static void updatecomboMachineConfigName(String stringMachConfig) {
-		String path = PropertiesHandler
-				.getProperty("app.MachineDataPathPrefix")
-				+ "/"
-				+ stringMachConfig + "/MachineConfig/";
-		File subdir = new File(path);
-
-		// check if subdirectory exists, then show possible configurations to
-		// select
-		if (subdir.exists()) {
-			String[] subitems = subdir.list();
-			Arrays.sort(subitems);
-			comboMachineConfigName.setItems(subitems);
-			if (1 == subitems.length)
-				comboMachineConfigName.setText(subitems[0]);
-			else
-				comboMachineConfigName.setText(LocalizationHandler
-						.getItem("app.gui.startup.selectmachineconfigname"));
-		}
-		// otherwise inform the user to create a new SimConfig
-		else {
-			comboMachineConfigName.removeAll();
-			comboMachineConfigName.setText(LocalizationHandler
-					.getItem("app.gui.startup.newmachineconfigname"));
-		}
+	protected static void updatecomboMachineConfigName() {
+		String[] items = EModSession.getMachineConfigs();
+				
+		comboMachineConfigName.setItems(items);
+		comboMachineConfigName.select(0);
+		
+		for(int i=1; i<items.length; i++)
+			if(items[i].equals(EModSession.getMachineConfig())){
+				comboMachineConfigName.select(i);
+				break;
+			}
 	}
 
 	// update the comboSimConfigName according to the selection of
 	// comboMachineName
-	protected static void updatecomboSimConfigName(String stringMachConfig) {
-		String path = PropertiesHandler
-				.getProperty("app.MachineDataPathPrefix")
-				+ "/"
-				+ stringMachConfig + "/SimulationConfig/";
-		File subdir = new File(path);
-
-		// check if subdirectory exists, then show possible configurations to
-		// select
-		if (subdir.exists()) {
-			String[] subitems = subdir.list();
-			Arrays.sort(subitems);
-			comboSimConfigName.setItems(subitems);
-			if (1 == subitems.length)
-				comboSimConfigName.setText(subitems[0]);
-			else
-				comboSimConfigName.setText(LocalizationHandler
-						.getItem("app.gui.startup.selectmachineconfigname"));
-		}
-		// otherwise inform the user to create a new SimConfig
-		else {
-			comboSimConfigName.removeAll();
-			comboSimConfigName.setText(LocalizationHandler
-					.getItem("app.gui.startup.newmachineconfigname"));
-		}
+	protected static void updatecomboSimConfigName() {
+		String[] items = EModSession.getSimulationConfigs();
+		
+		comboSimConfigName.setItems(items);
+		comboSimConfigName.select(0);
+		
+		for(int i=1; i<items.length; i++)
+			if(items[i].equals(EModSession.getSimulationConfig())){
+				comboSimConfigName.select(i);
+				break;
+			}
+		
+		updatecomboProcName(comboSimConfigName.getText());
 	}
 
 	// update the comboProcName according to the selection of comboMachineName
-	protected static void updatecomboProcName(String stringMachConfig,
-			String stringSimConfig) {
-		String path = PropertiesHandler
-				.getProperty("app.MachineDataPathPrefix")
-				+ "/"
-				+ stringMachConfig + "/SimulationConfig/" + stringSimConfig;
-		File files = new File(path);
-
-		// check if subdirectory exists, then show possible configurations to
-		// select
-		if (files.exists()) {
-			comboProcName.removeAll();
-			for (File f : files.listFiles()) {
-				if (f.getName().startsWith("process_")) {
-					comboProcName.add(f.getName().substring(8,
-							f.getName().length() - 4));
-				}
+	protected static void updatecomboProcName(String stringSimConfig) {
+		String[] items = EModSession.getProcessNames(stringSimConfig);
+		
+		comboProcName.setItems(items);
+		comboProcName.select(0);
+		
+		for(int i=1; i<items.length; i++)
+			if(items[i].equals(EModSession.getProcessName())){
+				comboProcName.select(i);
+				break;
 			}
-			
-
-			if (1 == comboProcName.getItems().length)
-				comboProcName.setText(comboProcName.getItems()[0]);
-			else
-				comboProcName.setText(LocalizationHandler
-						.getItem("app.gui.startup.selectmachineconfigname"));
-		}
-		// otherwise inform the user to create a new SimConfig
-		else {
-			comboProcName.removeAll();
-			comboProcName.setText(LocalizationHandler.getItem("app.gui.startup.newmachineconfigname"));
-		}
 	}
 
 	/* (non-Javadoc)
@@ -346,8 +341,6 @@ public class EditSessionGUI extends AConfigGUI {
 		EModSession.setMachineConfig(machConfig);
 		EModSession.setSimulationConfig(simConfig);
 		EModSession.setProcessName(procName);
-		
-		EModSession.setNotes(textComment.getText());
 		
 		EModSession.save();
 		

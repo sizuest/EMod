@@ -33,10 +33,13 @@ public class EModFileHandling {
 		try{
 			Machine.saveMachine(EModSession.getMachineName(), EModSession.getMachineConfig());
 			States.saveStates(EModSession.getMachineName(), EModSession.getSimulationConfig());
+			EModSession.addNote("Saved project at: '"+path+"'");
 			EModSession.save();
 			ZipUtils.zipFolder(getMachinePath(), path);
+			EModSession.setPath(path);
 		} catch (Exception e){
 			System.err.println("SAVING FAILED: Saving the set-up at'"+path+"' was not successful: ");
+			EModSession.addNote("SAVING FAILED!");
 			e.printStackTrace();
 		}
 	}

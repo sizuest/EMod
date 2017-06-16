@@ -17,6 +17,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -135,6 +139,7 @@ public class EModSession {
 	 */
 	public static void setMachineName(String machineName) {
 		getInstance().machineName = machineName;
+		addNote("Set machine name: '"+machineName+"'");
 	}
 
 	/**
@@ -148,7 +153,12 @@ public class EModSession {
 	 * @param processName the processName to set
 	 */
 	public static void setProcessName(String processName) {
-		getInstance().processName = processName;
+		if(-1<Arrays.binarySearch(getProcessNames(), processName))
+			getInstance().processName = processName;
+		else
+			newProcess(processName);
+		
+		addNote("Set process name: '"+processName+"'");
 	}
 
 	/**
@@ -162,7 +172,11 @@ public class EModSession {
 	 * @param machineConfig the machineConfig to set
 	 */
 	public static void setMachineConfig(String machineConfig) {
-		getInstance().machineConfig = machineConfig;
+		if(-1<Arrays.binarySearch(getMachineConfigs(), machineConfig))
+			getInstance().machineConfig = machineConfig;
+		else
+			newMachineConfig(machineConfig);
+		addNote("Set machine config name: '"+machineConfig+"'");
 	}
 
 	/**
@@ -176,7 +190,12 @@ public class EModSession {
 	 * @param simulationConfig the simulationConfig to set
 	 */
 	public static void setSimulationConfig(String simulationConfig) {
-		getInstance().simulationConfig = simulationConfig;
+		if(-1<Arrays.binarySearch(getSimulationConfigs(), simulationConfig))
+			getInstance().simulationConfig = simulationConfig;
+		else
+			newSimulationConfig(simulationConfig, "default");
+		
+		addNote("Set simulation config name: '"+simulationConfig+"'");
 	}
 
 	/**
@@ -187,10 +206,10 @@ public class EModSession {
 	}
 
 	/**
-	 * @param notes the notes to set
+	 * @param text the notes to add
 	 */
-	public static void setNotes(String notes) {
-		getInstance().notes = notes;
+	public static void addNote(String text) {
+		getInstance().notes += "[+] "+text+" ("+(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")).format(new Date())+", "+System.getProperty("user.name")+")\n";
 	}
 	
 	/**
@@ -288,7 +307,7 @@ public class EModSession {
 	 * @param machineConfig
 	 */
 	public static void newMachineConfig(String machineConfig){
-		EModSession.setMachineConfig(machineConfig);
+		EModSession.getInstance().machineConfig = machineConfig;
 		
 		File machinexml = new File(EModSession.getMachineConfigPath());
 		try {
@@ -311,8 +330,8 @@ public class EModSession {
 	 * @param processName
 	 */
 	public static void newSimulationConfig(String simConfig, String processName){
-		EModSession.setSimulationConfig(simConfig);
-		EModSession.setProcessName(processName);
+		EModSession.getInstance().simulationConfig = simConfig;
+		EModSession.getInstance().processName = processName;
 		
 		File simxml     = new File(EModSession.getSimulationConfigPath());
 		//File processxml = new File(EModSession.getProcessConfigPath());
@@ -336,11 +355,79 @@ public class EModSession {
 	}
 	
 	/**
+	 * Returns the available machine configurations
+	 * @return
+	 */
+	public static String[] getMachineConfigs(){
+		String path = getRootPath() + File.separator + Defines.MACHINECONFIGDIR;
+		File subdir = new File(path);
+
+		// check if subdirectory exists, then show possible configurations
+		if (subdir.exists()) {
+			String[] subitems = subdir.list();
+			Arrays.sort(subitems);
+			return subitems;
+		}
+		
+		return new String[] {};
+	}
+	
+	/**
+	 * Returns the available simulation configurations
+	 * @return
+	 */
+	public static String[] getSimulationConfigs(){
+		String path = getRootPath() + File.separator + Defines.SIMULATIONCONFIGDIR;
+		File subdir = new File(path);
+
+		// check if subdirectory exists, then show possible configurations
+		if (subdir.exists()) {
+			String[] subitems = subdir.list();
+			Arrays.sort(subitems);
+			return subitems;
+		}
+		
+		return new String[] {};
+	}
+	
+	/**
+	 * Returns the available processes for the current simulation config
+	 * @return
+	 */
+	public static String[] getProcessNames(){
+		return getProcessNames(getSimulationConfig());
+	}
+	
+	/**
+	 * Returns the available processes for the given simulation config
+	 * @param simConfig 
+	 * @return
+	 */
+	public static String[] getProcessNames(String simConfig){
+		String path = getRootPath() + File.separator + Defines.SIMULATIONCONFIGDIR + File.separator +  simConfig;
+		File subdir = new File(path);
+		
+		ArrayList<String> names = new ArrayList<String>();
+		
+		for (File f : subdir.listFiles()) {
+			if (f.getName().startsWith("process_")) {
+				names.add(f.getName().substring(8, f.getName().length() - 4));
+			}
+		}
+		
+		String[] ret = names.toArray(new String[] {});
+		Arrays.sort(ret);
+
+		return ret;
+	}
+	
+	/**
 	 * Creates a new process with the stated name
 	 * @param processName
 	 */
 	public static void newProcess(String processName){
-		Process.newProcess(processName);
+		getInstance().processName = processName;
+		Process.newProcess(processName);	
 	}
 		
 	
@@ -352,6 +439,8 @@ public class EModSession {
 	 * @param processName
 	 */
 	public static void newSession(String machineName, String machineConfig, String simConfig, String processName){
+		
+		getInstance().notes = "";
 		
 		getInstance();
 		// Exit library mode
@@ -366,16 +455,86 @@ public class EModSession {
 		EModSession.setPath(null);
 	}
 	
+	
+	
 	/**
-	 * Toogles whether to use the library or not
+	 * Toggles whether to use the library or not
 	 * @param b
 	 */
 	public static void setLibrary(boolean b){
-		if(b)
+		if(b){
 			PropertiesHandler.setProperty("app.MachineDataPathPrefix", Defines.LIBFILESPACE);
-		else
+			addNote("Enabled library mode");
+		}
+		else{
 			PropertiesHandler.setProperty("app.MachineDataPathPrefix", Defines.TEMPFILESPACE);
+			addNote("Disabled library mode");
+		}
 		
+	}
+	
+	/**
+	 * @param name Name of the machine config to delete
+	 */
+	public static void removeMachineConfig(String name){
+		String path = getRootPath() + File.separator + Defines.MACHINECONFIGDIR + File.separator + name;
+		File dir = new File(path);
+		
+		if(dir.exists() && dir.isDirectory())
+			deleteFolder(dir);
+		
+		if(getMachineConfigs().length == 0)
+			newMachineConfig("MachineConfig1");
+		else
+			setMachineConfig(getMachineConfigs()[0]);
+	}
+	
+	/**
+	 * @param name Name of the sim config to delete
+	 */
+	public static void removeSimulationConfig(String name){
+		String path = getRootPath() + File.separator + Defines.SIMULATIONCONFIGDIR + File.separator + name;
+		File dir = new File(path);
+				
+		if(dir.exists() && dir.isDirectory())
+			deleteFolder(dir);
+		
+		
+		if(getSimulationConfigs().length == 0)
+			newSimulationConfig("SimConfig1", "default");
+		else{
+			setSimulationConfig(getSimulationConfigs()[0]);
+			setProcessName(getProcessNames()[0]);
+		}
+		
+		
+	}
+
+	/**
+	 * @param name Name of the process to delete
+	 */
+	public static void removeProcess(String name){
+		String path = getRootPath() + File.separator + Defines.MACHINECONFIGDIR + File.separator + "process_" + name;
+		File file = new File(path);
+		
+		if(file.exists() && !file.isDirectory())
+			file.delete();
+		
+		if(getProcessNames().length == 0)
+			newProcess("default");
+		else
+			setProcessName(getProcessNames()[0]);
+	}
+	
+	
+	private static void deleteFolder(File folder) {
+        for(File f: folder.listFiles()) {
+            f.delete();
+            
+            System.out.println(f.canWrite());
+        }
+		
+		folder.delete();
 	}
 
 

@@ -2,7 +2,17 @@
 <eModSession>
     <machineName>Test</machineName>
     <processName>default</processName>
-    <machineConfig>MdlConfig1</machineConfig>
-    <simulationConfig>SimConfig1</simulationConfig>
-    <notes></notes>
+    <machineConfig>Test1</machineConfig>
+    <simulationConfig>Test1</simulationConfig>
+    <notes>[+] Disabled library mode (2017/06/16 16:30:35, Simon Züst)
+[+] Set machine name: 'New machine' (2017/06/16 16:30:35, Simon Züst)
+[+] Set machine config name: 'ModelConfig1' (2017/06/16 16:30:35, Simon Züst)
+[+] Set simulation config name: 'SimConfig1' (2017/06/16 16:30:35, Simon Züst)
+[+] Set process name: 'default' (2017/06/16 16:30:35, Simon Züst)
+[+] Set process name: 'default' (2017/06/16 16:30:35, Simon Züst)
+[+] Set machine name: 'Test' (2017/06/16 16:30:52, Simon Züst)
+[+] Set machine config name: 'Test1' (2017/06/16 16:30:52, Simon Züst)
+[+] Set simulation config name: 'Test1' (2017/06/16 16:30:52, Simon Züst)
+[+] Set process name: 'default' (2017/06/16 16:30:52, Simon Züst)
+</notes>
 </eModSession>

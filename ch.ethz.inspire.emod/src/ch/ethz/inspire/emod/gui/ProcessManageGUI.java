@@ -196,8 +196,7 @@ public class ProcessManageGUI extends Composite {
 		buttonCreate.addSelectionListener(new SelectionListener() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				Process.newProcess(text.getText());
-				EModSession.setProcessName(text.getText());
+				EModSession.newProcess(text.getText());
 				update();
 				shell.dispose();
 			}

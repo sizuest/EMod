@@ -70,8 +70,6 @@ public class Process extends ConfigReader {
 	public static void newProcess(String name) {
 
 		/* Set new file name */
-		EModSession.setProcessName(name);
-
 		getInstance().filePath = EModSession.getProcessConfigPath();
 		
 		/* Create file */
