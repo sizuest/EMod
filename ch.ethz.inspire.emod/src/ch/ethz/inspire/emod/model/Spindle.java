@@ -27,6 +27,7 @@ import ch.ethz.inspire.emod.femexport.BoundaryCondition;
 import ch.ethz.inspire.emod.femexport.BoundaryConditionType;
 import ch.ethz.inspire.emod.model.fluid.FECDuct;
 import ch.ethz.inspire.emod.model.fluid.FluidCircuitProperties;
+import ch.ethz.inspire.emod.model.parameters.PhysicalValue;
 import ch.ethz.inspire.emod.model.thermal.ThermalArray;
 import ch.ethz.inspire.emod.model.thermal.ThermalElement;
 import ch.ethz.inspire.emod.model.units.*;
@@ -85,6 +86,10 @@ public class Spindle extends APhysicalComponent implements Floodable {
 	private double massStructure;
 	private double alphaCoolant, volumeCoolant;
 	private double lastTemperatureIn = Double.NaN;
+	
+	private double agDiameter;
+	private double agGapWidth;
+	private double agGapLength;
 
 	// Submodels
 	private AMotor motor;
@@ -169,6 +174,9 @@ public class Spindle extends APhysicalComponent implements Floodable {
 			preloadForce  = params.getPhysicalValue("PreloadForce", new SiUnit("N")).getValues();
 			bearingType   = params.getStringArray("BearingType");
 			massStructure = params.getPhysicalValue("StructureMass", new SiUnit("kg")).getValue();
+			agDiameter  = params.getValue("AirGapDiameter", new PhysicalValue(0.0, new SiUnit("m"))).getValue();
+			agGapWidth  = params.getValue("AirGapWidth", new PhysicalValue(0.0, new SiUnit("m"))).getValue();
+			agGapLength = params.getValue("AirGapLength", new PhysicalValue(0.0, new SiUnit("m"))).getValue();
 			params.deleteValue("AirGapFrictionCoeff");
 			params.saveValues();
 
@@ -279,7 +287,6 @@ public class Spindle extends APhysicalComponent implements Floodable {
 	@Override
 	public void update() {
 
-		// TODO Workarround
 		if (fluidIn.getTemperature() <= 0) {
 			if (Double.isNaN(lastTemperatureIn))
 				lastTemperatureIn = structure.getTemperature().getValue();
@@ -306,7 +313,8 @@ public class Spindle extends APhysicalComponent implements Floodable {
 				}
 
 			// Air Gap
-			frictionAirGap = 0; //TODO Math.pow(rotspeed.getValue() * 2 * Math.PI, agFrictCoeff[0]) * agFrictCoeff[1];
+			frictionAirGap = AirGap.getTorque(rotspeed.getValue(), structure.getTemperature().getValue(), 
+					agDiameter, agGapWidth, agGapLength);
 
 			frictionTorque += frictionAirGap;
 			frictionLosses += frictionAirGap * rotspeed.getValue() * 2 * Math.PI;
