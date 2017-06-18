@@ -1,176 +1,170 @@
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected double ch.ethz.inspire.emod.model.MovingMass.mass
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected double ch.ethz.inspire.emod.model.MovingMass.inertia
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected double ch.ethz.inspire.emod.model.MovingMass.angle
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected double ch.ethz.inspire.emod.model.MovingMass.lever
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.Bearing.type
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.Bearing.type
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.Spindle.type
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.Spindle.type
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.Tank.type
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.Tank.type
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.Pump.type
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.Pump.type
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.ForcedFluidFlow.type
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.ForcedFluidFlow.type
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.control.HysteresisControl.type
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.control.HysteresisControl.type
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.control.SwitchControl.signalUnit
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.control.SwitchControl.signalUnit
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.control.SwitchControl.controlUnit
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.control.SwitchControl.controlUnit
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected double ch.ethz.inspire.emod.model.control.SwitchControl.threshold
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected boolean ch.ethz.inspire.emod.model.control.SwitchControl.passHigh
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.math.Sum.unit
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.math.Sum.unit
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.math.Gain.unit
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.math.Gain.unit
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected double ch.ethz.inspire.emod.model.math.Gain.gain
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.thermal.HomogStorage.name
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.thermal.HomogStorage.name
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.thermal.HomogStorage.type
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.thermal.HomogStorage.type
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.thermal.HomogStorage.parentType
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.thermal.HomogStorage.parentType
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.thermal.LayerStorage.type
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.thermal.LayerStorage.type
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.thermal.LayerStorage.parentType
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.thermal.LayerStorage.parentType
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.thermal.ForcedHeatTransfere.type
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.thermal.ForcedHeatTransfere.type
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.thermal.ForcedHeatTransfere.parentType
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.thermal.ForcedHeatTransfere.parentType
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.thermal.FreeHeatTransfere.type
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.thermal.FreeHeatTransfere.type
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.thermal.FreeHeatTransfere.parentType
-Jun 18, 2017 4:44:23 PM com.sun.xml.internal.bind.v2.runtime.reflect.opt.OptimizedAccessorFactory get
-FEIN: Using optimized Accessor for protected java.lang.String ch.ethz.inspire.emod.model.thermal.FreeHeatTransfere.parentType
-Jun 18, 2017 4:44:23 PM  
-INFORMATION: No state map existing: Creating empty state map
-Jun 18, 2017 4:44:23 PM ch.ethz.inspire.emod.States saveStatesToFile
-INFORMATION: Saving machine state sequence to file: Temp/NewMachine/SimulationConfig/SimConfig1/MachineStateSequence.txt
-Jun 18, 2017 4:44:23 PM ch.ethz.inspire.emod.EModMain <init>
-INFORMATION: Start EModMain
-Jun 18, 2017 4:44:23 PM ch.ethz.inspire.emod.EModMain main
-INFORMATION: EModMain called EModGUI
-Jun 18, 2017 4:44:23 PM ch.ethz.inspire.emod.gui.EModGUI <init>
-DEBUG: init menu
-Jun 18, 2017 4:44:23 PM ch.ethz.inspire.emod.gui.EModGUI <init>
-DEBUG: init tabs
-Jun 18, 2017 4:44:23 PM ch.ethz.inspire.emod.States readStatesFromFile
-INFORMATION: Read machine state sequence from file: Temp/NewMachine/SimulationConfig/SimConfig1/MachineStateSequence.txt
-Jun 18, 2017 4:44:23 PM  
-INFORMATION: ConfigReader: Temp/NewMachine/SimulationConfig/SimConfig1/Simulation.xml: Creating new parameter 'simulationPeriod' with value '1'
-Jun 18, 2017 4:44:23 PM  
-INFORMATION: ConfigReader: Temp/NewMachine/SimulationConfig/SimConfig1/Simulation.xml: Creating new parameter 'FluidSolver.MaxIter' with value '20'
-Jun 18, 2017 4:44:23 PM  
-INFORMATION: ConfigReader: Temp/NewMachine/SimulationConfig/SimConfig1/Simulation.xml: Creating new parameter 'FluidSolver.RelTol' with value '1.0E-4'
-Jun 18, 2017 4:44:23 PM  
-INFORMATION: ConfigReader: Temp/NewMachine/SimulationConfig/SimConfig1/Simulation.xml: Creating new parameter 'FluidSolver.MinFlowRate' with value '1.0E-9'
-Jun 18, 2017 4:44:23 PM  
-INFORMATION: ConfigReader: Temp/NewMachine/SimulationConfig/SimConfig1/Simulation.xml: Creating new parameter 'Output.FEM' with value 'true'
-Jun 18, 2017 4:44:24 PM sun.awt.X11.XToolkit setupModifierMap
-FEIN: In setupModifierMap
-Jun 18, 2017 4:44:24 PM sun.awt.X11.XToolkit setupModifierMap
-FEIN: metaMask = 0
-Jun 18, 2017 4:44:24 PM sun.awt.X11.XToolkit setupModifierMap
-FEIN: altMask = 8
-Jun 18, 2017 4:44:24 PM sun.awt.X11.XToolkit setupModifierMap
-FEIN: numLockMask = 16
-Jun 18, 2017 4:44:24 PM sun.awt.X11.XToolkit setupModifierMap
-FEIN: modeSwitchMask = 128
-Jun 18, 2017 4:44:24 PM sun.awt.X11.XToolkit setupModifierMap
-FEIN: modLockIsShiftLock = 0
-Jun 18, 2017 4:44:24 PM sun.awt.X11.XToolkit setBackingStoreType
-KONFIGURATION: The system property sun.awt.backingStore is not set, by default backingStore=NotUseful
-Jun 18, 2017 4:44:24 PM sun.awt.X11.XNETProtocol detect
-FEIN: ### sun.awt.X11.XNETProtocol@2d710f1a is active: true
-Jun 18, 2017 4:44:24 PM sun.awt.X11.XWM getWMID
-FEIN: _NET_WM_NAME is Xfwm4
-Jun 18, 2017 4:44:24 PM sun.awt.X11.XWINProtocol detect
-FEIN: ### sun.awt.X11.XWINProtocol@6bd61f98 is active: false
-Jun 18, 2017 4:44:24 PM sun.awt.X11.XNETProtocol isWMName
-FEIN: ### WM_NAME = Xfwm4
-Jun 18, 2017 4:44:24 PM sun.awt.X11.XNETProtocol isWMName
-FEIN: ### WM_NAME = Xfwm4
-Jun 18, 2017 4:44:24 PM sun.awt.X11.XNETProtocol isWMName
-FEIN: ### WM_NAME = Xfwm4
-Jun 18, 2017 4:44:24 PM sun.awt.X11.XNETProtocol isWMName
-FEIN: ### WM_NAME = Xfwm4
-Jun 18, 2017 4:44:24 PM sun.awt.X11.XNETProtocol isWMName
-FEIN: ### WM_NAME = Xfwm4
-Jun 18, 2017 4:44:24 PM sun.awt.X11.XNETProtocol isWMName
-FEIN: ### WM_NAME = Xfwm4
-Jun 18, 2017 4:44:24 PM sun.awt.X11.XNETProtocol isWMName
-FEIN: ### WM_NAME = Xfwm4
-Jun 18, 2017 4:44:24 PM sun.awt.X11.XNETProtocol isWMName
-FEIN: ### WM_NAME = Xfwm4
-Jun 18, 2017 4:44:24 PM sun.awt.X11.XProtocol checkProtocol
-FEIN: sun.awt.X11.XNETProtocol@2d710f1a:_NET_SUPPORTED:449 supports [352, _NET_WM_NAME:353, 354, 355, _NET_WM_STATE:356, _NET_WM_STATE_ABOVE:357, _NET_WM_STATE_BELOW:358, _NET_WM_STATE_FULLSCREEN:359, _NET_WM_STATE_HIDDEN:360, _NET_WM_STATE_MODAL:361, _NET_WM_STATE_MAXIMIZED_VERT:362, _NET_WM_STATE_MAXIMIZED_HORZ:363, _NET_WM_STATE_SKIP_TASKBAR:364, _NET_WM_STATE_SKIP_PAGER:365, 366, 367, 368, _NET_WM_WINDOW_TYPE:369, _NET_WM_WINDOW_TYPE_DIALOG:371, 374, _NET_WM_WINDOW_TYPE_NORMAL:375, _NET_WM_WINDOW_TYPE_UTILITY:378, 379, 380, 383, 448, _NET_SUPPORTED:449, 450, 451, 452, 453, 454, 455, 456, 457, 458, 459, 460, 461, 462, 463, 464, 465, 466, 467, 468, 469, _NET_WM_STATE_SHADED:470, 471, 472, _NET_ACTIVE_WINDOW:345, 346, _NET_FRAME_EXTENTS:347, 348, 350, 351, 416, 417, _NET_WM_WINDOW_OPACITY:423, 430, 433, 434, 438, 439, 440, 441, 442, 443, 444, 445, 446, _NET_REQUEST_FRAME_EXTENTS:447, 393, 396, _NET_SUPPORTING_WM_CHECK:400, 415]
-Jun 18, 2017 4:44:24 PM sun.awt.X11.XWM <init>
-FEIN: Window manager: Other WM
-Jun 18, 2017 4:44:25 PM ch.ethz.inspire.emod.gui.EModGUI$1 widgetSelected
-DEBUG: tabAnalysis selected
-Jun 18, 2017 4:44:25 PM  
-INFORMATION: tab Analysis selected
-Jun 18, 2017 4:44:25 PM ch.ethz.inspire.emod.gui.EModGUI$1 widgetSelected
-DEBUG: updating analysis tabs
-Jun 18, 2017 4:44:25 PM ch.ethz.inspire.emod.gui.AEvaluationGUI$1$1 run
-INFORMATION: reading simulation data from file 'Temp/NewMachine/Results/MdlConfig1_SimConfig1_default.dat'
-Jun 18, 2017 4:44:25 PM  
-SCHWERWIEGEND: Result file Temp/NewMachine/Results/MdlConfig1_SimConfig1_default.dat is non existent
-Jun 18, 2017 4:44:27 PM ch.ethz.inspire.emod.gui.EModGUI$1 widgetSelected
+Jun 18, 2017 7:20:41 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:20:42 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:20:42 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:20:42 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:20:42 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:20:42 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:20:42 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:20:42 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:20:42 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:08 PM  
+INFORMATION: Spindle: 166.5328778130911
+Jun 18, 2017 7:25:11 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:11 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:11 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:11 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:11 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:11 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:11 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:11 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:11 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:11 PM ch.ethz.inspire.emod.gui.EModGUI$1 widgetSelected
 DEBUG: tabSimulation selected
-Jun 18, 2017 4:44:27 PM  
+Jun 18, 2017 7:25:11 PM  
 INFORMATION: tab Simulation selected
-Jun 18, 2017 4:44:27 PM ch.ethz.inspire.emod.States readStatesFromFile
+Jun 18, 2017 7:25:11 PM ch.ethz.inspire.emod.States readStatesFromFile
 INFORMATION: Read machine state sequence from file: Temp/NewMachine/SimulationConfig/SimConfig1/MachineStateSequence.txt
-Jun 18, 2017 4:44:27 PM ch.ethz.inspire.emod.gui.EModGUI$1 widgetSelected
+Jun 18, 2017 7:25:11 PM ch.ethz.inspire.emod.gui.EModGUI$1 widgetSelected
 DEBUG: updating simulation configuration tabs
-Jun 18, 2017 4:44:41 PM ch.ethz.inspire.emod.gui.EModGUI$1 widgetSelected
-DEBUG: tabMachine Model selected
-Jun 18, 2017 4:44:41 PM  
-INFORMATION: tab Machine Model selected
+Jun 18, 2017 7:25:14 PM ch.ethz.inspire.emod.gui.EModGUI$1 widgetSelected
+DEBUG: tabAnalysis selected
+Jun 18, 2017 7:25:14 PM  
+INFORMATION: tab Analysis selected
+Jun 18, 2017 7:25:14 PM ch.ethz.inspire.emod.gui.EModGUI$1 widgetSelected
+DEBUG: updating analysis tabs
+Jun 18, 2017 7:25:14 PM ch.ethz.inspire.emod.gui.AEvaluationGUI$1$1 run
+INFORMATION: reading simulation data from file 'Temp/NewMachine/Results/MdlConfig1_SimConfig1_default.dat'
+Jun 18, 2017 7:25:18 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:18 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:18 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:18 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:18 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:18 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:18 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:18 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:18 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:18 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:18 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:18 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:18 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:18 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:18 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:18 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:18 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:18 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:18 PM  
+INFORMATION: Spindle: 166.52221351443305
+Jun 18, 2017 7:25:18 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:18 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:18 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:18 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:18 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:18 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:18 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:18 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:18 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:18 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:44 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab2
+Jun 18, 2017 7:25:44 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab2
+Jun 18, 2017 7:25:44 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab2
+Jun 18, 2017 7:25:44 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab2
+Jun 18, 2017 7:25:44 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab2
+Jun 18, 2017 7:25:44 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab2
+Jun 18, 2017 7:25:44 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab2
+Jun 18, 2017 7:25:44 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab2
+Jun 18, 2017 7:25:44 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab2
+Jun 18, 2017 7:25:44 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab2
+Jun 18, 2017 7:25:44 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab1
+Jun 18, 2017 7:25:44 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab1
+Jun 18, 2017 7:25:44 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab1
+Jun 18, 2017 7:25:44 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab1
+Jun 18, 2017 7:25:44 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab1
+Jun 18, 2017 7:25:44 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab1
+Jun 18, 2017 7:25:44 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab1
+Jun 18, 2017 7:25:44 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab1
+Jun 18, 2017 7:25:44 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab1
+Jun 18, 2017 7:25:44 PM ch.ethz.inspire.emod.gui.AnalysisGUI$6 widgetSelected
+DEBUG: atab1
+Jun 18, 2017 7:25:46 PM ch.ethz.inspire.emod.gui.EModGUI$1 widgetSelected
+DEBUG: tabFEM Export selected
+Jun 18, 2017 7:25:46 PM  
+INFORMATION: tab FEM Export selected
+Jun 18, 2017 7:25:46 PM ch.ethz.inspire.emod.gui.EModGUI$1 widgetSelected
+DEBUG: updating fem tabs
+Jun 18, 2017 7:25:46 PM ch.ethz.inspire.emod.gui.AEvaluationGUI$1$1 run
+INFORMATION: reading simulation data from file 'Temp/NewMachine/Results/MdlConfig1_SimConfig1_default_FEM.dat'
+Jun 18, 2017 7:25:46 PM ch.ethz.inspire.emod.gui.FEMExportGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:46 PM ch.ethz.inspire.emod.gui.FEMExportGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:46 PM ch.ethz.inspire.emod.gui.FEMExportGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:46 PM ch.ethz.inspire.emod.gui.FEMExportGUI$6 widgetSelected
+DEBUG: atab0
+Jun 18, 2017 7:25:46 PM ch.ethz.inspire.emod.gui.FEMExportGUI$6 widgetSelected
+DEBUG: atab0

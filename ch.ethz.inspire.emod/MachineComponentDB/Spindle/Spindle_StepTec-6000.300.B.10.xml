@@ -2,10 +2,13 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <comment/>
-<entry key="StructureMaterial">Steel</entry>
-<entry key="BearingType">SKF-7009,SKF-7009,SKF-7009</entry>
-<entry key="StructureMass">26.0 kg</entry>
-<entry key="StructureDuct">StructureDuct</entry>
+<entry key="AirGapLength">0.1 m</entry>
 <entry key="PreloadForce">944.0, 344.0, 600.0 N</entry>
+<entry key="StructureMass">26.0 kg</entry>
 <entry key="MotorType">MotorAC_E+A-10.6-10-4-239d-249dr12g</entry>
+<entry key="BearingType">SKF-7009,SKF-7009,SKF-7009</entry>
+<entry key="StructureDuct">StructureDuct</entry>
+<entry key="AirGapWidth">0.0002 m</entry>
+<entry key="StructureMaterial">Steel</entry>
+<entry key="AirGapDiameter">0.05 m</entry>
 </properties>

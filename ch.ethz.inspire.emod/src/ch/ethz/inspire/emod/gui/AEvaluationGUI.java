@@ -130,7 +130,7 @@ public abstract class AEvaluationGUI extends AGUITab {
 		data.addName(ioName);
 		String unit = lines.get(2)[col].replace("[", "").replace("]", "");
 		data.addUnit(new SiUnit(unit));
-		double[] values = new double[lines.size() - 3];
+		double[] values = new double[lines.size() - 4];
 		for (int i = 4; i < lines.size(); i++)
 			try {
 				values[i - 4] = Double.parseDouble(lines.get(i)[col]);
@@ -165,7 +165,7 @@ public abstract class AEvaluationGUI extends AGUITab {
 		temp.addName(ioName);
 		String unit = lines.get(2)[col].replace("[", "").replace("]", "");
 		temp.addUnit(new SiUnit(unit));
-		double[] values = new double[lines.size() - 3];
+		double[] values = new double[lines.size() - 4];
 		for (int i = 4; i < lines.size(); i++)
 			try {
 				values[i - 4] = Double.parseDouble(lines.get(i)[col]);

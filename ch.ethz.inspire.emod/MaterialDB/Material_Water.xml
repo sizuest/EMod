@@ -5,6 +5,6 @@
 <entry key="TemperatureSamples">273.15, 293.15, 303.15, 313.15, 323.15, 333.15, 343.15 K</entry>
 <entry key="ThermalConductivity">0.6 W/m/K</entry>
 <entry key="ViscositySamples">0.001791, 0.001001, 7.97E-4, 6.52E-4, 5.46E-4, 4.66E-4, 4.03E-4 m^-1 kg s^-1</entry>
-<entry key="HeatCapacity">4180.0 J/kg/K</entry>
 <entry key="DensityMatrix">999.0, 998.0, 995.0, 992.0, 988.0, 983.0, 977.0 kg/m^3</entry>
+<entry key="HeatCapacity">4180.0 J/kg/K</entry>
 </properties>
