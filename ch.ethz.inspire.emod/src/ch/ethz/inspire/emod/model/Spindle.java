@@ -114,7 +114,7 @@ public class Spindle extends APhysicalComponent implements Floodable {
 	}
 
 	/**
-	 * Linear Motor constructor
+	 * Spindle constructor
 	 * 
 	 * @param type
 	 */
@@ -399,5 +399,4 @@ public class Spindle extends APhysicalComponent implements Floodable {
 		bcCoolantHTC.setValue(alphaCoolant);
 		bcCoolantHeatFlux.setValue(coolant.getHeatLoss());
 	}
-
 }
