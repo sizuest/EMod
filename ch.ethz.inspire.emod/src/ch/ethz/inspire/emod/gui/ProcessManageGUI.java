@@ -27,6 +27,7 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -56,7 +57,7 @@ public class ProcessManageGUI extends Composite {
 		this.setLayout(new GridLayout(3, false));
 		this.setLayoutData(new GridData(SWT.FILL, SWT.LEFT, true, false));
 
-		comboSelectProcess = new CCombo(this, SWT.PUSH );
+		comboSelectProcess = new CCombo(this, SWT.PUSH | SWT.BORDER );
 		comboSelectProcess.addSelectionListener(new SelectionListener() {
 
 			@Override
@@ -72,8 +73,9 @@ public class ProcessManageGUI extends Composite {
 			}
 		});
 
+		Image imageNew= new Image(Display.getDefault(), "src/resources/Add16.gif");
 		buttonNew = new Button(this, SWT.PUSH);
-		buttonNew.setText("New");
+		buttonNew.setImage(imageNew);
 		buttonNew.addSelectionListener(new SelectionListener() {
 
 			@Override
@@ -86,8 +88,9 @@ public class ProcessManageGUI extends Composite {
 			}
 		});
 
+		Image imageRemove = new Image(Display.getDefault(), "src/resources/Delete16.gif");
 		buttonRemove = new Button(this, SWT.PUSH);
-		buttonRemove.setText("Remove");
+		buttonRemove.setImage(imageRemove);
 		buttonRemove.addSelectionListener(new SelectionListener() {
 
 			@Override

@@ -6,7 +6,7 @@
 <entry key="NominalRotSpeed">1500.0 RPM</entry>
 <entry key="DiameterMotor">0.2 m</entry>
 <entry key="DiameterPump">0.1 m</entry>
-<entry key="FlowRateSamples">0.0, 1.88E-4, 3.77E-4, 5.66E-4, 7.54E-4, 9.43E-4, 0.00113, 0.00132 m³/s</entry>
+<entry key="FlowRateSamples">0.0, 1.88E-4, 3.77E-4, 5.66E-4, 7.54E-4, 9.43E-4, 0.00113, 0.00132 m^3/s</entry>
 <entry key="LengthPump">0.1 m</entry>
 <entry key="MaxTemperatureDifference">25.0 K</entry>
 <entry key="PowerSamples">1650.0, 1650.0, 1650.0, 1650.0, 1650.0, 1650.0, 1650.0, 1650.0 W</entry>

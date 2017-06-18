@@ -41,7 +41,7 @@ import ch.ethz.inspire.emod.utils.LocalizationHandler;
 
 public class ProcessGUI extends AConfigGUI {
 
-	private ProcessManageGUI processManageGUI;
+	//private ProcessManageGUI processManageGUI;
 	private Table tableProcessParam;
 	ArrayList<String> scNames;
 	ArrayList<SiUnit> scUnits;
@@ -58,7 +58,7 @@ public class ProcessGUI extends AConfigGUI {
 		Process.loadProcess(EModSession.getProcessName());
 		
 		// Auswahl Prozess
-		processManageGUI = new ProcessManageGUI(this, SWT.NONE);
+		//processManageGUI = new ProcessManageGUI(this, SWT.NONE);
 
 		// Tabelle fuer Prozess initieren
 		tableProcessParam = new Table(this.getContent(), SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
@@ -80,7 +80,7 @@ public class ProcessGUI extends AConfigGUI {
 		tableProcessParam.setEnabled(false);
 		tableProcessParam.clearAll();
 		tableProcessParam.setItemCount(0);
-		processManageGUI.update();
+		//processManageGUI.update();
 
 		threadedUpdate();
 	}

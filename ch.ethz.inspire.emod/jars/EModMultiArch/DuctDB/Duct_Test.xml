@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ns2:duct xmlns:ns2="ch.ethz.inspire.emod">
-    <name>Duct_Test.xml</name>
+    <name>Test</name>
     <elements>
         <elements xsi:type="ductDrilling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <heatSource>NaN</heatSource>

@@ -8,5 +8,4 @@
 <entry key="StructureDuct">StructureDuct</entry>
 <entry key="PreloadForce">944.0, 944.0, 944.0 N</entry>
 <entry key="MotorType">MotorAC_Example</entry>
-<entry key="AirGapFrictionCoeff">0.0, 0.0 none</entry>
 </properties>

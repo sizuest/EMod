@@ -8,9 +8,9 @@
 <entry key="StructureMass">100.0 kg</entry>
 <entry key="MotorType">Motor_MoriSeiki_DDM5000-50</entry>
 <entry key="BearingType"/>
-<entry key="PowerBreakOn">0.0 W</entry>
-<entry key="Lever">0.01 m</entry>
 <entry key="StructureDuct">StructureDuct</entry>
+<entry key="Lever">0.01 m</entry>
+<entry key="PowerBreakOn">0.0 W</entry>
 <entry key="StructureMaterial">Steel</entry>
 <entry key="Mass">275.0 kg</entry>
 </properties>

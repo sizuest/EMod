@@ -8,5 +8,4 @@
 <entry key="StructureDuct">StructureDuct</entry>
 <entry key="PreloadForce">0.0 N</entry>
 <entry key="MotorType">MotorAC_Kessler_000101561</entry>
-<entry key="AirGapFrictionCoeff">0.0,0.0,</entry>
 </properties>

@@ -153,6 +153,8 @@ public class EModStatusBarGUI {
 			getInstance().labelMachineCfg.setText("M: " + EModSession.getMachineConfig());
 			getInstance().labelSimulationCgf.setText("S: " + EModSession.getSimulationConfig());
 			getInstance().labelProcessName.setText("P: " + EModSession.getProcessName());
+			
+			getInstance().container.layout();
 
 			// getInstance().container.layout();
 		} catch (Exception e) {

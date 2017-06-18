@@ -4,6 +4,6 @@
 <comment/>
 <entry key="PowerRef">32.0 W</entry>
 <entry key="PressureRef">104.0 Pa</entry>
-<entry key="DensityFluid">1.2 kg/m³</entry>
-<entry key="VoluminalFlowRef">0.064 m³/s</entry>
+<entry key="DensityFluid">1.2 kg/m^3</entry>
+<entry key="VoluminalFlowRef">0.064 m^3/s</entry>
 </properties>
