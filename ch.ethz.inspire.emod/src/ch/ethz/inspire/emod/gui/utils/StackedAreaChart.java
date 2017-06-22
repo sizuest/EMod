@@ -110,7 +110,10 @@ public class StackedAreaChart {
 
 	private static List<double[]> createStackedSeries() {
 		List<double[]> result = new ArrayList<double[]>();
-		result.add(localdata.get(0).getPTotal());
+		if(localdata.size()<1)
+			result.add(new double[1]);
+		else
+			result.add(localdata.get(0).getPTotal());
 		for (int i = 1; i < localdata.size(); i++) {
 			double[] temp = new double[localdata.get(i).getPTotal().length];
 			for (int j = 0; j < temp.length; j++) {

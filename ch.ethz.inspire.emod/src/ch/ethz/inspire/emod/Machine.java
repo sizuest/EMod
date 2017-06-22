@@ -77,6 +77,7 @@ import java.nio.file.StandardCopyOption;
 		Cylinder.class, Valve.class, Pipe.class, HeatExchanger.class,
 		Bypass.class, HeatExchangerAir.class, MovingMass.class, Bearing.class,
 		Spindle.class, Tank.class, Pump.class, ForcedFluidFlow.class,
+		CooledHeatSource.class,
 		HysteresisControl.class, SwitchControl.class, Sum.class, Gain.class,
 		HomogStorage.class, LayerStorage.class, ForcedHeatTransfere.class,
 		FreeHeatTransfere.class, ASimulationControl.class,
