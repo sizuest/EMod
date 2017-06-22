@@ -8,7 +8,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Scale;
-import org.eclipse.swt.widgets.Spinner;
+import org.eclipse.swt.widgets.Text;
 
 import ch.ethz.inspire.emod.EModSession;
 import ch.ethz.inspire.emod.utils.ConfigReader;
@@ -24,7 +24,7 @@ public class EditSimTimeStepGUI extends Composite{
 	Label labelTimeStep;
 	
 	/* Text Fields */
-	Spinner  spinnTimeStep;
+	Text  textTimeStep;
 	
 	/* Sliders */
 	Scale scaleTimeStep;
@@ -39,55 +39,62 @@ public class EditSimTimeStepGUI extends Composite{
 		labelTimeStep.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
 		labelTimeStep.setText(LocalizationHandler.getItem("app.gui.sim.integrator.timestep"));
 		
-		spinnTimeStep = new Spinner(this, SWT.BORDER);
-		spinnTimeStep.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
-		spinnTimeStep.setMinimum(1);
-		spinnTimeStep.setIncrement(1);
-		spinnTimeStep.setSelection(1);
+		textTimeStep = new Text(this, SWT.BORDER);
+		textTimeStep.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
+		//textTimeStep.setMinimum(1);
+		//textTimeStep.setIncrement(1);
+		//textTimeStep.setSelection(1);
+		textTimeStep.setText("10.0");
 		
 		scaleTimeStep = new Scale(this, SWT.NONE);
 		scaleTimeStep.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		scaleTimeStep.setMinimum(1);
-		scaleTimeStep.setMaximum(10);
+		scaleTimeStep.setMaximum(50);
 		scaleTimeStep.setSelection(1);
 		scaleTimeStep.setIncrement(1);
 		scaleTimeStep.setBackground(parent.getBackground());
 		
-		coupleInputs(spinnTimeStep, scaleTimeStep);
-		
-		loadFromSimConfigFile();
+		coupleInputs(textTimeStep, scaleTimeStep);
 		
 		this.layout();
+		
+		loadFromSimConfigFile();
 	}
 	
 	/**
 	 * Returns the time step
 	 * @return
 	 */
-	public int getTimestep(){
-		return spinnTimeStep.getSelection();
+	public double getTimestep(){
+		double cand = Double.valueOf(textTimeStep.getText());
+		if(Double.isNaN(cand) | cand<=0){
+			loadFromSimConfigFile();
+			return getTimestep();
+		}
+		
+		return cand;
 	}
 	
 	/**
 	 * Sets the time step
 	 * @param value
 	 */
-	public void setTimestep(int value){
-		spinnTimeStep.setSelection(value);
-		syncInputs(spinnTimeStep, scaleTimeStep, true);
+	public void setTimestep(double value){
+		textTimeStep.setText(""+value);
+		syncInputs(textTimeStep, scaleTimeStep, true);
 	}
 	
 	/**
 	 * Sync the values of the spinner and the scale
-	 * @param spinn
+	 * @param text
 	 * @param scale
-	 * @param fromSpinner2Scale
+	 * @param fromText2Scale
 	 */
-	private void syncInputs(Spinner spinn, Scale scale, boolean fromSpinner2Scale){
-		if(fromSpinner2Scale)
-			scale.setSelection(spinn.getSelection());
+	private void syncInputs(Text text, Scale scale, boolean fromText2Scale){
+		if(fromText2Scale)
+			scale.setSelection((int) (getTimestep()*10));
 		else
-			spinn.setSelection(scale.getSelection());
+			text.setText(""+scale.getSelection()/10.0);
 	}
 	
 	/**
@@ -98,7 +105,7 @@ public class EditSimTimeStepGUI extends Composite{
 			ConfigReader simulationConfigReader = new ConfigReader(EModSession.getSimulationConfigPath());
 			simulationConfigReader.ConfigReaderOpen();
 			
-			setTimestep(simulationConfigReader.getValue("simulationPeriod", 1));
+			setTimestep(simulationConfigReader.getValue("simulationPeriod", 1.0));
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -132,14 +139,14 @@ public class EditSimTimeStepGUI extends Composite{
 	 * @param text
 	 * @param scale
 	 */
-	private void coupleInputs(final Spinner spinn, final Scale scale){
+	private void coupleInputs(final Text text, final Scale scale){
 		
 		/* Scale -> Spinner */
 		scale.addSelectionListener(new SelectionListener() {
 			
 			@Override
 			public void widgetSelected(SelectionEvent e){
-				syncInputs(spinn, scale, false);
+				syncInputs(text, scale, false);
 				saveToSimConfigFile();
 			}
 			
@@ -148,11 +155,11 @@ public class EditSimTimeStepGUI extends Composite{
 		});
 		
 		/* Spinner -> Scale */
-		spinn.addSelectionListener(new SelectionListener() {
+		text.addSelectionListener(new SelectionListener() {
 			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				syncInputs(spinn, scale, true);
+				syncInputs(text, scale, true);
 				saveToSimConfigFile();
 			}
 			
