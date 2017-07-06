@@ -2,10 +2,13 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <comment/>
-<entry key="BearingType">NSK-70BER10S, NSK-70BER10S</entry>
-<entry key="StructureMaterial">Steel</entry>
-<entry key="StructureMass">30.0 kg</entry>
+<entry key="AirGapLength">0.0 m</entry>
 <entry key="PreloadForce">285.0,285.0,285.0,285.0, N</entry>
-<entry key="StructureDuct">StructureDuct</entry>
+<entry key="StructureMass">30.0 kg</entry>
 <entry key="MotorType">MotorAC_Example</entry>
+<entry key="BearingType">NSK-70BER10S, NSK-70BER10S</entry>
+<entry key="StructureDuct">StructureDuct</entry>
+<entry key="AirGapWidth">0.0 m</entry>
+<entry key="StructureMaterial">Steel</entry>
+<entry key="AirGapDiameter">0.0 m</entry>
 </properties>

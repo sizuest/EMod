@@ -6,7 +6,7 @@
 <entry key="NominalRotSpeed">1500.0 RPM</entry>
 <entry key="DiameterMotor">0.2 m</entry>
 <entry key="DiameterPump">0.1 m</entry>
-<entry key="FlowRateSamples">0.0, 3.9E-4, 4.0E-4 m³/s</entry>
+<entry key="FlowRateSamples">0.0, 3.9E-4, 4.0E-4 m^3/s</entry>
 <entry key="Material">Steel</entry>
 <entry key="PowerSamples">400.0, 400.0, 400.0 W</entry>
 <entry key="LengthPump">0.1 m</entry>
